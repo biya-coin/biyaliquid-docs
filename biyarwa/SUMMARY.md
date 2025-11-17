@@ -1,6 +1,13 @@
 # Table of contents
 
-* [About Biyaliquid](README.md)
+* [关于 Biyaliquid](README.md)
+* [快速入门](kuai-su-ru-men/README.md)
+  * [钱包](kuai-su-ru-men/qian-bao/README.md)
+    * [创建钱包](kuai-su-ru-men/qian-bao/chuang-jian-qian-bao.md)
+    * [账号](kuai-su-ru-men/qian-bao/zhang-hao.md)
+    * [质押](kuai-su-ru-men/qian-bao/zhi-ya.md)
+    * [治理](kuai-su-ru-men/qian-bao/zhi-li.md)
+    * [拍卖](kuai-su-ru-men/qian-bao/pai-mai.md)
 * [Onboarding](onboarding/README.md)
   * [钱包](onboarding/qian-bao.md)
   * [测试网体验](onboarding/ce-shi-wang-ti-yan.md)

@@ -1,27 +1,15 @@
-# About Biyaliquid
+---
+description: 是一个高性能、可互操作的 Layer 1 区块链，专为构建顶级 Web3 金融应用而设计。
+---
 
-Biya 是一条专注于去中心化交易的高性能专用链，致力于构建一个低延迟、可扩展、链上撮合的去中心化交易基础设施。\
-应用场景
+# 关于 Biyaliquid
 
-## Technical overview
+## 什么是 Biyaliquid?[​](https://docs.injective.network/learn/introduction#what-is-injective) <a href="#what-is-injective" id="what-is-injective"></a>
 
-* 去中心化撮合引擎
-* 低延迟结算
-* 高 TPS
-* 原生支持 EVM 合约与 Wasm 合约（WasmX 扩展）
+Biyaliquid 是专为金融而构建的区块链。
 
-## 和主流区块链对比
+Biyaliquid 是一个允许开发者使用预构建且可定制模块 [modules](https://docs.injective.network/injective-zhong-wen-wen-dang/kai-fa-zhe/modules) 来创建其他网络上无法实现的动态应用程序的区块链。结合对其核心架构的优化和增强的跨链互操作性，Biyaliquid 提供了一个高性能网络，准备高效且安全地将全球金融系统引入链上
 
-* 与 Injective 的改进点：
-* 与 Hyperliquid 的区别：链上撮合 vs. off-chain matching
-* 与以太坊的兼容性：EVM 层兼容、Gas 模型、交易体验
+***
 
-## 系统架构
-
-* 架构图
-* 模块结构说明（Exchange / Oracle / TokenFactory / Peggy / VM / SDK 模块）
-* 模块间交互流程（撮合 → 清算 → 结算）
-
-
-
-官方链接&#x20;
+<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>您是用户？</td><td>学习如何创建您的钱包</td><td></td><td></td></tr><tr><td>您是开发者？</td><td>学习如何在Injective上构建</td><td></td><td></td></tr><tr><td>您是交易员？</td><td>学习如何开始在Injective上交易</td><td></td><td></td></tr><tr><td>您是验证者？</td><td>学习如何运行哨兵节点和验证者节点</td><td></td><td></td></tr><tr><td>更多帮助？</td><td>加入 <a href="https://discord.gg/injective">Injective Discord</a><br>加入 <a href="https://t.me/+qorn-J06fzA0YTZl">Developer Telegram</a></td><td></td><td></td></tr></tbody></table>
