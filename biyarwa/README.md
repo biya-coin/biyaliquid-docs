@@ -4,7 +4,7 @@ description: 是一个高性能、可互操作的 Layer 1 区块链，专为构�
 
 # 关于 Biyachain
 
-## 什么是 Biyachain?[​](https://docs.injective.network/learn/introduction#what-is-injective) <a href="#what-is-injective" id="what-is-injective"></a>
+## 什么是 Biyachain?[​](https://docs.injective.network/learn/introduction#what-is-injective)
 
 Biyachain 是专为金融而构建的区块链。
 
