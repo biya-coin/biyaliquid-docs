@@ -49,7 +49,11 @@
 
 ## 节点
 
-* [快速入门](jie-dian/kuai-su-ru-men.md)
+* [快速入门](jie-dian/kuai-su-ru-men/README.md)
+  * [和节点交互](jie-dian/kuai-su-ru-men/he-jie-dian-jiao-hu.md)
+  * [运行节点](jie-dian/kuai-su-ru-men/yun-xing-jie-dian/README.md)
+    * [设置密钥环](jie-dian/kuai-su-ru-men/yun-xing-jie-dian/she-zhi-mi-yao-huan.md)
+    * [加入网络](jie-dian/kuai-su-ru-men/yun-xing-jie-dian/jia-ru-wang-luo.md)
 
 ## 交易员
 
