@@ -8,7 +8,7 @@
 
 简单来说，消息是向 Biyachain 提供的关于期望状态变更的指令。消息是特定模块的对象，用于触发属于其模块范围内的状态转换。每个交易必须至少包含一条消息。
 
-此外，多个消息可以打包在同一交易中。每个模块可用的消息可以在[相关章节](https://docs.injective.network/injective-zhong-wen-wen-dang/kai-fa-zhe/modules)中找到。
+此外，多个消息可以打包在同一交易中。每个模块可用的消息可以在[相关章节](../../kai-fa-zhe/mo-kuai/)中找到。
 
 ### 交易上下文
 

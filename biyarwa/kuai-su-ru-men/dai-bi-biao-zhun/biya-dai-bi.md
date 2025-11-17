@@ -60,7 +60,7 @@ BIYA 作为默认资产，用于在区块链上促进各方之间的商品和服
 **5. 交易费用价值累积**
 
 剩余的 60% 交易费用将进行链上回购和销毁事件，其中所有交易费用的总额将被打包，并通过拍卖出售给最高竞标者，竞标者支付 BIYA。该拍卖所得的 BIYA 将被销毁，从而减少总的 BIYA 供应量。\
-有关拍卖机制的更多细节可以在[这里](https://docs.injective.network/injective-zhong-wen-wen-dang/getting-started/wallet/auction)找到。
+有关拍卖机制的更多细节可以在[这里](../qian-bao/pai-mai.md)找到。
 
 **6. 衍生品的担保品**
 
