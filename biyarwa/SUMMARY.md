@@ -33,8 +33,16 @@
 
 ## 开发者
 
-* [快速入门](kai-fa-zhe/kuai-su-ru-men.md)
-* [交易所开发者](kai-fa-zhe/jiao-yi-suo-kai-fa-zhe.md)
+* [快速入门](kai-fa-zhe/kuai-su-ru-men/README.md)
+  * [指南](kai-fa-zhe/kuai-su-ru-men/zhi-nan/README.md)
+    * [测试网提案](kai-fa-zhe/kuai-su-ru-men/zhi-nan/ce-shi-wang-ti-an.md)
+    * [转换地址](kai-fa-zhe/kuai-su-ru-men/zhi-nan/zhuan-huan-di-zhi.md)
+    * [计算](kai-fa-zhe/kuai-su-ru-men/zhi-nan/ji-suan/README.md)
+      * [最低价格刻度](kai-fa-zhe/kuai-su-ru-men/zhi-nan/ji-suan/zui-di-jia-ge-ke-du.md)
+      * [最低数量刻度](kai-fa-zhe/kuai-su-ru-men/zhi-nan/ji-suan/zui-di-shu-liang-ke-du.md)
+* [交易所开发者](kai-fa-zhe/jiao-yi-suo-kai-fa-zhe/README.md)
+  * [构建 DEX](https://docs.injective.network/)
+  * [预言机提供方](kai-fa-zhe/jiao-yi-suo-kai-fa-zhe/yu-yan-ji-ti-gong-fang.md)
 * [Cosmwasm 开发者](kai-fa-zhe/cosmwasm-kai-fa-zhe.md)
 * [模块](kai-fa-zhe/mo-kuai/README.md)
   * [Biyachain](kai-fa-zhe/mo-kuai/biyachain/README.md)
