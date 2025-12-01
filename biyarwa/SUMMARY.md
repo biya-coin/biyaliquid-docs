@@ -43,7 +43,16 @@
 * [交易所开发者](kai-fa-zhe/jiao-yi-suo-kai-fa-zhe/README.md)
   * [构建 DEX](https://docs.injective.network/)
   * [预言机提供方](kai-fa-zhe/jiao-yi-suo-kai-fa-zhe/yu-yan-ji-ti-gong-fang.md)
-* [Cosmwasm 开发者](kai-fa-zhe/cosmwasm-kai-fa-zhe.md)
+* [Cosmwasm 开发者](kai-fa-zhe/cosmwasm-kai-fa-zhe/README.md)
+  * [您的首个智能合约](kai-fa-zhe/cosmwasm-kai-fa-zhe/nin-de-shou-ge-zhi-neng-he-yue.md)
+  * [指南](kai-fa-zhe/cosmwasm-kai-fa-zhe/zhi-nan/README.md)
+    * [本地开发](kai-fa-zhe/cosmwasm-kai-fa-zhe/zhi-nan/ben-di-kai-fa.md)
+    * [主网开发](kai-fa-zhe/cosmwasm-kai-fa-zhe/zhi-nan/zhu-wang-kai-fa.md)
+    * [给部署地址白名单](kai-fa-zhe/cosmwasm-kai-fa-zhe/zhi-nan/gei-bu-shu-di-zhi-bai-ming-dan.md)
+    * [创建您的 Swap 合约](kai-fa-zhe/cosmwasm-kai-fa-zhe/zhi-nan/chuang-jian-nin-de-swap-he-yue.md)
+    * [创建 UIs](kai-fa-zhe/cosmwasm-kai-fa-zhe/zhi-nan/chuang-jian-uis.md)
+  * [CW20 适配器](kai-fa-zhe/cosmwasm-kai-fa-zhe/cw20-shi-pei-qi.md)
+  * [Biyachain Test Tube](kai-fa-zhe/cosmwasm-kai-fa-zhe/biyachain-test-tube.md)
 * [模块](kai-fa-zhe/mo-kuai/README.md)
   * [Biyachain](kai-fa-zhe/mo-kuai/biyachain/README.md)
     * [拍卖(Auction)](kai-fa-zhe/mo-kuai/biyachain/pai-mai-auction.md)
@@ -62,6 +71,9 @@
   * [运行节点](jie-dian/kuai-su-ru-men/yun-xing-jie-dian/README.md)
     * [设置密钥环](jie-dian/kuai-su-ru-men/yun-xing-jie-dian/she-zhi-mi-yao-huan.md)
     * [加入网络](jie-dian/kuai-su-ru-men/yun-xing-jie-dian/jia-ru-wang-luo.md)
+* [验证者](jie-dian/yan-zheng-zhe.md)
+* [公共端点](jie-dian/gong-gong-duan-dian.md)
+* [高级端点](jie-dian/gao-ji-duan-dian.md)
 
 ## 交易员
 
