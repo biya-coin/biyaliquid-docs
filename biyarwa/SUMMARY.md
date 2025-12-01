@@ -29,7 +29,7 @@
   * [biyachain Go SDK](gong-ju-bao/biyachain-go-sdk.md)
   * [biyachain Python SDK](gong-ju-bao/biyachain-python-sdk.md)
 * [参考](can-kao.md)
-* [术语](shu-yu.md)
+* [术语表](shu-yu-biao.md)
 
 ## 开发者
 
