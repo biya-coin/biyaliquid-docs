@@ -10,4 +10,4 @@
 
 ## 探索模块
 
-<table data-view="cards" data-full-width="false"><thead><tr><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td>Injective</td><td></td></tr><tr><td>Core</td><td></td></tr></tbody></table>
+<table data-view="cards" data-full-width="false"><thead><tr><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td>Biyachain</td><td><a href="biyachain/">biyachain</a></td></tr><tr><td>Core</td><td><a href="he-xin/">he-xin</a></td></tr></tbody></table>

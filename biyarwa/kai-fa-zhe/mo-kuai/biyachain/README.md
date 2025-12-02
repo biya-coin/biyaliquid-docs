@@ -1,3 +1,3 @@
 # Biyachain
 
-## Injective Modules
+## Biyachain Modules
