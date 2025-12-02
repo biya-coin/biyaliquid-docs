@@ -14,11 +14,11 @@
 
 ### 使用 Biyachain Hub <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-[Biyachain Hub](https://hub.injective.network/token-factory/) web 应用程序让你能够轻松创建和管理代币，在 Biyachain 的[原生订单簿](../kai-fa-zhe/mo-kuai/biyachain/jiao-yi-suo-exchange.md)上创建市场等。
+[Biyachain Hub](https://hub.injective.network/token-factory/) web 应用程序让你能够轻松创建和管理代币，在 Biyachain 的[原生订单簿](../kai-fa-zhe/mo-kuai/biyachain/jiao-yi-suo-exchange/)上创建市场等。
 
 ### 使用 TokenStation[​](https://docs.injective.network/develop/guides/token-launch/#3-via-tokenstation) <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-[TokenStation](https://www.tokenstation.app) web 应用程序让你能够轻松创建和管理代币，在 Biyachain 的[原生订单簿](../kai-fa-zhe/mo-kuai/biyachain/jiao-yi-suo-exchange.md)上创建市场，启动空投等功能。
+[TokenStation](https://www.tokenstation.app) web 应用程序让你能够轻松创建和管理代币，在 Biyachain 的[原生订单簿](../kai-fa-zhe/mo-kuai/biyachain/jiao-yi-suo-exchange/)上创建市场，启动空投等功能。
 
 ### 使用 DojoSwap[​](https://docs.injective.network/develop/guides/token-launch/#4-via-dojoswap) <a href="#id-4-via-dojoswap" id="id-4-via-dojoswap"></a>
 

@@ -6,8 +6,8 @@
 
 ## 目录
 
-1. [状态](https://docs.injective.network/injective-zhong-wen-wen-dang/kai-fa-zhe/modules/injective/auction/01_state)
-2. [消息](https://docs.injective.network/injective-zhong-wen-wen-dang/kai-fa-zhe/modules/injective/auction/02_messages)
-3. [**End Block**](https://docs.injective.network/injective-zhong-wen-wen-dang/kai-fa-zhe/modules/injective/auction/03_end_block)
-4. [事件](https://docs.injective.network/injective-zhong-wen-wen-dang/kai-fa-zhe/modules/injective/auction/04_events)
-5. [参数](https://docs.injective.network/injective-zhong-wen-wen-dang/kai-fa-zhe/modules/injective/auction/05_params)
+1. [状态](state.md)
+2. [消息](xiao-xi.md)
+3. [End Block](endblock.md)
+4. [事件](shi-jian.md)
+5. [参数](can-shu.md)
