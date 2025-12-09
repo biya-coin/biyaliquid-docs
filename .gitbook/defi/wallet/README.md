@@ -33,10 +33,6 @@ Biyaliquid supports the leading wallets compatible with Cosmos and IBC, includin
 2. [Keplr](https://www.keplr.app/)
 3. [Leap](https://www.leapwallet.io/)
 
-#### Biyaliquid-Native Wallets
-
-Currently, [Ninji Wallet](https://ninji.xyz/) is the only Biyaliquid-native wallet. Such a wallet is built to synergize specifically with the greater Biyaliquid ecosystem.
-
 #### CEX-Based Wallets
 
 There are also several wallets developed by centralized exchanges (CEXs) that now support Biyaliquid. If you are an active user of these CEXs, using their wallets can provide a more seamless web3 experience. Currently, CEX-based wallets that support Biyaliquid are:
