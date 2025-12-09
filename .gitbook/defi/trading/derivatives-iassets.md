@@ -1,32 +1,32 @@
 # iAssets
 
-iAssets are a new class of real-world asset (RWA) derivatives that bring traditional markets - such as equities, commodities, and FX - onto Biyaliquid in a fully on-chain, composable, and capital-efficient form.
+iAssets 是一类新的现实世界资产（RWA）衍生品，以完全链上、可组合和资本高效的形式将传统市场（如股票、大宗商品和外汇）带到 Biyaliquid。
 
-Unlike basic tokenized representations of RWAs, iAssets are programmable financial primitives with second-order utility. This means they aren’t just static mirrors of off-chain assets, they’re designed to enable:
+与基本的 RWA 代币化表示不同，iAssets 是具有二阶效用的可编程金融原语。这意味着它们不仅仅是链下资产的静态镜像，它们的设计目的是实现：
 
-* Dynamic liquidity allocation
-* Position-based exposure
-* Cross-market composability (e.g. combining iAssets with other on-chain derivatives and DeFi strategies)
+* 动态流动性分配
+* 基于头寸的风险敞口
+* 跨市场可组合性（例如，将 iAssets 与其他链上衍生品和 DeFi 策略结合）
 
-iAssets do not require pre-funding or wrapping of the underlying asset. Instead, they exist purely as synthetic derivatives, powered by Biyaliquid’s on-chain perpetual futures engine and decentralized oracle infrastructure. More information on iAssets can be found in [the whitepaper](https://biyaliquid.com/iAssets_Paper.pdf).
+iAssets 不需要预融资或包装标的资产。相反，它们纯粹作为合成衍生品存在，由 Biyaliquid 的链上永续期货引擎和去中心化预言机基础设施提供支持。有关 iAssets 的更多信息可以在[白皮书](https://biyaliquid.com/iAssets_Paper.pdf)中找到。
 
-iAssets trade identically to other Biyaliquid perpetual futures contracts:
+iAssets 的交易方式与其他 Biyaliquid 永续期货合约相同：
 
-* Margin is posted in USDT (or other supported stablecoins)
-* Leverage is available (varies by market, but is typically 25x for equities, 50x for commodities, and 100x for FX)
-* Positions are USDT-settled, not physically delivered
-* Liquidations follow Biyaliquid’s auction-based mechanism
+* 保证金以 USDT（或其他支持的稳定币）存入
+* 可使用杠杆（因市场而异，但股票通常为 25 倍，大宗商品为 50 倍，外汇为 100 倍）
+* 头寸以 USDT 结算，不进行实物交割
+* 清算遵循 Biyaliquid 的基于拍卖的机制
 
-The key difference between iAssets and crypto perps lies in mark price behavior. A general overview of the differences can be found in the chart below, though there are exceptions for maintenance windows, and trading holidays.
+iAssets 和加密货币永续合约之间的关键区别在于标记价格行为。差异的总体概述可以在下表中找到，尽管维护窗口和交易假期有例外。
 
-| Asset Class              | Price Feed Hours                       | Trading Hours |
-| ------------------------ | -------------------------------------- | ------------- |
-| Crypto                   | 24/7                                   | 24/7          |
-| iAssets (Equities)       | Every weekday from 9.30AM ET to 4PM ET | 24/7          |
-| iAssets (FX/commodities) | From Sunday 6PM ET to Friday 5PM ET    | 24/7          |
+| 资产类别              | 价格源时间                       | 交易时间 |
+| --------------------- | -------------------------------- | -------- |
+| 加密货币              | 24/7                             | 24/7     |
+| iAssets（股票）        | 每个工作日从美东时间 9:30 到 16:00 | 24/7     |
+| iAssets（外汇/大宗商品）| 从周日美东时间 18:00 到周五 17:00 | 24/7     |
 
-* iAssets continue trading 24/7 on Biyaliquid, even when the mark price is not updating. Users are always warned of the potential risks when trading iAssets through a frontend like Helix, which checks for oracle liveness.
-* Outside market hours, price feeds are held constant. Because the mark price does not update, it's virtually impossible to get liquidated outside of these times.
-* This allows users to take or unwind positions around the clock, but PNL will not shift until the next price update cycle resumes.
+* iAssets 在 Biyaliquid 上继续 24/7 交易，即使标记价格不更新。用户通过像 Helix 这样的前端交易 iAssets 时总是会收到潜在风险的警告，该前端会检查预言机的活跃度。
+* 在市场时间之外，价格源保持不变。因为标记价格不更新，在这些时间之外几乎不可能被清算。
+* 这允许用户全天候开仓或平仓，但盈亏不会变化，直到下一个价格更新周期恢复。
 
-Mark prices for iAssets are sourced via decentralized oracles such as Pyth, which aggregate high-fidelity, low-latency price data from primary market sources. For more information on the price feeds used for iAssets, please visit [Pyth](https://docs.pyth.network/price-feeds/market-hours).
+iAssets 的标记价格通过 Pyth 等去中心化预言机获取，这些预言机聚合来自主要市场来源的高保真、低延迟价格数据。有关用于 iAssets 的价格源的更多信息，请访问 [Pyth](https://docs.pyth.network/price-feeds/market-hours)。

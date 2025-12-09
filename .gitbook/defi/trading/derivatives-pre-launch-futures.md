@@ -1,47 +1,47 @@
 ---
-description: Asset speculation before release
+description: 资产发布前的投机
 ---
 
-# Pre-Launch Futures
+# 预上线期货
 
-Many assets generate large amounts of trading activity when they are publicly launched but are generally unavailable to be traded prior to public release. To capture escalating interest and allow investors to speculate on assets prior to their public release dates, Biyaliquid has created Pre-Launch Futures (PLF). The first Pre-Launch Futures market on Biyaliquid will be based on an expiry futures contract, though PLFs[^1] can also take the form of a perpetual futures contract.
+许多资产在公开发行时会产生大量交易活动，但在公开发行之前通常无法交易。为了捕捉不断增长的兴趣并允许投资者在资产公开发行日期之前进行投机，Biyaliquid 创建了预上线期货（PLF）。Biyaliquid 上的第一个预上线期货市场将基于到期期货合约，尽管 PLF[^1] 也可以采用永续期货合约的形式。
 
-### How do Pre-Launch Futures Work?
+### 预上线期货如何运作？
 
-Expiry futures require mark prices to track liquidation and settlement prices. Because mark prices are typically based on the spot prices of the underlying assets, regular oracle price feeds cannot be used for Pre-Launch Futures as the spot price does not exist before the token has launched. Expiry futures based PLFs[^2] are designed to be traded near the public launch date so a spot price exists prior to the market expiry date (not applicable to perpetual futures based PLFs[^3]). This is so that upon the asset being publicly traded, the mark price can be set to the public spot price and the market can eventually settle at the spot price upon expiry. However, an mark price is still needed prior to this time to inform liquidation prices.
+到期期货需要标记价格来跟踪清算和结算价格。因为标记价格通常基于标的资产的现货价格，常规预言机价格源不能用于预上线期货，因为代币发行前不存在现货价格。基于到期期货的 PLF[^2] 设计为在公开发行日期附近交易，以便在市场到期日之前存在现货价格（不适用于基于永续期货的 PLF[^3]）。这样，当资产公开交易时，标记价格可以设置为公开现货价格，市场最终可以在到期时以现货价格结算。然而，在此之前仍需要标记价格来告知清算价格。
 
-To solve this, Pre-Launch Futures will initially use an 24-hour exponentially weighted moving average of the last day's minutely last traded price as the mark price.
+为了解决这个问题，预上线期货最初将使用过去一天每分钟最后交易价格的 24 小时指数加权移动平均作为标记价格。
 
-### Mark Price Mechanism
+### 标记价格机制
 
-The mark price is based on two price feeds: 1) EWMA (Exponentially Weighted Moving Average) price feed and 2) CEX API price feed. The CEX used is one of Binance, OKX or Bybit, whichever lists the underlying asset first.
+标记价格基于两个价格源：1) EWMA（指数加权移动平均）价格源和 2) CEX API 价格源。使用的 CEX 是 Binance、OKX 或 Bybit 之一，以首先列出标的资产的那个为准。
 
-And during the various phases of the timeline, a different price feed would be used.
+在时间线的各个阶段，将使用不同的价格源。
 
-* Before asset is listed on CEX -> EWMA price feed
-* Within 24 hours of asset is listed on CEX -> EWMA price feed
-* 24 hours after asset is listed on CEX -> CEX API price feed
+* 资产在 CEX 上市之前 -> EWMA 价格源
+* 资产在 CEX 上市后 24 小时内 -> EWMA 价格源
+* 资产在 CEX 上市 24 小时后 -> CEX API 价格源
 
-This design is used to prevent a sudden distortion in mark price if the difference between EWMA price feed and CEX API price feed is great.&#x20;
+这种设计用于防止如果 EWMA 价格源和 CEX API 价格源之间的差异很大时标记价格突然扭曲。
 
-**The following formula is used to calculate the EWMA price:**
+**以下公式用于计算 EWMA 价格：**
 
 $$\mathrm{Price_t = \sum \limits_{i=0}^{1439} [(t-i_{minutes} < t_{init} ?\ assumed\ price : last\ traded\ price _{t-i_{minutes}}) \cdot e^{-i/1440} ] \cdot \frac{1-e^{-1/1440} }{ 1-e^{-1}}}$$
 
-Where:
+其中：
 
-* `t_init` is the time of the first trade in the underlying market.
-* `assumed price` is the price assumption of the underlying asset. This price is used when there is no `last traded price` 24 hours prior the first trade in the underlying market. In other words, after the first 24 hours, if the underlying market has traded already, then the assumed price would no longer have an impact to the mark price.&#x20;
-  * Assumed price used for TIA/USDT Pre Launch Futures is `2.5`.
-  * Assumed price used for PYTH/USDT PLF is `0.3`.
-  * Assumed price used for JUP/USDT PLF is `0.55`.
-  * Assumed price used for ZRO/USDT PLF is `5`.
-  * Assumed price used for W/USDT PLF is `2`.
-  * Assumed price used for OMNI/USDT PLF is `40`.
-* `last traded price` is the last price traded in the underlying market.&#x20;
+* `t_init` 是标的市场中第一笔交易的时间。
+* `assumed price` 是标的资产的价格假设。当标的市场中第一笔交易前 24 小时内没有 `last traded price` 时使用此价格。换句话说，在第一个 24 小时后，如果标的市场已经交易，则假设价格将不再对标记价格产生影响。
+  * TIA/USDT 预上线期货使用的假设价格为 `2.5`。
+  * PYTH/USDT PLF 使用的假设价格为 `0.3`。
+  * JUP/USDT PLF 使用的假设价格为 `0.55`。
+  * ZRO/USDT PLF 使用的假设价格为 `5`。
+  * W/USDT PLF 使用的假设价格为 `2`。
+  * OMNI/USDT PLF 使用的假设价格为 `40`。
+* `last traded price` 是标的市场中最后交易的价格。
 
-[^1]: Pre-Launch Futures
+[^1]: 预上线期货
 
-[^2]: Pre-Launch Futures
+[^2]: 预上线期货
 
-[^3]: Pre-Launch Futures
+[^3]: 预上线期货

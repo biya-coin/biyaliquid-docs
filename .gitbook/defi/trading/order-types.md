@@ -1,23 +1,23 @@
 ---
-description: Read about order types on Biyaliquid
+description: 了解 Biyaliquid 上的订单类型
 ---
 
-# Order Types
+# 订单类型
 
-The following list describes the supported order types on Biyaliquid:
+以下列表描述了 Biyaliquid 上支持的订单类型：
 
-* **BUY (1):** A standard buy order to purchase an asset at either the current market price or a set limit price. Market orders in Biyaliquid also have a price to stablish a limit to the market price the order will be executed with.
-* **SELL (2):** A standard sell order to sell an asset at either the current market price or a set limit price. Market orders in Biyaliquid also have a price to stablish a limit to the market price the order will be executed with.
-* **STOP\_BUY (3):** A stop-loss buy order converts into a regular buy order once the oracle price reaches or surpasses a specified trigger price.
-* **STOP\_SELL (4):** A stop-loss sell order becomes a regular sell order once the oracle price drops to or below a specified trigger price.
-* **TAKE\_BUY (5):** A take-profit buy order converts into a regular buy order once the oracle price reaches or surpasses a specified trigger price.
-* **TAKE\_SELL (6):** A take-profit sell order becomes a regular sell order once the oracle price drops to or below a specified trigger price.
-* **BUY\_PO (7):** Post-Only Buy. This order type ensures that the order will only be added to the order book and not match with a pre-existing order. It guarantees that you will be the market "maker" and not the "taker".
-* **SELL\_PO (8):** Post-Only Sell. Similar to BUY\_PO, this ensures that your sell order will only add liquidity to the order book and not match with a pre-existing order.
-* **BUY\_ATOMIC (9):** An atomic buy order is a market order that gets executed instantly, bypassing the Frequent Batch Auctions (FBA). It's intended for smart contracts that need to execute a trade instantly. A higher fee is paid defined in the global exchange parameters (currently it is two times the normal trading fee).
-* **SELL\_ATOMIC (10):** An atomic sell order is similar to a BUY\_ATOMIC, and it gets executed instantly at the current market price, bypassing the FBA.
+* **BUY (1):** 标准买单，以当前市场价格或设定的限价购买资产。Biyaliquid 中的市价单也有价格参数，用于限制订单执行时的市场价格。
+* **SELL (2):** 标准卖单，以当前市场价格或设定的限价出售资产。Biyaliquid 中的市价单也有价格参数，用于限制订单执行时的市场价格。
+* **STOP\_BUY (3):** 止损买单，当预言机价格达到或超过指定触发价格时，转换为常规买单。
+* **STOP\_SELL (4):** 止损卖单，当预言机价格降至或低于指定触发价格时，转换为常规卖单。
+* **TAKE\_BUY (5):** 止盈买单，当预言机价格达到或超过指定触发价格时，转换为常规买单。
+* **TAKE\_SELL (6):** 止盈卖单，当预言机价格降至或低于指定触发价格时，转换为常规卖单。
+* **BUY\_PO (7):** 仅挂单买入。此订单类型确保订单只会添加到订单簿中，不会与现有订单匹配。它保证您将成为市场"做市商"而不是"接受者"。
+* **SELL\_PO (8):** 仅挂单卖出。类似于 BUY\_PO，这确保您的卖单只会向订单簿添加流动性，不会与现有订单匹配。
+* **BUY\_ATOMIC (9):** 原子买单是一种立即执行的市价单，绕过频繁批量拍卖（FBA）。它适用于需要立即执行交易的智能合约。需要支付更高的费用，费用在全球交易所参数中定义（目前是正常交易费用的两倍）。
+* **SELL\_ATOMIC (10):** 原子卖单类似于 BUY\_ATOMIC，它以当前市场价格立即执行，绕过 FBA。
 
-Additional notes:
+补充说明：
 
-* **Immediate-Or-Cancel (IOC):** IOC orders are not yet supported. The closest order type is a market order (**BUY**).
-* The worst price for a market order is the "price" parameter.
+* **Immediate-Or-Cancel (IOC):** IOC 订单尚未支持。最接近的订单类型是市价单（**BUY**）。
+* 市价单的最差价格是"price"参数。

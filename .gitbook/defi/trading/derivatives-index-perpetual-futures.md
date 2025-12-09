@@ -1,17 +1,17 @@
-# Index Perpetual Futures
+# 指数永续期货
 
-An index perpetual futures contract, often referred to as an "index perp," is a type of derivative financial instrument commonly used in cryptocurrency markets. An index perp is a perpetual futures contract that tracks the price of an index, rather than a single asset. In the context of cryptocurrencies, this index typically represents a basket of cryptocurrencies or instead - as in the case of the BUIDL/USDT Index Perp - the total supply of a product on chain, as dictated by the token's smart contract.
+指数永续期货合约，通常称为"指数永续"，是加密货币市场中常用的一种衍生金融工具。指数永续是跟踪指数价格而不是单一资产价格的永续期货合约。在加密货币的背景下，该指数通常代表一篮子加密货币，或者——如 BUIDL/USDT 指数永续的情况——链上产品的总供应量，由代币的智能合约决定。
 
-Unlike traditional futures, these contracts don't have an expiry date. They can be held indefinitely. Trades are settled in USDT. LIke other perps, index perps use a funding rate mechanism to keep the contract price close to the underlying index price.
+与传统期货不同，这些合约没有到期日。它们可以无限期持有。交易以 USDT 结算。与其他永续合约一样，指数永续使用资金费率机制来保持合约价格接近标的指数价格。
 
-### How do Index Perpetual Futures Work?
+### 指数永续期货如何运作？
 
-* The contract tracks an index (e.g., the total supply of Blackrock's BUIDL fund).
-* Traders can go long (buy) or short (sell) the index, with up to 5x leverage.
-* Periodic funding payments occur between long and short holders to align the contract price with the index.
+* 合约跟踪一个指数（例如，Blackrock 的 BUIDL 基金的总供应量）。
+* 交易者可以做多（买入）或做空（卖出）指数，杠杆最高可达 5 倍。
+* 多头和空头持有者之间进行周期性资金支付，以使合约价格与指数一致。
 
-Futures contracts require mark prices to track liquidation and settlement prices. Because mark prices are typically based on the spot prices of the underlying assets, regular oracle price feeds cannot be used for index perps as the index price typically does not exist in popular oracle feeds. However, a mark price is still needed prior to this time to inform liquidation prices. To solve this, index perps will use a proprietary oracle feed as the mark price.
+期货合约需要标记价格来跟踪清算和结算价格。因为标记价格通常基于标的资产的现货价格，常规预言机价格源不能用于指数永续，因为指数价格通常不存在于流行的预言机源中。然而，在此之前仍需要标记价格来告知清算价格。为了解决这个问题，指数永续将使用专有预言机源作为标记价格。
 
-### Mark Price Mechanism
+### 标记价格机制
 
-The mark price for index perps on Biyaliquid is based on a proprietary oracle feed provided by Stork. In the example of the BUIDL/USDT Index Perp - which is a NAV (net asset value) Index Perp - Stork queries the total supply of the BUIDL fund according to the [smart contract](https://etherscan.io/token/0x7712c34205737192402172409a8f7ccef8aa2aec) on Ethereum. They then apply a one-hour time weighted average price (TWAP) to prevent drastic swings in the mark price. That price is then scaled down to a more human readable format (the actual NAV is divided in this case by 10^5, for example, if the supply of the BUIDL fund is 500 million, the price of the BUIDL/USDT Index PERP will be 5000), and used as the mark price.
+Biyaliquid 上指数永续的标记价格基于 Stork 提供的专有预言机源。以 BUIDL/USDT 指数永续为例——这是一个 NAV（净资产值）指数永续——Stork 根据以太坊上的[智能合约](https://etherscan.io/token/0x7712c34205737192402172409a8f7ccef8aa2aec)查询 BUIDL 基金的总供应量。然后他们应用一小时时间加权平均价格（TWAP）以防止标记价格的剧烈波动。然后将该价格缩小为更易读的格式（在这种情况下，实际 NAV 除以 10^5，例如，如果 BUIDL 基金的供应量为 5 亿，BUIDL/USDT 指数永续的价格将为 5000），并用作标记价格。

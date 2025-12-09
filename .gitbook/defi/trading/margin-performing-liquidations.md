@@ -1,75 +1,75 @@
-# Performing Liquidations
+# 执行清算
 
-This guide details how traders on Biyaliquid can utilize the `MsgLiquidatePosition` function to liquidate underwater positions.
+本指南详细说明 Biyaliquid 上的交易者如何利用 `MsgLiquidatePosition` 函数来清算水下头寸。
 
-**Before proceeding, ensure you understand the following:**
+**在继续之前，请确保您了解以下内容：**
 
-* **Liquidation Mechanics:** Biyaliquid employs a dynamic liquidation mechanism where positions exceeding a specific collateralization ratio (i.e. below threshold) become eligible for liquidation by any market participant. There are benefits for performing liquidations, which requires substantial upfront capital.
-* **MsgLiquidatePosition Function:** This function allows traders to initiate liquidations on eligible positions, offering them an opportunity to capture a liquidation fee.
+* **清算机制：** Biyaliquid 采用动态清算机制，超过特定抵押比率（即低于阈值）的头寸可由任何市场参与者清算。执行清算有好处，但需要大量前期资金。
+* **MsgLiquidatePosition 函数：** 此函数允许交易者对符合条件的头寸发起清算，为他们提供捕获清算费用的机会。
 
-**Different Cases for Liquidations:**
+**清算的不同情况：**
 
-There are two different cases depending on the state of the position. In both cases, it is required that the entire position is liquidated.
+根据头寸的状态，有两种不同的情况。在这两种情况下，都需要清算整个头寸。
 
-#### 1) Position has Positive or Zero Equity
+#### 1) 头寸具有正权益或零权益
 
-The position will be sold using a market order with a worst price equal to the bankruptcy price. The liquidator only needs to submit a limit order if the entire position cannot be liquidated using the bankruptcy price as the worst price.
+头寸将使用最差价格等于破产价格的市价单出售。清算者只需要在整个头寸无法使用破产价格作为最差价格清算时提交限价单。
 
-**Benefits**
+**优点**
 
-* Guaranteed zero loss to the insurance fund when position is not bankrupt.
-* Existing orderbook liquidity is used and the liquidator still has an incentive to liquidate by getting a potential discount on the position up to bankruptcy (arbitrage).
+* 当头寸未破产时，保证保险基金零损失。
+* 使用现有订单簿流动性，清算者仍然有通过获得头寸至破产价格的潜在折扣（套利）来清算的激励。
 
-**Downsides**
+**缺点**
 
-* Taking over at bankruptcy price may not be attractive enough for liquidators, especially when the mark price is very close to the bankruptcy price.
-  * This concern is mitigated if one assumes there will always be at least one “white knight” liquidator, as there currently is on Biyaliquid.
+* 以破产价格接管可能对清算者不够有吸引力，特别是当标记价格非常接近破产价格时。
+  * 如果假设总是至少有一个"白衣骑士"清算者（目前 Biyaliquid 上就有），这个担忧可以得到缓解。
 
-**Example**
+**示例**
 
-Consider the following long position in a market with a 5% maintenance margin ratio.
+考虑在维持保证金比率为 5% 的市场中的以下多头头寸。
 
-<table><thead><tr><th width="120">Quantity</th><th>Entry Price</th><th>Margin</th><th>Liquidation Price</th><th>Bankruptcy Price</th></tr></thead><tbody><tr><td>1</td><td>10</td><td>2</td><td>8.42</td><td>8</td></tr></tbody></table>
+<table><thead><tr><th width="120">数量</th><th>入场价格</th><th>保证金</th><th>清算价格</th><th>破产价格</th></tr></thead><tbody><tr><td>1</td><td>10</td><td>2</td><td>8.42</td><td>8</td></tr></tbody></table>
 
-The position is liquidateable and has non-negative equity when $8 <= Oracle Price <= $8.42
+当头寸在 $8 <= 预言机价格 <= $8.42 时可清算且具有非负权益
 
-The liquidator can liquidate the position if the position can be sold on the orderbook using a market order with a worst price of $8.
+如果头寸可以使用最差价格为 $8 的市价单在订单簿上出售，清算者可以清算该头寸。
 
-The liquidator can choose to submit their own order as well, if they desire to participate in the liquidation, but this is not necessary if the orderbook already has sufficient liquidity. If the orderbook does not have sufficient liquidity, then it is required that the liquidator submit their own order (which must have a price ≥ $8) to be used as a part of the liquidation.
+清算者也可以选择提交自己的订单，如果他们希望参与清算，但如果订单簿已经有足够的流动性，这不是必需的。如果订单簿没有足够的流动性，则要求清算者提交自己的订单（价格必须 ≥ $8）作为清算的一部分。
 
-#### 2) Position has Negative Equity
+#### 2) 头寸具有负权益
 
-The position will be sold using a market order with a worst price equal to the oracle price. The liquidator only needs to submit a limit order if the entire position cannot be liquidated using the oracle price as the worst price.
+头寸将使用最差价格等于预言机价格的市价单出售。清算者只需要在整个头寸无法使用预言机价格作为最差价格清算时提交限价单。
 
-**Benefits**
+**优点**
 
-* The insurance fund will never suffer an uncontrollable loss from market selling the position at an extreme price. Instead the insurance fund only loses capital based on the oracle price movements.
+* 保险基金永远不会因以极端价格在市场上出售头寸而遭受不可控损失。相反，保险基金只根据预言机价格变动损失资金。
 
-**Downsides**
+**缺点**
 
-* Similar to the positive equity case (but even worse), taking over the position at oracle price may not be attractive at all for liquidators, especially now since there is no implicit arbitrage. This can result in liquidations being delayed.
+* 类似于正权益情况（但更糟），以预言机价格接管头寸可能对清算者完全没有吸引力，特别是现在因为没有隐含套利。这可能导致清算延迟。
 
-**Example**
+**示例**
 
-Consider the following long position.
+考虑以下多头头寸。
 
-<table><thead><tr><th width="115">Quantity</th><th>Entry Price</th><th>Margin</th><th>Liquidation Price</th><th>Bankruptcy Price</th></tr></thead><tbody><tr><td>1</td><td>10</td><td>2</td><td>8.42</td><td>8</td></tr></tbody></table>
+<table><thead><tr><th width="115">数量</th><th>入场价格</th><th>保证金</th><th>清算价格</th><th>破产价格</th></tr></thead><tbody><tr><td>1</td><td>10</td><td>2</td><td>8.42</td><td>8</td></tr></tbody></table>
 
-The position has negative equity when Oracle Price < $8. Assume the oracle price is $7.50.
+当预言机价格 < $8 时，头寸具有负权益。假设预言机价格为 $7.50。
 
-The liquidator can liquidate the position if the position can be sold on the orderbook using a market order with a worst price of $7.50.
+如果头寸可以使用最差价格为 $7.50 的市价单在订单簿上出售，清算者可以清算该头寸。
 
-Similar to the case above, the liquidator can choose to submit their own order as well, if they desire to participate in the liquidation, but this is not necessary if the orderbook already has sufficient liquidity. If the orderbook does NOT have sufficient liquidity, then it is required that the liquidator submit their own order (which must have a price ≥ $7.50) to be used as a part of the liquidation.
+类似于上述情况，清算者也可以选择提交自己的订单，如果他们希望参与清算，但如果订单簿已经有足够的流动性，这不是必需的。如果订单簿没有足够的流动性，则要求清算者提交自己的订单（价格必须 ≥ $7.50）作为清算的一部分。
 
-**Steps to Liquidate Positions:**
+**清算头寸的步骤：**
 
-1.  **Identify Liquidatable Positions:** Utilize Biyaliquid's `LiquidablePositions` endpoint to identify positions with a collateralization ratio below the liquidation threshold. Relevant data points include:
+1.  **识别可清算头寸：** 利用 Biyaliquid 的 `LiquidablePositions` 端点识别抵押比率低于清算阈值的头寸。相关数据点包括：
 
-    * **Collateral:** Total value of tokens deposited as collateral for the position.
-    * **Liabilities:** Total value of borrowed tokens in the position.
-    * **Liquidation Threshold:** Minimum collateralization ratio required to avoid liquidation.
+    * **抵押品：** 作为头寸抵押品存入的代币总价值。
+    * **负债：** 头寸中借入代币的总价值。
+    * **清算阈值：** 避免清算所需的最小抵押比率。
 
-    An example can be found [here for Go ](https://github.com/biya-coin/sdk-go/blob/master/examples/exchange/derivatives/20\_LiquidablePositions/example.go)and [here for Python](https://github.com/biya-coin/sdk-python/blob/master/examples/exchange\_client/derivative\_exchange\_rpc/23\_LiquidablePositions.py).
-2. **Prepare Liquidation Transaction:** Construct an order transaction using the `MsgLiquidatePosition` function, specifying the parameters listed in the [API docs](https://api.biyaliquid.exchange/?python#derivatives-msgliquidateposition). While not compulsory, a limit transaction is highly recommended over a market transaction.
+    示例可以在[这里找到 Go 版本](https://github.com/biya-coin/sdk-go/blob/master/examples/exchange/derivatives/20\_LiquidablePositions/example.go)和[这里找到 Python 版本](https://github.com/biya-coin/sdk-python/blob/master/examples/exchange\_client/derivative\_exchange\_rpc/23\_LiquidablePositions.py)。
+2. **准备清算交易：** 使用 `MsgLiquidatePosition` 函数构建订单交易，指定 [API 文档](https://api.biyaliquid.exchange/?python#derivatives-msgliquidateposition)中列出的参数。虽然不是强制性的，但强烈建议使用限价交易而不是市价交易。
 
-Note, performing a liquidation requires a limit order. By following these steps and considering the outlined factors, market makers can effectively utilize the `MsgLiquidatePosition` function to participate in Biyaliquid's liquidation mechanism and capture potential profit opportunities.
+注意，执行清算需要限价单。通过遵循这些步骤并考虑概述的因素，做市商可以有效地利用 `MsgLiquidatePosition` 函数参与 Biyaliquid 的清算机制并捕获潜在的利润机会。

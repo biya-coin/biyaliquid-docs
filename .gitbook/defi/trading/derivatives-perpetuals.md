@@ -1,17 +1,17 @@
 ---
-description: Learn about perpetual futures on Biyaliquid
+description: 了解 Biyaliquid 上的永续期货
 ---
 
-# Perpetuals
+# 永续合约
 
-We've already established that an expiry futures contract is an agreement requiring two parties to transact an asset at a predetermined price at a specified time in the future, allowing traders to lock in a future price of the underlying asset to hedge or speculate on price movements. Biyaliquid offers a completely decentralized form of not only expiry futures, but perpetual futures as well.
+我们已经确定，到期期货合约是要求双方在未来指定时间以预定价格交易资产的协议，允许交易者锁定标的资产的未来价格以对冲或投机价格变动。Biyaliquid 不仅提供完全去中心化的到期期货形式，还提供永续期货。
 
-Perpetual futures on Biyaliquid are traded with margin, allowing traders to access leverage. Unlike expiry futures, perpetual futures have no specific expiry date. As such, they require funding payments. In addition, liquidations may occur if the maintenance margin threshold is not met. Perpetual futures are cash-setled, which means the contract is settled in cash rather than delivery of the underlying asset. This makes them more flexible than traditional expiry futures contracts, which have a predetermined expiry date and must be settled by delivering the underlying asset.
+Biyaliquid 上的永续期货使用保证金交易，允许交易者使用杠杆。与到期期货不同，永续期货没有特定的到期日。因此，它们需要资金支付。此外，如果不满足维持保证金阈值，可能会发生清算。永续期货是现金结算的，这意味着合约以现金结算而不是交付标的资产。这使得它们比传统的到期期货合约更灵活，后者有预定的到期日，必须通过交付标的资产来结算。
 
-On Biyaliquid, perpetual futures contracts are margined with stablecoins such as USDT. As such, traders do not need to own or store the underlying asset in order to trade the contract. Perpetual futures are also more liquid than traditional futures contracts, typically resulting in less slippage.
+在 Biyaliquid 上，永续期货合约以 USDT 等稳定币作为保证金。因此，交易者不需要拥有或存储标的资产即可交易合约。永续期货也比传统期货合约更具流动性，通常导致更少的滑点。
 
-Perpetual futures also use a funding mechanism to encure that the price of the contract remains close to the price of the underlying asset. This can lead to funding fees, which are paid by traders who are on the wrong side of the funding rate. If the price of the perpetual futures contract deviates significantly from the price of the underlying, a funding gap emerges. The funding rate is calculated based on the gap, with positive rates paid by long positions to short positions, and vice-versa for negative rates. Funding payments are typically exchanged every few hours, and they are settled directly between long and short positions.
+永续期货还使用资金机制来确保合约价格保持接近标的资产的价格。这可能导致资金费用，由处于资金费率错误一侧的交易者支付。如果永续期货合约的价格与标的资产的价格显著偏离，就会出现资金缺口。资金费率根据缺口计算，正费率由多头头寸向空头头寸支付，负费率则相反。资金支付通常每隔几小时交换一次，它们直接在多头和空头头寸之间结算。
 
-The purpose of funding payments is to incentivise traders to keep the price of the perpetual futures contract aligned with the underlying asset (spot). This prevents the contract from being artificially overpriced or underpriced.
+资金支付的目的是激励交易者保持永续期货合约的价格与标的资产（现货）一致。这防止合约被人为高估或低估。
 
-An interesting use of perpetual futures on Biyaliquid are Pre-Launch Perpetual Futures. Read on for more information.
+Biyaliquid 上永续期货的一个有趣用途是预上线永续期货。请继续阅读以了解更多信息。

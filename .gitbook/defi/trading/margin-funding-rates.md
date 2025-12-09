@@ -1,26 +1,26 @@
-# Funding Rates
+# 资金费率
 
-While margin trading unlocks the door to amplified gains, it also introduces another layer of complexity - funding requirements. Often overshadowed by margin requirements, understanding funding rates is crucial for responsible leveraged trading on Helix.
+虽然保证金交易开启了放大收益的大门，但它也引入了另一层复杂性——资金要求。资金费率经常被保证金要求所掩盖，但了解资金费率对于在 Helix 上进行负责任的杠杆交易至关重要。
 
-**What are Funding Rates?**
+**什么是资金费率？**
 
-In traditional futures contracts, the price on the exchange converges with the spot price over time. In contrast, perpetual futures on Biyaliquid never expire, creating a potential disconnect between the contract price and the underlying asset's spot price. To keep these prices in sync, a mechanism called funding payments kicks in.
+在传统期货合约中，交易所的价格会随着时间的推移与现货价格趋同。相比之下，Biyaliquid 上的永续期货永不过期，这可能在合约价格和标的资产的现货价格之间造成脱节。为了保持这些价格同步，一种称为资金支付的机制开始发挥作用。
 
-Funding rates are essentially periodic fees exchanged between long and short positions. The direction of these payments depends on the prevailing market sentiment:
+资金费率本质上是多头和空头头寸之间交换的周期性费用。这些支付的方向取决于当前的市场情绪：
 
-* **Positive Funding Rates :** If a significant majority of traders are long, long positions pay funding fees to short positions. This incentivises trading activity that could potentially bring the contract price down towards the spot price.
-* **Negative Funding Rates :** Conversely, if most traders are short, long positions receive funding fees from short positions. This encourages trading activity that could potentially push the contract price up towards the spot price.
+* **正资金费率：** 如果绝大多数交易者做多，多头头寸向空头头寸支付资金费用。这激励可能将合约价格拉向现货价格的交易活动。
+* **负资金费率：** 相反，如果大多数交易者做空，多头头寸从空头头寸接收资金费用。这鼓励可能将合约价格推高至现货价格的交易活动。
 
-The specific calculation of funding rates is a formula that considers the difference between the contract price and the index price (a reference point representing the spot price), along with an interest rate component. While these rates may seem small at first glance, they can accumulate over time and significantly impact your trading experience.
+资金费率的具体计算是一个公式，它考虑了合约价格和指数价格（代表现货价格的参考点）之间的差异，以及利率组成部分。虽然这些费率乍一看可能很小，但它们会随着时间的推移累积，并显著影响您的交易体验。
 
-For **long position holders**, positive funding rates represent an additional cost. You'll be paying funding fees to short positions on each funding interval (e.g. at the top of the hour, each hour). Conversely, negative funding rates translate to receiving payments, essentially earning passive income on your open position.
+对于**多头头寸持有者**，正资金费率代表额外成本。您将在每个资金间隔（例如每小时整点）向空头头寸支付资金费用。相反，负资金费率意味着接收付款，基本上在您的开放头寸上赚取被动收入。
 
-For **short position holders**, the funding dynamic flips. Positive funding rates become a source of income, while negative funding rates translate to periodic payments you owe to long positions. Therefore, it's crucial to factor potential funding costs into your margin calculations and risk management strategies.
+对于**空头头寸持有者**，资金动态翻转。正资金费率成为收入来源，而负资金费率意味着您欠多头头寸的周期性付款。因此，将潜在的资金成本纳入您的保证金计算和风险管理策略至关重要。
 
-**Example :**&#x20;
+**示例：**
 
-Let's say you are long $10,000 notional of BIYA/USDT PERP (regardless of leverage), and the funding rate is +0.02%. At the top of the hour, you will make a funding payment of 2 USDT. Conversely, if you are short $10,000 notional of BIYA/USDT PERP with the same funding rate, you will receive a funding payment of 2 USDT.
+假设您做多 $10,000 名义价值的 BIYA/USDT PERP（无论杠杆如何），资金费率为 +0.02%。在整点时，您将支付 2 USDT 的资金费用。相反，如果您做空相同资金费率的 $10,000 名义价值的 BIYA/USDT PERP，您将收到 2 USDT 的资金付款。
 
-Let's say you are short $20,000 notional of BTC/USDT PERP, and the funding rate is -0.0035%. At the top of the hour, you make a funding payment of 0.7 USDT. Conversely, if you are long the same amount, you will receive a funding payment of 0.7 USDT.
+假设您做空 $20,000 名义价值的 BTC/USDT PERP，资金费率为 -0.0035%。在整点时，您支付 0.7 USDT 的资金费用。相反，如果您做多相同金额，您将收到 0.7 USDT 的资金付款。
 
-Note, in some rare cases of extreme price volatility, there may be a small discrepancy between the estimated funding rate that you see on Helix, and the actual funding fee billed at the top of the hour.
+注意，在极端价格波动的某些罕见情况下，您在 Helix 上看到的估计资金费率与实际在整点计费的资金费用之间可能存在小差异。

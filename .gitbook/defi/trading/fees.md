@@ -1,11 +1,11 @@
-# Trading Fees and Rebates
+# 交易费用和返佣
 
-All trades on Biyaliquid are subject to fee rebates, whereby the fee recipient always receives a flat 40% of the trading fee regardless of whether the trade constitutes maker or taker flow. Relayers who originate an order can set the fee recipient. Therefore, if an API trader sets their own address as the fee recipient, that 40% goes to the trader's bank (subaccount 0) address. If the trade is done on Exchange dApps such as Helix, the 40% fee goes to the address that the particular Exchange dApp has set as the fee recipient.
+Biyaliquid 上的所有交易都有费用返佣，费用接收方始终获得交易费用的固定 40%，无论交易是构成做市商流还是接受者流。发起订单的中继者可以设置费用接收方。因此，如果 API 交易者将自己的地址设置为费用接收方，这 40% 将转到交易者的银行（子账户 0）地址。如果交易在交易所 dApp（如 Helix）上进行，40% 的费用将转到该交易所 dApp 设置的地址。
 
-For maker trades, the trading fee for some pairs is currently negative (we will use -0.01% as the example value for the rest of this page). This consists of 60% to the maker and 40% to the fee recipient (again, on Exchange dApps such as Helix, this will be an address set by the Exchange dApp). Therefore, 0.006% of the trade value is rebated to the maker, and 0.004% to the fee recipient. For trades that set themselves as the fee recipient, makers receive the full benefit of the -0.01% fee for these pairs.
+对于做市商交易，某些交易对的交易费用目前为负值（我们将在本页其余部分使用 -0.01% 作为示例值）。这包括 60% 给做市商和 40% 给费用接收方（同样，在 Helix 等交易所 dApp 上，这将是交易所 dApp 设置的地址）。因此，交易价值的 0.006% 返佣给做市商，0.004% 给费用接收方。对于将自己设置为费用接收方的交易，做市商获得这些交易对 -0.01% 费用的全部收益。
 
-Consider an example whereby a trader places a limit order to purchase 1 BTC/USDT PERP at $50,000. If this limit order constitutes maker flow, it is eligible for the -0.01% maker trading fee. Assuming this trade takes place on Helix, the fee recipient is not the trader's own bank address. Therefore, the fee rebate on this trade is $50,000 \* 0.0001 \* 0.6 = $3. However, if this trade goes through by self relaying, the fee rebate is $5 (the full -0.01% of $50,000).
+考虑一个例子，交易者以 $50,000 的价格下了一个限价单购买 1 BTC/USDT PERP。如果此限价单构成做市商流，则有资格享受 -0.01% 的做市商交易费用。假设此交易在 Helix 上进行，费用接收方不是交易者自己的银行地址。因此，此交易的费用返佣为 $50,000 \* 0.0001 \* 0.6 = $3。但是，如果此交易通过自中继完成，费用返佣为 $5（$50,000 的完整 -0.01%）。
 
-Let's assume a trader places a market buy order for 1 BTC/USDT PERP. Since this order constitutes taker flow, the trader is not eligible for the negative maker trading rate, but rather pays a small fee (we will use 0.05% as the example value for the rest of this page). If BTC is $50,000, this trading fee is $25. Of this $25, $10 (40%) goes to the fee recipient. If this trade goes through by self relaying, they receive that $10 and their effective trading fee drops to $15, resulting in an effective trading fee of 0.03%.
+假设交易者下一个市价买单购买 1 BTC/USDT PERP。由于此订单构成接受者流，交易者没有资格享受负的做市商交易费率，而是支付小额费用（我们将在本页其余部分使用 0.05% 作为示例值）。如果 BTC 价格为 $50,000，此交易费用为 $25。在这 $25 中，$10（40%）给费用接收方。如果此交易通过自中继完成，他们收到那 $10，有效交易费用降至 $15，有效交易费率为 0.03%。
 
-If the trader in the example above has [tier 4 status](https://helixapp.com/fee-discounts), their taker fee is discounted by 20%, resulting in a trading fee of only $20 for the same trade. Of this $20, $8 goes to the trader's own address as the fee recipient, bringing the effective trading fee to 0.024% or $12.
+如果上例中的交易者拥有[第 4 层级状态](https://helixapp.com/fee-discounts)，他们的接受者费用折扣 20%，同一交易的费用仅为 $20。在这 $20 中，$8 作为费用接收方转到交易者自己的地址，有效交易费用降至 0.024% 或 $12。

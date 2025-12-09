@@ -1,40 +1,40 @@
-# Liquidation
+# 清算
 
-Leveraging the power of margin trading comes with the risk of liquidation. This mechanism acts as a failsafe for both the trader and the DEX, automatically closing your position when your equity dips below a critical threshold. This is done to prevent further losses and protect the system's stability.
+利用保证金交易的力量伴随着清算的风险。这种机制对交易者和 DEX 都起到安全网的作用，当您的权益降至关键阈值以下时自动关闭您的头寸。这样做是为了防止进一步损失并保护系统的稳定性。
 
-Liquidation is triggered when your account's maintenance margin drops below a certain level. This maintenance margin is a percentage of the total contract value, typically lower than the initial margin you deposited. It acts as a buffer against price movements.
+当您账户的维持保证金降至某个水平以下时，会触发清算。维持保证金是合约总价值的百分比，通常低于您存入的初始保证金。它作为价格变动的缓冲。
 
-**Maintenance Margin Requirement**
+**维持保证金要求**
 
-The margin must fulfill _Margin >= InitialMarginRatio \* Price \* Quantity_, e.g. in a market with maximally 20x leverage, the initial margin ratio would be 0.05. Any new position will have a margin which is at least 5% of its notional.
+保证金必须满足 _Margin >= InitialMarginRatio \* Price \* Quantity_，例如，在最大杠杆为 20 倍的市场中，初始保证金比率将为 0.05。任何新头寸的保证金至少为其名义价值的 5%。
 
-The margin must fulfill the mark price requirement:
+保证金必须满足标记价格要求：
 
 _Margin >= Quantity \* (InitialMarginRatio \* MarkPrice - PNL)_
 
-PNL is the expected profit and loss of the position if it was closed at the current MarkPrice. Solved for MarkPrice this results in:
+PNL 是如果以当前 MarkPrice 平仓时头寸的预期盈亏。求解 MarkPrice 得到：
 
-* For Buys: _MarkPrice >= (Margin - Price \* Quantity) / ((InitialMarginRatio - 1) \* Quantity)_
-* For Sells: _MarkPrice <= (Margin + Price \* Quantity) / ((InitialMarginRatio + 1) \* Quantity)_
+* 对于买入：_MarkPrice >= (Margin - Price \* Quantity) / ((InitialMarginRatio - 1) \* Quantity)_
+* 对于卖出：_MarkPrice <= (Margin + Price \* Quantity) / ((InitialMarginRatio + 1) \* Quantity)_
 
-Throughout the lifecycle of an active position, if the following margin requirement is not met, the position is subject to liquidation. (Note: For simplicity of notation but without loss of generality, we assume the position considered does not have any funding.)
+在活跃头寸的整个生命周期中，如果不满足以下保证金要求，头寸将被清算。（注意：为简化表示但不失一般性，我们假设所考虑的头寸没有任何资金费用。）
 
-* For Longs: _Margin >= Quantity \* MaintenanceMarginRatio \* Mark Price - (MarkPrice - EntryPrice)_
-* For Shorts : _Margin >= Quantity \* MaintenanceMarginRatio \* Mark Price - (EntryPrice - MarkPrice)_
+* 对于多头：_Margin >= Quantity \* MaintenanceMarginRatio \* Mark Price - (MarkPrice - EntryPrice)_
+* 对于空头：_Margin >= Quantity \* MaintenanceMarginRatio \* Mark Price - (EntryPrice - MarkPrice)_
 
-For example, let's say you use 10% margin for a Bitcoin futures contract worth $100,000. Your initial margin would be $10,000, and your maintenance margin might be 5% ($5,000). If the price of Bitcoin falls significantly, causing your equity in the contract to drop below $5,000, your position will be automatically liquidated.
+例如，假设您为价值 $100,000 的比特币期货合约使用 10% 的保证金。您的初始保证金将为 $10,000，维持保证金可能为 5%（$5,000）。如果比特币价格大幅下跌，导致您在合约中的权益降至 $5,000 以下，您的头寸将被自动清算。
 
-**How Does Liquidation Work?**
+**清算如何运作？**
 
-When liquidation is triggered:
+当触发清算时：
 
-1. **The exchange will force-close your position.** This means selling your futures contract, regardless of the current market price.
-2. **The proceeds from the sale will be used to cover your outstanding debt to the platform.** This includes the initial margin, any unpaid funding fees, and the loss incurred on the position.
-3. **Any remaining funds will be credited back to your account.** However, it's crucial to remember that liquidation can potentially wipe out your entire initial margin deposit.
+1. **交易所将强制平仓您的头寸。** 这意味着无论当前市场价格如何，都会出售您的期货合约。
+2. **出售所得将用于偿还您对平台的未偿债务。** 这包括初始保证金、任何未支付的资金费用以及头寸产生的损失。
+3. **任何剩余资金将记入您的账户。** 然而，重要的是要记住，清算可能会清零您的整个初始保证金存款。
 
-To avoid the painful sting of liquidation:
+为避免清算的痛苦：
 
-* **Monitor your margin:** Keep a close eye on your account's margin level and the market movements affecting your positions.
-* **Use stop-loss orders:** These pre-set orders automatically sell your position when the price reaches a certain point, potentially minimizing losses and preventing liquidation.
-* **Maintain adequate margins:** Avoid over-leveraging your positions. Higher margins provide a larger buffer against price fluctuations.
-* **Understand funding rates:** Factor potential funding costs into your risk management calculations, especially in volatile markets.
+* **监控您的保证金：** 密切关注您账户的保证金水平和影响您头寸的市场变动。
+* **使用止损订单：** 这些预设订单在价格达到某个点时自动出售您的头寸，可能最小化损失并防止清算。
+* **维持充足的保证金：** 避免过度杠杆化您的头寸。更高的保证金为价格波动提供更大的缓冲。
+* **了解资金费率：** 将潜在的资金成本纳入您的风险管理计算中，尤其是在波动市场中。

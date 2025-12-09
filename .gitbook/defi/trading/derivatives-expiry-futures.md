@@ -1,17 +1,17 @@
 ---
-description: Learn about expiry futures on Biyaliquid
+description: 了解 Biyaliquid 上的到期期货
 ---
 
-# Expiry Futures
+# 到期期货
 
-In TradFi[^1], a futures contract is an agreement that requires two parties to transact an asset at a predetermined price at a specified time in the future. This allows traders to lock in a future price of the underlying asset to hedge or speculate on price movements. Biyaliquid offers a completely decentralized form of these futures contracts—expiry futures.
+在传统金融[^1]中，期货合约是要求双方在未来指定时间以预定价格交易资产的协议。这允许交易者锁定标的资产的未来价格以对冲或投机价格变动。Biyaliquid 提供这些期货合约的完全去中心化形式——到期期货。
 
-Similar to perpetual futures, expiry futures on Biyaliquid are traded with margin, allowing traders to access leverage. However, unlike perpetual futures, expiry futures have expiration dates and do not require funding payments, though liquidations may still occur if the maintenance margin threshold is not met.
+类似于永续期货，Biyaliquid 上的到期期货使用保证金交易，允许交易者使用杠杆。然而，与永续期货不同，到期期货有到期日且不需要资金支付，尽管如果不满足维持保证金阈值，仍可能发生清算。
 
-Upon expiration, expiry futures markets are settled using oracle prices, typically set to the spot prices of the underlying assets. As a result, the price of futures tend to converge upon the spot price as the expiration date nears.
+到期时，到期期货市场使用预言机价格结算，通常设置为标的资产的现货价格。因此，随着到期日临近，期货价格倾向于向现货价格收敛。
 
-An interesting use of expiry futures on Biyaliquid are Pre-Launch Futures. Read on for more information.
+Biyaliquid 上到期期货的一个有趣用途是预上线期货。请继续阅读以了解更多信息。
 
-[^1]: Traditional Finance
+[^1]: 传统金融
 
     &#x20;    &#x20;
