@@ -1,46 +1,46 @@
-# Accounts
+# 账户
 
-This section describes the built-in accounts system of Biyaliquid.
+本节介绍 Biyaliquid 的内置账户系统。
 
 {% hint style="info" %}
-This document describes the built-in accounts system of Biyaliquid.
+本文档介绍 Biyaliquid 的内置账户系统。
 
-Pre-requisite Readings:
+前置阅读：
 
-* [Cosmos SDK Accounts](https://docs.cosmos.network/main/basics/accounts)
-* [Ethereum Accounts](https://ethereum.org/en/whitepaper/#ethereum-accounts)
+* [Cosmos SDK 账户](https://docs.cosmos.network/main/basics/accounts)
+* [Ethereum 账户](https://ethereum.org/en/whitepaper/#ethereum-accounts)
 {% endhint %}
 
-Biyaliquid defines its custom `Account` type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biyaliquid-based accounts is `m/44'/60'/0'/0`.
+Biyaliquid 定义了其自定义的 `Account` 类型，使用 Ethereum 的 ECDSA secp256k1 曲线作为密钥。这满足 [EIP84](https://github.com/ethereum/EIPs/issues/84) 的完整 [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) 路径。基于 Biyaliquid 的账户的根 HD 路径是 `m/44'/60'/0'/0`。
 
-### Addresses and Public Keys
+### 地址和公钥
 
-There are 3 main types of `Addresses`/`PubKeys` available by default on Biyaliquid:
+Biyaliquid 默认提供 3 种主要的 `Addresses`/`PubKeys` 类型：
 
-* Addresses and Keys for **accounts**, that identify users (i.e., the sender of a `message`). They are derived using the **`eth_secp256k1`** curve.
-* Addresses and Keys for **validator operators**, which identify the operators of validators. They are derived using the **`eth_secp256k1`** curve.
-* Addresses and Keys for **consensus nodes**, which identify the validator nodes participating in consensus. They are derived using the **`ed25519`** curve.
+* **账户**的地址和密钥，用于标识用户（即 `message` 的发送者）。它们使用 **`eth_secp256k1`** 曲线派生。
+* **验证器操作者**的地址和密钥，用于标识验证器的操作者。它们使用 **`eth_secp256k1`** 曲线派生。
+* **共识节点**的地址和密钥，用于标识参与共识的验证器节点。它们使用 **`ed25519`** 曲线派生。
 
-|                    | Address bech32 Prefix | Pubkey bech32 Prefix | Curve           | Address byte length | Pubkey byte length |
-| ------------------ | --------------------- | -------------------- | --------------- | ------------------- | ------------------ |
-| Accounts           | `biya`                 | `biyapub`             | `eth_secp256k1` | `20`                | `33` (compressed)  |
-| Validator Operator | `biyavaloper`          | `biyavaloperpub`      | `eth_secp256k1` | `20`                | `33` (compressed)  |
-| Consensus Nodes    | `biyavalcons`          | `biyavalconspub`      | `ed25519`       | `20`                | `32`               |
+|                    | 地址 bech32 前缀 | 公钥 bech32 前缀 | 曲线           | 地址字节长度 | 公钥字节长度 |
+| ------------------ | ---------------- | ---------------- | -------------- | ------------ | ------------ |
+| 账户               | `biya`           | `biyapub`        | `eth_secp256k1` | `20`         | `33` (压缩)  |
+| 验证器操作者       | `biyavaloper`    | `biyavaloperpub` | `eth_secp256k1` | `20`         | `33` (压缩)  |
+| 共识节点           | `biyavalcons`     | `biyavalconspub` | `ed25519`       | `20`         | `32`         |
 
-### Address formats for clients
+### 客户端地址格式
 
-`EthAccount`s can be represented in both [Bech32](https://en.bitcoin.it/wiki/Bech32) and hex format for Ethereum's Web3 tooling compatibility.
+`EthAccount` 可以表示为 [Bech32](https://en.bitcoin.it/wiki/Bech32) 和十六进制格式，以兼容 Ethereum 的 Web3 工具。
 
-The Bech32 format is the default format for Cosmos-SDK queries and transactions through CLI and REST clients. The hex format is the Ethereum `common.Address` representation of a Cosmos `sdk.AccAddress`.
+Bech32 格式是通过 CLI 和 REST 客户端进行 Cosmos-SDK 查询和交易的默认格式。十六进制格式是 Cosmos `sdk.AccAddress` 的 Ethereum `common.Address` 表示。
 
-* Address (Bech32): `biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku`
-* Address ([EIP55](https://eips.ethereum.org/EIPS/eip-55) Hex): `0xAF79152AC5dF276D9A8e1E2E22822f9713474902`
-* Compressed Public Key: `{"@type":"/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey","key":"ApNNebT58zlZxO2yjHiRTJ7a7ufjIzeq5HhLrbmtg9Y/"}`
+* 地址 (Bech32): `biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku`
+* 地址 ([EIP55](https://eips.ethereum.org/EIPS/eip-55) 十六进制): `0xAF79152AC5dF276D9A8e1E2E22822f9713474902`
+* 压缩公钥: `{"@type":"/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey","key":"ApNNebT58zlZxO2yjHiRTJ7a7ufjIzeq5HhLrbmtg9Y/"}`
 
-You can query an account address using the Cosmos CLI or REST clients:
+您可以使用 Cosmos CLI 或 REST 客户端查询账户地址：
 
 ```bash
-# NOTE: the --output (-o) flag will define the output format in JSON or YAML (text)
+# 注意：--output (-o) 标志将定义输出格式为 JSON 或 YAML (text)
 biyaliquidd q auth account $(biyaliquidd keys show <MYKEY> -a) -o text
 |
   '@type': /biyaliquid.types.v1beta1.EthAccount
@@ -57,15 +57,15 @@ biyaliquidd q auth account $(biyaliquidd keys show <MYKEY> -a) -o text
 curl -X GET "http://localhost:10337/cosmos/auth/v1beta1/accounts/biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku" -H "accept: application/json"
 ```
 
-See the [Swagger API](https://lcd.biyaliquid.network/swagger/) reference for the full docs on the accounts API.
+请参阅 [Swagger API](https://lcd.biyaliquid.network/swagger/) 参考以获取账户 API 的完整文档。
 
 {% hint style="info" %}
-The Cosmos SDK Keyring output (i.e `biyaliquidd keys`) only supports addresses in Bech32 format.
+Cosmos SDK Keyring 输出（即 `biyaliquidd keys`）仅支持 Bech32 格式的地址。
 {% endhint %}
 
-### Derive Biyaliquid Account from a private key/mnemonic
+### 从私钥/助记词派生 Biyaliquid 账户
 
-Below is an example of how to derive an Biyaliquid Account from a private key and/or a mnemonic phrase:
+以下是从私钥和/或助记词短语派生 Biyaliquid 账户的示例：
 
 ```js
 import { Wallet } from 'ethers'
@@ -75,7 +75,7 @@ const mnemonic = "indoor dish desk flag debris potato excuse depart ticket judge
 const privateKey = "afdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890"
 const defaultDerivationPath = "m/44'/60'/0'/0/0"
 const defaultBech32Prefix = 'biya'
-const isPrivateKey: boolean = true /* just for the example */
+const isPrivateKey: boolean = true /* 仅用于示例 */
 
 const wallet = isPrivateKey ? Wallet.fromMnemonic(mnemonic, defaultDerivationPath) : new Wallet(privateKey)
 const ethereumAddress = wallet.address
@@ -83,7 +83,7 @@ const addressBuffer = EthereumUtilsAddress.fromString(ethereumAddress.toString()
 const biyaliquidAddress = bech32.encode(defaultBech32Prefix, bech32.toWords(addressBuffer))
 ```
 
-Below is an example of how to derive a public key from a private key:
+以下是从私钥派生公钥的示例：
 
 ```js
 import secp256k1 from 'secp256k1'

@@ -1,10 +1,9 @@
 ---
 description: >-
-  This section helps traders to learn more about trading instruments and start
-  trading on Biyaliquid
+  本节帮助交易者了解更多交易工具并开始在 Biyaliquid 上交易
 icon: coins
 ---
 
 # DeFi
 
-Here you can find a comprehensive overview of the Biyaliquid's **exchange module**, as well as tutorials, guides, reward programs, leaderboard competitions, and general resources for developers and API traders.
+在这里，您可以找到 Biyaliquid **交易所模块**的全面概述，以及教程、指南、奖励计划、排行榜竞赛，以及面向开发者和 API 交易者的通用资源。

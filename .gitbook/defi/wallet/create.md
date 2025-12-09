@@ -1,17 +1,17 @@
 ---
-description: Learn how to create a wallet on Biyaliquid using different approaches.
+description: 了解如何使用不同方法在 Biyaliquid 上创建钱包。
 ---
 
-# Create a wallet
+# 创建钱包
 
-Creating a wallet on Biyaliquid is as simple as sending some funds to your Biyaliquid address. In this document we'll outline how to create a wallet using some popular wallet solutions (Metamask, Ledger, etc.), but also how to create and fund a wallet using `biyaliquidd` in a local CLI environment.
+在 Biyaliquid 上创建钱包就像向您的 Biyaliquid 地址发送一些资金一样简单。在本文档中，我们将概述如何使用一些流行的钱包解决方案（Metamask、Ledger 等）创建钱包，以及如何在本地 CLI 环境中使用 `biyaliquidd` 创建和充值钱包。
 
-### Browser Wallets
+### 浏览器钱包
 
-You can create an Biyaliquid wallet using your preferred wallet by following the [tutorial on our blog](https://biyaliquid.com/blog/how-to-create-an-biyaliquid-wallet-2/).
+您可以通过遵循我们博客上的[教程](https://biyaliquid.com/blog/how-to-create-an-biyaliquid-wallet-2/)使用您喜欢的钱包创建 Biyaliquid 钱包。
 
-### Local Wallets
+### 本地钱包
 
-You can create an Biyaliquid wallet for your development purposes using [biyaliquidd](../../developers/biyaliquidd/ "mention") in a CLI environment. You can do that using the `biyaliquidd keys` [command](../../developers/biyaliquidd/advanced.md#keys).
+您可以在 CLI 环境中使用 [biyaliquidd](../../developers/biyaliquidd/ "mention") 为开发目的创建 Biyaliquid 钱包。您可以使用 `biyaliquidd keys` [命令](../../developers/biyaliquidd/advanced.md#keys)来完成此操作。
 
-You can also learn more about keyring management using `biyaliquidd` on this page [set-up-keyring.md](../../infra/set-up-keyring.md "mention")
+您也可以在此页面了解更多关于使用 `biyaliquidd` 进行密钥环管理的信息：[set-up-keyring.md](../../infra/set-up-keyring.md "mention")

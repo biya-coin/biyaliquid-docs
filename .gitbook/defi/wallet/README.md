@@ -1,45 +1,41 @@
-# Wallet
+# 钱包
 
-The Biyaliquid Wallet allows you to monitor your assets on Biyaliquid. Assets can be native tokens on Biyaliquid, as well as bridged assets from Ethereum, Solana, Polygon and various IBC-enabled chains. See [Biyaliquid Hub Staking Walkthrough](https://biyaliquid.com/blog/biyaliquid-hub/)
+Biyaliquid 钱包允许您监控您在 Biyaliquid 上的资产。资产可以是 Biyaliquid 上的原生代币，也可以是从 Ethereum、Solana、Polygon 和各种支持 IBC 的链桥接过来的资产。请参阅 [Biyaliquid Hub 质押指南](https://biyaliquid.com/blog/biyaliquid-hub/)
 
-There are a variety of different wallets that are supported on Biyaliquid. Users can choose to submit transactions on Biyaliquid using either their Ethereum or Cosmos-native wallets.
+Biyaliquid 支持多种不同的钱包。用户可以选择使用他们的 Ethereum 或 Cosmos 原生钱包在 Biyaliquid 上提交交易。
 
-### Overview
+### 概述
 
-Biyaliquid's `Account` type uses Ethereum's ECDSA secp256k1 curve for keys. Simply put, Biyaliquid's Account is native (compatible) with Ethereum accounts, allowing Ethereum-native wallets, such as MetaMask, to interact with Biyaliquid. Popular Cosmos wallets like Keplr and Leap have also integrated with Biyaliquid.
+Biyaliquid 的 `Account` 类型使用 Ethereum 的 ECDSA secp256k1 曲线作为密钥。简单来说，Biyaliquid 的账户与 Ethereum 原生账户兼容，允许 Ethereum 原生钱包（如 MetaMask）与 Biyaliquid 交互。流行的 Cosmos 钱包（如 Keplr 和 Leap）也已与 Biyaliquid 集成。
 
-#### Ethereum-Based Wallets
+#### 基于 Ethereum 的钱包
 
-As explained above, Ethereum-based wallets can be used to interact with Biyaliquid. Right now, the most popular Ethereum-based wallets are supported on Biyaliquid. These include:
+如上所述，基于 Ethereum 的钱包可用于与 Biyaliquid 交互。目前，最流行的基于 Ethereum 的钱包都支持 Biyaliquid。这些包括：
 
 1. [MetaMask](https://metamask.io/)
 2. [Ledger](https://www.ledger.com/)
 3. [Trezor](https://trezor.io/)
 4. [Torus](https://tor.us/index.html)
 
-The process of signing transactions on Biyaliquid using an Ethereum-native wallet consists of:
+使用 Ethereum 原生钱包在 Biyaliquid 上签名交易的过程包括：
 
-1. Converting the transaction into EIP712 TypedData,
-2. Signing the EIP712 TypedData using an Ethereum-native wallet,
-3. Packing the transaction into a native Cosmos transaction (including the signature), and broadcasting the transaction to the chain.
+1. 将交易转换为 EIP712 TypedData，
+2. 使用 Ethereum 原生钱包对 EIP712 TypedData 进行签名，
+3. 将交易打包成原生 Cosmos 交易（包括签名），并将交易广播到链上。
 
-This process is abstracted away from the end-user. If you've previously used an Ethereum-native wallet, the user experience will be the same.
+这个过程对最终用户是透明的。如果您之前使用过 Ethereum 原生钱包，用户体验将是相同的。
 
-#### Cosmos-Based Wallets
+#### 基于 Cosmos 的钱包
 
-Biyaliquid supports the leading wallets compatible with Cosmos and IBC, including:
+Biyaliquid 支持与 Cosmos 和 IBC 兼容的主要钱包，包括：
 
 1. [Cosmostation](https://cosmostation.io/)
 2. [Keplr](https://www.keplr.app/)
 3. [Leap](https://www.leapwallet.io/)
 
-#### Biyaliquid-Native Wallets
+#### 基于中心化交易所的钱包
 
-Currently, [Ninji Wallet](https://ninji.xyz/) is the only Biyaliquid-native wallet. Such a wallet is built to synergize specifically with the greater Biyaliquid ecosystem.
-
-#### CEX-Based Wallets
-
-There are also several wallets developed by centralized exchanges (CEXs) that now support Biyaliquid. If you are an active user of these CEXs, using their wallets can provide a more seamless web3 experience. Currently, CEX-based wallets that support Biyaliquid are:
+还有一些由中心化交易所（CEX）开发的钱包现在也支持 Biyaliquid。如果您是这些 CEX 的活跃用户，使用他们的钱包可以提供更无缝的 web3 体验。目前，支持 Biyaliquid 的基于 CEX 的钱包有：
 
 1. [Bitget Wallet](https://web3.bitget.com/en/)
 2. [OKX Wallet](https://www.okx.com/web3)
