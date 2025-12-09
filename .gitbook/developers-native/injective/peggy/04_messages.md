@@ -5,20 +5,20 @@ title: Messages
 
 # Messages
 
-This is a reference document for Peggy message types. For code reference and exact arguments see the [proto definitions](https://github.com/InjectiveLabs/injective-core/blob/master/proto/injective/peggy/v1/msgs.proto).
+This is a reference document for Peggy message types. For code reference and exact arguments see the [proto definitions](https://github.com/biya-coin/biyaliquid-core/blob/master/proto/biyaliquid/peggy/v1/msgs.proto).
 
 ## User messages
 
-These are messages sent on the Injective Chain peggy module by the end user. See [workflow](02_workflow.md) for a more detailed summary of the entire deposit and withdraw process.
+These are messages sent on the Biyaliquid Chain peggy module by the end user. See [workflow](02_workflow.md) for a more detailed summary of the entire deposit and withdraw process.
 
 ### SendToEth
 
-Sent to Injective whenever a user wishes to make a withdrawal back to Ethereum. Submitted amount is removed from the user's balance immediately.\
+Sent to Biyaliquid whenever a user wishes to make a withdrawal back to Ethereum. Submitted amount is removed from the user's balance immediately.\
 The withdrawal is added to the outgoing tx pool as a `types.OutgoingTransferTx` where it will remain until it is included in a batch.
 
 ```go
 type MsgSendToEth struct {
-	Sender    string    // sender's Injective address
+	Sender    string    // sender's Biyaliquid address
 	EthDest   string    // receiver's Ethereum address
 	Amount    types.Coin    // amount of tokens to bridge
 	BridgeFee types.Coin    // additional fee for bridge relayers. Must be of same token type as Amount
@@ -73,8 +73,8 @@ These messages are sent by the `Oracle` subprocess of `peggo`
 
 ### DepositClaim
 
-Sent to Injective when a `SendToInjectiveEvent` is emitted from the `Peggy contract`.\
-This occurs whenever a user is making an individual deposit from Ethereum to Injective.
+Sent to Biyaliquid when a `SendToBiyaliquidEvent` is emitted from the `Peggy contract`.\
+This occurs whenever a user is making an individual deposit from Ethereum to Biyaliquid.
 
 ```go
 type MsgDepositClaim struct {
@@ -83,14 +83,14 @@ type MsgDepositClaim struct {
 	TokenContract  string   // contract address of the ERC20 token                                 
 	Amount         sdkmath.Int  // amount of deposited tokens 
 	EthereumSender string   // sender's Ethereum address                                 
-	CosmosReceiver string   // receiver's Injective address                                 
+	CosmosReceiver string   // receiver's Biyaliquid address                                 
 	Orchestrator   string   // address of the Orchestrator which observed the event                               
 }
 ```
 
 ### WithdrawClaim
 
-Sent to Injective when a `TransactionBatchExecutedEvent` is emitted from the `Peggy contract`.\
+Sent to Biyaliquid when a `TransactionBatchExecutedEvent` is emitted from the `Peggy contract`.\
 This occurs when a `Relayer` has successfully called `submitBatch` on the contract to complete a batch of withdrawals.
 
 ```go
@@ -105,7 +105,7 @@ type MsgWithdrawClaim struct {
 
 ### ValsetUpdatedClaim
 
-Sent to Injective when a `ValsetUpdatedEvent` is emitted from the `Peggy contract`.\
+Sent to Biyaliquid when a `ValsetUpdatedEvent` is emitted from the `Peggy contract`.\
 This occurs when a `Relayer` has successfully called `updateValset` on the contract to update the `Validator Set` on Ethereum.
 
 ```go
@@ -123,7 +123,7 @@ type MsgValsetUpdatedClaim struct {
 
 ### ERC20DeployedClaim
 
-Sent to Injective when a `ERC20DeployedEvent` is emitted from the `Peggy contract`.\
+Sent to Biyaliquid when a `ERC20DeployedEvent` is emitted from the `Peggy contract`.\
 This occurs whenever the `deployERC20` method is called on the contract to issue a new token asset eligible for bridging.
 
 ```go
@@ -145,7 +145,7 @@ These messages are sent by the `Signer` subprocess of `peggo`
 
 ### ConfirmBatch
 
-When `Signer` finds a batch that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Injective.\
+When `Signer` finds a batch that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biyaliquid.\
 It's crucial that a `Validator` eventually provides their confirmation for a created batch as they will be slashed otherwise.
 
 ```go
@@ -160,7 +160,7 @@ type MsgConfirmBatch struct {
 
 ### ValsetConfirm
 
-When `Signer` finds a valset update that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Injective.\
+When `Signer` finds a valset update that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biyaliquid.\
 It's crucial that a `Validator` eventually provides their confirmation for a created valset update as they will be slashed otherwise.
 
 ```go
@@ -174,7 +174,7 @@ type MsgValsetConfirm struct {
 
 ## Relayer Messages
 
-The `Relayer` does not send any message to Injective, rather it constructs Ethereum transactions with Injective data to update the `Peggy contract` via `submitBatch` and `updateValset` methods.
+The `Relayer` does not send any message to Biyaliquid, rather it constructs Ethereum transactions with Biyaliquid data to update the `Peggy contract` via `submitBatch` and `updateValset` methods.
 
 ## Validator Messages
 
@@ -182,13 +182,13 @@ These are messages sent directly using the validator's message key.
 
 ### SetOrchestratorAddresses
 
-Sent to Injective by an `Operator` managing a `Validator` node. Before being able to start their `Orchestrator` (`peggo`) process, they must register a chosen Ethereum address to represent their `Validator` on Ethereum.\
-Optionally, an additional Injective address can be provided (`Orchestrator` field) to represent that `Validator` in the bridging process (`peggo`). Defaults to `Validator`'s own address if omitted.
+Sent to Biyaliquid by an `Operator` managing a `Validator` node. Before being able to start their `Orchestrator` (`peggo`) process, they must register a chosen Ethereum address to represent their `Validator` on Ethereum.\
+Optionally, an additional Biyaliquid address can be provided (`Orchestrator` field) to represent that `Validator` in the bridging process (`peggo`). Defaults to `Validator`'s own address if omitted.
 
 ```go
 type MsgSetOrchestratorAddresses struct {
-	Sender       string // address of the Injective validator
-	Orchestrator string // optional Injective address to represent the Validator in the bridging process (Defaults to Sender if left empty)
+	Sender       string // address of the Biyaliquid validator
+	Orchestrator string // optional Biyaliquid address to represent the Validator in the bridging process (Defaults to Sender if left empty)
 	EthAddress   string // the Sender's (Validator) delegated Ethereum address
 }
 ```

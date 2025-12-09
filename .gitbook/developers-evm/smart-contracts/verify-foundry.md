@@ -27,9 +27,9 @@ Enter the following command:
 
 ```shell
 forge verify-contract \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   --verifier blockscout \
-  --verifier-url 'https://testnet.blockscout-api.injective.network/api/' \
+  --verifier-url 'https://testnet.blockscout-api.biyaliquid.network/api/' \
   ${SC_ADDRESS} \
   src/Counter.sol:Counter
 ```
@@ -40,9 +40,9 @@ For example, if the smart contract address is `0x213bA803265386C10CE04a2cAa0f31F
 
 ```shell
 forge verify-contract \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   --verifier blockscout \
-  --verifier-url 'https://testnet.blockscout-api.injective.network/api/' \
+  --verifier-url 'https://testnet.blockscout-api.biyaliquid.network/api/' \
   0x213bA803265386C10CE04a2cAa0f31FF3440b9cF \
   src/Counter.sol:Counter
 ```
@@ -57,7 +57,7 @@ Submitting verification for [src/Counter.sol:Counter] 0x213bA803265386C10CE04a2c
 Submitted contract for verification:
         Response: `OK`
         GUID: `213ba803265386c10ce04a2caa0f31ff3440b9cf686b778c`
-        URL: https://testnet.blockscout-api.injective.network/address/0x213ba803265386c10ce04a2caa0f31ff3440b9cf
+        URL: https://testnet.blockscout-api.biyaliquid.network/address/0x213ba803265386c10ce04a2caa0f31ff3440b9cf
 ```
 
 The more interesting outcome is visiting the network explorer.

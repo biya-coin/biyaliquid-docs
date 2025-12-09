@@ -7,8 +7,8 @@ Example code snippets to query the indexer for leaderboard module related data.
 ### Fetch leaderboard
 
 ```ts
-import { IndexerRestLeaderboardChronosApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestLeaderboardChronosApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerRestLeaderboardChronosApi(

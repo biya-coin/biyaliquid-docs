@@ -1,8 +1,8 @@
-# Cosmovisor Setup Guide for the Injective Network
+# Cosmovisor Setup Guide for the Biyaliquid Network
 
-Cosmovisor is a process manager designed for Cosmos SDK–based blockchains that simplifies the management of binary (chain) upgrades. This guide provides step‐by‐step instructions to set up Cosmovisor for your Injective Network node.
+Cosmovisor is a process manager designed for Cosmos SDK–based blockchains that simplifies the management of binary (chain) upgrades. This guide provides step‐by‐step instructions to set up Cosmovisor for your Biyaliquid Network node.
 
-> **Note:** These instructions assume you already have an existing chain binary (e.g., `injectived`) and a working Go environment if you choose to install Cosmovisor from source. Adjust the names and paths as needed for your specific setup.
+> **Note:** These instructions assume you already have an existing chain binary (e.g., `biyaliquidd`) and a working Go environment if you choose to install Cosmovisor from source. Adjust the names and paths as needed for your specific setup.
 
 ---
 
@@ -39,16 +39,16 @@ go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
 Set up the following environment variables so that Cosmovisor knows which binary to run and where to locate it:
 
 - **`DAEMON_NAME`**  
-  The name of your chain’s binary (e.g., `injectived`).
+  The name of your chain’s binary (e.g., `biyaliquidd`).
 
 - **`DAEMON_HOME`**  
-  The home directory for your node (e.g., `~/.injectived`).
+  The home directory for your node (e.g., `~/.biyaliquidd`).
 
 You can set these variables in your shell’s profile (like `~/.bashrc` or `~/.profile`) or export them directly in your terminal session:
 
 ```bash
-export DAEMON_NAME=injectived
-export DAEMON_HOME=~/.injectived
+export DAEMON_NAME=biyaliquidd
+export DAEMON_HOME=~/.biyaliquidd
 ```
 
 ---
@@ -67,10 +67,10 @@ Cosmovisor expects a specific folder structure in your node’s home directory:
 
 2. **Copy Your Current Binary**
 
-   Place your current chain binary (e.g., `injectived`) into the genesis folder. Make sure the file name matches the `DAEMON_NAME` value (see next section).
+   Place your current chain binary (e.g., `biyaliquidd`) into the genesis folder. Make sure the file name matches the `DAEMON_NAME` value (see next section).
 
    ```bash
-   cp $(which injectived) $DAEMON_HOME/cosmovisor/genesis/bin/injectived
+   cp $(which biyaliquidd) $DAEMON_HOME/cosmovisor/genesis/bin/biyaliquidd
    ```
 
 ---
@@ -108,11 +108,11 @@ When an upgrade is announced on-chain, prepare the new binary so Cosmovisor can 
    Compile or download the new binary, then copy it into the upgrade directory. Ensure the binary name matches `DAEMON_NAME`.
 
    ```bash
-   cp /path/to/new/injectived $DAEMON_HOME/cosmovisor/upgrades/<upgrade_name>/bin
+   cp /path/to/new/biyaliquidd $DAEMON_HOME/cosmovisor/upgrades/<upgrade_name>/bin
    cp /path/to/new/libwasmvm.x86_64.so $DAEMON_HOME/cosmovisor/upgrades/<upgrade_name>/bin
    ```
 
-> **TIP:** If you have downloaded the `injectived` binary package from GitHub, we copy `libwasmvm.x86_64.so` to the upgrade `bin` directory. An environment variable will be later added to the systemd service to add this directory to `LD_LIBRARY_PATH`.
+> **TIP:** If you have downloaded the `biyaliquidd` binary package from GitHub, we copy `libwasmvm.x86_64.so` to the upgrade `bin` directory. An environment variable will be later added to the systemd service to add this directory to `LD_LIBRARY_PATH`.
 
 3. **Upgrade Process**
 
@@ -126,11 +126,11 @@ For production environments, it is common to run your node as a systemd service.
 
 1. **Create the Service File**
 
-   Create a file (e.g., `/etc/systemd/system/injectived.service`) with the following content. Adjust the paths and `<your_username>` accordingly:
+   Create a file (e.g., `/etc/systemd/system/biyaliquidd.service`) with the following content. Adjust the paths and `<your_username>` accordingly:
 
    ```ini
    [Unit]
-   Description=Injective Daemon managed by Cosmovisor
+   Description=Biyaliquid Daemon managed by Cosmovisor
    After=network-online.target
 
    [Service]
@@ -138,13 +138,13 @@ For production environments, it is common to run your node as a systemd service.
    ExecStart=/home/<your_username>/go/bin/cosmovisor run start
    Restart=always
    RestartSec=3
-   Environment="DAEMON_NAME=injectived"
-   Environment="DAEMON_HOME=/home/<your_username>/.injectived"
+   Environment="DAEMON_NAME=biyaliquidd"
+   Environment="DAEMON_HOME=/home/<your_username>/.biyaliquidd"
    Environment="PATH=/usr/local/bin:/home/<your_username>/go/bin:$PATH"
    Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
    Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
    Environment="UNSAFE_SKIP_BACKUP=true"
-   Environment="LD_LIBRARY_PATH=/home/<your_username>/.injectived/cosmovisor/current/bin"
+   Environment="LD_LIBRARY_PATH=/home/<your_username>/.biyaliquidd/cosmovisor/current/bin"
 
    [Install]
    WantedBy=multi-user.target
@@ -154,8 +154,8 @@ For production environments, it is common to run your node as a systemd service.
 
    ```bash
    sudo systemctl daemon-reload
-   sudo systemctl enable injectived.service
-   sudo systemctl start injectived.service
+   sudo systemctl enable biyaliquidd.service
+   sudo systemctl start biyaliquidd.service
    ```
 
 3. **Check Logs**
@@ -163,7 +163,7 @@ For production environments, it is common to run your node as a systemd service.
    Verify that your service is running smoothly:
 
    ```bash
-   journalctl -u injectived.service -f
+   journalctl -u biyaliquidd.service -f
    ```
 
 ---

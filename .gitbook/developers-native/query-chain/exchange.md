@@ -7,8 +7,8 @@ Example code snippets to query the exchange module on the chain.
 ### Fetch parameters such as the default spot and derivatives fees/trading rewards
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
@@ -21,8 +21,8 @@ console.log(moduleParams)
 ### Fetch the fee discount schedules
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
@@ -33,19 +33,19 @@ const feeDiscountSchedule =
 console.log(feeDiscountSchedule)
 ```
 
-### Fetch the fee discounts associated with an injective address
+### Fetch the fee discounts associated with an biyaliquid address
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
 const feeDiscountAccountInfo =
-  await chainGrpcExchangeApi.fetchFeeDiscountAccountInfo(injectiveAddress)
+  await chainGrpcExchangeApi.fetchFeeDiscountAccountInfo(biyaliquidAddress)
 
 console.log(feeDiscountAccountInfo)
 ```
@@ -53,8 +53,8 @@ console.log(feeDiscountAccountInfo)
 ### Fetch the details regarding the trading reward campaign, such as the total reward points
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
@@ -65,37 +65,37 @@ const tradingRewardsCampaign =
 console.log(tradingRewardsCampaign)
 ```
 
-### Fetch the trading rewards points for an injective address
+### Fetch the trading rewards points for an biyaliquid address
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
 const tradeRewardsPoints = await chainGrpcExchangeApi.fetchTradeRewardsPoints(
-  injectiveAddress,
+  biyaliquidAddress,
 )
 
 console.log(tradeRewardsPoints)
 ```
 
-### Fetch the pending trading rewards points for injective addresses
+### Fetch the pending trading rewards points for biyaliquid addresses
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const injectiveAddresses = ['inj...']
+const biyaliquidAddresses = ['biya...']
 
 const pendingTradeRewardsPoints =
-  await chainGrpcExchangeApi.fetchPendingTradeRewardPoints(injectiveAddresses)
+  await chainGrpcExchangeApi.fetchPendingTradeRewardPoints(biyaliquidAddresses)
 
 console.log(pendingTradeRewardsPoints)
 ```
@@ -103,13 +103,13 @@ console.log(pendingTradeRewardsPoints)
 #### Fetch the current positions, such as subaccountId, marketId, and position
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const positions = await chainGrpcExchangeApi.fetchPositions(injectiveAddresses)
+const positions = await chainGrpcExchangeApi.fetchPositions(biyaliquidAddresses)
 
 console.log(positions)
 ```
@@ -117,8 +117,8 @@ console.log(positions)
 ### Fetch the subaccount trade nonce
 
 ```ts
-import { ChainGrpcExchangeApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)

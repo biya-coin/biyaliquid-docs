@@ -7,8 +7,8 @@ Example code snippets to stream from the indexer for auction module related data
 ### Stream auction bids
 
 ```ts
-import { IndexerGrpcAuctionStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAuctionStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAuctionStream = new IndexerGrpcAuctionStream(endpoints.indexer)

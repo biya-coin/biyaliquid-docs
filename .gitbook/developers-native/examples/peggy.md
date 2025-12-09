@@ -1,21 +1,21 @@
 # Peggy
 
-The `peggy` module is the heart of the injective <> ethereum bridge, where deposited funds will be locked on the ethereum [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code) and minted on the Injective chain. Similarly withdrawal funds will be burned on the injective chain and unlocked on the ethereum peggy contract.
+The `peggy` module is the heart of the biyaliquid <> ethereum bridge, where deposited funds will be locked on the ethereum [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code) and minted on the Biyaliquid chain. Similarly withdrawal funds will be burned on the biyaliquid chain and unlocked on the ethereum peggy contract.
 
 ## Messages
 
 ### MsgSendToEth
 
-This message is used to withdraw funds from the Injective Chain via the [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code), in the process funds will be burned on the injective chain and distributed to the ethereum address from the peggy contract.
+This message is used to withdraw funds from the Biyaliquid Chain via the [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code), in the process funds will be burned on the biyaliquid chain and distributed to the ethereum address from the peggy contract.
 
-Note that a $10 USD bridge fee will be charged for this transaction to cover for the ethereum gas fee on top of the standard INJ transaction fee.
+Note that a $10 USD bridge fee will be charged for this transaction to cover for the ethereum gas fee on top of the standard BIYA transaction fee.
 
 ```ts
-import { ChainId } from '@injectivelabs/ts-types'
-import { toBigNumber, toChainFormat } from '@injectivelabs/utils'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-import { TokenPrice, MsgSendToEth, TokenStaticFactory, MsgBroadcasterWithPk } from '@injectivelabs/sdk-ts'
-// refer to https://github.com/InjectiveLabs/injective-lists
+import { ChainId } from '@biya-coin/ts-types'
+import { toBigNumber, toChainFormat } from '@biya-coin/utils'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
+import { TokenPrice, MsgSendToEth, TokenStaticFactory, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
+// refer to https://github.com/biya-coin/biyaliquid-lists
 import { tokens } from '../data/tokens.json'
 
 export const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[])
@@ -29,11 +29,11 @@ const tokenService = new TokenService({
 const ETH_BRIDGE_FEE_IN_USD = 10
 const endpointsForNetwork = getNetworkEndpoints(Network.Mainnet)
 
-const tokenSymbol = 'INJ'
+const tokenSymbol = 'BIYA'
 const tokenMeta = tokenStaticFactory.toToken(tokenSymbol)
 
 const amount = 1
-const injectiveAddress = 'inj1...'
+const biyaliquidAddress = 'biya1...'
 const destinationAddress = '0x...' // ethereum address
 const tokenDenom = `peggy${tokenMeta.erc20.address}`
 
@@ -46,7 +46,7 @@ const amountToFixed = toChainFormat(amount, tokenMeta.decimals).toFixed()
 const bridgeFeeInToken = toBigNumber(ETH_BRIDGE_FEE_IN_USD).dividedBy(tokenUsdPrice).toFixed()
 
 const msg = MsgSendToEth.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   address: destinationAddress,
   amount: {
     denom: tokenDenom,

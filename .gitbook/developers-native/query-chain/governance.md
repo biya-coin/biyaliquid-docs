@@ -7,8 +7,8 @@ Example code snippets to query the governance module on the chain.
 ### Fetch parameters such as the voting period, max depositing period, or tallying details
 
 ```ts
-import { ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)
@@ -21,9 +21,9 @@ console.log(moduleParams)
 ### Fetch proposals based on the status
 
 ```ts
-import { PaginationOption, ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-import { ProposalStatusMap } from '@injectivelabs/chain-api'
+import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
+import { ProposalStatusMap } from '@biya-coin/chain-api'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)
@@ -42,8 +42,8 @@ console.log(proposals)
 ### Fetch proposal details based on a proposal's id
 
 ```ts
-import { ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)
@@ -58,8 +58,8 @@ console.log(proposalDetails)
 ### Fetch proposal deposits based on a proposal's id.
 
 ```ts
-import { PaginationOption, ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)
@@ -78,8 +78,8 @@ console.log(proposalDeposits)
 ### Fetch proposal details based on a proposal's id
 
 ```ts
-import { ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)
@@ -94,8 +94,8 @@ console.log(proposalDetails)
 ### Fetch proposal deposits based on a proposal's id
 
 ```ts
-import { PaginationOption, ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)
@@ -114,8 +114,8 @@ console.log(proposalDeposits)
 ### Fetch proposal votes based on a proposal's id
 
 ```ts
-import { PaginationOption, ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)
@@ -133,8 +133,8 @@ console.log(proposalVotes)
 ### Fetch proposal tally based on a proposal's id
 
 ```ts
-import { PaginationOption, ChainGrpcGovApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcGovApi = new ChainGrpcGovApi(endpoints.grpc)

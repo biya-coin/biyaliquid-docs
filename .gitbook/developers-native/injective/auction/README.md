@@ -2,7 +2,7 @@
 
 ## Abstract
 
-The `auction` module periodically obtains a basket of tokens accumulated from trading fees from the `exchange` module and auctions the basket to the highest bidder in an open English auction for INJ. The winner of this auction receives the basket of tokens and the winning INJ bid amount from this auction is burned. 
+The `auction` module periodically obtains a basket of tokens accumulated from trading fees from the `exchange` module and auctions the basket to the highest bidder in an open English auction for BIYA. The winner of this auction receives the basket of tokens and the winning BIYA bid amount from this auction is burned. 
 
 ## Contents
 

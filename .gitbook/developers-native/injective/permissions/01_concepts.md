@@ -19,9 +19,9 @@ The `Permissions` module is tightly coupled with the `TokenFactory` module. It a
 
 Since the `Permissions` module relies on the existence of a `TokenFactory` denom to function, the `TokenFactory` denom should be launched first, followed by the creation of a `Permissions` namespace.
 
-* See https://docs.injective.network/developers/modules/injective/tokenfactory for documentation on the `TokenFactory` module
-* See https://docs.injective.network/guides/launch-a-token for a guide on launching a token with the module
-  * Note: The `TokenFactory` admin should not be changed to the null address (inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49) because the `Permissions` module requires the creator of the `Permissions` namespace to be the admin of the corresponding `TokenFactory` denom.
+* See https://docs.biyaliquid.network/developers/modules/biyaliquid/tokenfactory for documentation on the `TokenFactory` module
+* See https://docs.biyaliquid.network/guides/launch-a-token for a guide on launching a token with the module
+  * Note: The `TokenFactory` admin should not be changed to the null address (biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49) because the `Permissions` module requires the creator of the `Permissions` namespace to be the admin of the corresponding `TokenFactory` denom.
 
 Once the `TokenFactory` denom is live and a `Permissions` namespace is created for the token, checks are performed during token mint, burn, send, and receive to ensure the correct permissions are in place for the relevant action.
 
@@ -139,7 +139,7 @@ There are four relevant messages to interact with the permissions module:
 * `MsgCreateNamespace` - Create the namespace with initial settings/parameters for role permissions, role managers, policy statuses, policy managers/capabilities, and/or the Wasm contract hook
 * `MsgUpdateNamespace` - Update role permissions, role managers, policy statuses, policy managers/capabilities, and/or the Wasm contract hook
 * `MsgUpdateActorRoles` - Assign or revoke roles from addresses
-* `MsgClaimVoucher` - Claim voucher for assets that failed to transfer from an Injective module to the recipient (due to lack of `RECEIVE` permissions). The voucher can only be claimed by the intended recipient once the recipient address has `RECEIVE` permissions. For transfers occurring between externally owned addresses, vouchers are not created upon failed transfer due to lack of permissions; the transaction is reverted instead
+* `MsgClaimVoucher` - Claim voucher for assets that failed to transfer from an Biyaliquid module to the recipient (due to lack of `RECEIVE` permissions). The voucher can only be claimed by the intended recipient once the recipient address has `RECEIVE` permissions. For transfers occurring between externally owned addresses, vouchers are not created upon failed transfer due to lack of permissions; the transaction is reverted instead
 
 ### Default Namespace Values
 

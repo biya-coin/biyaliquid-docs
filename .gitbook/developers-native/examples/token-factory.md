@@ -8,7 +8,7 @@ _Note #2: It's recommended to change your admin to the zero address for safety a
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the TokenFactory module exports and we can use to interact with the Injective chain.
+Let's explore (and provide examples) the Messages that the TokenFactory module exports and we can use to interact with the Biyaliquid chain.
 
 ### MsgCreateDenom
 
@@ -17,18 +17,18 @@ Creates a denom of `factory/{creator address}/{subdenom}` given the denom creato
 Keep in mind that that the `admin` of the token can change the supply (mint or burn new tokens). Its recommended that the `admin` is unset using the `MsgChangeAdmin`, as explained below.
 
 ```ts
-import { Network } from "@injectivelabs/networks";
-import { MsgCreateDenom } from "@injectivelabs/sdk-ts";
+import { Network } from "@biya-coin/networks";
+import { MsgCreateDenom } from "@biya-coin/sdk-ts";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const subdenom = "inj-test";
+const subdenom = "biya-test";
 
 const msg = MsgCreateDenom.fromJSON({
   subdenom,
-  symbol: "InjTest",
-  name: "Inj Testing",
-  sender: injectiveAddress,
+  symbol: "BiyaTest",
+  name: "Biya Testing",
+  sender: biyaliquidAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -46,18 +46,18 @@ console.log(txHash);
 Minting of a specific denom is only allowed for the current admin. Note, the current admin is defaulted to the creator of the denom.
 
 ```ts
-import { MsgMint } from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+import { MsgMint } from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const subdenom = "inj-test";
+const subdenom = "biya-test";
 const amountToMint = 1_000_000_000;
 
 const msg = MsgMint.fromJSON({
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   amount: {
-    denom: `factory/${injectiveAddress}/${subdenom}`,
+    denom: `factory/${biyaliquidAddress}/${subdenom}`,
     amount: amountToMint,
   },
 });
@@ -77,18 +77,18 @@ console.log(txHash);
 The admin can burn the supply of the token factory. Everyone else can use this message to burn their funds only.
 
 ```ts
-import { MsgBurn } from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+import { MsgBurn } from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const subdenom = "inj-test";
+const subdenom = "biya-test";
 const amountToBurn = 1_000_000_000;
 
 const msg = MsgBurn.fromJSON({
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   amount: {
-    denom: `factory/${injectiveAddress}/${subdenom}`,
+    denom: `factory/${biyaliquidAddress}/${subdenom}`,
     amount: amountToBurn,
   },
 });
@@ -110,13 +110,13 @@ Setting of metadata for a specific denom is only allowed for the admin of the de
 ```ts
 import {
   MsgSetDenomMetadata,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const subdenom = 'inj-test'
-const denom = `factory/${injectiveAddress}/${subdenom}`;
+const subdenom = 'biya-test'
+const denom = `factory/${biyaliquidAddress}/${subdenom}`;
 
 const denomUnitsIfTokenHas0Decimals = [
   {
@@ -139,7 +139,7 @@ const denomUnitsIfTokenHas6Decimals = [
 ]
 
 const msg = MsgSetDenomMetadata.fromJSON({
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   metadata: {
     base: denom, /** the base denom */
     description: '', /** description of your token */
@@ -167,19 +167,19 @@ console.log(txHash);
 The admin of the denom can mint new supply or burn existing one. It's recommended to change the admin to the zero address as to not allow changing the token's supply.
 
 ```ts
-import { Network } from "@injectivelabs/networks";
-import { MsgChangeAdmin } from "@injectivelabs/sdk-ts";
+import { Network } from "@biya-coin/networks";
+import { MsgChangeAdmin } from "@biya-coin/sdk-ts";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const subdenom = "inj-test";
-const denom = `factory/${injectiveAddress}/${subdenom}`;
+const subdenom = "biya-test";
+const denom = `factory/${biyaliquidAddress}/${subdenom}`;
 
 const msg = MsgChangeAdmin.fromJSON({
   denom,
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   newAdmin:
-    "inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49" /** SET TO ZERO ADDRESS */,
+    "biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49" /** SET TO ZERO ADDRESS */,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -194,38 +194,38 @@ console.log(txHash);
 
 ## Full Example
 
-Here is a full example on how to create a new token, mint new tokens and set token metadata on Injective.
+Here is a full example on how to create a new token, mint new tokens and set token metadata on Biyaliquid.
 
 ```ts
 import {
   MsgSetDenomMetadata,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const subdenom = 'inj-test'
-const denom = `factory/${injectiveAddress}/${subdenom}`;
+const subdenom = 'biya-test'
+const denom = `factory/${biyaliquidAddress}/${subdenom}`;
 const amount = 1_000_000_000
 
 const msgCreateDenom = MsgCreateDenom.fromJSON({
   subdenom,
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
 });
 const msgMint = MsgMint.fromJSON({
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   amount: {
-    denom: `factory/${injectiveAddress}/${subdenom}`,
+    denom: `factory/${biyaliquidAddress}/${subdenom}`,
     amount: amount
   }
 });
 const msgChangeAdmin = MsgChangeAdmin.fromJSON({
-  denom: `factory/${injectiveAddress}/${subdenom}`,
-  sender: injectiveAddress,
-  newAdmin: 'inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49' /** SET TO ZERO ADDRESS */
+  denom: `factory/${biyaliquidAddress}/${subdenom}`,
+  sender: biyaliquidAddress,
+  newAdmin: 'biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49' /** SET TO ZERO ADDRESS */
 });
 const msgSetDenomMetadata = MsgSetDenomMetadata.fromJSON({
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   metadata: {
     base: denom, /** the base denom */
     description: '', /** description of your token */

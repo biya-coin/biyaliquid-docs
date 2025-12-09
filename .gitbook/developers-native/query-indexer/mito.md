@@ -11,8 +11,8 @@ Mito Documentation has been moved here visit[ Mito's Docs](https://docs.mito.fi/
 ### Fetch a vault based off it's contract address, such as the vault's tvl or profits
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
@@ -31,8 +31,8 @@ console.log(vault)
 ### Fetch vaults and associated details
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
@@ -45,13 +45,13 @@ console.log(vault)
 ### Fetch the lp token price chart for a vault based on the vault address
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
-const vaultAddress = 'inj...'
+const vaultAddress = 'biya...'
 const from = 50 /* optional pagination params */
 const to = 150 /* optional pagination params */
 
@@ -67,13 +67,13 @@ console.log(lpTokenPriceChart)
 ### Fetch the tvl token chart for a vault based on the vault address
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
-const vaultAddress = 'inj...'
+const vaultAddress = 'biya...'
 const from = 50 /* optional pagination params */
 const to = 150 /* optional pagination params */
 
@@ -89,13 +89,13 @@ console.log(tvlChart)
 ### Fetch the vaults associated with a holder of its lp tokens
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
-const holderAddress = 'inj...'
+const holderAddress = 'biya...'
 
 const vaults = await indexerGrpcNinjaApi.fetchVaultsByHolderAddress({
   holderAddress,
@@ -107,13 +107,13 @@ console.log(vaults)
 ### Fetch the lp token holders from the vault address
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
-const vaultAddress = 'inj...'
+const vaultAddress = 'biya...'
 
 const holders = await indexerGrpcNinjaApi.fetchLPHolders({
   vaultAddress,
@@ -125,13 +125,13 @@ console.log(holders)
 ### Fetch the lp holder's portfolio
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
-const holderAddress = 'inj...'
+const holderAddress = 'biya...'
 
 const portfolio = await indexerGrpcNinjaApi.fetchHolderPortfolio(holderAddress)
 
@@ -141,8 +141,8 @@ console.log(portfolio)
 ### Fetch the leaderboard to see Pnl rankings
 
 ```ts
-import { IndexerGrpcNinjaApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)

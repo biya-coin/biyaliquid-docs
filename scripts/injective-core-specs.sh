@@ -1,37 +1,37 @@
 #!/usr/bin/env bash
-injective_core_branch=master
-cosmos_sdk_branch=v0.50.x-inj
+biyaliquid_core_branch=master
+cosmos_sdk_branch=v0.50.x-biya
 BUILD_DIR=./temp
 STUB_DIR=./scripts/stub
 CORE_DIR=./.gitbook/developers-native/core
-INJECTIVE_DIR=./.gitbook/developers-native/injective
+biyaliquid_DIR=./.gitbook/developers-native/biyaliquid
 
 mkdir -p $BUILD_DIR
 rm -rf $CORE_DIR
-rm -rf $INJECTIVE_DIR
+rm -rf $biyaliquid_DIR
 mkdir -p $CORE_DIR
-mkdir -p $INJECTIVE_DIR
+mkdir -p $biyaliquid_DIR
 
 if [ "$GH_CORE_USER" ] && [ "$GH_CORE_TOKEN" ]; then
-  echo "Using GitHub credentials for cloning injective-core"
-  INJ_CORE_GIT_URL="https://${GH_CORE_USER}:${GH_CORE_TOKEN}@github.com/InjectiveLabs/injective-core.git"
+  echo "Using GitHub credentials for cloning biyaliquid-core"
+  BIYA_CORE_GIT_URL="https://${GH_CORE_USER}:${GH_CORE_TOKEN}@github.com/biya-coin/biyaliquid-core.git"
 else
-  echo "Using org access to clone injective-core"
-  INJ_CORE_GIT_URL="org-44571224@github.com:InjectiveLabs/injective-core.git"
+  echo "Using org access to clone biyaliquid-core"
+  BIYA_CORE_GIT_URL="org-44571224@github.com:biya-coin/biyaliquid-core.git"
 fi
-git clone "${INJ_CORE_GIT_URL}" "${BUILD_DIR}/injective-core" \
-  -b "${injective_core_branch}" \
+git clone "${BIYA_CORE_GIT_URL}" "${BUILD_DIR}/biyaliquid-core" \
+  -b "${biyaliquid_core_branch}" \
   --depth 1 \
   --single-branch > /dev/null
 
 echo "Cloning cosmos-sdk..."
-git clone "https://github.com/InjectiveLabs/cosmos-sdk.git" "${BUILD_DIR}/cosmos-sdk" \
+git clone "https://github.com/biya-coin/cosmos-sdk.git" "${BUILD_DIR}/cosmos-sdk" \
   -b "${cosmos_sdk_branch}" \
   --depth 1 \
   --single-branch > /dev/null
 
 ## Generate errors docs
-./$BUILD_DIR/injective-core/scripts/docs/generate_errors_docs.sh
+./$BUILD_DIR/biyaliquid-core/scripts/docs/generate_errors_docs.sh
 
 for D in ./$BUILD_DIR/cosmos-sdk/x/*; do
   if [ -d "${D}" ]; then
@@ -39,20 +39,20 @@ for D in ./$BUILD_DIR/cosmos-sdk/x/*; do
   fi
 done
 
-for D in ./$BUILD_DIR/injective-core/injective-chain/modules/*; do
+for D in ./$BUILD_DIR/biyaliquid-core/biyaliquid-chain/modules/*; do
   if [ -d "${D}" ]; then
-    mkdir -p "$INJECTIVE_DIR/$(echo $D | awk -F/ '{print $NF}')" && cp -r $D/spec/* "$_"
+    mkdir -p "$biyaliquid_DIR/$(echo $D | awk -F/ '{print $NF}')" && cp -r $D/spec/* "$_"
   fi
 done
 
 ## txfees
-cp $BUILD_DIR/injective-core/injective-chain/modules/txfees/README.md $INJECTIVE_DIR/txfees/README.md
+cp $BUILD_DIR/biyaliquid-core/biyaliquid-chain/modules/txfees/README.md $biyaliquid_DIR/txfees/README.md
 ## lanes
-mkdir -p $INJECTIVE_DIR/lanes
-cp $BUILD_DIR/injective-core/injective-chain/lanes/spec/README.md $INJECTIVE_DIR/lanes/README.md
+mkdir -p $biyaliquid_DIR/lanes
+cp $BUILD_DIR/biyaliquid-core/biyaliquid-chain/lanes/spec/README.md $biyaliquid_DIR/lanes/README.md
 
 cp $STUB_DIR/core.modules.md.stub $CORE_DIR/README.md
-cp $STUB_DIR/injective.modules.md.stub $INJECTIVE_DIR/README.md
+cp $STUB_DIR/biyaliquid.modules.md.stub $biyaliquid_DIR/README.md
 
 ## 1. Manually replace wrong import paths
 ## authz

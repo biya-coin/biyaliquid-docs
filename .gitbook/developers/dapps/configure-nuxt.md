@@ -2,24 +2,24 @@
 
 ## Nuxt3 - The Intuitive Web Framework
 
-The preferred choice of UI framework to build decentralized applications on top of Injective at @InjectiveLabs is Nuxt3. We are going to help you configure Nuxt3 + the Vite builder with the `@injectivelabs` packages and some polyfills since you'll need them to interact with Crypto wallets.
+The preferred choice of UI framework to build decentralized applications on top of Biyaliquid at @biya-coin is Nuxt3. We are going to help you configure Nuxt3 + the Vite builder with the `@biya-coin` packages and some polyfills since you'll need them to interact with Crypto wallets.
 
 ### 1. Installing Nuxt 3
 
 Follow the Getting Started guide at [Nuxt3 Docs](https://nuxt.com/docs/getting-started/installation) and setup your application.
 
-### 2. Installing @injectivelabs packages
+### 2. Installing @biya-coin packages
 
-You can install the @injectivelabs packages using yarn.
+You can install the @biya-coin packages using yarn.
 
 ```bash
-$ yarn add @injectivelabs/sdk-ts @injectivelabs/networks @injectivelabs/ts-types @injectivelabs/utils
+$ yarn add @biya-coin/sdk-ts @biya-coin/networks @biya-coin/ts-types @biya-coin/utils
 
 ## If you need Wallet Connection
-$ yarn add @injectivelabs/wallet-strategy
+$ yarn add @biya-coin/wallet-strategy
 ```
 
-These are the most commonly used packages from the `injective-ts` monorepo.
+These are the most commonly used packages from the `biyaliquid-ts` monorepo.
 
 ### 3. Configuring Nuxt and adding polyfills
 

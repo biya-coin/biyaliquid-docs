@@ -1,30 +1,30 @@
-# Add Injective to Your dApp
+# Add Biyaliquid to Your dApp
 
-Enable your users to connect to the Injective network with a single click.\
+Enable your users to connect to the Biyaliquid network with a single click.\
 \
-Use the code snippet below to add an “Add Injective Network” button to your dApp, making it easy for users to add Injective to MetaMask or any EVM-compatible wallet.
+Use the code snippet below to add an “Add Biyaliquid Network” button to your dApp, making it easy for users to add Biyaliquid to MetaMask or any EVM-compatible wallet.
 
 
 
 1. Copy and paste the snippet into your frontend codebase.
-2. Connect the `addInjectiveNetwork` function to your preferred UI button.
-3. That’s it—your users can now add Injective to their wallet in seconds
+2. Connect the `addBiyaliquidNetwork` function to your preferred UI button.
+3. That’s it—your users can now add Biyaliquid to their wallet in seconds
 
 ```tsx
 // Network configuration
-const INJECTIVE_MAINNET_CONFIG = {
+const biyaliquid_MAINNET_CONFIG = {
   chainId: '0x6f0', // 1776 in decimal
-  chainName: 'Injective',
-  rpcUrls: ['https://evm-rpc.injective.network'],
+  chainName: 'Biyaliquid',
+  rpcUrls: ['https://evm-rpc.biyaliquid.network'],
   nativeCurrency: {
-    name: 'Injective',
-    symbol: 'INJ',
+    name: 'Biyaliquid',
+    symbol: 'BIYA',
     decimals: 18
   },
-  blockExplorerUrls: ['https://explorer.injective.network']
+  blockExplorerUrls: ['https://explorer.biyaliquid.network']
 };
 
-async function addInjectiveNetwork() {
+async function addBiyaliquidNetwork() {
   // Check if MetaMask or another Web3 wallet is installed
   if (!window.ethereum) {
     alert('Please install MetaMask or another Web3 wallet!');
@@ -32,31 +32,31 @@ async function addInjectiveNetwork() {
   }
 
   try {
-    // First, try to switch to the Injective network
+    // First, try to switch to the Biyaliquid network
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: INJECTIVE_MAINNET_CONFIG.chainId }],
+      params: [{ chainId: biyaliquid_MAINNET_CONFIG.chainId }],
     });
     
-    console.log('Switched to Injective network successfully!');
+    console.log('Switched to Biyaliquid network successfully!');
   } catch (switchError) {
     // Error code 4902 means the network hasn't been added yet
     if (switchError.code === 4902) {
       try {
-        // Add the Injective network
+        // Add the Biyaliquid network
         await window.ethereum.request({
           method: 'wallet_addEthereumChain',
-          params: [INJECTIVE_MAINNET_CONFIG],
+          params: [biyaliquid_MAINNET_CONFIG],
         });
         
-        console.log('Injective network added successfully!');
+        console.log('Biyaliquid network added successfully!');
       } catch (addError) {
-        console.error('Failed to add Injective network:', addError);
-        alert('Failed to add Injective network. Please try again.');
+        console.error('Failed to add Biyaliquid network:', addError);
+        alert('Failed to add Biyaliquid network. Please try again.');
       }
     } else {
       console.error('Failed to switch network:', switchError);
-      alert('Failed to switch to Injective network.');
+      alert('Failed to switch to Biyaliquid network.');
     }
   }
 }

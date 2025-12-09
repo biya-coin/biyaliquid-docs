@@ -9,15 +9,15 @@ Example code snippets to query the indexer for subaccount related data.
 This includes available balance, unrealized Pnl, and portfolio value. Note: **deprecated** -> use [Portfolio](../query-indexer/portfolio.md#using-grpc) instead
 
 ```ts
-import { IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
-const portfolio = await indexerGrpcAccountApi.fetchPortfolio(injectiveAddress)
+const portfolio = await indexerGrpcAccountApi.fetchPortfolio(biyaliquidAddress)
 
 console.log(portfolio)
 ```
@@ -25,36 +25,36 @@ console.log(portfolio)
 ### Fetch user's trading rewards per epoch
 
 ```ts
-import { IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 const epoch = -1 // current epoch
 
 const tradingRewards = await indexerGrpcAccountApi.fetchRewards({
-  address: injectiveAddress,
+  address: biyaliquidAddress,
   epoch,
 })
 
 console.log(tradingRewards)
 ```
 
-### Fetch subaccounts associated with an injective address
+### Fetch subaccounts associated with an biyaliquid address
 
 ```ts
-import { IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
 const subaccountsList = await indexerGrpcAccountApi.fetchSubaccountsList(
-  injectiveAddress,
+  biyaliquidAddress,
 )
 
 console.log(subaccountsList)
@@ -63,14 +63,14 @@ console.log(subaccountsList)
 ### Fetch balance of a subaccount for a specific denom
 
 ```ts
-import { IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
 const subaccountId = '0x...'
-const denom = 'inj'
+const denom = 'biya'
 
 const subaccountBalance = await indexerGrpcAccountApi.fetchSubaccountBalance(
   subaccountId,
@@ -83,8 +83,8 @@ console.log(subaccountBalance)
 ### Fetch of balances for a subaccount
 
 ```ts
-import { IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
@@ -100,14 +100,14 @@ console.log(subaccountBalanceList)
 ### Fetch subacount history
 
 ```ts
-import { PaginationOption, IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
 const subaccountId = '0x...'
-const denom = 'inj'
+const denom = 'biya'
 const pagination = {...} as PaginationOption
 
 const subaccountHistory = await indexerGrpcAccountApi.fetchSubaccountHistory({
@@ -122,8 +122,8 @@ console.log(subaccountHistory)
 ### Fetch a summary of a subaccount's orders
 
 ```ts
-import { IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
@@ -144,8 +144,8 @@ console.log(orderSummary)
 ### Fetch states of spot or (and) derivatives orders
 
 ```ts
-import { IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)

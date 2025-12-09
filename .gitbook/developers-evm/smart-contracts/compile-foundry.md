@@ -21,10 +21,10 @@ There are other options for how to install Foundry.
 See the [the Foundry installation docs](https://getfoundry.sh/introduction/installation).
 {% endhint %}
 
-You will need a wallet, and an account that has been funded with some Testnet INJ.
+You will need a wallet, and an account that has been funded with some Testnet BIYA.
 
 {% hint style="info" %}
-You can request EVM testnet funds from the [Injective Testnet faucet](https://testnet.faucet.injective.network/).
+You can request EVM testnet funds from the [Biyaliquid Testnet faucet](https://testnet.faucet.biyaliquid.network/).
 {% endhint %}
 
 After creating your account, be sure to copy your private key somewhere accessible, as you will need it to complete this tutorial.
@@ -41,8 +41,8 @@ Please ensure that you follow best practices for key security on Mainnet, and do
 Use git to clone the demo repo, which already has the project completely set up for you.
 
 ```shell
-git clone https://github.com/injective-dev/foundry-inj
-cd foundry-inj
+git clone https://github.com/biyaliquid-dev/foundry-biya
+cd foundry-biya
 ```
 
 Install the `forge-std` library, which provides utility functions used in this project.
@@ -56,7 +56,7 @@ forge install foundry-rs/forge-std
 Open the repo in your code editor/ IDE, and take a look at the directory structure.
 
 ```text
-foundry-inj/
+foundry-biya/
   src/
     Counter.sol --> smart contract Solidity code
   test/
@@ -64,24 +64,24 @@ foundry-inj/
   foundry.toml --> configuration
 ```
 
-The `foundry.toml` file is already pre-configured to connect to the Injective EVM Testnet.
-All you need to do before proceeding is to provide it with a private key of your Injective Testnet account.
+The `foundry.toml` file is already pre-configured to connect to the Biyaliquid EVM Testnet.
+All you need to do before proceeding is to provide it with a private key of your Biyaliquid Testnet account.
 
-Enter the following command to import a private key, and save it against an account named `injTest`:
+Enter the following command to import a private key, and save it against an account named `biyaTest`:
 
 ```shell
-cast wallet import injTest --interactive
+cast wallet import biyaTest --interactive
 ```
 
 This will prompt you for the private key, and also a password that you need to enter each time you wish to use this account.
-Use the private key of the account which you have just created and funded earlier (e.g. via the Injective Testnet faucet).
+Use the private key of the account which you have just created and funded earlier (e.g. via the Biyaliquid Testnet faucet).
 Note that when you type or paste text for the private key and password, nothing is shown in the terminal.
 The output should look similar to this:
 
 ```text
 Enter private key:
 Enter password:
-`injTest` keystore was saved successfully. Address: 0x58f936cb685bd6a7dc9a21fa83e8aaaf8edd5724
+`biyaTest` keystore was saved successfully. Address: 0x58f936cb685bd6a7dc9a21fa83e8aaaf8edd5724
 ```
 
 {% hint style="info" %}
@@ -128,7 +128,7 @@ Foundry will automatically download and run the version of the Solidity compiler
 After the compiler completes, you should see additional directories in the project directory:
 
 ```text
-foundry-inj/
+foundry-biya/
   cache/
     ...
   out/

@@ -13,6 +13,6 @@ We suggest that you follow this guide: [Your First CosmWasm Smart Contract](./yo
 
 | Topic                                                                                      | Description            |
 | ------------------------------------------------------------------------------------------ | ---------------------- |
-| [Injective Name Service](injective-name-service.md)                                        | Injective Name Service |
+| [Biyaliquid Name Service](biyaliquid-name-service.md)                                        | Biyaliquid Name Service |
 | [Neptune Service](neptune-service.md)                                                      | Neptune Service        |
 | [CW20 to Bank & Market Order in One Transaction](cw20-convert-market-order.md) | Convert Cw20 Example   |

@@ -1,8 +1,8 @@
 # Ethereum Ledger Transaction
 
-## Signing Transactions on Injective using Ledger
+## Signing Transactions on Biyaliquid using Ledger
 
-The goal of this document is to explain how to use Ledger to sign transactions on Injective and broadcast them to the chain. The implementation differs from the default approach that Cosmos SDK native chains have because Injective defines its custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys.
+The goal of this document is to explain how to use Ledger to sign transactions on Biyaliquid and broadcast them to the chain. The implementation differs from the default approach that Cosmos SDK native chains have because Biyaliquid defines its custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys.
 
 ## Implementation
 
@@ -18,11 +18,11 @@ This is what a derivation path looks like
 
 Each of the parts in the sequence plays a part and each changes what the private key, public key, and address would be. We are not going to deep dive into the exact details about what every part of the HD path means, instead, we are just going to briefly explain the `coin_type`. Each blockchain has a number that represents it i.e the `coin_type`. Bitcoin is `0`, Ethereum is `60`, Cosmos is `118`.
 
-### Injective specific context
+### Biyaliquid specific context
 
-Injective uses the same `coin_type` as Ethereum, i.e `60`. This means for Ledger to be used to sign transactions on Injective, **we have to use the Ethereum app on Ledger**.
+Biyaliquid uses the same `coin_type` as Ethereum, i.e `60`. This means for Ledger to be used to sign transactions on Biyaliquid, **we have to use the Ethereum app on Ledger**.
 
-Ledger is limited to having one installed application for one `coin_type`. As we have to use the Ethereum app to sign transactions on Injective, we have to explore available options to us to get a valid signature. One of the available options is the `EIP712` procedure for hashing and signing typed structured data. Ledger exposes the `signEIP712HashedMessage` which we are going to use.
+Ledger is limited to having one installed application for one `coin_type`. As we have to use the Ethereum app to sign transactions on Biyaliquid, we have to explore available options to us to get a valid signature. One of the available options is the `EIP712` procedure for hashing and signing typed structured data. Ledger exposes the `signEIP712HashedMessage` which we are going to use.
 
 Once we sign the `EIP712` typed data, we are going to pack the transaction using the normal Cosmos-SDK approach of packing and broadcasting the transaction. There are some minor differences, one of them being using the `SIGN_MODE_LEGACY_AMINO_JSON` mode and appending a `Web3Exension` to the Cosmos transaction and we are going to explain them in this document.
 
@@ -47,7 +47,7 @@ As we’ve said above, the transaction needs to be signed using the Ethereum app
 
 We know that each Cosmos transaction consists of messages which signify the instructions the user wants to execute on the chain. If we want to send funds from one address to another, we are going to pack the `MsgSend` message into a transaction and broadcast it to the chain.
 
-Knowing this, the Injective team made [abstraction](https://github.com/InjectiveLabs/injective-ts/blob/master/packages/sdk-ts/src/core/modules/MsgBase.ts) of these Messages to simplify the way they are packed into a transaction. Each of these Messages accepts a specific set of parameters that are needed to instantiate the message. Once this is done, the abstraction exposes a couple of convenient methods which we can use based on the signing/broadcasting method we chose to use. As an example, the Message exposes the `toDirectSign` method which returns the type and the proto representation of the message which can be then used to pack the transaction using the default Cosmos approach, sign it using a privateKey and broadcast it to the chain.
+Knowing this, the Biyaliquid team made [abstraction](https://github.com/biya-coin/biyaliquid-ts/blob/master/packages/sdk-ts/src/core/modules/MsgBase.ts) of these Messages to simplify the way they are packed into a transaction. Each of these Messages accepts a specific set of parameters that are needed to instantiate the message. Once this is done, the abstraction exposes a couple of convenient methods which we can use based on the signing/broadcasting method we chose to use. As an example, the Message exposes the `toDirectSign` method which returns the type and the proto representation of the message which can be then used to pack the transaction using the default Cosmos approach, sign it using a privateKey and broadcast it to the chain.
 
 What is of importance for us for this particular implementation are the `toEip712Types` and `toEip712` methods. Calling the first one on an instance of the Message gives out the types of the Message for the EIP712 typed data and the second one gives the values of the Message for the EIP712 data. When we combine these two methods we can generate valid EIP712 typed data which can be passed down to the signing process.
 
@@ -58,10 +58,10 @@ import {
   getEip712TypedDataV2,
   Eip712ConvertTxArgs,
   Eip712ConvertFeeArgs,
-} from "@injectivelabs/sdk-ts/dist/core/eip712";
-import { EvmChainId } from "@injectivelabs/ts-types";
-import { toChainFormat } from "@injectivelabs/utils";
-import { MsgSend, getDefaultStdFee } from "@injectivelabs/sdk-ts";
+} from "@biya-coin/sdk-ts/dist/core/eip712";
+import { EvmChainId } from "@biya-coin/ts-types";
+import { toChainFormat } from "@biya-coin/utils";
+import { MsgSend, getDefaultStdFee } from "@biya-coin/sdk-ts";
 
 /** More details on these two interfaces later on */
 const txArgs: Eip712ConvertTxArgs = {
@@ -71,17 +71,17 @@ const txArgs: Eip712ConvertTxArgs = {
   chainId: chainId,
 };
 const txFeeArgs: Eip712ConvertFeeArgs = getDefaultStdFee();
-const injectiveAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
+const biyaliquidAddress = "biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
 const amount = {
-  denom: "inj",
+  denom: "biya",
   amount: toChainFormat(0.01).toFixed(),
 };
 const evmChainId = EvmChainId.Mainnet;
 
 const msg = MsgSend.fromJSON({
   amount,
-  srcInjectiveAddress: injectiveAddress,
-  dstInjectiveAddress: injectiveAddress,
+  srcBiyaliquidAddress: biyaliquidAddress,
+  dstBiyaliquidAddress: biyaliquidAddress,
 });
 
 /** The EIP712 TypedData that can be used for signing **/
@@ -147,12 +147,12 @@ import {
   createTxRawEIP712,
   createWeb3Extension,
   ChainRestTendermintApi,
-} from "@injectivelabs/sdk-ts";
-import { ChainId, EvmChainId } from "@injectivelabs/ts-types";
+} from "@biya-coin/sdk-ts";
+import { ChainId, EvmChainId } from "@biya-coin/ts-types";
 import {
   toBigNumber,
   DEFAULT_BLOCK_TIMEOUT_HEIGHT,
-} from "@injectivelabs/utils";
+} from "@biya-coin/utils";
 
 const msg: MsgSend; /* from Step 1 */
 
@@ -162,7 +162,7 @@ const evmChainId = EvmChainId.Mainnet;
 /** Account Details **/
 const chainRestAuthApi = new ChainRestAuthApi(lcdEndpoint);
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-  injectiveAddress
+  biyaliquidAddress
 );
 const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 const accountDetails = baseAccount.toAccountDetails();
@@ -217,17 +217,17 @@ import {
   createTxRawEIP712,
   createWeb3Extension,
   ChainRestTendermintApi,
-} from '@injectivelabs/sdk-ts'
+} from '@biya-coin/sdk-ts'
 import {
    getEip712TypedDataV2,
    Eip712ConvertTxArgs,
    Eip712ConvertFeeArgs
-} from '@injectivelabs/sdk-ts/dist/core/eip712'
+} from '@biya-coin/sdk-ts/dist/core/eip712'
 import { TypedDataUtils } from 'eth-sig-util'
 import EthereumApp from '@ledgerhq/hw-app-eth'
 import { bufferToHex, addHexPrefix } from 'ethereumjs-util'
-import { EvmChainId, ChainId } from '@injectivelabs/ts-types'
-import { toChainFormat, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from '@injectivelabs/utils'
+import { EvmChainId, ChainId } from '@biya-coin/ts-types'
+import { toChainFormat, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from '@biya-coin/utils'
 
 const domainHash = (message: any) =>
 TypedDataUtils.hashStruct('EIP712Domain', message.domain, message.types, true)
@@ -281,7 +281,7 @@ const getTimeoutHeight = () => {
   return timeoutHeight
 }
 
-const address = 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku'
+const address = 'biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku'
 const chainId = ChainId.Mainnet
 const evmChainId = EvmChainId.Mainnet
 const accountDetails = getAccountDetails()
@@ -294,16 +294,16 @@ const txArgs: Eip712ConvertTxArgs = {
   chainId: chainId,
 }
 const txFeeArgs: Eip712ConvertFeeArgs = getDefaultStdFee()
-const injectiveAddress = 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku'
+const biyaliquidAddress = 'biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku'
 const amount = {
   amount: toChainFormat(0.01).toFixed(),
-  denom: "inj",
+  denom: "biya",
 };
 
 const msg = MsgSend.fromJSON({
   amount,
-  srcInjectiveAddress: injectiveAddress,
-  dstInjectiveAddress: injectiveAddress,
+  srcBiyaliquidAddress: biyaliquidAddress,
+  dstBiyaliquidAddress: biyaliquidAddress,
 });
 
 /** The EIP712 TypedData that can be used for signing **/

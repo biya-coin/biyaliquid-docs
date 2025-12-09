@@ -1,6 +1,6 @@
 # DEX
 
-Within these short series we are going to showcase how easy it is to build a DEX on top of Injective. There is an open-sourced [DEX](https://github.com/InjectiveLabs/injective-dex) which everyone can reference and use to build on top of Injective. For those who want to start from scratch, this is the right place to start.
+Within these short series we are going to showcase how easy it is to build a DEX on top of Biyaliquid. There is an open-sourced [DEX](https://github.com/biya-coin/biyaliquid-dex) which everyone can reference and use to build on top of Biyaliquid. For those who want to start from scratch, this is the right place to start.
 
 The series will include:
 
@@ -9,13 +9,13 @@ The series will include:
 - Connect to a user wallet and get their address,
 - Fetching Spot and Derivative markets and their orderbooks,
 - Placing market orders on both spot and a derivative market,
-- View all positions for an Injective address.
+- View all positions for an Biyaliquid address.
 
 ## Setup
 
 First, configure your desired UI framework. You can find more details on the configuration here.
 
-To get started with the dex, we need to setup the API clients and the environment. To build our DEX we are going to query data from both the Injective Chain and the Indexer API. In this example, we are going to use the existing **Testnet** environment.
+To get started with the dex, we need to setup the API clients and the environment. To build our DEX we are going to query data from both the Biyaliquid Chain and the Indexer API. In this example, we are going to use the existing **Testnet** environment.
 
 Let's first setup some of the classes we need to query the data.
 
@@ -25,8 +25,8 @@ import {
   ChainGrpcBankApi,
   IndexerGrpcSpotApi,
   IndexerGrpcDerivativesApi,
-} from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { getNetworkEndpoints, Network } from "@biya-coin/networks";
 
 // Getting the pre-defined endpoints for the Testnet environment
 // (using TestnetK8s here because we want to use the Kubernetes infra)
@@ -47,15 +47,15 @@ export const indexerDerivativeStream = new IndexerGrpcDerivativeStream(
 );
 ```
 
-Then, we also need to setup a wallet connection to allow the user to connect to our DEX and start signing transactions. To make this happen we are going to use our `@injectivelabs/wallet-strategy` package which allows users to connect with a various of different wallet providers and use them to sign transactions on Injective.
+Then, we also need to setup a wallet connection to allow the user to connect to our DEX and start signing transactions. To make this happen we are going to use our `@biya-coin/wallet-strategy` package which allows users to connect with a various of different wallet providers and use them to sign transactions on Biyaliquid.
 
 ```ts
 // filename: Wallet.ts
-import { ChainId, EvmChainId } from "@injectivelabs/ts-types";
-import { WalletStrategy } from "@injectivelabs/wallet-strategy";
+import { ChainId, EvmChainId } from "@biya-coin/ts-types";
+import { WalletStrategy } from "@biya-coin/wallet-strategy";
 
-const chainId = ChainId.Testnet; // The Injective Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm; // The Injective Evm Testnet Chain ID
+const chainId = ChainId.Testnet; // The Biyaliquid Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm; // The Biyaliquid Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`;
 
@@ -70,13 +70,13 @@ export const walletStrategy = new WalletStrategy({
 
 If we don't want to use Ethereum native wallets, just omit the `evmOptions` within the `WalletStrategy` constructor.
 
-Finally, to do the whole transaction flow (prepare + sign + broadcast) on Injective we are going to use the MsgBroadcaster class.
+Finally, to do the whole transaction flow (prepare + sign + broadcast) on Biyaliquid we are going to use the MsgBroadcaster class.
 
 ```ts
 // filename: MsgBroadcaster.ts
-import { Wallet } from "@injectivelabs/wallet-base";
-import { EvmWalletStrategy } from "@injectivelabs/wallet-evm";
-import { BaseWalletStrategy, MsgBroadcaster } from "@injectivelabs/wallet-core";
+import { Wallet } from "@biya-coin/wallet-base";
+import { EvmWalletStrategy } from "@biya-coin/wallet-evm";
+import { BaseWalletStrategy, MsgBroadcaster } from "@biya-coin/wallet-core";
 
 const strategyArgs: WalletStrategyArguments = {}; /** define the args */
 const strategyEthArgs: ConcreteEthereumWalletStrategyArgs =
@@ -110,8 +110,8 @@ import {
   ErrorType,
   WalletException,
   UnspecifiedErrorCode,
-} from "@injectivelabs/exceptions";
-import { Wallet } from "@injectivelabs/wallet-base";
+} from "@biya-coin/exceptions";
+import { Wallet } from "@biya-coin/wallet-base";
 import { walletStrategy } from "./Wallet.ts";
 
 export const getAddresses = async (wallet: Wallet): Promise<string[]> => {
@@ -140,7 +140,7 @@ export const getAddresses = async (wallet: Wallet): Promise<string[]> => {
   }
 
   // If we are using Ethereum native wallets the 'addresses' are the hex addresses
-  // If we are using Cosmos native wallets the 'addresses' are bech32 injective addresses,
+  // If we are using Cosmos native wallets the 'addresses' are bech32 biyaliquid addresses,
   return addresses;
 };
 ```
@@ -151,7 +151,7 @@ After the initial setup is done, let's see how to query (and stream) markets fro
 
 ```ts
 // filename: Query.ts
-import  { getDefaultSubaccountId, OrderbookWithSequence } from '@injectivelabs/sdk-ts'
+import  { getDefaultSubaccountId, OrderbookWithSequence } from '@biya-coin/sdk-ts'
 import {
   chainBankApi,
   indexerSpotApi,
@@ -164,8 +164,8 @@ export const fetchDerivativeMarkets = async () => {
   return await indexerDerivativesApi.fetchMarkets()
 }
 
-export const fetchPositions = async (injectiveAddress: string) => {
-  const subaccountId = getDefaultSubaccountId(injectiveAddress)
+export const fetchPositions = async (biyaliquidAddress: string) => {
+  const subaccountId = getDefaultSubaccountId(biyaliquidAddress)
 
   return await indexerDerivativesApi.fetchPositions({ subaccountId })
 }
@@ -174,8 +174,8 @@ export const fetchSpotMarkets = async () => {
   return await indexerSpotsApi.fetchMarkets()
 }
 
-export const fetchBankBalances = async (injectiveAddress: string) => {
-  return await chainBankApi.fetchBalances(injectiveAddress)
+export const fetchBankBalances = async (biyaliquidAddress: string) => {
+  return await chainBankApi.fetchBalances(biyaliquidAddress)
 }
 
 export const streamDerivativeMarketOrderbook = async (
@@ -219,14 +219,14 @@ Finally, let's make some transactions. For this example, we are going to:
 
 ```ts
 // filename: Transactions.ts
-import { toChainFormat } from '@injectivelabs/utils'
+import { toChainFormat } from '@biya-coin/utils'
 import {
   MsgSend,
   MsgCreateSpotLimitOrder,
   spotPriceToChainPriceToFixed,
   MsgCreateDerivativeMarketOrder,
   spotQuantityToChainQuantityToFixed
-} from '@injectivelabs/sdk-ts'
+} from '@biya-coin/sdk-ts'
 
 // used to send assets from one address to another
 export const makeMsgSend = ({
@@ -242,8 +242,8 @@ export const makeMsgSend = ({
 
   return MsgSend.fromJSON({
     amount,
-    srcInjectiveAddress: sender,
-    dstInjectiveAddress: recipient,
+    srcBiyaliquidAddress: sender,
+    dstBiyaliquidAddress: recipient,
   })
 }
 
@@ -252,9 +252,9 @@ export const makeMsgCreateSpotLimitOrder = ({
   price, // human readable number
   quantity, // human readable number
   orderType, // OrderType enum
-  injectiveAddress,
+  biyaliquidAddress,
 }) => {
-  const subaccountId = getDefaultSubaccountId(injectiveAddress)
+  const subaccountId = getDefaultSubaccountId(biyaliquidAddress)
   const market = {
     marketId: '0x...',
     baseDecimals: 18,
@@ -267,7 +267,7 @@ export const makeMsgCreateSpotLimitOrder = ({
 
   return MsgCreateSpotLimitOrder.fromJSON({
     subaccountId,
-    injectiveAddress,
+    biyaliquidAddress,
     orderType: orderType,
     price: spotPriceToChainPriceToFixed({
       value: price,
@@ -281,7 +281,7 @@ export const makeMsgCreateSpotLimitOrder = ({
       baseDecimals: market.baseDecimals
     }),
     marketId: market.marketId,
-    feeRecipient: injectiveAddress,
+    feeRecipient: biyaliquidAddress,
   })
 }
 
@@ -291,9 +291,9 @@ export const makeMsgCreateDerivativeMarketOrder = ({
   margin, // human readable number
   quantity, // human readable number
   orderType, // OrderType enum
-  injectiveAddress,
+  biyaliquidAddress,
 }) => {
-  const subaccountId = getDefaultSubaccountId(injectiveAddress)
+  const subaccountId = getDefaultSubaccountId(biyaliquidAddress)
   const market = {
     marketId: '0x...',
     baseDecimals: 18,
@@ -307,7 +307,7 @@ export const makeMsgCreateDerivativeMarketOrder = ({
   return MsgCreateDerivativeMarketOrder.fromJSON(
     orderType: orderPrice,
     triggerPrice: '0',
-    injectiveAddress,
+    biyaliquidAddress,
     price: derivativePriceToChainPriceToFixed({
       value: order.price,
       tensMultiplier: market.priceTensMultiplier,
@@ -335,7 +335,7 @@ After we have the Messages, you can use the `msgBroadcaster` client to broadcast
 ```ts
 const response = await msgBroadcaster({
   msgs: /** the message here */,
-  injectiveAddress: signersInjectiveAddress,
+  biyaliquidAddress: signersBiyaliquidAddress,
 })
 
 console.log(response)

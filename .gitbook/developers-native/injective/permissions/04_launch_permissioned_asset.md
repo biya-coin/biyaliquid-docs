@@ -5,10 +5,10 @@ title: How to Launch Permissioned Assets
 
 # How to Launch Permissioned Assets
 
-Permissioned assets can be launched using [Injective APIs/SDKs](https://api.injective.exchange/#permissions) or the Injective CLI, `injectived`. See https://docs.injective.network/toolkits/injectived for more information on using the Injective CLI.
+Permissioned assets can be launched using [Biyaliquid APIs/SDKs](https://api.biyaliquid.exchange/#permissions) or the Biyaliquid CLI, `biyaliquidd`. See https://docs.biyaliquid.network/toolkits/biyaliquidd for more information on using the Biyaliquid CLI.
 
 ```bash
-injectived tx permissions [command]
+biyaliquidd tx permissions [command]
 ```
 
 - There are four transaction commands available through the CLI:
@@ -27,19 +27,19 @@ injectived tx permissions [command]
         - Used to assign roles to addresses and revoke roles from addresses
         - Like with namespace updates, role updates are also incremental
     - `claim-voucher`
-        - Mainly used when a user is not authorized to receive a permissioned asset but is sent funds from an Injective module. The funds will be held in an Injective module address until the user receives the correct permissions to receive the asset
+        - Mainly used when a user is not authorized to receive a permissioned asset but is sent funds from an Biyaliquid module. The funds will be held in an Biyaliquid module address until the user receives the correct permissions to receive the asset
 
 ## `create-namespace`
 
 ```bash
-injectived tx permissions create-namespace <namespace.json> [flags]
+biyaliquidd tx permissions create-namespace <namespace.json> [flags]
 ```
 
 - The json file should have the following format (remove all comments before submitting):
 
 ```json
 { // Remove all comments before submitting! 
-  "denom": "factory/inj1address/myTokenDenom",
+  "denom": "factory/biya1address/myTokenDenom",
   "contract_hook": "ContractHookAddress",
   "role_permissions": [ // CAUTION: makes sure to set role permissions for all namespace management roles!
     {
@@ -60,17 +60,17 @@ injectived tx permissions create-namespace <namespace.json> [flags]
   ],
   "actor_roles": [
     {
-      "actor": "inj1specificactoraddress",
+      "actor": "biya1specificactoraddress",
       "roles": ["admin"]
     },
     {
-      "actor": "inj1anotheractoraddress",
+      "actor": "biya1anotheractoraddress",
       "roles": ["user"]
     }
   ],
   "role_managers": [ // CAUTION: Make sure to set role managers for all namespace management roles!
     {
-      "manager": "inj1manageraddress",
+      "manager": "biya1manageraddress",
       "roles": ["admin"]
     }
   ],
@@ -88,7 +88,7 @@ injectived tx permissions create-namespace <namespace.json> [flags]
   ],
   "policy_manager_capabilities": [
     {
-      "manager": "inj1policymanageraddress",
+      "manager": "biya1policymanageraddress",
       "action": 268435456, // MODIFY_CONTRACT_HOOK
       "can_disable": true,
       "can_seal": false
@@ -101,14 +101,14 @@ injectived tx permissions create-namespace <namespace.json> [flags]
 ## `update-namespace`
 
 ```json
-injectived tx permissions update-namespace <namespace-update.json> [flags]
+biyaliquidd tx permissions update-namespace <namespace-update.json> [flags]
 ```
 
 - Namespace updates are incremental, so unless a change is explicitly stated in the JSON, existing state will be untouched
 
 ```json
 { // Remove all comments before submitting! 
-  "denom": "factory/inj1address/myTokenDenom",
+  "denom": "factory/biya1address/myTokenDenom",
   "contract_hook": {
     "new_value": "newContractHookAddress"
   },
@@ -126,7 +126,7 @@ injectived tx permissions update-namespace <namespace-update.json> [flags]
   ],
   "role_managers": [
     {
-      "manager": "inj1manageraddress",
+      "manager": "biya1manageraddress",
       "roles": ["admin", "user"]
     }
   ],
@@ -144,7 +144,7 @@ injectived tx permissions update-namespace <namespace-update.json> [flags]
   ],
   "policy_manager_capabilities": [
     {
-      "manager": "inj1policymanageraddress",
+      "manager": "biya1policymanageraddress",
       "action": 536870912, // MODIFY_ROLE_PERMISSIONS
       "can_disable": true,
       "can_seal": false
@@ -157,24 +157,24 @@ injectived tx permissions update-namespace <namespace-update.json> [flags]
 ## `update-namespace-roles`
 
 ```json
- injectived tx permissions update-namespace-roles <roles.json> [flags]
+ biyaliquidd tx permissions update-namespace-roles <roles.json> [flags]
 ```
 
 ```json
 {
-  "denom": "factory/inj1address/myTokenDenom",
+  "denom": "factory/biya1address/myTokenDenom",
   "role_actors_to_add": [
     {
       "role": "admin",
       "actors": [
-        "inj1actoraddress1",
-        "inj1actoraddress2"
+        "biya1actoraddress1",
+        "biya1actoraddress2"
       ]
     },
     {
       "role": "user",
       "actors": [
-        "inj1actoraddress3"
+        "biya1actoraddress3"
       ]
     }
   ],
@@ -182,13 +182,13 @@ injectived tx permissions update-namespace <namespace-update.json> [flags]
     {
       "role": "user",
       "actors": [
-        "inj1actoraddress4"
+        "biya1actoraddress4"
       ]
     },
     {
       "role": "admin",
       "actors": [
-        "inj1actoraddress5"
+        "biya1actoraddress5"
       ]
     }
   ]
@@ -198,7 +198,7 @@ injectived tx permissions update-namespace <namespace-update.json> [flags]
 ## `claim-voucher`
 
 ```bash
-injectived tx permissions claim-voucher <denom>
+biyaliquidd tx permissions claim-voucher <denom>
 ```
 
 - No JSON is needed for this command since the only parameter needed is the denom

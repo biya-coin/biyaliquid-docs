@@ -1,3 +1,3 @@
-# Get INJ
+# Get BIYA
 
 (WIP)

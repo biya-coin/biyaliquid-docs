@@ -28,15 +28,15 @@ Open `hardhat.config.js`, and look at the `etherscan` and `sourcify` elements.
 ```js
   etherscan: {
     apiKey: {
-      inj_testnet: 'nil',
+      biya_testnet: 'nil',
     },
     customChains: [
       {
-        network: 'inj_testnet',
+        network: 'biya_testnet',
         chainId: 1439,
         urls: {
-          apiURL: 'https://testnet.blockscout-api.injective.network/api',
-          browserURL: 'https://testnet.blockscout.injective.network/',
+          apiURL: 'https://testnet.blockscout-api.biyaliquid.network/api',
+          browserURL: 'https://testnet.blockscout.biyaliquid.network/',
         },
       },
     ],
@@ -47,17 +47,17 @@ Open `hardhat.config.js`, and look at the `etherscan` and `sourcify` elements.
 ```
 
 Sourcify and Etherscan are two popular block explorers, each with a different API for verification.
-Injective uses Blockscout, which is compatible with the Etherscan API.
+Biyaliquid uses Blockscout, which is compatible with the Etherscan API.
 Hence, Sourcify is disabled in the configuration.
 Within the Etherscan configuration, the `apiKey` value is not needed, so any non-empty value is OK.
-The `inj_testnet` network within `customChains` is already configured with the appropriate values for Injective Testnet.
+The `biya_testnet` network within `customChains` is already configured with the appropriate values for Biyaliquid Testnet.
 
 ## Run the verification command
 
 Enter the following command:
 
 ```shell
-npx hardhat verify --network inj_testnet ${SC_ADDRESS}
+npx hardhat verify --network biya_testnet ${SC_ADDRESS}
 ```
 
 Replace `${SC_ADDRESS}` with the address at which you deployed your smart contract.
@@ -65,7 +65,7 @@ Replace `${SC_ADDRESS}` with the address at which you deployed your smart contra
 For example, if the smart contract address is `0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b`, the command is:
 
 ```shell
-npx hardhat verify --network inj_testnet 0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b
+npx hardhat verify --network biya_testnet 0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b
 ```
 
 ## Check the verification outcome
@@ -78,7 +78,7 @@ contracts/Counter.sol:Counter at 0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b
 for verification on the block explorer. Waiting for verification result...
 
 Successfully verified contract Counter on the block explorer.
-https://testnet.blockscout.injective.network/address/0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b#code
+https://testnet.blockscout.biyaliquid.network/address/0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b#code
 ```
 
 The more interesting outcome is visiting the network explorer.

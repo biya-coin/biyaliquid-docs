@@ -4,7 +4,7 @@ description: Asset speculation before release
 
 # Pre-Launch Futures
 
-Many assets generate large amounts of trading activity when they are publicly launched but are generally unavailable to be traded prior to public release. To capture escalating interest and allow investors to speculate on assets prior to their public release dates, Injective has created Pre-Launch Futures (PLF). The first Pre-Launch Futures market on Injective will be based on an expiry futures contract, though PLFs[^1] can also take the form of a perpetual futures contract.
+Many assets generate large amounts of trading activity when they are publicly launched but are generally unavailable to be traded prior to public release. To capture escalating interest and allow investors to speculate on assets prior to their public release dates, Biyaliquid has created Pre-Launch Futures (PLF). The first Pre-Launch Futures market on Biyaliquid will be based on an expiry futures contract, though PLFs[^1] can also take the form of a perpetual futures contract.
 
 ### How do Pre-Launch Futures Work?
 

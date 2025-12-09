@@ -4,29 +4,29 @@ The module enables Cosmos SDK-based blockchain to support an advanced Proof-of-S
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Staking module exports and we can use to interact with the Injective chain.
+Let's explore (and provide examples) the Messages that the Staking module exports and we can use to interact with the Biyaliquid chain.
 
 ### MsgBeginRedelegate
 
-This Message is used to Redelegate staked INJ from one validator to another.
+This Message is used to Redelegate staked BIYA from one validator to another.
 
 ```ts
 import {
   MsgBeginRedelegate,
   MsgBroadcasterWithPk,
-} from "@injectivelabs/sdk-ts";
-import { toChainFormat } from "@injectivelabs/utils";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { toChainFormat } from "@biya-coin/utils";
+import { Network } from "@biya-coin/networks";
 
-const denom = "inj";
+const denom = "biya";
 const privateKey = "0x...";
 const amount = toChainFormat(5);
-const injectiveAddress = "inj1...";
-const sourceValidatorAddress = "inj1...";
-const destinationValidatorAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
+const sourceValidatorAddress = "biya1...";
+const destinationValidatorAddress = "biya1...";
 
 const msg = MsgBeginRedelegate.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   dstValidatorAddress: destinationValidatorAddress,
   srcValidatorAddress: sourceValidatorAddress,
   amount: {
@@ -47,21 +47,21 @@ console.log(txHash);
 
 ### MsgDelegate
 
-This Message is used to Delegate INJ to a validator.
+This Message is used to Delegate BIYA to a validator.
 
 ```ts
-import { Network } from "@injectivelabs/networks";
-import { toChainFormat } from "@injectivelabs/utils";
-import { MsgDelegate, MsgBroadcasterWithPk } from "@injectivelabs/sdk-ts";
+import { Network } from "@biya-coin/networks";
+import { toChainFormat } from "@biya-coin/utils";
+import { MsgDelegate, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 
-const denom = "inj";
+const denom = "biya";
 const privateKey = "0x...";
-const injectiveAddress = "inj1...";
-const validatorAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
+const validatorAddress = "biya1...";
 const amount = toChainFormat(5).toFixed();
 
 const msg = MsgDelegate.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   validatorAddress,
   amount: {
     denom,
@@ -87,15 +87,15 @@ This message is used to cancel unbonding from a validator, reset the bonding per
 import {
   MsgBroadcasterWithPk,
   MsgCancelUnbondingDelegation,
-} from "@injectivelabs/sdk-ts";
-import { toChainFormat } from "@injectivelabs/utils";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { toChainFormat } from "@biya-coin/utils";
+import { Network } from "@biya-coin/networks";
 
-const denom = "inj";
-const delegatorAddress = "inj1...";
+const denom = "biya";
+const delegatorAddress = "biya1...";
 const privateKey = "0x...";
 const amount = toChainFormat(5).toFixed();
-const validatorAddress = "inj1...";
+const validatorAddress = "biya1...";
 const creationHeight = "123456"; // the height at which the unbonding was initiated
 
 const msg = MsgCancelUnbondingDelegation.fromJSON({

@@ -18,7 +18,7 @@ Use the following command to query the `value()` function:
 
 ```shell
 cast call \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   ${SC_ADDRESS} \
   "value()"
 ```
@@ -29,7 +29,7 @@ For example, if the smart contract address is `0x213ba803265386c10ce04a2caa0f31f
 
 ```shell
 cast call \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   0x213ba803265386c10ce04a2caa0f31ff3440b9cf \
   "value()"
 ```
@@ -56,10 +56,10 @@ Use the following command to transact the `increment(num)` function.
 ```shell
 cast send \
   --legacy \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   --gas-price 160000000 \
   --gas-limit 2000000 \
-  --account injTest \
+  --account biyaTest \
   ${SC_ADDRESS} \
   "increment(uint256)" \
   1
@@ -67,7 +67,7 @@ cast send \
 
 {% hint style="info" %}
 Note that gas price is stated in *wei*.
-1 wei = 10^-18 INJ.
+1 wei = 10^-18 BIYA.
 {% endhint %}
 
 Replace `${SC_ADDRESS}` with the address at which you deployed your smart contract.
@@ -77,10 +77,10 @@ For example, if the smart contract address is `0x213ba803265386c10ce04a2caa0f31f
 ```shell
 cast send \
   --legacy \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   --gas-price 160000000 \
   --gas-limit 2000000 \
-  --account injTest \
+  --account biyaTest \
   0x213ba803265386c10ce04a2caa0f31ff3440b9cf \
   "increment(uint256)" \
   1
@@ -114,7 +114,7 @@ The result will reflect the state change.
 
 ```shell
 cast call \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   ${SC_ADDRESS} \
   "value()"
 ```
@@ -127,7 +127,7 @@ This time the result should be `0x0000000000000000000000000000000000000000000000
 
 ## Next steps
 
-Congratulations, you have completed this entire guide for developing EVM smart contracts on Injective using Foundry!
+Congratulations, you have completed this entire guide for developing EVM smart contracts on Biyaliquid using Foundry!
 
 Smart contracts do not provide a user experience for non-technical users.
 To cater to them, you will need to build a decentralised application.

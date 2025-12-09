@@ -18,7 +18,7 @@ First, run the keygen command with your desired validator key name.
 
 ```bash
 export VALIDATOR_KEY_NAME=[my-validator-key]
-injectived keys add $VALIDATOR_KEY_NAME
+biyaliquidd keys add $VALIDATOR_KEY_NAME
 ```
 
 This will derive a new private key and encrypt it to disk. Make sure to remember the password you used.
@@ -27,8 +27,8 @@ This will derive a new private key and encrypt it to disk. Make sure to remember
 # EXAMPLE OUTPUT
 - name: myvalidatorkey
   type: local
-  address: inj1queq795wx8gzqc8706uz80whp07mcgg5nmpj6h
-  pubkey: injpub1r0mckeepqwzmrzt5af00hgc7fhve05rr0q3q6wvx4xn6k46zguzykdszg6cnu0zca4q
+  address: biya1queq795wx8gzqc8706uz80whp07mcgg5nmpj6h
+  pubkey: biyapub1r0mckeepqwzmrzt5af00hgc7fhve05rr0q3q6wvx4xn6k46zguzykdszg6cnu0zca4q
   mnemonic: ""
   threshold: 0
   pubkeys: []
@@ -41,19 +41,19 @@ It is the only way to recover your account if you ever forget your password.
 {% hint style="warning" %}
 **The output will contain a mnemonic phrase that represents your key in plain text. Make sure to save this phrase as a backup of your key, since without a key you will not be able to control your validator. The phrase is better be backed up on physical paper, storing it in cloud storage may compromise your validator later.**
 
-Remember the address starting from `inj`, this is going to be your Injective Chain Validator Account address.
+Remember the address starting from `biya`, this is going to be your Biyaliquid Chain Validator Account address.
 {% endhint %}
 
-### Step 2: Obtain INJ
+### Step 2: Obtain BIYA
 
-In order to proceed with the next step, you will have to obtain some INJ on Injective.
+In order to proceed with the next step, you will have to obtain some BIYA on Biyaliquid.
 
-You can request funds from the [Testnet Faucet](https://faucet.injective.network/).
+You can request funds from the [Testnet Faucet](https://faucet.biyaliquid.network/).
 
-After a few minutes, you should be able to verify that your deposit was successful on the UI. Alternatively, you can query your account balance using the `injectived` CLI with the following command:
+After a few minutes, you should be able to verify that your deposit was successful on the UI. Alternatively, you can query your account balance using the `biyaliquidd` CLI with the following command:
 
 ```bash
-injectived q bank balances <my-validator-inj-address>
+biyaliquidd q bank balances <my-validator-biya-address>
 ```
 
 ### Step 3: Create your validator account
@@ -61,16 +61,16 @@ injectived q bank balances <my-validator-inj-address>
 Obtain your node's Tendermint validator Bech32 encoded PubKey consensus address.
 
 ```bash
-VALIDATOR_PUBKEY=$(injectived tendermint show-validator)
+VALIDATOR_PUBKEY=$(biyaliquidd tendermint show-validator)
 echo $VALIDATOR_PUBKEY
 
 # Example: {"@type": "/cosmos.crypto.ed25519.PubKey", "key": "GWEJv/KSFhUUcKBWuf9TTT3Ful+3xV/1lFhchyW1TZ8="}
 ```
 
-Then create your new validator initialized with a self-delegation with your INJ tokens. Most critically, you will need to decide on the values of your validator's staking parameters.
+Then create your new validator initialized with a self-delegation with your BIYA tokens. Most critically, you will need to decide on the values of your validator's staking parameters.
 
 * `--moniker` - Your validator's name
-* `--amount` - Your validator's initial amount of INJ to bond
+* `--amount` - Your validator's initial amount of BIYA to bond
 * `--commission-max-change-rate` - Your validator's maximum commission change rate percentage (per day)
 * `--commission-max-rate` - Your validator's maximum commission rate percentage
 * `--commission-rate` - Your validator's initial commission rate percentage
@@ -80,26 +80,26 @@ Once you decide on your desired values, set them as follows.
 
 ```bash
 MONIKER=<my-moniker>
-AMOUNT=100000000000000000000inj # to delegate 100 INJ, as INJ is represented with 18 decimals.
+AMOUNT=100000000000000000000biya # to delegate 100 BIYA, as BIYA is represented with 18 decimals.
 COMMISSION_MAX_CHANGE_RATE=0.1 # e.g. for a 10% maximum change rate percentage per day
 COMMISSION_MAX_RATE=0.1 # e.g. for a 10% maximum commission rate percentage
 COMMISSION_RATE=0.1 # e.g. for a 10% initial commission rate percentage
-MIN_SELF_DELEGATION_AMOUNT=50000000000000000000 # e.g. for a minimum 50 INJ self delegation required on the validator
+MIN_SELF_DELEGATION_AMOUNT=50000000000000000000 # e.g. for a minimum 50 BIYA self delegation required on the validator
 ```
 
 Then run the following command to create your validator.
 
 ```bash
-injectived tx staking create-validator \
+biyaliquidd tx staking create-validator \
 --moniker=$MONIKER \
 --amount=$AMOUNT \
---gas-prices=500000000inj \
+--gas-prices=500000000biya \
 --pubkey=$VALIDATOR_PUBKEY \
 --from=$VALIDATOR_KEY_NAME \
 --keyring-backend=file \
 --yes \
 --node=tcp://localhost:26657 \
---chain-id=injective-888
+--chain-id=biyaliquid-888
 --commission-max-change-rate=$COMMISSION_MAX_CHANGE_RATE \
 --commission-max-rate=$COMMISSION_MAX_RATE \
 --commission-rate=$COMMISSION_RATE \
@@ -116,29 +116,29 @@ Extra `create-validator` options to consider:
 ```
 
 You can check that your validator was successfully created by checking the
-[staking dashboard](https://injhub.com/stake/),
+[staking dashboard](https://biyahub.com/stake/),
 and scrolling down to the "Validators" section.
 It looks like this:
-![Inj Hub Staking Validators Section](../../.gitbook/assets/inj-hub-staking-validators-section.png)
+![Biya Hub Staking Validators Section](../../.gitbook/assets/biya-hub-staking-validators-section.png)
 
 Alternatively, enter the following CLI command:
 
 ```bash
-injectived q staking validators
+biyaliquidd q staking validators
 ```
 
 If you see your validator in the list of validators, then congratulations, you have officially joined as an Equinox Staking validator! 🎉
 
-### Step 4: (Optional) Delegate Additional INJ to your Validator
+### Step 4: (Optional) Delegate Additional BIYA to your Validator
 
-To gain a deeper empirical understanding of the user experience that your future delegators will experience, you can complete the remaining steps in the [Staking Guide](https://medium.com/injective-labs/injective-hub-guide-9a14f09f6a7d).
+To gain a deeper empirical understanding of the user experience that your future delegators will experience, you can complete the remaining steps in the [Staking Guide](https://medium.com/biyaliquid-labs/biyaliquid-hub-guide-9a14f09f6a7d).
 
 These steps will allow you to experience the delegation flow using MetaMask Transactions. 🦊
 
-Alternatively, you can always use the Injective CLI to send a delegation transaction.
+Alternatively, you can always use the Biyaliquid CLI to send a delegation transaction.
 
 ```bash
-injectived tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --chain-id=injective-888 --keyring-backend=file --yes --node=tcp://localhost:26657
+biyaliquidd tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --chain-id=biyaliquid-888 --keyring-backend=file --yes --node=tcp://localhost:26657
 ```
 
 ### Next Steps

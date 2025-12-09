@@ -7,12 +7,12 @@ Example code snippets to query data from Ethereum.
 ### Fetch user's deposits on Ethereum chain
 
 ```ts
-import { ApolloConsumer } from '@injectivelabs/sdk-ts'
+import { ApolloConsumer } from '@biya-coin/sdk-ts'
 import {
   Network,
   getNetworkEndpoints,
   getPeggyGraphQlEndpointForNetwork,
-} from '@injectivelabs/networks'
+} from '@biya-coin/networks'
 
 const apolloConsumer = new ApolloConsumer(
   getPeggyGraphQlEndpointForNetwork(Network.Testnet),
@@ -28,12 +28,12 @@ console.log(userDeposits)
 ### Fetch user's deposits on Ethereum chain at a specific time
 
 ```ts
-import { ApolloConsumer } from '@injectivelabs/sdk-ts'
+import { ApolloConsumer } from '@biya-coin/sdk-ts'
 import {
   Network,
   getNetworkEndpoints,
   getPeggyGraphQlEndpointForNetwork,
-} from '@injectivelabs/networks'
+} from '@biya-coin/networks'
 
 const apolloConsumer = new ApolloConsumer(
   getPeggyGraphQlEndpointForNetwork(Network.Testnet),

@@ -7,8 +7,8 @@ Example code snippets to query the chain via the oracle api.
 ### Fetch parameters related to the oracle
 
 ```ts
-import { ChainGrpcOracleApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcOracleApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcOracleApi = new ChainGrpcOracleApi(endpoints.grpc)

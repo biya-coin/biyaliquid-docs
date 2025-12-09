@@ -6,10 +6,10 @@ You can also find the hardware requirements for each network in the respective t
 
 {% tabs %}
 {% tab title="Local Network" %}
-To easily set up a local node, download and run the `setup.sh` script. This will initialize your local Injective network.
+To easily set up a local node, download and run the `setup.sh` script. This will initialize your local Biyaliquid network.
 
 ```bash
-wget https://raw.githubusercontent.com/InjectiveLabs/injective-chain-releases/master/scripts/setup.sh
+wget https://raw.githubusercontent.com/biya-coin/biyaliquid-chain-releases/master/scripts/setup.sh
 chmod +x ./setup.sh # Make the script executable
 ./setup.sh
 ```
@@ -17,26 +17,26 @@ chmod +x ./setup.sh # Make the script executable
 Start the node by running:
 
 ```bash
-injectived start # Blocks should start coming in after running this
+biyaliquidd start # Blocks should start coming in after running this
 ```
 
 For further explanation on what the script is doing and more fine-grained control over the setup process, continue reading below.
 
 #### Initialize the Chain
 
-Before running Injective node, we need to initialize the chain as well as the node's genesis file:
+Before running Biyaliquid node, we need to initialize the chain as well as the node's genesis file:
 
 ```bash
 # The <moniker> argument is the custom username of your node. It should be human-readable.
-injectived init <moniker> --chain-id=injective-1
+biyaliquidd init <moniker> --chain-id=biyaliquid-1
 ```
 
-The command above creates all the configuration files needed for your node to run as well as a default genesis file, which defines the initial state of the network. All these configuration files are in `~/.injectived` by default, but you can overwrite the location of this folder by passing the `--home` flag. Note that if you choose to use a different directory other than `~/.injectived`, you must specify the location with the `--home` flag each time an `injectived` command is run. If you already have a genesis file, you can overwrite it with the `--overwrite` or `-o` flag.
+The command above creates all the configuration files needed for your node to run as well as a default genesis file, which defines the initial state of the network. All these configuration files are in `~/.biyaliquidd` by default, but you can overwrite the location of this folder by passing the `--home` flag. Note that if you choose to use a different directory other than `~/.biyaliquidd`, you must specify the location with the `--home` flag each time an `biyaliquidd` command is run. If you already have a genesis file, you can overwrite it with the `--overwrite` or `-o` flag.
 
-The `~/.injectived` folder has the following structure:
+The `~/.biyaliquidd` folder has the following structure:
 
 ```bash
-.                                   # ~/.injectived
+.                                   # ~/.biyaliquidd
   |- data                           # Contains the databases used by the node.
   |- config/
       |- app.toml                   # Application-related configuration file.
@@ -50,19 +50,19 @@ The `~/.injectived` folder has the following structure:
 
 At this point, a modification is required in the `genesis.json` file:
 
-* Change the staking `bond_denom`, crisis `denom`, gov `denom`, and mint `denom` values to `"inj"`, since that is the native token of Injective.
+* Change the staking `bond_denom`, crisis `denom`, gov `denom`, and mint `denom` values to `"biya"`, since that is the native token of Biyaliquid.
 
 This can easily be done by running the following commands:
 
 ```bash
-cat $HOME/.injectived/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="inj"' > $HOME/.injectived/config/tmp_genesis.json && mv $HOME/.injectived/config/tmp_genesis.json $HOME/.injectived/config/genesis.json
-cat $HOME/.injectived/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="inj"' > $HOME/.injectived/config/tmp_genesis.json && mv $HOME/.injectived/config/tmp_genesis.json $HOME/.injectived/config/genesis.json
-cat $HOME/.injectived/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="inj"' > $HOME/.injectived/config/tmp_genesis.json && mv $HOME/.injectived/config/tmp_genesis.json $HOME/.injectived/config/genesis.json
-cat $HOME/.injectived/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="inj"' > $HOME/.injectived/config/tmp_genesis.json && mv $HOME/.injectived/config/tmp_genesis.json $HOME/.injectived/config/genesis.json
+cat $HOME/.biyaliquidd/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="biya"' > $HOME/.biyaliquidd/config/tmp_genesis.json && mv $HOME/.biyaliquidd/config/tmp_genesis.json $HOME/.biyaliquidd/config/genesis.json
+cat $HOME/.biyaliquidd/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="biya"' > $HOME/.biyaliquidd/config/tmp_genesis.json && mv $HOME/.biyaliquidd/config/tmp_genesis.json $HOME/.biyaliquidd/config/genesis.json
+cat $HOME/.biyaliquidd/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="biya"' > $HOME/.biyaliquidd/config/tmp_genesis.json && mv $HOME/.biyaliquidd/config/tmp_genesis.json $HOME/.biyaliquidd/config/genesis.json
+cat $HOME/.biyaliquidd/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="biya"' > $HOME/.biyaliquidd/config/tmp_genesis.json && mv $HOME/.biyaliquidd/config/tmp_genesis.json $HOME/.biyaliquidd/config/genesis.json
 ```
 
 {% hint style="info" %}
-The commands above will only work if the default `.injectived` directory is used. For a specific directory, either modify the commands above or manually edit the `genesis.json` file to reflect the changes.
+The commands above will only work if the default `.biyaliquidd` directory is used. For a specific directory, either modify the commands above or manually edit the `genesis.json` file to reflect the changes.
 {% endhint %}
 
 #### Create Keys for the Validator Account
@@ -70,19 +70,19 @@ The commands above will only work if the default `.injectived` directory is used
 Before starting the chain, you need to populate the state with at least one account. To do so, first create a new account in the keyring named `my_validator` under the `test` keyring backend (feel free to choose another name and another backend):
 
 ```bash
-injectived keys add my_validator --keyring-backend=test
+biyaliquidd keys add my_validator --keyring-backend=test
 
 # Put the generated address in a variable for later use.
-MY_VALIDATOR_ADDRESS=$(injectived keys show my_validator -a --keyring-backend=test)
+MY_VALIDATOR_ADDRESS=$(biyaliquidd keys show my_validator -a --keyring-backend=test)
 ```
 
-Now that you have created a local account, go ahead and grant it some `inj` tokens in your chain's genesis file. Doing so will also make sure your chain is aware of this account's existence from the genesis of the chain:
+Now that you have created a local account, go ahead and grant it some `biya` tokens in your chain's genesis file. Doing so will also make sure your chain is aware of this account's existence from the genesis of the chain:
 
 ```bash
-injectived add-genesis-account $MY_VALIDATOR_ADDRESS 100000000000000000000000000inj --chain-id=injective-1
+biyaliquidd add-genesis-account $MY_VALIDATOR_ADDRESS 100000000000000000000000000biya --chain-id=biyaliquid-1
 ```
 
-`$MY_VALIDATOR_ADDRESS` is the variable that holds the address of the `my_validator` key in the keyring. Tokens in Injective have the `{amount}{denom}` format: `amount` is an 18-digit-precision decimal number, and `denom` is the unique token identifier with its denomination key (e.g. `inj`). Here, we are granting `inj` tokens, as `inj` is the token identifier used for staking in `injectived`.
+`$MY_VALIDATOR_ADDRESS` is the variable that holds the address of the `my_validator` key in the keyring. Tokens in Biyaliquid have the `{amount}{denom}` format: `amount` is an 18-digit-precision decimal number, and `denom` is the unique token identifier with its denomination key (e.g. `biya`). Here, we are granting `biya` tokens, as `biya` is the token identifier used for staking in `biyaliquidd`.
 
 #### Add the Validator to the Chain
 
@@ -90,40 +90,40 @@ Now that your account has some tokens, you need to add a validator to your chain
 
 ```bash
 # Create a gentx.
-injectived genesis gentx my_validator 1000000000000000000000inj --chain-id=injective-1 --keyring-backend=test
+biyaliquidd genesis gentx my_validator 1000000000000000000000biya --chain-id=biyaliquid-1 --keyring-backend=test
 
 # Add the gentx to the genesis file.
-injectived genesis collect-gentxs
+biyaliquidd genesis collect-gentxs
 ```
 
 A `gentx` does three things:
 
 1. Registers the `validator` account you created as a validator operator account (i.e. the account that controls the validator).
 2. Self-delegates the provided `amount` of staking tokens.
-3. Link the operator account with a Tendermint node pubkey that will be used for signing blocks. If no `--pubkey` flag is provided, it defaults to the local node pubkey created via the `injectived init` command above.
+3. Link the operator account with a Tendermint node pubkey that will be used for signing blocks. If no `--pubkey` flag is provided, it defaults to the local node pubkey created via the `biyaliquidd init` command above.
 
 For more information on `gentx`, use the following command:
 
 ```bash
-injectived genesis gentx --help
+biyaliquidd genesis gentx --help
 ```
 
 #### Configuring the Node Using `app.toml` and `config.toml`
 
-Two configuration files are automatically generated inside `~/.injectived/config`:
+Two configuration files are automatically generated inside `~/.biyaliquidd/config`:
 
 * `config.toml`: used to configure Tendermint (learn more on [Tendermint's documentation](https://docs.tendermint.com/v0.34/tendermint-core/configuration.html)), and
-* `app.toml`: generated by the Cosmos SDK (which Injective is built on), and used for configurations such as state pruning strategies, telemetry, gRPC and REST server configurations, state sync, and more.
+* `app.toml`: generated by the Cosmos SDK (which Biyaliquid is built on), and used for configurations such as state pruning strategies, telemetry, gRPC and REST server configurations, state sync, and more.
 
 Both files are heavily commented—please refer to them directly to tweak your node.
 
-One example config to tweak is the `minimum-gas-prices` field inside `app.toml`, which defines the minimum gas prices the validator node is willing to accept for processing a transaction. If it's empty, make sure to edit the field with some value, for example `10inj`, or else the node will halt on startup. For this tutorial, let's set the minimum gas price to 0:
+One example config to tweak is the `minimum-gas-prices` field inside `app.toml`, which defines the minimum gas prices the validator node is willing to accept for processing a transaction. If it's empty, make sure to edit the field with some value, for example `10biya`, or else the node will halt on startup. For this tutorial, let's set the minimum gas price to 0:
 
 ```toml
  # The minimum gas prices a validator is willing to accept for processing a
  # transaction. A transaction's fees must meet the minimum of any denomination
  # specified in this config (e.g. 0.25token1;0.0001token2).
- minimum-gas-prices = "0inj"
+ minimum-gas-prices = "0biya"
 ```
 
 #### Run a Localnet
@@ -131,7 +131,7 @@ One example config to tweak is the `minimum-gas-prices` field inside `app.toml`,
 Now that everything is set up, you can finally start your node:
 
 ```bash
-injectived start # Blocks should start coming in after running this
+biyaliquidd start # Blocks should start coming in after running this
 ```
 
 This command allows you to run a single node, which is is enough to interact with the chain through the node, but you may wish to run multiple nodes at the same time to see how consensus occurs between them.
@@ -150,64 +150,64 @@ Node operators should deploy bare metal servers to achieve optimal performance. 
 |    Storage 2TB NVMe   |    Storage 2TB NVMe   |
 |     Network 1Gbps+    |     Network 1Gbps+    |
 
-#### Install `injectived` and `peggo`
+#### Install `biyaliquidd` and `peggo`
 
-See the [Injective releases repo](https://github.com/InjectiveLabs/testnet/releases) for the most recent releases. Non-validator node operators do not need to install `peggo`.
+See the [Biyaliquid releases repo](https://github.com/biya-coin/testnet/releases) for the most recent releases. Non-validator node operators do not need to install `peggo`.
 
 ```bash
-wget https://github.com/InjectiveLabs/testnet/releases/latest/download/linux-amd64.zip
+wget https://github.com/biya-coin/testnet/releases/latest/download/linux-amd64.zip
 unzip linux-amd64.zip
 sudo mv peggo /usr/bin
-sudo mv injectived /usr/bin
+sudo mv biyaliquidd /usr/bin
 sudo mv libwasmvm.x86_64.so /usr/lib 
 ```
 
-#### Initialize a New Injective Chain Node
+#### Initialize a New Biyaliquid Chain Node
 
-Before running Injective node, we need to initialize the chain as well as the node's genesis file:
+Before running Biyaliquid node, we need to initialize the chain as well as the node's genesis file:
 
 ```bash
 # The argument <moniker> is the custom username of your node, it should be human-readable.
 export MONIKER=<moniker>
-# Injective Testnet has a chain-id of "injective-888"
-injectived init $MONIKER --chain-id injective-888
+# Biyaliquid Testnet has a chain-id of "biyaliquid-888"
+biyaliquidd init $MONIKER --chain-id biyaliquid-888
 ```
 
-Running the `init` command will create `injectived` default configuration files at `~/.injectived`.
+Running the `init` command will create `biyaliquidd` default configuration files at `~/.biyaliquidd`.
 
 #### Prepare Configuration to Join Testnet
 
 You should now update the default configuration with the Testnet's genesis file and application config file, as well as configure your persistent peers with seed nodes.
 
 ```bash
-git clone https://github.com/InjectiveLabs/testnet.git
+git clone https://github.com/biya-coin/testnet.git
 
 # copy genesis file to config directory
-aws s3 cp --no-sign-request s3://injective-snapshots/testnet/genesis.json .
-mv genesis.json ~/.injectived/config/
+aws s3 cp --no-sign-request s3://biyaliquid-snapshots/testnet/genesis.json .
+mv genesis.json ~/.biyaliquidd/config/
 
 # copy config file to config directory
-cp testnet/corfu/70001/app.toml  ~/.injectived/config/app.toml
-cp testnet/corfu/70001/config.toml ~/.injectived/config/config.toml
+cp testnet/corfu/70001/app.toml  ~/.biyaliquidd/config/app.toml
+cp testnet/corfu/70001/config.toml ~/.biyaliquidd/config/config.toml
 ```
 
 You can also run verify the checksum of the genesis checksum - a4abe4e1f5511d4c2f821c1c05ecb44b493eec185c0eec13b1dcd03d36e1a779
 
 ```bash
-sha256sum ~/.injectived/config/genesis.json
+sha256sum ~/.biyaliquidd/config/genesis.json
 ```
 
-#### Configure `systemd` Service for `injectived`
+#### Configure `systemd` Service for `biyaliquidd`
 
-Edit the config at `/etc/systemd/system/injectived.service`:
+Edit the config at `/etc/systemd/system/biyaliquidd.service`:
 
 ```bash
 [Unit]
-  Description=injectived
+  Description=biyaliquidd
 
 [Service]
   WorkingDirectory=/usr/bin
-  ExecStart=/bin/bash -c '/usr/bin/injectived --log-level=error start'
+  ExecStart=/bin/bash -c '/usr/bin/biyaliquidd --log-level=error start'
   Type=simple
   Restart=always
   RestartSec=5
@@ -221,23 +221,23 @@ Starting and restarting the systemd service
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl restart injectived
-sudo systemctl status injectived
+sudo systemctl restart biyaliquidd
+sudo systemctl status biyaliquidd
 
 # enable start on system boot
-sudo systemctl enable injectived
+sudo systemctl enable biyaliquidd
 
 # To check Logs
-journalctl -u injectived -f
+journalctl -u biyaliquidd -f
 ```
 
 #### Sync with the network
 
-Refer to the [Polkachu Injective Testnet Node Snapshot](https://polkachu.com/testnets/injective/snapshots) to download a snapshot and sync with the network.
+Refer to the [Polkachu Biyaliquid Testnet Node Snapshot](https://polkachu.com/testnets/biyaliquid/snapshots) to download a snapshot and sync with the network.
 
 **Support**
 
-For any further questions, you can always connect with the Injective Team via [Discord](https://discord.gg/injective), [Telegram](https://t.me/joininjective), or [email](mailto:contact@injectivelabs.org).
+For any further questions, you can always connect with the Biyaliquid Team via [Discord](https://discord.gg/biyaliquid), [Telegram](https://t.me/joinbiyaliquid), or [email](mailto:contact@biya-coin.org).
 {% endtab %}
 
 {% tab title="Mainnet Network" %}
@@ -253,69 +253,69 @@ Node operators should deploy bare metal servers to achieve optimal performance. 
 |    Storage 2TB NVMe   |    Storage 2TB NVMe   |
 |     Network 1Gbps+    |     Network 1Gbps+    |
 
-#### Install `injectived` and `peggo`
+#### Install `biyaliquidd` and `peggo`
 
-See the [Injective chain releases repo](https://github.com/InjectiveLabs/injective-chain-releases/releases/) for the most recent releases. Non-validator node operators do not need to install `peggo`.
+See the [Biyaliquid chain releases repo](https://github.com/biya-coin/biyaliquid-chain-releases/releases/) for the most recent releases. Non-validator node operators do not need to install `peggo`.
 
 ```bash
-wget https://github.com/InjectiveLabs/injective-chain-releases/releases/latest/download/linux-amd64.zip
+wget https://github.com/biya-coin/biyaliquid-chain-releases/releases/latest/download/linux-amd64.zip
 unzip linux-amd64.zip
 sudo mv peggo /usr/bin
-sudo mv injectived /usr/bin
+sudo mv biyaliquidd /usr/bin
 sudo mv libwasmvm.x86_64.so /usr/lib 
 ```
 
-#### Initialize a New Injective Node
+#### Initialize a New Biyaliquid Node
 
-Before running Injective node, we need to initialize the chain as well as the node's genesis file:
+Before running Biyaliquid node, we need to initialize the chain as well as the node's genesis file:
 
 ```bash
 # The argument <moniker> is the custom username of your node. It should be human-readable.
 export MONIKER=<moniker>
-# Injective Mainnet has a chain-id of "injective-1"
-injectived init $MONIKER --chain-id injective-1
+# Biyaliquid Mainnet has a chain-id of "biyaliquid-1"
+biyaliquidd init $MONIKER --chain-id biyaliquid-1
 ```
 
-Running the `init` command will create `injectived` default configuration files at `~/.injectived`.
+Running the `init` command will create `biyaliquidd` default configuration files at `~/.biyaliquidd`.
 
 #### Prepare Configuration to Join Mainnet
 
 You should now update the default configuration with the Mainnet's genesis file and application config file, as well as configure your persistent peers with seed nodes.
 
 ```bash
-git clone https://github.com/InjectiveLabs/mainnet-config
+git clone https://github.com/biya-coin/mainnet-config
 
 # copy genesis file to config directory
-cp mainnet-config/10001/genesis.json ~/.injectived/config/genesis.json
+cp mainnet-config/10001/genesis.json ~/.biyaliquidd/config/genesis.json
 
 # copy config file to config directory
-cp mainnet-config/10001/app.toml  ~/.injectived/config/app.toml
+cp mainnet-config/10001/app.toml  ~/.biyaliquidd/config/app.toml
 ```
 
 You can also run verify the checksum of the genesis checksum - 573b89727e42b41d43156cd6605c0c8ad4a1ce16d9aad1e1604b02864015d528
 
 ```bash
-sha256sum ~/.injectived/config/genesis.json
+sha256sum ~/.biyaliquidd/config/genesis.json
 ```
 
-Then update the `seeds` field in `~/.injectived/config/config.toml` with the contents of `mainnet-config/10001/seeds.txt` and update the `timeout_commit` to `300ms`.
+Then update the `seeds` field in `~/.biyaliquidd/config/config.toml` with the contents of `mainnet-config/10001/seeds.txt` and update the `timeout_commit` to `300ms`.
 
 ```bash
 cat mainnet-config/10001/seeds.txt
-nano ~/.injectived/config/config.toml
+nano ~/.biyaliquidd/config/config.toml
 ```
 
-#### Configure `systemd` Service for `injectived`
+#### Configure `systemd` Service for `biyaliquidd`
 
-Edit the config at `/etc/systemd/system/injectived.service`:
+Edit the config at `/etc/systemd/system/biyaliquidd.service`:
 
 ```bash
 [Unit]
-  Description=injectived
+  Description=biyaliquidd
 
 [Service]
   WorkingDirectory=/usr/bin
-  ExecStart=/bin/bash -c '/usr/bin/injectived --log-level=error start'
+  ExecStart=/bin/bash -c '/usr/bin/biyaliquidd --log-level=error start'
   Type=simple
   Restart=always
   RestartSec=5
@@ -329,24 +329,24 @@ Starting and restarting the systemd service:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl restart injectived
-sudo systemctl status injectived
+sudo systemctl restart biyaliquidd
+sudo systemctl status biyaliquidd
 
 # enable start on system boot
-sudo systemctl enable injectived
+sudo systemctl enable biyaliquidd
 
 # To check Logs
-journalctl -u injectived -f
+journalctl -u biyaliquidd -f
 ```
 
 The service should be stopped before and started after the snapshot data has been loaded into the correct directory.
 
 ```bash
 # to stop the node
-sudo systemctl stop injectived
+sudo systemctl stop biyaliquidd
 
 # to start the node
-sudo systemctl start injectived
+sudo systemctl start biyaliquidd
 ```
 
 #### Sync with the network
@@ -359,16 +359,16 @@ _To be added soon_
 
 **Pruned**
 
-1. [Polkachu](https://polkachu.com/tendermint_snapshots/injective).
-2. [HighStakes](https://tools.highstakes.ch/files/injective.tar.gz).
-3. [Imperator](https://www.imperator.co/services/chain-services/mainnets/injective).
+1. [Polkachu](https://polkachu.com/tendermint_snapshots/biyaliquid).
+2. [HighStakes](https://tools.highstakes.ch/files/biyaliquid.tar.gz).
+3. [Imperator](https://www.imperator.co/services/chain-services/mainnets/biyaliquid).
 4. [Bware Labs](https://bwarelabs.com/snapshots).
-5. [AutoStake](https://autostake.com/networks/injective/#validator).
+5. [AutoStake](https://autostake.com/networks/biyaliquid/#validator).
 
-Should the Injective `mainnet-config seeds.txt` list not work (the node fails to sync blocks), ChainLayer, Polkachu, and Autostake maintain peer lists (can be used in the `persistent_peers` field in `config.toml`) or addressbooks (for faster peer discovery).
+Should the Biyaliquid `mainnet-config seeds.txt` list not work (the node fails to sync blocks), ChainLayer, Polkachu, and Autostake maintain peer lists (can be used in the `persistent_peers` field in `config.toml`) or addressbooks (for faster peer discovery).
 
 **Support**
 
-For any further questions, you can always connect with the Injective Team via [Discord](https://discord.gg/injective), [Telegram](https://t.me/joininjective), or [email](mailto:contact@injectivelabs.org)
+For any further questions, you can always connect with the Biyaliquid Team via [Discord](https://discord.gg/biyaliquid), [Telegram](https://t.me/joinbiyaliquid), or [email](mailto:contact@biya-coin.org)
 {% endtab %}
 {% endtabs %}

@@ -7,8 +7,8 @@ Example code snippets to query the indexer for derivative module related data.
 ### Stream derivatives orderbook
 
 ```ts
-import { IndexerGrpcDerivativesStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(
@@ -36,9 +36,9 @@ streamFn(streamFnArgs)
 ### Stream derivative orders
 
 ```ts
-import { IndexerGrpcDerivativesStream } from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(
@@ -74,9 +74,9 @@ import {
   TradeDirection,
   TradeExecutionType,
   IndexerGrpcDerivativesStream,
-} from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(
@@ -116,8 +116,8 @@ import {
   PaginationOption,
   TradeDirection,
   IndexerGrpcDerivativesStream
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(endpoints.indexer)
@@ -148,8 +148,8 @@ streamFn(streamFnArgs)
 ### Stream derivative positions
 
 ```ts
-import { IndexerGrpcDerivativesStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(
@@ -179,8 +179,8 @@ streamFn(streamFnArgs)
 ### Stream markets
 
 ```ts
-import { IndexerGrpcDerivativesStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(
@@ -208,8 +208,8 @@ streamFn(streamFnArgs)
 ### Stream orderbook updates
 
 ```ts
-import { IndexerGrpcDerivativesStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(

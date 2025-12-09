@@ -7,8 +7,8 @@ Example code snippets to query the indexer for oracle module related data.
 ### Fetch list of oracles
 
 ```ts
-import { IndexerGrpcOracleApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcOracleApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcOracleApi = new IndexerGrpcOracleApi(endpoints.indexer)
@@ -26,14 +26,14 @@ Base and Quote oracle symbols are always fetched from the market itself. They ca
 import {
   IndexerGrpcOracleApi,
   IndexerGrpcDerivativeApi,
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const markets = new IndexerGrpcDerivativeApi(endpoints.indexer)
 const indexerGrpcOracleApi = new IndexerGrpcOracleApi(endpoints.indexer)
 
-const market = markets.find((market) => market.ticker === 'INJ/USDT PERP')
+const market = markets.find((market) => market.ticker === 'BIYA/USDT PERP')
 
 // These values are a part of the market object
 // fetched from the chain i.e `oracle_base` and `oracle_quote`

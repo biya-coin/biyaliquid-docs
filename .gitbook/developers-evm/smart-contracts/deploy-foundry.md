@@ -15,16 +15,16 @@ Run the following command to deploy the smart contract:
 ```shell
 forge create \
   src/Counter.sol:Counter \
-  --rpc-url injectiveEvm \
+  --rpc-url biyaliquidEvm \
   --legacy \
-  --account injTest \
+  --account biyaTest \
   --gas-price 160000000 \
   --gas-limit 2000000 \
   --broadcast
 ```
 
 {% hint style="info" %}
-Note that we're using the `injTest` account saved to the keystore,
+Note that we're using the `biyaTest` account saved to the keystore,
 which was previously set up in [set up Foundry and compile a smart contract](./compile-foundry.md).
 {% endhint %}
 
@@ -37,7 +37,7 @@ Deployed to: 0x213bA803265386C10CE04a2cAa0f31FF3440b9cF
 Transaction hash: 0x6aa9022f593083c7779da014a3032efd40f3faa2cf3473f4252a8fbd2a80db6c
 ```
 
-Copy the deployed address, visit [`https://testnet.blockscout.injective.network`](https://testnet.blockscout.injective.network/), and paste the address in the search field.
+Copy the deployed address, visit [`https://testnet.blockscout.biyaliquid.network`](https://testnet.blockscout.biyaliquid.network/), and paste the address in the search field.
 You'll visit the smart contract page in the block explorer for the smart contract that you have just deployed.
 
 If you click on the "Contract" tab, you should see the EVM bytecode for that contract, and it will match the EVM bytecode found in your artifacts directory after compilation.

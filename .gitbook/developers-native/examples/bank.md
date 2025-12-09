@@ -6,27 +6,27 @@ In addition, the bank module tracks and provides query support for the total sup
 
 ## Messages
 
-Let's explore (and provide examples) the messages that the Bank module exports and we can use to interact with the Injective chain.
+Let's explore (and provide examples) the messages that the Bank module exports and we can use to interact with the Biyaliquid chain.
 
 ### MsgSend
 
 This message is used to send coins from one address to another. Any TokenFactory token and Peggy token can be used here. To transfer CW20 tokens, see the `MsgExecuteContract` section in [wasm module examples](../../developers-native/examples/wasm.md#msgexecutecontract-transfer).
 
 ```ts
-import { MsgSend, MsgBroadcasterWithPk } from "@injectivelabs/sdk-ts";
-import { toChainFormat } from "@injectivelabs/utils";
-import { Network } from "@injectivelabs/networks";
+import { MsgSend, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
+import { toChainFormat } from "@biya-coin/utils";
+import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const amount = {
-  denom: "inj",
+  denom: "biya",
   amount: toChainFormat(1).toFixed(),
 };
 const msg = MsgSend.fromJSON({
   amount,
-  srcInjectiveAddress: injectiveAddress,
-  dstInjectiveAddress: injectiveAddress,
+  srcBiyaliquidAddress: biyaliquidAddress,
+  dstBiyaliquidAddress: biyaliquidAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -44,13 +44,13 @@ console.log(txHash);
 This message is used to send to multiple recipients from multiple senders.
 
 ```typescript
-import { Network } from "@injectivelabs/networks";
-import { toChainFormat } from "@injectivelabs/utils";
-import { MsgMultiSend, MsgBroadcasterWithPk } from "@injectivelabs/sdk-ts";
+import { Network } from "@biya-coin/networks";
+import { toChainFormat } from "@biya-coin/utils";
+import { MsgMultiSend, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 
 const privateKey = "0x...";
-const injectiveAddress = "inj1...";
-const denom = "inj";
+const biyaliquidAddress = "biya1...";
+const denom = "biya";
 const decimals = 18;
 const records = [
   /** add records here */
@@ -65,7 +65,7 @@ const totalToSend = records.reduce((acc, record) => {
 const msg = MsgMultiSend.fromJSON({
   inputs: [
     {
-      address: injectiveAddress,
+      address: biyaliquidAddress,
       coins: [
         {
           denom,

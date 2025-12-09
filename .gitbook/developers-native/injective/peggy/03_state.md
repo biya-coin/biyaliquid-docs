@@ -116,7 +116,7 @@ type OutgoingTransferTx struct {
 
 ### LastTXPoolID
 
-Monotonically increasing value for each withdrawal received by Injective
+Monotonically increasing value for each withdrawal received by Biyaliquid
 
 | Key                                    | Value                   | Type     | Encoding           |
 | -------------------------------------- | ----------------------- | -------- | ------------------ |
@@ -127,7 +127,7 @@ Monotonically increasing value for each withdrawal received by Injective
 `OutgoingTxBatch` represents a collection of withdrawals of the same token type. Created on every successful `MsgRequestBatch`.
 
 Stored in two possible ways, first with a height and second without (unsafe). Unsafe is used for testing and export and import of state.\
-Currently [Peggy.sol](https://github.com/InjectiveLabs/peggo/blob/master/solidity/contracts/Peggy.sol) is hardcoded to only accept batches with a single token type and only pay rewards in that same token type.
+Currently [Peggy.sol](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) is hardcoded to only accept batches with a single token type and only pay rewards in that same token type.
 
 ```go
 type OutgoingTxBatch struct {
@@ -146,7 +146,7 @@ type OutgoingTxBatch struct {
 
 ### LastOutgoingBatchID
 
-Monotonically increasing value for each batch created on Injective by some `Batch Creator`
+Monotonically increasing value for each batch created on Biyaliquid by some `Batch Creator`
 
 | Key                                   | Value              | Type     | Encoding           |
 | ------------------------------------- | ------------------ | -------- | ------------------ |
@@ -179,7 +179,7 @@ A denom that is originally from a counter chain will be from a contract. The tok
 
 ### LastObservedValset
 
-This entry represents the last observed Valset that was successfully relayed to Ethereum. Updates after an attestation of `ValsetUpdatedEvent` has been processed on Injective.
+This entry represents the last observed Valset that was successfully relayed to Ethereum. Updates after an attestation of `ValsetUpdatedEvent` has been processed on Biyaliquid.
 
 | Key            | Value                            | Type           | Encoding         |
 | -------------- | -------------------------------- | -------------- | ---------------- |
@@ -237,12 +237,12 @@ type Attestation struct {
 
 ### PastEthSignatureCheckpoint
 
-A computed hash indicating that a validator set/token batch in fact existed on Injective. This checkpoint also exists in `Peggy contract`.\
+A computed hash indicating that a validator set/token batch in fact existed on Biyaliquid. This checkpoint also exists in `Peggy contract`.\
 Updated on each new valset update and token batch creation.
 
 | Key            | Value                                     | Type              | Encoding             |
 | -------------- | ----------------------------------------- | ----------------- | -------------------- |
-| `[]byte{0x1b}` | Last created checkpoint hash on Injective | `gethcommon.Hash` | store in byte format |
+| `[]byte{0x1b}` | Last created checkpoint hash on Biyaliquid | `gethcommon.Hash` | store in byte format |
 
 ### EthereumBlacklist
 

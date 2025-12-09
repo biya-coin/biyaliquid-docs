@@ -1,13 +1,13 @@
 ---
-description: Read about order types on Injective
+description: Read about order types on Biyaliquid
 ---
 
 # Order Types
 
-The following list describes the supported order types on Injective:
+The following list describes the supported order types on Biyaliquid:
 
-* **BUY (1):** A standard buy order to purchase an asset at either the current market price or a set limit price. Market orders in Injective also have a price to stablish a limit to the market price the order will be executed with.
-* **SELL (2):** A standard sell order to sell an asset at either the current market price or a set limit price. Market orders in Injective also have a price to stablish a limit to the market price the order will be executed with.
+* **BUY (1):** A standard buy order to purchase an asset at either the current market price or a set limit price. Market orders in Biyaliquid also have a price to stablish a limit to the market price the order will be executed with.
+* **SELL (2):** A standard sell order to sell an asset at either the current market price or a set limit price. Market orders in Biyaliquid also have a price to stablish a limit to the market price the order will be executed with.
 * **STOP\_BUY (3):** A stop-loss buy order converts into a regular buy order once the oracle price reaches or surpasses a specified trigger price.
 * **STOP\_SELL (4):** A stop-loss sell order becomes a regular sell order once the oracle price drops to or below a specified trigger price.
 * **TAKE\_BUY (5):** A take-profit buy order converts into a regular buy order once the oracle price reaches or surpasses a specified trigger price.

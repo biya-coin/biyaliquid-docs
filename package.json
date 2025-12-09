@@ -1,9 +1,9 @@
 {
-  "name": "injective-docs",
+  "name": "biyaliquid-docs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "generate:core-specs": "./scripts/injective-core-specs.sh"
+    "generate:core-specs": "./scripts/biyaliquid-core-specs.sh"
   },
   "dependencies": {
     "dotenv": "^16.4.5"

@@ -442,7 +442,7 @@ type MsgBatchUpdateOrders struct {
 
 ## Msg/AuthorizeStakeGrants
 
-`MsgAuthorizeStakeGrants` is a message used to grant another address with staked INJ balance for fee discount purposes. It can also be used to revoke/remove grants if the amount granted is set to 0.
+`MsgAuthorizeStakeGrants` is a message used to grant another address with staked BIYA balance for fee discount purposes. It can also be used to revoke/remove grants if the amount granted is set to 0.
 
 ```go
 type MsgAuthorizeStakeGrants struct {

@@ -1,23 +1,23 @@
 # Getting Started
 
-Injective Trader comes built in with a "Simple Strategy" to aid with rapid prototyping and familiarizing yourself with the codebase.
+Biyaliquid Trader comes built in with a "Simple Strategy" to aid with rapid prototyping and familiarizing yourself with the codebase.
 
 **What it does:**
 
-* Monitors orderbooks for INJ, BTC, ETH
+* Monitors orderbooks for BIYA, BTC, ETH
 * Places buy orders slightly below market price
 * Places sell orders slightly above market price
 * Maintains a spread for profitability
 * Respects position limits for risk control
 
-**Best for:** predictable and steady trading while familiarizing yourself with Injective Trader. **Not recommended for production use.**
+**Best for:** predictable and steady trading while familiarizing yourself with Biyaliquid Trader. **Not recommended for production use.**
 
 **Example Logs:**
 
 ```
-[INFO] Placing BUY order: 0.1 INJ at $3.45 (spread: 0.5%)
-[INFO] Placing SELL order: 0.1 INJ at $3.47 (spread: 0.5%)
-[INFO] Order filled: BUY 0.1 INJ at $3.45
+[INFO] Placing BUY order: 0.1 BIYA at $3.45 (spread: 0.5%)
+[INFO] Placing SELL order: 0.1 BIYA at $3.47 (spread: 0.5%)
+[INFO] Order filled: BUY 0.1 BIYA at $3.45
 ```
 
 ## Customizing Your Strategy
@@ -33,7 +33,7 @@ MaxPosition: 2.0
 
 ```yaml
 MarketTickers:
-  - INJ/USDT PERP
+  - BIYA/USDT PERP
   - BTC/USDT PERP
   - ETH/USDT PERP
   - APT/USDT PERP
@@ -70,7 +70,7 @@ SpreadThreshold: 0.002
 
 ```yaml
 MarketTickers:
-  - INJ/USDT PERP
+  - BIYA/USDT PERP
   - BTC/USDT PERP
   - ETH/USDT PERP
   - APT/USDT PERP
@@ -113,7 +113,7 @@ grep "ERROR" logs/my_bot.log
 **No private keys found**
 
 ```bash
-echo $MyBot_GRANTER_INJECTIVE_PRIVATE_KEY
+echo $MyBot_GRANTER_biyaliquid_PRIVATE_KEY
 ```
 
 * **Insufficient balance** → Add USDT / reduce `OrderSize`
@@ -133,4 +133,4 @@ python main.py MyBot config.yaml --log_path logs/my_bot.log --network mainnet
 
 ## Next
 
-Learn how to develop your own [custom strategy](injective-trader-strategy-development-guide.md) for Injective Trader.
+Learn how to develop your own [custom strategy](biyaliquid-trader-strategy-development-guide.md) for Biyaliquid Trader.

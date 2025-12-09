@@ -7,8 +7,8 @@ Example code snippets to query the indexer for all markets data
 ### Fetch markets History
 
 ```ts
-import { IndexerRestMarketChronosApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestMarketChronosApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestMarketChronosApi = new IndexerRestMarketChronosApi(

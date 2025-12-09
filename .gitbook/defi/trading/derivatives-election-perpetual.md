@@ -4,7 +4,7 @@ hidden: true
 
 # Election Perpetual
 
-An election perpetual futures contract - or an election perp - is a type of derivative financial instrument on Injective that allows users to gain leveraged exposure to an elections market. An election perp is a perpetual futures contract that tracks the price of a market on Polymarket, rather than a traditional crypto asset.
+An election perpetual futures contract - or an election perp - is a type of derivative financial instrument on Biyaliquid that allows users to gain leveraged exposure to an elections market. An election perp is a perpetual futures contract that tracks the price of a market on Polymarket, rather than a traditional crypto asset.
 
 Unlike traditional futures, these contracts don't have an expiry date. They can be held indefinitely. Trades are settled in USDT. LIke other perps, election perps use a funding rate mechanism to keep the contract price close to the underlying index price.
 
@@ -18,7 +18,7 @@ Expiry futures require mark prices to track liquidation and settlement prices. B
 
 ### Mark Price Mechanism
 
-The mark price for election perps on Injective is based on a proprietary oracle feed provided by Stork. In the example of the 2024ELECTION PERP, Stork queries the midpoint of [the 2024 Presidential Election market on Polymarket](https://github.com/InjectiveLabs/injective-docs/blob/master/.gitbook/defi/trading/election-perpetual.md#how-do-election-perpetual-futures-work). They then apply a six-hour time weighted average price (TWAP) to prevent drastic swings in the mark price. That price is then scaled down to a more human readable format (i.e. a price between $0 and $1), and used as the mark price.
+The mark price for election perps on Biyaliquid is based on a proprietary oracle feed provided by Stork. In the example of the 2024ELECTION PERP, Stork queries the midpoint of [the 2024 Presidential Election market on Polymarket](https://github.com/biya-coin/biyaliquid-docs/blob/master/.gitbook/defi/trading/election-perpetual.md#how-do-election-perpetual-futures-work). They then apply a six-hour time weighted average price (TWAP) to prevent drastic swings in the mark price. That price is then scaled down to a more human readable format (i.e. a price between $0 and $1), and used as the mark price.
 
 ### Market Settlement
 

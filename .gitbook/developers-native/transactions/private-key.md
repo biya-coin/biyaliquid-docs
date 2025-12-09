@@ -1,8 +1,8 @@
 # Private Key Transaction
 
-In this document, we are going to show you how to use a PrivateKey to sign transactions on Injective.
+In this document, we are going to show you how to use a PrivateKey to sign transactions on Biyaliquid.
 
-Every transaction on Injective follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biyaliquid follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
@@ -16,33 +16,33 @@ import {
   ChainRestAuthApi,
   createTransaction,
   ChainRestTendermintApi,
-} from "@injectivelabs/sdk-ts";
+} from "@biya-coin/sdk-ts";
 import {
   toBigNumber,
   toChainFormat,
   getDefaultStdFee,
   DEFAULT_BLOCK_TIMEOUT_HEIGHT,
-} from "@injectivelabs/utils";
-import { ChainId } from "@injectivelabs/ts-types";
-import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
+} from "@biya-coin/utils";
+import { ChainId } from "@biya-coin/ts-types";
+import { Network, getNetworkEndpoints } from "@biya-coin/networks";
 
 const privateKeyHash = "";
 const privateKey = PrivateKey.fromHex(privateKeyHash);
-const injectiveAddress = privateKey.toBech32();
+const biyaliquidAddress = privateKey.toBech32();
 const address = privateKey.toAddress();
 const pubKey = privateKey.toPublicKey().toBase64();
-const chainId = "injective-1"; /* ChainId.Mainnet */
+const chainId = "biyaliquid-1"; /* ChainId.Mainnet */
 const restEndpoint =
-  "https://lcd.injective.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
+  "https://lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
 const amount = {
-  denom: "inj",
+  denom: "biya",
   amount: toChainFormat(0.01).toFixed(),
 };
 
 /** Account Details **/
 const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-  injectiveAddress
+  biyaliquidAddress
 );
 const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 const accountDetails = baseAccount.toAccountDetails();
@@ -58,8 +58,8 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
 /** Preparing the transaction */
 const msg = MsgSend.fromJSON({
   amount,
-  srcInjectiveAddress: injectiveAddress,
-  dstInjectiveAddress: injectiveAddress,
+  srcBiyaliquidAddress: biyaliquidAddress,
+  dstBiyaliquidAddress: biyaliquidAddress,
 });
 
 /** Prepare the Transaction **/
@@ -79,7 +79,7 @@ const { txRaw, signBytes } = createTransaction({
 Once we have prepared the transaction, we proceed to signing. Once you get the `txRaw` transaction from the previous step use any Cosmos native wallet to sign (ex: Keplr),
 
 ```ts
-import { ChainId } from '@injectivelabs/ts-types'
+import { ChainId } from '@biya-coin/ts-types'
 
 /* Sign the Transaction */
 const privateKeyHash = ''
@@ -92,12 +92,12 @@ const signature = await privateKey.sign(Buffer.from(signBytes));
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Injective chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biyaliquid chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
 
 ```ts
-import { ChainId } from '@injectivelabs/ts-types'
-import { TxRestClient } from '@injectivelabs/sdk-ts'
-import { Network, getNetworkInfo } from '@injectivelabs/networks'
+import { ChainId } from '@biya-coin/ts-types'
+import { TxRestClient } from '@biya-coin/sdk-ts'
+import { Network, getNetworkInfo } from '@biya-coin/networks'
 
 /** Append Signatures */
 const network = getNetworkInfo(Network.Testnet);
@@ -138,16 +138,16 @@ if (txResponse.code !== 0) {
 Let's have a look at the whole flow (using Keplr as a signing wallet)
 
 ```ts
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { getNetworkInfo, Network } from "@biya-coin/networks";
 import {
   TxClient,
   PrivateKey,
   TxGrpcClient,
   ChainRestAuthApi,
   createTransaction,
-} from "@injectivelabs/sdk-ts";
-import { MsgSend } from "@injectivelabs/sdk-ts";
-import { toChainFormat, getDefaultStdFee } from "@injectivelabs/utils";
+} from "@biya-coin/sdk-ts";
+import { MsgSend } from "@biya-coin/sdk-ts";
+import { toChainFormat, getDefaultStdFee } from "@biya-coin/utils";
 
 /** MsgSend Example */
 (async () => {
@@ -155,24 +155,24 @@ import { toChainFormat, getDefaultStdFee } from "@injectivelabs/utils";
   const privateKeyHash =
     "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3";
   const privateKey = PrivateKey.fromHex(privateKeyHash);
-  const injectiveAddress = privateKey.toBech32();
+  const biyaliquidAddress = privateKey.toBech32();
   const publicKey = privateKey.toPublicKey().toBase64();
 
   /** Account Details **/
   const accountDetails = await new ChainRestAuthApi(network.rest).fetchAccount(
-    injectiveAddress
+    biyaliquidAddress
   );
 
   /** Prepare the Message */
   const amount = {
-    denom: "inj",
+    denom: "biya",
     amount: toChainFormat(0.01).toFixed(),
   };
 
   const msg = MsgSend.fromJSON({
     amount,
-    srcInjectiveAddress: injectiveAddress,
-    dstInjectiveAddress: injectiveAddress,
+    srcBiyaliquidAddress: biyaliquidAddress,
+    dstBiyaliquidAddress: biyaliquidAddress,
   });
 
   /** Prepare the Transaction **/
@@ -223,25 +223,25 @@ import { toChainFormat, getDefaultStdFee } from "@injectivelabs/utils";
 
 ## Example with MsgBroadcasterWithPk
 
-You can use the `MsgBroadcasterWithPk` class from the `@injectivelabs/sdk-ts` package which abstracts away most of the logic written above into a single class.
+You can use the `MsgBroadcasterWithPk` class from the `@biya-coin/sdk-ts` package which abstracts away most of the logic written above into a single class.
 
 **This abstraction allows you to sign transactions in a Node/CLI environment.**
 
 ```ts
-import { Network } from "@injectivelabs/networks";
-import { toChainFormat } from "@injectivelabs/utils";
-import { MsgSend, MsgBroadcasterWithPk } from "@injectivelabs/sdk-ts";
+import { Network } from "@biya-coin/networks";
+import { toChainFormat } from "@biya-coin/utils";
+import { MsgSend, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 
 const privateKey = "0x...";
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const amount = {
-  denom: "inj",
+  denom: "biya",
   amount: toChainFormat(1).toFixed(),
 };
 const msg = MsgSend.fromJSON({
   amount,
-  srcInjectiveAddress: injectiveAddress,
-  dstInjectiveAddress: injectiveAddress,
+  srcBiyaliquidAddress: biyaliquidAddress,
+  dstBiyaliquidAddress: biyaliquidAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({

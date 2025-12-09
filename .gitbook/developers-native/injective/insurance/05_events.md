@@ -13,19 +13,19 @@ The insurance module emits the following events:
 
 | Type                                                 | Attribute Key | Attribute Value |
 | ---------------------------------------------------- | ------------- | --------------- |
-| injective.insurance.v1beta1.EventInsuranceFundUpdate | fund          | {fundJSON}      |
+| biyaliquid.insurance.v1beta1.EventInsuranceFundUpdate | fund          | {fundJSON}      |
 
 ### MsgUnderwrite
 
 | Type                                                 | Attribute Key | Attribute Value |
 | ---------------------------------------------------- | ------------- | --------------- |
-| injective.insurance.v1beta1.EventInsuranceFundUpdate | fund          | {fundJSON}      |
+| biyaliquid.insurance.v1beta1.EventInsuranceFundUpdate | fund          | {fundJSON}      |
 
 ### MsgRequestRedemption
 
 | Type                                               | Attribute Key | Attribute Value |
 | -------------------------------------------------- | ------------- | --------------- |
-| injective.insurance.v1beta1.EventRequestRedemption | schedule      | {scheduleJSON}  |
+| biyaliquid.insurance.v1beta1.EventRequestRedemption | schedule      | {scheduleJSON}  |
 
 
 
@@ -33,7 +33,7 @@ The insurance module emits the following events:
 
 | Type                                                 | Attribute Key | Attribute Value |
 | ---------------------------------------------------- | ------------- | --------------- |
-| injective.insurance.v1beta1.EventInsuranceFundUpdate | fund          | {fundJSON}      |
-| injective.insurance.v1beta1.EventWithdrawRedemption  | schedule      | {scheduleJSON}  |
-| injective.insurance.v1beta1.EventWithdrawRedemption  | redeem_coin   | {redeemCoin}    |
+| biyaliquid.insurance.v1beta1.EventInsuranceFundUpdate | fund          | {fundJSON}      |
+| biyaliquid.insurance.v1beta1.EventWithdrawRedemption  | schedule      | {scheduleJSON}  |
+| biyaliquid.insurance.v1beta1.EventWithdrawRedemption  | redeem_coin   | {redeemCoin}    |
 

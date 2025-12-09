@@ -7,8 +7,8 @@ Example code snippets to query the indexer for oracle module related data.
 ### Stream oracle prices
 
 ```ts
-import { IndexerGrpcOracleStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcOracleStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcOracleStream = new IndexerGrpcOracleStream(endpoints.indexer)
@@ -31,8 +31,8 @@ streamFn(streamFnArgs)
 ### Stream oracle prices by market
 
 ```ts
-import { IndexerGrpcOracleStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcOracleStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcOracleStream = new IndexerGrpcOracleStream(endpoints.indexer)

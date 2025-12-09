@@ -47,14 +47,14 @@ The exchange EndBlocker runs at the end of every block in our defined order afte
 
 The goal of FBA is to prevent any [Front-Running](https://www.investopedia.com/terms/f/frontrunning.asp). This is achieved by calculating a single clearing price for all matched orders in a given block.
 
-1. Market orders are filled first against the resting orderbook at the time of the beginning of the block. While the resting orders are filled at their respective order prices, the market orders are all filled at a uniform clearing price with the same mechanism as limit orders. For an example for the market order matching in FBA fashion, look at the API docs [here](https://api.injective.exchange/#examples-market-order-matching).
+1. Market orders are filled first against the resting orderbook at the time of the beginning of the block. While the resting orders are filled at their respective order prices, the market orders are all filled at a uniform clearing price with the same mechanism as limit orders. For an example for the market order matching in FBA fashion, look at the API docs [here](https://api.biyaliquid.exchange/#examples-market-order-matching).
 2. Likewise limit orders are filled at a uniform clearing price. New limit orders are combined with the resting orderbook and orders are matched as long as there is still negative spread. The clearing price is either
 
 a. the best buy/sell order in case the last matched order crosses the spread in that direction, the,\
 b. the mark price in case of derivative markets and the mark price is between the last matched orders or\
 c. the mid price.
 
-For an example for the limit order matching in FBA fashion, look at the API docs [here](https://api.injective.exchange/#examples-limit-order-matching).
+For an example for the limit order matching in FBA fashion, look at the API docs [here](https://api.biyaliquid.exchange/#examples-limit-order-matching).
 
 ## Single Trade Calculations
 
@@ -71,4 +71,4 @@ For an example for the limit order matching in FBA fashion, look at the API docs
   3. The order is matched at a better price resulting in a different fee.
      * For buy orders a better price means a lower price and thus a lower fee. We refund the fee price delta.
      * For sell orders a better price means a higher price and thus a higher fee. We charge the fee price delta.
-  4. You can find the respective code with an example [here](https://github.com/InjectiveLabs/injective-core/blob/80dbc4e9558847ff0354be5d19a4d8b0bba7da96/injective-chain/modules/exchange/keeper/derivative_orders_processor.go#L502). Please check the master branch for the latest chain code.
+  4. You can find the respective code with an example [here](https://github.com/biya-coin/biyaliquid-core/blob/80dbc4e9558847ff0354be5d19a4d8b0bba7da96/biyaliquid-chain/modules/exchange/keeper/derivative_orders_processor.go#L502). Please check the master branch for the latest chain code.

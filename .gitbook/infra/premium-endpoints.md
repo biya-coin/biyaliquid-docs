@@ -6,14 +6,14 @@ description: >-
 
 # Premium Endpoints
 
-Here is a list of external providers offering private Injective infrastructure services. For more information, click on their websites below:
+Here is a list of external providers offering private Biyaliquid infrastructure services. For more information, click on their websites below:
 
-* [QuickNode](https://www.quicknode.com/chains/inj)
+* [QuickNode](https://www.quicknode.com/chains/biya)
 * [CryptoCrew](https://forms.gle/Aa2XYBB4sLxzHNzc6)
 * [Imperator](https://www.imperator.co/products/dedicated-and-rpc-nodes#get-started)
-* [AllNodes](https://injective.publicnode.com/)
-* [NowNodes](https://nownodes.io/injective-inj)
-* [RockX](https://access.rockx.com/product/injective-blockchain-api-for-web3-builders)
+* [AllNodes](https://biyaliquid.publicnode.com/)
+* [NowNodes](https://nownodes.io/biyaliquid-biya)
+* [RockX](https://access.rockx.com/product/biyaliquid-blockchain-api-for-web3-builders)
 
 | Provider          | Chain | Indexer |
 |-------------------|-------|---------|

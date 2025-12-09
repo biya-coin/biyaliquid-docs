@@ -7,8 +7,8 @@ Example code snippets to query the chain via the peggy api.
 ### Fetch parameters related to peggy
 
 ```ts
-import { ChainGrpcPeggyApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcPeggyApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcPeggyApi = new ChainGrpcPeggyApi(endpoints.grpc)

@@ -1,14 +1,14 @@
 # Cosmos Transactions
 
-Every transaction on Injective follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biyaliquid follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
 First of, we need to prepare the transaction for signing.
 
-At this point you **can't** use some online abstractions that provide a quick way to prepare the transaction for you based on the provided Message and the signer (ex. using the `@cosmjs/stargate` package). The reason why is that these packages don't support Injective's publicKey typeUrl, so we have to do the preparation of the address on the client side.
+At this point you **can't** use some online abstractions that provide a quick way to prepare the transaction for you based on the provided Message and the signer (ex. using the `@cosmjs/stargate` package). The reason why is that these packages don't support Biyaliquid's publicKey typeUrl, so we have to do the preparation of the address on the client side.
 
-To resolve this, we have provided functions which can prepare the `txRaw` transaction within out `@injectivelabs/sdk-ts` package. `txRaw` is the transaction interface used in Cosmos that contains details about the transaction and the signer itself.
+To resolve this, we have provided functions which can prepare the `txRaw` transaction within out `@biya-coin/sdk-ts` package. `txRaw` is the transaction interface used in Cosmos that contains details about the transaction and the signer itself.
 
 Getting a private key from cosmos wallets is usually done by taking the current key for the chainId and accessing the pubKey from there (ex: `const key = await window.keplr.getKey(chainId)` => `const pubKey = key.publicKey`).
 
@@ -19,24 +19,24 @@ import {
   ChainRestAuthApi,
   createTransaction,
   ChainRestTendermintApi,
-} from "@injectivelabs/sdk-ts";
-import { toBigNumber, toChainFormat } from "@injectivelabs/utils";
-import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@injectivelabs/utils";
+} from "@biya-coin/sdk-ts";
+import { toBigNumber, toChainFormat } from "@biya-coin/utils";
+import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
 
 (async () => {
-  const injectiveAddress = "inj1";
-  const chainId = "injective-1"; /* ChainId.Mainnet */
+  const biyaliquidAddress = "biya1";
+  const chainId = "biyaliquid-1"; /* ChainId.Mainnet */
   const restEndpoint =
-    "https://sentry.lcd.injective.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
+    "https://sentry.lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
   const amount = {
-    denom: "inj",
+    denom: "biya",
     amount: toChainFormat(0.01).toFixed(),
   };
 
   /** Account Details **/
   const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-    injectiveAddress
+    biyaliquidAddress
   );
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 
@@ -51,8 +51,8 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@injectivelabs/utils";
   /** Preparing the transaction */
   const msg = MsgSend.fromJSON({
     amount,
-    srcInjectiveAddress: injectiveAddress,
-    dstInjectiveAddress: injectiveAddress,
+    srcBiyaliquidAddress: biyaliquidAddress,
+    dstBiyaliquidAddress: biyaliquidAddress,
   });
 
   /** Get the PubKey of the Signer from the Wallet/Private Key */
@@ -76,7 +76,7 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@injectivelabs/utils";
 Once we have prepared the transaction, we proceed to signing. Once you get the `txRaw` transaction from the previous step use any Cosmos native wallet to sign (ex: Keplr),
 
 ```ts
-import { ChainId } from '@injectivelabs/ts-types'
+import { ChainId } from '@biya-coin/ts-types'
 import { SignDoc } from '@keplr-wallet/types'
 
 const getKeplr = async (chainId: string) => {
@@ -92,27 +92,27 @@ const getKeplr = async (chainId: string) => {
 const { offlineSigner } = await getKeplr(ChainId.Mainnet)
 
 /* Sign the Transaction */
-const address = 'inj1...'
+const address = 'biya1...'
 const signDoc = /* From the previous step */
 const directSignResponse = await offlineSigner.signDirect(address, signDoc as SignDoc)
 ```
 
-You can also use our `@injectivelabs/wallet-strategy` package to get out-of-the-box wallet provides that will give you abstracted methods that you can use to sign transactions. Refer to the documentation of the package, its straightforward to setup and use. **This is the recommended way as you have access to more than one wallet to use in your dApp. The `WalletStrategy` provides more than just signing transaction abstractions.**
+You can also use our `@biya-coin/wallet-strategy` package to get out-of-the-box wallet provides that will give you abstracted methods that you can use to sign transactions. Refer to the documentation of the package, its straightforward to setup and use. **This is the recommended way as you have access to more than one wallet to use in your dApp. The `WalletStrategy` provides more than just signing transaction abstractions.**
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Injective chain itself. After getting the signature from the second step, we need to include it in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biyaliquid chain itself. After getting the signature from the second step, we need to include it in the signed transaction and broadcast it to the chain.
 
 ```ts
-import { ChainId } from '@injectivelabs/ts-types'
+import { ChainId } from '@biya-coin/ts-types'
 import {
   TxRestApi,
   CosmosTxV1Beta1Tx,
   BroadcastModeKeplr,
   getTxRawFromTxRawOrDirectSignResponse,
   TxRaw,
-} from '@injectivelabs/sdk-ts'
-import { TransactionException } from '@injectivelabs/exceptions'
+} from '@biya-coin/sdk-ts'
+import { TransactionException } from '@biya-coin/exceptions'
 
 /**
  * IMPORTANT NOTE:
@@ -161,7 +161,7 @@ const txHash = await broadcastTx(ChainId.Mainnet, txRaw)
  * it can happen that it's still in the mempool so we need to query
  * the chain to see when the transaction will be included
  */
-const restEndpoint = 'https://sentry.lcd.injective.network' /* getNetworkEndpoints(Network.MainnetSentry).rest */
+const restEndpoint = 'https://sentry.lcd.biyaliquid.network' /* getNetworkEndpoints(Network.MainnetSentry).rest */
 const txRestApi = new TxRestApi(restEndpoint)
 
  /** This will poll querying the transaction and await for it's inclusion in the block */
@@ -184,11 +184,11 @@ import {
   BroadcastModeKeplr,
   ChainRestTendermintApi,
   getTxRawFromTxRawOrDirectSignResponse,
-} from "@injectivelabs/sdk-ts";
-import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@injectivelabs/utils";
-import { ChainId } from "@injectivelabs/ts-types";
-import { toBigNumber, toChainFormat } from "@injectivelabs/utils";
-import { TransactionException } from "@injectivelabs/exceptions";
+} from "@biya-coin/sdk-ts";
+import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
+import { ChainId } from "@biya-coin/ts-types";
+import { toBigNumber, toChainFormat } from "@biya-coin/utils";
+import { TransactionException } from "@biya-coin/exceptions";
 import { SignDoc } from "@keplr-wallet/types";
 
 const getKeplr = async (chainId: string) => {
@@ -220,21 +220,21 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
 };
 
 (async () => {
-  const chainId = "injective-1"; /* ChainId.Mainnet */
+  const chainId = "biyaliquid-1"; /* ChainId.Mainnet */
   const { key, offlineSigner } = await getKeplr(chainId);
   const pubKey = Buffer.from(key.pubKey).toString("base64");
-  const injectiveAddress = key.bech32Address;
+  const biyaliquidAddress = key.bech32Address;
   const restEndpoint =
-    "https://sentry.lcd.injective.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
+    "https://sentry.lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
   const amount = {
-    denom: "inj",
+    denom: "biya",
     amount: toChainFormat(0.01).toFixed(),
   };
 
   /** Account Details **/
   const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-    injectiveAddress
+    biyaliquidAddress
   );
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 
@@ -249,8 +249,8 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
   /** Preparing the transaction */
   const msg = MsgSend.fromJSON({
     amount,
-    srcInjectiveAddress: injectiveAddress,
-    dstInjectiveAddress: injectiveAddress,
+    srcBiyaliquidAddress: biyaliquidAddress,
+    dstBiyaliquidAddress: biyaliquidAddress,
   });
 
   /** Prepare the Transaction **/
@@ -265,7 +265,7 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
   });
 
   const directSignResponse = await offlineSigner.signDirect(
-    injectiveAddress,
+    biyaliquidAddress,
     signDoc as SignDoc
   );
   const txRaw = getTxRawFromTxRawOrDirectSignResponse(directSignResponse);
@@ -278,4 +278,4 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
 
 ## Example with WalletStrategy (Prepare + Sign + Broadcast)
 
-Example can be found [here](https://github.com/InjectiveLabs/injective-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L301-L365).
+Example can be found [here](https://github.com/biya-coin/biyaliquid-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L301-L365).

@@ -3,7 +3,7 @@
 On this page, we'll provide an example of how to sign and verify arbitrary data as per the [ADR-036](https://docs.cosmos.network/main/build/architecture/adr-036-arbitrary-signature) specification on Cosmos.
 
 {% hint style="info" %}
-You can use the `generateArbitrarySignDoc` function from `@injectivelabs/sdk-ts` to generate ADR-36 compatible `signDoc`. You can then use it to sign/verify using a browser wallet or in a CLI environment. Make sure you are using the latest package versions.
+You can use the `generateArbitrarySignDoc` function from `@biya-coin/sdk-ts` to generate ADR-36 compatible `signDoc`. You can then use it to sign/verify using a browser wallet or in a CLI environment. Make sure you are using the latest package versions.
 {% endhint %}
 
 #### Sign and verify using a browser wallet like Keplr
@@ -12,8 +12,8 @@ You can use the `generateArbitrarySignDoc` function from `@injectivelabs/sdk-ts`
 
 (async () => {
   const message = "Offline Sign Message Example";
-  const signer = 'inj1...'
-  const chainId = 'injective-1'
+  const signer = 'biya1...'
+  const chainId = 'biyaliquid-1'
   
   // Sign Arbitrary Data
   const signature = await window.keplr.signArbitrary(chainId, signer, message)
@@ -31,17 +31,17 @@ You can use the `generateArbitrarySignDoc` function from `@injectivelabs/sdk-ts`
 
 ```typescript
 import { config } from "dotenv";
-import { PrivateKey, generateArbitrarySignDoc } from "@injectivelabs/sdk-ts";
+import { PrivateKey, generateArbitrarySignDoc } from "@biya-coin/sdk-ts";
 
 config();
 
 (async () => {
   const { privateKey } = PrivateKey.generate();
-  const injectiveAddress = privateKey.toBech32();
+  const biyaliquidAddress = privateKey.toBech32();
   const publicKey = privateKey.toPublicKey();
   
   const message = "Offline Sign Message Example";
-  const { signDocBuff } = generateArbitrarySignDoc(message, injectiveAddress);
+  const { signDocBuff } = generateArbitrarySignDoc(message, biyaliquidAddress);
 
   const signature = await privateKey.sign(signDocBuff);
   const signatureInHex = Buffer.from(signature).toString("hex");

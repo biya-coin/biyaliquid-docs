@@ -1,6 +1,6 @@
 # Distribution
 
-The `distribution` module is extended from the cosmos sdk [distribution module](https://github.com/InjectiveLabs/cosmos-sdk/tree/master/x/distribution), where delegator can withdraw their staking rewards from the validator.
+The `distribution` module is extended from the cosmos sdk [distribution module](https://github.com/biya-coin/cosmos-sdk/tree/master/x/distribution), where delegator can withdraw their staking rewards from the validator.
 
 Distribution -> MsgWithdrawValidatorCommission
 
@@ -12,16 +12,16 @@ This message is used to withdraw all available delegator staking rewards from th
 import {
   MsgBroadcasterWithPk,
   MsgWithdrawDelegatorReward,
-} from "@injectivelabs/sdk-ts";
-import {  Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import {  Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
-const validatorAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
+const validatorAddress = "biya1...";
 
 /* create message in proto format */
 const msg = MsgWithdrawDelegatorReward.fromJSON({
   validatorAddress,
-  delegatorAddress: injectiveAddress,
+  delegatorAddress: biyaliquidAddress,
 });
 
 const privateKey = "0x...";
@@ -45,11 +45,11 @@ This message is used by the validator to withdraw the commission earned.
 import {
   MsgBroadcasterWithPk,
   MsgWithdrawValidatorCommission,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
-const validatorAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
+const validatorAddress = "biya1...";
 
 /* create message in proto format */
 const msg = MsgWithdrawValidatorCommission.fromJSON({

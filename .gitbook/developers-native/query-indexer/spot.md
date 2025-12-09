@@ -7,8 +7,8 @@ Example code snippets to query the indexer for spot market module related data.
 ### Fetch markets
 
 ```ts
-import { IndexerGrpcSpotApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -21,8 +21,8 @@ console.log(markets)
 ### Fetch market based on market id
 
 ```ts
-import { IndexerGrpcSpotApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -37,9 +37,9 @@ console.log(market)
 ### Fetch market's orders
 
 ```ts
-import { PaginationOption, IndexerGrpcSpotApi } from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, IndexerGrpcSpotApi } from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -67,9 +67,9 @@ import {
   PaginationOption,
   TradeExecutionType,
   IndexerGrpcSpotApi
-} from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -101,8 +101,8 @@ import {
   PaginationOption,
   TradeExecutionType,
   IndexerGrpcSpotApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -130,8 +130,8 @@ console.log(trades)
 import {
   PaginationOption,
   IndexerGrpcSpotApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -157,8 +157,8 @@ import {
   TradeExecutionType,
   PaginationOption,
   IndexerGrpcSpotApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -183,8 +183,8 @@ console.log(subaccountTrades)
 ### Fetch orderbooks for multiple markets
 
 ```ts
-import { IndexerGrpcSpotApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -199,8 +199,8 @@ console.log(orderbooks)
 ### Fetch orderbook for a market
 
 ```ts
-import { IndexerGrpcSpotApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer)
@@ -217,8 +217,8 @@ console.log(orderbook)
 ### Fetch market summary, such as a history of prices and 24 hr volume
 
 ```ts
-import { IndexerRestSpotChronosApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestSpotChronosApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(
@@ -237,8 +237,8 @@ console.log(marketSummary)
 ### Fetch all markets summaries, such as a history of prices and 24 hr volume
 
 ```ts
-import { IndexerRestSpotChronosApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestSpotChronosApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(

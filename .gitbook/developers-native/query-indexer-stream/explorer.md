@@ -7,8 +7,8 @@ Example code snippets to stream from the indexer for explorer module related dat
 ### Stream blocks
 
 ```ts
-import { IndexerGrpcExplorerStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerStream = new IndexerGrpcExplorerStream(
@@ -33,8 +33,8 @@ streamFn(streamFnArgs)
 ### Stream blocks with transactions
 
 ```ts
-import { IndexerGrpcExplorerStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerStream = new IndexerGrpcExplorerStream(
@@ -59,8 +59,8 @@ streamFn(streamFnArgs)
 ### Stream transactions
 
 ```ts
-import { IndexerGrpcExplorerStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerStream = new IndexerGrpcExplorerStream(

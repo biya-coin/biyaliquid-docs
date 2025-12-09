@@ -1,11 +1,11 @@
 # Commands
 
-This section describes the commands available from `injectived`, the command line interface that connects a running `injectived` process (node).
+This section describes the commands available from `biyaliquidd`, the command line interface that connects a running `biyaliquidd` process (node).
 
 {% hint style="info" %}
-Several `injectived` commands require subcommands, arguments, or flags to operate. To view this information, run the `injectived` command with the `--help` or `-h` flag. See `query` or `tx` for usage examples of the help flag.
+Several `biyaliquidd` commands require subcommands, arguments, or flags to operate. To view this information, run the `biyaliquidd` command with the `--help` or `-h` flag. See `query` or `tx` for usage examples of the help flag.
 
-For the `chain-id` argument, `injective-1` should be used for mainnet, and `injective-888` should be used for testnet.
+For the `chain-id` argument, `biyaliquid-1` should be used for mainnet, and `biyaliquid-888` should be used for testnet.
 {% endhint %}
 
 ### `add-genesis-account`
@@ -15,13 +15,13 @@ Adds a genesis account to `genesis.json`. For more information on `genesis.json`
 **Syntax**
 
 ```bash
-injectived add-genesis-account <address-or-key-name> <amount><coin-denominator>
+biyaliquidd add-genesis-account <address-or-key-name> <amount><coin-denominator>
 ```
 
 **Example**
 
 ```bash
-injectived add-genesis-account acc1 100000000000inj
+biyaliquidd add-genesis-account acc1 100000000000biya
 ```
 
 ### `collect-gentxs`
@@ -31,7 +31,7 @@ Collects genesis transactions and outputs them to `genesis.json`. For more infor
 **Syntax**
 
 ```bash
-injectived collect-gentxs
+biyaliquidd collect-gentxs
 ```
 
 ### `debug`
@@ -39,13 +39,13 @@ injectived collect-gentxs
 Helps debug the application. For a list of syntax and subcommands, run the `debug` command with the `--help` or `-h` flag:
 
 ```bash
-injectived debug -h
+biyaliquidd debug -h
 ```
 
 **Subcommands**:
 
 ```bash
-injectived debug [subcommand]
+biyaliquidd debug [subcommand]
 ```
 
 * **`addr`**: Convert an address between hex and bech32
@@ -59,7 +59,7 @@ Exports the state to JSON.
 **Syntax**
 
 ```bash
-injectived export
+biyaliquidd export
 ```
 
 ### `gentx`
@@ -73,13 +73,13 @@ Adds a genesis transaction to `genesis.json`. For more information on `genesis.j
 **Syntax**
 
 ```bash
-injectived gentx <key-name> <amount><coin-denominator>
+biyaliquidd gentx <key-name> <amount><coin-denominator>
 ```
 
 **Example**
 
 ```bash
-injectived gentx myKey 100000000000inj --home=/path/to/home/dir --keyring-backend=os --chain-id=injective-1 \
+biyaliquidd gentx myKey 100000000000biya --home=/path/to/home/dir --keyring-backend=os --chain-id=biyaliquid-1 \
     --moniker="myValidator" \
     --commission-max-change-rate=0.01 \
     --commission-max-rate=1.0 \
@@ -96,7 +96,7 @@ Shows an overview of available commands.
 **Syntax**
 
 ```bash
-injectived help
+biyaliquidd help
 ```
 
 ### `init`
@@ -106,13 +106,13 @@ Initializes the configuration files for a node.
 **Syntax**
 
 ```bash
-injectived init <moniker>
+biyaliquidd init <moniker>
 ```
 
 **Example**
 
 ```bash
-injectived init myNode
+biyaliquidd init myNode
 ```
 
 ### `keys`
@@ -122,13 +122,13 @@ Manages Keyring commands. These keys may be in any format supported by the Tende
 For a list of syntax and subcommands, run the `keys` command with the `--help` or `-h` flag:
 
 ```bash
-injectived keys -h
+biyaliquidd keys -h
 ```
 
 **Subcommands**:
 
 ```bash
-injectived keys [subcommand]
+biyaliquidd keys [subcommand]
 ```
 
 * **`add`**: Add an encrypted private key (either newly generated or recovered), encrypt it, and save to the provided file name
@@ -151,13 +151,13 @@ Migrates the source genesis into the target version and prints to STDOUT. For mo
 **Syntax**
 
 ```bash
-injectived migrate <target version> <path-to-genesis-file>
+biyaliquidd migrate <target version> <path-to-genesis-file>
 ```
 
 **Example**
 
 ```bash
-injectived migrate v1.9.0 /path/to/genesis.json --chain-id=injective-888 --genesis-time=2023-03-07T17:00:00Z 
+biyaliquidd migrate v1.9.0 /path/to/genesis.json --chain-id=biyaliquid-888 --genesis-time=2023-03-07T17:00:00Z 
 ```
 
 ### `query`
@@ -165,13 +165,13 @@ injectived migrate v1.9.0 /path/to/genesis.json --chain-id=injective-888 --genes
 Manages queries. For a list of syntax and subcommands, run the `query` subcommand with the `--help` or `-h` flag:
 
 ```bash
-injectived query -h
+biyaliquidd query -h
 ```
 
 **Subcommands**:
 
 ```bash
-injectived query [subcommand]
+biyaliquidd query [subcommand]
 ```
 
 * **`account`**: Query for account by address
@@ -212,7 +212,7 @@ A state rollback is performed to recover from an incorrect application state tra
 **Syntax**
 
 ```bash
-injectived rollback
+biyaliquidd rollback
 ```
 
 ### `rosetta`
@@ -222,7 +222,7 @@ Creates a Rosetta server.
 **Syntax**
 
 ```bash
-injectived rosetta [flags]
+biyaliquidd rosetta [flags]
 ```
 
 ### `start`
@@ -236,7 +236,7 @@ The `start` command has many flags available. Run the `start` command with `--he
 **Syntax**
 
 ```bash
-injectived start [flags]
+biyaliquidd start [flags]
 ```
 
 ### `status`
@@ -246,7 +246,7 @@ Displays the status of a remote node. Use the `--node` or `-n` flag to specify a
 **Syntax**
 
 ```bash
-injectived status
+biyaliquidd status
 ```
 
 ### `tendermint`
@@ -254,13 +254,13 @@ injectived status
 Manages the Tendermint protocol. For a list of syntax and subcommands, run the `query` subcommand with the `--help` or `-h` flag:
 
 ```bash
-injectived tendermint -h
+biyaliquidd tendermint -h
 ```
 
 **Subcommands**:
 
 ```bash
-injectived tendermint [subcommand]
+biyaliquidd tendermint [subcommand]
 ```
 
 * **`reset-state`**: Remove all the data and WAL
@@ -281,29 +281,29 @@ The `testnet` command has many flags available. Run the `testnet` command with `
 **Syntax**
 
 ```bash
-injectived testnet [flags]
+biyaliquidd testnet [flags]
 ```
 
 **Example**
 
 ```bash
-injectived testnet --v 4 --keyring-backend test --output-dir ./output --ip-addresses 192.168.10.2
+biyaliquidd testnet --v 4 --keyring-backend test --output-dir ./output --ip-addresses 192.168.10.2
 ```
 
 ### `tx`
 
-Manages generation, signing, and broadcasting of transactions. See Using Injectived for examples.
+Manages generation, signing, and broadcasting of transactions. See Using Biyaliquidd for examples.
 
 For more information on syntax and available subcommands and, run the `tx` command with the `--help` or `-h` flag:
 
 ```bash
-injectived tx -h
+biyaliquidd tx -h
 ```
 
 **Subcommands**:
 
 ```bash
-injectived tx [subcommand]
+biyaliquidd tx [subcommand]
 ```
 
 * **`auction`**: Auction transactions subcommands
@@ -343,15 +343,15 @@ Validates the genesis file at the default location or at the location specified.
 **Syntax**
 
 ```bash
-injectived validate-genesis </path-to-file>
+biyaliquidd validate-genesis </path-to-file>
 ```
 
 ### `version`
 
-Returns the version of Injective you’re running.
+Returns the version of Biyaliquid you’re running.
 
 **Syntax**
 
 ```bash
-injectived version
+biyaliquidd version
 ```

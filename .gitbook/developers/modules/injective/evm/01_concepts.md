@@ -78,13 +78,13 @@ In the Geth implementation, calling the endpoint roughly goes through the follow
 6. [`evm.Call()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/evm.go#L168) runs the interpreter `evm.interpreter.Run()` to execute the message. If the execution fails, the state is reverted to a snapshot taken before the execution and gas is consumed.
 7. [`Run()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/interpreter.go#L116) performs a loop to execute the opcodes.
 
-The Injective implementation is similar and makes use of the gRPC query client which is included in the Cosmos SDK:
+The Biyaliquid implementation is similar and makes use of the gRPC query client which is included in the Cosmos SDK:
 
 1. `eth_call` request is transformed to call the `func (e *PublicAPI) Call` function using the `eth` namespace
-2. [`Call()`](https://github.com/InjectiveLabs/injective-core/injective-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L639) calls `doCall()`
-3. [`doCall()`](https://github.com/InjectiveLabs/injective-core/injective-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L656) transforms the arguments into a `EthCallRequest` and calls `EthCall()` using the query client of the evm module.
-4. [`EthCall()`](https://github.com/InjectiveLabs/injective-core/injective-chain/blob/main/x/evm/keeper/grpc_query.go#L212) transforms the arguments into a `ethtypes.message` and calls `ApplyMessageWithConfig()
-5. [`ApplyMessageWithConfig()`](https://github.com/InjectiveLabs/injective-core/injective-chain/blob/d5598932a7f06158b7a5e3aa031bbc94eaaae32c/x/evm/keeper/state_transition.go#L341) instantiates an EVM and either `Create()`s a new contract or `Call()`s a contract using the Geth implementation.
+2. [`Call()`](https://github.com/biya-coin/biyaliquid-core/biyaliquid-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L639) calls `doCall()`
+3. [`doCall()`](https://github.com/biya-coin/biyaliquid-core/biyaliquid-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L656) transforms the arguments into a `EthCallRequest` and calls `EthCall()` using the query client of the evm module.
+4. [`EthCall()`](https://github.com/biya-coin/biyaliquid-core/biyaliquid-chain/blob/main/x/evm/keeper/grpc_query.go#L212) transforms the arguments into a `ethtypes.message` and calls `ApplyMessageWithConfig()
+5. [`ApplyMessageWithConfig()`](https://github.com/biya-coin/biyaliquid-core/biyaliquid-chain/blob/d5598932a7f06158b7a5e3aa031bbc94eaaae32c/x/evm/keeper/state_transition.go#L341) instantiates an EVM and either `Create()`s a new contract or `Call()`s a contract using the Geth implementation.
 
 ### StateDB
 

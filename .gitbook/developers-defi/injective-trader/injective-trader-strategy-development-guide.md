@@ -2,7 +2,7 @@
 
 ## Configuration Guide
 
-The Injective Trader uses a YAML configuration file to define behavior, components, and strategy parameters.
+The Biyaliquid Trader uses a YAML configuration file to define behavior, components, and strategy parameters.
 
 The most important configuration sections to focus on are:
 
@@ -29,7 +29,7 @@ Components:
   Initializer:
     Network: mainnet           # Network to connect to (mainnet or testnet)
     MarketTickers:             # Market tickers to track (will be converted to IDs)
-      - INJ/USDT PERP
+      - BIYA/USDT PERP
       - ETH/USDT
     BotName: MyBot
 
@@ -69,13 +69,13 @@ Strategies:
     Name: "SimpleStrategy"                           # Strategy name (used in logs)
     Class: "SimpleStrategy"                          # [REQUIRED] Python class name to instantiate
     MarketIds:                                       # [REQUIRED] Markets to trade on
-      - "0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"  # INJ/USDT PERP
+      - "0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"  # BIYA/USDT PERP
     AccountAddresses:                                # [REQUIRED] Accounts to use
-      - "inj1youractualaccount..."                   # (Must match private key in env)
-    TradingAccount: "inj1youractualaccount..."       # [REQUIRED] Account for placing orders (Must match private key in env)
+      - "biya1youractualaccount..."                   # (Must match private key in env)
+    TradingAccount: "biya1youractualaccount..."       # [REQUIRED] Account for placing orders (Must match private key in env)
 
     # Optional parameters
-    FeeRecipient: "inj1feerecipient..."   # Address to receive trading fees (if applicable)
+    FeeRecipient: "biya1feerecipient..."   # Address to receive trading fees (if applicable)
     CIDPrefix: "simple_strat"              # Prefix for client order IDs
     SubaccountIds: ["0x123..."]            # Specific subaccounts to use (otherwise all available)
 
@@ -117,7 +117,7 @@ The framework supports two trading modes:
 Strategies:
   SimpleStrategy:
     # Other parameters...
-    TradingAccount: "inj1youraccount..."   # Account that will sign and broadcast transactions
+    TradingAccount: "biya1youraccount..."   # Account that will sign and broadcast transactions
 ```
 
 #### Authorization (Authz) Mode
@@ -126,10 +126,10 @@ Strategies:
 Strategies:
   SimpleStrategy:
     # Other parameters...
-    Granter: "inj1granteraccount..."   # Account granting permission to execute trades
+    Granter: "biya1granteraccount..."   # Account granting permission to execute trades
     Grantees:                          # Accounts that can execute trades on behalf of granter
-      - "inj1grantee1..."
-      - "inj1grantee2..."
+      - "biya1grantee1..."
+      - "biya1grantee2..."
 ```
 
 {% hint style="info" %}
@@ -173,7 +173,7 @@ Now that we understand the overall structure, we are ready to develop custom one
 
 ## Strategy Development Guide
 
-Strategies in the Injective Trader follow a consistent structure based on the `Strategy` base class. This section explains how to build effective strategies.
+Strategies in the Biyaliquid Trader follow a consistent structure based on the `Strategy` base class. This section explains how to build effective strategies.
 
 ### Strategy Class Structure
 
@@ -581,7 +581,7 @@ When your strategy decides to take action, return a `StrategyResult` object with
 | -------------------- | ------------------------------------------------------ | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `market_id`          | `str`                                                  | Unique market identifier                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `market_type`        | `MarketType` object                                    | Market type (SPOT, DERIVATIVE or BINARY) | Required as of v0.5.1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `market`             | `BinaryOptionMarket \| DerivativeMarket \| SpotMarket` | Market object from `pyinjective`         | <p>SpotMarket: <a href="https://api.injective.exchange/#chain-exchange-for-spot-spotmarkets">https://api.injective.exchange/#chain-exchange-for-spot-spotmarkets</a><br>DerivativeMarket: <a href="https://api.injective.exchange/#chain-exchange-for-derivatives-derivativemarkets">https://api.injective.exchange/#chain-exchange-for-derivatives-derivativemarkets</a><br>BinaryOptionMarket: <a href="https://api.injective.exchange/#chain-exchange-for-binary-options-binaryoptionsmarkets">https://api.injective.exchange/#chain-exchange-for-binary-options-binaryoptionsmarkets</a></p> |
+| `market`             | `BinaryOptionMarket \| DerivativeMarket \| SpotMarket` | Market object from `pybiyaliquid`         | <p>SpotMarket: <a href="https://api.biyaliquid.exchange/#chain-exchange-for-spot-spotmarkets">https://api.biyaliquid.exchange/#chain-exchange-for-spot-spotmarkets</a><br>DerivativeMarket: <a href="https://api.biyaliquid.exchange/#chain-exchange-for-derivatives-derivativemarkets">https://api.biyaliquid.exchange/#chain-exchange-for-derivatives-derivativemarkets</a><br>BinaryOptionMarket: <a href="https://api.biyaliquid.exchange/#chain-exchange-for-binary-options-binaryoptionsmarkets">https://api.biyaliquid.exchange/#chain-exchange-for-binary-options-binaryoptionsmarkets</a></p> |
 | `orderbook`          | `Orderbook` object                                     | Current market orderbook                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `oracle_price`       | `Decimal`                                              | Current market oracle price              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `min_price_tick`     | `Decimal`                                              | Minimum price increment                  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
@@ -605,10 +605,10 @@ When your strategy decides to take action, return a `StrategyResult` object with
 
 | **Property**      | **Type**                 | **Description**                    | **Note**                                |
 | ----------------- | ------------------------ | ---------------------------------- | --------------------------------------- |
-| `private_key`     | `PrivateKey`             | Injective private key              | Not directly accessible                 |
+| `private_key`     | `PrivateKey`             | Biyaliquid private key              | Not directly accessible                 |
 | `public_key`      | `PublicKey`              | Corresponding public key           |                                         |
 | `address`         | `Address`                | Account address object             | Contains sequence information           |
-| `account_address` | `str`                    | Bech32 address string              | Format: "inj1..."                       |
+| `account_address` | `str`                    | Bech32 address string              | Format: "biya1..."                       |
 | `bank_balances`   | `Dict[str, BankBalance]` | Token balances in account          | Key: denom                              |
 | `balances`        | `Dict[str, Balance]`     | Alternative balance representation | Key: denom                              |
 | `subaccounts`     | `Dict[str, SubAccount]`  | Subaccounts owned by this account  | Key: subaccount\_id                     |
@@ -618,14 +618,14 @@ When your strategy decides to take action, return a `StrategyResult` object with
 
 | **Property** | **Type**  | **Description**    | **Note**                  |
 | ------------ | --------- | ------------------ | ------------------------- |
-| `denom`      | `str`     | Token denomination | e.g., "inj", "peggy0x..." |
+| `denom`      | `str`     | Token denomination | e.g., "biya", "peggy0x..." |
 | `amount`     | `Decimal` | Token amount       | Human-readable format     |
 
 ### Balance
 
 | **Property** | **Type**  | **Description**    | **Note**                   |
 | ------------ | --------- | ------------------ | -------------------------- |
-| `denom`      | `str`     | Token denomination | e.g., "inj", "peggy0x..."  |
+| `denom`      | `str`     | Token denomination | e.g., "biya", "peggy0x..."  |
 | `total`      | `Decimal` | Total balance      |                            |
 | `available`  | `Decimal` | Available balance  | Total minus locked amounts |
 
@@ -645,7 +645,7 @@ When your strategy decides to take action, return a `StrategyResult` object with
 
 | **Property**        | **Type**  | **Description**          | **Note**                       |
 | ------------------- | --------- | ------------------------ | ------------------------------ |
-| `denom`             | `str`     | Token denomination       | e.g., "inj", "peggy0x..."      |
+| `denom`             | `str`     | Token denomination       | e.g., "biya", "peggy0x..."      |
 | `total_balance`     | `Decimal` | Total deposit amount     |                                |
 | `available_balance` | `Decimal` | Available deposit amount | Total minus margins and locked |
 

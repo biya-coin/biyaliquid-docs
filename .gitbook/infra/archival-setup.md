@@ -4,9 +4,9 @@ This guide will walk you through the process of creating a fleet of nodes that s
 
 ## Architecture
 
-To make serving archival data more accessible we split the data into smaller segments. These segments are stored in `s3://injective-snapshots/mainnet/subnode`
+To make serving archival data more accessible we split the data into smaller segments. These segments are stored in `s3://biyaliquid-snapshots/mainnet/subnode`
 
-| Snapshot Dir | Height Range | Injective Version | Recommended Disk Size |
+| Snapshot Dir | Height Range | Biyaliquid Version | Recommended Disk Size |
 | ------------ | ------------ | ----------------- | --------------------- |
 | `/0073`      | 0 – 73M      | v1.12.1           | 42 TiB                |
 | `/6068`      | 60M – 68M    | v1.12.1           | 7 TiB                 |
@@ -40,15 +40,15 @@ Each node hosting a slice of archival data should have the following minimum req
 #### 1. Download the archival segments with the history your setup requires using
 
 ```bash
-aws s3 cp --recursive s3://injective-snapshots/mainnet/subnode/<SNAPSHOT_DIR> $INJ_HOME
+aws s3 cp --recursive s3://biyaliquid-snapshots/mainnet/subnode/<SNAPSHOT_DIR> $BIYA_HOME
 ```
 
-#### 2. Download or set the appropriate injective binary or image tag based on the table above
+#### 2. Download or set the appropriate biyaliquid binary or image tag based on the table above
 
 #### 3. Generate your config folder
 
 ```bash
-injectived init $MONIKER --chain-id injective-1 --home $INJ_HOME --overwrite
+biyaliquidd init $MONIKER --chain-id biyaliquid-1 --home $BIYA_HOME --overwrite
 ```
 
 #### 4. Disable pruning in your app.toml file and block p2p and set the log level to error in your config.toml files.
@@ -57,7 +57,7 @@ This ensures that the data does not get pruned and the node stays in a halted st
 
 ```bash
 # Disable pruning in app.toml
-sed -i 's/^pruning *= *.*/pruning = "nothing"/' $INJ_HOME/config/app.toml
+sed -i 's/^pruning *= *.*/pruning = "nothing"/' $BIYA_HOME/config/app.toml
 
 # Disable p2p and disable create empty blocks on config.toml
 awk '
@@ -76,16 +76,16 @@ awk '
     if ($1 ~ /^create_empty_blocks/) $0 = "create_empty_blocks = false"
     }
     { print }
-    ' $INJ_HOME/config/config.toml > $INJ_HOME/config/config.tmp && mv $INJ_HOME/config/config.tmp $INJ_HOME/config/config.toml
+    ' $BIYA_HOME/config/config.toml > $BIYA_HOME/config/config.tmp && mv $BIYA_HOME/config/config.tmp $BIYA_HOME/config/config.toml
 
 # Set log level to error (less disk writes = better performance)
-sed -i 's/^log_level *= *.*/log_level = "error"/' $INJ_HOME/config/app.toml
+sed -i 's/^log_level *= *.*/log_level = "error"/' $BIYA_HOME/config/app.toml
 ```
 
 #### 5. Run your node
 
 ```bash
-injectived start --home $INJ_HOME
+biyaliquidd start --home $BIYA_HOME
 ```
 
 ### Gateway configuration

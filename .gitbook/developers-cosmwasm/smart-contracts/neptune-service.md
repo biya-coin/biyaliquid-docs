@@ -1,6 +1,6 @@
 # NeptuneService
 
-`NeptuneService` is a straightforward tool that interacts with the Neptune CosmWasm smart contracts on Injective. It allows you to fetch asset prices, calculate exchange ratios, create deposit and withdraw messages, and retrieve lending rates.
+`NeptuneService` is a straightforward tool that interacts with the Neptune CosmWasm smart contracts on Biyaliquid. It allows you to fetch asset prices, calculate exchange ratios, create deposit and withdraw messages, and retrieve lending rates.
 
 Below are examples of how to use each method in the `NeptuneService` class.
 
@@ -9,8 +9,8 @@ Below are examples of how to use each method in the `NeptuneService` class.
 Before using the service, create an instance of `NeptuneService`.
 
 ```ts
-import { NeptuneService } from '@injectivelabs/sdk-ts'
-import { Network } from '@injectivelabs/networks'
+import { NeptuneService } from '@biya-coin/sdk-ts'
+import { Network } from '@biya-coin/networks'
 
 // Create a NeptuneService instance using the mainnet
 const neptuneService = new NeptuneService(Network.MainnetSentry)
@@ -29,7 +29,7 @@ const assets = [
   },
   {
     token: {
-      contract_addr: 'inj1cy9hes20vww2yr6crvs75gxy5hpycya2hmjg9s', // nUSDT contract address
+      contract_addr: 'biya1cy9hes20vww2yr6crvs75gxy5hpycya2hmjg9s', // nUSDT contract address
     },
   },
 ]
@@ -46,7 +46,7 @@ console.log(prices)
 ```ts
 const cw20Asset = {
   token: {
-    contract_addr: 'inj1cy9hes20vww2yr6crvs75gxy5hpycya2hmjg9s', // nUSDT
+    contract_addr: 'biya1cy9hes20vww2yr6crvs75gxy5hpycya2hmjg9s', // nUSDT
   },
 }
 
@@ -144,11 +144,11 @@ console.log(`APY (continuously compounded): ${(apy * 100).toFixed(2)}%`)
 import {
   MsgBroadcasterWithPk,
   MsgExecuteContractCompat,
-} from '@injectivelabs/sdk-ts'
-import { toChainFormat } from '@injectivelabs/utils'
+} from '@biya-coin/sdk-ts'
+import { toChainFormat } from '@biya-coin/utils'
 
 const privateKey = '0x...'
-const injectiveAddress = 'inj1...'
+const biyaliquidAddress = 'biya1...'
 const denom = 'peggy0xdAC17F958D2ee523a2206206994597C13D831ec7' // USDT denom
 
 const amountInUsdt = '100'
@@ -159,7 +159,7 @@ const amount = toChainFormat(amountInUsdt, 6).toFixed()
 const depositMsg = neptuneService.createDepositMsg({
   denom,
   amount,
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
 })
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -181,11 +181,11 @@ import {
   Network,
   MsgBroadcasterWithPk,
   MsgExecuteContractCompat,
-} from '@injectivelabs/sdk-ts'
-import { toChainFormat } from '@injectivelabs/utils'
+} from '@biya-coin/sdk-ts'
+import { toChainFormat } from '@biya-coin/utils'
 
 const privateKey = '0x...' // Your private key
-const injectiveAddress = 'inj1...' // Your Injective address
+const biyaliquidAddress = 'biya1...' // Your Biyaliquid address
 
 // Define the amount to withdraw (e.g., 100 nUSDT)
 const amountInNusdt = '100'
@@ -195,7 +195,7 @@ const amount = toChainFormat(amountInNusdt, 6).toFixed()
 
 const withdrawMsg = neptuneService.createWithdrawMsg({
   amount,
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
 })
 
 const txHash = await new MsgBroadcasterWithPk({

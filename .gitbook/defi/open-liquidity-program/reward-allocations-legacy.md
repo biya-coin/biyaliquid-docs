@@ -14,13 +14,13 @@ Rewards are allocated to [eligible markets](eligible-markets.md) in two differen
 
 ### Static Market Reward Allocations (Preallocations)
 
-12.5% of INJ rewards will be preallocated to each of the BTC/USDT PERP market, ETH/USDT PERP market, and INJ/USDT PERP market. 1% will be preallocated to each remaining eligible market as a minimum allocation:
+12.5% of BIYA rewards will be preallocated to each of the BTC/USDT PERP market, ETH/USDT PERP market, and BIYA/USDT PERP market. 1% will be preallocated to each remaining eligible market as a minimum allocation:
 
 | Market                 | Total Allocation                                                                       |
 | ---------------------- | -------------------------------------------------------------------------------------- |
 | BTC/USDT Perp          | 12.5%                                                                                  |
 | ETH/USDT Perp          | 12.5%                                                                                  |
-| INJ/USDT Perp          | 12.5%                                                                                  |
+| BIYA/USDT Perp          | 12.5%                                                                                  |
 | Other Eligible Markets | 1% each + formula based allocation, with reward cap based on formula (see table below) |
 
 {% hint style="info" %}
@@ -29,7 +29,7 @@ Static allocations may change over time as more markets are added to the eligibl
 
 ### Dynamic Market Reward Allocations
 
-The remaining rewards will be allocated to the eligible markets (excluding BTC/ETH/INJ Perps) based on the following equation:
+The remaining rewards will be allocated to the eligible markets (excluding BTC/ETH/BIYA Perps) based on the following equation:
 
 $$
 Rewards_{Market_i} = TAR * Preallocation_{Market_i} + TAR * (1- Preallocation_{Total}) *\newline \frac {\sum\limits_{MM} (LS_{MM,\  Market_i})^{0.7} * Volume_{MM,\  Market_i}} {\sum\limits_{Market}\sum\limits_{MM} (LS_{MM,\ Market})^{0.7}*Volume_{MM,\ Market}}
@@ -44,7 +44,7 @@ $$
 $$
 
 {% hint style="info" %}
-$$Other\ Preallocations$$ refers to the static market reward allocations for non-BTC, ETH, and INJ perp markets.
+$$Other\ Preallocations$$ refers to the static market reward allocations for non-BTC, ETH, and BIYA perp markets.
 
 For more information on $$TAR$$ each epoch, see the [Reward Pool](rewards.md) page.
 {% endhint %}
@@ -57,7 +57,7 @@ For markets added to the eligible list midway through an epoch, the 1% prealloca
 
 ### Market Allocation Cap
 
-For each market that has dynamic reward allocations, a hard cap will be applied according to the following formula, where $$n$$ is the number of eligible markets excluding BTC, ETH, and INJ perps:
+For each market that has dynamic reward allocations, a hard cap will be applied according to the following formula, where $$n$$ is the number of eligible markets excluding BTC, ETH, and BIYA perps:
 
 $$
 Rewards_{max} = TAR\ *\ \frac{1 - 0.375}{n}*2
@@ -65,7 +65,7 @@ $$
 
 Any reward allocations that exceed the cap will be redistributed amongst the other eligible markets according to the [dynamic allocation formula](reward-allocations-legacy.md#dynamic-market-reward-allocations).
 
-<table><thead><tr><th width="417" align="center"># Eligible Markets Excluding BTC/ETH/INJ Perps</th><th>Rewards Cap</th></tr></thead><tbody><tr><td align="center">6</td><td>20.83% of Total Available Rewards</td></tr><tr><td align="center">7</td><td>17.86% of Total Available Rewards</td></tr><tr><td align="center">8</td><td>15.63% of Total Available Rewards</td></tr><tr><td align="center">9</td><td>13.89% of Total Available Rewards</td></tr><tr><td align="center">10</td><td>12.50% of Total Available Rewards</td></tr><tr><td align="center">11</td><td>11.36% of Total Available Rewards</td></tr><tr><td align="center">12</td><td>10.42% of Total Available Rewards</td></tr><tr><td align="center">...</td><td>...</td></tr></tbody></table>
+<table><thead><tr><th width="417" align="center"># Eligible Markets Excluding BTC/ETH/BIYA Perps</th><th>Rewards Cap</th></tr></thead><tbody><tr><td align="center">6</td><td>20.83% of Total Available Rewards</td></tr><tr><td align="center">7</td><td>17.86% of Total Available Rewards</td></tr><tr><td align="center">8</td><td>15.63% of Total Available Rewards</td></tr><tr><td align="center">9</td><td>13.89% of Total Available Rewards</td></tr><tr><td align="center">10</td><td>12.50% of Total Available Rewards</td></tr><tr><td align="center">11</td><td>11.36% of Total Available Rewards</td></tr><tr><td align="center">12</td><td>10.42% of Total Available Rewards</td></tr><tr><td align="center">...</td><td>...</td></tr></tbody></table>
 
 ## Market Maker Reward Allocations
 
@@ -78,7 +78,7 @@ $$
 **Each** [**MM**](#user-content-fn-1)[^1] **will receive rewards based on the** [**MM**](#user-content-fn-1)[^1]**’s proportional**[ $$TS$$ ](scoring.md#total-score)**within the market, subject to governance approval.**
 
 {% hint style="info" %}
-Rewards for addresses totaling < 1 INJ at the end of each epoch will be disregarded to reduce the overhead of the disbursement process.
+Rewards for addresses totaling < 1 BIYA at the end of each epoch will be disregarded to reduce the overhead of the disbursement process.
 {% endhint %}
 
 [^1]: Market Maker

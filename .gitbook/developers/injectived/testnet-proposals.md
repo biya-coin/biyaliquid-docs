@@ -4,20 +4,20 @@ Let's say that you want to submit a proposal on `testnet`. Because there is a sh
 
 Once you submit the proposal, you should reach out to the team:
 
-1. Join the [Injective Discord server](https://discord.gg/injective) and find the relevant channel.
-2. Join the [Injective Developer Telegram channel](https://t.me/+8Y_0HOFLhnRlZDU9).
+1. Join the [Biyaliquid Discord server](https://discord.gg/biyaliquid) and find the relevant channel.
+2. Join the [Biyaliquid Developer Telegram channel](https://t.me/+8Y_0HOFLhnRlZDU9).
 
 Here is an example for the `GrantProviderPrivilegeProposal`
 
 ```bash
-injectived tx oracle grant-provider-privilege-proposal YOUR_PROVIDER \
+biyaliquidd tx oracle grant-provider-privilege-proposal YOUR_PROVIDER \
   YOUR_ADDRESS_HERE \
   --title="TITLE OF THE PROPOSAL" \
   --description="Registering PROVIDER as an oracle provider" \
-  --chain-id=injective-888 \
+  --chain-id=biyaliquid-888 \
   --from=local_key \
-  --node=https://testnet.sentry.tm.injective.network:443 \
-  --gas-prices=160000000inj \
+  --node=https://testnet.sentry.tm.biyaliquid.network:443 \
+  --gas-prices=160000000biya \
   --gas=20000000 \
-  --deposit="40000000000000000000inj" <-- use this amount
+  --deposit="40000000000000000000biya" <-- use this amount
 ```

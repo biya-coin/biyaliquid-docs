@@ -3,14 +3,14 @@
 ## Gas and Fees
 
 {% hint style="info" %}
-Learn about the differences between `Gas` and `Fees` on Injective.
+Learn about the differences between `Gas` and `Fees` on Biyaliquid.
 
 Pre-requisite Readings -> [Cosmos SDK Gas](https://docs.cosmos.network/main/build/modules/auth#gas--fees)
 {% endhint %}
 
 Gas represents the amount of computational effort required to execute specific operations on the state machine.
 
-Injective utilizes the concept of gas to track the resource usage of operations during execution. Operations on Injective are represented as read or writes done to the chain's store.
+Biyaliquid utilizes the concept of gas to track the resource usage of operations during execution. Operations on Biyaliquid are represented as read or writes done to the chain's store.
 
 A fee is calculated and charged to the user during a message execution. This fee is calculated from the sum of all gas consumed in a message execution:
 
@@ -21,9 +21,9 @@ fee = gas * gas price
 Gas is used to make sure that operations do not require an excess amount of computational power to complete, and to deter bad-acting users from spamming the network.
 
 {% hint style="info" %}
-**Minimum gas price:** The minimum gas price set by validators is currently `160,000,000inj`. To find the amount paid in `inj`, multiply the gas price by the gas amount and divide by 1e18 (INJ has 18 decimals).
+**Minimum gas price:** The minimum gas price set by validators is currently `160,000,000biya`. To find the amount paid in `biya`, multiply the gas price by the gas amount and divide by 1e18 (BIYA has 18 decimals).
 
-**For example:** if `gasWanted` is 104,519, then `gasFees` = 160,000,000 \* 104,519 / 1e18 = 0.000016723`inj`
+**For example:** if `gasWanted` is 104,519, then `gasFees` = 160,000,000 \* 104,519 / 1e18 = 0.000016723`biya`
 {% endhint %}
 
 ### Cosmos SDK `Gas`

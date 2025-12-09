@@ -1,3 +1,3 @@
-# Injective
+# Biyaliquid
 
-## Injective Modules
+## Biyaliquid Modules

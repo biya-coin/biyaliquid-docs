@@ -12,7 +12,7 @@ The minimum market price tick size dictates the smallest increment by which an o
 
 #### Conversion from Human-Readable Format to Chain Format
 
-Using the INJ/USDT market as an example, which has **18 base decimals** and **6 quote decimals**, the conversion to chain format is as follows:
+Using the BIYA/USDT market as an example, which has **18 base decimals** and **6 quote decimals**, the conversion to chain format is as follows:
 
 $$\text{chainFormat} = \text{value} \times 10^{(\text{quoteDecimals} - \text{baseDecimals})}$$
 
@@ -26,7 +26,7 @@ $$\text{humanReadableFormat} = \text{value} \times 10^{(\text{baseDecimals} - \t
 
 #### Conversion from Human-Readable Format to Chain Format
 
-Using the INJ/USDT perpetual market with **6 quote decimals** as an example, the conversion to chain format is:
+Using the BIYA/USDT perpetual market with **6 quote decimals** as an example, the conversion to chain format is:
 
 $$\text{chainFormat} = \text{value} \times 10^{-\text{quoteDecimals}}$$
 

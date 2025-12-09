@@ -10,7 +10,7 @@ redirects:
   develop/cheat-sheet: developers/README.md
   develop/tech-concepts: developers/README.md
   nodes/RunNode/testnet: infra/run-node.md
-  develop/tools: developers/injectived/README.md
+  develop/tools: developers/biyaliquidd/README.md
   develop/guides: developers/README.md
   develop/modules: developers-native/README.md
   develop/modules/Core/auth: developers-native/core/auth/README.md
@@ -24,7 +24,7 @@ redirects:
   getting-started/wallet/auction: defi/auction.md
   guides/bridge: defi/bridge/README.md
   getting-started/token-standards: defi/tokens/README.md
-  getting-started/token-standards/inj-coin: defi/tokens/inj-coin.md
+  getting-started/token-standards/biya-coin: defi/tokens/biya-coin.md
   getting-started/token-standards/token-factory: defi/tokens/token-factory.md
   getting-started/token-standards/cw20-standard: defi/tokens/cw20-standard.md
   getting-started/transactions: defi/transactions.md
@@ -65,89 +65,89 @@ redirects:
   nodes/public-endpoints: infra/public-endpoints.md
   nodes/private-nodes: infra/premium-endpoints.md
   developers/modules: developers-native/README.md
-  developers/modules/injective: developers-native/injective/README.md
-  developers/modules/injective/auction: developers-native/injective/auction/README.md
-  developers/modules/injective/auction/01_state: developers-native/injective/auction/01_state.md
-  developers/modules/injective/auction/02_messages: developers-native/injective/auction/02_messages.md
-  developers/modules/injective/auction/03_end_block: developers-native/injective/auction/03_end_block.md
-  developers/modules/injective/auction/04_events: developers-native/injective/auction/04_events.md
-  developers/modules/injective/auction/05_params: developers-native/injective/auction/05_params.md
-  developers/modules/injective/auction/99_errors: developers-native/injective/auction/99_errors.md
-  developers/modules/injective/exchange: developers-native/injective/exchange/README.md
-  developers/modules/injective/exchange/00_derivative_market_concepts: developers-native/injective/exchange/00_derivative_market_concepts.md
-  developers/modules/injective/exchange/01_spot_market_concepts: developers-native/injective/exchange/01_spot_market_concepts.md
-  developers/modules/injective/exchange/02_binary_options_markets: developers-native/injective/exchange/02_binary_options_markets.md
-  developers/modules/injective/exchange/02_other_concepts: developers-native/injective/exchange/02_other_concepts.md
-  developers/modules/injective/exchange/03_state: developers-native/injective/exchange/03_state.md
-  developers/modules/injective/exchange/04_state_transitions: developers-native/injective/exchange/04_state_transitions.md
-  developers/modules/injective/exchange/05_messages: developers-native/injective/exchange/05_messages.md
-  developers/modules/injective/exchange/06_proposals: developers-native/injective/exchange/06_proposals.md
-  developers/modules/injective/exchange/07_begin_block: developers-native/injective/exchange/07_begin_block.md
-  developers/modules/injective/exchange/08_end_block: developers-native/injective/exchange/08_end_block.md
-  developers/modules/injective/exchange/09_events: developers-native/injective/exchange/09_events.md
-  developers/modules/injective/exchange/10_params: developers-native/injective/exchange/10_params.md
-  developers/modules/injective/exchange/11_msg_privileged_execute_contract: developers-native/injective/exchange/11_msg_privileged_execute_contract.md
-  developers/modules/injective/exchange/99_errors: developers-native/injective/exchange/99_errors.md
-  developers/modules/injective/insurance: developers-native/injective/insurance/README.md
-  developers/modules/injective/insurance/01_state: developers-native/injective/insurance/01_state.md
-  developers/modules/injective/insurance/02_state_transitions: developers-native/injective/insurance/02_state_transitions.md
-  developers/modules/injective/insurance/03_messages: developers-native/injective/insurance/03_messages.md
-  developers/modules/injective/insurance/04_end_block: developers-native/injective/insurance/04_end_block.md
-  developers/modules/injective/insurance/05_events: developers-native/injective/insurance/05_events.md
-  developers/modules/injective/insurance/06_params: developers-native/injective/insurance/06_params.md
-  developers/modules/injective/insurance/07_future_improvements: developers-native/injective/insurance/07_future_improvements.md
-  developers/modules/injective/insurance/99_errors: developers-native/injective/insurance/99_errors.md
-  developers/modules/injective/ocr: developers-native/injective/ocr/README.md
-  developers/modules/injective/ocr/01_concepts: developers-native/injective/ocr/01_concepts.md
-  developers/modules/injective/ocr/02_state: developers-native/injective/ocr/02_state.md
-  developers/modules/injective/ocr/03_messages: developers-native/injective/ocr/03_messages.md
-  developers/modules/injective/ocr/04_proposals: developers-native/injective/ocr/04_proposals.md
-  developers/modules/injective/ocr/05_begin_block: developers-native/injective/ocr/05_begin_block.md
-  developers/modules/injective/ocr/06_hooks: developers-native/injective/ocr/06_hooks.md
-  developers/modules/injective/ocr/07_events: developers-native/injective/ocr/07_events.md
-  developers/modules/injective/ocr/08_params: developers-native/injective/ocr/08_params.md
-  developers/modules/injective/ocr/99_errors: developers-native/injective/ocr/99_errors.md
-  developers/modules/injective/oracle: developers-native/injective/oracle/README.md
-  developers/modules/injective/oracle/01_state: developers-native/injective/oracle/01_state.md
-  developers/modules/injective/oracle/02_keeper: developers-native/injective/oracle/02_keeper.md
-  developers/modules/injective/oracle/03_messages: developers-native/injective/oracle/03_messages.md
-  developers/modules/injective/oracle/04_proposals: developers-native/injective/oracle/04_proposals.md
-  developers/modules/injective/oracle/05_events: developers-native/injective/oracle/05_events.md
-  developers/modules/injective/oracle/06_future_improvements: developers-native/injective/oracle/06_future_improvements.md
-  developers/modules/injective/oracle/99_errors: developers-native/injective/oracle/99_errors.md
-  developers/modules/injective/peggy: developers-native/injective/peggy/README.md
-  developers/modules/injective/peggy/01_definitions: developers-native/injective/peggy/01_definitions.md
-  developers/modules/injective/peggy/02_workflow: developers-native/injective/peggy/02_workflow.md
-  developers/modules/injective/peggy/03_state: developers-native/injective/peggy/03_state.md
-  developers/modules/injective/peggy/04_messages: developers-native/injective/peggy/04_messages.md
-  developers/modules/injective/peggy/05_slashing: developers-native/injective/peggy/05_slashing.md
-  developers/modules/injective/peggy/06_end_block: developers-native/injective/peggy/06_end_block.md
-  developers/modules/injective/peggy/07_events: developers-native/injective/peggy/07_events.md
-  developers/modules/injective/peggy/08_params: developers-native/injective/peggy/08_params.md
-  developers/modules/injective/peggy/09_relay_semantics: developers-native/injective/peggy/09_relay_semantics.md
-  developers/modules/injective/peggy/10_future_improvements: developers-native/injective/peggy/10_future_improvements.md
-  developers/modules/injective/peggy/99_errors: developers-native/injective/peggy/99_errors.md
-  developers/modules/injective/permissions: developers-native/injective/permissions/README.md
-  developers/modules/injective/permissions/01_concepts: developers-native/injective/permissions/01_concepts.md
-  developers/modules/injective/permissions/02_state: developers-native/injective/permissions/02_state.md
-  developers/modules/injective/permissions/03_state_transitions: developers-native/injective/permissions/03_state_transitions.md
-  developers/modules/injective/permissions/99_errors: developers-native/injective/permissions/99_errors.md
-  developers/modules/injective/tokenfactory: developers-native/injective/tokenfactory/README.md
-  developers/modules/injective/tokenfactory/01_concepts: developers-native/injective/tokenfactory/01_concepts.md
-  developers/modules/injective/tokenfactory/02_state: developers-native/injective/tokenfactory/02_state.md
-  developers/modules/injective/tokenfactory/03_messages: developers-native/injective/tokenfactory/03_messages.md
-  developers/modules/injective/tokenfactory/04_events: developers-native/injective/tokenfactory/04_events.md
-  developers/modules/injective/tokenfactory/05_params: developers-native/injective/tokenfactory/05_params.md
-  developers/modules/injective/tokenfactory/99_errors: developers-native/injective/tokenfactory/99_errors.md
-  developers/modules/injective/wasmx: developers-native/injective/wasmx/README.md
-  developers/modules/injective/wasmx/01_concepts: developers-native/injective/wasmx/01_concepts.md
-  developers/modules/injective/wasmx/02_data: developers-native/injective/wasmx/02_data.md
-  developers/modules/injective/wasmx/03_proposals: developers-native/injective/wasmx/03_proposals.md
-  developers/modules/injective/wasmx/04_messages: developers-native/injective/wasmx/04_messages.md
-  developers/modules/injective/wasmx/05_params: developers-native/injective/wasmx/05_params.md
-  developers/modules/injective/wasmx/99_errors: developers-native/injective/wasmx/99_errors.md
-  developers/modules/injective/lanes: developers-native/injective/lanes/README.md
-  developers/modules/injective/txfees: developers-native/injective/txfees/README.md
+  developers/modules/biyaliquid: developers-native/biyaliquid/README.md
+  developers/modules/biyaliquid/auction: developers-native/biyaliquid/auction/README.md
+  developers/modules/biyaliquid/auction/01_state: developers-native/biyaliquid/auction/01_state.md
+  developers/modules/biyaliquid/auction/02_messages: developers-native/biyaliquid/auction/02_messages.md
+  developers/modules/biyaliquid/auction/03_end_block: developers-native/biyaliquid/auction/03_end_block.md
+  developers/modules/biyaliquid/auction/04_events: developers-native/biyaliquid/auction/04_events.md
+  developers/modules/biyaliquid/auction/05_params: developers-native/biyaliquid/auction/05_params.md
+  developers/modules/biyaliquid/auction/99_errors: developers-native/biyaliquid/auction/99_errors.md
+  developers/modules/biyaliquid/exchange: developers-native/biyaliquid/exchange/README.md
+  developers/modules/biyaliquid/exchange/00_derivative_market_concepts: developers-native/biyaliquid/exchange/00_derivative_market_concepts.md
+  developers/modules/biyaliquid/exchange/01_spot_market_concepts: developers-native/biyaliquid/exchange/01_spot_market_concepts.md
+  developers/modules/biyaliquid/exchange/02_binary_options_markets: developers-native/biyaliquid/exchange/02_binary_options_markets.md
+  developers/modules/biyaliquid/exchange/02_other_concepts: developers-native/biyaliquid/exchange/02_other_concepts.md
+  developers/modules/biyaliquid/exchange/03_state: developers-native/biyaliquid/exchange/03_state.md
+  developers/modules/biyaliquid/exchange/04_state_transitions: developers-native/biyaliquid/exchange/04_state_transitions.md
+  developers/modules/biyaliquid/exchange/05_messages: developers-native/biyaliquid/exchange/05_messages.md
+  developers/modules/biyaliquid/exchange/06_proposals: developers-native/biyaliquid/exchange/06_proposals.md
+  developers/modules/biyaliquid/exchange/07_begin_block: developers-native/biyaliquid/exchange/07_begin_block.md
+  developers/modules/biyaliquid/exchange/08_end_block: developers-native/biyaliquid/exchange/08_end_block.md
+  developers/modules/biyaliquid/exchange/09_events: developers-native/biyaliquid/exchange/09_events.md
+  developers/modules/biyaliquid/exchange/10_params: developers-native/biyaliquid/exchange/10_params.md
+  developers/modules/biyaliquid/exchange/11_msg_privileged_execute_contract: developers-native/biyaliquid/exchange/11_msg_privileged_execute_contract.md
+  developers/modules/biyaliquid/exchange/99_errors: developers-native/biyaliquid/exchange/99_errors.md
+  developers/modules/biyaliquid/insurance: developers-native/biyaliquid/insurance/README.md
+  developers/modules/biyaliquid/insurance/01_state: developers-native/biyaliquid/insurance/01_state.md
+  developers/modules/biyaliquid/insurance/02_state_transitions: developers-native/biyaliquid/insurance/02_state_transitions.md
+  developers/modules/biyaliquid/insurance/03_messages: developers-native/biyaliquid/insurance/03_messages.md
+  developers/modules/biyaliquid/insurance/04_end_block: developers-native/biyaliquid/insurance/04_end_block.md
+  developers/modules/biyaliquid/insurance/05_events: developers-native/biyaliquid/insurance/05_events.md
+  developers/modules/biyaliquid/insurance/06_params: developers-native/biyaliquid/insurance/06_params.md
+  developers/modules/biyaliquid/insurance/07_future_improvements: developers-native/biyaliquid/insurance/07_future_improvements.md
+  developers/modules/biyaliquid/insurance/99_errors: developers-native/biyaliquid/insurance/99_errors.md
+  developers/modules/biyaliquid/ocr: developers-native/biyaliquid/ocr/README.md
+  developers/modules/biyaliquid/ocr/01_concepts: developers-native/biyaliquid/ocr/01_concepts.md
+  developers/modules/biyaliquid/ocr/02_state: developers-native/biyaliquid/ocr/02_state.md
+  developers/modules/biyaliquid/ocr/03_messages: developers-native/biyaliquid/ocr/03_messages.md
+  developers/modules/biyaliquid/ocr/04_proposals: developers-native/biyaliquid/ocr/04_proposals.md
+  developers/modules/biyaliquid/ocr/05_begin_block: developers-native/biyaliquid/ocr/05_begin_block.md
+  developers/modules/biyaliquid/ocr/06_hooks: developers-native/biyaliquid/ocr/06_hooks.md
+  developers/modules/biyaliquid/ocr/07_events: developers-native/biyaliquid/ocr/07_events.md
+  developers/modules/biyaliquid/ocr/08_params: developers-native/biyaliquid/ocr/08_params.md
+  developers/modules/biyaliquid/ocr/99_errors: developers-native/biyaliquid/ocr/99_errors.md
+  developers/modules/biyaliquid/oracle: developers-native/biyaliquid/oracle/README.md
+  developers/modules/biyaliquid/oracle/01_state: developers-native/biyaliquid/oracle/01_state.md
+  developers/modules/biyaliquid/oracle/02_keeper: developers-native/biyaliquid/oracle/02_keeper.md
+  developers/modules/biyaliquid/oracle/03_messages: developers-native/biyaliquid/oracle/03_messages.md
+  developers/modules/biyaliquid/oracle/04_proposals: developers-native/biyaliquid/oracle/04_proposals.md
+  developers/modules/biyaliquid/oracle/05_events: developers-native/biyaliquid/oracle/05_events.md
+  developers/modules/biyaliquid/oracle/06_future_improvements: developers-native/biyaliquid/oracle/06_future_improvements.md
+  developers/modules/biyaliquid/oracle/99_errors: developers-native/biyaliquid/oracle/99_errors.md
+  developers/modules/biyaliquid/peggy: developers-native/biyaliquid/peggy/README.md
+  developers/modules/biyaliquid/peggy/01_definitions: developers-native/biyaliquid/peggy/01_definitions.md
+  developers/modules/biyaliquid/peggy/02_workflow: developers-native/biyaliquid/peggy/02_workflow.md
+  developers/modules/biyaliquid/peggy/03_state: developers-native/biyaliquid/peggy/03_state.md
+  developers/modules/biyaliquid/peggy/04_messages: developers-native/biyaliquid/peggy/04_messages.md
+  developers/modules/biyaliquid/peggy/05_slashing: developers-native/biyaliquid/peggy/05_slashing.md
+  developers/modules/biyaliquid/peggy/06_end_block: developers-native/biyaliquid/peggy/06_end_block.md
+  developers/modules/biyaliquid/peggy/07_events: developers-native/biyaliquid/peggy/07_events.md
+  developers/modules/biyaliquid/peggy/08_params: developers-native/biyaliquid/peggy/08_params.md
+  developers/modules/biyaliquid/peggy/09_relay_semantics: developers-native/biyaliquid/peggy/09_relay_semantics.md
+  developers/modules/biyaliquid/peggy/10_future_improvements: developers-native/biyaliquid/peggy/10_future_improvements.md
+  developers/modules/biyaliquid/peggy/99_errors: developers-native/biyaliquid/peggy/99_errors.md
+  developers/modules/biyaliquid/permissions: developers-native/biyaliquid/permissions/README.md
+  developers/modules/biyaliquid/permissions/01_concepts: developers-native/biyaliquid/permissions/01_concepts.md
+  developers/modules/biyaliquid/permissions/02_state: developers-native/biyaliquid/permissions/02_state.md
+  developers/modules/biyaliquid/permissions/03_state_transitions: developers-native/biyaliquid/permissions/03_state_transitions.md
+  developers/modules/biyaliquid/permissions/99_errors: developers-native/biyaliquid/permissions/99_errors.md
+  developers/modules/biyaliquid/tokenfactory: developers-native/biyaliquid/tokenfactory/README.md
+  developers/modules/biyaliquid/tokenfactory/01_concepts: developers-native/biyaliquid/tokenfactory/01_concepts.md
+  developers/modules/biyaliquid/tokenfactory/02_state: developers-native/biyaliquid/tokenfactory/02_state.md
+  developers/modules/biyaliquid/tokenfactory/03_messages: developers-native/biyaliquid/tokenfactory/03_messages.md
+  developers/modules/biyaliquid/tokenfactory/04_events: developers-native/biyaliquid/tokenfactory/04_events.md
+  developers/modules/biyaliquid/tokenfactory/05_params: developers-native/biyaliquid/tokenfactory/05_params.md
+  developers/modules/biyaliquid/tokenfactory/99_errors: developers-native/biyaliquid/tokenfactory/99_errors.md
+  developers/modules/biyaliquid/wasmx: developers-native/biyaliquid/wasmx/README.md
+  developers/modules/biyaliquid/wasmx/01_concepts: developers-native/biyaliquid/wasmx/01_concepts.md
+  developers/modules/biyaliquid/wasmx/02_data: developers-native/biyaliquid/wasmx/02_data.md
+  developers/modules/biyaliquid/wasmx/03_proposals: developers-native/biyaliquid/wasmx/03_proposals.md
+  developers/modules/biyaliquid/wasmx/04_messages: developers-native/biyaliquid/wasmx/04_messages.md
+  developers/modules/biyaliquid/wasmx/05_params: developers-native/biyaliquid/wasmx/05_params.md
+  developers/modules/biyaliquid/wasmx/99_errors: developers-native/biyaliquid/wasmx/99_errors.md
+  developers/modules/biyaliquid/lanes: developers-native/biyaliquid/lanes/README.md
+  developers/modules/biyaliquid/txfees: developers-native/biyaliquid/txfees/README.md
   developers/modules/core: developers-native/core/README.md
   developers/modules/core/auth: developers-native/core/auth/README.md
   developers/modules/core/authz: developers-native/core/authz/README.md
@@ -187,7 +187,7 @@ redirects:
   developers/cosmwasm-developers/guides/creating-uis: developers-cosmwasm/create-uis-guide.md
   developers/cosmwasm-developers/cosmwasm-any: developers-cosmwasm/cosmwasm-any.md
   developers/cosmwasm-developers/page-1: developers-cosmwasm/cw20-adapter.md
-  developers/cosmwasm-developers/injective-test-tube: developers-cosmwasm/injective-test-tube.md
+  developers/cosmwasm-developers/biyaliquid-test-tube: developers-cosmwasm/biyaliquid-test-tube.md
   developers/evm-developers: developers-evm/README.md
   developers-evm/your-first-smart-contract: developers-evm/smart-contracts/README.md
   developers/evm-developers/your-first-smart-contract: developers-evm/smart-contracts/README.md
@@ -207,8 +207,8 @@ redirects:
   developers/getting-started/guides: developers/testnet-proposals.md
   developers/getting-started/guides/testnet-proposals: developers/testnet-proposals.md
   developers/getting-started/guides/convert-addresses: developers/convert-addresses.md
-  toolkits: developers/injectived/README.md
-  toolkits/injectived: developers/injectived/README.md
-  toolkits/injectived/install-injectived: developers/injectived/install.md
-  toolkits/injectived/using-injectived: developers/injectived/use.md
-  toolkits/injectived/advanced: developers/injectived/advanced.md
+  toolkits: developers/biyaliquidd/README.md
+  toolkits/biyaliquidd: developers/biyaliquidd/README.md
+  toolkits/biyaliquidd/install-biyaliquidd: developers/biyaliquidd/install.md
+  toolkits/biyaliquidd/using-biyaliquidd: developers/biyaliquidd/use.md
+  toolkits/biyaliquidd/advanced: developers/biyaliquidd/advanced.md

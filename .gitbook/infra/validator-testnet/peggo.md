@@ -24,7 +24,7 @@ There are two ways to provide the credential access - a keyring with encrypted k
 
 Update the `PEGGO_COSMOS_FROM` to your validator key name (or account address) and `PEGGO_COSMOS_FROM_PASSPHRASE` to your Cosmos Keyring passphrase. Please note that the default keyring backend is `file` and it will try to locate keys on disk.
 
-Keyring path must be pointing to homedir of your injectived node, if you want reuse the keys from there.
+Keyring path must be pointing to homedir of your biyaliquidd node, if you want reuse the keys from there.
 
 Learn more about Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html).
 
@@ -32,7 +32,7 @@ Learn more about Keyring setup [here](https://docs.cosmos.network/v0.46/run-node
 
 Simply update the `PEGGO_COSMOS_PK` with your Validator's Account private key.
 
-To obtain your validator's Cosmos private key, run `injectived keys unsafe-export-eth-key $VALIDATOR_KEY_NAME`.
+To obtain your validator's Cosmos private key, run `biyaliquidd keys unsafe-export-eth-key $VALIDATOR_KEY_NAME`.
 
 This method is insecure and is not recommended.
 
@@ -92,20 +92,20 @@ Next, ensure that your Ethereum addresss has Sepolia ETH. You can request Sepoli
 You can register orchestrator and ethereum address only once. It **CANNOT** be updated later. So Check twice before running below command.
 
 ```bash
-injectived tx peggy set-orchestrator-address $VALIDATOR_INJ_ADDRESS $ORCHESTRATOR_INJ_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=injective-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=160000000inj
+biyaliquidd tx peggy set-orchestrator-address $VALIDATOR_BIYA_ADDRESS $ORCHESTRATOR_BIYA_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=biyaliquid-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=160000000biya
 
 ```
 
-* To obtain your validator's inj address, run, `injectived keys list $VALIDATOR_KEY_NAME`
-* To obtain your orchestrators's inj address, `injectived keys list $ORCHESTRATOR_KEY_NAME`
+* To obtain your validator's biya address, run, `biyaliquidd keys list $VALIDATOR_KEY_NAME`
+* To obtain your orchestrators's biya address, `biyaliquidd keys list $ORCHESTRATOR_KEY_NAME`
 
 Example:
 
 ```bash
-injectived tx peggy set-orchestrator-address inj10m247khat0esnl0x66vu9mhlanfftnvww67j9n inj1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=injective-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=160000000inj
+biyaliquidd tx peggy set-orchestrator-address biya10m247khat0esnl0x66vu9mhlanfftnvww67j9n biya1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=biyaliquid-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=160000000biya
 ```
 
-You can verify successful registration by checking for your Validator's mapped Ethereum address on https://testnet.sentry.lcd.injective.network/peggy/v1/valset/current.
+You can verify successful registration by checking for your Validator's mapped Ethereum address on https://testnet.sentry.lcd.biyaliquid.network/peggy/v1/valset/current.
 
 {% hint style="info" %}
 **NOTE:** Once you've registered your Orchestrator with the `set-orchestrator-address` message, you **CANNOT** register again. Once this step is complete, your `Validator` is bound to the provided Ethereum address (as well the Delegated address you may have provided). In other words, your peggo must always run with the addresses you provided for registration.
@@ -160,9 +160,9 @@ journalctl -f -u peggo
 This is an advanced DevOps topic, consult with your sysadmin.
 {% endhint %}
 
-Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.injectived/keyring-file`.
+Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.biyaliquidd/keyring-file`.
 
-Some sections of the Injective Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `injectived` / `peggo` processes only.
+Some sections of the Biyaliquid Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyaliquidd` / `peggo` processes only.
 
 In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
 
@@ -184,47 +184,47 @@ First, update the `PEGGO_ETH_RPC` in the `.env` file with a valid Ethereum EVM R
 
 To create your own Ethereum full node, you can follow our instructions [here](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/). It's possible to use an external Ethereum RPC provider such as Alchemy or Infura, but keep in mind that the Peggo bridge relayer uses heavy use of `eth_getLogs` calls which may increase your cost burden depending on your provider.
 
-Peggo also requires access to your validator's delegated Injective Chain account and Ethereum key credentials to sign transactions for the corresponding networks.
+Peggo also requires access to your validator's delegated Biyaliquid Chain account and Ethereum key credentials to sign transactions for the corresponding networks.
 
-### **Creating your delegated Cosmos Key for sending Injective transactions**
+### **Creating your delegated Cosmos Key for sending Biyaliquid transactions**
 
 Your peggo relayer can either
 
 * Use an explicitly delegated account key specific for sending validator specific Peggy transactions (i.e. `ValsetConfirm`, `BatchConfirm`, and `SendToCosmos` transactions), or
 * Simply use your validator's account key.
 
-For isolation purposes, we recommend creating a delegated Cosmos key to send Injective transactions instead of using your validator account key.
+For isolation purposes, we recommend creating a delegated Cosmos key to send Biyaliquid transactions instead of using your validator account key.
 
 To create a new key, run:
 
 ```bash
-injectived keys add $ORCHESTRATOR_KEY_NAME
+biyaliquidd keys add $ORCHESTRATOR_KEY_NAME
 ```
 
-Then, ensure that your orchestrator inj address has INJ balance.
+Then, ensure that your orchestrator biya address has BIYA balance.
 
-To obtain your orchestrators's inj address, run:
+To obtain your orchestrators's biya address, run:
 
 ```bash
-injectived keys list $ORCHESTRATOR_KEY_NAME
+biyaliquidd keys list $ORCHESTRATOR_KEY_NAME
 ```
 
-You can transfer INJ from your validator account to orchestrator address using this command:
+You can transfer BIYA from your validator account to orchestrator address using this command:
 
 ```bash
-injectived tx bank send $VALIDATOR_KEY_NAME  $ORCHESTRATOR_INJ_ADDRESS <amount-in-inj> --chain-id=injective-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx bank send $VALIDATOR_KEY_NAME  $ORCHESTRATOR_BIYA_ADDRESS <amount-in-biya> --chain-id=biyaliquid-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 ```
 
 Example:
 
 ```bash
-injectived tx bank send genesis inj1u3eyz8nkvym0p42h79aqgf37gckf7szreacy9e 20000000000000000000inj --chain-id=injective-888  --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx bank send genesis biya1u3eyz8nkvym0p42h79aqgf37gckf7szreacy9e 20000000000000000000biya --chain-id=biyaliquid-888  --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 ```
 
-You can then verify that your orchestrator account has INJ balances by running:
+You can then verify that your orchestrator account has BIYA balances by running:
 
 ```bash
-injectived q bank balances $ORCHESTRATOR_INJ_ADDRESS
+biyaliquidd q bank balances $ORCHESTRATOR_BIYA_ADDRESS
 ```
 
 ### **Managing Cosmos account keys for `peggo`**
@@ -239,7 +239,7 @@ If you are using a delegated account key configuration as recommended above, thi
 
 Please note that the default keyring backend is `file` and that, as such, peggo will try to locate keys on disk by default.
 
-To use the default injectived key configuration, you should set the keyring path to the home directory of your injectived node, e.g. `~/.injectived`.
+To use the default biyaliquidd key configuration, you should set the keyring path to the home directory of your biyaliquidd node, e.g. `~/.biyaliquidd`.
 
 You can also read more about the Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html).
 
@@ -252,13 +252,13 @@ If you are using a delegated account key configuration as recommended above, thi
 To obtain your orchestrator's Cosmos private key (if applicable), run:
 
 ```bash
-injectived keys unsafe-export-eth-key $ORCHESTRATOR_KEY_NAME
+biyaliquidd keys unsafe-export-eth-key $ORCHESTRATOR_KEY_NAME
 ```
 
 To obtain your validator's Cosmos private key (if applicable), run:
 
 ```bash
-injectived keys unsafe-export-eth-key $VALIDATOR_KEY_NAME
+biyaliquidd keys unsafe-export-eth-key $VALIDATOR_KEY_NAME
 ```
 
 Again, this method is less secure and is not recommended.
@@ -322,20 +322,20 @@ Then, ensure that your Ethereum address has ETH.
 You can register orchestrator and ethereum address only once. It **CANNOT** be updated later. So Check twice before running below command.
 
 ```bash
-injectived tx peggy set-orchestrator-address $VALIDATOR_INJ_ADDRESS $ORCHESTRATOR_INJ_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=injective-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx peggy set-orchestrator-address $VALIDATOR_BIYA_ADDRESS $ORCHESTRATOR_BIYA_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=biyaliquid-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 
 ```
 
-* To obtain your validator's inj address, run, `injectived keys list $VALIDATOR_KEY_NAME`
-* To obtain your orchestrators's inj address, `injectived keys list $ORCHESTRATOR_KEY_NAME`
+* To obtain your validator's biya address, run, `biyaliquidd keys list $VALIDATOR_KEY_NAME`
+* To obtain your orchestrators's biya address, `biyaliquidd keys list $ORCHESTRATOR_KEY_NAME`
 
 Example:
 
 ```bash
-injectived tx peggy set-orchestrator-address inj10m247khat0esnl0x66vu9mhlanfftnvww67j9n inj1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=injective-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx peggy set-orchestrator-address biya10m247khat0esnl0x66vu9mhlanfftnvww67j9n biya1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=biyaliquid-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 ```
 
-You can verify successful registration by checking for your Validator's mapped Ethereum address on https://testnet.lcd.injective.dev/peggy/v1/valset/current.
+You can verify successful registration by checking for your Validator's mapped Ethereum address on https://testnet.lcd.biyaliquid.dev/peggy/v1/valset/current.
 
 ## Step 3: Start the Relayer
 
@@ -387,9 +387,9 @@ journalctl -f -u peggo
 This is an advanced DevOps topic, consult with your sysadmin.
 {% endhint %}
 
-Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.injectived/keyring-file`.
+Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.biyaliquidd/keyring-file`.
 
-Some sections of the Injective Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `injectived` / `peggo` processes only.
+Some sections of the Biyaliquid Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyaliquidd` / `peggo` processes only.
 
 In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
 
@@ -399,4 +399,4 @@ In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX 
 
 ## Contribute
 
-If you'd like to inspect the Peggo orchestrator source code and contribute, you can do so at [https://github.com/InjectiveLabs/peggo](https://github.com/InjectiveLabs/peggo)
+If you'd like to inspect the Peggo orchestrator source code and contribute, you can do so at [https://github.com/biya-coin/peggo](https://github.com/biya-coin/peggo)

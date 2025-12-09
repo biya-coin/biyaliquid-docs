@@ -1,8 +1,8 @@
 # MsgBroadcaster Transaction
 
-The `MsgBroadcaster` abstraction class is a way to broadcast transactions on Injective with ease. With it, you can pass a Message that you want to be packed in a transaction and the signer's address and the transaction will be prepared, signed, and broadcasted.
+The `MsgBroadcaster` abstraction class is a way to broadcast transactions on Biyaliquid with ease. With it, you can pass a Message that you want to be packed in a transaction and the signer's address and the transaction will be prepared, signed, and broadcasted.
 
-An example of usage can be found on our [Helix demo repo](https://github.com/InjectiveLabs/injective-helix-demo). As for the messages that you can pass to the `broadcast` methods, you can find examples in the [Core Modules](../examples/) section of the docs.
+An example of usage can be found on our [Helix demo repo](https://github.com/biya-coin/biyaliquid-helix-demo). As for the messages that you can pass to the `broadcast` methods, you can find examples in the [Core Modules](../examples/) section of the docs.
 
 ## MsgBroadcaster + Wallet Strategy
 
@@ -11,15 +11,15 @@ This MsgBroadcaster is used alongside the Wallet Strategy class for building dec
 To instantiate (and use) the `MsgBroadcaster` class, you can use the following code snippet
 
 ```ts
-import { MsgSend } from "@injectivelabs/sdk-ts";
-import { toChainFormat } from "@injectivelabs/utils";
-import { MsgBroadcaster } from "@injectivelabs/wallet-core";
-import { ChainId, EvmChainId } from "@injectivelabs/ts-types";
-import { WalletStrategy } from "@injectivelabs/wallet-strategy";
-import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
+import { MsgSend } from "@biya-coin/sdk-ts";
+import { toChainFormat } from "@biya-coin/utils";
+import { MsgBroadcaster } from "@biya-coin/wallet-core";
+import { ChainId, EvmChainId } from "@biya-coin/ts-types";
+import { WalletStrategy } from "@biya-coin/wallet-strategy";
+import { Network, getNetworkEndpoints } from "@biya-coin/networks";
 
-const chainId = ChainId.Testnet; // The Injective Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm; // The Injective Evm Testnet Chain ID
+const chainId = ChainId.Testnet; // The Biyaliquid Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm; // The Biyaliquid Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`;
 
@@ -40,20 +40,20 @@ export const msgBroadcaster = new MsgBroadcaster({
 })(
   // Usage Example
   async () => {
-    const signer = "inj1...";
+    const signer = "biya1...";
 
     const msg = MsgSend.fromJSON({
       amount: {
-        denom: "inj",
+        denom: "biya",
         amount: toChainFormat(0.01).toFixed(),
       },
-      srcInjectiveAddress: signer,
-      dstInjectiveAddress: "inj1...",
+      srcBiyaliquidAddress: signer,
+      dstBiyaliquidAddress: "biya1...",
     });
 
     // Prepare + Sign + Broadcast the transaction using the Wallet Strategy
     await msgBroadcastClient.broadcast({
-      injectiveAddress: signer,
+      biyaliquidAddress: signer,
       msgs: msg,
     });
   }
@@ -65,9 +65,9 @@ export const msgBroadcaster = new MsgBroadcaster({
 We allow to override some of the options passed to the constructor of `MsgBroadcaster` as well as when broadcasting the transaction. Here is the interface and the meaning of each field
 
 ````typescript
-import { Msgs } from '@injectivelabs/sdk-ts'
-import { ChainId } from '@injectivelabs/ts-types'
-import { Network, NetworkEndpoints } from '@injectivelabs/networks'
+import { Msgs } from '@biya-coin/sdk-ts'
+import { ChainId } from '@biya-coin/ts-types'
+import { Network, NetworkEndpoints } from '@biya-coin/networks'
 import type { WalletStrategy } from '../strategies'
 
 export interface MsgBroadcasterOptions {
@@ -82,7 +82,7 @@ export interface MsgBroadcasterOptions {
 
 export interface MsgBroadcasterTxOptions {
   memo?: string /** MEMO added to the transaction **/
-  injectiveAddress: string /** the signer of the transaction **/
+  biyaliquidAddress: string /** the signer of the transaction **/
   msgs: Msgs | Msgs[] /** the messages to pack into a transaction **/
 
   /*
@@ -108,8 +108,8 @@ export interface MsgBroadcasterTxOptions {
 This MsgBroadcaster is used with a private key (mostly used for CLI environments). Constructor/broadcast options are quite similar as for the `MsgBroadcaster`.
 
 ```ts
-import { toChainFormat } from "@injectivelabs/utils";
-import { MsgSend, MsgBroadcasterWithPk } from "@injectivelabs/sdk-ts";
+import { toChainFormat } from "@biya-coin/utils";
+import { MsgSend, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 
 export const msgBroadcasterWithPk = new MsgBroadcasterWithPk({
   privateKey: `0x...` /** private key hash or PrivateKey class from sdk-ts */,
@@ -117,20 +117,20 @@ export const msgBroadcasterWithPk = new MsgBroadcasterWithPk({
 })(
   // Usage Example
   async () => {
-    const signer = "inj1...";
+    const signer = "biya1...";
 
     const msg = MsgSend.fromJSON({
       amount: {
-        denom: "inj",
+        denom: "biya",
         amount: toChainFormat(0.01).toFixed(),
       },
-      srcInjectiveAddress: signer,
-      dstInjectiveAddress: "inj1...",
+      srcBiyaliquidAddress: signer,
+      dstBiyaliquidAddress: "biya1...",
     });
 
     // Prepare + Sign + Broadcast the transaction using the Wallet Strategy
     await msgBroadcasterWithPk.broadcast({
-      injectiveAddress: signer,
+      biyaliquidAddress: signer,
       msgs: msg,
     });
   }

@@ -1,10 +1,10 @@
 # Ledger through Keplr Wallet Transaction
 
-On this page, we are going to have a look at the implementation for Injective when your users are using a Ledger device through the Keplr wallet.
+On this page, we are going to have a look at the implementation for Biyaliquid when your users are using a Ledger device through the Keplr wallet.
 
-As explained before, Injective uses a different derivation curve from the rest of the Cosmos chains which means that the users have to use the Ethereum app (for now) to interact with Injective.
+As explained before, Biyaliquid uses a different derivation curve from the rest of the Cosmos chains which means that the users have to use the Ethereum app (for now) to interact with Biyaliquid.
 
-The easiest way all of the edge cases covered and a full out-of-the-box solution for all of the supported wallets on Injective I suggest you have a look at the [MsgBroadcaster + WalletStrategy ](./msgbroadcaster.md#msgbroadcaster-+-wallet-strategy)abstraction. If you want to do your own implementation, let's go through the code example together.
+The easiest way all of the edge cases covered and a full out-of-the-box solution for all of the supported wallets on Biyaliquid I suggest you have a look at the [MsgBroadcaster + WalletStrategy ](./msgbroadcaster.md#msgbroadcaster-+-wallet-strategy)abstraction. If you want to do your own implementation, let's go through the code example together.
 
 ## Overview
 
@@ -42,7 +42,7 @@ What we need to do now is generate the `eip712` and the `signDoc`, pass them to 
 
 ## Example Implementation
 
-Based on the overview above, let's now showcase a full example of how to implement signing transactions on Injective using Ledger + Keplr. Keep in mind that the example below takes into consideration that you are using the [Msgs](https://github.com/InjectiveLabs/injective-ts/blob/master/packages/sdk-ts/src/core/modules/msgs.ts#L60) interface exported from the `@injectivelabs/sdk-ts` package.
+Based on the overview above, let's now showcase a full example of how to implement signing transactions on Biyaliquid using Ledger + Keplr. Keep in mind that the example below takes into consideration that you are using the [Msgs](https://github.com/biya-coin/biyaliquid-ts/blob/master/packages/sdk-ts/src/core/modules/msgs.ts#L60) interface exported from the `@biya-coin/sdk-ts` package.
 
 ````typescript
 import {
@@ -56,21 +56,21 @@ import {
  createWeb3Extension,
  ChainRestTendermintApi,
  getGasPriceBasedOnMessage,
-} from '@injectivelabs/sdk-ts'
-import { EvmChainId, ChainId } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, NetworkEndpoints, Network } from '@injectivelabs/networks'
-import { GeneralException, TransactionException } from '@injectivelabs/exceptions'
-import { toBigNumber, getStdFee } from '@injectivelabs/utils'
+} from '@biya-coin/sdk-ts'
+import { EvmChainId, ChainId } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, NetworkEndpoints, Network } from '@biya-coin/networks'
+import { GeneralException, TransactionException } from '@biya-coin/exceptions'
+import { toBigNumber, getStdFee } from '@biya-coin/utils'
 
 export interface Options {
   evmChainId: EvmChainId /* Evm chain id */
-  chainId: ChainId; /* Injective chain id */
-  endpoints: NetworkEndpoints /* can be fetched from @injectivelabs/networks based on the Network */
+  chainId: ChainId; /* Biyaliquid chain id */
+  endpoints: NetworkEndpoints /* can be fetched from @biya-coin/networks based on the Network */
 }
 
 export interface Transaction {
   memo?: string
-  injectiveAddress?: string
+  biyaliquidAddress?: string
   msgs: Msgs | Msgs[]
 
   // In case we manually want to set gas options
@@ -112,7 +112,7 @@ export const createEip712StdSignDoc = ({
 ```
 
 /**
- * We use this method only when we want to broadcast a transaction using Ledger on Keplr for Injective
+ * We use this method only when we want to broadcast a transaction using Ledger on Keplr for Biyaliquid
  *
  * Note: Gas estimation not available
  * @param tx the transaction that needs to be broadcasted
@@ -140,7 +140,7 @@ export const experimentalBroadcastKeplrWithLedger = async (
   /** Account Details * */
   const chainRestAuthApi = new ChainRestAuthApi(endpoints.rest)
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-    tx.injectiveAddress,
+    tx.biyaliquidAddress,
   )
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse)
   const accountDetails = baseAccount.toAccountDetails()
@@ -173,7 +173,7 @@ export const experimentalBroadcastKeplrWithLedger = async (
 
   const aminoSignResponse = await window.keplr.experimentalSignEIP712CosmosTx_v0(
     chainId,
-    tx.injectiveAddress,
+    tx.biyaliquidAddress,
     eip712TypedData,
     createEip712StdSignDoc({
       ...tx,

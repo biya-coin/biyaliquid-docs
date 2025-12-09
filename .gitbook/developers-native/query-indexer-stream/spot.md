@@ -7,8 +7,8 @@ Example code snippets to stream from the indexer for spot market module related 
 ### Stream the spot orderbook
 
 ```ts
-import { IndexerGrpcSpotStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotStream = new IndexerGrpcSpotStream(endpoints.indexer)
@@ -34,9 +34,9 @@ streamFn(streamFnArgs)
 ### Stream spot orders
 
 ```ts
-import { IndexerGrpcSpotsStream } from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotsStream } from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotStream = new IndexerGrpcSpotsStream(endpoints.indexer)
@@ -70,9 +70,9 @@ import {
   TradeDirection,
   TradeExecutionType,
   IndexerGrpcSpotStream,
-} from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotStream = new IndexerGrpcSpotStream(endpoints.indexer)
@@ -110,8 +110,8 @@ import {
   PaginationOption,
   TradeDirection,
   IndexerGrpcSpotStream
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotStream = new IndexerGrpcSpotStream(endpoints.indexer)
@@ -142,8 +142,8 @@ streamFn(streamFnArgs)
 ### Stream markets
 
 ```ts
-import { IndexerGrpcSpotStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotStream = new IndexerGrpcSpotStream(endpoints.indexer)
@@ -169,8 +169,8 @@ streamFn(streamFnArgs)
 ### Stream orderbook updates
 
 ```ts
-import { IndexerGrpcSpotStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcSpotStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcSpotStream = new IndexerGrpcSpotStream(endpoints.indexer)

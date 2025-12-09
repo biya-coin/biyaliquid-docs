@@ -1,10 +1,10 @@
 # Interact with a node programmatically with Go
 
 {% hint style="info" %}
-The following examples are in Go, but the Python and TS SDKs can also be used to programatically interact with a node/Injective.
+The following examples are in Go, but the Python and TS SDKs can also be used to programatically interact with a node/Biyaliquid.
 
 * [TypeScript Examples](../developers-native/examples/README.md)
-* [Python Examples](https://github.com/InjectiveLabs/sdk-python/tree/master/examples)
+* [Python Examples](https://github.com/biya-coin/sdk-python/tree/master/examples)
 {% endhint %}
 
 The following snippet shows how to query the state using gRPC inside a Go program. The idea is to create a gRPC connection, and use the Protobuf-generated client code to query the gRPC server.
@@ -21,7 +21,7 @@ import (
 )
 
 func queryState() error {
-    myAddress, err := sdk.AccAddressFromBech32("inj...")
+    myAddress, err := sdk.AccAddressFromBech32("biya...")
     if err != nil {
         return err
     }
@@ -37,7 +37,7 @@ func queryState() error {
     bankClient := banktypes.NewQueryClient(grpcConn)
     bankRes, err := bankClient.Balance(
         context.Background(),
-        &banktypes.QueryBalanceRequest{Address: myAddress, Denom: "inj"},
+        &banktypes.QueryBalanceRequest{Address: myAddress, Denom: "biya"},
     )
     if err != nil {
         return err

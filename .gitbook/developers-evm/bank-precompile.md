@@ -2,9 +2,9 @@
 
 The Bank Precompile is a system smart contract residing at the fixed address `0x0000000000000000000000000000000000000064`.
 
-It offers EVM developers a gas-efficient and native pathway to interact directly with the Injective's **bank module** (`x/bank`). This effectively bringing ERC-20 tokens on-chain. Any ERC-20 contract using the Bank precompile will be represented as `erc20:0x...` denom on-chain. Technically, this means that tokens reside only on-chain, with the EVM providing a view to the chain state rather than maintaining a separate copy. Unlike traditional bridging, where two token versions require user actions to switch, the Bank precompile offers real-time, dual-environment reflection for any transfer using either the on-chain bank denom or the ERC-20 `transfer()` method.
+It offers EVM developers a gas-efficient and native pathway to interact directly with the Biyaliquid's **bank module** (`x/bank`). This effectively bringing ERC-20 tokens on-chain. Any ERC-20 contract using the Bank precompile will be represented as `erc20:0x...` denom on-chain. Technically, this means that tokens reside only on-chain, with the EVM providing a view to the chain state rather than maintaining a separate copy. Unlike traditional bridging, where two token versions require user actions to switch, the Bank precompile offers real-time, dual-environment reflection for any transfer using either the on-chain bank denom or the ERC-20 `transfer()` method.
 
-A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Injective’s Solidity Contracts Repository](https://github.com/InjectiveLabs/solidity-contracts). Key contracts include:
+A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Biyaliquid’s Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts). Key contracts include:
 
 * **Bank.sol** – precompile interface
 * **BankERC20.sol** – abstract ERC20 implementation backed by the Bank precompile
@@ -17,7 +17,7 @@ These implementations are based on OpenZeppelin’s ERC20 contracts. Developers 
 
 **ℹ️ Note:**
 
-To prevent denom spam, deploying an ERC20 contract via the ERC20 module is a **payable operation** and requires a deployment fee of **1 INJ**. Make sure your ERC20 contract deployment transaction includes this amount, or the operation will be rejected.
+To prevent denom spam, deploying an ERC20 contract via the ERC20 module is a **payable operation** and requires a deployment fee of **1 BIYA**. Make sure your ERC20 contract deployment transaction includes this amount, or the operation will be rejected.
 
 ## Bank Precompile Interface
 
@@ -34,12 +34,12 @@ To prevent denom spam, deploying an ERC20 contract via the ERC20 module is a **p
 
 ## Example
 
-[Wrapped INJ (wINJ)](./wrapped-inj.md#is-winj-the-same-as-weth "Is wINJ the same as wETH?") 
+[Wrapped BIYA (wBIYA)](./wrapped-biya.md#is-wbiya-the-same-as-weth "Is wBIYA the same as wETH?") 
 makes use of the Bank EVM precompile in order to implement the
 [MultiVM Token Standard (MTS)](./multivm-token-standard.md).
 
 ## Start building
 
-We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Injective EVM using the most common Ethereum development framework—**Foundry**.
+We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Biyaliquid EVM using the most common Ethereum development framework—**Foundry**.
 
-See the bank precompile demo [here](https://github.com/InjectiveLabs/solidity-contracts/tree/master/demos/erc20) and follow the corresponding README.
+See the bank precompile demo [here](https://github.com/biya-coin/solidity-contracts/tree/master/demos/erc20) and follow the corresponding README.

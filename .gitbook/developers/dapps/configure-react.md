@@ -2,7 +2,7 @@
 
 ## React - Library for building user interfaces
 
-React is currently one of the most popular UI Frameworks. We are going to help you configure React + the Vite builder with the `@injectivelabs` packages and some polyfills since you'll need them to interact with Crypto wallets.
+React is currently one of the most popular UI Frameworks. We are going to help you configure React + the Vite builder with the `@biya-coin` packages and some polyfills since you'll need them to interact with Crypto wallets.
 
 ### 1. Installing React
 
@@ -12,18 +12,18 @@ Follow the Getting Started guide at [Vite Docs](https://vitejs.dev/guide/) and s
 $ npm create vite@latest
 ```
 
-### 2. Installing @injectivelabs packages
+### 2. Installing @biya-coin packages
 
-You can install the @injectivelabs packages using yarn.
+You can install the @biya-coin packages using yarn.
 
 ```bash
-$ yarn add @injectivelabs/sdk-ts @injectivelabs/networks @injectivelabs/ts-types @injectivelabs/utils
+$ yarn add @biya-coin/sdk-ts @biya-coin/networks @biya-coin/ts-types @biya-coin/utils
 
 ## If you need Wallet Connection
-$ yarn add @injectivelabs/wallet-strategy
+$ yarn add @biya-coin/wallet-strategy
 ```
 
-These are the most commonly used packages from the `injective-ts` monorepo.
+These are the most commonly used packages from the `biyaliquid-ts` monorepo.
 
 ### 3. Configuring Vite and adding polyfills
 

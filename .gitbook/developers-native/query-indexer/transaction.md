@@ -7,9 +7,9 @@ Example code snippets to query the indexer for transaction module related data. 
 ### Fetch response for preparing a transaction
 
 ```ts
-import { Msgs, IndexerGrpcTransactionApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-import { EvmChainId } from '@injectivelabs/ts-types'
+import { Msgs, IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
+import { EvmChainId } from '@biya-coin/ts-types'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
@@ -32,13 +32,13 @@ console.log(prepareTxResponse)
 ### Fetch response for preparing a cosmos transaction
 
 ```ts
-import { IndexerGrpcTransactionApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const address = 'inj...'
+const address = 'biya...'
 const message = { ... }
 
 const prepareCosmosTxResponse = await indexerGrpcTransactionApi.prepareCosmosTxRequest({
@@ -51,21 +51,21 @@ console.log(prepareCosmosTxResponse)
 
 ### Fetch response for broadcasting transactions using the Web3Gateway
 
-Use `MsgBroadcasterWithPk` to broadcast transactions within a node/CLI environment, which can be found in `@injectivelabs/sdk-ts`.
+Use `MsgBroadcasterWithPk` to broadcast transactions within a node/CLI environment, which can be found in `@biya-coin/sdk-ts`.
 
-Use `@injectivelabs/wallet-core`'s `MsgBroadcaster` class for more details on broadcasting a transactions in a browser environment.
+Use `@biya-coin/wallet-core`'s `MsgBroadcaster` class for more details on broadcasting a transactions in a browser environment.
 
 ```ts
-import { ChainId, EvmChainId } from '@injectivelabs/ts-types'
-import { WalletStrategy } from '@injectivelabs/wallet-strategy'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-import { Msgs, IndexerGrpcTransactionApi } from '@injectivelabs/sdk-ts'
+import { ChainId, EvmChainId } from '@biya-coin/ts-types'
+import { WalletStrategy } from '@biya-coin/wallet-strategy'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
+import { Msgs, IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const chainId = ChainId.Testnet // The Injective Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm // The Injective Evm Testnet Chain ID
+const chainId = ChainId.Testnet // The Biyaliquid Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm // The Biyaliquid Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`
 
@@ -86,7 +86,7 @@ const response = { ... } // response from  prepareTxRequest
 const signature = await walletStrategy.signEip712TypedData(
       response.getData(),
       address,
-    ) /* see injective-ts/wallet-ts implementation of WalletStrategy. Essentially, you use the signEip712TypedData method of the wallet, if the wallet supports signing ethereum transactions */
+    ) /* see biyaliquid-ts/wallet-ts implementation of WalletStrategy. Essentially, you use the signEip712TypedData method of the wallet, if the wallet supports signing ethereum transactions */
 
 const broadcastTxResponse = await indexerGrpcTransactionApi.broadcastTxRequest({
   signature,
@@ -101,14 +101,14 @@ console.log(broadcastTxResponse)
 ### Fetch response for broadcasting a cosmos transactions.
 
 ```ts
-import { IndexerGrpcTransactionApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-import { TxRaw } from '@injectivelabs/chain-api'
+import { IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
+import { TxRaw } from '@biya-coin/chain-api'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const address = 'inj...' // ethereum address
+const address = 'biya...' // ethereum address
 const signature = '...' // base64
 const txRaw = { ... } as TxRaw
 const pubKey = {
@@ -129,8 +129,8 @@ console.log(broadcastCosmosTxResponse)
 ### Fetch Web3Gateway Fee Payer
 
 ```ts
-import { IndexerGrpcTransactionApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
+import { IndexerGrpcTransactionApi } from "@biya-coin/sdk-ts";
+import { getNetworkEndpoints, Network } from "@biya-coin/networks";
 
 const endpoints = getNetworkEndpoints(Network.Testnet);
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(

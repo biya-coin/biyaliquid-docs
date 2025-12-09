@@ -2,7 +2,7 @@
 
 _Pre-requisite reading:_ [Cosmos SDK Transactions](https://docs.cosmos.network/main/learn/advanced/transactions)
 
-State changes on Injective can be done through transactions. Users create transactions, sign them and broadcast them to Injective.
+State changes on Biyaliquid can be done through transactions. Users create transactions, sign them and broadcast them to Biyaliquid.
 
 When broadcasted and only after every validation is successfully passed (these validations include signature validation, parameters validations, etc) the transaction is included within a block which is approved by the network through a consensus process.
 
@@ -10,7 +10,7 @@ When broadcasted and only after every validation is successfully passed (these v
 
 Messages are the instructions included in transactions to specify the state change the user want to do. Every transaction has to have at least one message. Messages are module-specific objects that trigger state transitions within the scope of the module they belong to. We can pack multiple messages within the same transaction.
 
-There is an abstraction class (_MsgBase_) that we export from the `@injectivelabs/sdk-ts` and every message extends the `MsgBase` interface, which has couple of mapping functionalities:
+There is an abstraction class (_MsgBase_) that we export from the `@biya-coin/sdk-ts` and every message extends the `MsgBase` interface, which has couple of mapping functionalities:
 
 * `toData` -> Converts the Message to a simple Object representation,
 * `toProto` -> Returns a proto representation of the Message,
@@ -27,7 +27,7 @@ Besides Message(s), every transaction has context. These details include `fees`,
 
 ### Transaction Flow
 
-Every transaction we want to broadcast to Injective has the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction.
+Every transaction we want to broadcast to Biyaliquid has the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction.
 
 
 

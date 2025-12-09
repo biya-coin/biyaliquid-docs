@@ -27,7 +27,7 @@ message MsgCreateInsuranceFund {
   // Oracle quote currency
   string oracle_quote = 5;
   // Oracle type
-  injective.oracle.v1beta1.OracleType oracle_type = 6;
+  biyaliquid.oracle.v1beta1.OracleType oracle_type = 6;
   // Expiration time of the market. Should be -1 for perpetual markets.
   int64 expiry = 7;
   // Initial deposit of the insurance fund

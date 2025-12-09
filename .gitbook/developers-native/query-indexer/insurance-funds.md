@@ -4,21 +4,21 @@ Example code snippets to query the indexer for insurance fund module related dat
 
 ## Using gRPC
 
-### Fetch redemptions for an injective address
+### Fetch redemptions for an biyaliquid address
 
 ```ts
-import { IndexerGrpcInsuranceFundApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcInsuranceFundApi = new IndexerGrpcInsuranceFundApi(
   endpoints.indexer,
 )
 
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
 const redemptions = await indexerGrpcInsuranceFundApi.fetchRedemptions({
-  injectiveAddress,
+  biyaliquidAddress,
 })
 
 console.log(redemptions)
@@ -27,8 +27,8 @@ console.log(redemptions)
 ### Fetch insurance funds
 
 ```ts
-import { IndexerGrpcInsuranceFundApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcInsuranceFundApi = new IndexerGrpcInsuranceFundApi(

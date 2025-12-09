@@ -7,8 +7,8 @@ Example code snippets to query the indexer for derivative module related data.
 ### Fetch markets
 
 ```ts
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(
@@ -23,8 +23,8 @@ console.log(markets)
 ### Fetch market based on a market id
 
 ```ts
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(
@@ -41,8 +41,8 @@ console.log(market)
 ### Fetch binary options markets
 
 ```ts
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(
@@ -58,8 +58,8 @@ console.log(binaryOptionsMarket)
 ### Fetch binary options market based on market id
 
 ```ts
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(
@@ -77,8 +77,8 @@ console.log(binaryOptionsMarket)
 ### Fetch a market's orderbook based on market id
 
 ```ts
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(
@@ -95,9 +95,9 @@ console.log(orderbook)
 ### Fetch a market's orders
 
 ```ts
-import { PaginationOption, IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -125,9 +125,9 @@ import {
   PaginationOption,
   TradeExecutionType,
   IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { OrderSide } from '@injectivelabs/ts-types'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { OrderSide } from '@biya-coin/ts-types'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -158,8 +158,8 @@ import {
   TradeDirection,
   PaginationOption,
   IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -187,8 +187,8 @@ import {
   PaginationOption,
   TradeExecutionType,
   IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -216,8 +216,8 @@ console.log(trades)
 import {
   PaginationOption,
   IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -239,8 +239,8 @@ console.log(fundingPayments)
 import {
   PaginationOption,
   IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -262,8 +262,8 @@ console.log(fundingRates)
 import {
   PaginationOption,
   IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -289,8 +289,8 @@ import {
   TradeExecutionType,
   PaginationOption,
   IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+} from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
@@ -315,8 +315,8 @@ console.log(subaccountTrades)
 ### Fetch orderbooks for multiple markets
 
 ```ts
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(
@@ -333,8 +333,8 @@ console.log(orderbooks)
 ### Fetch orderbook for a market
 
 ```ts
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(
@@ -353,8 +353,8 @@ console.log(orderbook)
 ### Fetch market summary, such as a history of prices and 24 hr volume
 
 ```ts
-import { IndexerRestDerivativesChronosApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestDerivativesChronosApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestDerivativesChronosApi = new IndexerRestDerivativesChronosApi(
@@ -373,8 +373,8 @@ console.log(marketSummary)
 ### Fetch all markets' summaries, such as a history of prices and 24 hr volume
 
 ```ts
-import { IndexerRestDerivativesChronosApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestDerivativesChronosApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestDerivativesChronosApi = new IndexerRestDerivativesChronosApi(

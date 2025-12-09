@@ -12,7 +12,7 @@ A Volatility Response Modification may be triggered when :
 2. Available liquidity fails to meet at least 50% of the established 30-day threshold, which is typically as follows for major trading pairs :
    * BTC/USDT PERP : $750,000 within 50 bps on each side
    * ETH/USDT PERP : $500K within 50 bps on each side
-   * INJ/USDT PERP : $200K within 50 bps on each side
+   * BIYA/USDT PERP : $200K within 50 bps on each side
 
 When these conditions are detected, our system automatically initiates the VRM process. Unlike subjective assessments, these clear thresholds ensure transparency and predictability for all liquidity providers.
 
@@ -27,12 +27,12 @@ When triggering conditions are met, we follow a clear, time-sensitive communicat
 
 #### Epoch Reward Adjustments
 
-When a VRM event occurs, the following adjustments apply to the total INJ rewards for the current epoch :
+When a VRM event occurs, the following adjustments apply to the total BIYA rewards for the current epoch :
 
-* **Liquidity Restoration** : If liquidity is sized up to meet the required thresholds within the 60-minute response window, the overall epoch rewards will be **boosted by 2,500 INJ** (e.g. 42,500 INJ for the epoch instead of 40,000).
+* **Liquidity Restoration** : If liquidity is sized up to meet the required thresholds within the 60-minute response window, the overall epoch rewards will be **boosted by 2,500 BIYA** (e.g. 42,500 BIYA for the epoch instead of 40,000).
 * **Liquidity Shortfall** : If liquidity thresholds are not met after the response window :
-  * First VRM in an epoch: 2,500 INJ reduction in overall epoch rewards
-  * Second or subsequent VRMs in the same epoch: 5,000 INJ reduction per occurrence
+  * First VRM in an epoch: 2,500 BIYA reduction in overall epoch rewards
+  * Second or subsequent VRMs in the same epoch: 5,000 BIYA reduction per occurrence
 
 In the event there is a liquidity shortfall after the 60-minute response window, these adjusted rewards are redirected to support more efficient liquidity provision strategies, ensuring that the protocol remains resilient during volatile market conditions.
 

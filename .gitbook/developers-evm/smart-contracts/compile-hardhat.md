@@ -20,10 +20,10 @@ If you do not have NodeJs installed yet, do so using:
 - Linux or Mac: [NVM](https://github.com/nvm-sh/nvm)
 - Windows: [NVM for Windows](https://github.com/coreybutler/nvm-windows)
 
-You will need a wallet, and an account that has been funded with some Testnet INJ.
+You will need a wallet, and an account that has been funded with some Testnet BIYA.
 
 {% hint style="info" %}
-You can request EVM testnet funds from the [Injective Testnet faucet](https://testnet.faucet.injective.network/).
+You can request EVM testnet funds from the [Biyaliquid Testnet faucet](https://testnet.faucet.biyaliquid.network/).
 {% endhint %}
 
 After creating your account, be sure to copy your private key somewhere accessible, as you will need it to complete this tutorial.
@@ -40,7 +40,7 @@ Please ensure that you follow best practices for key security on Mainnet, and do
 Use git to clone the demo repo, which already has the project completely set up for you.
 
 ```shell
-git clone https://github.com/injective-dev/hardhat-inj
+git clone https://github.com/biyaliquid-dev/hardhat-biya
 ```
 
 Install dependencies from npm:
@@ -54,7 +54,7 @@ npm install
 While waiting for npm to download and install, open the repo in your code editor/ IDE, and take a look at the directory structure.
 
 ```text
-hardhat-inj/
+hardhat-biya/
   contracts/
     Counter.sol --> smart contract Solidity code
   script/
@@ -65,8 +65,8 @@ hardhat-inj/
   .example.env
 ```
 
-The `hardhat.config.js` file is already pre-configured to connect to the Injective EVM Testnet.
-All you need to do before proceeding is to provide it with a private key of your Injective Testnet account.
+The `hardhat.config.js` file is already pre-configured to connect to the Biyaliquid EVM Testnet.
+All you need to do before proceeding is to provide it with a private key of your Biyaliquid Testnet account.
 
 ```shell
 cp .example.env .env
@@ -77,7 +77,7 @@ Optionally, you may wish to update to any alternative JSON-RPC endpoints.
 
 ```shell
 PRIVATE_KEY=your private key without 0x prefix
-INJ_TESTNET_RPC_URL=https://k8s.testnet.json-rpc.injective.network/
+BIYA_TESTNET_RPC_URL=https://k8s.testnet.json-rpc.biyaliquid.network/
 
 ```
 
@@ -120,7 +120,7 @@ Hardhat will automatically download and run the version of the Solidity compiler
 After the compiler completes, you should see additional directories in the project directory:
 
 ```text
-hardhat-inj/
+hardhat-biya/
   artifacts/
     build-info/
       ...

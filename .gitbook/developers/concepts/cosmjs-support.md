@@ -1,20 +1,20 @@
 # CosmJs Support
 
-Injective is not natively supported on the `@cosmjs` packages. It's highly recommended to use our `@injectivelabs` packages to interact with Injective.
+Biyaliquid is not natively supported on the `@cosmjs` packages. It's highly recommended to use our `@biya-coin` packages to interact with Biyaliquid.
 
-If you are familiar with the `@cosmjs` packages we are exporting similar interfaces/classes that work the same as the classes on `@cosmjs` but have support for Injective as well.
+If you are familiar with the `@cosmjs` packages we are exporting similar interfaces/classes that work the same as the classes on `@cosmjs` but have support for Biyaliquid as well.
 
-Again, keep in mind that the recommended approach is to use the Injective's standard approach, which you can learn more about in [Cosmos transactions](../../developers-native/transactions/cosmos.md).
+Again, keep in mind that the recommended approach is to use the Biyaliquid's standard approach, which you can learn more about in [Cosmos transactions](../../developers-native/transactions/cosmos.md).
 
 ## Usage using Keplr
 
-Here is an example on how to use the `@injectivelabs` alternatives from the `@cosmjs` packages with Keplr:
+Here is an example on how to use the `@biya-coin` alternatives from the `@cosmjs` packages with Keplr:
 
 ```ts
 import {
   PrivateKey,
-  InjectiveStargate,
-} from "@injectivelabs/sdk-ts";
+  BiyaliquidStargate,
+} from "@biya-coin/sdk-ts";
 import { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import { assertIsBroadcastTxSuccess } from '@cosmjs/stargate'
 
@@ -28,20 +28,20 @@ import { assertIsBroadcastTxSuccess } from '@cosmjs/stargate'
 
   // Initialize the stargate client
   const client =
-    await InjectiveStargate.InjectiveSigningStargateClient.connectWithSigner(
+    await BiyaliquidStargate.biyaliquidSigningStargateClient.connectWithSigner(
       "https://lcd-cosmoshub.keplr.app/rest",
       offlineSigner,
     );
   })
 
   const amount = {
-    denom: "inj",
+    denom: "biya",
     amount: amount.toString(),
   };
   const fee = {
     amount: [
       {
-        denom: "inj",
+        denom: "biya",
         amount: "5000000000000000",
       },
     ],
@@ -68,40 +68,40 @@ import { assertIsBroadcastTxSuccess } from '@cosmjs/stargate'
 
 ## Usage in a CLI/Node environment
 
-Here is an example on how to use the `@injectivelabs` alternatives from the `@cosmjs` packages in a node or CLI environment.
+Here is an example on how to use the `@biya-coin` alternatives from the `@cosmjs` packages in a node or CLI environment.
 
-Again, keep in mind that the recommended approach is to use the [MsgBroadcasterWithPk](../../developers-native/transactions/private-key.md#example-with-msgbroadcasterwithpk) abstraction to follow the Injective's standard approach.
+Again, keep in mind that the recommended approach is to use the [MsgBroadcasterWithPk](../../developers-native/transactions/private-key.md#example-with-msgbroadcasterwithpk) abstraction to follow the Biyaliquid's standard approach.
 
 ```ts
 import {
   PrivateKey,
-  InjectiveStargate,
-  InjectiveDirectEthSecp256k1Wallet,
-} from "@injectivelabs/sdk-ts";
+  BiyaliquidStargate,
+  BiyaliquidDirectEthSecp256k1Wallet,
+} from "@biya-coin/sdk-ts";
 import { OfflineDirectSigner } from "@cosmjs/proto-signing";
-import { Network, getNetworkInfo } from "@injectivelabs/networks";
-import { getStdFee } from "@injectivelabs/utils";
+import { Network, getNetworkInfo } from "@biya-coin/networks";
+import { getStdFee } from "@biya-coin/utils";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
   const privateKeyHash = process.env.PRIVATE_KEY as string;
   const privateKey = PrivateKey.fromHex(privateKeyHash);
-  const injectiveAddress = privateKey.toBech32();
+  const biyaliquidAddress = privateKey.toBech32();
 
-  const wallet = (await InjectiveDirectEthSecp256k1Wallet.fromKey(
+  const wallet = (await BiyaliquidDirectEthSecp256k1Wallet.fromKey(
     Buffer.from(privateKeyHash, "hex")
   )) as OfflineDirectSigner;
   const [account] = await wallet.getAccounts();
 
   const client =
-    await InjectiveStargate.InjectiveSigningStargateClient.connectWithSigner(
+    await BiyaliquidStargate.biyaliquidSigningStargateClient.connectWithSigner(
       network.rpc as string,
       wallet
     );
 
-  const recipient = injectiveAddress;
+  const recipient = biyaliquidAddress;
   const amount = {
-    denom: "inj",
+    denom: "biya",
     amount: "1000000000",
   };
 

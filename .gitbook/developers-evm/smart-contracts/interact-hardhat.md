@@ -13,7 +13,7 @@ See the [verify a smart contract using Hardhat](./verify-hardhat.md) tutorial fo
 Use the following command to start an interactive Javascript REPL.
 
 ```shell
-npx hardhat console --network inj_testnet
+npx hardhat console --network biya_testnet
 ```
 
 Now the shell will be a NodeJs REPL instead of your regular shell (bash, zsh, et cetera).
@@ -81,7 +81,7 @@ await counter.increment(1, { gasPrice: 160e6, gasLimit: 2e6 });
 ```
 {% hint style="info" %}
 Note that gas price is stated in *wei*.
-1 wei = 10^-18 INJ.
+1 wei = 10^-18 BIYA.
 {% endhint %}
 
 If successful, this should produce a result similar to the following:
@@ -109,7 +109,7 @@ Press `Ctrl+C` twice in a row, or enter the `.exit` command.
 
 ## Next steps
 
-Congratulations, you have completed this entire guide for developing EVM smart contracts on Injective using Hardhat!
+Congratulations, you have completed this entire guide for developing EVM smart contracts on Biyaliquid using Hardhat!
 
 Smart contracts do not provide a user experience for non-technical users.
 To cater to them, you will need to build a decentralised application.

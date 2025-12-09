@@ -7,8 +7,8 @@ Example code snippets to query for chain node related data.
 ### Fetch the latest block info
 
 ```ts
-import { ChainRestTendermintApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainRestTendermintApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainRestTendermintApi = new ChainRestTendermintApi(endpoints.rest)
@@ -21,8 +21,8 @@ console.log(latestBlock)
 ### Fetch chain node info
 
 ```ts
-import { ChainRestTendermintApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainRestTendermintApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainRestTendermintApi = new ChainRestTendermintApi(endpoints.rest)

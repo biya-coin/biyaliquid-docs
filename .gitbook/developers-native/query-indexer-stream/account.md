@@ -7,8 +7,8 @@ Example code snippets to stream from the indexer for subaccount related data.
 ### Stream subaccount balance
 
 ```ts
-import { IndexerGrpcAccountStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountStream = new IndexerGrpcAccountStream(endpoints.indexer)

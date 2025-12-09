@@ -4,15 +4,15 @@
 More comprehensive docs about creating UIs as well as bootstrapping options can be found on the [dApps docs](../developers/dapps/README.md).
 {% endhint %}
 
-We've interacted with our contract through the Injective CLI, but this is not ideal for most dApp users. A web UI can provide a much better experience! Rather than sending transaction messages through `injectived`, we can abstract away the complexity and provide the user with two buttons—one to increment the count, and one to reset the count.
+We've interacted with our contract through the Biyaliquid CLI, but this is not ideal for most dApp users. A web UI can provide a much better experience! Rather than sending transaction messages through `biyaliquidd`, we can abstract away the complexity and provide the user with two buttons—one to increment the count, and one to reset the count.
 
-![](https://docs.injective.network/img/Counter_website.png)
+![](https://docs.biyaliquid.network/img/Counter_website.png)
 
-For example, see the [counter website](https://injective-simple-cosmwasm-sc.netlify.app/). A high level guide on developing the frontend using Vue and the [Injective TS SDK](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts) can be found in the [website repo here](https://github.com/InjectiveLabs/injective-simple-sc-counter-ui/tree/master/nuxt). For a React implementation, see [here](https://github.com/InjectiveLabs/injective-simple-sc-counter-ui/tree/master/next).
+For example, see the [counter website](https://biyaliquid-simple-cosmwasm-sc.netlify.app/). A high level guide on developing the frontend using Vue and the [Biyaliquid TS SDK](https://github.com/biya-coin/biyaliquid-ts/tree/master/packages/sdk-ts) can be found in the [website repo here](https://github.com/biya-coin/biyaliquid-simple-sc-counter-ui/tree/master/nuxt). For a React implementation, see [here](https://github.com/biya-coin/biyaliquid-simple-sc-counter-ui/tree/master/next).
 
 Now, interacting with the contract is as simple as clicking a button and signing with MetaMask (make sure the account is set to Ethereum Goerli Testnet or you will receive a chain ID mismatch error).
 
-![](https://docs.injective.network/img/metamask_select_testnet.png)
+![](https://docs.biyaliquid.network/img/metamask_select_testnet.png)
 
 {% hint style="info" %}
 You may notice that you get an "Unauthorized" error message when attempting to reset the count. This is expected behavior! Recall from the [contract logic for reset](./smart-contracts/your-first-smart-contract.md#reset) that only the contract owner is permitted to reset the count. Since you did not instantiate the exact contract that the frontend is interacting with, you don't have the required permissions to reset the count.

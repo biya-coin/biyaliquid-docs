@@ -7,8 +7,8 @@ Example code snippets to query the auction module on the chain.
 ### Fetch module params such as the auction period
 
 ```ts
-import { ChainGrpcBankApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcAuctionApi = new ChainGrpcAuctionApi(endpoints.grpc)
@@ -21,8 +21,8 @@ console.log(moduleParams)
 ### Fetch the state of the current auction, such as the latest round
 
 ```ts
-import { ChainGrpcBankApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcAuctionApi = new ChainGrpcAuctionApi(endpoints.grpc)
@@ -35,8 +35,8 @@ console.log(latestAuctionModuleState)
 ### Fetch the current auction basket and get info such as the highest bidder and amount
 
 ```ts
-import { ChainGrpcBankApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcAuctionApi = new ChainGrpcAuctionApi(endpoints.grpc)

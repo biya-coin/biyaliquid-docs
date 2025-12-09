@@ -1,6 +1,6 @@
 # Wallet Connections
 
-Injective supports both Ethereum and Cosmos native wallets. You can use popular wallets like Metamask, Ledger, Keplr, Leap, etc. to sign transactions on Injective.
+Biyaliquid supports both Ethereum and Cosmos native wallets. You can use popular wallets like Metamask, Ledger, Keplr, Leap, etc. to sign transactions on Biyaliquid.
 
 ### Wallet Strategy
 
@@ -8,16 +8,16 @@ The recommended way to have support for all of these wallets out of the box is t
 
 Combining it with the [MsgBroadcaster](../transactions/msgbroadcaster.md) abstraction allows you to sign transactions using one function call. This is what's being used on all products like Helix, Hub, Explorer, etc., and we strongly recommend using this approach in your dApp.
 
-In case you still want to use some wallet natively (without the WalletStrategy class), we are going to provide examples of how to connect to a dApp built on Injective via Metamask and Keplr in this doc.
+In case you still want to use some wallet natively (without the WalletStrategy class), we are going to provide examples of how to connect to a dApp built on Biyaliquid via Metamask and Keplr in this doc.
 
 ### Metamask
 
-Metamask is an Ethereum native wallet and can be used to connect and interact with your dApp built on Injective.
+Metamask is an Ethereum native wallet and can be used to connect and interact with your dApp built on Biyaliquid.
 
-* **Get Injective addresses from Metamask**
+* **Get Biyaliquid addresses from Metamask**
 
 <pre class="language-typescript"><code class="lang-typescript"><strong>
-</strong><strong>import { getInjectiveAddress } from '@injectivelabs/sdk-ts'
+</strong><strong>import { getBiyaliquidAddress } from '@biya-coin/sdk-ts'
 </strong>
 <strong>const getEthereum = () => {
 </strong>  if (!window.ethereum) {
@@ -32,23 +32,23 @@ Metamask is an Ethereum native wallet and can be used to connect and interact wi
 </strong>  method: 'eth_requestAccounts',
 }) /** these are evm addresses */
 
-const injectiveAddresses = addresses.map(getInjectiveAddress)
-console.log(injectiveAddresses)
+const biyaliquidAddresses = addresses.map(getBiyaliquidAddress)
+console.log(biyaliquidAddresses)
 </code></pre>
 
 * **Sign transactions using Metamask**
 
-An example of how to prepare + sign + broadcast a transaction on Injective using Metamask can be found [here](../transactions/ethereum.md).
+An example of how to prepare + sign + broadcast a transaction on Biyaliquid using Metamask can be found [here](../transactions/ethereum.md).
 
 ### Keplr
 
-Keplr is an Cosmos native wallet and can be used to connect and interact with your dApp built on Injective.
+Keplr is an Cosmos native wallet and can be used to connect and interact with your dApp built on Biyaliquid.
 
-* **Get Injective addresses from Keplr**
+* **Get Biyaliquid addresses from Keplr**
 
 <pre class="language-typescript"><code class="lang-typescript"><strong>
-</strong><strong>import { getInjectiveAddress } from '@injectivelabs/sdk-ts'
-</strong><strong>import { ChainId } from '@injectivelabs/ts-types'
+</strong><strong>import { getBiyaliquidAddress } from '@biya-coin/sdk-ts'
+</strong><strong>import { ChainId } from '@biya-coin/ts-types'
 </strong>
 <strong>const getKeplr = () => {
 </strong>  if (!window.keplr) {
@@ -62,12 +62,12 @@ Keplr is an Cosmos native wallet and can be used to connect and interact with yo
 </strong>  const keplr = getKeplr()
 <strong>  const chainId = ChainId.Mainnet
 </strong><strong>  await keplr.enable(chainId)
-</strong><strong>  const injectiveAddresses = await keplr.getOfflineSigner(chainId).getAccounts()
+</strong><strong>  const biyaliquidAddresses = await keplr.getOfflineSigner(chainId).getAccounts()
 </strong><strong>
-</strong><strong>  console.log(injectiveAddresses)
+</strong><strong>  console.log(biyaliquidAddresses)
 </strong>})()
 </code></pre>
 
 * **Sign transactions using Keplr**
 
-An example of how to prepare + sign + broadcast a transaction on Injective using Keplr can be found in [Cosmos Transactions](../transactions/cosmos.md).
+An example of how to prepare + sign + broadcast a transaction on Biyaliquid using Keplr can be found in [Cosmos Transactions](../transactions/cosmos.md).

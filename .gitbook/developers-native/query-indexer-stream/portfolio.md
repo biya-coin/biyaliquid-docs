@@ -7,15 +7,15 @@ Example code snippets to stream from the indexer for portfolio module related da
 ### Stream an account's portfolio
 
 ```ts
-import { IndexerGrpcAccountPortfolioStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAccountPortfolioStream } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountPortfolioStream = new IndexerGrpcAccountPortfolioStream(
   endpoints.indexer,
 )
 
-const accountAddress = 'inj...'
+const accountAddress = 'biya...'
 
 const streamFn = indexerGrpcAccountPortfolioStream.streamAccountPortfolio.bind(
   indexerGrpcAccountPortfolioStream,

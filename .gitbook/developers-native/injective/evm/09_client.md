@@ -8,7 +8,7 @@ A user can query and interact with the `evm` module using the CLI, JSON-RPC, gRP
 
 ## CLI
 
-Find below a list of `injectived` commands added with the `x/evm` module. You can obtain the full list by using the `injectived -h` command.
+Find below a list of `biyaliquidd` commands added with the `x/evm` module. You can obtain the full list by using the `biyaliquidd -h` command.
 
 ### Queries
 
@@ -19,12 +19,12 @@ The `query` commands allow users to query `evm` state.
 Allows users to query the smart contract code at a given address.
 
 ```go
-injectived query evm code ADDRESS [flags]
+biyaliquidd query evm code ADDRESS [flags]
 ```
 
 ```bash
 # Example
-$ injectived query evm code 0x7bf7b17da59880d9bcca24915679668db75f9397
+$ biyaliquidd query evm code 0x7bf7b17da59880d9bcca24915679668db75f9397
 
 # Output
 code: "0xef616c92f3cfc9e92dc270d6acff9cea213cecc7020a76ee4395af09bdceb4837a1ebdb5735e11e7d3adb6104e0c3ac55180b4ddf5e54d022cc5e8837f6a4f971b"
@@ -35,12 +35,12 @@ code: "0xef616c92f3cfc9e92dc270d6acff9cea213cecc7020a76ee4395af09bdceb4837a1ebdb
 Allows users to query storage for an account with a given key and height.
 
 ```bash
-injectived query evm storage ADDRESS KEY [flags]
+biyaliquidd query evm storage ADDRESS KEY [flags]
 ```
 
 ```bash
 # Example
-$ injectived query evm storage 0x0f54f47bf9b8e317b214ccd6a7c3e38b893cd7f0 0 --height 0
+$ biyaliquidd query evm storage 0x0f54f47bf9b8e317b214ccd6a7c3e38b893cd7f0 0 --height 0
 
 # Output
 value: "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -55,12 +55,12 @@ The `tx` commands allow users to interact with the `evm` module.
 Allows users to build cosmos transactions from raw ethereum transaction.
 
 ```bash
-injectived tx evm raw TX_HEX [flags]
+biyaliquidd tx evm raw TX_HEX [flags]
 ```
 
 ```bash
 # Example
-$ injectived tx evm raw 0xf9ff74c86aefeb5f6019d77280bbb44fb695b4d45cfe97e6eed7acd62905f4a85034d5c68ed25a2e7a8eeb9baf1b84
+$ biyaliquidd tx evm raw 0xf9ff74c86aefeb5f6019d77280bbb44fb695b4d45cfe97e6eed7acd62905f4a85034d5c68ed25a2e7a8eeb9baf1b84
 
 # Output
 value: "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -68,7 +68,7 @@ value: "0x0000000000000000000000000000000000000000000000000000000000000000"
 
 ## JSON-RPC
 
-For an overview on  the JSON-RPC methods and namespaces supported on Ethermint, please refer to [https://docs.injective.zone/basics/json_rpc.html](https://docs.injective.zone/basics/json_rpc.html)
+For an overview on  the JSON-RPC methods and namespaces supported on Ethermint, please refer to [https://docs.biyaliquid.zone/basics/json_rpc.html](https://docs.biyaliquid.zone/basics/json_rpc.html)
 
 ## gRPC
 
@@ -76,32 +76,32 @@ For an overview on  the JSON-RPC methods and namespaces supported on Ethermint, 
 
 | Verb   | Method                                               | Description                                                                |
 | ------ | ---------------------------------------------------- | -------------------------------------------------------------------------- |
-| `gRPC` | `injective.evm.v1.Query/Account`                     | Get an Ethereum account                                                    |
-| `gRPC` | `injective.evm.v1.Query/CosmosAccount`               | Get an Ethereum account's Cosmos Address                                   |
-| `gRPC` | `injective.evm.v1.Query/ValidatorAccount`            | Get an Ethereum account's from a validator consensus Address               |
-| `gRPC` | `injective.evm.v1.Query/Balance`                     | Get the balance of a the EVM denomination for a single EthAccount.         |
-| `gRPC` | `injective.evm.v1.Query/Storage`                     | Get the balance of all coins for a single account                          |
-| `gRPC` | `injective.evm.v1.Query/Code`                        | Get the balance of all coins for a single account                          |
-| `gRPC` | `injective.evm.v1.Query/Params`                      | Get the parameters of x/evm module                                         |
-| `gRPC` | `injective.evm.v1.Query/EthCall`                     | Implements the eth_call rpc api                                            |
-| `gRPC` | `injective.evm.v1.Query/EstimateGas`                 | Implements the eth_estimateGas rpc api                                     |
-| `gRPC` | `injective.evm.v1.Query/TraceTx`                     | Implements the debug_traceTransaction rpc api                              |
-| `gRPC` | `injective.evm.v1.Query/TraceBlock`                  | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
-| `GET`  | `/injective/evm/v1/account/{address}`                | Get an Ethereum account                                                    |
-| `GET`  | `/injective/evm/v1/cosmos_account/{address}`         | Get an Ethereum account's Cosmos Address                                   |
-| `GET`  | `/injective/evm/v1/validator_account/{cons_address}` | Get an Ethereum account's from a validator consensus Address               |
-| `GET`  | `/injective/evm/v1/balances/{address}`               | Get the balance of a the EVM denomination for a single EthAccount.         |
-| `GET`  | `/injective/evm/v1/storage/{address}/{key}`          | Get the balance of all coins for a single account                          |
-| `GET`  | `/injective/evm/v1/codes/{address}`                  | Get the balance of all coins for a single account                          |
-| `GET`  | `/injective/evm/v1/params`                           | Get the parameters of x/evm module                                         |
-| `GET`  | `/injective/evm/v1/eth_call`                         | Implements the eth_call rpc api                                            |
-| `GET`  | `/injective/evm/v1/estimate_gas`                     | Implements the eth_estimateGas rpc api                                     |
-| `GET`  | `/injective/evm/v1/trace_tx`                         | Implements the debug_traceTransaction rpc api                              |
-| `GET`  | `/injective/evm/v1/trace_block`                      | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
+| `gRPC` | `biyaliquid.evm.v1.Query/Account`                     | Get an Ethereum account                                                    |
+| `gRPC` | `biyaliquid.evm.v1.Query/CosmosAccount`               | Get an Ethereum account's Cosmos Address                                   |
+| `gRPC` | `biyaliquid.evm.v1.Query/ValidatorAccount`            | Get an Ethereum account's from a validator consensus Address               |
+| `gRPC` | `biyaliquid.evm.v1.Query/Balance`                     | Get the balance of a the EVM denomination for a single EthAccount.         |
+| `gRPC` | `biyaliquid.evm.v1.Query/Storage`                     | Get the balance of all coins for a single account                          |
+| `gRPC` | `biyaliquid.evm.v1.Query/Code`                        | Get the balance of all coins for a single account                          |
+| `gRPC` | `biyaliquid.evm.v1.Query/Params`                      | Get the parameters of x/evm module                                         |
+| `gRPC` | `biyaliquid.evm.v1.Query/EthCall`                     | Implements the eth_call rpc api                                            |
+| `gRPC` | `biyaliquid.evm.v1.Query/EstimateGas`                 | Implements the eth_estimateGas rpc api                                     |
+| `gRPC` | `biyaliquid.evm.v1.Query/TraceTx`                     | Implements the debug_traceTransaction rpc api                              |
+| `gRPC` | `biyaliquid.evm.v1.Query/TraceBlock`                  | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
+| `GET`  | `/biyaliquid/evm/v1/account/{address}`                | Get an Ethereum account                                                    |
+| `GET`  | `/biyaliquid/evm/v1/cosmos_account/{address}`         | Get an Ethereum account's Cosmos Address                                   |
+| `GET`  | `/biyaliquid/evm/v1/validator_account/{cons_address}` | Get an Ethereum account's from a validator consensus Address               |
+| `GET`  | `/biyaliquid/evm/v1/balances/{address}`               | Get the balance of a the EVM denomination for a single EthAccount.         |
+| `GET`  | `/biyaliquid/evm/v1/storage/{address}/{key}`          | Get the balance of all coins for a single account                          |
+| `GET`  | `/biyaliquid/evm/v1/codes/{address}`                  | Get the balance of all coins for a single account                          |
+| `GET`  | `/biyaliquid/evm/v1/params`                           | Get the parameters of x/evm module                                         |
+| `GET`  | `/biyaliquid/evm/v1/eth_call`                         | Implements the eth_call rpc api                                            |
+| `GET`  | `/biyaliquid/evm/v1/estimate_gas`                     | Implements the eth_estimateGas rpc api                                     |
+| `GET`  | `/biyaliquid/evm/v1/trace_tx`                         | Implements the debug_traceTransaction rpc api                              |
+| `GET`  | `/biyaliquid/evm/v1/trace_block`                      | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
 
 ### Transactions
 
 | Verb   | Method                            | Description                     |
 | ------ | --------------------------------- | ------------------------------- |
-| `gRPC` | `injective.evm.v1.Msg/EthereumTx` | Submit an Ethereum transactions |
-| `POST` | `/injective/evm/v1/ethereum_tx`   | Submit an Ethereum transactions |
+| `gRPC` | `biyaliquid.evm.v1.Msg/EthereumTx` | Submit an Ethereum transactions |
+| `POST` | `/biyaliquid/evm/v1/ethereum_tx`   | Submit an Ethereum transactions |

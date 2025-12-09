@@ -1,6 +1,6 @@
 # Wasm
 
-The `wasm` module is the heart of interacting with the wasm smart contracts deployed on the injective chain, here you can find a list of [smart contracts](https://injscan.com/smart-contracts/) that are deployed on the Injective chain.
+The `wasm` module is the heart of interacting with the wasm smart contracts deployed on the biyaliquid chain, here you can find a list of [smart contracts](https://biyascan.com/smart-contracts/) that are deployed on the Biyaliquid chain.
 
 {% hint style="info" %}
 `MsgUpdateCode` and `MsgStoreCode` are not supported by Ethereum (ex: Metamask) wallets.
@@ -13,16 +13,16 @@ The `wasm` module is the heart of interacting with the wasm smart contracts depl
 This message is used to execute contract function, below we will use the [CW20 spec](https://github.com/CosmWasm/cw-plus/blob/main/packages/cw20/README.md) transfer message as an example.
 
 ```ts
-import { Network } from '@injectivelabs/networks'
-import { MsgExecuteContract, MsgBroadcasterWithPk } from '@injectivelabs/sdk-ts'
+import { Network } from '@biya-coin/networks'
+import { MsgExecuteContract, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
 
-const injectiveAddress = 'inj1...'
-const recipientAddress = 'inj2...'
+const biyaliquidAddress = 'biya1...'
+const recipientAddress = 'biya2...'
 const contractAddress = 'cw...'
 
 const msg = MsgExecuteContract.fromJSON({
   contractAddress,
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   exec: {
     action: 'transfer',
     msg: {
@@ -49,21 +49,21 @@ In some scenarios, depending on the smart contract's function we have to transfe
 Below is an example of how we can send the `MsgExecuteContract` using an `test` contract function.
 
 ```ts
-import { Network } from '@injectivelabs/networks'
-import { toChainFormat } from '@injectivelabs/utils'
-import { MsgExecuteContract, MsgBroadcasterWithPk } from '@injectivelabs/sdk-ts'
+import { Network } from '@biya-coin/networks'
+import { toChainFormat } from '@biya-coin/utils'
+import { MsgExecuteContract, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
 
-const injectiveAddress = 'inj1...'
+const biyaliquidAddress = 'biya1...'
 const contractAddress = 'cw...'
 
 const msg = MsgExecuteContract.fromJSON({
   contractAddress,
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   exec: {
     action: 'test',
     funds: [
       {
-        denom: 'inj',
+        denom: 'biya',
         amount: toChainFormat(1).toFixed(),
       },
     ],
@@ -92,21 +92,21 @@ Below is an example of how we can send the `MsgExecuteContractCompact` using an 
 import {
   MsgBroadcasterWithPk,
   MsgExecuteContractCompat,
-} from '@injectivelabs/sdk-ts'
-import { Network } from '@injectivelabs/networks'
-import { toChainFormat } from '@injectivelabs/utils'
+} from '@biya-coin/sdk-ts'
+import { Network } from '@biya-coin/networks'
+import { toChainFormat } from '@biya-coin/utils'
 
-const injectiveAddress = 'inj1...'
+const biyaliquidAddress = 'biya1...'
 const contractAddress = 'cw...'
 
 const msg = MsgExecuteContractCompat.fromJSON({
   contractAddress,
-  sender: injectiveAddress,
+  sender: biyaliquidAddress,
   exec: {
     action: 'test',
     funds: [
       {
-        denom: 'inj',
+        denom: 'biya',
         amount: toChainFormat(1).toFixed(),
       },
     ],

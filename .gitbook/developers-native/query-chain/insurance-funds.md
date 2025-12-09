@@ -7,8 +7,8 @@ Example code snippets to query data related to the insurance fund on chain.
 ### Fetch default redemption notice period duration
 
 ```ts
-import { ChainGrpcInsuranceFundApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcInsuranceFundApi = new ChainGrpcInsuranceFundApi(endpoints.grpc)
@@ -21,8 +21,8 @@ console.log(moduleParams)
 ### Fetch insurance funds and associated metadata
 
 ```ts
-import { ChainGrpcInsuranceFundApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcInsuranceFundApi = new ChainGrpcInsuranceFundApi(endpoints.grpc)
@@ -35,8 +35,8 @@ console.log(insuranceFunds)
 ### Fetch insurance fund and associated metadata based on the market ID
 
 ```ts
-import { ChainGrpcInsuranceFundApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcInsuranceFundApi = new ChainGrpcInsuranceFundApi(endpoints.grpc)
@@ -49,43 +49,43 @@ const insuranceFund = await chainGrpcInsuranceFundApi.fetchInsuranceFund(
 console.log(insuranceFund)
 ```
 
-### Fetch estimated redemptions for a given injective address for a market
+### Fetch estimated redemptions for a given biyaliquid address for a market
 
 ```ts
-import { ChainGrpcInsuranceFundApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcInsuranceFundApi = new ChainGrpcInsuranceFundApi(endpoints.grpc)
 
 const marketId = '0x...'
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
 const estimatedRedemptions =
   await chainGrpcInsuranceFundApi.fetchEstimatedRedemptions({
     marketId,
-    address: injectiveAddress,
+    address: biyaliquidAddress,
   })
 
 console.log(estimatedRedemptions)
 ```
 
-### Fetch pending redemptions for a given injective address for a market
+### Fetch pending redemptions for a given biyaliquid address for a market
 
 ```ts
-import { ChainGrpcInsuranceFundApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcInsuranceFundApi = new ChainGrpcInsuranceFundApi(endpoints.grpc)
 
 const marketId = '0x...'
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
 const pendingRedemptions =
   await chainGrpcInsuranceFundApi.fetchPendingRedemptions({
     marketId,
-    address: injectiveAddress,
+    address: biyaliquidAddress,
   })
 
 console.log(pendingRedemptions)

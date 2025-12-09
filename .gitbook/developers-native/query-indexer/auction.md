@@ -7,8 +7,8 @@ Example code snippets to query the indexer for auction module related data.
 ### Fetch auction based off the round
 
 ```ts
-import { IndexerGrpcAuctionApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAuctionApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAuctionApi = new IndexerGrpcAuctionApi(endpoints.indexer)
@@ -23,8 +23,8 @@ console.log(auction)
 ### Fetch auctions
 
 ```ts
-import { IndexerGrpcAuctionApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcAuctionApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAuctionApi = new IndexerGrpcAuctionApi(endpoints.indexer)

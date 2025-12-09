@@ -1,26 +1,26 @@
 # Launch a Token
 
-Within this document, we'll explain how to launch a token on Injective.
+Within this document, we'll explain how to launch a token on Biyaliquid.
 
-There are two options for launching a token on Injective: bridging an existing token or creating a new token.
+There are two options for launching a token on Biyaliquid: bridging an existing token or creating a new token.
 
 ## Bridging <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The easiest way to launch a token on Injective is by bridging your existing assets from one of the supported networks that Injective is interoperable with. There are guides in the [bridge](../defi/bridge/README.md "mention") sections that you can reference to bridge assets from other networks to Injective.
+The easiest way to launch a token on Biyaliquid is by bridging your existing assets from one of the supported networks that Biyaliquid is interoperable with. There are guides in the [bridge](../defi/bridge/README.md "mention") sections that you can reference to bridge assets from other networks to Biyaliquid.
 
-Once the bridging process is completed, a token will be created on Injective, which you can then use to [launch-a-market.md](./market-launch.md "mention").
+Once the bridging process is completed, a token will be created on Biyaliquid, which you can then use to [launch-a-market.md](./market-launch.md "mention").
 
 ## Creating a New Token
 
-You can also create a new token on Injective using the `TokenFactory` module. There are multiple ways on how to achieve this.
+You can also create a new token on Biyaliquid using the `TokenFactory` module. There are multiple ways on how to achieve this.
 
-### Using Injective Hub <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
+### Using Biyaliquid Hub <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The [Injective Hub](https://injhub.com/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Injective's [native orderbook](../developers-native/injective/exchange), etc.
+The [Biyaliquid Hub](https://biyahub.com/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biyaliquid's [native orderbook](../developers-native/biyaliquid/exchange), etc.
 
 ### Using TokenStation[​](../developers-defi/token-launch.md) <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The [TokenStation](https://www.tokenstation.app/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Injective's [native orderbook](../developers-native/injective/exchange/), launching an airdrop, and much more.
+The [TokenStation](https://www.tokenstation.app/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biyaliquid's [native orderbook](../developers-native/biyaliquid/exchange/), launching an airdrop, and much more.
 
 ### Using DojoSwap[​](../developers-defi/token-launch.md#4-via-dojoswap) <a href="#id-4-via-dojoswap" id="id-4-via-dojoswap"></a>
 
@@ -32,38 +32,38 @@ Similar to above, you can utilize [DojoSwap's Market Creation module](https://do
 
 Learn more about [launching a token](../developers/assets/token-create.md).
 
-#### Using Injective CLI
+#### Using Biyaliquid CLI
 
 {% hint style="info" %}
-You have to have `injectived` installed locally before proceeding with this tutorial. You can learn more about it on the [injectived](../developers/injectived/ "mention")page.
+You have to have `biyaliquidd` installed locally before proceeding with this tutorial. You can learn more about it on the [biyaliquidd](../developers/biyaliquidd/ "mention")page.
 {% endhint %}
 
-Once you have `injectived` installed and a key added, you can use the CLI to launch your token:
+Once you have `biyaliquidd` installed and a key added, you can use the CLI to launch your token:
 
 1. **Create a `TokenFactory` denom**
 
-The fee for creating a factory denom is `0.1 INJ`.
+The fee for creating a factory denom is `0.1 BIYA`.
 
 ```bash
-injectived tx tokenfactory create-denom [subdenom] [name] [symbol] [decimals] --from=YOUR_KEY --chain-id=injective-888 --node=https://testnet.tm.injective.network:443 --gas-prices=500000000inj --gas 1000000
+biyaliquidd tx tokenfactory create-denom [subdenom] [name] [symbol] [decimals] --from=YOUR_KEY --chain-id=biyaliquid-888 --node=https://testnet.tm.biyaliquid.network:443 --gas-prices=500000000biya --gas 1000000
 ```
 
 Tokens are namespaced by the creator address to be permissionless and avoid name collision. In the example above, the subdenom is `ak` but the denom naming will be `factory/{creator address}/{subdenom}`.
 
 2. **Submit token metadata**
 
-To get your token visible on Injective dApps, you have to submit its metadata.
+To get your token visible on Biyaliquid dApps, you have to submit its metadata.
 
 ```bash
-injectived tx tokenfactory set-denom-metadata "My Token Description" 'factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak' AKK AKCoin AK '' '' '[
-{"denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak","exponent":0,"aliases":[]},
+biyaliquidd tx tokenfactory set-denom-metadata "My Token Description" 'factory/biya17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak' AKK AKCoin AK '' '' '[
+{"denom":"factory/biya17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak","exponent":0,"aliases":[]},
 {"denom":"AKK","exponent":6,"aliases":[]}
-]' 6 --from=YOUR_KEY --chain-id=injective-888 --node=https://testnet.sentry.tm.injective.network:443 --gas-prices=500000000inj --gas 1000000
+]' 6 --from=YOUR_KEY --chain-id=biyaliquid-888 --node=https://testnet.sentry.tm.biyaliquid.network:443 --gas-prices=500000000biya --gas 1000000
 ```
 
 This command expects the following arguments:
 
-<pre class="language-bash"><code class="lang-bash"><strong>injectived tx tokenfactory set-denom-metadata [description] [base] [display] [name] [symbol] [uri] [uri-hash] [denom-unit (json)] [decimals]
+<pre class="language-bash"><code class="lang-bash"><strong>biyaliquidd tx tokenfactory set-denom-metadata [description] [base] [display] [name] [symbol] [uri] [uri-hash] [denom-unit (json)] [decimals]
 </strong></code></pre>
 
 3. **Mint tokens**
@@ -71,7 +71,7 @@ This command expects the following arguments:
 Once you have created your token and submitted the token metadata, it's time to mint your tokens.
 
 ```bash
-injectived tx tokenfactory mint 1000000factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak --from=gov --chain-id=injective-888 --node=https://testnet.sentry.tm.injective.network:443 --gas-prices=500000000inj --gas 1000000
+biyaliquidd tx tokenfactory mint 1000000factory/biya17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak --from=gov --chain-id=biyaliquid-888 --node=https://testnet.sentry.tm.biyaliquid.network:443 --gas-prices=500000000biya --gas 1000000
 ```
 
 This command will mint 1 token, assuming your token has 6 decimals.
@@ -81,37 +81,37 @@ This command will mint 1 token, assuming your token has 6 decimals.
 The admin of the token, can also burn the tokens.
 
 ```bash
-injectived tx tokenfactory burn 1000000factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak --from=gov --chain-id=injective-888 --node=https://testnet.sentry.tm.injective.network:443 --gas-prices=500000000inj --gas 1000000
+biyaliquidd tx tokenfactory burn 1000000factory/biya17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak --from=gov --chain-id=biyaliquid-888 --node=https://testnet.sentry.tm.biyaliquid.network:443 --gas-prices=500000000biya --gas 1000000
 ```
 
 5. **Change admin**
 
-It's recommended once you have minted the initial supply to change admin to the `null` address to make sure that the supply of the token cannot be manipulated. Once again, the admin of the token can mint and burn supply anytime. The `NEW_ADDRESS`, as explained above in most of the cases should be set to `inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49`.
+It's recommended once you have minted the initial supply to change admin to the `null` address to make sure that the supply of the token cannot be manipulated. Once again, the admin of the token can mint and burn supply anytime. The `NEW_ADDRESS`, as explained above in most of the cases should be set to `biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49`.
 
 ```bash
-injectived tx tokenfactory change-admin factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak NEW_ADDRESS --from=gov --chain-id=injective-888 --node=https://testnet.sentry.tm.injective.network:443 --gas-prices=500000000inj --gas 1000000
+biyaliquidd tx tokenfactory change-admin factory/biya17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak NEW_ADDRESS --from=gov --chain-id=biyaliquid-888 --node=https://testnet.sentry.tm.biyaliquid.network:443 --gas-prices=500000000biya --gas 1000000
 ```
 
 {% hint style="info" %}
 The examples above are for testnet. If you want to run them on mainnet, do the following changes:
 
-`injective-888` > `injective-1`
+`biyaliquid-888` > `biyaliquid-1`
 
-`https://testnet.sentry.tm.injective.network:443` > `http://sentry.tm.injective.network:443`
+`https://testnet.sentry.tm.biyaliquid.network:443` > `http://sentry.tm.biyaliquid.network:443`
 {% endhint %}
 
 #### Using Cosmwasm
 
-To create and manage a bank token programmatically via a smart contract, one can use the following messages found in the [`injective-cosmwasm`](https://github.com/InjectiveLabs/cw-injective/blob/6b2d549ff99912b9b16dbf91a06c83db99b5dace/packages/injective-cosmwasm/src/msg.rs#L399-L434) package:
+To create and manage a bank token programmatically via a smart contract, one can use the following messages found in the [`biyaliquid-cosmwasm`](https://github.com/biya-coin/cw-biyaliquid/blob/6b2d549ff99912b9b16dbf91a06c83db99b5dace/packages/biyaliquid-cosmwasm/src/msg.rs#L399-L434) package:
 
 \
 `create_new_denom_msg`
 
 ```rust
-pub fn create_new_denom_msg(sender: String, subdenom: String) -> CosmosMsg<InjectiveMsgWrapper> {
-    InjectiveMsgWrapper {
-        route: InjectiveRoute::Tokenfactory,
-        msg_data: InjectiveMsg::CreateDenom { sender, subdenom },
+pub fn create_new_denom_msg(sender: String, subdenom: String) -> CosmosMsg<BiyaliquidMsgWrapper> {
+    BiyaliquidMsgWrapper {
+        route: BiyaliquidRoute::Tokenfactory,
+        msg_data: BiyaliquidMsg::CreateDenom { sender, subdenom },
     }
     .into()
 }
@@ -124,7 +124,7 @@ Parameters:
 * `sender`: The address of the account initiating the creation.
 * `subdenom`: The sub-denomination identifier for the new token.
 
-Returns: A `CosmosMsg` wrapped in an `InjectiveMsgWrapper`, ready to be sent to the Injective blockchain.
+Returns: A `CosmosMsg` wrapped in an `BiyaliquidMsgWrapper`, ready to be sent to the Biyaliquid blockchain.
 
 Example:
 
@@ -138,10 +138,10 @@ let new_denom_message = create_new_denom_msg(
 #### `create_set_token_metadata_msg`
 
 ```rust
-pub fn create_set_token_metadata_msg(denom: String, name: String, symbol: String, decimals: u8) -> CosmosMsg<InjectiveMsgWrapper> {
-    InjectiveMsgWrapper {
-        route: InjectiveRoute::Tokenfactory,
-        msg_data: InjectiveMsg::SetTokenMetadata {
+pub fn create_set_token_metadata_msg(denom: String, name: String, symbol: String, decimals: u8) -> CosmosMsg<BiyaliquidMsgWrapper> {
+    BiyaliquidMsgWrapper {
+        route: BiyaliquidRoute::Tokenfactory,
+        msg_data: BiyaliquidMsg::SetTokenMetadata {
             denom,
             name,
             symbol,
@@ -161,7 +161,7 @@ Parameters:
 * `symbol`: The symbol of the token.
 * `decimals`: The number of decimal places the token uses.
 
-Returns: A `CosmosMsg` wrapped in an `InjectiveMsgWrapper`, ready to be sent to the Injective blockchain.
+Returns: A `CosmosMsg` wrapped in an `BiyaliquidMsgWrapper`, ready to be sent to the Biyaliquid blockchain.
 
 Example:
 
@@ -177,10 +177,10 @@ let metadata_message = create_set_token_metadata_msg(
 #### `create_mint_tokens_msg`
 
 ```rust
-pub fn create_mint_tokens_msg(sender: Addr, amount: Coin, mint_to: String) -> CosmosMsg<InjectiveMsgWrapper> {
-    InjectiveMsgWrapper {
-        route: InjectiveRoute::Tokenfactory,
-        msg_data: InjectiveMsg::Mint { sender, amount, mint_to },
+pub fn create_mint_tokens_msg(sender: Addr, amount: Coin, mint_to: String) -> CosmosMsg<BiyaliquidMsgWrapper> {
+    BiyaliquidMsgWrapper {
+        route: BiyaliquidRoute::Tokenfactory,
+        msg_data: BiyaliquidMsg::Mint { sender, amount, mint_to },
     }
     .into()
 }
@@ -194,7 +194,7 @@ Parameters:
 * `amount`: The amount of tokens to mint.
 * `mint_to`: The recipient address where the newly minted tokens should be sent.
 
-Returns: A `CosmosMsg` wrapped in an `InjectiveMsgWrapper`, ready to be sent to the Injective blockchain.
+Returns: A `CosmosMsg` wrapped in an `BiyaliquidMsgWrapper`, ready to be sent to the Biyaliquid blockchain.
 
 Example:
 
@@ -202,17 +202,17 @@ Example:
 let mint_message = create_mint_tokens_msg(
     env.contract.address,                                   // Sender's address
     Coin::new(1000, "factory/<creator-address>/mytoken"),   // Amount to mint
-    "inj1...".to_string(),                                  // Recipient's address
+    "biya1...".to_string(),                                  // Recipient's address
 );
 ```
 
 #### `create_burn_tokens_msg`
 
 ```rust
-pub fn create_burn_tokens_msg(sender: Addr, amount: Coin) -> CosmosMsg<InjectiveMsgWrapper> {
-    InjectiveMsgWrapper {
-        route: InjectiveRoute::Tokenfactory,
-        msg_data: InjectiveMsg::Burn { sender, amount },
+pub fn create_burn_tokens_msg(sender: Addr, amount: Coin) -> CosmosMsg<BiyaliquidMsgWrapper> {
+    BiyaliquidMsgWrapper {
+        route: BiyaliquidRoute::Tokenfactory,
+        msg_data: BiyaliquidMsg::Burn { sender, amount },
     }
     .into()
 }
@@ -225,7 +225,7 @@ Parameters:
 * `sender`: The address of the account initiating the burn operation.
 * `amount`: The amount of tokens to burn.
 
-Returns: A `CosmosMsg` wrapped in an `InjectiveMsgWrapper`, ready to be sent to the Injective blockchain.
+Returns: A `CosmosMsg` wrapped in an `BiyaliquidMsgWrapper`, ready to be sent to the Biyaliquid blockchain.
 
 Example:
 

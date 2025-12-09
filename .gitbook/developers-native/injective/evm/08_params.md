@@ -10,7 +10,7 @@ The evm module contains the following parameters:
 
 | Key            | Type        | Default Value   |
 | -------------- | ----------- |-----------------|
-| `EVMDenom`     | string      | `"inj"`         |
+| `EVMDenom`     | string      | `"biya"`         |
 | `EnableCreate` | bool        | `true`          |
 | `EnableCall`   | bool        | `true`          |
 | `ExtraEIPs`    | []int       | TBD             |
@@ -20,7 +20,7 @@ The evm module contains the following parameters:
 
 The evm denomination parameter defines the token denomination used on the EVM state transitions and gas consumption for EVM messages.
 
-For example, on Ethereum, the `evm_denom` would be `ETH`. To maintain parity with Ethereum, Injective uses Atto as its base denomination. In essence, 1 (atto) inj equals `1x10⁻¹⁸ INJ`, aligning with Ethereum’s denomination where one wei is equal to 1x10⁻¹⁸ ETH. In terms of precision, the `INJ` and `ETH` share the same value, *i.e* `1 INJ = 10^18 inj` and `1 ETH = 10^18 wei`.
+For example, on Ethereum, the `evm_denom` would be `ETH`. To maintain parity with Ethereum, Biyaliquid uses Atto as its base denomination. In essence, 1 (atto) biya equals `1x10⁻¹⁸ BIYA`, aligning with Ethereum’s denomination where one wei is equal to 1x10⁻¹⁸ ETH. In terms of precision, the `BIYA` and `ETH` share the same value, *i.e* `1 BIYA = 10^18 biya` and `1 ETH = 10^18 wei`.
 
 ## Enable Create
 

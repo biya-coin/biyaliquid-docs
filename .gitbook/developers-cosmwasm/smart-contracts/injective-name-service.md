@@ -1,27 +1,27 @@
-# Injective Name Service
+# Biyaliquid Name Service
 
-Within this section, we will look at how to query the Injective name service contracts.
+Within this section, we will look at how to query the Biyaliquid name service contracts.
 
 ## Abstraction Service (deprecated)
 
-~~You can use our `InjNameService` abstraction to query the smart contracts with a single method call. Below this example, you can also find the raw implementation on how to query the smart contracts in case you need more flexibility.~~
+~~You can use our `BiyaNameService` abstraction to query the smart contracts with a single method call. Below this example, you can also find the raw implementation on how to query the smart contracts in case you need more flexibility.~~
 
-<pre class="language-typescript"><code class="lang-typescript">import { getNetworkEndpoints, Network } from '@injectivelabs/network'
-import { InjNameService } from '@injectivelabs/sdk-ui-ts'
+<pre class="language-typescript"><code class="lang-typescript">import { getNetworkEndpoints, Network } from '@biya-coin/network'
+import { BiyaNameService } from '@biya-coin/sdk-ui-ts'
 
-const injNameService = new InjNameService(Network.Testnet)
-<strong>const name = 'ninja.inj'
+const biyaNameService = new BiyaNameService(Network.Testnet)
+<strong>const name = 'nbiyaa.biya'
 </strong>
 // Fetch the address for the particular name
-const addressForName = await injNameService.fetchInjAddress(name)
+const addressForName = await biyaNameService.fetchBiyaAddress(name)
 
 // Fetch the name for the particular address
-const nameFromAddress = await injNameService.fetchInjName(addressForName)
+const nameFromAddress = await biyaNameService.fetchBiyaName(addressForName)
 </code></pre>
 
 ## Raw Smart Contract Querying
 
-Example code snippets to resolve .inj domain name.
+Example code snippets to resolve .biya domain name.
 
 ## Domain Resolution
 
@@ -31,18 +31,18 @@ Example code snippets to resolve .inj domain name.
 import {
   Network,
   getNetworkEndpoints,
-  getInjNameRegistryContractForNetwork,
-} from '@injectivelabs/networks'
+  getBiyaNameRegistryContractForNetwork,
+} from '@biya-coin/networks'
 import {
   ChainGrpcWasmApi,
   QueryResolverAddress,
-  InjNameServiceQueryTransformer,
-} from '@injectivelabs/sdk-ts'
+  BiyaNameServiceQueryTransformer,
+} from '@biya-coin/sdk-ts'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
-const registryContractAddress = getInjNameRegistryContractForNetwork(
+const registryContractAddress = getBiyaNameRegistryContractForNetwork(
   Network.Testnet,
 )
 
@@ -56,98 +56,98 @@ const response = await chainGrpcWasmApi.fetchSmartContractState(
 )
 
 const resolverAddress =
-  InjNameServiceQueryTransformer.resolverAddressResponseToResolverAddress(
+  BiyaNameServiceQueryTransformer.resolverAddressResponseToResolverAddress(
     response,
   )
 
 console.log(resolverAddress)
 ```
 
-* Get address for .inj domain name.
+* Get address for .biya domain name.
 
 ```ts
 import {
   Network,
   getNetworkEndpoints,
-  getInjNameReverseResolverContractForNetwork,
-} from '@injectivelabs/networks'
+  getBiyaNameReverseResolverContractForNetwork,
+} from '@biya-coin/networks'
 import {
   ChainGrpcWasmApi,
-  QueryInjectiveAddress,
-  InjNameServiceQueryTransformer,
-} from '@injectivelabs/sdk-ts'
-import { nameToNode, normalizeName } from '@injectivelabs/sdk-ts'
+  QueryBiyaliquidAddress,
+  BiyaNameServiceQueryTransformer,
+} from '@biya-coin/sdk-ts'
+import { nameToNode, normalizeName } from '@biya-coin/sdk-ts'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
 const reverseResolverContractAddress =
-  getInjNameReverseResolverContractForNetwork(Network.Testnet)
+  getBiyaNameReverseResolverContractForNetwork(Network.Testnet)
 
-const name = 'allen.inj'
+const name = 'allen.biya'
 
 const normalizedName = normalizeName(name)
 const node = nameToNode(normalizedName)
 
-const query = new QueryInjectiveAddress({ node }).toPayload()
+const query = new QueryBiyaliquidAddress({ node }).toPayload()
 
 const response = await chainGrpcWasmApi.fetchSmartContractState(
   reverseResolverContractAddress,
   query,
 )
 
-const injectiveAddress =
-  InjNameServiceQueryTransformer.injectiveAddressResponseToInjectiveAddress(
+const biyaliquidAddress =
+  BiyaNameServiceQueryTransformer.biyaliquidAddressResponseToBiyaliquidAddress(
     response,
   )
 
-if (!injectiveAddress) {
+if (!biyaliquidAddress) {
   throw new Error(`address not found for ${name}`)
 }
 
-console.log(injectiveAddress)
+console.log(biyaliquidAddress)
 ```
 
 ## Reverse Resolution
 
-* Get the primary name for injective address.
+* Get the primary name for biyaliquid address.
 
 ```ts
 import {
-  QueryInjName,
+  QueryBiyaName,
   ChainGrpcWasmApi,
-  InjNameServiceQueryTransformer
-} from '@injectivelabs/sdk-ts'
+  BiyaNameServiceQueryTransformer
+} from '@biya-coin/sdk-ts'
   import {
   Network,
   getNetworkEndpoints,
-  getInjNameReverseResolverContractForNetwork
-} from '@injectivelabs/networks'
+  getBiyaNameReverseResolverContractForNetwork
+} from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
 const reverseResolverContractAddress =
-  getInjNameReverseResolverContractForNetwork(Network.Testnet)
-const injectiveAddress = ''
+  getBiyaNameReverseResolverContractForNetwork(Network.Testnet)
+const biyaliquidAddress = ''
 
-const query = new QueryInjName({ address: injectiveAddress }).toPayload()
+const query = new QueryBiyaName({ address: biyaliquidAddress }).toPayload()
 
 const response = await chainGrpcWasmApi.fetchSmartContractState(
   reverseResolverContractAddress,
   query,
 )
 
-const name = InjNameServiceQueryTransformer.injectiveNameResponseToInjectiveName(response)
+const name = BiyaNameServiceQueryTransformer.biyaliquidNameResponseToBiyaliquidName(response)
 
 if (!name) {
-  throw new Error(`.inj not found for ${injectiveAddress}`)
+  throw new Error(`.biya not found for ${biyaliquidAddress}`)
 }
 
 const addressForName = /** fetch as above example */
 
 if (addressForName.toLowerCase() !== address.toLowerCase()) {
-  throw new Error(`.inj not found for ${injectiveAddress}`)
+  throw new Error(`.biya not found for ${biyaliquidAddress}`)
 }
 
 console.log(name)

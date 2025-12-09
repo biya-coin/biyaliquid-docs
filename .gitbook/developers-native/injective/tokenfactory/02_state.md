@@ -21,7 +21,7 @@ The tokenfactory module keeps state of the following primary objects:
 message DenomAuthorityMetadata {
   option (gogoproto.equal) = true;
 
-  // Can be empty for no admin, or a valid injective address
+  // Can be empty for no admin, or a valid biyaliquid address
   string admin = 1 [ (gogoproto.moretags) = "yaml:\"admin\"" ];
 
   // true if the admin can burn tokens from other addresses

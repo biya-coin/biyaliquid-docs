@@ -7,8 +7,8 @@ Example code snippets to query the indexer for explorer module related data.
 ### Fetch transaction by hash
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
@@ -23,16 +23,16 @@ console.log(transaction)
 ### Fetch an account transaction by address
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const injectiveAddress = 'inj...'
+const biyaliquidAddress = 'biya...'
 
 const account = await indexerGrpcExplorerApi.fetchAccountTx({
-  injectiveAddress,
+  biyaliquidAddress,
 })
 
 console.log(account)
@@ -41,13 +41,13 @@ console.log(account)
 ### Fetch a validator by address
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const validatorAddress = 'injvaloper...'
+const validatorAddress = 'biyavaloper...'
 
 const validator = await indexerGrpcExplorerApi.fetchValidator(validatorAddress)
 
@@ -57,13 +57,13 @@ console.log(validator)
 ### Fetch a validator's uptime by address
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const validatorAddress = 'injvaloper...'
+const validatorAddress = 'biyavaloper...'
 
 const validatorUptime = await indexerGrpcExplorerApi.fetchValidatorUptime(
   validatorAddress,
@@ -75,13 +75,13 @@ console.log(validatorUptime)
 ### Fetch a validator's uptime by address
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const validatorAddress = 'injvaloper...'
+const validatorAddress = 'biyavaloper...'
 
 const validatorUptime = await indexerGrpcExplorerApi.fetchValidatorUptime(
   validatorAddress,
@@ -93,14 +93,14 @@ console.log(validatorUptime)
 ### Fetch Peggy deposit transactions from Ethereum
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
 const sender = '0x...' /* optional parameter */
-const receiver = 'inj...' /* optional parameter */
+const receiver = 'biya...' /* optional parameter */
 const limit = 100 /* optional pagination parameter */
 const skip = 20 /* optional pagination parameter */
 
@@ -117,14 +117,14 @@ console.log(peggyDeposits)
 ### Fetch Peggy withdrawal transactions to Ethereum
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
 const receiver = '0x...' /* optional parameter */
-const sender = 'inj...' /* optional parameter */
+const sender = 'biya...' /* optional parameter */
 const limit = 100 /* optional pagination parameter */
 const skip = 20 /* optional pagination parameter */
 
@@ -141,8 +141,8 @@ console.log(peggyWithdrawals)
 ### Fetch blocks
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
@@ -161,8 +161,8 @@ console.log(blocks)
 ### Fetch block by height
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
@@ -176,8 +176,8 @@ console.log(block)
 ### Fetch transactions
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
@@ -196,14 +196,14 @@ console.log(transactions)
 ### Fetch IBC transfer transactions
 
 ```ts
-import { IndexerGrpcExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
 const sender = 'osmo...'
-const receiver = 'inj...'
+const receiver = 'biya...'
 
 const ibcTransactions = await indexerGrpcExplorerApi.fetchIBCTransferTxs({
   sender,
@@ -218,8 +218,8 @@ console.log(ibcTransactions)
 ### Fetch a block and details
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -236,8 +236,8 @@ console.log(block)
 ### Fetch blocks and details
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -258,8 +258,8 @@ console.log(blocks)
 ### Fetch blocks with transaction details
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -280,8 +280,8 @@ console.log(blocks)
 ### Fetch transactions
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -306,15 +306,15 @@ console.log(transactions)
 ### Fetch transactions for an address
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const account = 'inj...'
+const account = 'biya...'
 const after = 200 /* optional pagination param */
 const limit = 100 /* optional pagination param */
 const fromNumber = 1 /* optional param */
@@ -338,8 +338,8 @@ console.log(accountTransactions)
 ### Fetch transaction using transaction hash
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -356,8 +356,8 @@ console.log(transaction)
 ### Fetch validators
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -372,15 +372,15 @@ console.log(validators)
 ### Fetch validator uptime
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const validatorAddress = 'injvalcons'
+const validatorAddress = 'biyavalcons'
 
 const validatorUptime = await indexerRestExplorerApi.fetchValidatorUptime(
   validatorAddress,
@@ -392,15 +392,15 @@ console.log(validatorUptime)
 ### Fetch a contract by contract address
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const contractAddress = 'inj...'
+const contractAddress = 'biya...'
 
 const contract = await indexerRestExplorerApi.fetchContract(contractAddress)
 
@@ -410,8 +410,8 @@ console.log(contract)
 ### Fetch contracts
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -432,15 +432,15 @@ console.log(contracts)
 ### Fetch contract transactions
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const contractAddress = 'inj...'
+const contractAddress = 'biya...'
 const limit = 100 /* optional pagination param */
 const skip = 50 /* optional pagination param */
 
@@ -458,8 +458,8 @@ console.log(transactions)
 ### Fetch cosmwasm code details
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -476,8 +476,8 @@ console.log(codeDetails)
 ### Fetch wasm codes and details
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -500,15 +500,15 @@ console.log(codes)
 ### Fetch cw20 balances
 
 ```ts
-import { IndexerRestExplorerApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const address = 'inj...'
+const address = 'biya...'
 
 const cw20Balances = await indexerRestExplorerApi.fetchCW20BalancesNoThrow(
   address,

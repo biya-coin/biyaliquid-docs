@@ -4,31 +4,31 @@ Within this document, we'll outline some examples on how to convert addresses be
 
 ### Convert Hex <> Bech32 address
 
-As we've mentioned in the [wallet](../defi/wallet/README.md "mention") section, Injective addresses are compatible with Ethereum addresses. You can convert between the two formats easily.
+As we've mentioned in the [wallet](../defi/wallet/README.md "mention") section, Biyaliquid addresses are compatible with Ethereum addresses. You can convert between the two formats easily.
 
 ### Using TypeScript
 
-You can easily convert between an Injective address and Ethereum address by using our utility functions in the `@injectivelabs/sdk-ts` package:
+You can easily convert between an Biyaliquid address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
 
 ```typescript
-import { getInjectiveAddress, getEthereumAddress } from '@injectivelabs/sdk-ts'
+import { getBiyaliquidAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
 
-const injectiveAddress = 'inj1...'
+const biyaliquidAddress = 'biya1...'
 const ethereumAddress = '0x..'
 
-console.log('Injective address from Ethereum address => ', getInjectiveAddress(ethereumAddress))
-console.log('Ethereum address from Injective address => ', getEthereumAddress(injectiveAddress))
+console.log('Biyaliquid address from Ethereum address => ', getBiyaliquidAddress(ethereumAddress))
+console.log('Ethereum address from Biyaliquid address => ', getEthereumAddress(biyaliquidAddress))
 ```
 
-### **Convert Cosmos address to Injective Address**
+### **Convert Cosmos address to Biyaliquid Address**
 
-As Injective has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Injective one.
+As Biyaliquid has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biyaliquid one.
 
 ### Using TypeScript
 
 ```typescript
 import { config } from "dotenv";
-import { ChainRestAuthApi, PublicKey } from "@injectivelabs/sdk-ts";
+import { ChainRestAuthApi, PublicKey } from "@biya-coin/sdk-ts";
 
 config();
 
@@ -46,7 +46,7 @@ config();
   }
 
   console.log(
-    "injectiveAddress",
+    "biyaliquidAddress",
     PublicKey.fromBase64(account.pub_key.key || "")
       .toAddress()
       .toBech32()

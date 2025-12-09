@@ -1,10 +1,10 @@
 # Permissions
 
-The Permissions Module facilitates the management of namespaces, roles, and permissions within the Injective ecosystem. This documentation outlines the key message types and their usage for interacting with permissions-related data.
+The Permissions Module facilitates the management of namespaces, roles, and permissions within the Biyaliquid ecosystem. This documentation outlines the key message types and their usage for interacting with permissions-related data.
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Permissions module exports and we can use to interact with the Injective chain.
+Let's explore (and provide examples) the Messages that the Permissions module exports and we can use to interact with the Biyaliquid chain.
 
 ### `MsgClaimVoucher`
 
@@ -14,15 +14,15 @@ This message is used to claim a voucher tied to a specific address within a name
 import {
   MsgClaimVoucher,
   MsgBroadcasterWithPk,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const denom = "inj";
+const denom = "biya";
 
 const msg = MsgClaimVoucher.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   denom,
 });
 
@@ -45,14 +45,14 @@ This message is used to creates a new namespace with permissions and roles.
 import {
   MsgCreateNamespace,
   MsgBroadcasterWithPk,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
-const secondAddress = "inj2.....";
+const biyaliquidAddress = "biya1...";
+const secondAddress = "biya2.....";
 const privateKey = "0x...";
-const denom = "inj";
-const wasmHook = "inj3....";
+const denom = "biya";
+const wasmHook = "biya3....";
 const mintsPausedValue = false;
 const sendsPausedValue = false;
 const burnsPausedValue = false;
@@ -60,7 +60,7 @@ const role1 = "Everyone";
 const permissions1 = 1;
 
 const msg = MsgCreateNamespace.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   namespace: {
     denom,
     wasmHook,
@@ -72,7 +72,7 @@ const msg = MsgCreateNamespace.fromJSON({
       permissions: permissions1,
     },
     addressRoles: {
-      address: injectiveAddress,
+      address: biyaliquidAddress,
       roles: [role1],
     },
   },
@@ -98,15 +98,15 @@ This message is used to delete an existing namespace.
 import {
   MsgDeleteNamespace,
   MsgBroadcasterWithPk,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const denom = "inj";
+const denom = "biya";
 
 const msg = MsgDeleteNamespace.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   denom
 });
 
@@ -129,19 +129,19 @@ This message is used to revoke roles from specified addresses in a namespace.
 import {
   MsgRevokeNamespaceRoles,
   MsgBroadcasterWithPk,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const denom = "inj";
+const denom = "biya";
 const roles = ["role1","role2"];
 
 const msg = MsgRevokeNamespaceRoles.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   denom,
   addressRolesToRevoke: {
-    injectiveAddress,
+    biyaliquidAddress,
     roles: roles,
   },
 });
@@ -165,19 +165,19 @@ This message is used to update namespace properties like mints, sends, and burns
 import {
   MsgUpdateNamespace,
   MsgBroadcasterWithPk,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1..."
+const biyaliquidAddress = "biya1..."
 const privateKey = "0x...";
-const denom = "inj";
-const wasmHookValue = "inj2...";
+const denom = "biya";
+const wasmHookValue = "biya2...";
 const mintsPausedValue = false;
 const sendsPausedValue = false;
 const burnsPausedValue = true;
 
 const msg = await new MsgUpdateNamespace.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   denom,
   wasmHook: {
     newValue: wasmHookValue
@@ -212,24 +212,24 @@ This message is used to modify the roles and permissions for addresses in a name
 import {
   MsgUpdateNamespaceRoles,
   MsgBroadcasterWithPk,
-} from "@injectivelabs/sdk-ts";
-import { Network } from "@injectivelabs/networks";
+} from "@biya-coin/sdk-ts";
+import { Network } from "@biya-coin/networks";
 
-const injectiveAddress = "inj1...";
+const biyaliquidAddress = "biya1...";
 const privateKey = "0x...";
-const denom = "inj";
+const denom = "biya";
 const role = "role1";
 const permissions = 4;
 
 const msg = MsgUpdateNamespaceRoles.fromJSON({
-  injectiveAddress,
+  biyaliquidAddress,
   denom,
   rolePermissions: {
     role,
     permissions: permissions
   },
   addressRoles: {
-    injectiveAddress,
+    biyaliquidAddress,
     roles: [role],
   },
 });

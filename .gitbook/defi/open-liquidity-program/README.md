@@ -1,5 +1,5 @@
 ---
-description: Rewards for liquidity providers on Injective
+description: Rewards for liquidity providers on Biyaliquid
 ---
 
 # Open Liquidity Program (OLP)

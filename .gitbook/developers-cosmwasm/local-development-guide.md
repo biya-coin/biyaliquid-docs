@@ -1,6 +1,6 @@
 # Local Development
 
-This guide will get you started deploying `cw20` smart contracts on a local Injective network running on your computer.
+This guide will get you started deploying `cw20` smart contracts on a local Biyaliquid network running on your computer.
 
 We'll use the `cw20-base` contract from [CosmWasm's collection of specifications and contracts](https://github.com/CosmWasm/cw-plus) designed for production use on real networks. `cw20-base` is a basic implementation of a `cw20` compatible contract that can be imported in any custom contract you want to build on. It contains a straightforward but complete implementation of the cw20 spec along with all extensions. `cw20-base` can be deployed as-is or imported by other contracts.
 
@@ -27,11 +27,11 @@ rustup target add wasm32-unknown-unknown
 cargo install cargo-generate
 ```
 
-### injectived
+### biyaliquidd
 
-Make sure you have `injectived` installed locally. You can follow the [install-injectived.md](../developers/injectived/install.md "mention")guide to get `injectived` and other prerequisites running locally.
+Make sure you have `biyaliquidd` installed locally. You can follow the [install-biyaliquidd.md](../developers/biyaliquidd/install.md "mention")guide to get `biyaliquidd` and other prerequisites running locally.
 
-Once you have `injectived` installed, you should also [start a local chain instance.](..//developers/injectived/install.md#start-injectived)
+Once you have `biyaliquidd` installed, you should also [start a local chain instance.](..//developers/biyaliquidd/install.md#start-biyaliquidd)
 
 ### Compile CosmWasm Contracts
 
@@ -66,7 +66,7 @@ The docker script builds and optimizes all the CW contracts in the repo, with th
 
 ```bash
 # inside the CosmWasm/cw-plus repo 
-yes 12345678 | injectived tx wasm store artifacts/cw20_base.wasm --from=genesis --chain-id="injective-1" --yes --gas-prices=500000000inj --gas=20000000
+yes 12345678 | biyaliquidd tx wasm store artifacts/cw20_base.wasm --from=genesis --chain-id="biyaliquid-1" --yes --gas-prices=500000000biya --gas=20000000
 ```
 
 **Output:**
@@ -90,7 +90,7 @@ txhash: 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
 Then query the transaction by the `txhash` to verify the contract was indeed deployed.
 
 ```bash
-injectived query tx 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
+biyaliquidd query tx 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
 ```
 
 **Output:**
@@ -199,7 +199,7 @@ logs:
     - key: code_id
       value: '"1"'
     - key: creator
-      value: '"inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8"'
+      value: '"biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8"'
     type: cosmwasm.wasm.v1.EventCodeStored
   - attributes:
     - key: action
@@ -207,7 +207,7 @@ logs:
     - key: module
       value: wasm
     - key: sender
-      value: inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
+      value: biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
     type: message
   - attributes:
     - key: code_checksum
@@ -217,7 +217,7 @@ logs:
     type: store_code
   log: ""
   msg_index: 0
-raw_log: '[{"events":[{"type":"cosmwasm.wasm.v1.EventCodeStored","attributes":[{"key":"access_config","value":"{\"permission\":\"Everybody\",\"address\":\"\",\"addresses\":[]}"},{"key":"checksum","value":"\"X4IBz14tfmwV2xGt8D1i3d3JK41PrpjE88HDfzeOFdk=\""},{"key":"code_id","value":"\"1\""},{"key":"creator","value":"\"inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8\""}]},{"type":"message","attributes":[{"key":"action","value":"/cosmwasm.wasm.v1.MsgStoreCode"},{"key":"module","value":"wasm"},{"key":"sender","value":"inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8"}]},{"type":"store_code","attributes":[{"key":"code_checksum","value":"5f8201cf5e2d7e6c15db11adf03d62ddddc92b8d4fae98c4f3c1c37f378e15d9"},{"key":"code_id","value":"1"}]}]}]'
+raw_log: '[{"events":[{"type":"cosmwasm.wasm.v1.EventCodeStored","attributes":[{"key":"access_config","value":"{\"permission\":\"Everybody\",\"address\":\"\",\"addresses\":[]}"},{"key":"checksum","value":"\"X4IBz14tfmwV2xGt8D1i3d3JK41PrpjE88HDfzeOFdk=\""},{"key":"code_id","value":"\"1\""},{"key":"creator","value":"\"biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8\""}]},{"type":"message","attributes":[{"key":"action","value":"/cosmwasm.wasm.v1.MsgStoreCode"},{"key":"module","value":"wasm"},{"key":"sender","value":"biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8"}]},{"type":"store_code","attributes":[{"key":"code_checksum","value":"5f8201cf5e2d7e6c15db11adf03d62ddddc92b8d4fae98c4f3c1c37f378e15d9"},{"key":"code_id","value":"1"}]}]}]'
 timestamp: "2023-03-06T15:48:30Z"
 tx:
   '@type': /cosmos.tx.v1beta1.Tx
@@ -225,7 +225,7 @@ tx:
     fee:
       amount:
       - amount: "10000000000000000"
-        denom: inj
+        denom: biya
       gas_limit: "20000000"
       granter: ""
       payer: ""
@@ -234,7 +234,7 @@ tx:
         single:
           mode: SIGN_MODE_DIRECT
       public_key:
-        '@type': /injective.crypto.v1beta1.ethsecp256k1.PubKey
+        '@type': /biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey
         key: Ay+cc/lvd4Mn4pbgFkN87vWDaCXuXjVJYJGsdhrD09vk
       sequence: "1"
   body:
@@ -243,7 +243,7 @@ tx:
     messages:
     - '@type': /cosmwasm.wasm.v1.MsgStoreCode
       instantiate_permission: null
-      sender: inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
+      sender: biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
       wasm_byte_code: YOUR_WASM_BYTE_HERE
     non_critical_extension_options: []
     timeout_height: "0"
@@ -265,7 +265,7 @@ logs:
     - key: code_id
       value: '"1"'
     - key: creator
-      value: '"inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8"'
+      value: '"biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8"'
     type: cosmwasm.wasm.v1.EventCodeStored
   - attributes:
     - key: action
@@ -273,7 +273,7 @@ logs:
     - key: module
       value: wasm
     - key: sender
-      value: inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
+      value: biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
     type: message
   - attributes:
     - key: code_checksum
@@ -324,7 +324,7 @@ Make sure you have the private keys for the address you choose—you won't be ab
 To find the genesis address, run:
 
 ```bash
-yes 12345678 | injectived keys show genesis
+yes 12345678 | biyaliquidd keys show genesis
 ```
 
 **Output:**
@@ -332,8 +332,8 @@ yes 12345678 | injectived keys show genesis
 ```bash
 - name: genesis
   type: local
-  address: inj10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3
-  pubkey: '{"@type":"/injective.crypto.v1beta1.ethsecp256k1.PubKey","key":"ArtVkg9feLXjD4p6XRtWxVpvJUDhrcqk/5XYLsQI4slb"}'
+  address: biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3
+  pubkey: '{"@type":"/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey","key":"ArtVkg9feLXjD4p6XRtWxVpvJUDhrcqk/5XYLsQI4slb"}'
   mnemonic: ""
 ```
 
@@ -341,8 +341,8 @@ Run the CLI command with `code_id` `1` along with the JSON encoded initializatio
 
 ```bash
 CODE_ID=1
-INIT='{"name":"Albcoin","symbol":"ALB","decimals":6,"initial_balances":[{"address":"inj10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3","amount":"69420"}],"mint":{"minter":"inj10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"},"marketing":{}}'
-yes 12345678 | injectived tx wasm instantiate $CODE_ID $INIT --label="Albcoin Token" --from=genesis --chain-id="injective-1" --yes --gas-prices=500000000inj --gas=20000000 --no-admin
+INIT='{"name":"Albcoin","symbol":"ALB","decimals":6,"initial_balances":[{"address":"biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3","amount":"69420"}],"mint":{"minter":"biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"},"marketing":{}}'
+yes 12345678 | biyaliquidd tx wasm instantiate $CODE_ID $INIT --label="Albcoin Token" --from=genesis --chain-id="biyaliquid-1" --yes --gas-prices=500000000biya --gas=20000000 --no-admin
 ```
 
 Now the address of the instantiated contract can be obtained on `http://localhost:10337/swagger/#/Query/ContractsByCode`
@@ -350,22 +350,22 @@ Now the address of the instantiated contract can be obtained on `http://localhos
 And the contract info metadata can be obtained on `http://localhost:10337/swagger/#/Query/ContractInfo` or by CLI query
 
 ```bash
-CONTRACT=$(injectived query wasm list-contract-by-code $CODE_ID --output json | jq -r '.contracts[-1]')
-injectived query wasm contract $CONTRACT
+CONTRACT=$(biyaliquidd query wasm list-contract-by-code $CODE_ID --output json | jq -r '.contracts[-1]')
+biyaliquidd query wasm contract $CONTRACT
 ```
 
 **Output:**
 
 ```bash
-injectived query wasm contract $CONTRACT
-address: inj14hj2tavq8fpesdwxxcu44rty3hh90vhujaxlnz
+biyaliquidd query wasm contract $CONTRACT
+address: biya14hj2tavq8fpesdwxxcu44rty3hh90vhujaxlnz
 contract_info:
   admin: ""
   code_id: "1"
   created:
     block_height: "95"
     tx_index: "0"
-  creator: inj10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
+  creator: biya10rdsxdgr8l8s0gvu8rynhu22nnxkfytg58cwm8
   extension: null
   ibc_port_id: ""
   label: Albcoin Token
@@ -376,7 +376,7 @@ contract_info:
 The entire contract state can be queried with:
 
 ```bash
-injectived query wasm contract-state all $CONTRACT
+biyaliquidd query wasm contract-state all $CONTRACT
 ```
 
 **Output:**
@@ -399,8 +399,8 @@ pagination:
 The individual user’s token balance can also be queried with:
 
 ```bash
-BALANCE_QUERY='{"balance": {"address": "inj10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"}}'
-injectived query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
+BALANCE_QUERY='{"balance": {"address": "biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"}}'
+biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
 ```
 
 **Output:**
@@ -412,16 +412,16 @@ injectived query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 ### Transferring Tokens
 
 ```bash
-TRANSFER='{"transfer":{"recipient":"inj1dzqd00lfd4y4qy2pxa0dsdwzfnmsu27hgttswz","amount":"420"}}'
-yes 12345678 | injectived tx wasm execute $CONTRACT "$TRANSFER" --from genesis --chain-id="injective-1" --yes --gas-prices=500000000inj --gas=20000000
+TRANSFER='{"transfer":{"recipient":"biya1dzqd00lfd4y4qy2pxa0dsdwzfnmsu27hgttswz","amount":"420"}}'
+yes 12345678 | biyaliquidd tx wasm execute $CONTRACT "$TRANSFER" --from genesis --chain-id="biyaliquid-1" --yes --gas-prices=500000000biya --gas=20000000
 ```
 
 Then confirm the balance transfer occurred successfully with:
 
 ```bash
 # first address balance query
-BALANCE_QUERY='{"balance": {"address": "inj10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"}}'
-injectived query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
+BALANCE_QUERY='{"balance": {"address": "biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"}}'
+biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
 ```
 
 **Output:**
@@ -434,8 +434,8 @@ And confirm the recipient received the funds:
 
 ```bash
 # recipient's address balance query
-BALANCE_QUERY='{"balance": {"address": "inj1dzqd00lfd4y4qy2pxa0dsdwzfnmsu27hgttswz"}}'
-injectived query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
+BALANCE_QUERY='{"balance": {"address": "biya1dzqd00lfd4y4qy2pxa0dsdwzfnmsu27hgttswz"}}'
+biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
 ```
 
 **Output:**
@@ -448,10 +448,10 @@ injectived query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 
 Here are the main differences between a `local` and `testnet` development/deployment
 
-* You can use our [Injective Testnet Faucet](https://testnet.faucet.injective.network) to get testnet funds to your address,
-* You can use the [Injective Testnet Explorer](https://testnet.explorer.injective.network/smart-contracts/code/) to query your transactions and get more details,
-* When you are using `injectived` you have to specify the `testnet` rpc using the `node` flag `--node=https://testnet.sentry.tm.injective.network:443`
-* Instead of using `injective-1` as a `chainId` you should use `injective-888` i.e the `chain-id` flag should now be `--chain-id="injective-888"`
-* You can use the [Injective Testnet Explorer](https://testnet.explorer.injective.network/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
+* You can use our [Biyaliquid Testnet Faucet](https://testnet.faucet.biyaliquid.network) to get testnet funds to your address,
+* You can use the [Biyaliquid Testnet Explorer](https://testnet.explorer.biyaliquid.network/smart-contracts/code/) to query your transactions and get more details,
+* When you are using `biyaliquidd` you have to specify the `testnet` rpc using the `node` flag `--node=https://testnet.sentry.tm.biyaliquid.network:443`
+* Instead of using `biyaliquid-1` as a `chainId` you should use `biyaliquid-888` i.e the `chain-id` flag should now be `--chain-id="biyaliquid-888"`
+* You can use the [Biyaliquid Testnet Explorer](https://testnet.explorer.biyaliquid.network/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
 
-You can read more on the `injectived` and how to use it to query/send transactions against `testnet` [using-injectived.md](../developers/injectived/use.md "mention").
+You can read more on the `biyaliquidd` and how to use it to query/send transactions against `testnet` [using-biyaliquidd.md](../developers/biyaliquidd/use.md "mention").

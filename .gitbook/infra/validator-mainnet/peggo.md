@@ -1,6 +1,6 @@
 # Peggo
 
-If you're on this page then you've probably become a Validator on Injective. Congratulations! Configuring `peggo` is the final step of your setup.
+If you're on this page then you've probably become a Validator on Biyaliquid. Congratulations! Configuring `peggo` is the final step of your setup.
 
 Example of `.env` for peggo:
 
@@ -8,16 +8,16 @@ Example of `.env` for peggo:
 PEGGO_ENV="local"         # environment name for metrics (dev/test/staging/prod/local)
 PEGGO_LOG_LEVEL="debug"   # log level depth
 
-PEGGO_COSMOS_CHAIN_ID="injective-1"           # chain ID of the Injective network
-PEGGO_COSMOS_GRPC="tcp://localhost:9090"      # gRPC of your injectived process
-PEGGO_TENDERMINT_RPC="http://localhost:26657" # Tendermint RPC of your injectived process
+PEGGO_COSMOS_CHAIN_ID="biyaliquid-1"           # chain ID of the Biyaliquid network
+PEGGO_COSMOS_GRPC="tcp://localhost:9090"      # gRPC of your biyaliquidd process
+PEGGO_TENDERMINT_RPC="http://localhost:26657" # Tendermint RPC of your biyaliquidd process
 
 # Note: omitting PEGGO_COSMOS_GRPC and PEGGO_TENDERMINT_RPC enables stand-alone peggo mode. In this mode,
-# peggo is connected to load balanced endpoints provided by the Injective network. This decouples peggo's connection from your injectived process.
+# peggo is connected to load balanced endpoints provided by the Biyaliquid network. This decouples peggo's connection from your biyaliquidd process.
 
-# Injective config
-PEGGO_COSMOS_FEE_DENOM="inj"            # token used to pay fees on Injective
-PEGGO_COSMOS_GAS_PRICES="160000000inj"  # default --gas-prices flag value for sending messages to Injective
+# Biyaliquid config
+PEGGO_COSMOS_FEE_DENOM="biya"            # token used to pay fees on Biyaliquid
+PEGGO_COSMOS_GAS_PRICES="160000000biya"  # default --gas-prices flag value for sending messages to Biyaliquid
 PEGGO_COSMOS_KEYRING="file"             # keyring backends ("os", "file", "kwallet", "memory", "pass", "test")
 PEGGO_COSMOS_KEYRING_DIR=               # path to your keyring dir
 PEGGO_COSMOS_KEYRING_APP="peggo"        # arbitrary name for your keyring app
@@ -60,13 +60,13 @@ PEGGO_STATSD_DISABLED=true
 ```
 
 {% hint style="info" %}
-**IMPORTANT NOTE:** if you're running your own `injectived` (Injective node) and `geth` (Ethereum node) processes, ensure that they are in sync with the latest state. Outdated nodes can skew the business logic of `peggo` to display "false alarm" logs sometimes.
+**IMPORTANT NOTE:** if you're running your own `biyaliquidd` (Biyaliquid node) and `geth` (Ethereum node) processes, ensure that they are in sync with the latest state. Outdated nodes can skew the business logic of `peggo` to display "false alarm" logs sometimes.
 {% endhint %}
 
 ## Step 1: Configuring .env
 
 ```bash
-# official Injective mainnet .env config 
+# official Biyaliquid mainnet .env config 
 mkdir ~/.peggo
 cp mainnet-config/10001/peggo-config.env ~/.peggo/.env
 cd ~/.peggo
@@ -126,47 +126,47 @@ Simply update the `PEGGO_ETH_PK` with a new Ethereum Private Key from a new acco
 
 Then ensure that your Ethereum address has enough ETH.
 
-## Injective config
+## Biyaliquid config
 
-### **Creating your delegated Cosmos Key for sending Injective transactions**
+### **Creating your delegated Cosmos Key for sending Biyaliquid transactions**
 
 Your peggo orchestrator can either:
 
 * Use an explicitly delegated account key specific for sending validator specific Peggy transactions (i.e., `ValsetConfirm`, `BatchConfirm`, and `SendToCosmos` transactions) or
 * Simply use your validator's account key ("your Validator is your Orchestrator")
 
-For isolation purposes, we recommend creating a delegated Cosmos key to send Injective transactions instead of using your validator account key.
+For isolation purposes, we recommend creating a delegated Cosmos key to send Biyaliquid transactions instead of using your validator account key.
 
 To create a new key, run
 
 ```bash
-injectived keys add $ORCHESTRATOR_KEY_NAME
+biyaliquidd keys add $ORCHESTRATOR_KEY_NAME
 ```
 
-Then ensure that your orchestrator inj address has INJ balance in it, so peggo orchestrator can send messages to Injective.
+Then ensure that your orchestrator biya address has BIYA balance in it, so peggo orchestrator can send messages to Biyaliquid.
 
-To obtain your orchestrator's inj address, run
+To obtain your orchestrator's biya address, run
 
 ```bash
-injectived keys list $ORCHESTRATOR_KEY_NAME
+biyaliquidd keys list $ORCHESTRATOR_KEY_NAME
 ```
 
-You can transfer INJ from your validator account to orchestrator address using this command
+You can transfer BIYA from your validator account to orchestrator address using this command
 
 ```bash
-injectived tx bank send $VALIDATOR_KEY_NAME  $ORCHESTRATOR_INJ_ADDRESS <amount-in-inj> --chain-id=injective-1 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx bank send $VALIDATOR_KEY_NAME  $ORCHESTRATOR_BIYA_ADDRESS <amount-in-biya> --chain-id=biyaliquid-1 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 ```
 
 Example
 
 ```bash
-injectived tx bank send genesis inj1u3eyz8nkvym0p42h79aqgf37gckf7szreacy9e 20000000000000000000inj --chain-id=injective-1  --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx bank send genesis biya1u3eyz8nkvym0p42h79aqgf37gckf7szreacy9e 20000000000000000000biya --chain-id=biyaliquid-1  --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 ```
 
-You can then verify that your orchestrator account has INJ balances by running
+You can then verify that your orchestrator account has BIYA balances by running
 
 ```bash
-injectived q bank balances $ORCHESTRATOR_INJ_ADDRESS
+biyaliquidd q bank balances $ORCHESTRATOR_BIYA_ADDRESS
 ```
 
 ### **Managing Cosmos account keys for `peggo`**
@@ -181,7 +181,7 @@ If you are using a delegated account key configuration as recommended above, thi
 
 Please note that the default keyring backend is `file` and that as such peggo will try to locate keys on disk by default.
 
-To use the default injectived key configuration, you should set the keyring path to the home directory of your injectived node, e.g., `~/.injectived`.
+To use the default biyaliquidd key configuration, you should set the keyring path to the home directory of your biyaliquidd node, e.g., `~/.biyaliquidd`.
 
 You can also read more about the Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html).
 
@@ -194,13 +194,13 @@ If you are using a delegated account key configuration as recommended above, thi
 To obtain your orchestrator's Cosmos private key (if applicable), run
 
 ```bash
-injectived keys unsafe-export-eth-key $ORCHESTRATOR_KEY_NAME
+biyaliquidd keys unsafe-export-eth-key $ORCHESTRATOR_KEY_NAME
 ```
 
 To obtain your validator's Cosmos private key (if applicable), run
 
 ```bash
-injectived keys unsafe-export-eth-key $VALIDATOR_KEY_NAME
+biyaliquidd keys unsafe-export-eth-key $VALIDATOR_KEY_NAME
 ```
 
 Again, this method is less secure and is not recommended.
@@ -210,20 +210,20 @@ Again, this method is less secure and is not recommended.
 You can register orchestrator and ethereum address only once. It **CANNOT** be updated later. So Check twice before running below command.
 
 ```bash
-injectived tx peggy set-orchestrator-address $VALIDATOR_INJ_ADDRESS $ORCHESTRATOR_INJ_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=injective-1 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx peggy set-orchestrator-address $VALIDATOR_BIYA_ADDRESS $ORCHESTRATOR_BIYA_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=biyaliquid-1 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 
 ```
 
-* To obtain your validator's inj address, run, `injectived keys list $VALIDATOR_KEY_NAME`
-* To obtain your orchestrators's inj address, `injectived keys list $ORCHESTRATOR_KEY_NAME`
+* To obtain your validator's biya address, run, `biyaliquidd keys list $VALIDATOR_KEY_NAME`
+* To obtain your orchestrators's biya address, `biyaliquidd keys list $ORCHESTRATOR_KEY_NAME`
 
 Example:
 
 ```bash
-injectived tx peggy set-orchestrator-address inj10m247khat0esnl0x66vu9mhlanfftnvww67j9n inj1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=injective-1 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000inj
+biyaliquidd tx peggy set-orchestrator-address biya10m247khat0esnl0x66vu9mhlanfftnvww67j9n biya1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=biyaliquid-1 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 ```
 
-You can verify successful registration by checking for your Validator's mapped Ethereum address on https://lcd.injective.network/peggy/v1/valset/current.
+You can verify successful registration by checking for your Validator's mapped Ethereum address on https://lcd.biyaliquid.network/peggy/v1/valset/current.
 
 {% hint style="info" %}
 **NOTE:** Once you've registered your Orchestrator with the `set-orchestrator-address` message, you **CANNOT** register again. Once this step is complete, your `Validator` is bound to the provided Ethereum address (as well the Delegated address you may have provided). In other words, your peggo must always run with the addresses you provided for registration.
@@ -279,9 +279,9 @@ journalctl -f -u peggo
 This is an advanced DevOps topic, consult with your sysadmin.
 {% endhint %}
 
-Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually the keyring is located within node's homedir, i.e. `~/.injectived/keyring-file`.
+Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually the keyring is located within node's homedir, i.e. `~/.biyaliquidd/keyring-file`.
 
-Some sections of the Injective Staking documentation will guide you through using this key for governance purposes, i.e. submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `injectived` / `peggo` processes only.
+Some sections of the Biyaliquid Staking documentation will guide you through using this key for governance purposes, i.e. submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyaliquidd` / `peggo` processes only.
 
 In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
 
@@ -291,4 +291,4 @@ In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX 
 
 ### Contribute
 
-If you'd like to inspect the Peggo orchestrator source code and contribute, you can do so at [https://github.com/InjectiveLabs/peggo](https://github.com/InjectiveLabs/peggo).
+If you'd like to inspect the Peggo orchestrator source code and contribute, you can do so at [https://github.com/biya-coin/peggo](https://github.com/biya-coin/peggo).

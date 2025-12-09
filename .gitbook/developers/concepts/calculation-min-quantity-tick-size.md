@@ -7,19 +7,19 @@ Note that derivate markets shares the same format for minQuantityTickSize betwee
 ## Spot market
 
 1.  UI human readable to chain format:
-    Using on a INJ/USDT market which has 18 base decimals and 6 quote decimals as an example, here's how we convert the value to the chain format:
+    Using on a BIYA/USDT market which has 18 base decimals and 6 quote decimals as an example, here's how we convert the value to the chain format:
 
 ```ts
-import { toChainFormat } from "@injectivelabs/utils";
+import { toChainFormat } from "@biya-coin/utils";
 
 const chainFormat = toChainFormat(value, baseDecimals);
 ```
 
 1. Chain format to UI human readable format:
-   Using INJ/USDT market which has 18 base decimals and 6 quote decimals as an example, here's how we convert the value to the UI human readable format:
+   Using BIYA/USDT market which has 18 base decimals and 6 quote decimals as an example, here's how we convert the value to the UI human readable format:
 
 ```ts
-import { toHumanReadable } from "@injectivelabs/utils";
+import { toHumanReadable } from "@biya-coin/utils";
 
 const humanReadableFormat = toHumanReadable(
   minQuantityTickSize,

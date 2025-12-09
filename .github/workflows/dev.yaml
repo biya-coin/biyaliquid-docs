@@ -1,4 +1,4 @@
-name: Injective Chain canonical docs deployment
+name: Biyaliquid Chain canonical docs deployment
 on:
   push:
     branches: [dev]
@@ -19,15 +19,15 @@ jobs:
           chmod 600 ~/.ssh/devnet.key
 
           cat >>~/.ssh/config <<END
-          Host injective-devnet
+          Host biyaliquid-devnet
             HostName $SSH_HOST
             User $SSH_USER
             IdentityFile ~/.ssh/devnet.key
             StrictHostKeyChecking no
           END
       - name: Check out the source
-        run: ssh injective-devnet 'cd ~/injective/injective-docs && git stash && git checkout dev -- && git pull origin dev'
+        run: ssh biyaliquid-devnet 'cd ~/biyaliquid/biyaliquid-docs && git stash && git checkout dev -- && git pull origin dev'
       - name: Install Dependencies and generate module docs
-        run: ssh injective-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/injective/injective-docs && rm -rf node_modules && yarn install'
+        run: ssh biyaliquid-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/biyaliquid/biyaliquid-docs && rm -rf node_modules && yarn install'
       - name: Build static site and copy the dist
-        run: ssh injective-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/injective/injective-docs && yarn build'
+        run: ssh biyaliquid-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/biyaliquid/biyaliquid-docs && yarn build'

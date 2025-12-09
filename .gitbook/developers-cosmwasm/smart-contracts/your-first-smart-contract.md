@@ -23,11 +23,11 @@ cargo install cargo-generate
 ## Objectives
 
 * Create and interact with a smart contract that increases and resets a counter to a given value
-* Understand the basics of a CosmWasm smart contract, learn how to deploy it on Injective, and interact with it using Injective tools
+* Understand the basics of a CosmWasm smart contract, learn how to deploy it on Biyaliquid, and interact with it using Biyaliquid tools
 
 ## CosmWasm Contract Basics
 
-A smart contract can be considered an instance of a [singleton object](https://en.wikipedia.org/wiki/Singleton_pattern) whose internal state is persisted on the blockchain. Users can trigger state changes by sending the smart contract JSON messages, and users can also query its state by sending a request formatted as a JSON message. These JSON messages are different than Injective blockchain messages such as `MsgSend` and `MsgExecuteContract`.
+A smart contract can be considered an instance of a [singleton object](https://en.wikipedia.org/wiki/Singleton_pattern) whose internal state is persisted on the blockchain. Users can trigger state changes by sending the smart contract JSON messages, and users can also query its state by sending a request formatted as a JSON message. These JSON messages are different than Biyaliquid blockchain messages such as `MsgSend` and `MsgExecuteContract`.
 
 As a smart contract writer, your job is to define 3 functions that compose your smart contract's interface:
 
@@ -35,7 +35,7 @@ As a smart contract writer, your job is to define 3 functions that compose your 
 * `execute()`: gets called when a user wants to invoke a method on the smart contract
 * `query()`: gets called when a user wants to get data out of a smart contract
 
-In our [sample counter contract](https://github.com/InjectiveLabs/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/msg.rs), we will implement one `instantiate`, one `query`, and two `execute` methods.
+In our [sample counter contract](https://github.com/biya-coin/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/msg.rs), we will implement one `instantiate`, one `query`, and two `execute` methods.
 
 ## Start with a Template
 
@@ -46,7 +46,7 @@ cargo generate --git https://github.com/CosmWasm/cw-template.git --branch 1.0 --
 cd my-first-contract
 ```
 
-This helps get you started by providing the basic boilerplate and structure for a smart contract. In the [`src/contract.rs`](https://github.com/InjectiveLabs/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs) file you will find that the standard CosmWasm entrypoints [`instantiate()`](https://github.com/InjectiveLabs/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L15), [`execute()`](https://github.com/InjectiveLabs/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L35), and [`query()`](https://github.com/InjectiveLabs/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L72) are properly exposed and hooked up.
+This helps get you started by providing the basic boilerplate and structure for a smart contract. In the [`src/contract.rs`](https://github.com/biya-coin/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs) file you will find that the standard CosmWasm entrypoints [`instantiate()`](https://github.com/biya-coin/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L15), [`execute()`](https://github.com/biya-coin/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L35), and [`query()`](https://github.com/biya-coin/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L72) are properly exposed and hooked up.
 
 ## State
 
@@ -56,7 +56,7 @@ You can learn more about CosmWasm State on their [documentation](https://book.co
 
 `State` handles the state of the database where smart contract data is stored and accessed.
 
-The [starting template](https://github.com/InjectiveLabs/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/state.rs) has the following basic state, a singleton struct `State` containing:
+The [starting template](https://github.com/biya-coin/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/state.rs) has the following basic state, a singleton struct `State` containing:
 
 * `count`, a 32-bit integer with which `execute()` messages will interact by increasing or resetting it.
 * `owner`, the sender `address` of the `MsgInstantiateContract`, which will determine if certain execution messages are permitted.
@@ -78,7 +78,7 @@ pub struct State {
 pub const STATE: Item<State> = Item::new("state");
 ```
 
-Injective smart contracts have the ability to keep persistent state through Injective's native LevelDB, a bytes-based key-value store. As such, any data you wish to persist should be assigned a unique key, which may be used to index and retrieve the data.
+Biyaliquid smart contracts have the ability to keep persistent state through Biyaliquid's native LevelDB, a bytes-based key-value store. As such, any data you wish to persist should be assigned a unique key, which may be used to index and retrieve the data.
 
 Data can only be persisted as raw bytes, so any notion of structure or data type must be expressed as a pair of serializing and deserializing functions. For instance, objects must be stored as bytes, so you must supply both the function that encodes the object into bytes to save it on the blockchain, as well as the function that decodes the bytes back into data types that your contract logic can understand. The choice of byte representation is up to you, so long as it provides a clean, bi-directional mapping.
 
@@ -93,7 +93,7 @@ Notice how the `State` struct holds both `count` and `owner`. In addition, the `
 * `PartialEq`: provides equality comparison
 * `JsonSchema`: auto-generates a JSON schema
 
-`Addr` refers to a human-readable Injective address prefixed with `inj`, e.g. `inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt`.
+`Addr` refers to a human-readable Biyaliquid address prefixed with `biya`, e.g. `biya1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt`.
 
 ## InstantiateMsg
 
@@ -103,7 +103,7 @@ You can learn more about CosmWasm [InstantiateMsg on their documentation](https:
 
 The `InstantiateMsg` is provided to the contract when a user instantiates a contract on the blockchain through a `MsgInstantiateContract`. This provides the contract with its configuration as well as its initial state.
 
-On the Injective blockchain, the uploading of a contract's code and the instantiation of a contract are regarded as separate events, unlike on Ethereum. This is to allow a small set of vetted contract archetypes to exist as multiple instances sharing the same base code, but be configured with different parameters (imagine one canonical ERC20, and multiple tokens that use its code).
+On the Biyaliquid blockchain, the uploading of a contract's code and the instantiation of a contract are regarded as separate events, unlike on Ethereum. This is to allow a small set of vetted contract archetypes to exist as multiple instances sharing the same base code, but be configured with different parameters (imagine one canonical ERC20, and multiple tokens that use its code).
 
 ### Example
 
@@ -166,9 +166,9 @@ pub fn instantiate(
 &#x20;You can learn more about CosmWasm ExecuteMsg in their [documentation](https://book.cosmwasm.com/basics/execute.html).
 {% endhint %}
 
-The `ExecuteMsg` is a JSON message passed to the `execute()` function through a `MsgExecuteContract`. Unlike the `InstantiateMsg`, the `ExecuteMsg` can exist as several different types of messages to account for the different types of functions that a smart contract can expose to a user. The [`execute()` function](https://github.com/InjectiveLabs/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L35) demultiplexes these different types of messages to its appropriate message handler logic.
+The `ExecuteMsg` is a JSON message passed to the `execute()` function through a `MsgExecuteContract`. Unlike the `InstantiateMsg`, the `ExecuteMsg` can exist as several different types of messages to account for the different types of functions that a smart contract can expose to a user. The [`execute()` function](https://github.com/biya-coin/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/src/contract.rs#L35) demultiplexes these different types of messages to its appropriate message handler logic.
 
-We have [two ExecuteMsg](https://github.com/InjectiveLabs/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/msg.rs#L9): `Increment` and `Reset`.
+We have [two ExecuteMsg](https://github.com/biya-coin/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/msg.rs#L9): `Increment` and `Reset`.
 
 * `Increment` has no input parameter and increases the value of count by 1.
 * `Reset` takes a 32-bit integer as a parameter and resets the value of `count` to the input parameter.
@@ -269,7 +269,7 @@ The logic for reset is very similar to increment—except this time, it first ch
 You can learn more about CosmWasm [QueryMsg in their documentation](https://docs.cosmwasm.com/docs/smart-contracts/query)
 {% endhint %}
 
-The `GetCount` [query message](https://github.com/InjectiveLabs/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/msg.rs#L16) has no parameters and returns the `count` value.
+The `GetCount` [query message](https://github.com/biya-coin/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/msg.rs#L16) has no parameters and returns the `count` value.
 
 See the implementation details in Logic below.
 
@@ -345,7 +345,7 @@ Unit tests should be run as the first line of assurance before deploying the cod
 cargo unit-test // run this with RUST_BACKTRACE=1 for helpful backtraces
 ```
 
-You can find the [unit test implementation](https://github.com/InjectiveLabs/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/contract.rs#L88) at `src/contract.rs`
+You can find the [unit test implementation](https://github.com/biya-coin/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/src/contract.rs#L88) at `src/contract.rs`
 
 ## Building the Contract
 
@@ -358,7 +358,7 @@ cargo wasm
 Next, we must optimize the contract in order to ready the code for upload to the chain.
 
 {% hint style="info" %}
-Read more details on [preparing the Wasm bytecode for production](https://github.com/InjectiveLabs/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/Developing.md#preparing-the-wasm-bytecode-for-production)
+Read more details on [preparing the Wasm bytecode for production](https://github.com/biya-coin/cw-counter/blob/59b9fed82864103eb704a58d20ddb4bf94c69787/Developing.md#preparing-the-wasm-bytecode-for-production)
 {% endhint %}
 
 CosmWasm has [rust-optimizer](https://github.com/CosmWasm/rust-optimizer), an optimizing compiler that can produce a small and consistent build output. The easiest method to use the tool is to use a published Docker image—check [here](https://hub.docker.com/r/cosmwasm/rust-optimizer/tags) for the latest x86 version, or [here](https://hub.docker.com/r/cosmwasm/rust-optimizer-arm64/tags) for the latest ARM version. With Docker running, run the following command to mount the contract code to `/code` and optimize the output (you can use an absolute path instead of `$(pwd)` if you don't want to `cd` to the directory first):
@@ -396,25 +396,25 @@ See [The Cargo Book](https://doc.rust-lang.org/cargo/reference/config.html#netgi
 
 This produces an `artifacts` directory with a `PROJECT_NAME.wasm`, as well as `checksums.txt`, containing the Sha256 hash of the Wasm file. The Wasm file is compiled deterministically (anyone else running the same docker on the same git commit should get the identical file with the same Sha256 hash).
 
-## Install `injectived`
+## Install `biyaliquidd`
 
-`injectived` is the command-line interface and daemon that connects to Injective and enables you to interact with the Injective blockchain.
+`biyaliquidd` is the command-line interface and daemon that connects to Biyaliquid and enables you to interact with the Biyaliquid blockchain.
 
-If you want to interact with your Smart Contract locally using CLI, you have to have `injectived` installed. To do so, you can follow the installation guidelines here [#install-injectived](#install-injectived "mention").
+If you want to interact with your Smart Contract locally using CLI, you have to have `biyaliquidd` installed. To do so, you can follow the installation guidelines here [#install-biyaliquidd](#install-biyaliquidd "mention").
 
 Alternatively, a Docker image has been prepared to make this tutorial easier.
 
 {% hint style="info" %}
-If you install `injectived` from the binary, ignore the docker commands.
+If you install `biyaliquidd` from the binary, ignore the docker commands.
 In the [public endpoints section](../../infra/public-endpoints.md) you can find the right --node info to interact with Mainnet and Testnet.
 {% endhint %}
 
 Executing this command will make the docker container execute indefinitely.
 
 ```bash
-docker run --name="injective-core-staging" \
+docker run --name="biyaliquid-core-staging" \
 -v=<directory_to_which_you_cloned_cw-template>/artifacts:/var/artifacts \
---entrypoint=sh public.ecr.aws/l9h3g6c6/injective-core:staging \
+--entrypoint=sh public.ecr.aws/l9h3g6c6/biyaliquid-core:staging \
 -c "tail -F anything"
 ```
 
@@ -423,21 +423,21 @@ Note: `directory_to_which_you_cloned_cw-template` must be an absolute path. The 
 Open a new terminal and go into the Docker container to initialize the chain:
 
 ```bash
-docker exec -it injective-core-staging sh
+docker exec -it biyaliquid-core-staging sh
 ```
 
 Let’s start by adding `jq` dependency, which will be needed later on:
 
 ```bash
-# inside the "injective-core-staging" container
+# inside the "biyaliquid-core-staging" container
 apk add jq
 ```
 
 Now we can proceed to local chain initialization and add a test user called `testuser` (when prompted use 12345678 as password). We will only use the test user to generate a new private key that will later on be used to sign messages on the testnet:
 
 ```sh
-# inside the "injective-core-staging" container
-injectived keys add testuser
+# inside the "biyaliquid-core-staging" container
+biyaliquidd keys add testuser
 ```
 
 **OUTPUT**
@@ -445,8 +445,8 @@ injectived keys add testuser
 ```
 - name: testuser
   type: local
-  address: inj1exjcp8pkvzqzsnwkzte87fmzhfftr99kd36jat
-  pubkey: '{"@type":"/injective.crypto.v1beta1.ethsecp256k1.PubKey","key":"Aqi010PsKkFe9KwA45ajvrr53vfPy+5vgc3aHWWGdW6X"}'
+  address: biya1exjcp8pkvzqzsnwkzte87fmzhfftr99kd36jat
+  pubkey: '{"@type":"/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey","key":"Aqi010PsKkFe9KwA45ajvrr53vfPy+5vgc3aHWWGdW6X"}'
   mnemonic: ""
 
 **Important** write this mnemonic phrase in a safe place.
@@ -458,35 +458,35 @@ wash wise evil buffalo fiction quantum planet dial grape slam title salt dry and
 Take a moment to write down the address or export it as an env variable, as you will need it to proceed:
 
 ```bash
-# inside the "injective-core-staging" container
-export INJ_ADDRESS= <your inj address>
+# inside the "biyaliquid-core-staging" container
+export BIYA_ADDRESS= <your biya address>
 ```
 
 {% hint style="info" %}
-You can request testnet funds for your recently generated test address using the [Injective test faucet](https://faucet.injective.network/).
+You can request testnet funds for your recently generated test address using the [Biyaliquid test faucet](https://faucet.biyaliquid.network/).
 {% endhint %}
 
-Now you have successfully created `testuser` an Injective Testnet. It should also hold some funds after requesting `testnet` funds from the faucet.
+Now you have successfully created `testuser` an Biyaliquid Testnet. It should also hold some funds after requesting `testnet` funds from the faucet.
 
-To confirm, search for your address on the [Injective Testnet Explorer](https://testnet.explorer.injective.network/) to check your balance.
+To confirm, search for your address on the [Biyaliquid Testnet Explorer](https://testnet.explorer.biyaliquid.network/) to check your balance.
 
-Alternatively, you can verify it by [querying the bank balance](https://sentry.testnet.lcd.injective.network/swagger/#/Query/AllBalances) or with curl:
+Alternatively, you can verify it by [querying the bank balance](https://sentry.testnet.lcd.biyaliquid.network/swagger/#/Query/AllBalances) or with curl:
 
 ```bash
-curl -X GET "https://sentry.testnet.lcd.injective.network/cosmos/bank/v1beta1/balances/<your_INJ_address>" -H "accept: application/json"
+curl -X GET "https://sentry.testnet.lcd.biyaliquid.network/cosmos/bank/v1beta1/balances/<your_BIYA_address>" -H "accept: application/json"
 ```
 
 ## Upload the Wasm Contract
 
-Now it's time to upload the `.wasm` file that you compiled in the previous steps to the Injective Testnet. Please note that the procedure for mainnet is different and [requires a governance proposal.](../mainnet-deployment-guide.md)
+Now it's time to upload the `.wasm` file that you compiled in the previous steps to the Biyaliquid Testnet. Please note that the procedure for mainnet is different and [requires a governance proposal.](../mainnet-deployment-guide.md)
 
 ```bash
-# inside the "injective-core-staging" container, or from the contract directory if running injectived locally
-yes 12345678 | injectived tx wasm store artifacts/my_first_contract.wasm \
---from=$(echo $INJ_ADDRESS) \
---chain-id="injective-888" \
---yes --fees=1000000000000000inj --gas=2000000 \
---node=https://testnet.sentry.tm.injective.network:443
+# inside the "biyaliquid-core-staging" container, or from the contract directory if running biyaliquidd locally
+yes 12345678 | biyaliquidd tx wasm store artifacts/my_first_contract.wasm \
+--from=$(echo $BIYA_ADDRESS) \
+--chain-id="biyaliquid-888" \
+--yes --fees=1000000000000000biya --gas=2000000 \
+--node=https://testnet.sentry.tm.biyaliquid.network:443
 ```
 
 **Output:**
@@ -507,21 +507,21 @@ tx: null
 txhash: 912458AA8E0D50A479C8CF0DD26196C49A65FCFBEEB67DF8A2EA22317B130E2C
 ```
 
-Check your address on the [Injective Testnet Explorer](https://testnet.explorer.injective.network), and look for a transaction with the `txhash` returned from storing the code on chain. The transaction type should be `MsgStoreCode`.
+Check your address on the [Biyaliquid Testnet Explorer](https://testnet.explorer.biyaliquid.network), and look for a transaction with the `txhash` returned from storing the code on chain. The transaction type should be `MsgStoreCode`.
 
-You can see all stored codes on Injective Testnet under [Code](https://testnet.explorer.injective.network/smart-contracts/code/).
+You can see all stored codes on Biyaliquid Testnet under [Code](https://testnet.explorer.biyaliquid.network/smart-contracts/code/).
 
 {% hint style="info" %}
 There are different ways to find the code that you just stored:
 
-* Look for the TxHash on the Injective Explorer [codes list](https://testnet.explorer.injective.network/smart-contracts/code/); it is most likely the most recent.
-* Use `injectived` to query transaction info.
+* Look for the TxHash on the Biyaliquid Explorer [codes list](https://testnet.explorer.biyaliquid.network/smart-contracts/code/); it is most likely the most recent.
+* Use `biyaliquidd` to query transaction info.
 {% endhint %}
 
 To query the transaction use the `txhash` and verify the contract was deployed.
 
 ```sh
-injectived query tx 912458AA8E0D50A479C8CF0DD26196C49A65FCFBEEB67DF8A2EA22317B130E2C --node=https://testnet.sentry.tm.injective.network:443
+biyaliquidd query tx 912458AA8E0D50A479C8CF0DD26196C49A65FCFBEEB67DF8A2EA22317B130E2C --node=https://testnet.sentry.tm.biyaliquid.network:443
 ```
 
 Inspecting the output more closely, we can see the `code_id` of `290` for the uploaded contract:
@@ -536,7 +536,7 @@ Inspecting the output more closely, we can see the `code_id` of `290` for the up
     - key: code_id
       value: '"290"'
     - key: creator
-      value: '"inj1h3gepa4tszh66ee67he53jzmprsqc2l9npq3ty"'
+      value: '"biya1h3gepa4tszh66ee67he53jzmprsqc2l9npq3ty"'
     type: cosmwasm.wasm.v1.EventCodeStored
   - attributes:
     - key: action
@@ -544,7 +544,7 @@ Inspecting the output more closely, we can see the `code_id` of `290` for the up
     - key: module
       value: wasm
     - key: sender
-      value: inj1h3gepa4tszh66ee67he53jzmprsqc2l9npq3ty
+      value: biya1h3gepa4tszh66ee67he53jzmprsqc2l9npq3ty
     type: message
   - attributes:
     - key: code_id
@@ -599,28 +599,28 @@ which will output 5 files in `./schema`, corresponding to the 3 message types th
 
 These files are in standard JSON Schema format, which should be usable by various client side tools, either to auto-generate codecs, or just to validate incoming JSON with respect to the defined schema.
 
-Take a minute to generate the schema ([take a look at it here](https://github.com/InjectiveLabs/cw-counter/blob/master/schema/cw-counter.json)) and get familiar with it, as you will need to it for the next steps.
+Take a minute to generate the schema ([take a look at it here](https://github.com/biya-coin/cw-counter/blob/master/schema/cw-counter.json)) and get familiar with it, as you will need to it for the next steps.
 
 ## Instantiate the Contract
 
-Now that we have the code on Injective, it is time to instantiate the contract to interact with it.
+Now that we have the code on Biyaliquid, it is time to instantiate the contract to interact with it.
 
 {% hint style="info" %}
 Reminder On CosmWasm, the upload of a contract's code and the instantiation of a contract are regarded as separate events
 {% endhint %}
 
-To instantiate the contract, run the following CLI command with the code_id you got in the previous step, along with the [JSON encoded initialization arguments](https://github.com/InjectiveLabs/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/schema/cw-counter.json#L7) and a label (a human-readable name for this contract in lists).
+To instantiate the contract, run the following CLI command with the code_id you got in the previous step, along with the [JSON encoded initialization arguments](https://github.com/biya-coin/cw-counter/blob/ea3b781447a87f052e4b8308d5c73a30481ed61f/schema/cw-counter.json#L7) and a label (a human-readable name for this contract in lists).
 
 ```bash
 INIT='{"count":99}'
-yes 12345678 | injectived tx wasm instantiate $CODE_ID $INIT \
+yes 12345678 | biyaliquidd tx wasm instantiate $CODE_ID $INIT \
 --label="CounterTestInstance" \
---from=$(echo $INJ_ADDRESS) \
---chain-id="injective-888" \
---yes --fees=1000000000000000inj \
+--from=$(echo $BIYA_ADDRESS) \
+--chain-id="biyaliquid-888" \
+--yes --fees=1000000000000000biya \
 --gas=2000000 \
 --no-admin \
---node=https://testnet.sentry.tm.injective.network:443
+--node=https://testnet.sentry.tm.biyaliquid.network:443
 ```
 
 **Output:**
@@ -644,12 +644,12 @@ txhash: 01804F525FE336A5502E3C84C7AE00269C7E0B3DC9AA1AB0DDE3BA62CF93BE1D
 {% hint style="info" %}
 You can find the contract address and metadata by:
 
-* Looking on the [Testnet Explorer](https://www.injscan.com/smart-contracts/)
-* Querying the [ContractsByCode](https://k8s.testnet.lcd.injective.network/swagger/#/Query/ContractsByCode) and [ContractInfo](https://k8s.testnet.lcd.injective.network/swagger/#/Query/ContractInfo) APIs
+* Looking on the [Testnet Explorer](https://www.biyascan.com/smart-contracts/)
+* Querying the [ContractsByCode](https://k8s.testnet.lcd.biyaliquid.network/swagger/#/Query/ContractsByCode) and [ContractInfo](https://k8s.testnet.lcd.biyaliquid.network/swagger/#/Query/ContractInfo) APIs
 * Querying through the CLI
 
 ```bash
-injectived query wasm contract inj1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 --node=https://testnet.sentry.tm.injective.network:443
+biyaliquidd query wasm contract biya1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 --node=https://testnet.sentry.tm.biyaliquid.network:443
 ```
 {% endhint %}
 
@@ -659,8 +659,8 @@ As we know from earlier, the only QueryMsg we have is `get_count`.
 
 ```bash
 GET_COUNT_QUERY='{"get_count":{}}'
-injectived query wasm contract-state smart inj1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 "$GET_COUNT_QUERY" \
---node=https://testnet.sentry.tm.injective.network:443 \
+biyaliquidd query wasm contract-state smart biya1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 "$GET_COUNT_QUERY" \
+--node=https://testnet.sentry.tm.biyaliquid.network:443 \
 --output json
 ```
 
@@ -682,10 +682,10 @@ Let's now interact with the contract by incrementing the counter.
 
 ```bash
 INCREMENT='{"increment":{}}'
-yes 12345678 | injectived tx wasm execute inj1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 "$INCREMENT" --from=$(echo $INJ_ADDRESS) \
---chain-id="injective-888" \
---yes --fees=1000000000000000inj --gas=2000000 \
---node=https://testnet.sentry.tm.injective.network:443 \
+yes 12345678 | biyaliquidd tx wasm execute biya1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 "$INCREMENT" --from=$(echo $BIYA_ADDRESS) \
+--chain-id="biyaliquid-888" \
+--yes --fees=1000000000000000biya --gas=2000000 \
+--node=https://testnet.sentry.tm.biyaliquid.network:443 \
 --output json
 ```
 
@@ -696,18 +696,18 @@ If we query the contract for the count, we see:
 ```
 
 {% hint style="info" %}
-**yes 12345678 |** automatically pipes (passes) the passphrase to the input of **injectived tx wasm execute** so you do not need to enter it manually.
+**yes 12345678 |** automatically pipes (passes) the passphrase to the input of **biyaliquidd tx wasm execute** so you do not need to enter it manually.
 {% endhint %}
 
 To reset the counter:
 
 ```bash
 RESET='{"reset":{"count":999}}'
-yes 12345678 | injectived tx wasm execute inj1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 "$RESET" \
---from=$(echo $INJ_ADDRESS) \
---chain-id="injective-888" \
---yes --fees=1000000000000000inj --gas=2000000 \
---node=https://testnet.sentry.tm.injective.network:443 \
+yes 12345678 | biyaliquidd tx wasm execute biya1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7 "$RESET" \
+--from=$(echo $BIYA_ADDRESS) \
+--chain-id="biyaliquid-888" \
+--yes --fees=1000000000000000biya --gas=2000000 \
+--node=https://testnet.sentry.tm.biyaliquid.network:443 \
 --output json
 ```
 
@@ -785,6 +785,6 @@ pub fn execute(
 
 As with other smart contract functions, you should add unit tests to ensure your bank send functionality works as expected. This includes testing different scenarios, such as sending various token amounts and handling errors correctly.
 
-You may use [test-tube](https://github.com/InjectiveLabs/test-tube) for running integration tests that include a local Injective chain.
+You may use [test-tube](https://github.com/biya-coin/test-tube) for running integration tests that include a local Biyaliquid chain.
 
-Congratulations! You've created and interacted with your first Injective smart contract and now know how to get started with CosmWasm development on Injective. Continue to Creating a Frontend for Your Contract for a guide on creating a web UI.
+Congratulations! You've created and interacted with your first Biyaliquid smart contract and now know how to get started with CosmWasm development on Biyaliquid. Continue to Creating a Frontend for Your Contract for a guide on creating a web UI.

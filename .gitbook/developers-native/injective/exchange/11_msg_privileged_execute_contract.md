@@ -10,7 +10,7 @@ MsgPrivilegedExecuteContract defines a method for executing a Cosmwasm contract 
 ```go
 type MsgPrivilegedExecuteContract struct {
 	Sender string
-	// funds defines the user's bank coins used to fund the execution (e.g. 100inj).
+	// funds defines the user's bank coins used to fund the execution (e.g. 100biya).
 	Funds github_com_cosmos_cosmos_sdk_types.Coins
 	// contract_address defines the contract address to execute
 	ContractAddress string
@@ -23,7 +23,7 @@ type MsgPrivilegedExecuteContract struct {
 **Fields description**
 
 - `Sender` describes the creator of this msg.
-- `Funds` defines the user's bank coins used to fund the execution (e.g. 100inj).
+- `Funds` defines the user's bank coins used to fund the execution (e.g. 100biya).
 - `ContractAddress` defines the contract address to execute.
 - `Data` defines the call data used when executing the contract, see further details below.
 
@@ -32,7 +32,7 @@ type MsgPrivilegedExecuteContract struct {
 If you want to enable privileged actions on your contract, you must implement the following execute method:
 
 ```rust
-InjectiveExec {
+BiyaliquidExec {
     origin: String,
     name: String,
     args: MyArgs,
@@ -57,11 +57,11 @@ A user can then call the privileged action by sending a `MsgPrivilegedExecuteCon
 
 ```json
 {
-	sender: "inj...",
-	funds: "1000000000000000000inj",
-	contract_address: "inj...",
+	sender: "biya...",
+	funds: "1000000000000000000biya",
+	contract_address: "biya...",
 	data: {
-		origin: "inj...",
+		origin: "biya...",
 		name: "my_privileged_action",
 		args: {
 			...

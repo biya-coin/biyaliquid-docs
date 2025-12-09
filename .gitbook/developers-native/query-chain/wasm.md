@@ -7,13 +7,13 @@ Example code snippets to query the wasm module on chain
 ### Fetch contacts' account balance Note that pagination parameters can be passed to obtain additional accounts.
 
 ```ts
-import { ChainGrpcWasmApi, PaginationOption } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcWasmApi, PaginationOption } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
-const contractAddress = 'inj...'
+const contractAddress = 'biya...'
 const pagination = {...} as PaginationOption
 
 const contractAccountsBalance = await chainGrpcWasmApi.fetchContractAccountsBalance({
@@ -27,13 +27,13 @@ console.log(contractAccountsBalance)
 ### Fetch info related to a contract
 
 ```ts
-import { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
-const contractAddress = 'inj...'
+const contractAddress = 'biya...'
 
 const contractInfo = await chainGrpcWasmApi.fetchContractInfo(contractAddress)
 
@@ -43,13 +43,13 @@ console.log(contractInfo)
 ### Fetch contract history
 
 ```ts
-import { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
-const contractAddress = 'inj...'
+const contractAddress = 'biya...'
 
 const contractHistory = await chainGrpcWasmApi.fetchContractHistory(
   contractAddress,
@@ -61,13 +61,13 @@ console.log(contractHistory)
 ### Fetch the state of a smart contract
 
 ```ts
-import { ChainGrpcWasmApi, toBase64 } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcWasmApi, toBase64 } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
-const contractAddress = 'inj...'
+const contractAddress = 'biya...'
 const query = '...'
 const queryFromObject = toBase64({ get_coin: {} })
 
@@ -82,13 +82,13 @@ console.log(contractState)
 ### Fetch the raw state of a smart contract
 
 ```ts
-import { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
-const contractAddress = 'inj...'
+const contractAddress = 'biya...'
 const query = '...'
 const queryFromObject = toBase64({ get_coin: {} })
 
@@ -103,8 +103,8 @@ console.log(rawContractState)
 ### Fetch the codes associated with a contract
 
 ```ts
-import { PaginationOption, ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
@@ -122,8 +122,8 @@ console.log(rawContractState)
 ### Fetch info associated with a contract code
 
 ```ts
-import { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
@@ -138,8 +138,8 @@ console.log(codeDetails)
 ### Fetch the contracts associated with a code
 
 ```ts
-import { PaginationOption, ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
+import { PaginationOption, ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
+import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)

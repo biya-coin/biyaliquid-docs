@@ -1,6 +1,6 @@
-# 🌟 Injective Docs
+# 🌟 Biyaliquid Docs
 
-[The main documentation for Injective](https://docs.injective.network)
+[The main documentation for Biyaliquid](https://docs.biyaliquid.network)
 
 ---
 
@@ -9,13 +9,13 @@
 1. Clone the repository and create your branch
 
 ```bash
-$ git clone git@github.com:InjectiveLabs/injective-docs.git
-$ cd injective-docs
+$ git clone git@github.com:biya-coin/biyaliquid-docs.git
+$ cd biyaliquid-docs
 ```
 
-2. Update your content in the `.gitbook` folder. _Note: `.gitbook/developers/modules` should not be done as it's automatically pulled from the `injective-core` repo_
+2. Update your content in the `.gitbook` folder. _Note: `.gitbook/developers/modules` should not be done as it's automatically pulled from the `biyaliquid-core` repo_
 
-3. Regenerate documentation based on the desired branches for `injective-core` and `cosmos-sdk`. _Note: you can change the branches/tags in the `scripts/setup.sh` file_
+3. Regenerate documentation based on the desired branches for `biyaliquid-core` and `cosmos-sdk`. _Note: you can change the branches/tags in the `scripts/setup.sh` file_
 
 ```bash
 $ yarn generate
@@ -25,11 +25,11 @@ $ yarn generate
 
 ## 🔓 License
 
-Copyright © 2021 - 2025 Injective Foundation (https://injective.com/)
+Copyright © 2021 - 2025 Biyaliquid Foundation (https://biyaliquid.com/)
 
 <a href="https://iili.io/mNneZN.md.png"><img src="https://iili.io/mNneZN.md.png" style="width: 300px; max-width: 100%; height: auto" />
 
-Originally released by Injective Foundation under: <br />
+Originally released by Biyaliquid Foundation under: <br />
 Apache License <br />
 Version 2.0, January 2004 <br />
 http://www.apache.org/licenses/
