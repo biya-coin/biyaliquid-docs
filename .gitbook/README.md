@@ -20,7 +20,7 @@ It is the only blockchain where developers can use pre-built, customizable [modu
 <tr><td>Do you want to use DeFi?</td><td>Learn how to start trading on Biyaliquid</td><td><a href="./defi/README.md">defi</a></td><td><a href="./.gitbook/assets/trader-hero.png">trader-hero.png</a></td></tr>
 <tr><td>Do you want to run infrastructure?</td><td>Learn how to run sentry and validator nodes</td><td><a href="./infra/README.md">infra</a></td><td><a href="./.gitbook/assets/validator-hero.png">validator-hero.png</a></td></tr>
 <tr><td>Are you a developer?</td><td>Learn how to build on Biyaliquid</td><td><a href="developers/README.md">developers</a></td><td><a href="./.gitbook/assets/dev-hero.png">dev-hero.png</a></td></tr>
-<tr><td>Need Help?</td><td>Join the <a href="https://discord.gg/biyaliquid">Biyaliquid Discord</a><br>Join the <a href="https://t.me/+qorn-J06fzA0YTZl">Developer Telegram</a> </td><td><a href="references.md#developer-support">#developer-support</a></td><td><a href=".gitbook/assets/explorer-hero.png">explorer-hero.png</a></td></tr></tbody></table>
+<tr><td>Need Help?</td><td>Join the <a href="https://discord.gg/biyaliquid">Biyaliquid Discord</a></td><td><a href="references.md#developer-support">#developer-support</a></td><td><a href=".gitbook/assets/explorer-hero.png">explorer-hero.png</a></td></tr></tbody></table>
 
 # Getting Started
 
@@ -36,7 +36,6 @@ Welcome to your journey of exploring Biyaliquid! Before asking questions, please
 
 ## Need Help?
 
-Should you have some questions or feedback, you can reach out to Discord or Telegram:
+Should you have some questions or feedback, you can reach out to Discord:
 
 * Join the [Biyaliquid Discord server](https://discord.gg/biyaliquid) and find the relevant channel.
-* Join the [Biyaliquid Developer Telegram channel](https://t.me/+8Y_0HOFLhnRlZDU9).
