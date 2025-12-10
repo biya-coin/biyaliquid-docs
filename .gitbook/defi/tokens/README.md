@@ -1,19 +1,19 @@
-# Token Standards
+# 代币标准
 
-Biyaliquid provides a variety of different token standards one can use when creating a dApp. In this document, we will cover the different types of tokens, as well as recommendations and guidance for using each.
+Biyaliquid 提供了多种不同的代币标准，可在创建 dApp 时使用。在本文档中，我们将介绍不同类型的代币，以及使用每种代币的建议和指导。
 
-## Denom
+## 代币单位（Denom）
 
-A denom is how assets are represented within the Bank module of Biyaliquid. These assets can be used for trading, creating new markets on the exchange module, participating in auctions, transferring to another address, etc.
+代币单位（denom）是资产在 Biyaliquid 的 Bank 模块中的表示方式。这些资产可用于交易、在交易所模块上创建新市场、参与拍卖、转移到另一个地址等。
 
-Depending on the origin of the denom and how it was created on Biyaliquid, we have different types of denoms:
+根据代币单位的来源及其在 Biyaliquid 上的创建方式，我们有不同类型的代币单位：
 
-* **Native denoms** - there is only one denom of this type, the `biya` denom which represented the native coin of Biyaliquid,
-* **Peggy denoms** - these denoms represent assets bridged over from Ethereum to Biyaliquid using the Peggy bridge. They have the following format `peggy{ERC20_CONTRACT_ADDRESS}`
-* **IBC denoms** - these denoms represent assets bridged over from other IBC compatible chains through IBC. They have the following format `ibc/{hash}`.
-* **Insurance Fund Denoms** - these denoms represent token shares of the insurance funds created on Biyaliquid. They have the following format `share{id}`
-* **Factory Denoms** - these `tokenfactory` denoms allows any account to create a new token with the name `factory/{creator address}/{subdenom}`. Because tokens are namespaced by creator address, this allows token minting to be permissionless, due to not needing to resolve name collisions. A special use case for these denoms is representing a CW20 token from Cosmwasm on the Biyaliquid native bank module. They have the following format `factory/{CW20_ADAPTER_CONTRACT}/{CW20_CONTRACT_ADDRESS}` where the `CW20_ADAPTER_CONTRACT` is the adapter contract address that converts CW20 and the native Bank module.
+* **原生代币单位** - 只有一种此类型的代币单位，即 `biya` 代币单位，代表 Biyaliquid 的原生代币，
+* **Peggy 代币单位** - 这些代币单位代表使用 Peggy 桥从 Ethereum 桥接到 Biyaliquid 的资产。它们的格式为 `peggy{ERC20_CONTRACT_ADDRESS}`
+* **IBC 代币单位** - 这些代币单位代表通过 IBC 从其他 IBC 兼容链桥接过来的资产。它们的格式为 `ibc/{hash}`。
+* **保险基金代币单位** - 这些代币单位代表在 Biyaliquid 上创建的保险基金的代币份额。它们的格式为 `share{id}`
+* **工厂代币单位** - 这些 `tokenfactory` 代币单位允许任何账户创建一个名为 `factory/{creator address}/{subdenom}` 的新代币。因为代币按创建者地址命名空间化，这使得代币铸造无需许可，因为不需要解决名称冲突。这些代币单位的一个特殊用例是在 Biyaliquid 原生银行模块上表示来自 Cosmwasm 的 CW20 代币。它们的格式为 `factory/{CW20_ADAPTER_CONTRACT}/{CW20_CONTRACT_ADDRESS}`，其中 `CW20_ADAPTER_CONTRACT` 是转换 CW20 和原生 Bank 模块的适配器合约地址。
 
-We'll share more details about these denom types later on in this document.
+我们将在本文档后面分享有关这些代币单位类型的更多详细信息。
 
-Learn how to get [denom metadata](../../developers/assets/token-metadata.md).
+了解如何获取[代币单位元数据](../../developers/assets/token-metadata.md)。

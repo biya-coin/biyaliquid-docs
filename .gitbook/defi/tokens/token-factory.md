@@ -1,8 +1,8 @@
-# Token Factory
+# 代币工厂
 
-TokenFactory tokens are tokens that are natively integrated into the bank module of the Cosmos SDK. Their name takes on the format `factory/{creatorAddress}/{subdenom}`. Because tokens are namespaced by the creator address, this allows for permissionless token minting, due to not needing to resolve name collisions.
+TokenFactory 代币是原生集成到 Cosmos SDK 银行模块中的代币。它们的名称采用 `factory/{creatorAddress}/{subdenom}` 格式。因为代币按创建者地址命名空间化，这使得代币铸造无需许可，因为不需要解决名称冲突。
 
-This integration provides support for tracking and querying the total supply of all assets, unlike the CW20 standard, which requires querying the smart contract directly. For this reason, using the TokenFactory standard is recommended. Products such as Helix or Mito, for example, are built on the Biyaliquid exchange module, which exclusively uses bank tokens. TokenFactory tokens can be created via the biyaliquidd CLI, as well as via smart contract. Tokens bridged into Biyaliquid via Wormhole are also TokenFactory tokens.
+这种集成提供了跟踪和查询所有资产总供应量的支持，与 CW20 标准不同，后者需要直接查询智能合约。因此，建议使用 TokenFactory 标准。例如，Helix 或 Mito 等产品构建在 Biyaliquid 交易所模块上，该模块专门使用银行代币。TokenFactory 代币可以通过 biyaliquidd CLI 以及智能合约创建。通过 Wormhole 桥接到 Biyaliquid 的代币也是 TokenFactory 代币。
 
-To learn more about creating your token on Biyaliquid, see [token launch](../../developers-defi/token-launch.md).
-To read more about the TokenFactory standard, see [token factory module](../../developers-native/biyaliquid/tokenfactory/).
+要了解有关在 Biyaliquid 上创建代币的更多信息，请参阅[代币发行](../../developers-defi/token-launch.md)。
+要阅读有关 TokenFactory 标准的更多信息，请参阅[代币工厂模块](../../developers-native/biyaliquid/tokenfactory/)。
