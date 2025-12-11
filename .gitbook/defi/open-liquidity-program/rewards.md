@@ -13,5 +13,3 @@ OLP 的奖励以 BIYA 形式发放，BIYA 是 Biyaliquid 的原生实用代币�
 {% hint style="info" %}
 所有奖励均需 Biyaliquid 社区治理批准。
 {% endhint %}
-
-有关 OLP 奖励的更多信息可以在 [Biyaliquid 交易门户](https://trading.biyaliquid.network/)下的 [OLP 仪表板](https://trading.biyaliquid.network/program/liquidity)上找到。
