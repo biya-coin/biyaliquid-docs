@@ -1,46 +1,46 @@
-# Gas and Fees
+# Gas 和费用
 
-## Gas and Fees
+## Gas 和费用
 
 {% hint style="info" %}
-Learn about the differences between `Gas` and `Fees` on Biyaliquid.
+了解 Biyaliquid 上 `Gas` 和 `Fees` 之间的区别。
 
-Pre-requisite Readings -> [Cosmos SDK Gas](https://docs.cosmos.network/main/build/modules/auth#gas--fees)
+前置阅读 -> [Cosmos SDK Gas](https://docs.cosmos.network/main/build/modules/auth#gas--fees)
 {% endhint %}
 
-Gas represents the amount of computational effort required to execute specific operations on the state machine.
+Gas 表示在状态机上执行特定操作所需的计算工作量。
 
-Biyaliquid utilizes the concept of gas to track the resource usage of operations during execution. Operations on Biyaliquid are represented as read or writes done to the chain's store.
+Biyaliquid 利用 gas 的概念来跟踪执行期间操作的资源使用情况。Biyaliquid 上的操作表示为对链存储的读取或写入。
 
-A fee is calculated and charged to the user during a message execution. This fee is calculated from the sum of all gas consumed in a message execution:
+费用在消息执行期间计算并向用户收取。该费用根据消息执行中消耗的所有 gas 的总和计算：
 
 ```
 fee = gas * gas price
 ```
 
-Gas is used to make sure that operations do not require an excess amount of computational power to complete, and to deter bad-acting users from spamming the network.
+Gas 用于确保操作不需要过多的计算能力来完成，并阻止恶意用户对网络进行垃圾邮件攻击。
 
 {% hint style="info" %}
-**Minimum gas price:** The minimum gas price set by validators is currently `160,000,000biya`. To find the amount paid in `biya`, multiply the gas price by the gas amount and divide by 1e18 (BIYA has 18 decimals).
+**最低 gas 价格：** 验证者设置的最低 gas 价格目前为 `160,000,000biya`。要计算以 `biya` 支付的金额，请将 gas 价格乘以 gas 数量并除以 1e18（BIYA 有 18 位小数）。
 
-**For example:** if `gasWanted` is 104,519, then `gasFees` = 160,000,000 \* 104,519 / 1e18 = 0.000016723`biya`
+**例如：** 如果 `gasWanted` 是 104,519，那么 `gasFees` = 160,000,000 \* 104,519 / 1e18 = 0.000016723`biya`
 {% endhint %}
 
 ### Cosmos SDK `Gas`
 
-In the Cosmos SDK, gas is tracked in the main `GasMeter` and the `BlockGasMeter`:
+在 Cosmos SDK 中，gas 在主 `GasMeter` 和 `BlockGasMeter` 中跟踪：
 
-* `GasMeter`: keeps track of the gas consumed during executions that lead to state transitions. It is reset on every transaction execution.
-* `BlockGasMeter`: keeps track of the gas consumed in a block and enforces that the gas does not go over a predefined limit. This limit is defined in the Tendermint consensus parameters and can be changed via governance parameter change proposals.
+* `GasMeter`：跟踪导致状态转换的执行期间消耗的 gas。它在每次交易执行时重置。
+* `BlockGasMeter`：跟踪区块中消耗的 gas，并确保 gas 不超过预定义的限制。此限制在 Tendermint 共识参数中定义，可以通过治理参数更改提案进行更改。
 
-More information regarding gas in Cosmos SDK can be found [here](https://docs.cosmos.network/main/learn/beginner/gas-fees).
+有关 Cosmos SDK 中 gas 的更多信息可以在[这里](https://docs.cosmos.network/main/learn/beginner/gas-fees)找到。
 
-In Cosmos, there are types of operations that are not triggered by transactions that can also result in state transitions. Concrete examples are the `BeginBlock` and `EndBlock` operations and the `AnteHandler` checks, which might also read and write to the store before running the state transition from a transaction.
+在 Cosmos 中，有些操作不是由交易触发的，但也可能导致状态转换。具体例子是 `BeginBlock` 和 `EndBlock` 操作以及 `AnteHandler` 检查，它们也可能在运行交易的状态转换之前读取和写入存储。
 
-#### `BeginBlock` and `EndBlock`
+#### `BeginBlock` 和 `EndBlock`
 
-These operations are defined by the Tendermint Core's Application Blockchain Interface (ABCI) and are defined by each Cosmos SDK module. As their name suggest, they are executed at the beginning and at the end of each block processing respectively (i.e., pre- and post-transaction execution).
+这些操作由 Tendermint Core 的应用程序区块链接口（ABCI）定义，并由每个 Cosmos SDK 模块定义。正如它们的名称所示，它们分别在每个区块处理的开始和结束时执行（即交易执行前和执行后）。
 
 #### `AnteHandler`
 
-The Cosmos SDK [`AnteHandler`](https://docs.cosmos.network/v0.45/modules/auth/03_antehandlers.html) performs basic checks prior to transaction execution. These checks are usually signature verification, transaction field validation, transaction fees, etc.
+Cosmos SDK [`AnteHandler`](https://docs.cosmos.network/v0.45/modules/auth/03_antehandlers.html) 在交易执行之前执行基本检查。这些检查通常是签名验证、交易字段验证、交易费用等。

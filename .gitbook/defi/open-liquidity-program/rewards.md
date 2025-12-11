@@ -1,17 +1,17 @@
 ---
-description: Earn Unmatched Rewards in OLP
+description: 在 OLP 中获得无与伦比的奖励
 ---
 
-# Rewards
+# 奖励
 
-Rewards for OLP are disbursed in the form of BIYA, Biyaliquid's native utility and governance token.
+OLP 的奖励以 BIYA 形式发放，BIYA 是 Biyaliquid 的原生实用代币和治理代币。
 
-Currently, **40,000 BIYA** can be earned by eligible participants during each epoch (28 day period). Beginning with epoch 52 (October 28th, 2025), the reward will be **30,000 BIYA** per epoch.
+目前，符合条件的参与者在每个周期（28 天）期间可以获得 **40,000 BIYA**。从第 52 周期（2025 年 10 月 28 日）开始，每个周期的奖励将为 **30,000 BIYA**。
 
-This amount may be reassessed in advance for future epochs, or retroactively reduced for a current epoch as a result of one or more volatility response modifications (VRMs). For more information on OLP epochs, see [Epochs](epochs.md).
+该金额可能会提前重新评估未来周期，或由于一个或多个波动性响应修改（VRM）而追溯减少当前周期。有关 OLP 周期的更多信息，请参阅[周期](epochs.md)。
 
 {% hint style="info" %}
-All rewards are subject to governance approval by the Biyaliquid community.
+所有奖励均需 Biyaliquid 社区治理批准。
 {% endhint %}
 
-More information on OLP rewards can be found on the [OLP Dashboard](https://trading.biyaliquid.network/program/liquidity) under the [Biyaliquid Trading Portal](https://trading.biyaliquid.network/).
+有关 OLP 奖励的更多信息可以在 [Biyaliquid 交易门户](https://trading.biyaliquid.network/)下的 [OLP 仪表板](https://trading.biyaliquid.network/program/liquidity)上找到。

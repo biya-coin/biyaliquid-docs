@@ -1,19 +1,19 @@
-# Transactions
+# 交易
 
-When users want to interact with Biyaliquid and make state changes, they create transactions. Once the transaction is created, it requires a signature from the private key linked to the account initiating the particular state change. Following the signature, the transaction is broadcasted to Biyaliquid.
+当用户想要与 Biyaliquid 交互并进行状态更改时，他们会创建交易。交易创建后，需要与发起特定状态更改的账户关联的私钥签名。签名后，交易被广播到 Biyaliquid。
 
-After being broadcasted and passing all validations (including signature validation, values validations, etc.), the transaction is included in a block that undergoes network approval via the consensus process.
+广播后并通过所有验证（包括签名验证、值验证等），交易被包含在一个区块中，该区块通过共识过程获得网络批准。
 
-### Messages
+### 消息
 
-In simpler terms, messages are the instructions given to Biyaliquid about the desired state change. Messages are module-specific objects that trigger state transitions within the scope of the module they belong to. Every transaction must have at least one message.
+简单来说，消息是向 Biyaliquid 提供的关于所需状态更改的指令。消息是特定于模块的对象，在它们所属模块的范围内触发状态转换。每笔交易必须至少有一条消息。
 
-**Additionally, multiple messages can be packed within the same transaction.** Available Messages from each module can be found in the [native developers](../developers-native/ "mention") section.
+**此外，可以在同一笔交易中打包多条消息。** 每个模块的可用消息可以在[原生开发者](../developers-native/ "mention")部分找到。
 
-### Transaction Context
+### 交易上下文
 
-Besides Messages, every transaction has a context. The context includes `fees`, `accountDetails`, `memo`, `signatures`, etc.
+除了消息之外，每笔交易都有一个上下文。上下文包括 `fees`（费用）、`accountDetails`（账户详情）、`memo`（备注）、`signatures`（签名）等。
 
-### Transaction Flow <a href="#transaction-flow" id="transaction-flow"></a>
+### 交易流程 <a href="#transaction-flow" id="transaction-flow"></a>
 
-Every transaction we want to broadcast to Biyaliquid has the same flow. The flow consists of three steps: preparing, signing, and broadcasting the transaction. When the transaction is included in a block, the state change that was specified using the Message is applied on Biyaliquid.
+我们想要广播到 Biyaliquid 的每笔交易都具有相同的流程。该流程包括三个步骤：准备、签名和广播交易。当交易被包含在区块中时，使用消息指定的状态更改将在 Biyaliquid 上应用。

@@ -50,7 +50,7 @@
     * [波动性响应修改](defi/open-liquidity-program/volatility-response-modifications.md)
     * [费用层级](defi/open-liquidity-program/fee-tiers.md)
   * [Biyaliquid Hub](https://hub.biyaliquid.network)
-  * [Biyaliquid Explorer](https://explorer.biyaliquid.network)
+  * [Biyaliquid Explorer](https://prv.scan.biya.io/zh/transactions)
 * [基础设施](infra/README.md)
   * [命令行节点交互](infra/interact-node-command-line.md)
   * [gRPC 节点交互](infra/interact-node-grpc.md)

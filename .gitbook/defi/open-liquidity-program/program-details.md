@@ -1,14 +1,14 @@
 ---
-description: OLP Program Overview
+description: OLP 计划概述
 ---
 
-# Program Details
+# 计划详情
 
-To promote deep, lasting liquidity across the Biyaliquid on-chain orderbook, the following metrics are prioritized by OLP:
+为了促进 Biyaliquid 链上订单簿的深度、持久流动性，OLP 优先考虑以下指标：
 
-* **Dual-sided liquidity** (both bid and ask liquidity)
-* **Liquidity depth**
-* **Bid-ask spread**
-* **Market maker uptime**
-* **Volume** (maker and taker)
-* **Participation in multiple markets**
+* **双边流动性**（买卖双方流动性）
+* **流动性深度**
+* **买卖价差**
+* **做市商正常运行时间**
+* **交易量**（做市和吃单）
+* **参与多个市场**

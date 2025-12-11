@@ -1,39 +1,39 @@
-# Volatility Response Modifications (VRMs)
+# 波动性响应修改 (VRM)
 
-Volatility Response Modifications (VRMs) are part of our dynamic rewards system designed to optimise liquidity efficiency across the protocol. These modifications allow us to reallocate rewards when market conditions require adjustment, ensuring that incentives align with the protocol's needs during periods of high volatility.
+波动性响应修改 (VRM) 是我们动态奖励系统的一部分，旨在优化整个协议的流动性效率。这些修改允许我们在市场条件需要调整时重新分配奖励，确保激励措施在高波动期间与协议需求保持一致。
 
-Our system continuously monitors market conditions using specific threshold criteria :
+我们的系统使用特定阈值标准持续监控市场条件：
 
-**Triggering Conditions**
+**触发条件**
 
-A Volatility Response Modification may be triggered when :
+当满足以下条件时，可能会触发波动性响应修改：
 
-1. The overall market experiences a change of more than 5% in a 24-hour period, **AND**
-2. Available liquidity fails to meet at least 50% of the established 30-day threshold, which is typically as follows for major trading pairs :
-   * BTC/USDT PERP : $750,000 within 50 bps on each side
-   * ETH/USDT PERP : $500K within 50 bps on each side
-   * BIYA/USDT PERP : $200K within 50 bps on each side
+1. 整体市场在 24 小时内变化超过 5%，**并且**
+2. 可用流动性未能达到既定 30 天阈值的至少 50%，主要交易对通常如下：
+   * BTC/USDT PERP：每边 50 bps 内 $750,000
+   * ETH/USDT PERP：每边 50 bps 内 $500K
+   * BIYA/USDT PERP：每边 50 bps 内 $200K
 
-When these conditions are detected, our system automatically initiates the VRM process. Unlike subjective assessments, these clear thresholds ensure transparency and predictability for all liquidity providers.
+当检测到这些条件时，我们的系统会自动启动 VRM 流程。与主观评估不同，这些明确的阈值确保所有流动性提供者的透明度和可预测性。
 
-#### Communication Process
+#### 沟通流程
 
-When triggering conditions are met, we follow a clear, time-sensitive communication process :
+当满足触发条件时，我们遵循一个清晰、时间敏感的沟通流程：
 
-1. **Immediate Alert** : All subscribed OLP participants will receive an immediate notification through Notifi alerting them that a VRM is now in effect. The 60-minute response window begins at this point.
-2. **Response Window** : LPs have a 60-minute window to react to the VRM and restore liquidity to the required thresholds.
-3. **Confirmation Notice** : At the conclusion of the 60-minute window, another notification will be sent announcing the outcome of the VRM, as detailed below. Note that a maximum of one VRM can be implemented in a 24-hour period.
-4. **Transparency Report** : A summary of the market conditions and liquidity levels that triggered the modification will be included in the Commonwealth thread accompanying the OLP rewards governance proposal at the end of the epoch.
+1. **即时警报**：所有订阅的 OLP 参与者将通过 Notifi 收到即时通知，告知他们 VRM 现已生效。60 分钟响应窗口此时开始。
+2. **响应窗口**：流动性提供者有 60 分钟的时间对 VRM 做出反应并将流动性恢复到所需阈值。
+3. **确认通知**：在 60 分钟窗口结束时，将发送另一份通知，宣布 VRM 的结果，如下所述。请注意，24 小时内最多可以实施一次 VRM。
+4. **透明度报告**：触发修改的市场条件和流动性水平的摘要将包含在周期结束时伴随 OLP 奖励治理提案的 Commonwealth 线程中。
 
-#### Epoch Reward Adjustments
+#### 周期奖励调整
 
-When a VRM event occurs, the following adjustments apply to the total BIYA rewards for the current epoch :
+当发生 VRM 事件时，以下调整适用于当前周期的总 BIYA 奖励：
 
-* **Liquidity Restoration** : If liquidity is sized up to meet the required thresholds within the 60-minute response window, the overall epoch rewards will be **boosted by 2,500 BIYA** (e.g. 42,500 BIYA for the epoch instead of 40,000).
-* **Liquidity Shortfall** : If liquidity thresholds are not met after the response window :
-  * First VRM in an epoch: 2,500 BIYA reduction in overall epoch rewards
-  * Second or subsequent VRMs in the same epoch: 5,000 BIYA reduction per occurrence
+* **流动性恢复**：如果在 60 分钟响应窗口内将流动性规模扩大到满足所需阈值，整体周期奖励将**增加 2,500 BIYA**（例如，周期奖励为 42,500 BIYA 而不是 40,000）。
+* **流动性短缺**：如果响应窗口后未达到流动性阈值：
+  * 周期中的第一次 VRM：整体周期奖励减少 2,500 BIYA
+  * 同一周期中的第二次或后续 VRM：每次发生减少 5,000 BIYA
 
-In the event there is a liquidity shortfall after the 60-minute response window, these adjusted rewards are redirected to support more efficient liquidity provision strategies, ensuring that the protocol remains resilient during volatile market conditions.
+如果在 60 分钟响应窗口后出现流动性短缺，这些调整后的奖励将重新定向以支持更高效的流动性提供策略，确保协议在波动市场条件下保持弹性。
 
-Our goal is to create a fair system that rewards participants who help maintain market quality, particularly when it matters most. These modifications help us build a more resilient protocol that better serves all stakeholders in our ecosystem.
+我们的目标是创建一个公平的系统，奖励帮助维持市场质量的参与者，特别是在最关键的时候。这些修改帮助我们构建一个更具弹性的协议，更好地为我们生态系统中的所有利益相关者服务。

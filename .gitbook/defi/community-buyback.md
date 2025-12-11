@@ -1,57 +1,57 @@
-# Community BuyBack
+# 社区回购
 
-### What is the Community BuyBack?
+### 什么是社区回购？
 
-The Community BuyBack is a monthly onchain event that allows anyone to take part in Biyaliquid’s deflationary mechanism. Participants commit BIYA, and in return receive a pro rata share of the revenue generated across the Biyaliquid ecosystem. The BIYA exchanged is then permanently burned, reducing the total supply.
+社区回购是一个每月链上活动，允许任何人参与 Biyaliquid 的通缩机制。参与者承诺 BIYA，作为回报，按比例获得 Biyaliquid 生态系统产生的收入份额。交换的 BIYA 随后被永久销毁，减少总供应量。
 
-This process rewards the community, increases scarcity of BIYA, and aligns long-term value with ecosystem success. The Community BuyBack evolved from the original Burn Auction, replacing the winner-take-all model with a simpler, more accessible, and community-driven design.
+这个过程奖励社区，增加 BIYA 的稀缺性，并将长期价值与生态系统成功对齐。社区回购从最初的销毁拍卖演变而来，用更简单、更易访问和社区驱动的设计取代了赢家通吃的模式。
 
 <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXcoU3ZEtvL328l94crrvGcsgOVRVe1nd1WeRKvumzwivCgmsfI-E0oQ4aGxUK-NsJ12nIwsAspfurBU3nqi9ON7VizZMoWVxK-3f7ROSaBTd16dPwL77el0JyUeWcErIfYZ1q1RAxZ-bLVYvizc4uduSF1v?key=SrpUIxF4ydd4ZLyJCcX74Q" alt="" width="563"><figcaption></figcaption></figure>
 
-### Key Details at a Glance
+### 关键细节一览
 
-A quick reference box (almost like a cheat sheet) with the most important parameters:
+快速参考框（几乎像速查表），包含最重要的参数：
 
-* Cadence: 28 days
-* Slots: Fixed number
-* Funding Source: Portion of ecosystem-generated revenue
-* Commitment: BIYA only, within posted min/max limits
-* Distribution: Pro rata, based on BIYA commitment
-* Outcome: BIYA burned + assets distributed to participants
-* Transparency: Fully onchain
+* 周期：28 天
+* 插槽：固定数量
+* 资金来源：生态系统产生的收入的一部分
+* 承诺：仅限 BIYA，在公布的最小/最大限额内
+* 分配：按比例，基于 BIYA 承诺
+* 结果：BIYA 被销毁 + 资产分配给参与者
+* 透明度：完全链上
 
-### Why It Matters
+### 为什么重要
 
-* Deflationary Design – Each round burns BIYA, reducing total supply
-* Democratized Access – Shared opportunity vs. one auction winner
-* Aligned Incentives – Rewards scale with ecosystem activity, rather than network congestion (txn fees stay low regardless)
-* Onchain Proof – Everything is transparent and verifiable
+* 通缩设计 – 每轮销毁 BIYA，减少总供应量
+* 民主化访问 – 共享机会 vs. 单一拍卖赢家
+* 对齐激励 – 奖励与生态系统活动规模成正比，而不是网络拥堵（无论何时交易费用都保持较低）
+* 链上证明 – 一切都是透明且可验证的
 
-### How It Works
+### 工作原理
 
-1. **Secure Your Spot**\
-   Once per month, a fixed number of reservation slots open. Anyone can reserve a slot while they remain available.
-2. **Commit BIYA**\
-   Reserve your slot by committing BIYA within the displayed minimum and maximum limits. Commitments are made onchain during the event window and cannot be altered once submitted.
-3. **Claim Earnings**\
-   When the event concludes, all BIYA commitments are exchanged for the revenue collected that month. This revenue, made up of multiple different tokens, is distributed pro rata to all participants.\
+1. **确保您的席位**\
+   每月一次，固定数量的预订插槽开放。任何人都可以在插槽仍然可用时预订一个插槽。
+2. **承诺 BIYA**\
+   通过在显示的最小和最大限额内承诺 BIYA 来预订您的插槽。承诺在活动窗口期间在链上进行，一旦提交就无法更改。
+3. **领取收益**\
+   活动结束时，所有 BIYA 承诺将兑换为该月收集的收入。这笔收入由多种不同的代币组成，按比例分配给所有参与者。\
    \
-   To claim, simply go to Biyaliquid Hub → Community BuyBack, and press Claim next to the round you participated in under BuyBack History.
-4. **BIYA BuyBack**\
-   The total BIYA collected from all participants is permanently burned, reducing the total supply of BIYA.
-5. **Get Ready for Next Month**\
-   Track your earnings, monitor stats from previous rounds, and stay updated on the next Community BuyBack directly from your Biyaliquid Hub dashboard. All slot reservations, commitments, burn transactions, and distributions are publicly visible onchain.
+   要领取，只需前往 Biyaliquid Hub → 社区回购，并在回购历史记录中您参与的轮次旁边按 Claim。
+4. **BIYA 回购**\
+   从所有参与者收集的总 BIYA 被永久销毁，减少 BIYA 的总供应量。
+5. **为下个月做好准备**\
+   跟踪您的收益，监控之前轮次的统计数据，并直接从您的 Biyaliquid Hub 仪表板了解下一次社区回购的最新信息。所有插槽预订、承诺、销毁交易和分配都在链上公开可见。
 
-### FAQ
+### 常见问题
 
-**What determines my share?**\
-Your share equals your committed BIYA divided by the total BIYA committed across all participants (pro rata).
+**什么决定我的份额？**\
+您的份额等于您承诺的 BIYA 除以所有参与者承诺的总 BIYA（按比例）。
 
-**Can I withdraw or change my commitment once made?**\
-No, commitments are final once submitted.
+**我可以在做出承诺后撤回或更改吗？**\
+不可以，承诺一旦提交即为最终决定。
 
-**How do I know the burn happened?**\
-The burn transaction is onchain and can be tracked via the [Biyaliquid Hub](https://biyahub.com/community-buyback).
+**我怎么知道销毁发生了？**\
+销毁交易在链上，可以通过 [Biyaliquid Hub](https://prv.hub.biya.io/community-buyback) 跟踪。
 
-**What if I miss a round?**\
-You’ll need to wait until next month’s event opens.
+**如果我错过了一轮怎么办？**\
+您需要等到下个月的活动开放。

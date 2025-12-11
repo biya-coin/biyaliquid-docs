@@ -1,6 +1,6 @@
 ---
-description: Rewards for liquidity providers on Biyaliquid
+description: Biyaliquid 流动性提供者的奖励
 ---
 
-# Open Liquidity Program (OLP)
+# 开放流动性计划 (OLP)
 

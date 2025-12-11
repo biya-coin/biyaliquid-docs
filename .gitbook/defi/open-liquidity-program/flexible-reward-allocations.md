@@ -1,11 +1,11 @@
 ---
-description: OLP Reward Allocations to Markets and Institutional Liquidity Providers
+description: OLP 对市场和机构流动性提供者的奖励分配
 ---
 
-# Flexible Reward Allocations
+# 灵活奖励分配
 
-Part of the changes implemented for epoch 43 include a fully discretionary dynamic reward to bootstrap liquidity for certain markets at specific times. Following the exact same calculations detailed in [reward-allocations.md](reward-allocations.md "mention"), and the classic formula/scoring methodology to determine a liquidity provider's share of the total reward for a market, this will be accomplished through the concept of Mini Epochs.
+第 43 周期实施的部分变更包括完全自主的动态奖励，用于在特定时间为某些市场引导流动性。遵循 [reward-allocations.md](reward-allocations.md "mention") 中详述的相同计算，以及确定流动性提供者在市场总奖励中份额的经典公式/评分方法，这将通过"小周期"概念来实现。
 
-Mini Epochs are flexible in that they are not constrained by the typical 00:00 UTC starting/ending point for a pair to exist in a Primary Epoch. Mini Epochs can begin or end at any time within a Primary Epoch, though they cannot span across multiple epochs.
+小周期的灵活性在于它们不受主要周期中交易对存在的典型 00:00 UTC 开始/结束点的约束。小周期可以在主要周期内的任何时间开始或结束，但它们不能跨越多个周期。
 
-Rewards for Mini Epochs will be clearly defined. All eligible OLP participants can accrue pair-specific rewards for Mini Epochs, even if they are not otherwise earning rewards for that pair. Of course, a liquidity provider's participation in the Mini Epoch implies participation in the Primary Epoch, even if just opportunistically for that specific time period. Rewards for Mini Epochs are visible on the OLP dashboard just below the overall rewards for the Primary Epoch.
+小周期的奖励将明确定义。所有符合条件的 OLP 参与者都可以为小周期累积特定交易对的奖励，即使他们不为该交易对赚取其他奖励。当然，流动性提供者参与小周期意味着参与主要周期，即使只是在该特定时间段机会性地参与。小周期的奖励在 OLP 仪表板上可见，就在主要周期总体奖励下方。

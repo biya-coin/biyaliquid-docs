@@ -1,23 +1,23 @@
-# Staking
+# 质押
 
-### What is Staking?
+### 什么是质押？
 
-Staking is the process of locking up your assets (in this case BIYA) in order to validate transactions on the blockchain. Users who stake their assets are usually eligible for staking rewards.
+质押是锁定您的资产（在这种情况下是 BIYA）以验证区块链上交易的过程。质押资产的用户通常有资格获得质押奖励。
 
-Biyaliquid follows a proof-of-stake mechanism, in which users can stake their BIYA tokens with certain Biyaliquid nodes that validate transactions (validators). In return, the user can obtain staking rewards in BIYA.
+Biyaliquid 遵循权益证明机制，用户可以将他们的 BIYA 代币质押给某些验证交易的 Biyaliquid 节点（验证者）。作为回报，用户可以获得 BIYA 质押奖励。
 
-### Stake BIYA
+### 质押 BIYA
 
-[Stake](https://biyahub.com/stake) your BIYA to a validator to start earning rewards.
+将您的 BIYA [质押](https://prv.hub.biya.io/stake)给验证者以开始赚取奖励。
 
-### Withdraw staking rewards
+### 提取质押奖励
 
-Rewards start accruing the moment you stake BIYA. Monitor your rewards in the staking section of [Biyaliquid Hub](https://biyahub.com/stake). Once you have earned a sufficient amount of rewards, you may withdraw them at any time.
+奖励从您质押 BIYA 的那一刻起开始累积。您可以在 [Biyaliquid Hub](https://prv.hub.biya.io/stake) 的质押部分监控您的奖励。一旦您赚取了足够的奖励，您可以随时提取它们。
 
-### Redelegate
+### 重新委托
 
-Redelegating lets you instantly transfer staked BIYA from one validator to another without undergoing the 21-day unstaking period.
+重新委托允许您立即将已质押的 BIYA 从一个验证者转移到另一个验证者，而无需经历 21 天的取消质押期。
 
-### Undelegate
+### 取消委托
 
-Undelegating BIYA is the process of unstaking your assets from a validator, which takes 21 days to complete.
+取消委托 BIYA 是从验证者处取消质押资产的过程，需要 21 天才能完成。

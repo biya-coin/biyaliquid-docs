@@ -1,15 +1,15 @@
 ---
-description: How OLP Rewards Are Disbursed
+description: OLP 奖励如何发放
 ---
 
-# Reward Disbursements
+# 奖励发放
 
-OLP Rewards are sent directly to the participants' addresses after the end of each epoch, pending a governance proposal that must be voted on by the community over a four-day period. **Half of the earned BIYA rewards are paid out in this immediate proposal, while the other half is subject to a three epoch vesting period**. If an eligible address becomes inactive (which is defined by either not meeting the daily volume criteria at the start of the epoch, _or_ earning a reward for a given epoch of less than 60% of the prior epoch's reward) for any epoch during the vesting period, the vested rewards will be subject to forfeiture.
+OLP 奖励在每个周期结束后直接发送到参与者的地址，等待社区在四天期间投票的治理提案。**赚取的 BIYA 奖励的一半在此即时提案中支付，而另一半则受三个周期的归属期限制**。如果符合条件的地址在归属期内的任何周期变得不活跃（定义为在周期开始时未满足每日交易量标准，_或_在给定周期获得的奖励少于前一周期奖励的 60%），则归属奖励将被没收。
 
-All rewards are subject to governance approval, and all addresses eligible for more than 500 BIYA per epoch are subject to KYC/KYB verification before their reward disbursement is included in a governance proposal submitted by Biyaliquid Labs. While any address can permissionlessly join OLP, reward eligibility is dependent on KYC/KYB.
+所有奖励均需治理批准，每个周期符合条件超过 500 BIYA 的所有地址在奖励发放包含在 Biyaliquid Labs 提交的治理提案之前，都需要进行 KYC/KYB 验证。虽然任何地址都可以无许可加入 OLP，但奖励资格取决于 KYC/KYB。
 
 {% hint style="info" %}
-Disbursements usually occur a few days after the conclusion of each epoch due to the governance process required.
+由于所需的治理流程，发放通常在每个周期结束后几天进行。
 {% endhint %}
 
-Reward disbursements can be tracked on the Community Spend Pool page on the [Biyaliquid Explorer](https://explorer.biyaliquid.network/).
+奖励发放可以在 [Biyaliquid 浏览器](https://prv.scan.biya.io/zh/transactions/)的社区支出池页面上跟踪。

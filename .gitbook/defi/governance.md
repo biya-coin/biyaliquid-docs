@@ -1,32 +1,30 @@
-# Governance
+# 治理
 
-## Governance
+## 治理
 
-Biyaliquid is a community-run blockchain, and users who have staked BIYA can participate in governance as it relates to the blockchain. Proposals can be submitted to make revisions to Biyaliquid programs, tech upgrades, or any other Biyaliquid related changes that impact the entire Biyaliquid ecosystem.
+Biyaliquid 是一个社区运行的区块链，已质押 BIYA 的用户可以参与与区块链相关的治理。可以提交提案来修订 Biyaliquid 程序、技术升级或任何其他影响整个 Biyaliquid 生态系统的 Biyaliquid 相关变更。
 
-Within Biyaliquid Hub, new proposals are submitted through the governance portal and voted on by the entire community.
+在 Biyaliquid Hub 中，新提案通过治理门户提交，并由整个社区投票。
 
-### Submitting a request
+### 提交请求
 
-To submit a new request, you must create a proposal that outlines what you would like to change, what areas within Biyaliquid this change may impact, and why you are requesting this change.
+要提交新请求，您必须创建一个提案，概述您想要进行的更改、此更改可能影响的 Biyaliquid 领域，以及您请求此更改的原因。
 
-Upon creating a proposal, you must deposit at least 10 BIYA (10e19 biya) to submit it for governance. This is to ensure that you are an active participant of the Biyaliquid community, and thus eligible to make proposal requests.
+创建提案时，您必须至少存入 10 BIYA (10e19 biya) 才能将其提交给治理。这是为了确保您是 Biyaliquid 社区的积极参与者，因此有资格提出提案请求。
 
-For the proposal to pass to the voting stage, 100 BIYA (10e20 biya) must also be deposited. This can be deposited directly by you or in collaboration with other community members.
+提案要进入投票阶段，还必须存入 100 BIYA (10e20 biya)。这可以由您直接存入，也可以与其他社区成员合作存入。
 
-### Voting Period
+### 投票期
 
-Once the proposal and deposit is submitted, the proposal will go through a four-day voting period.
+一旦提案和存款提交后，提案将进入为期四天的投票期。
 
-33.4% of BIYA holders must vote on a proposal for the vote to be considered, and 50% of those votes must be “yes” for the proposal to pass.
+33.4% 的 BIYA 持有者必须对提案进行投票，投票才能被视为有效，并且其中 50% 的投票必须是"同意"，提案才能通过。
 
-### Voting Outcome
+### 投票结果
 
-If a proposal passes, Biyaliquid contributors will begin to work together to put into effect the new request. If 33.4% of the total vote is `NoWithVeto`, quorum is not met, or the minimum deposit isn't reached, the deposit will be burned. All other vote outcomes get their deposits refunded.
+如果提案通过，Biyaliquid 贡献者将开始合作实施新请求。如果总投票的 33.4% 是 `NoWithVeto`、未达到法定人数或未达到最低存款要求，存款将被销毁。所有其他投票结果都会退还存款。
 
-### Get Started
+### 开始使用
 
-* For more details on the governance proposal process, read Biyaliquid's [blog](https://biyaliquid.com/blog/biyaliquid-governance-proposal-procedure/).
-* To participate in blockchain governance, join the [Biyaliquid Discord](https://discord.com/invite/NK4qdbv) or the [Biyaliquid Governance Forum](https://gov.biyaliquid.network).
-* Visit the [Biyaliquid Hub](https://biyahub.com/governance) to view Biyaliquid proposals and participate in voting.
+* 访问 [Biyaliquid Hub](https://prv.hub.biya.io/governance) 查看 Biyaliquid 提案并参与投票。
 

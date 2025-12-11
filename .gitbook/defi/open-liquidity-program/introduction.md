@@ -1,11 +1,11 @@
 ---
-description: An Introduction to the Open Liquidity Program (OLP)
+description: 开放流动性计划 (OLP) 介绍
 ---
 
-# Introduction
+# 介绍
 
-As the fastest blockchain dedicated to revolutionizing finance, Biyaliquid provides robust liquidity across its ecosystem.
+作为致力于金融革命的快速区块链，Biyaliquid 在其生态系统中提供强大的流动性。
 
-Biyaliquid uniquely provides the world's first truly on-chain orderbook environment to bring shared liquidity across all DeFi applications. By relentlessly pursuing deeper liquidity, Biyaliquid empowers users and protocols with seamless access to capital-efficient markets not available elsewhere.
+Biyaliquid 独特地提供了世界上第一个真正的链上订单簿环境，为所有 DeFi 应用程序带来共享流动性。通过不懈追求更深的流动性，Biyaliquid 使用户和协议能够无缝访问其他地方无法获得的资本高效市场。
 
-Driven by an unwavering commitment to innovation, Biyaliquid has created the [**Open Liquidity Program (OLP)**](https://trading.biyaliquid.network/program/liquidity) which caters to institutions and everyday traders alike. This milestone signifies a new era in which market makers and participants can earn rewards for providing orderbook liquidity with minimal barriers to entry. This guide offers a comprehensive walkthrough of the Open Liquidity Program and provides details on how you can become an OLP member.
+在坚定不移的创新承诺推动下，Biyaliquid 创建了[**开放流动性计划 (OLP)**](https://trading.biyaliquid.network/program/liquidity)，该计划同时服务于机构和日常交易者。这一里程碑标志着一个新时代，做市商和参与者可以通过提供订单簿流动性获得奖励，且进入门槛极低。本指南提供了开放流动性计划的全面介绍，并详细说明如何成为 OLP 成员。

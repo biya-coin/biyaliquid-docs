@@ -1,88 +1,88 @@
 ---
-description: OLP Reward Allocations (Epoch 43 Onwards)
+description: OLP 奖励分配（第 43 周期起）
 ---
 
-# Reward Allocations
+# 奖励分配
 
-## Market Reward Allocations
+## 市场奖励分配
 
-Rewards are allocated to [eligible markets](eligible-markets.md) in three different methods :
+奖励通过三种不同方法分配给[合格市场](eligible-markets.md)：
 
-1. Static allocations
-2. Minimum allocation with a dynamic component
-3. Flexible reward allocations
+1. 静态分配
+2. 具有动态成分的最低分配
+3. 灵活奖励分配
 
-### Static Market Reward Allocations (Preallocations)
+### 静态市场奖励分配（预分配）
 
-12.5% of BIYA rewards will be preallocated to each of the BTC/USDT PERP market, ETH/USDT PERP market, and BIYA/USDT PERP market. The remaining BIYA for the epoch will be allocated to each remaining eligible market with a minimum allocation of 100 BIYA.
+12.5% 的 BIYA 奖励将预分配给 BTC/USDT PERP 市场、ETH/USDT PERP 市场和 BIYA/USDT PERP 市场。周期的剩余 BIYA 将分配给每个剩余的合格市场，最低分配为 100 BIYA。
 
-<table><thead><tr><th width="165.875">Market</th><th>Allocation (thru epoch 51)</th><th>Allocation (from epoch 52)</th></tr></thead><tbody><tr><td>BTC/USDT Perp</td><td>12.5%</td><td>13.33%</td></tr><tr><td>ETH/USDT Perp</td><td>12.5%</td><td>13.33%</td></tr><tr><td>BIYA/USDT Perp</td><td>12.5%</td><td>13.33%</td></tr><tr><td>BIYA/USDT Spot</td><td>5%</td><td>5%</td></tr><tr><td>Other Eligible Markets</td><td>Formula based allocation (see below)</td><td></td></tr></tbody></table>
+<table><thead><tr><th width="165.875">市场</th><th>分配（至第 51 周期）</th><th>分配（从第 52 周期起）</th></tr></thead><tbody><tr><td>BTC/USDT Perp</td><td>12.5%</td><td>13.33%</td></tr><tr><td>ETH/USDT Perp</td><td>12.5%</td><td>13.33%</td></tr><tr><td>BIYA/USDT Perp</td><td>12.5%</td><td>13.33%</td></tr><tr><td>BIYA/USDT Spot</td><td>5%</td><td>5%</td></tr><tr><td>其他合格市场</td><td>基于公式的分配（见下文）</td><td></td></tr></tbody></table>
 
 {% hint style="info" %}
-Static allocations may change over time as more markets are added to the eligible list
+随着更多市场添加到合格列表，静态分配可能会随时间变化
 {% endhint %}
 
-### Dynamic Market Reward Allocations
+### 动态市场奖励分配
 
-The remaining rewards are allocated to eligible markets (excluding BTC/ETH/BIYA Perps) based on the following schematic.
+剩余奖励根据以下方案分配给合格市场（不包括 BTC/ETH/BIYA 永续合约）。
 
-First, each epoch starts fresh, such that every pair has an equal chance of earning the maximum total available reward for that epoch, regardless of trading volume and liquidity from the prior epoch. Each pair starts day 1 of the epoch with a range of possibility, from a minimum of 100 BIYA for the epoch.
+首先，每个周期都是全新的，这样每个交易对都有平等的机会获得该周期的最大可用总奖励，无论前一周期的交易量和流动性如何。每个交易对在周期的第 1 天开始时都有一个可能性范围，从周期最低 100 BIYA 开始。
 
-Prior to this change, minimum rewards were 400 BIYA, maximum rewards were around 900 BIYA, and there was insufficient variation in reward accrual between pairs with low volume and pairs with substantially more volume. With this change, liquidity providers are rewarded for volume in popular markets.
+在此更改之前，最低奖励为 400 BIYA，最高奖励约为 900 BIYA，低交易量交易对和交易量明显更多的交易对之间的奖励累积变化不足。通过此更改，流动性提供者因在热门市场中的交易量而获得奖励。
 
-The range for each market's rewards will progress throughout the epoch, converging on the final day of the epoch to the true reward for that market. The range $$[Rewards_{min};Rewards_{max}]$$ will be defined per market as follows :
+每个市场的奖励范围将在整个周期内推进，在周期的最后一天收敛到该市场的真实奖励。范围 $$[Rewards_{min};Rewards_{max}]$$ 将按市场定义如下：
 
 $$
 MinVolume=Min(Market\ traded\ volume\ since\ beginning\ of\ epoch) \\
 MaxVolume=Max(Market\ traded\ volume\ since\ beginning\ of\ epoch)
 $$
 
-where
+其中
 
 $$
 Rewards_{min_{market\ i}}=100+\frac{Volume_{market_{i}}-MinVolume}{MaxVolume-MinVolume}(Rewards_{max}-100)
 $$
 
-and $$Rewards_{max}$$ is still calculated as on the bottom of this page. Ergo, the highest traded volume market will receive $$Rewards_{max}$$ and the lowest traded market by volume will have a minimum reward of 100 BIYA.
+$$Rewards_{max}$$ 仍按本页底部的计算方式计算。因此，交易量最高的市场将获得 $$Rewards_{max}$$，交易量最低的市场将获得最低 100 BIYA 的奖励。
 
-It must be noted that $$Rewards_{min}$$ is just the floor for the rewards range, it will never be equivalent to the reward except in the case of the highest traded volume market where range will be trivial $$[Rewards_{max};Rewards_{max}]$$, in which case rewards will be equal to $$Rewards_{max}$$. This is a linear function that goes from 100 BIYA to $$Rewards_{max}$$.
+必须注意的是，$$Rewards_{min}$$ 只是奖励范围的下限，它永远不会等于奖励，除非是交易量最高的市场，其范围将是平凡的 $$[Rewards_{max};Rewards_{max}]$$，在这种情况下奖励将等于 $$Rewards_{max}$$。这是一个从 100 BIYA 到 $$Rewards_{max}$$ 的线性函数。
 
-With this range defined, the steps to calculate the reward for a market are :
+定义此范围后，计算市场奖励的步骤是：
 
-1\) Start with $$Rewards_{Market_{i}}=Rewards_{min_{market\ i}}$$
+1\) 从 $$Rewards_{Market_{i}}=Rewards_{min_{market\ i}}$$ 开始
 
-2\) Distribute the remaining rewards, _RR_, with $$RR=TAR-\sum_{i}Rewards_{min_{market\ i}}$$using the formulas above.
+2\) 分配剩余奖励 _RR_，其中 $$RR=TAR-\sum_{i}Rewards_{min_{market\ i}}$$，使用上述公式。
 
-3\) For any calculated rewards that exceed $$Rewards_{max}$$, redistribute this across all markets again following the formula above.
+3\) 对于任何超过 $$Rewards_{max}$$ 的计算奖励，按照上述公式在所有市场中重新分配。
 
-4\) Iterate until there are no remaining rewards.
+4\) 迭代直到没有剩余奖励。
 
-**Markets Added Partway Through an Epoch**
+**周期中途添加的市场**
 
-For markets added to the eligible list midway through an epoch, the preallocation will be prorated. For example, if ARB/USDT is added on the 15th day of the epoch, then the market will receive half of the rewards for the epoch (as there are 14 full days remaining out of 28).
+对于在周期中途添加到合格列表的市场，预分配将按比例分配。例如，如果 ARB/USDT 在周期的第 15 天添加，则该市场将获得周期奖励的一半（因为 28 天中还有 14 个完整天）。
 
-### Market Allocation Cap
+### 市场分配上限
 
-For each market that has dynamic reward allocations, a hard cap will be applied according to the following formula, where $$n$$ is the number of eligible markets excluding BTC, ETH, and BIYA perps:
+对于具有动态奖励分配的每个市场，将根据以下公式应用硬上限，其中 $$n$$ 是排除 BTC、ETH 和 BIYA 永续合约的合格市场数量：
 
 $$
 Rewards_{max} = TAR\ *\ \frac{1 - TPR}{n}*2
 $$
 
-where _TPR_ is equal to the percentage (expressed as a decimal) of total preallocated rewards (currently 0.375) and _n_ is the number of non-preallocated pairs.
+其中 _TPR_ 等于总预分配奖励的百分比（以小数表示，目前为 0.375），_n_ 是非预分配交易对的数量。
 
-Any reward allocations that exceed the cap will be redistributed amongst the other eligible markets according to the [dynamic allocation formula](reward-allocations.md#dynamic-market-reward-allocations).
+任何超过上限的奖励分配将根据[动态分配公式](reward-allocations.md#dynamic-market-reward-allocations)在其他合格市场中重新分配。
 
-## Reward Allocations
+## 奖励分配
 
-Rewards to individual institutional liquidity providers will be allocated based on the following equation:
+对个人机构流动性提供者的奖励将根据以下公式分配：
 
 $$
 Rewards_{MM_i} = \sum_{Market}\left(Rewards_{Market} * \frac {TS_{MM_i, \ Market}} {\sum_{MM} TS_{MM,\ Market}} \right)
 $$
 
-**Each institutional liquidity provider** **will receive rewards based on their proportional**[ $$TS$$ ](scoring.md#total-score)**within the market, subject to governance approval.**
+**每个机构流动性提供者将根据其在市场中的比例**[ $$TS$$ ](scoring.md#total-score)**获得奖励，需经治理批准。**
 
 {% hint style="info" %}
-Rewards for addresses totaling < 1 BIYA at the end of each epoch will be disregarded to reduce the overhead of the disbursement process.
+每个周期结束时总计 < 1 BIYA 的地址奖励将被忽略，以减少发放过程的开销。
 {% endhint %}

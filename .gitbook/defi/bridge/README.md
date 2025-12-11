@@ -1,3 +1,3 @@
-# Bridge
+# 桥接
 
-Bridging assets into the Biyaliquid ecosystem is effortless, with support for 23+ networks and growing. Here, you'll find step-by-step instructional guides for bridging assets from Ethereum, Solana, via IBC, and using the Wormhole protocol, making it easy to connect with Biyaliquid's ecosystem.
+将资产桥接到 Biyaliquid 生态系统非常简单，支持 23+ 个网络且持续增长。在这里，您将找到从 Ethereum、Solana、通过 IBC 以及使用 Wormhole 协议桥接资产的详细操作指南，让您轻松连接到 Biyaliquid 生态系统。
