@@ -1,7 +1,7 @@
 ---
 description: >-
-  Pocket size cheat sheet for Biyachain. Use this glossary to learn about terms
-  specific to Biyachain.
+  Pocket size cheat sheet for Biya Chain. Use this glossary to learn about terms
+  specific to Biya Chain.
 ---
 
 # Glossary
@@ -12,7 +12,7 @@ The validators that participate in consensus and receive rewards.
 
 ### Airdrops
 
-Additional rewards given to delegators through certain validators that are separate from staking rewards. Airdrops are generally given by applications in the Biyachain ecosystem to increase visibility.
+Additional rewards given to delegators through certain validators that are separate from staking rewards. Airdrops are generally given by applications in the Biya Chain ecosystem to increase visibility.
 
 ### Arbitrage
 
@@ -36,11 +36,11 @@ When a user delegates or bonds BIYA to a validator to receive staking rewards. V
 
 ### Burn
 
-The permanent destruction of assets. Biyachain burns BIYA after each burn auction.
+The permanent destruction of assets. Biya Chain burns BIYA after each burn auction.
 
 ### Burn Auction
 
-A weekly event in which community members can use BIYA to bid for 60% of all exchange fees collected by Biyachain. The BIYA used by the winning bidder will be burnt.
+A weekly event in which community members can use BIYA to bid for 60% of all exchange fees collected by Biya Chain. The BIYA used by the winning bidder will be burnt.
 
 ### Commission
 
@@ -52,15 +52,15 @@ A special fund designated for funding community projects. Any community member c
 
 ### Consensus
 
-A system used by validators or miners to agree that each block of transactions in a blockchain is correct. Biyachain uses the Tendermint consensus framework. Validators earn rewards for participating in consensus. Visit the [Tendermint official documentation site](https://docs.tendermint.com/) for more information.
+A system used by validators or miners to agree that each block of transactions in a blockchain is correct. Biya Chain uses the Tendermint consensus framework. Validators earn rewards for participating in consensus. Visit the [Tendermint official documentation site](https://docs.tendermint.com/) for more information.
 
 ### Cosmos-SDK
 
-The open-source framework the Biyachain blockchain is built on. For more information, check out the [Cosmos SDK Documentation](https://docs.cosmos.network/).
+The open-source framework the Biya Chain blockchain is built on. For more information, check out the [Cosmos SDK Documentation](https://docs.cosmos.network/).
 
 ### CosmWasm
 
-The library utilized by Biyachain to power on-chain smart contracts. For more information, check out the CosmWasm Documentation.
+The library utilized by Biya Chain to power on-chain smart contracts. For more information, check out the CosmWasm Documentation.
 
 ### dApp
 
@@ -88,11 +88,11 @@ Development network. A network that operates independently of the mainnet, allow
 
 ### Frequent Batch Auction (FBA)
 
-The model used by Biyachain for on-chain order matching. This model uses capital more efficiently compared to Continuous Double Auction (CDA), which is utilized by most of the Centralized exchanges offering crypto derivatives and traditional financial markets. The Frequent Batch Auction model also eliminates front-running possibilities.
+The model used by Biya Chain for on-chain order matching. This model uses capital more efficiently compared to Continuous Double Auction (CDA), which is utilized by most of the Centralized exchanges offering crypto derivatives and traditional financial markets. The Frequent Batch Auction model also eliminates front-running possibilities.
 
 ### Full node
 
-A computer connected to the \[Biyachain mainnet that can validate transactions and interact with Biyachain. All active validators run full nodes.
+A computer connected to the \[Biya Chain mainnet that can validate transactions and interact with Biya Chain. All active validators run full nodes.
 
 ### Gas Fees
 
@@ -100,11 +100,11 @@ Compute fees added on to all transactions to avoid spamming. Validators set mini
 
 ### Governance
 
-Governance is the democratic process that allows users and validators to make changes to Biyachain. Community members submit, vote, and implement proposals. One staked BIYA is equal to one vote.
+Governance is the democratic process that allows users and validators to make changes to Biya Chain. Community members submit, vote, and implement proposals. One staked BIYA is equal to one vote.
 
 ### Governance proposal
 
-A written submission for a change or addition to the Biyachain protocol. Topics of proposals can vary from community pool spending, software changes, parameter changes, or any change pertaining to Biyachain.
+A written submission for a change or addition to the Biya Chain protocol. Topics of proposals can vary from community pool spending, software changes, parameter changes, or any change pertaining to Biya Chain.
 
 ### IBC
 
@@ -112,25 +112,25 @@ Inter-Blockchain Communication. The technology that enables different blockchain
 
 ### BIYA
 
-The native token of Biyachain.
+The native token of Biya Chain.
 
 ### biyachaind
 
-The command-line interface for interacting with an Biyachain node.
+The command-line interface for interacting with an Biya Chain node.
 
 For more information on biyachaind, see `biyachaind` guides.
 
-### Biyachain core
+### Biya Chain core
 
-The official source code for Biyachain.
+The official source code for Biya Chain.
 
-For more information on the Biyachain core, see Biyachain core modules.
+For more information on the Biya Chain core, see Biya Chain core modules.
 
-### Biyachain Hub
+### Biya Chain Hub
 
 Inejctive's platform for wallets, governance, staking and BIYA burn auctions.
 
-To learn about the features of Biyachain Hub, visit the Biyachain Hub guide.
+To learn about the features of Biya Chain Hub, visit the Biya Chain Hub guide.
 
 ### Inactive set
 
@@ -144,15 +144,15 @@ Validators who misbehave are jailed or excluded from the active set for a period
 
 The maximum value that can be extracted from block production in excess of the standard block reward and gas fees by including, excluding, and changing the order of transactions in a block.
 
-Biyachain is MEV-resistant.
+Biya Chain is MEV-resistant.
 
 ### Module
 
-A section of the Biyachain core that represents a particular function of Biyachain. Visit the Biyachain core module specifications for more information.
+A section of the Biya Chain core that represents a particular function of Biya Chain. Visit the Biya Chain core module specifications for more information.
 
 ### Oracle
 
-A 3rd party service enabling Biyachain to access external, real-world data. Typically, this is the price feed.
+A 3rd party service enabling Biya Chain to access external, real-world data. Typically, this is the price feed.
 
 ### Pools
 
@@ -198,11 +198,11 @@ For more information on staking, visit the concepts page.
 
 ### Tendermint consensus
 
-The consensus framework used by Biyachain. First, a validator proposes a new block. Other validators vote on the block in two rounds. If a block receives a two-thirds majority or greater of yes votes in both rounds, it gets added to the blockchain. Validators get rewarded with the block's transaction fees. Proposers get rewarded extra. Each validator is chosen to propose based on their weight. Check out the [Tendermint official documentation](https://docs.tendermint.com/) for more information.
+The consensus framework used by Biya Chain. First, a validator proposes a new block. Other validators vote on the block in two rounds. If a block receives a two-thirds majority or greater of yes votes in both rounds, it gets added to the blockchain. Validators get rewarded with the block's transaction fees. Proposers get rewarded extra. Each validator is chosen to propose based on their weight. Check out the [Tendermint official documentation](https://docs.tendermint.com/) for more information.
 
 ### Mainnet
 
-Biyachain's blockchain network where all transactions take place.
+Biya Chain's blockchain network where all transactions take place.
 
 ### Testnet
 
@@ -242,7 +242,7 @@ The amount of time a validator is active in a given timeframe. Validators with l
 
 ### Validator
 
-An Biyachain blockchain miner that is responsible for verifying transactions on the blockchain. Validators run programs called full nodes that allow them to participate in consensus, verify blocks, participate in governance, and receive rewards. Only the active set of validators can participate in consensus.
+An Biya Chain blockchain miner that is responsible for verifying transactions on the blockchain. Validators run programs called full nodes that allow them to participate in consensus, verify blocks, participate in governance, and receive rewards. Only the active set of validators can participate in consensus.
 
 ### Weight
 

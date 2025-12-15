@@ -1,10 +1,10 @@
 # Insurance
 
-This module provides insurance funds for derivative markets in the exchange module of the Biyachain Chain to use in order to support higher leverage trading. On a high level, insurance funds for each derivative market are funded by a permissionless group of underwriters who each own a proportional claim (represented through insurance fund share tokens) over the underlying assets in the insurance fund.
+This module provides insurance funds for derivative markets in the exchange module of the Biya Chain Chain to use in order to support higher leverage trading. On a high level, insurance funds for each derivative market are funded by a permissionless group of underwriters who each own a proportional claim (represented through insurance fund share tokens) over the underlying assets in the insurance fund.
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Insurance module exports and we can use to interact with the Biyachain chain.
+Let's explore (and provide examples) the Messages that the Insurance module exports and we can use to interact with the Biya Chain chain.
 
 ### MsgCreateInsuranceFund
 

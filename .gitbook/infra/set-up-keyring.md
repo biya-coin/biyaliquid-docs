@@ -1,10 +1,10 @@
 # 设置密钥环
 
 {% hint style="info" %}
-本文档介绍如何为 Biyachain 节点配置和使用密钥环及其各种后端。在设置密钥环之前应安装 `biyachaind`。有关更多信息，请参阅 [安装 `biyachaind` 页面](../developers/biyachaind/install.md)。
+本文档介绍如何为 Biya Chain 节点配置和使用密钥环及其各种后端。在设置密钥环之前应安装 `biyachaind`。有关更多信息，请参阅 [安装 `biyachaind` 页面](../developers/biyachaind/install.md)。
 {% endhint %}
 
-密钥环保存用于与节点交互的私钥/公钥对。例如，在运行 Biyachain 节点之前需要设置验证器密钥，以便正确签名区块。私钥可以存储在不同的位置，称为"后端"，例如文件或操作系统自己的密钥存储。
+密钥环保存用于与节点交互的私钥/公钥对。例如，在运行 Biya Chain 节点之前需要设置验证器密钥，以便正确签名区块。私钥可以存储在不同的位置，称为"后端"，例如文件或操作系统自己的密钥存储。
 
 ### 密钥环的可用后端
 

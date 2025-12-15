@@ -1,8 +1,8 @@
 # Ethereum Ledger Transaction
 
-## Signing Transactions on Biyachain using Ledger
+## Signing Transactions on Biya Chain using Ledger
 
-The goal of this document is to explain how to use Ledger to sign transactions on Biyachain and broadcast them to the chain. The implementation differs from the default approach that Cosmos SDK native chains have because Biyachain defines its custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys.
+The goal of this document is to explain how to use Ledger to sign transactions on Biya Chain and broadcast them to the chain. The implementation differs from the default approach that Cosmos SDK native chains have because Biya Chain defines its custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys.
 
 ## Implementation
 
@@ -18,11 +18,11 @@ This is what a derivation path looks like
 
 Each of the parts in the sequence plays a part and each changes what the private key, public key, and address would be. We are not going to deep dive into the exact details about what every part of the HD path means, instead, we are just going to briefly explain the `coin_type`. Each blockchain has a number that represents it i.e the `coin_type`. Bitcoin is `0`, Ethereum is `60`, Cosmos is `118`.
 
-### Biyachain specific context
+### Biya Chain specific context
 
-Biyachain uses the same `coin_type` as Ethereum, i.e `60`. This means for Ledger to be used to sign transactions on Biyachain, **we have to use the Ethereum app on Ledger**.
+Biya Chain uses the same `coin_type` as Ethereum, i.e `60`. This means for Ledger to be used to sign transactions on Biya Chain, **we have to use the Ethereum app on Ledger**.
 
-Ledger is limited to having one installed application for one `coin_type`. As we have to use the Ethereum app to sign transactions on Biyachain, we have to explore available options to us to get a valid signature. One of the available options is the `EIP712` procedure for hashing and signing typed structured data. Ledger exposes the `signEIP712HashedMessage` which we are going to use.
+Ledger is limited to having one installed application for one `coin_type`. As we have to use the Ethereum app to sign transactions on Biya Chain, we have to explore available options to us to get a valid signature. One of the available options is the `EIP712` procedure for hashing and signing typed structured data. Ledger exposes the `signEIP712HashedMessage` which we are going to use.
 
 Once we sign the `EIP712` typed data, we are going to pack the transaction using the normal Cosmos-SDK approach of packing and broadcasting the transaction. There are some minor differences, one of them being using the `SIGN_MODE_LEGACY_AMINO_JSON` mode and appending a `Web3Exension` to the Cosmos transaction and we are going to explain them in this document.
 
@@ -47,7 +47,7 @@ As we’ve said above, the transaction needs to be signed using the Ethereum app
 
 We know that each Cosmos transaction consists of messages which signify the instructions the user wants to execute on the chain. If we want to send funds from one address to another, we are going to pack the `MsgSend` message into a transaction and broadcast it to the chain.
 
-Knowing this, the Biyachain team made [abstraction](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/MsgBase.ts) of these Messages to simplify the way they are packed into a transaction. Each of these Messages accepts a specific set of parameters that are needed to instantiate the message. Once this is done, the abstraction exposes a couple of convenient methods which we can use based on the signing/broadcasting method we chose to use. As an example, the Message exposes the `toDirectSign` method which returns the type and the proto representation of the message which can be then used to pack the transaction using the default Cosmos approach, sign it using a privateKey and broadcast it to the chain.
+Knowing this, the Biya Chain team made [abstraction](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/MsgBase.ts) of these Messages to simplify the way they are packed into a transaction. Each of these Messages accepts a specific set of parameters that are needed to instantiate the message. Once this is done, the abstraction exposes a couple of convenient methods which we can use based on the signing/broadcasting method we chose to use. As an example, the Message exposes the `toDirectSign` method which returns the type and the proto representation of the message which can be then used to pack the transaction using the default Cosmos approach, sign it using a privateKey and broadcast it to the chain.
 
 What is of importance for us for this particular implementation are the `toEip712Types` and `toEip712` methods. Calling the first one on an instance of the Message gives out the types of the Message for the EIP712 typed data and the second one gives the values of the Message for the EIP712 data. When we combine these two methods we can generate valid EIP712 typed data which can be passed down to the signing process.
 

@@ -2,7 +2,7 @@
 
 ## Configuration Guide
 
-The Biyachain Trader uses a YAML configuration file to define behavior, components, and strategy parameters.
+The Biya Chain Trader uses a YAML configuration file to define behavior, components, and strategy parameters.
 
 The most important configuration sections to focus on are:
 
@@ -173,7 +173,7 @@ Now that we understand the overall structure, we are ready to develop custom one
 
 ## Strategy Development Guide
 
-Strategies in the Biyachain Trader follow a consistent structure based on the `Strategy` base class. This section explains how to build effective strategies.
+Strategies in the Biya Chain Trader follow a consistent structure based on the `Strategy` base class. This section explains how to build effective strategies.
 
 ### Strategy Class Structure
 
@@ -605,7 +605,7 @@ When your strategy decides to take action, return a `StrategyResult` object with
 
 | **Property**      | **Type**                 | **Description**                    | **Note**                                |
 | ----------------- | ------------------------ | ---------------------------------- | --------------------------------------- |
-| `private_key`     | `PrivateKey`             | Biyachain private key              | Not directly accessible                 |
+| `private_key`     | `PrivateKey`             | Biya Chain private key              | Not directly accessible                 |
 | `public_key`      | `PublicKey`              | Corresponding public key           |                                         |
 | `address`         | `Address`                | Account address object             | Contains sequence information           |
 | `account_address` | `str`                    | Bech32 address string              | Format: "biya1..."                       |

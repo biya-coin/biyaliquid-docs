@@ -162,7 +162,7 @@ journalctl -f -u peggo
 
 在[此处](https://docs.cosmos.network/v0.46/run-node/keyring.html)了解更多有关 Cosmos 密钥环设置的信息。一旦您启动了节点，默认密钥环将以加密形式在磁盘上存储验证器运营者密钥。通常，密钥环位于节点的主目录内，即 `~/.biyachaind/keyring-file`。
 
-Biyachain 质押文档的某些部分将指导您将此密钥用于治理目的，即提交交易和设置以太坊桥接。为了保护密钥免受未授权访问，即使密钥环密码短语通过配置泄露，您也可以设置操作系统权限，仅允许 `biyachaind` / `peggo` 进程访问磁盘。
+Biya Chain 质押文档的某些部分将指导您将此密钥用于治理目的，即提交交易和设置以太坊桥接。为了保护密钥免受未授权访问，即使密钥环密码短语通过配置泄露，您也可以设置操作系统权限，仅允许 `biyachaind` / `peggo` 进程访问磁盘。
 
 在 Debian、Ubuntu 和 RHEL 等 Linux 系统中，可以使用 POSIX 访问控制列表 (ACL) 来实现这一点。在开始使用 ACL 之前，必须启用 ACL 挂载文件系统。每个发行版都有一些官方指南：
 
@@ -184,16 +184,16 @@ cd ~/.peggo
 
 要创建您自己的以太坊全节点，您可以按照我们的说明[此处](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/)进行操作。可以使用外部以太坊 RPC 提供商（如 Alchemy 或 Infura），但请注意，Peggo 桥接中继器大量使用 `eth_getLogs` 调用，这可能会根据您的提供商增加您的成本负担。
 
-Peggo 还需要访问验证器的委托 Biyachain 链账户和以太坊密钥凭证，以便为相应网络签署交易。
+Peggo 还需要访问验证器的委托 Biya Chain 链账户和以太坊密钥凭证，以便为相应网络签署交易。
 
-### **创建用于发送 Biyachain 交易的委托 Cosmos 密钥**
+### **创建用于发送 Biya Chain 交易的委托 Cosmos 密钥**
 
 您的 peggo 中继器可以：
 
 * 使用专门用于发送验证器特定 Peggy 交易（即 `ValsetConfirm`、`BatchConfirm` 和 `SendToCosmos` 交易）的明确委托账户密钥，或
 * 简单地使用验证器的账户密钥。
 
-为了隔离目的，我们建议创建委托的 Cosmos 密钥来发送 Biyachain 交易，而不是使用验证器账户密钥。
+为了隔离目的，我们建议创建委托的 Cosmos 密钥来发送 Biya Chain 交易，而不是使用验证器账户密钥。
 
 To create a new key, run:
 
@@ -389,7 +389,7 @@ journalctl -f -u peggo
 
 在[此处](https://docs.cosmos.network/v0.46/run-node/keyring.html)了解更多有关 Cosmos 密钥环设置的信息。一旦您启动了节点，默认密钥环将以加密形式在磁盘上存储验证器运营者密钥。通常，密钥环位于节点的主目录内，即 `~/.biyachaind/keyring-file`。
 
-Biyachain 质押文档的某些部分将指导您将此密钥用于治理目的，即提交交易和设置以太坊桥接。为了保护密钥免受未授权访问，即使密钥环密码短语通过配置泄露，您也可以设置操作系统权限，仅允许 `biyachaind` / `peggo` 进程访问磁盘。
+Biya Chain 质押文档的某些部分将指导您将此密钥用于治理目的，即提交交易和设置以太坊桥接。为了保护密钥免受未授权访问，即使密钥环密码短语通过配置泄露，您也可以设置操作系统权限，仅允许 `biyachaind` / `peggo` 进程访问磁盘。
 
 在 Debian、Ubuntu 和 RHEL 等 Linux 系统中，可以使用 POSIX 访问控制列表 (ACL) 来实现这一点。在开始使用 ACL 之前，必须启用 ACL 挂载文件系统。每个发行版都有一些官方指南：
 

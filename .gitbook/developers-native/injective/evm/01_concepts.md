@@ -78,7 +78,7 @@ In the Geth implementation, calling the endpoint roughly goes through the follow
 6. [`evm.Call()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/evm.go#L168) runs the interpreter `evm.interpreter.Run()` to execute the message. If the execution fails, the state is reverted to a snapshot taken before the execution and gas is consumed.
 7. [`Run()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/interpreter.go#L116) performs a loop to execute the opcodes.
 
-The Biyachain implementation is similar and makes use of the gRPC query client which is included in the Cosmos SDK:
+The Biya Chain implementation is similar and makes use of the gRPC query client which is included in the Cosmos SDK:
 
 1. `eth_call` request is transformed to call the `func (e *PublicAPI) Call` function using the `eth` namespace
 2. [`Call()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L639) calls `doCall()`

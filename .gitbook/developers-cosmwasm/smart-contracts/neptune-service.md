@@ -1,6 +1,6 @@
 # NeptuneService
 
-`NeptuneService` is a straightforward tool that interacts with the Neptune CosmWasm smart contracts on Biyachain. It allows you to fetch asset prices, calculate exchange ratios, create deposit and withdraw messages, and retrieve lending rates.
+`NeptuneService` is a straightforward tool that interacts with the Neptune CosmWasm smart contracts on Biya Chain. It allows you to fetch asset prices, calculate exchange ratios, create deposit and withdraw messages, and retrieve lending rates.
 
 Below are examples of how to use each method in the `NeptuneService` class.
 
@@ -185,7 +185,7 @@ import {
 import { toChainFormat } from '@biya-coin/utils'
 
 const privateKey = '0x...' // Your private key
-const biyachainAddress = 'biya1...' // Your Biyachain address
+const biyachainAddress = 'biya1...' // Your Biya Chain address
 
 // Define the amount to withdraw (e.g., 100 nUSDT)
 const amountInNusdt = '100'

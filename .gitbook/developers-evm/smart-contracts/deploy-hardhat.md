@@ -10,7 +10,7 @@ See the [test a smart contract using Hardhat](./test-hardhat.md) tutorial for ho
 
 ## Edit the deployment script
 
-In order for the smart contract that you have compiled on your computer to exist on the Biyachain Testnet, it needs to be deployed onto the network.
+In order for the smart contract that you have compiled on your computer to exist on the Biya Chain Testnet, it needs to be deployed onto the network.
 
 To do so, we will make use of a script that uses an `ethers` instance that is pre-configured by Hardhat using the values specified in `hardhat.config.js`.
 
@@ -35,7 +35,7 @@ The following lines use that information to construct a deployment transaction a
 If successful, the address at which your smart contract was deployed will be output, for example:
 [`0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b`](https://testnet.blockscout.biyachain.network/address/0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b)
 
-Note that on other EVM networks, transactions (including deployment transactions), do not need to specify a gas price and a gas limit. Currently, however, this is necessary on Biyachain.
+Note that on other EVM networks, transactions (including deployment transactions), do not need to specify a gas price and a gas limit. Currently, however, this is necessary on Biya Chain.
 
 ## Run the deployment script
 

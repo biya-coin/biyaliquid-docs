@@ -1,4 +1,4 @@
-name: Biyachain Docs Generation
+name: Biya Chain Docs Generation
 
 on: workflow_dispatch
 

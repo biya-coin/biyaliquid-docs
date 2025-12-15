@@ -1,6 +1,6 @@
 # Wasm
 
-The `wasm` module is the heart of interacting with the wasm smart contracts deployed on the biyachain chain, here you can find a list of [smart contracts](https://biyascan.com/smart-contracts/) that are deployed on the Biyachain chain.
+The `wasm` module is the heart of interacting with the wasm smart contracts deployed on the biyachain chain, here you can find a list of [smart contracts](https://biyascan.com/smart-contracts/) that are deployed on the Biya Chain chain.
 
 {% hint style="info" %}
 `MsgUpdateCode` and `MsgStoreCode` are not supported by Ethereum (ex: Metamask) wallets.

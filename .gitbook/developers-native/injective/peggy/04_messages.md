@@ -9,16 +9,16 @@ This is a reference document for Peggy message types. For code reference and exa
 
 ## User messages
 
-These are messages sent on the Biyachain Chain peggy module by the end user. See [workflow](02_workflow.md) for a more detailed summary of the entire deposit and withdraw process.
+These are messages sent on the Biya Chain Chain peggy module by the end user. See [workflow](02_workflow.md) for a more detailed summary of the entire deposit and withdraw process.
 
 ### SendToEth
 
-Sent to Biyachain whenever a user wishes to make a withdrawal back to Ethereum. Submitted amount is removed from the user's balance immediately.\
+Sent to Biya Chain whenever a user wishes to make a withdrawal back to Ethereum. Submitted amount is removed from the user's balance immediately.\
 The withdrawal is added to the outgoing tx pool as a `types.OutgoingTransferTx` where it will remain until it is included in a batch.
 
 ```go
 type MsgSendToEth struct {
-	Sender    string    // sender's Biyachain address
+	Sender    string    // sender's Biya Chain address
 	EthDest   string    // receiver's Ethereum address
 	Amount    types.Coin    // amount of tokens to bridge
 	BridgeFee types.Coin    // additional fee for bridge relayers. Must be of same token type as Amount
@@ -73,8 +73,8 @@ These messages are sent by the `Oracle` subprocess of `peggo`
 
 ### DepositClaim
 
-Sent to Biyachain when a `SendToBiyachainEvent` is emitted from the `Peggy contract`.\
-This occurs whenever a user is making an individual deposit from Ethereum to Biyachain.
+Sent to Biya Chain when a `SendToBiyachainEvent` is emitted from the `Peggy contract`.\
+This occurs whenever a user is making an individual deposit from Ethereum to Biya Chain.
 
 ```go
 type MsgDepositClaim struct {
@@ -83,14 +83,14 @@ type MsgDepositClaim struct {
 	TokenContract  string   // contract address of the ERC20 token                                 
 	Amount         sdkmath.Int  // amount of deposited tokens 
 	EthereumSender string   // sender's Ethereum address                                 
-	CosmosReceiver string   // receiver's Biyachain address                                 
+	CosmosReceiver string   // receiver's Biya Chain address                                 
 	Orchestrator   string   // address of the Orchestrator which observed the event                               
 }
 ```
 
 ### WithdrawClaim
 
-Sent to Biyachain when a `TransactionBatchExecutedEvent` is emitted from the `Peggy contract`.\
+Sent to Biya Chain when a `TransactionBatchExecutedEvent` is emitted from the `Peggy contract`.\
 This occurs when a `Relayer` has successfully called `submitBatch` on the contract to complete a batch of withdrawals.
 
 ```go
@@ -105,7 +105,7 @@ type MsgWithdrawClaim struct {
 
 ### ValsetUpdatedClaim
 
-Sent to Biyachain when a `ValsetUpdatedEvent` is emitted from the `Peggy contract`.\
+Sent to Biya Chain when a `ValsetUpdatedEvent` is emitted from the `Peggy contract`.\
 This occurs when a `Relayer` has successfully called `updateValset` on the contract to update the `Validator Set` on Ethereum.
 
 ```go
@@ -123,7 +123,7 @@ type MsgValsetUpdatedClaim struct {
 
 ### ERC20DeployedClaim
 
-Sent to Biyachain when a `ERC20DeployedEvent` is emitted from the `Peggy contract`.\
+Sent to Biya Chain when a `ERC20DeployedEvent` is emitted from the `Peggy contract`.\
 This occurs whenever the `deployERC20` method is called on the contract to issue a new token asset eligible for bridging.
 
 ```go
@@ -145,7 +145,7 @@ These messages are sent by the `Signer` subprocess of `peggo`
 
 ### ConfirmBatch
 
-When `Signer` finds a batch that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biyachain.\
+When `Signer` finds a batch that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biya Chain.\
 It's crucial that a `Validator` eventually provides their confirmation for a created batch as they will be slashed otherwise.
 
 ```go
@@ -160,7 +160,7 @@ type MsgConfirmBatch struct {
 
 ### ValsetConfirm
 
-When `Signer` finds a valset update that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biyachain.\
+When `Signer` finds a valset update that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biya Chain.\
 It's crucial that a `Validator` eventually provides their confirmation for a created valset update as they will be slashed otherwise.
 
 ```go
@@ -174,7 +174,7 @@ type MsgValsetConfirm struct {
 
 ## Relayer Messages
 
-The `Relayer` does not send any message to Biyachain, rather it constructs Ethereum transactions with Biyachain data to update the `Peggy contract` via `submitBatch` and `updateValset` methods.
+The `Relayer` does not send any message to Biya Chain, rather it constructs Ethereum transactions with Biya Chain data to update the `Peggy contract` via `submitBatch` and `updateValset` methods.
 
 ## Validator Messages
 
@@ -182,13 +182,13 @@ These are messages sent directly using the validator's message key.
 
 ### SetOrchestratorAddresses
 
-Sent to Biyachain by an `Operator` managing a `Validator` node. Before being able to start their `Orchestrator` (`peggo`) process, they must register a chosen Ethereum address to represent their `Validator` on Ethereum.\
-Optionally, an additional Biyachain address can be provided (`Orchestrator` field) to represent that `Validator` in the bridging process (`peggo`). Defaults to `Validator`'s own address if omitted.
+Sent to Biya Chain by an `Operator` managing a `Validator` node. Before being able to start their `Orchestrator` (`peggo`) process, they must register a chosen Ethereum address to represent their `Validator` on Ethereum.\
+Optionally, an additional Biya Chain address can be provided (`Orchestrator` field) to represent that `Validator` in the bridging process (`peggo`). Defaults to `Validator`'s own address if omitted.
 
 ```go
 type MsgSetOrchestratorAddresses struct {
-	Sender       string // address of the Biyachain validator
-	Orchestrator string // optional Biyachain address to represent the Validator in the bridging process (Defaults to Sender if left empty)
+	Sender       string // address of the Biya Chain validator
+	Orchestrator string // optional Biya Chain address to represent the Validator in the bridging process (Defaults to Sender if left empty)
 	EthAddress   string // the Sender's (Validator) delegated Ethereum address
 }
 ```

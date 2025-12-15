@@ -1,9 +1,9 @@
 # 账户
 
-本节介绍 Biyachain 的内置账户系统。
+本节介绍 Biya Chain 的内置账户系统。
 
 {% hint style="info" %}
-本文档介绍 Biyachain 的内置账户系统。
+本文档介绍 Biya Chain 的内置账户系统。
 
 前置阅读：
 
@@ -11,11 +11,11 @@
 * [Ethereum 账户](https://ethereum.org/en/whitepaper/#ethereum-accounts)
 {% endhint %}
 
-Biyachain 定义了其自定义的 `Account` 类型，使用 Ethereum 的 ECDSA secp256k1 曲线作为密钥。这满足 [EIP84](https://github.com/ethereum/EIPs/issues/84) 的完整 [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) 路径。基于 Biyachain 的账户的根 HD 路径是 `m/44'/60'/0'/0`。
+Biya Chain 定义了其自定义的 `Account` 类型，使用 Ethereum 的 ECDSA secp256k1 曲线作为密钥。这满足 [EIP84](https://github.com/ethereum/EIPs/issues/84) 的完整 [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) 路径。基于 Biya Chain 的账户的根 HD 路径是 `m/44'/60'/0'/0`。
 
 ### 地址和公钥
 
-Biyachain 默认提供 3 种主要的 `Addresses`/`PubKeys` 类型：
+Biya Chain 默认提供 3 种主要的 `Addresses`/`PubKeys` 类型：
 
 * **账户**的地址和密钥，用于标识用户（即 `message` 的发送者）。它们使用 **`eth_secp256k1`** 曲线派生。
 * **验证器操作者**的地址和密钥，用于标识验证器的操作者。它们使用 **`eth_secp256k1`** 曲线派生。
@@ -63,9 +63,9 @@ curl -X GET "http://localhost:10337/cosmos/auth/v1beta1/accounts/biya14au322k9mu
 Cosmos SDK Keyring 输出（即 `biyachaind keys`）仅支持 Bech32 格式的地址。
 {% endhint %}
 
-### 从私钥/助记词派生 Biyachain 账户
+### 从私钥/助记词派生 Biya Chain 账户
 
-以下是从私钥和/或助记词短语派生 Biyachain 账户的示例：
+以下是从私钥和/或助记词短语派生 Biya Chain 账户的示例：
 
 ```js
 import { Wallet } from 'ethers'

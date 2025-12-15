@@ -6,7 +6,7 @@
 
 {% tabs %}
 {% tab title="本地网络" %}
-要轻松设置本地节点，请下载并运行 `setup.sh` 脚本。这将初始化您的本地 Biyachain 网络。
+要轻松设置本地节点，请下载并运行 `setup.sh` 脚本。这将初始化您的本地 Biya Chain 网络。
 
 ```bash
 wget https://raw.githubusercontent.com/biya-coin/biyachain-chain-releases/master/scripts/setup.sh
@@ -24,7 +24,7 @@ biyachaind start # Blocks should start coming in after running this
 
 **初始化链**
 
-在运行 Biyachain 节点之前，我们需要初始化链以及节点的创世文件：
+在运行 Biya Chain 节点之前，我们需要初始化链以及节点的创世文件：
 
 ```bash
 # The <moniker> argument is the custom username of your node. It should be human-readable.
@@ -50,7 +50,7 @@ biyachaind init <moniker> --chain-id=biyachain-1
 
 此时，需要在 `genesis.json` 文件中进行修改：
 
-* 将质押 `bond_denom`、危机 `denom`、治理 `denom` 和铸币 `denom` 值更改为 `"biya"`，因为这是 Biyachain 的原生代币。
+* 将质押 `bond_denom`、危机 `denom`、治理 `denom` 和铸币 `denom` 值更改为 `"biya"`，因为这是 Biya Chain 的原生代币。
 
 通过运行以下命令可以轻松完成：
 
@@ -82,7 +82,7 @@ MY_VALIDATOR_ADDRESS=$(biyachaind keys show my_validator -a --keyring-backend=te
 biyachaind add-genesis-account $MY_VALIDATOR_ADDRESS 100000000000000000000000000biya --chain-id=biyachain-1
 ```
 
-`$MY_VALIDATOR_ADDRESS` 是保存密钥环中 `my_validator` 密钥地址的变量。Biyachain 中的代币具有 `{amount}{denom}` 格式：`amount` 是一个 18 位精度的十进制数，`denom` 是带有其面额键的唯一代币标识符（例如 `biya`）。在这里，我们授予 `biya` 代币，因为 `biya` 是 `biyachaind` 中用于质押的代币标识符。
+`$MY_VALIDATOR_ADDRESS` 是保存密钥环中 `my_validator` 密钥地址的变量。Biya Chain 中的代币具有 `{amount}{denom}` 格式：`amount` 是一个 18 位精度的十进制数，`denom` 是带有其面额键的唯一代币标识符（例如 `biya`）。在这里，我们授予 `biya` 代币，因为 `biya` 是 `biyachaind` 中用于质押的代币标识符。
 
 **将验证器添加到链**
 
@@ -113,7 +113,7 @@ biyachaind genesis gentx --help
 在 `~/.biyachaind/config` 内自动生成两个配置文件：
 
 * `config.toml`：用于配置 Tendermint（在 [Tendermint 文档](https://docs.tendermint.com/v0.34/tendermint-core/configuration.html) 上了解更多信息），以及
-* `app.toml`：由 Cosmos SDK（Biyachain 构建于其上）生成，用于配置状态修剪策略、遥测、gRPC 和 REST 服务器配置、状态同步等。
+* `app.toml`：由 Cosmos SDK（Biya Chain 构建于其上）生成，用于配置状态修剪策略、遥测、gRPC 和 REST 服务器配置、状态同步等。
 
 两个文件都有大量注释——请直接参考它们来调整您的节点。
 
@@ -162,14 +162,14 @@ sudo mv biyachaind /usr/bin
 sudo mv libwasmvm.x86_64.so /usr/lib 
 ```
 
-**初始化新的 Biyachain 链节点**
+**初始化新的 Biya Chain 链节点**
 
-在运行 Biyachain 节点之前，我们需要初始化链以及节点的创世文件：
+在运行 Biya Chain 节点之前，我们需要初始化链以及节点的创世文件：
 
 ```bash
 # The argument <moniker> is the custom username of your node, it should be human-readable.
 export MONIKER=<moniker>
-# Biyachain Testnet has a chain-id of "biyachain-888"
+# Biya Chain Testnet has a chain-id of "biyachain-888"
 biyachaind init $MONIKER --chain-id biyachain-888
 ```
 

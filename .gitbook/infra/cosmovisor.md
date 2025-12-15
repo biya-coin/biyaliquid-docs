@@ -1,6 +1,6 @@
-# Biyachain 网络 Cosmovisor 设置指南
+# Biya Chain 网络 Cosmovisor 设置指南
 
-Cosmovisor 是一个专为基于 Cosmos SDK 的区块链设计的进程管理器，可简化二进制（链）升级的管理。本指南提供了为您的 Biyachain 网络节点设置 Cosmovisor 的分步说明。
+Cosmovisor 是一个专为基于 Cosmos SDK 的区块链设计的进程管理器，可简化二进制（链）升级的管理。本指南提供了为您的 Biya Chain 网络节点设置 Cosmovisor 的分步说明。
 
 > **注意：** 这些说明假设您已经有一个现有的链二进制文件（例如 `biyachaind`），如果您选择从源代码安装 Cosmovisor，还需要一个可用的 Go 环境。根据您的具体设置调整名称和路径。
 
@@ -130,7 +130,7 @@ Cosmovisor 将：
 
    ```ini
    [Unit]
-   Description=Biyachain Daemon managed by Cosmovisor
+   Description=Biya Chain Daemon managed by Cosmovisor
    After=network-online.target
 
    [Service]

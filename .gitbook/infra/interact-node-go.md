@@ -1,7 +1,7 @@
 # 使用 Go 程序化与节点交互
 
 {% hint style="info" %}
-以下示例使用 Go，但 Python 和 TS SDK 也可用于程序化与节点/Biyachain 交互。
+以下示例使用 Go，但 Python 和 TS SDK 也可用于程序化与节点/Biya Chain 交互。
 
 * [TypeScript 示例](../developers-native/examples/README.md)
 * [Python 示例](https://github.com/biya-coin/sdk-python/tree/master/examples)

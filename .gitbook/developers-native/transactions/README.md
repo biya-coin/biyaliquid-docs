@@ -2,7 +2,7 @@
 
 _Pre-requisite reading:_ [Cosmos SDK Transactions](https://docs.cosmos.network/main/learn/advanced/transactions)
 
-State changes on Biyachain can be done through transactions. Users create transactions, sign them and broadcast them to Biyachain.
+State changes on Biya Chain can be done through transactions. Users create transactions, sign them and broadcast them to Biya Chain.
 
 When broadcasted and only after every validation is successfully passed (these validations include signature validation, parameters validations, etc) the transaction is included within a block which is approved by the network through a consensus process.
 
@@ -27,7 +27,7 @@ Besides Message(s), every transaction has context. These details include `fees`,
 
 ### Transaction Flow
 
-Every transaction we want to broadcast to Biyachain has the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction.
+Every transaction we want to broadcast to Biya Chain has the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction.
 
 
 

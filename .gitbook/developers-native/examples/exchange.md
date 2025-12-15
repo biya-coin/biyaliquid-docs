@@ -1,12 +1,12 @@
 # Exchange
 
-The `exchange` module is the heart of the Biyachain Chain which enables fully decentralized spot and derivative exchange. It is the sine qua non module of the chain and integrates tightly with the `auction`, `insurance`, `oracle`, and `peggy` modules.
+The `exchange` module is the heart of the Biya Chain Chain which enables fully decentralized spot and derivative exchange. It is the sine qua non module of the chain and integrates tightly with the `auction`, `insurance`, `oracle`, and `peggy` modules.
 
 The exchange protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process of orderbook management, trade execution, order matching and settlement occurs on chain through the logic codified by the exchange module.
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Exchange module exports and we can use to interact with the Biyachain chain.
+Let's explore (and provide examples) the Messages that the Exchange module exports and we can use to interact with the Biya Chain chain.
 
 ### MsgDeposit
 
@@ -611,13 +611,13 @@ This message is used to transfer balance from one subaccount to another subaccou
 
 Note:
 
-- You cannot transfer from your default subaccountId since that balance is now associated with your Biyachain address in the bank module. Therefore, in order for `MsgExternalTransfer` to work, you will need to transfer from a non-default subaccountId.
+- You cannot transfer from your default subaccountId since that balance is now associated with your Biya Chain address in the bank module. Therefore, in order for `MsgExternalTransfer` to work, you will need to transfer from a non-default subaccountId.
 
 How to find the subaccountId that you will be transferring from:
 
 - you can query your existing subaccountIds via the [account portfolio api](../query-indexer/portfolio.md).
 
-How to use funds that are currently associated with your Biyachain Address in bank module:
+How to use funds that are currently associated with your Biya Chain Address in bank module:
 
 - If you have existing non-default subaccounts, you'll want to do a [MsgDeposit](exchange.md#MsgDeposit) to one of your existing non-default subaccountIds and use that subaccountId as the `srcSubaccountId` below.
 - If you don't have existing non-default subaccounts, you can do a [MsgDeposit](exchange.md#MsgDeposit) to a new default subaccountId, which would be done via importing `getSubaccountId` from `sdk-ts` and setting the `subaccountId` field in [MsgDeposit](exchange.md#MsgDeposit) to `getSubaccountId(biyachainAddress, 1)`.

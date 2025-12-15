@@ -47,10 +47,10 @@ Open `hardhat.config.js`, and look at the `etherscan` and `sourcify` elements.
 ```
 
 Sourcify and Etherscan are two popular block explorers, each with a different API for verification.
-Biyachain uses Blockscout, which is compatible with the Etherscan API.
+Biya Chain uses Blockscout, which is compatible with the Etherscan API.
 Hence, Sourcify is disabled in the configuration.
 Within the Etherscan configuration, the `apiKey` value is not needed, so any non-empty value is OK.
-The `biya_testnet` network within `customChains` is already configured with the appropriate values for Biyachain Testnet.
+The `biya_testnet` network within `customChains` is already configured with the appropriate values for Biya Chain Testnet.
 
 ## Run the verification command
 

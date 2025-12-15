@@ -1,6 +1,6 @@
 # MsgBroadcaster Transaction
 
-The `MsgBroadcaster` abstraction class is a way to broadcast transactions on Biyachain with ease. With it, you can pass a Message that you want to be packed in a transaction and the signer's address and the transaction will be prepared, signed, and broadcasted.
+The `MsgBroadcaster` abstraction class is a way to broadcast transactions on Biya Chain with ease. With it, you can pass a Message that you want to be packed in a transaction and the signer's address and the transaction will be prepared, signed, and broadcasted.
 
 An example of usage can be found on our [Helix demo repo](https://github.com/biya-coin/biyachain-helix-demo). As for the messages that you can pass to the `broadcast` methods, you can find examples in the [Core Modules](../examples/) section of the docs.
 
@@ -18,8 +18,8 @@ import { ChainId, EvmChainId } from "@biya-coin/ts-types";
 import { WalletStrategy } from "@biya-coin/wallet-strategy";
 import { Network, getNetworkEndpoints } from "@biya-coin/networks";
 
-const chainId = ChainId.Testnet; // The Biyachain Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm; // The Biyachain Evm Testnet Chain ID
+const chainId = ChainId.Testnet; // The Biya Chain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm; // The Biya Chain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`;
 

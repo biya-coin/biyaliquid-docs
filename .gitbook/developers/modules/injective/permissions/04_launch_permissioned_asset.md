@@ -5,7 +5,7 @@ title: How to Launch Permissioned Assets
 
 # How to Launch Permissioned Assets
 
-Permissioned assets can be launched using [Biyachain APIs/SDKs](https://api.biyachain.exchange/#permissions) or the Biyachain CLI, `biyachaind`. See [biyachaind](../../../../developers/biyachaind/README.md) for more information on using the Biyachain CLI.
+Permissioned assets can be launched using [Biya Chain APIs/SDKs](https://api.biyachain.exchange/#permissions) or the Biya Chain CLI, `biyachaind`. See [biyachaind](../../../../developers/biyachaind/README.md) for more information on using the Biya Chain CLI.
 
 ```bash
 biyachaind tx permissions [command]
@@ -27,7 +27,7 @@ biyachaind tx permissions [command]
         - Used to assign roles to addresses and revoke roles from addresses
         - Like with namespace updates, role updates are also incremental
     - `claim-voucher`
-        - Mainly used when a user is not authorized to receive a permissioned asset but is sent funds from an Biyachain module. The funds will be held in an Biyachain module address until the user receives the correct permissions to receive the asset
+        - Mainly used when a user is not authorized to receive a permissioned asset but is sent funds from an Biya Chain module. The funds will be held in an Biya Chain module address until the user receives the correct permissions to receive the asset
 
 ## `create-namespace`
 

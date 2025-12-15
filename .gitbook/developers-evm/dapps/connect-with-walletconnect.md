@@ -16,7 +16,7 @@ Register at [WalletConnect Cloud](https://cloud.walletconnect.com) and obtain th
 npm install ethers wagmi viem @walletconnect/ethereum-provider
 ```
 
-Set up Biyachain EVM network configuration
+Set up Biya Chain EVM network configuration
 
 ```javascript
 // lib/biyachainChain.ts
@@ -24,7 +24,7 @@ import { defineChain } from 'viem'
 
 export const biyachainEvm = defineChain({
   id: 1439,
-  name: 'Biyachain EVM',
+  name: 'Biya Chain EVM',
   nativeCurrency: {
     name: 'BIYA',
     symbol: 'BIYA',

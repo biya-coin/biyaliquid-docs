@@ -1,10 +1,10 @@
 # Building dApps
 
-Biyachain is a Layer-1 blockchain built for finance. Biyachain offers developers out-of-the-box primitives for building decentralized financial applications in addition to an open and permissionless smart contracts layer providing advanced capabilities in building robust Web3 applications.
+Biya Chain is a Layer-1 blockchain built for finance. Biya Chain offers developers out-of-the-box primitives for building decentralized financial applications in addition to an open and permissionless smart contracts layer providing advanced capabilities in building robust Web3 applications.
 
-Biyachain is natively interoperable with several well-known blockchain networks, including Ethereum, Solana, and all IBC-enabled cosmos chains like CosmosHub, Osmosis, etc. The interoperability not only allows Biyachain to enable users to bridge assets from multiple chains but also allows for transferring arbitrary data - like oracle prices, etc.
+Biya Chain is natively interoperable with several well-known blockchain networks, including Ethereum, Solana, and all IBC-enabled cosmos chains like CosmosHub, Osmosis, etc. The interoperability not only allows Biya Chain to enable users to bridge assets from multiple chains but also allows for transferring arbitrary data - like oracle prices, etc.
 
-Within this section we are going to explore configuring different UI frameworks to work with the `@biya-coin` packages so you can start building decentralized applications on top of Biyachain. We are also going to showcase example (simple) dApps built on top of Biyachain.
+Within this section we are going to explore configuring different UI frameworks to work with the `@biya-coin` packages so you can start building decentralized applications on top of Biya Chain. We are also going to showcase example (simple) dApps built on top of Biya Chain.
 
 For security reasons, we recommend using the stable package versions of NPM packages.
 
@@ -21,13 +21,13 @@ The latest versions are published using the `next` tag. For stable versions use 
 {% endhint %}
 
 {% hint style="info" %}
-If you are looking for how to build a dApp on Biyachain EVM,
+If you are looking for how to build a dApp on Biya Chain EVM,
 you should check out the guides in [your first EVM dApp](../../developers-evm/dapps/README.md).
 {% endhint %}
 
-### Create Biyachain dApp CLI tool
+### Create Biya Chain dApp CLI tool
 
-The simplest way to start your journey on Biyachain is using our CLI tool. To do this, simply write this command and follow the instructions in your terminal!
+The simplest way to start your journey on Biya Chain is using our CLI tool. To do this, simply write this command and follow the instructions in your terminal!
 
 ```bash
 $ npx @biya-coin/create-biyachain-app
@@ -44,11 +44,11 @@ $ npx @biya-coin/create-biyachain-app
 
 | Topic                                      | Description                                              |
 | ------------------------------------------ | -------------------------------------------------------- |
-| [DEX](example-dex.md)                              | Building a decentralized exchange on top of Biyachain    |
-| [Simple Smart Contract](example-smart-contract.md) | Building a simple smart contract app on top of Biyachain |
-| [Webpack](example-webpack.md) | Simple HTML example with Webpack and Biyachain |
+| [DEX](example-dex.md)                              | Building a decentralized exchange on top of Biya Chain    |
+| [Simple Smart Contract](example-smart-contract.md) | Building a simple smart contract app on top of Biya Chain |
+| [Webpack](example-webpack.md) | Simple HTML example with Webpack and Biya Chain |
 
 <!--
-| [Bridge](example-bridge.md)                        | Building a simple bridge between Biyachain and Ethereum  |
+| [Bridge](example-bridge.md)                        | Building a simple bridge between Biya Chain and Ethereum  |
 -->
 

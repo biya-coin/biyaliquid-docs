@@ -4,11 +4,11 @@
 
 ## MsgTransfer
 
-This message is used to send coins from the sender's Bank module on Biyachain to the receiver's Bank module on another Cosmos chain through IBC, which is Cosmos's Inter-Blockchain Communication Protocol. Note that Biyachain only supports mainnet transfers across IBC for most networks.
+This message is used to send coins from the sender's Bank module on Biya Chain to the receiver's Bank module on another Cosmos chain through IBC, which is Cosmos's Inter-Blockchain Communication Protocol. Note that Biya Chain only supports mainnet transfers across IBC for most networks.
 
-Application to application communication in IBC is conducted over channels, which route between an application module on one chain, and the corresponding application module on another one. More info on IBC channels can be found at https://tutorials.cosmos.network/academy/3-ibc/3-channels.html. A list of canonical channel Ids for mainnet transfers to and from Biyachain can be found [here](https://github.com/biya-coin/biyachain-ts/blob/master/deprecated/token-metadata/src/ibc/canonicalChannelsToChainMap.ts). Also noteworthy is that the application module on each chain has a portId to designate the type of module on each end. For example, `transfer` is the portId designating the transfer of ICS-20 tokens between bank modules.
+Application to application communication in IBC is conducted over channels, which route between an application module on one chain, and the corresponding application module on another one. More info on IBC channels can be found at https://tutorials.cosmos.network/academy/3-ibc/3-channels.html. A list of canonical channel Ids for mainnet transfers to and from Biya Chain can be found [here](https://github.com/biya-coin/biyachain-ts/blob/master/deprecated/token-metadata/src/ibc/canonicalChannelsToChainMap.ts). Also noteworthy is that the application module on each chain has a portId to designate the type of module on each end. For example, `transfer` is the portId designating the transfer of ICS-20 tokens between bank modules.
 
-In this example, we will transfer ATOM from Biyachain to CosmosHub
+In this example, we will transfer ATOM from Biya Chain to CosmosHub
 
 ```ts
 import {
@@ -34,7 +34,7 @@ const tokenService = new TokenService({
 });
 
 const destinationChainId = CosmosChainId["Cosmoshub"];
-const biyachainChainId = CosmosChainId["Biyachain"];
+const biyachainChainId = CosmosChainId["Biya Chain"];
 
 const endpointsForNetwork = getNetworkEndpoints(Network.Mainnet);
 const bankService = new ChainGrpcBankApi(endpointsForNetwork.grpc);

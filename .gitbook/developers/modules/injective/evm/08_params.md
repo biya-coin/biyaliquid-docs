@@ -20,7 +20,7 @@ The evm module contains the following parameters:
 
 The evm denomination parameter defines the token denomination used on the EVM state transitions and gas consumption for EVM messages.
 
-For example, on Ethereum, the `evm_denom` would be `ETH`. To maintain parity with Ethereum, Biyachain uses Atto as its base denomination. In essence, 1 (atto) biya equals `1x10⁻¹⁸ BIYA`, aligning with Ethereum’s denomination where one wei is equal to 1x10⁻¹⁸ ETH. In terms of precision, the `BIYA` and `ETH` share the same value, *i.e* `1 BIYA = 10^18 biya` and `1 ETH = 10^18 wei`.
+For example, on Ethereum, the `evm_denom` would be `ETH`. To maintain parity with Ethereum, Biya Chain uses Atto as its base denomination. In essence, 1 (atto) biya equals `1x10⁻¹⁸ BIYA`, aligning with Ethereum’s denomination where one wei is equal to 1x10⁻¹⁸ ETH. In terms of precision, the `BIYA` and `ETH` share the same value, *i.e* `1 BIYA = 10^18 biya` and `1 ETH = 10^18 wei`.
 
 ## Enable Create
 

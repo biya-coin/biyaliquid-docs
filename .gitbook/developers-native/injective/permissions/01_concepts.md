@@ -139,7 +139,7 @@ There are four relevant messages to interact with the permissions module:
 * `MsgCreateNamespace` - Create the namespace with initial settings/parameters for role permissions, role managers, policy statuses, policy managers/capabilities, and/or the Wasm contract hook
 * `MsgUpdateNamespace` - Update role permissions, role managers, policy statuses, policy managers/capabilities, and/or the Wasm contract hook
 * `MsgUpdateActorRoles` - Assign or revoke roles from addresses
-* `MsgClaimVoucher` - Claim voucher for assets that failed to transfer from an Biyachain module to the recipient (due to lack of `RECEIVE` permissions). The voucher can only be claimed by the intended recipient once the recipient address has `RECEIVE` permissions. For transfers occurring between externally owned addresses, vouchers are not created upon failed transfer due to lack of permissions; the transaction is reverted instead
+* `MsgClaimVoucher` - Claim voucher for assets that failed to transfer from an Biya Chain module to the recipient (due to lack of `RECEIVE` permissions). The voucher can only be claimed by the intended recipient once the recipient address has `RECEIVE` permissions. For transfers occurring between externally owned addresses, vouchers are not created upon failed transfer due to lack of permissions; the transaction is reverted instead
 
 ### Default Namespace Values
 

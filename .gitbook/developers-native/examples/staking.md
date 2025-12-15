@@ -4,7 +4,7 @@ The module enables Cosmos SDK-based blockchain to support an advanced Proof-of-S
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Staking module exports and we can use to interact with the Biyachain chain.
+Let's explore (and provide examples) the Messages that the Staking module exports and we can use to interact with the Biya Chain chain.
 
 ### MsgBeginRedelegate
 

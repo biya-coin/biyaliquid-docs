@@ -1,6 +1,6 @@
 # Using biyachaind
 
-The following page explains what one can do via `biyachaind`, the command-line interface that connects to Biyachain. You can use `biyachaind` to interact with the Biyachain blockchain by uploading smart contracts, querying data, managing staking activities, working with governance proposals, and more.
+The following page explains what one can do via `biyachaind`, the command-line interface that connects to Biya Chain. You can use `biyachaind` to interact with the Biya Chain blockchain by uploading smart contracts, querying data, managing staking activities, working with governance proposals, and more.
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ docker run -it --rm -v ~/.biyachain:/root/.biyachain biya-coin/biyachain-core:v1
 
 ### Using the RPC endpoint
 
-Before you can access the Biyachain blockchain, you need to have a node running. You can either run your own full node or connect to someone else’s.
+Before you can access the Biya Chain blockchain, you need to have a node running. You can either run your own full node or connect to someone else’s.
 
 To query the state and send transactions, you must connect to a node, which is the access point to the entire network of peer connections. You can either run your own full node or connect to someone else’s.
 
@@ -112,7 +112,7 @@ The following steps are performed:
 * Ask the user for confirmation to send the transaction from the `$MY_WALLET` account.
 * Fetch `$MY_WALLET` from the keyring. This is possible because we have set up the CLI's keyring in a previous step.
 * Sign the generated transaction with the keyring's account.
-* Broadcast the signed transaction to the network. This is possible because the CLI connects to the public Biyachain node's RPC endpoint.
+* Broadcast the signed transaction to the network. This is possible because the CLI connects to the public Biya Chain node's RPC endpoint.
 
 The CLI bundles all the necessary steps into a simple-to-use user experience. However, it is possible to run all the steps individually as well.
 

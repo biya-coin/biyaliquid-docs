@@ -6,7 +6,7 @@ In addition, the bank module tracks and provides query support for the total sup
 
 ## Messages
 
-Let's explore (and provide examples) the messages that the Bank module exports and we can use to interact with the Biyachain chain.
+Let's explore (and provide examples) the messages that the Bank module exports and we can use to interact with the Biya Chain chain.
 
 ### MsgSend
 

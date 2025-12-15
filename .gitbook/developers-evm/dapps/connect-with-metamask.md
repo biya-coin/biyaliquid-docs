@@ -1,25 +1,25 @@
 # Connect with MetaMask
 
-## Connect MetaMask to Biyachain EVM Testnet
+## Connect MetaMask to Biya Chain EVM Testnet
 
-MetaMask is a browser wallet extension that lets you connect to any EVM-compatible network, including **Biyachain EVM**.
+MetaMask is a browser wallet extension that lets you connect to any EVM-compatible network, including **Biya Chain EVM**.
 
 ### How to Install MetaMask
 
 Install the official MetaMask extension from the [MetaMask download page](https://metamask.io/download).
 
-### Add Biyachain EVM Testnet to MetaMask
+### Add Biya Chain EVM Testnet to MetaMask
 
 1. Click the **MetaMask icon** in your browser and unlock your wallet.
 2. Click the **network selector** at the top (the default is _"Ethereum Mainnet"_).
 3. Select **“Add Network”** or **“Add a network manually”** to open the custom network form.
 
-#### Biyachain EVM Testnet Parameters
+#### Biya Chain EVM Testnet Parameters
 
 Fill in the following details:
 
 ```json
-Network Name: Biyachain EVM Testnet
+Network Name: Biya Chain EVM Testnet
 Chain ID: 1439
 RPC URL: https://k8s.testnet.json-rpc.biyachain.network/
 Currency Symbol: BIYA
@@ -28,13 +28,13 @@ Block Explorer URL: https://testnet.blockscout.biyachain.network/blocks
 
 > _Note: Block Explorer URL is optional, powered by BlockScout._
 
-### Switch to Biyachain EVM Testnet
+### Switch to Biya Chain EVM Testnet
 
-Once the network is added, use the network selector to switch to **Biyachain EVM Testnet**.
+Once the network is added, use the network selector to switch to **Biya Chain EVM Testnet**.
 
 ### Fund Your Wallet (Optional)
 
-Need Testnet BIYA? Visit the [Biyachain Testnet faucet](https://testnet.faucet.biyachain.network).
+Need Testnet BIYA? Visit the [Biya Chain Testnet faucet](https://testnet.faucet.biyachain.network).
 
 Funds will appear once included in a Testnet block.
 
@@ -42,7 +42,7 @@ Funds will appear once included in a Testnet block.
 
 ### You're All Set!
 
-MetaMask is now connected to the **Biyachain EVM Testnet**. You can:
+MetaMask is now connected to the **Biya Chain EVM Testnet**. You can:
 
 * Deploy smart contracts using tools like **Foundry**, **Hardhat**, or **Remix**.
 * Interact with Testnet dApps and contracts.
@@ -63,10 +63,10 @@ import { ethers } from 'ethers';
 
 export const biyachain_EVM_PARAMS = {
   chainId: '0x59f', // 1439 in hexadecimal
-  chainName: 'Biyachain EVM',
+  chainName: 'Biya Chain EVM',
   rpcUrls: ['https://k8s.testnet.json-rpc.biyachain.network/'],
   nativeCurrency: {
-    name: 'Biyachain',
+    name: 'Biya Chain',
     symbol: 'BIYA',
     decimals: 18,
   },
@@ -209,7 +209,7 @@ async function connectAndInteract() {
     return
   }
 
-  // Request Biyachain EVM Network be added to MetaMask
+  // Request Biya Chain EVM Network be added to MetaMask
   await window.ethereum.request({
     method: 'wallet_addEthereumChain',
     params: [

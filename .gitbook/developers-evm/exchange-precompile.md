@@ -1,6 +1,6 @@
 # Exchange Precompile
 
-The Exchange Precompile is a system smart contract residing at the fixed address `0x0000000000000000000000000000000000000065`. It offers Solidity developers a gas-efficient and native pathway to interact directly with the Biyachain chain's exchange module. By leveraging this precompile, your smart contracts can seamlessly perform a variety of exchange-related actions, including:
+The Exchange Precompile is a system smart contract residing at the fixed address `0x0000000000000000000000000000000000000065`. It offers Solidity developers a gas-efficient and native pathway to interact directly with the Biya Chain chain's exchange module. By leveraging this precompile, your smart contracts can seamlessly perform a variety of exchange-related actions, including:
 
 * Depositing and withdrawing funds to/from subaccounts.
 * Placing or cancelling spot and derivative orders.
@@ -42,7 +42,7 @@ exchange.approve(grantee, msgTypes, spendLimit, duration);
 ```
 
 * `grantee`: The address of the contract being authorized.
-* `msgTypes`: An array of message types (e.g., `MsgCreateDerivativeLimitOrder`, `MsgDeposit`) the `grantee` is authorized to execute. Refer to `ExchangeTypes.sol` or the Biyachain Protocol protobuf definitions for a complete list.
+* `msgTypes`: An array of message types (e.g., `MsgCreateDerivativeLimitOrder`, `MsgDeposit`) the `grantee` is authorized to execute. Refer to `ExchangeTypes.sol` or the Biya Chain Protocol protobuf definitions for a complete list.
 * `spendLimit`: An array of `Cosmos.Coin` structs defining the maximum amount of specified tokens the `grantee` can utilize per message type or overall for the grant.
 * `duration`: The time period, in seconds, for which the authorization remains valid.
 
@@ -62,7 +62,7 @@ exchange.allowance(grantee, granter, msgType);
 
 The `ExchangeDemo` contract below illustrates how a smart contract can use the direct access method. It performs basic exchange actions like depositing funds, withdrawing funds, creating a derivative limit order, and querying subaccount positions, all using its own subaccount and funds.
 
-The `Exchange.sol` and `ExchangeTypes.sol` files contain the necessary interface definitions and data structures for interacting with the precompile. These are typically available in the official Biyachain Solidity contracts repository or can be included as dependencies in your project.
+The `Exchange.sol` and `ExchangeTypes.sol` files contain the necessary interface definitions and data structures for interacting with the precompile. These are typically available in the official Biya Chain Solidity contracts repository or can be included as dependencies in your project.
 
 ```solidity
 // SPDX-License-Identifier: MIT  
@@ -159,8 +159,8 @@ For detailed instructions on how to build, deploy, and interact with this `Excha
 
 #### Conclusion
 
-The Exchange Precompile is a powerful tool, enabling sophisticated, protocol-integrated trading logic to be embedded directly within your smart contracts on Biyachain. Whether your contract is managing its own portfolio or acting as a versatile trading interface for other users (via the proxy pattern with `approve` and `revoke`), this precompile offers a clean, secure, and efficient method to interact with the core exchange module using Solidity.
+The Exchange Precompile is a powerful tool, enabling sophisticated, protocol-integrated trading logic to be embedded directly within your smart contracts on Biya Chain. Whether your contract is managing its own portfolio or acting as a versatile trading interface for other users (via the proxy pattern with `approve` and `revoke`), this precompile offers a clean, secure, and efficient method to interact with the core exchange module using Solidity.
 
-Remember to prioritize direct calls for self-contained contract logic and to carefully implement the proxy pattern with robust authorization when building reusable contract interfaces for the broader Biyachain ecosystem.
+Remember to prioritize direct calls for self-contained contract logic and to carefully implement the proxy pattern with robust authorization when building reusable contract interfaces for the broader Biya Chain ecosystem.
 
 \

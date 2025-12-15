@@ -348,7 +348,7 @@ biyachaind validate-genesis </path-to-file>
 
 ### `version`
 
-Returns the version of Biyachain you’re running.
+Returns the version of Biya Chain you’re running.
 
 **Syntax**
 

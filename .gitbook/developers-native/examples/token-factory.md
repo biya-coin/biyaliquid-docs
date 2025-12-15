@@ -8,7 +8,7 @@ _Note #2: It's recommended to change your admin to the zero address for safety a
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the TokenFactory module exports and we can use to interact with the Biyachain chain.
+Let's explore (and provide examples) the Messages that the TokenFactory module exports and we can use to interact with the Biya Chain chain.
 
 ### MsgCreateDenom
 
@@ -194,7 +194,7 @@ console.log(txHash);
 
 ## Full Example
 
-Here is a full example on how to create a new token, mint new tokens and set token metadata on Biyachain.
+Here is a full example on how to create a new token, mint new tokens and set token metadata on Biya Chain.
 
 ```ts
 import {

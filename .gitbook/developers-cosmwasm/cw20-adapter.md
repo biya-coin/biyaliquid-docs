@@ -1,14 +1,14 @@
 # CW20 Adapter
 
-In this document, we'll explain the CW20 Adapter Contract that allows exchanging CW-20 tokens for Biyachain issued native tokens (using the TokenFactory module) and vice versa. For the CW-20 Adapter GitHub repository, see [here](https://github.com/biya-coin/cw20-adapter/tree/master/contracts/cw20-adapter).
+In this document, we'll explain the CW20 Adapter Contract that allows exchanging CW-20 tokens for Biya Chain issued native tokens (using the TokenFactory module) and vice versa. For the CW-20 Adapter GitHub repository, see [here](https://github.com/biya-coin/cw20-adapter/tree/master/contracts/cw20-adapter).
 
 ## Background
 
 CW-20 is a specification for fungible tokens in CosmWasm, loosely based on ERC-20 specification. It allows creating and handling of arbitrary fungible tokens within CosmWasm, specifying methods for creating, minting and burning and transferring those tokens between accounts. The adapter contract will ensure that only authorized source CW-20 contracts can mint tokens (to avoid creating “counterfeit” tokens).
 
-While the CW-20 standard is relatively mature and complete, the tokens exist purely within the CosmWasm context and are entirely managed by the issuing contract (including keeping track of account balances). That means that they cannot interact directly with Biyachain's native modules (for example, it’s not possible to trade them via the Biyachain exchange module, or to transfer without involving issuing contracts).
+While the CW-20 standard is relatively mature and complete, the tokens exist purely within the CosmWasm context and are entirely managed by the issuing contract (including keeping track of account balances). That means that they cannot interact directly with Biya Chain's native modules (for example, it’s not possible to trade them via the Biya Chain exchange module, or to transfer without involving issuing contracts).
 
-Considering the above, it’s necessary to provide a solution that would work as a bridge between CW20 and the Biyachain bank module.
+Considering the above, it’s necessary to provide a solution that would work as a bridge between CW20 and the Biya Chain bank module.
 
 The workflow of the contract is
 

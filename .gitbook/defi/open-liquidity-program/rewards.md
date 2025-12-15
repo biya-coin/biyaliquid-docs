@@ -4,12 +4,12 @@ description: 在 OLP 中获得无与伦比的奖励
 
 # 奖励
 
-OLP 的奖励以 BIYA 形式发放，BIYA 是 Biyachain 的原生实用代币和治理代币。
+OLP 的奖励以 BIYA 形式发放，BIYA 是 Biya Chain 的原生实用代币和治理代币。
 
 目前，符合条件的参与者在每个周期（28 天）期间可以获得 **40,000 BIYA**。从第 52 周期（2025 年 10 月 28 日）开始，每个周期的奖励将为 **30,000 BIYA**。
 
 该金额可能会提前重新评估未来周期，或由于一个或多个波动性响应修改（VRM）而追溯减少当前周期。有关 OLP 周期的更多信息，请参阅[周期](epochs.md)。
 
 {% hint style="info" %}
-所有奖励均需 Biyachain 社区治理批准。
+所有奖励均需 Biya Chain 社区治理批准。
 {% endhint %}

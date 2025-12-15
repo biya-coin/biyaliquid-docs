@@ -4,13 +4,13 @@ The [swap contract](https://github.com/biya-coin/swap-contract) allows an instan
 
 ### Getting started
 
-Anyone can instantiate an instance of the swap contract. There is a version of this contract uploaded on Biyachain mainnet already, and can be found [here](https://biyascan.com/code/67/).
+Anyone can instantiate an instance of the swap contract. There is a version of this contract uploaded on Biya Chain mainnet already, and can be found [here](https://biyascan.com/code/67/).
 
 Before instantiating the contract, as the contract owner, you have three questions to answer:
 
 #### 1. Which address should be the fee recipient?
 
-Since orders placed by the swap contract are orders in the Biyachain Exchange Module, this means each order can have a fee recipient which can receive 40% of the trading fee. Typically, Exchange dApps will set the fee recipient as their own addresses.
+Since orders placed by the swap contract are orders in the Biya Chain Exchange Module, this means each order can have a fee recipient which can receive 40% of the trading fee. Typically, Exchange dApps will set the fee recipient as their own addresses.
 
 #### 2. What tokens should this contract support?
 

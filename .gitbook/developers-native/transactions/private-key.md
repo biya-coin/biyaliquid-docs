@@ -1,8 +1,8 @@
 # Private Key Transaction
 
-In this document, we are going to show you how to use a PrivateKey to sign transactions on Biyachain.
+In this document, we are going to show you how to use a PrivateKey to sign transactions on Biya Chain.
 
-Every transaction on Biyachain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biya Chain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
@@ -92,7 +92,7 @@ const signature = await privateKey.sign(Buffer.from(signBytes));
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Biyachain chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biya Chain chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'

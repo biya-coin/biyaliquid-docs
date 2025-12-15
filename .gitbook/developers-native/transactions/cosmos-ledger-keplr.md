@@ -1,10 +1,10 @@
 # Ledger through Keplr Wallet Transaction
 
-On this page, we are going to have a look at the implementation for Biyachain when your users are using a Ledger device through the Keplr wallet.
+On this page, we are going to have a look at the implementation for Biya Chain when your users are using a Ledger device through the Keplr wallet.
 
-As explained before, Biyachain uses a different derivation curve from the rest of the Cosmos chains which means that the users have to use the Ethereum app (for now) to interact with Biyachain.
+As explained before, Biya Chain uses a different derivation curve from the rest of the Cosmos chains which means that the users have to use the Ethereum app (for now) to interact with Biya Chain.
 
-The easiest way all of the edge cases covered and a full out-of-the-box solution for all of the supported wallets on Biyachain I suggest you have a look at the [MsgBroadcaster + WalletStrategy ](./msgbroadcaster.md#msgbroadcaster-+-wallet-strategy)abstraction. If you want to do your own implementation, let's go through the code example together.
+The easiest way all of the edge cases covered and a full out-of-the-box solution for all of the supported wallets on Biya Chain I suggest you have a look at the [MsgBroadcaster + WalletStrategy ](./msgbroadcaster.md#msgbroadcaster-+-wallet-strategy)abstraction. If you want to do your own implementation, let's go through the code example together.
 
 ## Overview
 
@@ -42,7 +42,7 @@ What we need to do now is generate the `eip712` and the `signDoc`, pass them to 
 
 ## Example Implementation
 
-Based on the overview above, let's now showcase a full example of how to implement signing transactions on Biyachain using Ledger + Keplr. Keep in mind that the example below takes into consideration that you are using the [Msgs](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/msgs.ts#L60) interface exported from the `@biya-coin/sdk-ts` package.
+Based on the overview above, let's now showcase a full example of how to implement signing transactions on Biya Chain using Ledger + Keplr. Keep in mind that the example below takes into consideration that you are using the [Msgs](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/msgs.ts#L60) interface exported from the `@biya-coin/sdk-ts` package.
 
 ````typescript
 import {
@@ -64,7 +64,7 @@ import { toBigNumber, getStdFee } from '@biya-coin/utils'
 
 export interface Options {
   evmChainId: EvmChainId /* Evm chain id */
-  chainId: ChainId; /* Biyachain chain id */
+  chainId: ChainId; /* Biya Chain chain id */
   endpoints: NetworkEndpoints /* can be fetched from @biya-coin/networks based on the Network */
 }
 
@@ -112,7 +112,7 @@ export const createEip712StdSignDoc = ({
 ```
 
 /**
- * We use this method only when we want to broadcast a transaction using Ledger on Keplr for Biyachain
+ * We use this method only when we want to broadcast a transaction using Ledger on Keplr for Biya Chain
  *
  * Note: Gas estimation not available
  * @param tx the transaction that needs to be broadcasted

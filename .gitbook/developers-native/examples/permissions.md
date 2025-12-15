@@ -1,10 +1,10 @@
 # Permissions
 
-The Permissions Module facilitates the management of namespaces, roles, and permissions within the Biyachain ecosystem. This documentation outlines the key message types and their usage for interacting with permissions-related data.
+The Permissions Module facilitates the management of namespaces, roles, and permissions within the Biya Chain ecosystem. This documentation outlines the key message types and their usage for interacting with permissions-related data.
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Permissions module exports and we can use to interact with the Biyachain chain.
+Let's explore (and provide examples) the Messages that the Permissions module exports and we can use to interact with the Biya Chain chain.
 
 ### `MsgClaimVoucher`
 

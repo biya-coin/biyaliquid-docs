@@ -24,7 +24,7 @@ See the [the Foundry installation docs](https://getfoundry.sh/introduction/insta
 You will need a wallet, and an account that has been funded with some Testnet BIYA.
 
 {% hint style="info" %}
-You can request EVM testnet funds from the [Biyachain Testnet faucet](https://testnet.faucet.biyachain.network/).
+You can request EVM testnet funds from the [Biya Chain Testnet faucet](https://testnet.faucet.biyachain.network/).
 {% endhint %}
 
 After creating your account, be sure to copy your private key somewhere accessible, as you will need it to complete this tutorial.
@@ -64,8 +64,8 @@ foundry-biya/
   foundry.toml --> configuration
 ```
 
-The `foundry.toml` file is already pre-configured to connect to the Biyachain EVM Testnet.
-All you need to do before proceeding is to provide it with a private key of your Biyachain Testnet account.
+The `foundry.toml` file is already pre-configured to connect to the Biya Chain EVM Testnet.
+All you need to do before proceeding is to provide it with a private key of your Biya Chain Testnet account.
 
 Enter the following command to import a private key, and save it against an account named `biyaTest`:
 
@@ -74,7 +74,7 @@ cast wallet import biyaTest --interactive
 ```
 
 This will prompt you for the private key, and also a password that you need to enter each time you wish to use this account.
-Use the private key of the account which you have just created and funded earlier (e.g. via the Biyachain Testnet faucet).
+Use the private key of the account which you have just created and funded earlier (e.g. via the Biya Chain Testnet faucet).
 Note that when you type or paste text for the private key and password, nothing is shown in the terminal.
 The output should look similar to this:
 

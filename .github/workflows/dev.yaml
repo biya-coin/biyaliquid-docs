@@ -1,4 +1,4 @@
-name: Biyachain Chain canonical docs deployment
+name: Biya Chain Chain canonical docs deployment
 on:
   push:
     branches: [dev]

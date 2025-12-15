@@ -265,7 +265,7 @@ type SpotMarketOrder struct {
 Derivative markets are stored by hash of the market to query the market efficiently.
 
 ```go
-// An object describing a derivative market in the Biyachain Futures Protocol.
+// An object describing a derivative market in the Biya Chain Futures Protocol.
 type DerivativeMarket struct {
 	// Ticker for the derivative contract.
 	Ticker string

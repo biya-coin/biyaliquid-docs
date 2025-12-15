@@ -109,7 +109,7 @@ Press `Ctrl+C` twice in a row, or enter the `.exit` command.
 
 ## Next steps
 
-Congratulations, you have completed this entire guide for developing EVM smart contracts on Biyachain using Hardhat!
+Congratulations, you have completed this entire guide for developing EVM smart contracts on Biya Chain using Hardhat!
 
 Smart contracts do not provide a user experience for non-technical users.
 To cater to them, you will need to build a decentralised application.

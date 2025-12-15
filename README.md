@@ -1,6 +1,6 @@
-# 🌟 Biyachain Docs
+# 🌟 Biya Chain Docs
 
-[The main documentation for Biyachain](https://docs.biyachain.network)
+[The main documentation for Biya Chain](https://docs.biyachain.network)
 
 ---
 
@@ -25,11 +25,11 @@ $ yarn generate
 
 ## 🔓 License
 
-Copyright © 2021 - 2025 Biyachain Foundation (https://biyachain.com/)
+Copyright © 2021 - 2025 Biya Chain Foundation (https://biyachain.com/)
 
 <a href="https://iili.io/mNneZN.md.png"><img src="https://iili.io/mNneZN.md.png" style="width: 300px; max-width: 100%; height: auto" />
 
-Originally released by Biyachain Foundation under: <br />
+Originally released by Biya Chain Foundation under: <br />
 Apache License <br />
 Version 2.0, January 2004 <br />
 http://www.apache.org/licenses/

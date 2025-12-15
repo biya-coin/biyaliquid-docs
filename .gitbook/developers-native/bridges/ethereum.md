@@ -1,31 +1,31 @@
 # Ethereum Bridge
 
-The Biyachain Ethereum bridge enables the Biyachain Chain to support a trustless, on-chain bidirectional token bridge. In this system, holders of ERC-20 tokens on Ethereum can instantaneously convert their ERC-20 tokens to Cosmos-native coins on the Biyachain Chain and vice-versa.
+The Biya Chain Ethereum bridge enables the Biya Chain Chain to support a trustless, on-chain bidirectional token bridge. In this system, holders of ERC-20 tokens on Ethereum can instantaneously convert their ERC-20 tokens to Cosmos-native coins on the Biya Chain Chain and vice-versa.
 
-The Biyachain Peggy bridge consists of three main components:
+The Biya Chain Peggy bridge consists of three main components:
 
 1. Peggy Contract on Ethereum
 2. Peggo Orchestrator
-3. Peggy Module on the Biyachain Chain
+3. Peggy Module on the Biya Chain Chain
 
 ## Peggy Contract
 
-The function of the Peggy contract is to facilitate efficient, bidirectional cross-chain transfers of ERC-20 tokens from Ethereum to the Biyachain Chain. Unlike other token bridge setups, the Biyachain Peggy bridge is a decentralized, non-custodial bridge operated solely by the validators on Biyachain. The bridge is secured by the proof of stake security of the Biyachain Chain, as deposits and withdrawals are processed in accordance with attestations made by at least two-thirds of the validators based on consensus staking power.
+The function of the Peggy contract is to facilitate efficient, bidirectional cross-chain transfers of ERC-20 tokens from Ethereum to the Biya Chain Chain. Unlike other token bridge setups, the Biya Chain Peggy bridge is a decentralized, non-custodial bridge operated solely by the validators on Biya Chain. The bridge is secured by the proof of stake security of the Biya Chain Chain, as deposits and withdrawals are processed in accordance with attestations made by at least two-thirds of the validators based on consensus staking power.
 
 ## Peggo Orchestrator
 
-The orchestrator is an off-chain relayer that every Biyachain Chain validator operates which serves the function of transmitting ERC-20 token transfer data from Ethereum to the Biyachain Chain.
+The orchestrator is an off-chain relayer that every Biya Chain Chain validator operates which serves the function of transmitting ERC-20 token transfer data from Ethereum to the Biya Chain Chain.
 
 ## Peggy Module
 
-On a basic level, the Peggy module mints new tokens on the Biyachain Chain upon an ERC-20 deposit from Ethereum and burns tokens upon withdrawing a token from the Biyachain Chain back to Ethereum. The Peggy module also manages the economic incentives to ensure that validators act honestly and efficiently, through a variety of mechanisms including slashing penalties, native token rewards, and withdrawal fees.
+On a basic level, the Peggy module mints new tokens on the Biya Chain Chain upon an ERC-20 deposit from Ethereum and burns tokens upon withdrawing a token from the Biya Chain Chain back to Ethereum. The Peggy module also manages the economic incentives to ensure that validators act honestly and efficiently, through a variety of mechanisms including slashing penalties, native token rewards, and withdrawal fees.
 
-## From Ethereum to Biyachain
+## From Ethereum to Biya Chain
 
-To transfer from Ethereum to Biyachain you have to make a Web3 Transaction and interact with the Peggy contract on Ethereum. There are two steps required to make a transfer:
+To transfer from Ethereum to Biya Chain you have to make a Web3 Transaction and interact with the Peggy contract on Ethereum. There are two steps required to make a transfer:
 
 1. As we are basically locking our ERC20 assets on the Peggy Contract which lives on Ethereum, we need to set an allowance for the assets we are transferring to the Peggy Contract. We have an [example](https://github.com/biya-coin/biyachain-ts/blob/1fbc2577b9278a62d1676041d6e502e12f5880a8/deprecated/sdk-ui-ts/src/services/web3/Web3Composer.ts#L41-L91) here about how to make this transaction and you can use any web3 provider to sign and broadcast the transaction to the Ethereum Network.
-2. After the allowance is set, we need to call the `sendToBiyachain` function on the Peggy Contract with the desired amount and asset that we want to transfer to the Biyachain Chain, an example can be found [here](https://github.com/biya-coin/biyachain-ts/blob/1fbc2577b9278a62d1676041d6e502e12f5880a8/deprecated/sdk-ui-ts/src/services/web3/Web3Composer.ts#L93-L156). Once we get the transaction, we can use a web3 provider to sign and broadcast the transaction to the Ethereum Network. Once the transaction is confirmed, it’ll take a couple of minutes for the assets to show on the Biyachain Chain.
+2. After the allowance is set, we need to call the `sendToBiyachain` function on the Peggy Contract with the desired amount and asset that we want to transfer to the Biya Chain Chain, an example can be found [here](https://github.com/biya-coin/biyachain-ts/blob/1fbc2577b9278a62d1676041d6e502e12f5880a8/deprecated/sdk-ui-ts/src/services/web3/Web3Composer.ts#L93-L156). Once we get the transaction, we can use a web3 provider to sign and broadcast the transaction to the Ethereum Network. Once the transaction is confirmed, it’ll take a couple of minutes for the assets to show on the Biya Chain Chain.
 
 Couple of notes about the examples above:
 
@@ -37,9 +37,9 @@ Couple of notes about the examples above:
 "0x000000000000000000000000e28b3b32b6c345a34ff64674606124dd5aceca30";
 ```
 
-where the Ethereum address is the corresponding Ethereum address of the destination Biyachain address.
+where the Ethereum address is the corresponding Ethereum address of the destination Biya Chain address.
 
-- `const web3 = walletStrategy.getWeb3()` `walletStrategy` is an abstraction that we’ve built which supports a lot of wallets which can be used to sign and broadcast transactions (both on Ethereum and on the Biyachain Chain), more details can be found in the documentation of the npm package [@biya-coin/wallet-ts](https://github.com/biya-coin/biyachain-ts/blob/master/packages/wallet-ts). Obviously, this is just an example and you can use the web3 package directly, or any web3 provider to handle the transaction.
+- `const web3 = walletStrategy.getWeb3()` `walletStrategy` is an abstraction that we’ve built which supports a lot of wallets which can be used to sign and broadcast transactions (both on Ethereum and on the Biya Chain Chain), more details can be found in the documentation of the npm package [@biya-coin/wallet-ts](https://github.com/biya-coin/biyachain-ts/blob/master/packages/wallet-ts). Obviously, this is just an example and you can use the web3 package directly, or any web3 provider to handle the transaction.
 
 ```ts
 import { PeggyContract } from "@biya-coin/contracts";
@@ -53,17 +53,17 @@ const contract = new PeggyContract({
 
 - The snippet below instantiates a PeggyContract instance which can easily `estimateGas` and `sendTransaction` using the `web3` we provide to the contract’s constructor. Its implementation can be found [here](https://github.com/biya-coin/biyachain-ts/blob/master/packages/contracts/src/contracts/Peggy.ts). Obviously, this is just an example and you can use the web3 package directly + the ABI of the contract to instantiate the contract, and then handle the logic of signing and broadcasting the transaction using some web3 provider.
 
-## From Biyachain to Ethereum
+## From Biya Chain to Ethereum
 
-Now that you have the ERC20 version of BIYA transferred over to Biyachain, the native `biya` denom on the Biyachain Chain is minted and it is the canonical version of the BIYA token. To withdraw `biya` from Biyachain to Ethereum we have to prepare, sign and then broadcast a native Cosmos transaction on the Biyachain Chain.
+Now that you have the ERC20 version of BIYA transferred over to Biya Chain, the native `biya` denom on the Biya Chain Chain is minted and it is the canonical version of the BIYA token. To withdraw `biya` from Biya Chain to Ethereum we have to prepare, sign and then broadcast a native Cosmos transaction on the Biya Chain Chain.
 
-If you are not familiar with how Transactions (and Messages) work on Cosmos you can find more information here. The Message we need to pack into a transaction to instruct Biyachain to withdraw funds from Biyachain to Ethereum is `MsgSendToEth`.
+If you are not familiar with how Transactions (and Messages) work on Cosmos you can find more information here. The Message we need to pack into a transaction to instruct Biya Chain to withdraw funds from Biya Chain to Ethereum is `MsgSendToEth`.
 
-When `MsgSendToEth` is called on the chain, some of the validators will pick up the transaction, batch multiple `MsgSendToEth` requests into one and: burn the assets being withdrawn on Biyachain, unlock these funds on the Peggy Smart Contract on Ethereum and send them to the respective address.
+When `MsgSendToEth` is called on the chain, some of the validators will pick up the transaction, batch multiple `MsgSendToEth` requests into one and: burn the assets being withdrawn on Biya Chain, unlock these funds on the Peggy Smart Contract on Ethereum and send them to the respective address.
 
 There is a bridgeFee included in these transactions to incentivize Validators to pick up and process your withdrawal requests faster. The bridgeFee is in the asset the user wants to withdraw to Ethereum (if you withdraw BIYA you have to pay the bridgeFee in BIYA as well).
 
-Here is an example implementation that prepares the transaction, uses a privateKey to sign it and finally, broadcasts it to Biyachain:
+Here is an example implementation that prepares the transaction, uses a privateKey to sign it and finally, broadcasts it to Biya Chain:
 
 ```ts
 import { getNetworkInfo, Network } from "@biya-coin/networks";

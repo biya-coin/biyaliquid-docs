@@ -6,7 +6,7 @@ Up-to-date public Endpoints can be found [here](https://docs.biyachain.network/d
 If you still opt to use the **public** networks, you can use the `Network.{Mainnet|Testnet}Sentry` from the `@biya-coin/networks` package.
 {% endhint %}
 
-Building dApps on Biyachain requires tapping into different environments and networks where you can easily test your dApp. As part of the `biyachain-ts` monorepo, we have the `@biya-coin/networks` package allows developers to easily access pre-defined environments to connect to different pieces of Biyachain.
+Building dApps on Biya Chain requires tapping into different environments and networks where you can easily test your dApp. As part of the `biyachain-ts` monorepo, we have the `@biya-coin/networks` package allows developers to easily access pre-defined environments to connect to different pieces of Biya Chain.
 
 There are two key functions exported from this package:
 

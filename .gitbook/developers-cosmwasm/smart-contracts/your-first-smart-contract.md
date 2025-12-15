@@ -23,11 +23,11 @@ cargo install cargo-generate
 ## Objectives
 
 * Create and interact with a smart contract that increases and resets a counter to a given value
-* Understand the basics of a CosmWasm smart contract, learn how to deploy it on Biyachain, and interact with it using Biyachain tools
+* Understand the basics of a CosmWasm smart contract, learn how to deploy it on Biya Chain, and interact with it using Biya Chain tools
 
 ## CosmWasm Contract Basics
 
-A smart contract can be considered an instance of a [singleton object](https://en.wikipedia.org/wiki/Singleton_pattern) whose internal state is persisted on the blockchain. Users can trigger state changes by sending the smart contract JSON messages, and users can also query its state by sending a request formatted as a JSON message. These JSON messages are different than Biyachain blockchain messages such as `MsgSend` and `MsgExecuteContract`.
+A smart contract can be considered an instance of a [singleton object](https://en.wikipedia.org/wiki/Singleton_pattern) whose internal state is persisted on the blockchain. Users can trigger state changes by sending the smart contract JSON messages, and users can also query its state by sending a request formatted as a JSON message. These JSON messages are different than Biya Chain blockchain messages such as `MsgSend` and `MsgExecuteContract`.
 
 As a smart contract writer, your job is to define 3 functions that compose your smart contract's interface:
 
@@ -78,7 +78,7 @@ pub struct State {
 pub const STATE: Item<State> = Item::new("state");
 ```
 
-Biyachain smart contracts have the ability to keep persistent state through Biyachain's native LevelDB, a bytes-based key-value store. As such, any data you wish to persist should be assigned a unique key, which may be used to index and retrieve the data.
+Biya Chain smart contracts have the ability to keep persistent state through Biya Chain's native LevelDB, a bytes-based key-value store. As such, any data you wish to persist should be assigned a unique key, which may be used to index and retrieve the data.
 
 Data can only be persisted as raw bytes, so any notion of structure or data type must be expressed as a pair of serializing and deserializing functions. For instance, objects must be stored as bytes, so you must supply both the function that encodes the object into bytes to save it on the blockchain, as well as the function that decodes the bytes back into data types that your contract logic can understand. The choice of byte representation is up to you, so long as it provides a clean, bi-directional mapping.
 
@@ -93,7 +93,7 @@ Notice how the `State` struct holds both `count` and `owner`. In addition, the `
 * `PartialEq`: provides equality comparison
 * `JsonSchema`: auto-generates a JSON schema
 
-`Addr` refers to a human-readable Biyachain address prefixed with `biya`, e.g. `biya1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt`.
+`Addr` refers to a human-readable Biya Chain address prefixed with `biya`, e.g. `biya1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt`.
 
 ## InstantiateMsg
 
@@ -103,7 +103,7 @@ You can learn more about CosmWasm [InstantiateMsg on their documentation](https:
 
 The `InstantiateMsg` is provided to the contract when a user instantiates a contract on the blockchain through a `MsgInstantiateContract`. This provides the contract with its configuration as well as its initial state.
 
-On the Biyachain blockchain, the uploading of a contract's code and the instantiation of a contract are regarded as separate events, unlike on Ethereum. This is to allow a small set of vetted contract archetypes to exist as multiple instances sharing the same base code, but be configured with different parameters (imagine one canonical ERC20, and multiple tokens that use its code).
+On the Biya Chain blockchain, the uploading of a contract's code and the instantiation of a contract are regarded as separate events, unlike on Ethereum. This is to allow a small set of vetted contract archetypes to exist as multiple instances sharing the same base code, but be configured with different parameters (imagine one canonical ERC20, and multiple tokens that use its code).
 
 ### Example
 
@@ -398,7 +398,7 @@ This produces an `artifacts` directory with a `PROJECT_NAME.wasm`, as well as `c
 
 ## Install `biyachaind`
 
-`biyachaind` is the command-line interface and daemon that connects to Biyachain and enables you to interact with the Biyachain blockchain.
+`biyachaind` is the command-line interface and daemon that connects to Biya Chain and enables you to interact with the Biya Chain blockchain.
 
 If you want to interact with your Smart Contract locally using CLI, you have to have `biyachaind` installed. To do so, you can follow the installation guidelines here [#install-biyachaind](#install-biyachaind "mention").
 
@@ -463,12 +463,12 @@ export BIYA_ADDRESS= <your biya address>
 ```
 
 {% hint style="info" %}
-You can request testnet funds for your recently generated test address using the [Biyachain test faucet](https://faucet.biyachain.network/).
+You can request testnet funds for your recently generated test address using the [Biya Chain test faucet](https://faucet.biyachain.network/).
 {% endhint %}
 
-Now you have successfully created `testuser` an Biyachain Testnet. It should also hold some funds after requesting `testnet` funds from the faucet.
+Now you have successfully created `testuser` an Biya Chain Testnet. It should also hold some funds after requesting `testnet` funds from the faucet.
 
-To confirm, search for your address on the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io/zh/transactions/) to check your balance.
+To confirm, search for your address on the [Biya Chain Testnet Explorer](https://testnet.prv.scan.biya.io/zh/transactions/) to check your balance.
 
 Alternatively, you can verify it by [querying the bank balance](https://sentry.testnet.lcd.biyachain.network/swagger/#/Query/AllBalances) or with curl:
 
@@ -478,7 +478,7 @@ curl -X GET "https://sentry.testnet.lcd.biyachain.network/cosmos/bank/v1beta1/ba
 
 ## Upload the Wasm Contract
 
-Now it's time to upload the `.wasm` file that you compiled in the previous steps to the Biyachain Testnet. Please note that the procedure for mainnet is different and [requires a governance proposal.](../mainnet-deployment-guide.md)
+Now it's time to upload the `.wasm` file that you compiled in the previous steps to the Biya Chain Testnet. Please note that the procedure for mainnet is different and [requires a governance proposal.](../mainnet-deployment-guide.md)
 
 ```bash
 # inside the "biyachain-core-staging" container, or from the contract directory if running biyachaind locally
@@ -507,14 +507,14 @@ tx: null
 txhash: 912458AA8E0D50A479C8CF0DD26196C49A65FCFBEEB67DF8A2EA22317B130E2C
 ```
 
-Check your address on the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io/zh/transactions), and look for a transaction with the `txhash` returned from storing the code on chain. The transaction type should be `MsgStoreCode`.
+Check your address on the [Biya Chain Testnet Explorer](https://testnet.prv.scan.biya.io/zh/transactions), and look for a transaction with the `txhash` returned from storing the code on chain. The transaction type should be `MsgStoreCode`.
 
-You can see all stored codes on Biyachain Testnet under [Code](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/).
+You can see all stored codes on Biya Chain Testnet under [Code](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/).
 
 {% hint style="info" %}
 There are different ways to find the code that you just stored:
 
-* Look for the TxHash on the Biyachain Explorer [codes list](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/); it is most likely the most recent.
+* Look for the TxHash on the Biya Chain Explorer [codes list](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/); it is most likely the most recent.
 * Use `biyachaind` to query transaction info.
 {% endhint %}
 
@@ -603,7 +603,7 @@ Take a minute to generate the schema ([take a look at it here](https://github.co
 
 ## Instantiate the Contract
 
-Now that we have the code on Biyachain, it is time to instantiate the contract to interact with it.
+Now that we have the code on Biya Chain, it is time to instantiate the contract to interact with it.
 
 {% hint style="info" %}
 Reminder On CosmWasm, the upload of a contract's code and the instantiation of a contract are regarded as separate events
@@ -785,6 +785,6 @@ pub fn execute(
 
 As with other smart contract functions, you should add unit tests to ensure your bank send functionality works as expected. This includes testing different scenarios, such as sending various token amounts and handling errors correctly.
 
-You may use [test-tube](https://github.com/biya-coin/test-tube) for running integration tests that include a local Biyachain chain.
+You may use [test-tube](https://github.com/biya-coin/test-tube) for running integration tests that include a local Biya Chain chain.
 
-Congratulations! You've created and interacted with your first Biyachain smart contract and now know how to get started with CosmWasm development on Biyachain. Continue to Creating a Frontend for Your Contract for a guide on creating a web UI.
+Congratulations! You've created and interacted with your first Biya Chain smart contract and now know how to get started with CosmWasm development on Biya Chain. Continue to Creating a Frontend for Your Contract for a guide on creating a web UI.

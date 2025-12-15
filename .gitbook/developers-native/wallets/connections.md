@@ -1,6 +1,6 @@
 # Wallet Connections
 
-Biyachain supports both Ethereum and Cosmos native wallets. You can use popular wallets like Metamask, Ledger, Keplr, Leap, etc. to sign transactions on Biyachain.
+Biya Chain supports both Ethereum and Cosmos native wallets. You can use popular wallets like Metamask, Ledger, Keplr, Leap, etc. to sign transactions on Biya Chain.
 
 ### Wallet Strategy
 
@@ -8,13 +8,13 @@ The recommended way to have support for all of these wallets out of the box is t
 
 Combining it with the [MsgBroadcaster](../transactions/msgbroadcaster.md) abstraction allows you to sign transactions using one function call. This is what's being used on all products like Helix, Hub, Explorer, etc., and we strongly recommend using this approach in your dApp.
 
-In case you still want to use some wallet natively (without the WalletStrategy class), we are going to provide examples of how to connect to a dApp built on Biyachain via Metamask and Keplr in this doc.
+In case you still want to use some wallet natively (without the WalletStrategy class), we are going to provide examples of how to connect to a dApp built on Biya Chain via Metamask and Keplr in this doc.
 
 ### Metamask
 
-Metamask is an Ethereum native wallet and can be used to connect and interact with your dApp built on Biyachain.
+Metamask is an Ethereum native wallet and can be used to connect and interact with your dApp built on Biya Chain.
 
-* **Get Biyachain addresses from Metamask**
+* **Get Biya Chain addresses from Metamask**
 
 <pre class="language-typescript"><code class="lang-typescript"><strong>
 </strong><strong>import { getBiyachainAddress } from '@biya-coin/sdk-ts'
@@ -38,13 +38,13 @@ console.log(biyachainAddresses)
 
 * **Sign transactions using Metamask**
 
-An example of how to prepare + sign + broadcast a transaction on Biyachain using Metamask can be found [here](../transactions/ethereum.md).
+An example of how to prepare + sign + broadcast a transaction on Biya Chain using Metamask can be found [here](../transactions/ethereum.md).
 
 ### Keplr
 
-Keplr is an Cosmos native wallet and can be used to connect and interact with your dApp built on Biyachain.
+Keplr is an Cosmos native wallet and can be used to connect and interact with your dApp built on Biya Chain.
 
-* **Get Biyachain addresses from Keplr**
+* **Get Biya Chain addresses from Keplr**
 
 <pre class="language-typescript"><code class="lang-typescript"><strong>
 </strong><strong>import { getBiyachainAddress } from '@biya-coin/sdk-ts'
@@ -70,4 +70,4 @@ Keplr is an Cosmos native wallet and can be used to connect and interact with yo
 
 * **Sign transactions using Keplr**
 
-An example of how to prepare + sign + broadcast a transaction on Biyachain using Keplr can be found in [Cosmos Transactions](../transactions/cosmos.md).
+An example of how to prepare + sign + broadcast a transaction on Biya Chain using Keplr can be found in [Cosmos Transactions](../transactions/cosmos.md).

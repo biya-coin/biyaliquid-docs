@@ -41,12 +41,12 @@ It is the only way to recover your account if you ever forget your password.
 {% hint style="warning" %}
 **输出将包含以明文形式表示您密钥的助记词短语。请确保将此短语保存为密钥的备份，因为没有密钥您将无法控制验证器。最好将短语备份在物理纸张上，存储在云存储中可能会在以后危及您的验证器。**
 
-记住以 `biya` 开头的地址，这将是您的 Biyachain 链验证器账户地址。
+记住以 `biya` 开头的地址，这将是您的 Biya Chain 链验证器账户地址。
 {% endhint %}
 
 ### 步骤 2：获取 BIYA
 
-要继续下一步，您需要在 Biyachain 上获取一些 BIYA。
+要继续下一步，您需要在 Biya Chain 上获取一些 BIYA。
 
 您可以从[测试网水龙头](https://faucet.biyachain.network/)请求资金。
 
@@ -131,7 +131,7 @@ biyachaind q staking validators
 
 这些步骤将允许您使用 MetaMask 交易体验委托流程。🦊
 
-或者，您始终可以使用 Biyachain CLI 发送委托交易。
+或者，您始终可以使用 Biya Chain CLI 发送委托交易。
 
 ```bash
 biyachaind tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --chain-id=biyachain-888 --keyring-backend=file --yes --node=tcp://localhost:26657

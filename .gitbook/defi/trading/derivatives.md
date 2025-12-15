@@ -1,6 +1,6 @@
 # 衍生品
 
-Biyachain 原生支持多种类型的衍生品交易：
+Biya Chain 原生支持多种类型的衍生品交易：
 
 * [永续合约](./derivatives-perpetuals.md)
 * [到期期货](./derivatives-expiry-futures.md)

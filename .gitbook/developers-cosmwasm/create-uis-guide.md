@@ -4,11 +4,11 @@
 More comprehensive docs about creating UIs as well as bootstrapping options can be found on the [dApps docs](../developers/dapps/README.md).
 {% endhint %}
 
-We've interacted with our contract through the Biyachain CLI, but this is not ideal for most dApp users. A web UI can provide a much better experience! Rather than sending transaction messages through `biyachaind`, we can abstract away the complexity and provide the user with two buttons—one to increment the count, and one to reset the count.
+We've interacted with our contract through the Biya Chain CLI, but this is not ideal for most dApp users. A web UI can provide a much better experience! Rather than sending transaction messages through `biyachaind`, we can abstract away the complexity and provide the user with two buttons—one to increment the count, and one to reset the count.
 
 ![](https://docs.biyachain.network/img/Counter_website.png)
 
-For example, see the [counter website](https://biyachain-simple-cosmwasm-sc.netlify.app/). A high level guide on developing the frontend using Vue and the [Biyachain TS SDK](https://github.com/biya-coin/biyachain-ts/tree/master/packages/sdk-ts) can be found in the [website repo here](https://github.com/biya-coin/biyachain-simple-sc-counter-ui/tree/master/nuxt). For a React implementation, see [here](https://github.com/biya-coin/biyachain-simple-sc-counter-ui/tree/master/next).
+For example, see the [counter website](https://biyachain-simple-cosmwasm-sc.netlify.app/). A high level guide on developing the frontend using Vue and the [Biya Chain TS SDK](https://github.com/biya-coin/biyachain-ts/tree/master/packages/sdk-ts) can be found in the [website repo here](https://github.com/biya-coin/biyachain-simple-sc-counter-ui/tree/master/nuxt). For a React implementation, see [here](https://github.com/biya-coin/biyachain-simple-sc-counter-ui/tree/master/next).
 
 Now, interacting with the contract is as simple as clicking a button and signing with MetaMask (make sure the account is set to Ethereum Goerli Testnet or you will receive a chain ID mismatch error).
 

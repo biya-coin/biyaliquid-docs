@@ -4,7 +4,7 @@ description: OLP 仪表板
 
 # 性能跟踪
 
-有关市场分配、预期/已获得奖励、每个市场的分数和资格的当前和历史信息可以在 [Biyachain 交易门户](https://trading.biyachain.network/)的 [OLP 仪表板](https://trading.biyachain.network/program/liquidity)上找到。&#x20;
+有关市场分配、预期/已获得奖励、每个市场的分数和资格的当前和历史信息可以在 [Biya Chain 交易门户](https://trading.biyachain.network/)的 [OLP 仪表板](https://trading.biyachain.network/program/liquidity)上找到。&#x20;
 
 快照数据可以在[分数选项卡](https://trading.biyachain.network/program/liquidity/scores)下找到。也可以在[分数选项卡](https://trading.biyachain.network/program/liquidity/scores)下载 CSV 文件，以同时查看所有地址和所有市场的分数——这些信息可能对希望从广泛层面查看数据的市场参与者有帮助。
 

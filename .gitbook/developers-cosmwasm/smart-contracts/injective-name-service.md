@@ -1,6 +1,6 @@
-# Biyachain Name Service
+# Biya Chain Name Service
 
-Within this section, we will look at how to query the Biyachain name service contracts.
+Within this section, we will look at how to query the Biya Chain name service contracts.
 
 ## Abstraction Service (deprecated)
 

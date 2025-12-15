@@ -1,6 +1,6 @@
-# Biyachain Test Tube
+# Biya Chain Test Tube
 
-`biyachain-test-tube` is a CosmWasm x Biyachain integration testing library that, unlike `cw-multi-test`, allows you to test your CosmWasm contract against the chain's actual logic instead of mocks.
+`biyachain-test-tube` is a CosmWasm x Biya Chain integration testing library that, unlike `cw-multi-test`, allows you to test your CosmWasm contract against the chain's actual logic instead of mocks.
 
 The `dev` branch depends on currently private repos, but you can use published versions instead. Please refer to [`CHANGELOG`](https://github.com/biya-coin/test-tube/blob/dev/packages/biyachain-test-tube/CHANGELOG.md) for features and update information.
 

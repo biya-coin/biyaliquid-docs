@@ -64,8 +64,8 @@ import { Msgs, IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const chainId = ChainId.Testnet // The Biyachain Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm // The Biyachain Evm Testnet Chain ID
+const chainId = ChainId.Testnet // The Biya Chain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm // The Biya Chain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`
 

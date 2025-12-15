@@ -1,12 +1,12 @@
 # Mainnet Deployment
 
-This guide will get you started with the governance process of deploying and instantiating CosmWasm smart contracts on Biyachain Mainnet.
+This guide will get you started with the governance process of deploying and instantiating CosmWasm smart contracts on Biya Chain Mainnet.
 
 ### Submit a Code Upload Proposal
 
 In this section, you will learn how to submit a smart contract code proposal and vote for it.
 
-Biyachain network participants can propose smart contracts deployments and vote in governance to enable them. The `wasmd` authorization settings are by on-chain governance, which means deployment of a contract is completely determined by governance. Because of this, a governance proposal is the first step to uploading contracts to Biyachain mainnet.
+Biya Chain network participants can propose smart contracts deployments and vote in governance to enable them. The `wasmd` authorization settings are by on-chain governance, which means deployment of a contract is completely determined by governance. Because of this, a governance proposal is the first step to uploading contracts to Biya Chain mainnet.
 
 Sample usage of `biyachaind` to start a governance proposal to upload code to the chain:
 
@@ -95,7 +95,7 @@ biyachaind tx wasm instantiate \
 
 ### Contract Instantiation (Governance)
 
-As mentioned above, contract instantiation permissions on mainnet depend on the flags used when uploading the code. By default, it is set to permissionless, as we can verify on the genesis `wasmd` Biyachain setup:
+As mentioned above, contract instantiation permissions on mainnet depend on the flags used when uploading the code. By default, it is set to permissionless, as we can verify on the genesis `wasmd` Biya Chain setup:
 
 ```json
 "wasm": {
@@ -116,7 +116,7 @@ As mentioned above, contract instantiation permissions on mainnet depend on the 
 However, if the `--instantiate-everybody` flag is set to `false`, then the contract instantiation must go through governance.
 
 {% hint style="info" %}
-The Biyachain testnet is permissionless by default in order to allow developers to easily deploy contracts.
+The Biya Chain testnet is permissionless by default in order to allow developers to easily deploy contracts.
 {% endhint %}
 
 #### Contract Instantiation Proposal
