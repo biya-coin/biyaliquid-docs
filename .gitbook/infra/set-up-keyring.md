@@ -1,32 +1,32 @@
-# Setting up the keyring
+# 设置密钥环
 
 {% hint style="info" %}
-This document describes how to configure and use the keyring and its various backends for an Biyachain node. `biyachaind` should be installed prior to setting up the keyring. See the [Install `biyachaind` page](../developers/biyachaind/install.md) for more information.
+本文档介绍如何为 Biyachain 节点配置和使用密钥环及其各种后端。在设置密钥环之前应安装 `biyachaind`。有关更多信息，请参阅 [安装 `biyachaind` 页面](../developers/biyachaind/install.md)。
 {% endhint %}
 
-The keyring holds the private/public keypairs used to interact with the node. For instance, a validator key needs to be set up before running the Biyachain node, so that blocks can be correctly signed. The private key can be stored in different locations, called "backends", such as a file or the operating system's own key storage.
+密钥环保存用于与节点交互的私钥/公钥对。例如，在运行 Biyachain 节点之前需要设置验证器密钥，以便正确签名区块。私钥可以存储在不同的位置，称为"后端"，例如文件或操作系统自己的密钥存储。
 
-### Available backends for the keyring
+### 密钥环的可用后端
 
-#### The `os` backend
+#### `os` 后端
 
-The `os` backend relies on operating system-specific defaults to handle key storage securely. Typically, an operating system's credential sub-system handles password prompts, private keys storage, and user sessions according to the user's password policies. Here is a list of the most popular operating systems and their respective passwords manager:
+`os` 后端依赖于操作系统特定的默认值来安全地处理密钥存储。通常，操作系统的凭证子系统根据用户的密码策略处理密码提示、私钥存储和用户会话。以下是最流行的操作系统及其各自的密码管理器列表：
 
-* macOS (since Mac OS 8.6): [Keychain](https://support.apple.com/en-gb/guide/keychain-access/welcome/mac)
-* Windows: [Credentials Management API](https://docs.microsoft.com/en-us/windows/win32/secauthn/credentials-management)
-* GNU/Linux:
+* macOS（自 Mac OS 8.6 起）：[Keychain](https://support.apple.com/en-gb/guide/keychain-access/welcome/mac)
+* Windows：[Credentials Management API](https://docs.microsoft.com/en-us/windows/win32/secauthn/credentials-management)
+* GNU/Linux：
   * [libsecret](https://gitlab.gnome.org/GNOME/libsecret)
   * [kwallet](https://api.kde.org/frameworks/kwallet/html/index.html)
 
-GNU/Linux distributions that use GNOME as default desktop environment typically come with [Seahorse](https://wiki.gnome.org/Apps/Seahorse). Users of KDE based distributions are commonly provided with [KDE Wallet Manager](https://userbase.kde.org/KDE_Wallet_Manager). Whilst the former is in fact a `libsecret` convenient frontend, the latter is a `kwallet` client.
+使用 GNOME 作为默认桌面环境的 GNU/Linux 发行版通常附带 [Seahorse](https://wiki.gnome.org/Apps/Seahorse)。基于 KDE 的发行版用户通常提供 [KDE Wallet Manager](https://userbase.kde.org/KDE_Wallet_Manager)。虽然前者实际上是 `libsecret` 的便捷前端，但后者是 `kwallet` 客户端。
 
-`os` is the default option since operating system's default credentials managers are designed to meet users' most common needs and provide them with a comfortable experience without compromising on security.
+`os` 是默认选项，因为操作系统的默认凭证管理器旨在满足用户最常见的需求，并在不损害安全性的情况下为他们提供舒适的体验。
 
-The recommended backends for headless environments are `file` and `pass`.
+无头环境推荐的后端是 `file` 和 `pass`。
 
-#### The `file` backend
+#### `file` 后端
 
-The `file` stores the keyring encrypted within the app's configuration directory. This keyring will request a password each time it is accessed, which may occur multiple times in a single command resulting in repeated password prompts. If using bash scripts to execute commands using the `file` option you may want to utilize the following format for multiple prompts:
+`file` 后端将密钥环加密存储在应用程序的配置目录中。此密钥环每次访问时都会请求密码，这在单个命令中可能发生多次，导致重复的密码提示。如果使用 bash 脚本执行使用 `file` 选项的命令，您可能希望使用以下格式来处理多次提示：
 
 ```bash
 # assuming that KEYPASSWD is set in the environment
@@ -37,50 +37,50 @@ biyachaind --keyring-backend=file start
 ```
 
 {% hint style="info" %}
-The first time you add a key to an empty keyring, you will be prompted to type the password twice.
+第一次向空密钥环添加密钥时，系统会提示您输入两次密码。
 {% endhint %}
 
-#### The `pass` backend
+#### `pass` 后端
 
-The `pass` backend uses the [pass](https://www.passwordstore.org/) utility to manage on-disk encryption of keys' sensitive data and metadata. Keys are stored inside `gpg` encrypted files within app-specific directories. `pass` is available for the most popular UNIX operating systems as well as GNU/Linux distributions. Please refer to its manual page for information on how to download and install it.
+`pass` 后端使用 [pass](https://www.passwordstore.org/) 实用程序来管理密钥敏感数据和元数据的磁盘加密。密钥存储在应用程序特定目录内的 `gpg` 加密文件中。`pass` 适用于最流行的 UNIX 操作系统以及 GNU/Linux 发行版。有关如何下载和安装的信息，请参阅其手册页。
 
 {% hint style="info" %}
-`pass` uses [GnuPG](https://gnupg.org/) for encryption. `gpg` automatically invokes the `gpg-agent` daemon upon execution, which handles the caching of GnuPG credentials. Please refer to `gpg-agent` man page for more information on how to configure cache parameters such as credentials TTL and passphrase expiration.
+`pass` 使用 [GnuPG](https://gnupg.org/) 进行加密。`gpg` 在执行时自动调用 `gpg-agent` 守护进程，该进程处理 GnuPG 凭证的缓存。有关如何配置缓存参数（如凭证 TTL 和密码短语过期）的更多信息，请参阅 `gpg-agent` 手册页。
 {% endhint %}
 
-The password store must be set up prior to first use:
+密码存储必须在首次使用之前设置：
 
 ```sh
 pass init <GPG_KEY_ID>
 ```
 
-Replace `<GPG_KEY_ID>` with your GPG key ID. You can use your personal GPG key or an alternative one you may want to use specifically to encrypt the password store.
+将 `<GPG_KEY_ID>` 替换为您的 GPG 密钥 ID。您可以使用您的个人 GPG 密钥或您可能想要专门用于加密密码存储的替代密钥。
 
-#### The `kwallet` backend
+#### `kwallet` 后端
 
-The `kwallet` backend uses `KDE Wallet Manager`, which comes installed by default on the GNU/Linux distributions that ships KDE as default desktop environment. Please refer to[ KWallet Handbook](https://docs.kde.org/stable/en/kdeutils/kwallet/index.html) for more information.
+`kwallet` 后端使用 `KDE Wallet Manager`，它在将 KDE 作为默认桌面环境的 GNU/Linux 发行版中默认安装。有关更多信息，请参阅 [KWallet 手册](https://docs.kde.org/stable/en/kdeutils/kwallet/index.html)。
 
-#### The `test` backend
+#### `test` 后端
 
-The `test` backend is a password-less variation of the `file` backend. Keys are stored unencrypted on disk.
+`test` 后端是 `file` 后端的无密码变体。密钥以未加密方式存储在磁盘上。
 
-**Provided for testing purposes only. The `test` backend is not recommended for use in production environments**.
+**仅用于测试目的。不建议在生产环境中使用 `test` 后端**。
 
-#### The `memory` backend
+#### `memory` 后端
 
-The `memory` backend stores keys in memory. The keys are immediately deleted after the program has exited.
+`memory` 后端将密钥存储在内存中。程序退出后，密钥会立即删除。
 
-**Provided for testing purposes only. The `memory` backend is not recommended for use in production environments**.
+**仅用于测试目的。不建议在生产环境中使用 `memory` 后端**。
 
-### Adding keys to the keyring
+### 向密钥环添加密钥
 
-You can use `biyachaind keys` for help about the keys command and `biyachaind keys [command] --help` for more information about a particular subcommand.
+您可以使用 `biyachaind keys` 获取有关 keys 命令的帮助，使用 `biyachaind keys [command] --help` 获取有关特定子命令的更多信息。
 
 {% hint style="info" %}
-You can also enable auto-completion with the `biyachaind completion` command. For example, at the start of a bash session, run `. <(biyachaind completion)`, and all `biyachaind` subcommands will be auto-completed.
+您还可以使用 `biyachaind completion` 命令启用自动完成。例如，在 bash 会话开始时，运行 `. <(biyachaind completion)`，所有 `biyachaind` 子命令都将自动完成。
 {% endhint %}
 
-To create a new key in the keyring, run the `add` subcommand with a `<key_name>` argument. For the purpose of this tutorial, we will solely use the `test` backend, and call our new key `my_validator`. This key will be used in the next section.
+要在密钥环中创建新密钥，请使用 `<key_name>` 参数运行 `add` 子命令。在本教程中，我们将仅使用 `test` 后端，并将新密钥命名为 `my_validator`。此密钥将在下一节中使用。
 
 ```bash
 $ biyachaind keys add my_validator --keyring-backend test
@@ -89,6 +89,6 @@ $ biyachaind keys add my_validator --keyring-backend test
 MY_VALIDATOR_ADDRESS=$(biyachaind keys show my_validator -a --keyring-backend test)
 ```
 
-This command generates a new 24-word mnemonic phrase, persists it to the relevant backend, and outputs information about the keypair. If this keypair will be used to hold value-bearing tokens, be sure to write down the mnemonic phrase somewhere safe!
+此命令生成一个新的 24 词助记词短语，将其持久化到相关后端，并输出有关密钥对的信息。如果此密钥对将用于持有有价值的代币，请务必将助记词短语写在安全的地方！
 
-By default, the keyring generates a `eth_secp256k1` keypair. The keyring also supports `ed25519` keys, which may be created by passing the `--algo ed25519` flag. A keyring can of course hold both types of keys simultaneously.
+默认情况下，密钥环生成 `eth_secp256k1` 密钥对。密钥环还支持 `ed25519` 密钥，可以通过传递 `--algo ed25519` 标志来创建。密钥环当然可以同时持有两种类型的密钥。

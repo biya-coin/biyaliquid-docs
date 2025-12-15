@@ -1,8 +1,8 @@
-# Testnet Peggo
+# 测试网 Peggo
 
-## Equinox Testnet
+## Equinox 测试网
 
-## Step 1: Configure your Peggo relayer
+## 步骤 1：配置 Peggo 中继器
 
 ```bash
 mkdir ~/.peggo
@@ -10,47 +10,47 @@ cp testnet-config/staking/40014/peggo-config.env ~/.peggo/.env
 cd ~/.peggo
 ```
 
-First, update the `PEGGO_ETH_RPC` in the `.env` file with a valid Sepolia EVM RPC Endpoint.
+首先，使用有效的 Sepolia EVM RPC 端点更新 `.env` 文件中的 `PEGGO_ETH_RPC`。
 
-To set up your own Sepolia full node, follow the instructions [here](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/). It's possible to use an Alchemy or Infura RPC, but keep in mind that the Peggo bridge is still under development, and the request amount it makes to the RPC is not optimized. Ensure it does not incur high costs on your account.
+要设置您自己的 Sepolia 全节点，请按照[此处](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/)的说明进行操作。可以使用 Alchemy 或 Infura RPC，但请注意，Peggo 桥接仍在开发中，它对 RPC 的请求量尚未优化。确保它不会在您的账户上产生高成本。
 
-Peggo also requires access to your validator's Cosmos and Ethereum credentials to sign transactions for the corresponding networks.
+Peggo 还需要访问验证器的 Cosmos 和以太坊凭证，以便为相应网络签署交易。
 
-## **Cosmos Keys**
+## **Cosmos 密钥**
 
-There are two ways to provide the credential access - a keyring with encrypted keys, or just private key in plaintext.
+有两种提供凭证访问的方式 - 使用加密密钥的密钥环，或仅使用明文私钥。
 
-### **1. Cosmos Keyring**
+### **1. Cosmos 密钥环**
 
-Update the `PEGGO_COSMOS_FROM` to your validator key name (or account address) and `PEGGO_COSMOS_FROM_PASSPHRASE` to your Cosmos Keyring passphrase. Please note that the default keyring backend is `file` and it will try to locate keys on disk.
+将 `PEGGO_COSMOS_FROM` 更新为您的验证器密钥名称（或账户地址），将 `PEGGO_COSMOS_FROM_PASSPHRASE` 更新为您的 Cosmos 密钥环密码短语。请注意，默认密钥环后端是 `file`，它将尝试在磁盘上定位密钥。
 
-Keyring path must be pointing to homedir of your biyachaind node, if you want reuse the keys from there.
+如果您想重用那里的密钥，密钥环路径必须指向 biyachaind 节点的主目录。
 
-Learn more about Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html).
+在[此处](https://docs.cosmos.network/v0.46/run-node/keyring.html)了解更多有关密钥环设置的信息。
 
-### **2. Cosmos Private Key (Unsafe)**
+### **2. Cosmos 私钥（不安全）**
 
-Simply update the `PEGGO_COSMOS_PK` with your Validator's Account private key.
+只需使用验证器账户的私钥更新 `PEGGO_COSMOS_PK`。
 
-To obtain your validator's Cosmos private key, run `biyachaind keys unsafe-export-eth-key $VALIDATOR_KEY_NAME`.
+要获取验证器的 Cosmos 私钥，请运行 `biyachaind keys unsafe-export-eth-key $VALIDATOR_KEY_NAME`。
 
-This method is insecure and is not recommended.
+此方法不安全，不推荐使用。
 
-## **Ethereum Keys**
+## **以太坊密钥**
 
-There are two ways to provide the credential access - a Geth keystore with encrypted keys, or just private key in plaintext.
+有两种提供凭证访问的方式 - 使用加密密钥的 Geth keystore，或仅使用明文私钥。
 
 ### **1. Geth Keystore**
 
-Simply create a new private key store and update the following env variables:
+只需创建新的私钥存储并更新以下环境变量：
 
 * `PEGGO_ETH_KEYSTORE_DIR`
 * `PEGGO_ETH_FROM`
 * `PEGGO_ETH_PASSPHRASE`
 
-You can find instructions for securely creating a new Ethereum account using a keystore in the Geth Documentation [here](https://geth.ethereum.org/docs/interface/managing-your-accounts).
+您可以在 Geth 文档[此处](https://geth.ethereum.org/docs/interface/managing-your-accounts)找到使用 keystore 安全创建新以太坊账户的说明。
 
-Example is provided below.
+下面提供了一个示例。
 
 ```bash
 geth account new --datadir=/home/ec2-user/.peggo/data/
@@ -71,7 +71,7 @@ Path of the secret key file: /home/ec2-user/.peggo/data/keystore/UTC--2021-03-23
 - You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
 ```
 
-Now, you can set env variables like this:
+现在，您可以像这样设置环境变量：
 
 ```ini
 PEGGO_ETH_KEYSTORE_DIR=/home/ec2-user/.peggo/data/keystore
@@ -79,17 +79,17 @@ PEGGO_ETH_FROM=0x9782dc957DaE6aDc394294954B27e2118D05176C
 PEGGO_ETH_PASSPHRASE=12345678
 ```
 
-Next, ensure that your Ethereum addresss has Sepolia ETH. You can request Sepolia ETH from the public faucet [here](https://www.alchemy.com/faucets/ethereum-sepolia).
+接下来，确保您的以太坊地址有 Sepolia ETH。您可以从公共水龙头[此处](https://www.alchemy.com/faucets/ethereum-sepolia)请求 Sepolia ETH。
 
-### **2. Ethereum Private Key (Unsafe)**
+### **2. 以太坊私钥（不安全）**
 
-Simply update the `PEGGO_ETH_PK` with a new Ethereum Private Key from a new account.
+只需使用新账户的新以太坊私钥更新 `PEGGO_ETH_PK`。
 
-Next, ensure that your Ethereum addresss has Sepolia ETH. You can request Sepolia ETH from the public faucet [here](https://www.alchemy.com/faucets/ethereum-sepolia).
+接下来，确保您的以太坊地址有 Sepolia ETH。您可以从公共水龙头[此处](https://www.alchemy.com/faucets/ethereum-sepolia)请求 Sepolia ETH。
 
-### Step 2: Register Your Orchestrator and Ethereum Address
+### 步骤 2：注册您的 Orchestrator 和以太坊地址
 
-You can register orchestrator and ethereum address only once. It **CANNOT** be updated later. So Check twice before running below command.
+您只能注册一次 orchestrator 和以太坊地址。以后**无法**更新。因此在运行以下命令之前请检查两次。
 
 ```bash
 biyachaind tx peggy set-orchestrator-address $VALIDATOR_BIYA_ADDRESS $ORCHESTRATOR_BIYA_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=biyachain-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=160000000biya
@@ -105,23 +105,23 @@ Example:
 biyachaind tx peggy set-orchestrator-address biya10m247khat0esnl0x66vu9mhlanfftnvww67j9n biya1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=biyachain-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=160000000biya
 ```
 
-You can verify successful registration by checking for your Validator's mapped Ethereum address on https://testnet.sentry.lcd.biyachain.network/peggy/v1/valset/current.
+您可以通过在 https://testnet.sentry.lcd.biyachain.network/peggy/v1/valset/current 上检查验证器的映射以太坊地址来验证注册是否成功。
 
 {% hint style="info" %}
-**NOTE:** Once you've registered your Orchestrator with the `set-orchestrator-address` message, you **CANNOT** register again. Once this step is complete, your `Validator` is bound to the provided Ethereum address (as well the Delegated address you may have provided). In other words, your peggo must always run with the addresses you provided for registration.
+**注意：** 一旦您使用 `set-orchestrator-address` 消息注册了 Orchestrator，您**无法**再次注册。一旦此步骤完成，您的 `Validator` 就绑定到提供的以太坊地址（以及您可能提供的委托地址）。换句话说，您的 peggo 必须始终使用您为注册提供的地址运行。
 {% endhint %}
 
-## Step 3: Start the Relayer
+## 步骤 3：启动中继器
 
 ```bash
 peggo orchestrator
 ```
 
-This starts the Peggo bridge (relayer / orchestrator).
+这将启动 Peggo 桥接（中继器 / orchestrator）。
 
-## Step 4: Create a Peggo systemd service
+## 步骤 4：创建 Peggo systemd 服务
 
-Add `peggo.service` file with below content under `/etc/systemd/system/peggo.service`
+在 `/etc/systemd/system/peggo.service` 下添加 `peggo.service` 文件，内容如下
 
 ```ini
 [Unit]
@@ -139,7 +139,7 @@ Add `peggo.service` file with below content under `/etc/systemd/system/peggo.ser
   WantedBy=multi-user.target
 ```
 
-Then, run the following commands to configure Environment variables, start and stop the peggo relayer.
+然后，运行以下命令配置环境变量、启动和停止 peggo 中继器。
 
 ```bash
 sudo systemctl start peggo
@@ -154,25 +154,25 @@ sudo systemctl enable peggo
 journalctl -f -u peggo
 ```
 
-## Step 5: (Optional) Protect Cosmos Keyring from unauthorized access
+## 步骤 5：（可选）保护 Cosmos 密钥环免受未授权访问
 
 {% hint style="warning" %}
-This is an advanced DevOps topic, consult with your sysadmin.
+这是一个高级 DevOps 主题，请咨询您的系统管理员。
 {% endhint %}
 
-Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.biyachaind/keyring-file`.
+在[此处](https://docs.cosmos.network/v0.46/run-node/keyring.html)了解更多有关 Cosmos 密钥环设置的信息。一旦您启动了节点，默认密钥环将以加密形式在磁盘上存储验证器运营者密钥。通常，密钥环位于节点的主目录内，即 `~/.biyachaind/keyring-file`。
 
-Some sections of the Biyachain Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
+Biyachain 质押文档的某些部分将指导您将此密钥用于治理目的，即提交交易和设置以太坊桥接。为了保护密钥免受未授权访问，即使密钥环密码短语通过配置泄露，您也可以设置操作系统权限，仅允许 `biyachaind` / `peggo` 进程访问磁盘。
 
-In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
+在 Debian、Ubuntu 和 RHEL 等 Linux 系统中，可以使用 POSIX 访问控制列表 (ACL) 来实现这一点。在开始使用 ACL 之前，必须启用 ACL 挂载文件系统。每个发行版都有一些官方指南：
 
 * [Ubuntu](https://help.ubuntu.com/community/FilePermissionsACLs)
 * [Debian](https://wiki.debian.org/Permissions)
 * [Amazon Linux (RHEL)](https://www.redhat.com/sysadmin/linux-access-control-lists)
 
-## Testnet
+## 测试网
 
-## Step 1: Configure your Peggo relayer
+## 步骤 1：配置 Peggo 中继器
 
 ```bash
 mkdir ~/.peggo
@@ -180,20 +180,20 @@ cp testnet-config/40014/peggo-config.env ~/.peggo/.env
 cd ~/.peggo
 ```
 
-First, update the `PEGGO_ETH_RPC` in the `.env` file with a valid Ethereum EVM RPC Endpoint.
+首先，使用有效的以太坊 EVM RPC 端点更新 `.env` 文件中的 `PEGGO_ETH_RPC`。
 
-To create your own Ethereum full node, you can follow our instructions [here](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/). It's possible to use an external Ethereum RPC provider such as Alchemy or Infura, but keep in mind that the Peggo bridge relayer uses heavy use of `eth_getLogs` calls which may increase your cost burden depending on your provider.
+要创建您自己的以太坊全节点，您可以按照我们的说明[此处](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/)进行操作。可以使用外部以太坊 RPC 提供商（如 Alchemy 或 Infura），但请注意，Peggo 桥接中继器大量使用 `eth_getLogs` 调用，这可能会根据您的提供商增加您的成本负担。
 
-Peggo also requires access to your validator's delegated Biyachain Chain account and Ethereum key credentials to sign transactions for the corresponding networks.
+Peggo 还需要访问验证器的委托 Biyachain 链账户和以太坊密钥凭证，以便为相应网络签署交易。
 
-### **Creating your delegated Cosmos Key for sending Biyachain transactions**
+### **创建用于发送 Biyachain 交易的委托 Cosmos 密钥**
 
-Your peggo relayer can either
+您的 peggo 中继器可以：
 
-* Use an explicitly delegated account key specific for sending validator specific Peggy transactions (i.e. `ValsetConfirm`, `BatchConfirm`, and `SendToCosmos` transactions), or
-* Simply use your validator's account key.
+* 使用专门用于发送验证器特定 Peggy 交易（即 `ValsetConfirm`、`BatchConfirm` 和 `SendToCosmos` 交易）的明确委托账户密钥，或
+* 简单地使用验证器的账户密钥。
 
-For isolation purposes, we recommend creating a delegated Cosmos key to send Biyachain transactions instead of using your validator account key.
+为了隔离目的，我们建议创建委托的 Cosmos 密钥来发送 Biyachain 交易，而不是使用验证器账户密钥。
 
 To create a new key, run:
 
@@ -317,9 +317,9 @@ Simply update the `PEGGO_ETH_PK` with a new Ethereum Private Key from a new acco
 
 Then, ensure that your Ethereum address has ETH.
 
-## Step 2: Register Your Orchestrator and Ethereum Address
+## 步骤 2：注册您的 Orchestrator 和以太坊地址
 
-You can register orchestrator and ethereum address only once. It **CANNOT** be updated later. So Check twice before running below command.
+您只能注册一次 orchestrator 和以太坊地址。以后**无法**更新。因此在运行以下命令之前请检查两次。
 
 ```bash
 biyachaind tx peggy set-orchestrator-address $VALIDATOR_BIYA_ADDRESS $ORCHESTRATOR_BIYA_ADDRESS $ETHEREUM_ADDRESS --from $VALIDATOR_KEY_NAME --chain-id=biyachain-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
@@ -335,20 +335,20 @@ Example:
 biyachaind tx peggy set-orchestrator-address biya10m247khat0esnl0x66vu9mhlanfftnvww67j9n biya1x7kvxlz2epqx3hpq6v8j8w859t29pgca4z92l2 0xf79D16a79130a07e77eE36e8067AeA783aBdA3b6 --from validator-key-name --chain-id=biyachain-888 --keyring-backend=file --yes --node=tcp://localhost:26657 --gas-prices=500000000biya
 ```
 
-You can verify successful registration by checking for your Validator's mapped Ethereum address on https://testnet.lcd.biyachain.dev/peggy/v1/valset/current.
+您可以通过在 https://testnet.lcd.biyachain.dev/peggy/v1/valset/current 上检查验证器的映射以太坊地址来验证注册是否成功。
 
-## Step 3: Start the Relayer
+## 步骤 3：启动中继器
 
 ```bash
 cd ~/.peggo
 peggo orchestrator
 ```
 
-This starts the Peggo bridge (relayer / orchestrator).
+这将启动 Peggo 桥接（中继器 / orchestrator）。
 
-## Step 4: Create a Peggo systemd service
+## 步骤 4：创建 Peggo systemd 服务
 
-Add `peggo.service` file with below content under `/etc/systemd/system/peggo.service`
+在 `/etc/systemd/system/peggo.service` 下添加 `peggo.service` 文件，内容如下
 
 ```ini
 [Unit]
@@ -366,7 +366,7 @@ Add `peggo.service` file with below content under `/etc/systemd/system/peggo.ser
   WantedBy=multi-user.target
 ```
 
-Then, run the following commands to configure Environment variables, start and stop the peggo relayer:
+然后，运行以下命令配置环境变量、启动和停止 peggo 中继器：
 
 ```bash
 sudo systemctl start peggo
@@ -381,22 +381,22 @@ sudo systemctl enable peggo
 journalctl -f -u peggo
 ```
 
-## Step 5: (Optional) Protect Cosmos Keyring from unauthorized access
+## 步骤 5：（可选）保护 Cosmos 密钥环免受未授权访问
 
 {% hint style="warning" %}
-This is an advanced DevOps topic, consult with your sysadmin.
+这是一个高级 DevOps 主题，请咨询您的系统管理员。
 {% endhint %}
 
-Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.biyachaind/keyring-file`.
+在[此处](https://docs.cosmos.network/v0.46/run-node/keyring.html)了解更多有关 Cosmos 密钥环设置的信息。一旦您启动了节点，默认密钥环将以加密形式在磁盘上存储验证器运营者密钥。通常，密钥环位于节点的主目录内，即 `~/.biyachaind/keyring-file`。
 
-Some sections of the Biyachain Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
+Biyachain 质押文档的某些部分将指导您将此密钥用于治理目的，即提交交易和设置以太坊桥接。为了保护密钥免受未授权访问，即使密钥环密码短语通过配置泄露，您也可以设置操作系统权限，仅允许 `biyachaind` / `peggo` 进程访问磁盘。
 
-In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
+在 Debian、Ubuntu 和 RHEL 等 Linux 系统中，可以使用 POSIX 访问控制列表 (ACL) 来实现这一点。在开始使用 ACL 之前，必须启用 ACL 挂载文件系统。每个发行版都有一些官方指南：
 
 * [Ubuntu](https://help.ubuntu.com/community/FilePermissionsACLs)
 * [Debian](https://wiki.debian.org/Permissions)
 * [Amazon Linux (RHEL)](https://www.redhat.com/sysadmin/linux-access-control-lists)
 
-## Contribute
+## 贡献
 
-If you'd like to inspect the Peggo orchestrator source code and contribute, you can do so at [https://github.com/biya-coin/peggo](https://github.com/biya-coin/peggo)
+如果您想检查 Peggo orchestrator 源代码并做出贡献，可以在 [https://github.com/biya-coin/peggo](https://github.com/biya-coin/peggo) 进行

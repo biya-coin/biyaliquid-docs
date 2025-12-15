@@ -1,12 +1,12 @@
-# Public Endpoints
+# 公共端点
 
 {% hint style="info" %}
-We **do not recommend** using these in production for applications having high usage/traffic. There are thousands of developers using the public infrastructure and we cannot promise 100% uptime and reliability.
+我们**不建议**在高使用量/高流量的生产应用中使用这些端点。有数千名开发者使用公共基础设施，我们无法保证 100% 的正常运行时间和可靠性。
 {% endhint %}
 
-## Mainnet
+## 主网
 
-| Service          			| Address                                                       |
+| 服务          			| 地址                                                       |
 | ---------------- | ------------------------------------------------------------- |
 | Chain Swagger          | https://sentry.lcd.biyachain.network/swagger/#/               		 |
 | Chain LCD              | https://sentry.lcd.biyachain.network:443                      |
@@ -24,9 +24,9 @@ We **do not recommend** using these in production for applications having high u
 | Faucet           | https://biya.supply/                                           |
 | Status           | https://uptime.com/statuspage/status.biyachain.network                                           |
 
-## Testnet
+## 测试网
 
-| Service          | Address                                                               |
+| 服务          | 地址                                                               |
 | ---------------- | --------------------------------------------------------------------- |
 | Chain Swagger          | https://testnet.sentry.lcd.biyachain.network/swagger/                 |
 | Chain RPC              | https://testnet.sentry.tm.biyachain.network:443                       |

@@ -1,12 +1,12 @@
-# Archival Setup
+# 归档设置
 
-This guide will walk you through the process of creating a fleet of nodes that serve archival data and how to stitch them together using a gateway
+本指南将引导您完成创建提供归档数据的节点集群的过程，以及如何使用网关将它们连接在一起。
 
-## Architecture
+## 架构
 
-To make serving archival data more accessible we split the data into smaller segments. These segments are stored in `s3://biyachain-snapshots/mainnet/subnode`
+为了使提供归档数据更容易访问，我们将数据分割成更小的段。这些段存储在 `s3://biyachain-snapshots/mainnet/subnode`
 
-| Snapshot Dir | Height Range | Biyachain Version | Recommended Disk Size |
+| 快照目录 | 区块高度范围 | Biyachain 版本 | 推荐磁盘大小 |
 | ------------ | ------------ | ----------------- | --------------------- |
 | `/0073`      | 0 – 73M      | v1.12.1           | 42 TiB                |
 | `/6068`      | 60M – 68M    | v1.12.1           | 7 TiB                 |
@@ -19,41 +19,41 @@ To make serving archival data more accessible we split the data into smaller seg
 | `/66101`     | 66M – 101M   | v1.14.0           | 27 TiB                |
 | `/105116`    | 105M – 116M  | v1.15.0           | 7.5 TiB               |
 
-These segments are stitched together via gateway which is an aggregator proxy that routes queries to the appropriate node based on block range
+这些段通过网关连接在一起，网关是一个聚合代理，根据区块范围将查询路由到相应的节点。
 
 ![Archival Architecture](../.gitbook/assets/archival_architecture.jpg)
 
-## System Requirements
+## 系统要求
 
-Each node hosting a slice of archival data should have the following minimum requirements
+每个托管归档数据切片的节点应满足以下最低要求：
 
-| Component   | Minimum Specification | Notes                                                      |
+| 组件   | 最低规格 | 说明                                                      |
 | ----------- | --------------------- | ---------------------------------------------------------- |
-| **CPU**     | AMD EPYC™ 9454P       | 48 cores / 96 threads                                      |
-| **Memory**  | 128 GB DDR5 ECC       | DDR5-5200 MHz or higher, ECC for data integrity            |
-| **Storage** | 7 – 40 TB NVMe Gen 4  | PCIe 4.0 drives, can be single drives or in a RAID-0 array |
+| **CPU**     | AMD EPYC™ 9454P       | 48 核 / 96 线程                                      |
+| **内存**  | 128 GB DDR5 ECC       | DDR5-5200 MHz 或更高，ECC 用于数据完整性            |
+| **存储** | 7 – 40 TB NVMe Gen 4  | PCIe 4.0 驱动器，可以是单个驱动器或 RAID-0 阵列 |
 
-## Setup Steps
+## 设置步骤
 
-### On each node hosting an archival segment:
+### 在每个托管归档段的节点上：
 
-#### 1. Download the archival segments with the history your setup requires using
+#### 1. 使用以下命令下载设置所需的归档段历史记录
 
 ```bash
 aws s3 cp --recursive s3://biyachain-snapshots/mainnet/subnode/<SNAPSHOT_DIR> $BIYA_HOME
 ```
 
-#### 2. Download or set the appropriate biyachain binary or image tag based on the table above
+#### 2. 根据上表下载或设置相应的 biyachain 二进制文件或镜像标签
 
-#### 3. Generate your config folder
+#### 3. 生成配置文件夹
 
 ```bash
 biyachaind init $MONIKER --chain-id biyachain-1 --home $BIYA_HOME --overwrite
 ```
 
-#### 4. Disable pruning in your app.toml file and block p2p and set the log level to error in your config.toml files.
+#### 4. 在 app.toml 文件中禁用修剪，在 config.toml 文件中阻止 p2p 并将日志级别设置为 error。
 
-This ensures that the data does not get pruned and the node stays in a halted state. Setting the log level to error lessens disk ops and improves performance.
+这确保数据不会被修剪，节点保持在停止状态。将日志级别设置为 error 可以减少磁盘操作并提高性能。
 
 ```bash
 # Disable pruning in app.toml
@@ -82,27 +82,27 @@ awk '
 sed -i 's/^log_level *= *.*/log_level = "error"/' $BIYA_HOME/config/app.toml
 ```
 
-#### 5. Run your node
+#### 5. 运行节点
 
 ```bash
 biyachaind start --home $BIYA_HOME
 ```
 
-### Gateway configuration
+### 网关配置
 
-#### 1. Clone the gateway repository
+#### 1. 克隆网关仓库
 
 ```bash
 git clone https://github.com/decentrio/gateway
 ```
 
-#### 2. Build gateway
+#### 2. 构建网关
 
 ```bash
 make build
 ```
 
-#### 3. Create your config file
+#### 3. 创建配置文件
 
 ```yaml
 upstream:
@@ -135,7 +135,7 @@ ports:
 
 ```
 
-#### 4. Run Gateway
+#### 4. 运行网关
 
 ```bash
 gateway start --config $CONFIG_FILE

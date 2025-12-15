@@ -1,16 +1,16 @@
-# Canonical Chain Upgrades
+# 规范链升级
 
-## Verify release versions
+## 验证发布版本
 
-### Releases on Github
+### GitHub 上的发布
 
-If you would like to verify `biyachaind` or `peggo` version numbers via Docker,
-follow the instructions in the [`verify-biyachain-release`](https://github.com/biyachain-dev/snippets-biya/tree/main/verify-biyachain-release) code snippet.
+如果您想通过 Docker 验证 `biyachaind` 或 `peggo` 版本号，
+请按照 [`verify-biyachain-release`](https://github.com/biyachain-dev/snippets-biya/tree/main/verify-biyachain-release) 代码片段中的说明进行操作。
 
-This is useful if you are on an operating system other than Linux,
-and would like to independently verify the binaries in each release.
+如果您使用的是 Linux 以外的操作系统，
+并希望独立验证每个发布版本中的二进制文件，这很有用。
 
-For example, for `v1.16.1`, it should produce the following output:
+例如，对于 `v1.16.1`，它应该产生以下输出：
 
 ```text
 biyachaind version
@@ -21,51 +21,49 @@ Version v1.16.1 (8be67e82d)
 Compiled at 20250802-1913 using Go go1.23.9 (amd64)
 ```
 
-### Releases on Docker
+### Docker 上的发布
 
-These are more straightforward, as each binary needs a single command.
+这些更直接，因为每个二进制文件只需要一个命令。
 
-For `biyachaind`, use the following command:
+对于 `biyachaind`，使用以下命令：
 
 ```shell
 docker run -it --rm biya-coin/biyachain-core:v1.16.1 biyachaind version
 ```
 
-This should produce output similar to:
+这应该产生类似的输出：
 
 ```text
 Version v1.16.1 (8be67e8)
 Compiled at 20250802-1909 using Go go1.23.9 (arm64)
 ```
 
-For `peggo`, use the following command:
+对于 `peggo`，使用以下命令：
 
 ```shell
 docker run -it --rm biya-coin/biyachain-core:v1.16.1 peggo version
 ```
 
-This should produce output similar to:
+这应该产生类似的输出：
 
 ```text
 Version v1.16.1 (8be67e8)
 Compiled at 20250802-1911 using Go go1.23.9 (arm64)
 ```
 
-Note that you should replace `v1.16.1` in the commands above
-with your intended Biyachain release version number.
+请注意，您应该将上述命令中的 `v1.16.1` 替换为您想要的 Biyachain 发布版本号。
 
-### Checking for matches
+### 检查匹配
 
-Note that the output from the above commmands contain
-the following in addition to the version numbers (e.g. `v1.16.1`):
+请注意，上述命令的输出除了版本号（例如 `v1.16.1`）外，还包含以下内容：
 
-- The binary release hashes (e.g. `8be67e82d`)
-- The compiled time stamp (e.g. `20250802-1910`)
-- The compiler (e.g. `Go go1.23.9 (amd64)`)
+- 二进制发布哈希（例如 `8be67e82d`）
+- 编译时间戳（例如 `20250802-1910`）
+- 编译器（例如 `Go go1.23.9 (amd64)`）
 
-You can verify that these **match** the values stated in the [Biyachain chain releases](https://github.com/biya-coin/biyachain-chain-releases/releases) page on Github.
+您可以验证这些**匹配** GitHub 上 [Biyachain 链发布](https://github.com/biya-coin/biyachain-chain-releases/releases) 页面中声明的值。
 
-## History of Canonical Chain Upgrades
+## 规范链升级历史
 
 ***
 

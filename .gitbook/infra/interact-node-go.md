@@ -1,13 +1,13 @@
-# Interact with a node programmatically with Go
+# 使用 Go 程序化与节点交互
 
 {% hint style="info" %}
-The following examples are in Go, but the Python and TS SDKs can also be used to programatically interact with a node/Biyachain.
+以下示例使用 Go，但 Python 和 TS SDK 也可用于程序化与节点/Biyachain 交互。
 
-* [TypeScript Examples](../developers-native/examples/README.md)
-* [Python Examples](https://github.com/biya-coin/sdk-python/tree/master/examples)
+* [TypeScript 示例](../developers-native/examples/README.md)
+* [Python 示例](https://github.com/biya-coin/sdk-python/tree/master/examples)
 {% endhint %}
 
-The following snippet shows how to query the state using gRPC inside a Go program. The idea is to create a gRPC connection, and use the Protobuf-generated client code to query the gRPC server.
+以下代码片段展示了如何在 Go 程序中使用 gRPC 查询状态。思路是创建 gRPC 连接，并使用 Protobuf 生成的客户端代码查询 gRPC 服务器。
 
 ```go
 import (
@@ -49,9 +49,9 @@ func queryState() error {
 }
 ```
 
-#### **Query for historical state using Go**
+#### **使用 Go 查询历史状态**
 
-Querying for historical blocks is done by adding the block height metadata in the gRPC request.
+通过向 gRPC 请求添加区块高度元数据来查询历史区块。
 
 ```go
 import (

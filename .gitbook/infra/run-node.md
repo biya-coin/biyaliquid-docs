@@ -1,26 +1,26 @@
-# Running a node
+# 运行节点
 
-It is highly recommended that you set up a local private network before joining a public network. This will help you get familiar with the setup process and provide an environment for testing.
+强烈建议在加入公共网络之前先设置本地私有网络。这将帮助您熟悉设置过程并提供测试环境。
 
-### **Private Network**
+### **私有网络**
 
-* Join by setting up a standalone network locally
+* 通过在本地设置独立网络加入
 
-### **Public Network**
+### **公共网络**
 
-* Use the network via public endpoints; or
-* Join by running a node
+* 通过公共端点使用网络；或
+* 通过运行节点加入
 
-Anyone can set up their node with endpoints to communicate with the Biyachain blockchain. For convenience, there are also some public endpoints available to querying the chain. These are recommended for development and testing purposes. For maximum control and reliability, running your node is recommended.
+任何人都可以设置自己的节点，通过端点与 Biyachain 区块链通信。为了方便起见，还有一些公共端点可用于查询链。这些推荐用于开发和测试目的。为了获得最大控制和可靠性，建议运行您自己的节点。
 
-## Preparation For Running a Node
+## 运行节点的准备工作
 
-If you choose to run a node (either to set up a private network or join the public network), you must set up the keyring. You can also choose to install Cosmovisor, which assists with chain upgrades for minimal downtime.
+如果您选择运行节点（无论是设置私有网络还是加入公共网络），必须设置密钥环。您还可以选择安装 Cosmovisor，它有助于链升级以减少停机时间。
 
-## Interacting With The Node
+## 与节点交互
 
-Once the node is up and running, there are a few ways to interact with a node, namely using the gPRC endpoints, REST endpoints, or `biyachaind` CLI. You can learn more here[#interacting-with-the-node](./#interacting-with-the-node "mention")
+一旦节点启动并运行，有几种方式可以与节点交互，即使用 gRPC 端点、REST 端点或 `biyachaind` CLI。您可以在此处了解更多信息[#interacting-with-the-node](./#interacting-with-the-node "mention")
 
-## Guides on Running Your Node
+## 运行节点的指南
 
-<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>Setup Keyring</td><td>Learn how to setup your keyring</td><td><a href="./set-up-keyring.md">set-up-keyring</a></td><td><a href="../../../.gitbook/assets/user-hero.png">user-hero.png</a></td></tr><tr><td>Join a Network</td><td>Learn how to join a network</td><td><a href="join-a-network.md">join-a-network.md</a></td><td><a href="../../../.gitbook/assets/bridge-hero.png">bridge-hero.png</a></td></tr><tr><td>Upgrade your node</td><td>Learn how to upgrade your node</td><td><a href="./upgrade-node.md">upgrade-node</a></td><td><a href="../../../.gitbook/assets/validator-hero.png">validator-hero.png</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>设置密钥环</td><td>了解如何设置密钥环</td><td><a href="./set-up-keyring.md">set-up-keyring</a></td><td><a href="../../../.gitbook/assets/user-hero.png">user-hero.png</a></td></tr><tr><td>加入网络</td><td>了解如何加入网络</td><td><a href="join-a-network.md">join-a-network.md</a></td><td><a href="../../../.gitbook/assets/bridge-hero.png">bridge-hero.png</a></td></tr><tr><td>升级节点</td><td>了解如何升级节点</td><td><a href="./upgrade-node.md">upgrade-node</a></td><td><a href="../../../.gitbook/assets/validator-hero.png">validator-hero.png</a></td></tr></tbody></table>

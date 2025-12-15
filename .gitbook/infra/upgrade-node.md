@@ -1,26 +1,24 @@
-# Upgrade your node
+# 升级节点
 
-### Chain Upgrades
+### 链升级
 
-Biyachain periodically undergoes software upgrades. When a chain upgrade governance proposal is passed, a block height will be specified at which all nodes will automatically panic and stop running. At this point, the upgraded `biyachaind` binaries can be installed, and the node can be restarted.
+Biyachain 会定期进行软件升级。当链升级治理提案通过时，将指定一个区块高度，所有节点将在该高度自动 panic 并停止运行。此时，可以安装升级后的 `biyachaind` 二进制文件，并重启节点。
 
-See [biya-coin/biyachain-chain-releases](https://github.com/biya-coin/biyachain-chain-releases/releases) for the most recent and prior chain releases.
+### 节点升级说明
 
-### Node Upgrade Directions
+总结一下，按照以下步骤升级节点：
 
-To summarize, follow these steps to upgrade your node:
+1. 将节点同步到升级治理提案预定的区块高度。
+2. 节点将在预定的升级高度自动 panic/停止。
+3. 删除旧二进制文件并安装新发布版本的二进制文件。
+4. 重启节点。
 
-1. Sync your node to the block height predetermined by the upgrade governance proposal.
-2. The node will automatically panic/stop at the predetermined upgrade height.
-3. Remove the old binaries and install the new release binaries.
-4. Restart the node.
+### 使用 Cosmovisor 升级
 
-### Upgrading with Cosmovisor
+要管理链升级，请使用 [Cosmovisor](./cosmovisor.md)。
 
-To manage chain upgrades, use [Cosmovisor](./cosmovisor.md).
+### 节点维护（管理存储）
 
-### Node Maintenance (Managing Storage)
+随着 Biyachain 状态的增长，您的磁盘空间可能会填满。建议您通过下载新快照定期修剪链数据。除了磁盘开销外，当链状态较小时，节点性能更好。
 
-As Biyachain state grows, your disk space may fill up. It’s recommended you periodically prune the chain data by downloading new snapshots. Beyond the overhead on the disk, the node is more performant when the chain state is smaller.
-
-Biyachain validators take daily light snapshots that you can use to clean the chain state, which grows at about 10-15 GB daily. These snapshots are normally only around 2-3 GB. We recommend pruning the chain data every 300-400 GB. For links to snapshots as well as directions for applying the snapshot/syncing the node, see [Join Mainnet](./join-a-network.md).
+Biyachain 验证器每天都会拍摄轻量快照，您可以使用这些快照来清理链状态，链状态每天增长约 10-15 GB。这些快照通常只有大约 2-3 GB。我们建议每 300-400 GB 修剪一次链数据。有关快照链接以及应用快照/同步节点的说明，请参阅 [加入主网](./join-a-network.md)。

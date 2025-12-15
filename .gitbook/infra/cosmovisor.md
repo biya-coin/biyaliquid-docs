@@ -1,50 +1,50 @@
-# Cosmovisor Setup Guide for the Biyachain Network
+# Biyachain 网络 Cosmovisor 设置指南
 
-Cosmovisor is a process manager designed for Cosmos SDK–based blockchains that simplifies the management of binary (chain) upgrades. This guide provides step‐by‐step instructions to set up Cosmovisor for your Biyachain Network node.
+Cosmovisor 是一个专为基于 Cosmos SDK 的区块链设计的进程管理器，可简化二进制（链）升级的管理。本指南提供了为您的 Biyachain 网络节点设置 Cosmovisor 的分步说明。
 
-> **Note:** These instructions assume you already have an existing chain binary (e.g., `biyachaind`) and a working Go environment if you choose to install Cosmovisor from source. Adjust the names and paths as needed for your specific setup.
-
----
-
-## Table of Contents
-
-1. [Installation](#installation)
-   - [Installing via Go](#installing-via-go)
-2. [Environment Variables](#environment-variables)
-3. [Directory Structure](#directory-structure)
-4. [Running Cosmovisor](#running-cosmovisor)
-5. [Handling Chain Upgrades](#handling-chain-upgrades)
-6. [Running Cosmovisor as a Systemd Service](#running-cosmovisor-as-a-systemd-service)
+> **注意：** 这些说明假设您已经有一个现有的链二进制文件（例如 `biyachaind`），如果您选择从源代码安装 Cosmovisor，还需要一个可用的 Go 环境。根据您的具体设置调整名称和路径。
 
 ---
 
-## Installation
+## 目录
 
-### Installing via Go
+1. [安装](#installation)
+   - [通过 Go 安装](#installing-via-go)
+2. [环境变量](#environment-variables)
+3. [目录结构](#directory-structure)
+4. [运行 Cosmovisor](#running-cosmovisor)
+5. [处理链升级](#handling-chain-upgrades)
+6. [将 Cosmovisor 作为 Systemd 服务运行](#running-cosmovisor-as-a-systemd-service)
 
-If you have Go installed, you can install Cosmovisor with the following command:
+---
+
+## 安装
+
+### 通过 Go 安装
+
+如果您已安装 Go，可以使用以下命令安装 Cosmovisor：
 
 ```bash
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
 ```
 
-> **Tip:** Ensure that your Go binary installation path (commonly `$GOPATH/bin` or `$HOME/go/bin`) is added to your system’s `PATH`. You can verify the installation by running:
+> **提示：** 确保您的 Go 二进制安装路径（通常是 `$GOPATH/bin` 或 `$HOME/go/bin`）已添加到系统的 `PATH` 中。您可以通过运行以下命令验证安装：
 >
 > ```bash
 > which cosmovisor
 > ```
 
-## Environment Variables
+## 环境变量
 
-Set up the following environment variables so that Cosmovisor knows which binary to run and where to locate it:
+设置以下环境变量，以便 Cosmovisor 知道要运行哪个二进制文件以及在哪里找到它：
 
 - **`DAEMON_NAME`**  
-  The name of your chain’s binary (e.g., `biyachaind`).
+  链二进制文件的名称（例如 `biyachaind`）。
 
 - **`DAEMON_HOME`**  
-  The home directory for your node (e.g., `~/.biyachaind`).
+  节点的主目录（例如 `~/.biyachaind`）。
 
-You can set these variables in your shell’s profile (like `~/.bashrc` or `~/.profile`) or export them directly in your terminal session:
+您可以在 shell 的配置文件中设置这些变量（如 `~/.bashrc` 或 `~/.profile`），或在终端会话中直接导出它们：
 
 ```bash
 export DAEMON_NAME=biyachaind
@@ -53,21 +53,21 @@ export DAEMON_HOME=~/.biyachaind
 
 ---
 
-## Directory Structure
+## 目录结构
 
-Cosmovisor expects a specific folder structure in your node’s home directory:
+Cosmovisor 期望在节点的主目录中有特定的文件夹结构：
 
-1. **Create the Genesis Directory**
+1. **创建创世目录**
 
-   This directory holds the initial (genesis) binary.
+   此目录保存初始（创世）二进制文件。
 
    ```bash
    mkdir -p $DAEMON_HOME/cosmovisor/genesis/bin
    ```
 
-2. **Copy Your Current Binary**
+2. **复制当前二进制文件**
 
-   Place your current chain binary (e.g., `biyachaind`) into the genesis folder. Make sure the file name matches the `DAEMON_NAME` value (see next section).
+   将当前的链二进制文件（例如 `biyachaind`）放入创世文件夹。确保文件名与 `DAEMON_NAME` 值匹配（请参阅下一节）。
 
    ```bash
    cp $(which biyachaind) $DAEMON_HOME/cosmovisor/genesis/bin/biyachaind
@@ -75,58 +75,58 @@ Cosmovisor expects a specific folder structure in your node’s home directory:
 
 ---
 
-## Running Cosmovisor
+## 运行 Cosmovisor
 
-Instead of running your chain’s binary directly, start your node with Cosmovisor by executing:
+不要直接运行链的二进制文件，而是通过执行以下命令使用 Cosmovisor 启动节点：
 
 ```bash
 cosmovisor run start
 ```
 
-Cosmovisor will:
+Cosmovisor 将：
 
-- Look for the binary in `$DAEMON_HOME/cosmovisor/genesis/bin` (or the appropriate upgrade folder).
-- Start your node using that binary.
-- Monitor for any on-chain upgrade signals and automatically switch binaries when needed.
+- 在 `$DAEMON_HOME/cosmovisor/genesis/bin`（或相应的升级文件夹）中查找二进制文件。
+- 使用该二进制文件启动节点。
+- 监控任何链上升级信号，并在需要时自动切换二进制文件。
 
 ---
 
-## Handling Chain Upgrades
+## 处理链升级
 
-When an upgrade is announced on-chain, prepare the new binary so Cosmovisor can switch to it automatically:
+当链上宣布升级时，准备新的二进制文件，以便 Cosmovisor 可以自动切换到它：
 
-1. **Create an Upgrade Directory**
+1. **创建升级目录**
 
-   Use the upgrade name provided on-chain (e.g., `v1.14.0`):
+   使用链上提供的升级名称（例如 `v1.14.0`）：
 
    ```bash
    mkdir -p $DAEMON_HOME/cosmovisor/upgrades/<upgrade_name>/bin
    ```
 
-2. **Place the New Binary**
+2. **放置新二进制文件**
 
-   Compile or download the new binary, then copy it into the upgrade directory. Ensure the binary name matches `DAEMON_NAME`.
+   编译或下载新的二进制文件，然后将其复制到升级目录。确保二进制文件名与 `DAEMON_NAME` 匹配。
 
    ```bash
    cp /path/to/new/biyachaind $DAEMON_HOME/cosmovisor/upgrades/<upgrade_name>/bin
    cp /path/to/new/libwasmvm.x86_64.so $DAEMON_HOME/cosmovisor/upgrades/<upgrade_name>/bin
    ```
 
-> **TIP:** If you have downloaded the `biyachaind` binary package from GitHub, we copy `libwasmvm.x86_64.so` to the upgrade `bin` directory. An environment variable will be later added to the systemd service to add this directory to `LD_LIBRARY_PATH`.
+> **提示：** 如果您从 GitHub 下载了 `biyachaind` 二进制包，我们将 `libwasmvm.x86_64.so` 复制到升级 `bin` 目录。稍后将在 systemd 服务中添加环境变量，以将此目录添加到 `LD_LIBRARY_PATH`。
 
-3. **Upgrade Process**
+3. **升级过程**
 
-   When the upgrade height is reached, Cosmovisor will detect the scheduled upgrade and automatically switch to the binary located in the corresponding upgrade folder.
+   当达到升级高度时，Cosmovisor 将检测到计划的升级并自动切换到位于相应升级文件夹中的二进制文件。
 
 ---
 
-## Running Cosmovisor as a Systemd Service
+## 将 Cosmovisor 作为 Systemd 服务运行
 
-For production environments, it is common to run your node as a systemd service. Below is an example service file.
+对于生产环境，通常将节点作为 systemd 服务运行。下面是一个示例服务文件。
 
-1. **Create the Service File**
+1. **创建服务文件**
 
-   Create a file (e.g., `/etc/systemd/system/biyachaind.service`) with the following content. Adjust the paths and `<your_username>` accordingly:
+   创建一个文件（例如 `/etc/systemd/system/biyachaind.service`），内容如下。相应地调整路径和 `<your_username>`：
 
    ```ini
    [Unit]
@@ -150,7 +150,7 @@ For production environments, it is common to run your node as a systemd service.
    WantedBy=multi-user.target
    ```
 
-2. **Enable and Start the Service**
+2. **启用并启动服务**
 
    ```bash
    sudo systemctl daemon-reload
@@ -158,9 +158,9 @@ For production environments, it is common to run your node as a systemd service.
    sudo systemctl start biyachaind.service
    ```
 
-3. **Check Logs**
+3. **检查日志**
 
-   Verify that your service is running smoothly:
+   验证您的服务是否正常运行：
 
    ```bash
    journalctl -u biyachaind.service -f

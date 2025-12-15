@@ -1,5 +1,4 @@
-# Command Line Node Interaction
+# 命令行节点交互
 
-You can use the `biyachaind` CLI to interact with a node. If you are interacting with a node in your local private network, make sure the node is running in the terminal before you use the CLI.
+您可以使用 `biyachaind` CLI 与节点交互。如果您正在与本地私有网络中的节点交互，请确保在使用 CLI 之前节点已在终端中运行。
 
-For more details on how to use `biyachaind`, see [https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers/biyachaind/use.md](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers/biyachaind/use.md "mention").
