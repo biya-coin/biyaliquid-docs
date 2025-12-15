@@ -1,40 +1,40 @@
 # Connect with MetaMask
 
-## Connect MetaMask to Biyaliquid EVM Testnet
+## Connect MetaMask to Biyachain EVM Testnet
 
-MetaMask is a browser wallet extension that lets you connect to any EVM-compatible network, including **Biyaliquid EVM**.
+MetaMask is a browser wallet extension that lets you connect to any EVM-compatible network, including **Biyachain EVM**.
 
 ### How to Install MetaMask
 
 Install the official MetaMask extension from the [MetaMask download page](https://metamask.io/download).
 
-### Add Biyaliquid EVM Testnet to MetaMask
+### Add Biyachain EVM Testnet to MetaMask
 
 1. Click the **MetaMask icon** in your browser and unlock your wallet.
 2. Click the **network selector** at the top (the default is _"Ethereum Mainnet"_).
 3. Select **“Add Network”** or **“Add a network manually”** to open the custom network form.
 
-#### Biyaliquid EVM Testnet Parameters
+#### Biyachain EVM Testnet Parameters
 
 Fill in the following details:
 
 ```json
-Network Name: Biyaliquid EVM Testnet
+Network Name: Biyachain EVM Testnet
 Chain ID: 1439
-RPC URL: https://k8s.testnet.json-rpc.biyaliquid.network/
+RPC URL: https://k8s.testnet.json-rpc.biyachain.network/
 Currency Symbol: BIYA
-Block Explorer URL: https://testnet.blockscout.biyaliquid.network/blocks
+Block Explorer URL: https://testnet.blockscout.biyachain.network/blocks
 ```
 
 > _Note: Block Explorer URL is optional, powered by BlockScout._
 
-### Switch to Biyaliquid EVM Testnet
+### Switch to Biyachain EVM Testnet
 
-Once the network is added, use the network selector to switch to **Biyaliquid EVM Testnet**.
+Once the network is added, use the network selector to switch to **Biyachain EVM Testnet**.
 
 ### Fund Your Wallet (Optional)
 
-Need Testnet BIYA? Visit the [Biyaliquid Testnet faucet](https://testnet.faucet.biyaliquid.network).
+Need Testnet BIYA? Visit the [Biyachain Testnet faucet](https://testnet.faucet.biyachain.network).
 
 Funds will appear once included in a Testnet block.
 
@@ -42,7 +42,7 @@ Funds will appear once included in a Testnet block.
 
 ### You're All Set!
 
-MetaMask is now connected to the **Biyaliquid EVM Testnet**. You can:
+MetaMask is now connected to the **Biyachain EVM Testnet**. You can:
 
 * Deploy smart contracts using tools like **Foundry**, **Hardhat**, or **Remix**.
 * Interact with Testnet dApps and contracts.
@@ -61,16 +61,16 @@ You can also connect MetaMask programmatically using [`ethers`](https://docs.eth
 ```ts
 import { ethers } from 'ethers';
 
-export const biyaliquid_EVM_PARAMS = {
+export const biyachain_EVM_PARAMS = {
   chainId: '0x59f', // 1439 in hexadecimal
-  chainName: 'Biyaliquid EVM',
-  rpcUrls: ['https://k8s.testnet.json-rpc.biyaliquid.network/'],
+  chainName: 'Biyachain EVM',
+  rpcUrls: ['https://k8s.testnet.json-rpc.biyachain.network/'],
   nativeCurrency: {
-    name: 'Biyaliquid',
+    name: 'Biyachain',
     symbol: 'BIYA',
     decimals: 18,
   },
-  blockExplorerUrls: ['https://testnet.blockscout.biyaliquid.network/blocks'],
+  blockExplorerUrls: ['https://testnet.blockscout.biyachain.network/blocks'],
 };
 
 export async function connectMetaMask() {
@@ -84,7 +84,7 @@ export async function connectMetaMask() {
   try {
     await window.ethereum.request({
       method: 'wallet_addEthereumChain',
-      params: [biyaliquid_EVM_PARAMS],
+      params: [biyachain_EVM_PARAMS],
     });
 
     await provider.send('eth_requestAccounts', []);
@@ -197,7 +197,7 @@ Sample code
 
 ```javascript
 import { ethers } from 'ethers'
-import { biyaliquid_EVM_PARAMS } from './config' // From separate file
+import { biyachain_EVM_PARAMS } from './config' // From separate file
 import { counterAbi } from './abi/counterAbi'
 
 // Replace with your deployed contract address
@@ -209,16 +209,16 @@ async function connectAndInteract() {
     return
   }
 
-  // Request Biyaliquid EVM Network be added to MetaMask
+  // Request Biyachain EVM Network be added to MetaMask
   await window.ethereum.request({
     method: 'wallet_addEthereumChain',
     params: [
       {
-        chainId: biyaliquid_EVM_PARAMS.chainHex,
-        chainName: biyaliquid_EVM_PARAMS.chainName,
-        rpcUrls: [biyaliquid_EVM_PARAMS.rpcUrl],
-        nativeCurrency: biyaliquid_EVM_PARAMS.nativeCurrency,
-        blockExplorerUrls: [biyaliquid_EVM_PARAMS.blockExplorer],
+        chainId: biyachain_EVM_PARAMS.chainHex,
+        chainName: biyachain_EVM_PARAMS.chainName,
+        rpcUrls: [biyachain_EVM_PARAMS.rpcUrl],
+        nativeCurrency: biyachain_EVM_PARAMS.nativeCurrency,
+        blockExplorerUrls: [biyachain_EVM_PARAMS.blockExplorer],
       },
     ],
   })
@@ -249,7 +249,7 @@ Sample code
 
 ```javascript
 import { createWalletClient, custom, defineChain, formatEther } from 'viem'
-import { biyaliquid_EVM_PARAMS } from './config'
+import { biyachain_EVM_PARAMS } from './config'
 import { counterAbi } from './abi/counterAbi'
 import { createPublicClient, http } from 'viem'
 
@@ -263,13 +263,13 @@ async function connectAndInteract() {
   }
 
   const client = createWalletClient({
-    chain: biyaliquid_EVM_PARAMS,
+    chain: biyachain_EVM_PARAMS,
     transport: custom(window.ethereum),
   })
 
   // Create a PublicClient for reading contract state
   const publicClient = createPublicClient({
-    chain: biyaliquidEvm,
+    chain: biyachainEvm,
     transport: http(),
   })
 

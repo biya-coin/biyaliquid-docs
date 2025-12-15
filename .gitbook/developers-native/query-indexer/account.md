@@ -15,9 +15,9 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
-const portfolio = await indexerGrpcAccountApi.fetchPortfolio(biyaliquidAddress)
+const portfolio = await indexerGrpcAccountApi.fetchPortfolio(biyachainAddress)
 
 console.log(portfolio)
 ```
@@ -31,18 +31,18 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 const epoch = -1 // current epoch
 
 const tradingRewards = await indexerGrpcAccountApi.fetchRewards({
-  address: biyaliquidAddress,
+  address: biyachainAddress,
   epoch,
 })
 
 console.log(tradingRewards)
 ```
 
-### Fetch subaccounts associated with an biyaliquid address
+### Fetch subaccounts associated with an biyachain address
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -51,10 +51,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const subaccountsList = await indexerGrpcAccountApi.fetchSubaccountsList(
-  biyaliquidAddress,
+  biyachainAddress,
 )
 
 console.log(subaccountsList)

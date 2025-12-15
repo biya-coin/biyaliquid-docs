@@ -1,4 +1,4 @@
-name: Biyaliquid Docs Generation
+name: Biyachain Docs Generation
 
 on: workflow_dispatch
 
@@ -10,14 +10,14 @@ jobs:
       GH_CORE_TOKEN: ${{ secrets.GH_CORE_TOKEN }}
       GH_DOCS_TOKEN: ${{ secrets.GH_DOCS_TOKEN }}
     steps:
-      - name: Checkout biyaliquid-docs
+      - name: Checkout biyachain-docs
         uses: actions/checkout@v1
         with:
-          repository: biya-coin/biyaliquid-docs
+          repository: biya-coin/biyachain-docs
           ref: dev
-          path: ./biyaliquid-docs
+          path: ./biyachain-docs
 
-      - name: Generate new docs from biyaliquid-core
+      - name: Generate new docs from biyachain-core
         run: |
           export GH_CORE_USER=${{ secrets.GH_CORE_USER }}
           export GH_CORE_TOKEN=${{ secrets.GH_CORE_TOKEN }}
@@ -29,9 +29,9 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-      - name: Commit the changes to biyaliquid-docs
+      - name: Commit the changes to biyachain-docs
         run: |
           git add .
           git commit -m "chore: docs regenerated" || echo "No changes to commit"
-          git remote set-url origin https://${{ secrets.GH_CORE_USER }}:${{ secrets.GH_DOCS_TOKEN }}@github.com/biya-coin/biyaliquid-docs.git
+          git remote set-url origin https://${{ secrets.GH_CORE_USER }}:${{ secrets.GH_DOCS_TOKEN }}@github.com/biya-coin/biyachain-docs.git
           git push || echo "No changes to push"

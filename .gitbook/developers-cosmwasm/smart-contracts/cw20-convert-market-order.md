@@ -1,6 +1,6 @@
 # CW20 to Bank & Market Order in One Transaction
 
-This example helps you create messages to convert CW20 tokens to bank tokens on the Biyaliquid blockchain. This is particularly useful when you have CW20 tokens and need to convert them to their bank equivalents to perform operations like placing market orders. Note that this flow only works for cw20 tokens and their corresponding [factory tokens](../../developers/concepts/).
+This example helps you create messages to convert CW20 tokens to bank tokens on the Biyachain blockchain. This is particularly useful when you have CW20 tokens and need to convert them to their bank equivalents to perform operations like placing market orders. Note that this flow only works for cw20 tokens and their corresponding [factory tokens](../../developers/concepts/).
 
 This guide will walk you through:
 
@@ -10,7 +10,7 @@ This guide will walk you through:
 
 ## Get User's CW20 Balance
 
-You can perform this using [explorer indexer queries](https://github.com/biya-coin/biyaliquid-docs/blob/master/.gitbook/developers-native/query-indexer/explorer.md#fetch-cw20-balances).
+You can perform this using [explorer indexer queries](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/query-indexer/explorer.md#fetch-cw20-balances).
 
 * Find the cw20 address and balance from the result set that you want to convert to a bank factory token
 
@@ -20,7 +20,7 @@ You can perform this using [explorer indexer queries](https://github.com/biya-co
 
 ## Create a `MsgCreateSpotMarketOrder` message
 
-* Create the `msg` using the steps detailed in [MsgCreateSpotMarketOrder](https://github.com/biya-coin/biyaliquid-docs/blob/master/.gitbook/developers-native/examples/exchange.md#msgcreatespotmarketorder). No need to submit the tsx yet.
+* Create the `msg` using the steps detailed in [MsgCreateSpotMarketOrder](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/examples/exchange.md#msgcreatespotmarketorder). No need to submit the tsx yet.
 * Note that the buy order you create will have access to your converted cw20 balance + existing bank balance. Example:
 
 ```ts
@@ -41,7 +41,7 @@ import { MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
 import { Network } from '@biya-coin/networks'
 
 const privateKey = '0x...'
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 
 const txHash = await new MsgBroadcasterWithPk({
   privateKey,

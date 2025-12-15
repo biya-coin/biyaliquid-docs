@@ -6,7 +6,7 @@ In addition, the bank module tracks and provides query support for the total sup
 
 ## Messages
 
-Let's explore (and provide examples) the messages that the Bank module exports and we can use to interact with the Biyaliquid chain.
+Let's explore (and provide examples) the messages that the Bank module exports and we can use to interact with the Biyachain chain.
 
 ### MsgSend
 
@@ -18,15 +18,15 @@ import { toChainFormat } from "@biya-coin/utils";
 import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const amount = {
   denom: "biya",
   amount: toChainFormat(1).toFixed(),
 };
 const msg = MsgSend.fromJSON({
   amount,
-  srcBiyaliquidAddress: biyaliquidAddress,
-  dstBiyaliquidAddress: biyaliquidAddress,
+  srcBiyachainAddress: biyachainAddress,
+  dstBiyachainAddress: biyachainAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -49,7 +49,7 @@ import { toChainFormat } from "@biya-coin/utils";
 import { MsgMultiSend, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const denom = "biya";
 const decimals = 18;
 const records = [
@@ -65,7 +65,7 @@ const totalToSend = records.reduce((acc, record) => {
 const msg = MsgMultiSend.fromJSON({
   inputs: [
     {
-      address: biyaliquidAddress,
+      address: biyachainAddress,
       coins: [
         {
           denom,

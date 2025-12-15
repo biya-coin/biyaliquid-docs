@@ -64,8 +64,8 @@ import { Msgs, IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const chainId = ChainId.Testnet // The Biyaliquid Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm // The Biyaliquid Evm Testnet Chain ID
+const chainId = ChainId.Testnet // The Biyachain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm // The Biyachain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`
 
@@ -86,7 +86,7 @@ const response = { ... } // response from  prepareTxRequest
 const signature = await walletStrategy.signEip712TypedData(
       response.getData(),
       address,
-    ) /* see biyaliquid-ts/wallet-ts implementation of WalletStrategy. Essentially, you use the signEip712TypedData method of the wallet, if the wallet supports signing ethereum transactions */
+    ) /* see biyachain-ts/wallet-ts implementation of WalletStrategy. Essentially, you use the signEip712TypedData method of the wallet, if the wallet supports signing ethereum transactions */
 
 const broadcastTxResponse = await indexerGrpcTransactionApi.broadcastTxRequest({
   signature,

@@ -2,15 +2,15 @@
 
 ## 治理
 
-Biyaliquid 是一个社区运行的区块链，已质押 BIYA 的用户可以参与与区块链相关的治理。可以提交提案来修订 Biyaliquid 程序、技术升级或任何其他影响整个 Biyaliquid 生态系统的 Biyaliquid 相关变更。
+Biyachain 是一个社区运行的区块链，已质押 BIYA 的用户可以参与与区块链相关的治理。可以提交提案来修订 Biyachain 程序、技术升级或任何其他影响整个 Biyachain 生态系统的 Biyachain 相关变更。
 
-在 Biyaliquid Hub 中，新提案通过治理门户提交，并由整个社区投票。
+在 Biyachain Hub 中，新提案通过治理门户提交，并由整个社区投票。
 
 ### 提交请求
 
-要提交新请求，您必须创建一个提案，概述您想要进行的更改、此更改可能影响的 Biyaliquid 领域，以及您请求此更改的原因。
+要提交新请求，您必须创建一个提案，概述您想要进行的更改、此更改可能影响的 Biyachain 领域，以及您请求此更改的原因。
 
-创建提案时，您必须至少存入 10 BIYA (10e19 biya) 才能将其提交给治理。这是为了确保您是 Biyaliquid 社区的积极参与者，因此有资格提出提案请求。
+创建提案时，您必须至少存入 10 BIYA (10e19 biya) 才能将其提交给治理。这是为了确保您是 Biyachain 社区的积极参与者，因此有资格提出提案请求。
 
 提案要进入投票阶段，还必须存入 100 BIYA (10e20 biya)。这可以由您直接存入，也可以与其他社区成员合作存入。
 
@@ -22,9 +22,9 @@ Biyaliquid 是一个社区运行的区块链，已质押 BIYA 的用户可以参
 
 ### 投票结果
 
-如果提案通过，Biyaliquid 贡献者将开始合作实施新请求。如果总投票的 33.4% 是 `NoWithVeto`、未达到法定人数或未达到最低存款要求，存款将被销毁。所有其他投票结果都会退还存款。
+如果提案通过，Biyachain 贡献者将开始合作实施新请求。如果总投票的 33.4% 是 `NoWithVeto`、未达到法定人数或未达到最低存款要求，存款将被销毁。所有其他投票结果都会退还存款。
 
 ### 开始使用
 
-* 访问 [Biyaliquid Hub](https://prv.hub.biya.io/governance) 查看 Biyaliquid 提案并参与投票。
+* 访问 [Biyachain Hub](https://prv.hub.biya.io/governance) 查看 Biyachain 提案并参与投票。
 

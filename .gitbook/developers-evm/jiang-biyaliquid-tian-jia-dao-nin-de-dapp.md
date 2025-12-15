@@ -1,2 +1,2 @@
-# 将 Biyaliquid 添加到您的 dApp
+# 将 Biyachain 添加到您的 dApp
 

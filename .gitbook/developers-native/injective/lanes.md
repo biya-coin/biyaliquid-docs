@@ -1,6 +1,6 @@
 # Lanes
 
-Biyaliquid integrates the [Block SDK](https://github.com/biya-coin/block-sdk). Our solution leverages a multi‑lane mempool that separates transactions into four distinct lanes:
+Biyachain integrates the [Block SDK](https://github.com/biya-coin/block-sdk). Our solution leverages a multi‑lane mempool that separates transactions into four distinct lanes:
 
 * **Oracle Lane** – for transactions that contain oracle messages.
 * **Governance Lane** – for any transaction sent by an admin of the exchange module.

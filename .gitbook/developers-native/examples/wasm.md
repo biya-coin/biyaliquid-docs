@@ -1,6 +1,6 @@
 # Wasm
 
-The `wasm` module is the heart of interacting with the wasm smart contracts deployed on the biyaliquid chain, here you can find a list of [smart contracts](https://biyascan.com/smart-contracts/) that are deployed on the Biyaliquid chain.
+The `wasm` module is the heart of interacting with the wasm smart contracts deployed on the biyachain chain, here you can find a list of [smart contracts](https://biyascan.com/smart-contracts/) that are deployed on the Biyachain chain.
 
 {% hint style="info" %}
 `MsgUpdateCode` and `MsgStoreCode` are not supported by Ethereum (ex: Metamask) wallets.
@@ -16,13 +16,13 @@ This message is used to execute contract function, below we will use the [CW20 s
 import { Network } from '@biya-coin/networks'
 import { MsgExecuteContract, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
 
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 const recipientAddress = 'biya2...'
 const contractAddress = 'cw...'
 
 const msg = MsgExecuteContract.fromJSON({
   contractAddress,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   exec: {
     action: 'transfer',
     msg: {
@@ -53,12 +53,12 @@ import { Network } from '@biya-coin/networks'
 import { toChainFormat } from '@biya-coin/utils'
 import { MsgExecuteContract, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
 
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 const contractAddress = 'cw...'
 
 const msg = MsgExecuteContract.fromJSON({
   contractAddress,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   exec: {
     action: 'test',
     funds: [
@@ -96,12 +96,12 @@ import {
 import { Network } from '@biya-coin/networks'
 import { toChainFormat } from '@biya-coin/utils'
 
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 const contractAddress = 'cw...'
 
 const msg = MsgExecuteContractCompat.fromJSON({
   contractAddress,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   exec: {
     action: 'test',
     funds: [

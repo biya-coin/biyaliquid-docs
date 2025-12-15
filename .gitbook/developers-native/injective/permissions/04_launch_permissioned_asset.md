@@ -5,10 +5,10 @@ title: How to Launch Permissioned Assets
 
 # How to Launch Permissioned Assets
 
-Permissioned assets can be launched using [Biyaliquid APIs/SDKs](https://api.biyaliquid.exchange/#permissions) or the Biyaliquid CLI, `biyaliquidd`. See https://docs.biyaliquid.network/toolkits/biyaliquidd for more information on using the Biyaliquid CLI.
+Permissioned assets can be launched using [Biyachain APIs/SDKs](https://api.biyachain.exchange/#permissions) or the Biyachain CLI, `biyachaind`. See https://docs.biyachain.network/toolkits/biyachaind for more information on using the Biyachain CLI.
 
 ```bash
-biyaliquidd tx permissions [command]
+biyachaind tx permissions [command]
 ```
 
 - There are four transaction commands available through the CLI:
@@ -27,12 +27,12 @@ biyaliquidd tx permissions [command]
         - Used to assign roles to addresses and revoke roles from addresses
         - Like with namespace updates, role updates are also incremental
     - `claim-voucher`
-        - Mainly used when a user is not authorized to receive a permissioned asset but is sent funds from an Biyaliquid module. The funds will be held in an Biyaliquid module address until the user receives the correct permissions to receive the asset
+        - Mainly used when a user is not authorized to receive a permissioned asset but is sent funds from an Biyachain module. The funds will be held in an Biyachain module address until the user receives the correct permissions to receive the asset
 
 ## `create-namespace`
 
 ```bash
-biyaliquidd tx permissions create-namespace <namespace.json> [flags]
+biyachaind tx permissions create-namespace <namespace.json> [flags]
 ```
 
 - The json file should have the following format (remove all comments before submitting):
@@ -101,7 +101,7 @@ biyaliquidd tx permissions create-namespace <namespace.json> [flags]
 ## `update-namespace`
 
 ```json
-biyaliquidd tx permissions update-namespace <namespace-update.json> [flags]
+biyachaind tx permissions update-namespace <namespace-update.json> [flags]
 ```
 
 - Namespace updates are incremental, so unless a change is explicitly stated in the JSON, existing state will be untouched
@@ -157,7 +157,7 @@ biyaliquidd tx permissions update-namespace <namespace-update.json> [flags]
 ## `update-namespace-roles`
 
 ```json
- biyaliquidd tx permissions update-namespace-roles <roles.json> [flags]
+ biyachaind tx permissions update-namespace-roles <roles.json> [flags]
 ```
 
 ```json
@@ -198,7 +198,7 @@ biyaliquidd tx permissions update-namespace <namespace-update.json> [flags]
 ## `claim-voucher`
 
 ```bash
-biyaliquidd tx permissions claim-voucher <denom>
+biyachaind tx permissions claim-voucher <denom>
 ```
 
 - No JSON is needed for this command since the only parameter needed is the denom

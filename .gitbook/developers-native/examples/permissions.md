@@ -1,10 +1,10 @@
 # Permissions
 
-The Permissions Module facilitates the management of namespaces, roles, and permissions within the Biyaliquid ecosystem. This documentation outlines the key message types and their usage for interacting with permissions-related data.
+The Permissions Module facilitates the management of namespaces, roles, and permissions within the Biyachain ecosystem. This documentation outlines the key message types and their usage for interacting with permissions-related data.
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Permissions module exports and we can use to interact with the Biyaliquid chain.
+Let's explore (and provide examples) the Messages that the Permissions module exports and we can use to interact with the Biyachain chain.
 
 ### `MsgClaimVoucher`
 
@@ -17,12 +17,12 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const denom = "biya";
 
 const msg = MsgClaimVoucher.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   denom,
 });
 
@@ -48,7 +48,7 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const secondAddress = "biya2.....";
 const privateKey = "0x...";
 const denom = "biya";
@@ -60,7 +60,7 @@ const role1 = "Everyone";
 const permissions1 = 1;
 
 const msg = MsgCreateNamespace.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   namespace: {
     denom,
     wasmHook,
@@ -72,7 +72,7 @@ const msg = MsgCreateNamespace.fromJSON({
       permissions: permissions1,
     },
     addressRoles: {
-      address: biyaliquidAddress,
+      address: biyachainAddress,
       roles: [role1],
     },
   },
@@ -101,12 +101,12 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const denom = "biya";
 
 const msg = MsgDeleteNamespace.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   denom
 });
 
@@ -132,16 +132,16 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const denom = "biya";
 const roles = ["role1","role2"];
 
 const msg = MsgRevokeNamespaceRoles.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   denom,
   addressRolesToRevoke: {
-    biyaliquidAddress,
+    biyachainAddress,
     roles: roles,
   },
 });
@@ -168,7 +168,7 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1..."
+const biyachainAddress = "biya1..."
 const privateKey = "0x...";
 const denom = "biya";
 const wasmHookValue = "biya2...";
@@ -177,7 +177,7 @@ const sendsPausedValue = false;
 const burnsPausedValue = true;
 
 const msg = await new MsgUpdateNamespace.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   denom,
   wasmHook: {
     newValue: wasmHookValue
@@ -215,21 +215,21 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const denom = "biya";
 const role = "role1";
 const permissions = 4;
 
 const msg = MsgUpdateNamespaceRoles.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   denom,
   rolePermissions: {
     role,
     permissions: permissions
   },
   addressRoles: {
-    biyaliquidAddress,
+    biyachainAddress,
     roles: [role],
   },
 });

@@ -4,11 +4,11 @@
 
 ## MsgTransfer
 
-This message is used to send coins from the sender's Bank module on Biyaliquid to the receiver's Bank module on another Cosmos chain through IBC, which is Cosmos's Inter-Blockchain Communication Protocol. Note that Biyaliquid only supports mainnet transfers across IBC for most networks.
+This message is used to send coins from the sender's Bank module on Biyachain to the receiver's Bank module on another Cosmos chain through IBC, which is Cosmos's Inter-Blockchain Communication Protocol. Note that Biyachain only supports mainnet transfers across IBC for most networks.
 
-Application to application communication in IBC is conducted over channels, which route between an application module on one chain, and the corresponding application module on another one. More info on IBC channels can be found at https://tutorials.cosmos.network/academy/3-ibc/3-channels.html. A list of canonical channel Ids for mainnet transfers to and from Biyaliquid can be found [here](https://github.com/biya-coin/biyaliquid-ts/blob/master/deprecated/token-metadata/src/ibc/canonicalChannelsToChainMap.ts). Also noteworthy is that the application module on each chain has a portId to designate the type of module on each end. For example, `transfer` is the portId designating the transfer of ICS-20 tokens between bank modules.
+Application to application communication in IBC is conducted over channels, which route between an application module on one chain, and the corresponding application module on another one. More info on IBC channels can be found at https://tutorials.cosmos.network/academy/3-ibc/3-channels.html. A list of canonical channel Ids for mainnet transfers to and from Biyachain can be found [here](https://github.com/biya-coin/biyachain-ts/blob/master/deprecated/token-metadata/src/ibc/canonicalChannelsToChainMap.ts). Also noteworthy is that the application module on each chain has a portId to designate the type of module on each end. For example, `transfer` is the portId designating the transfer of ICS-20 tokens between bank modules.
 
-In this example, we will transfer ATOM from Biyaliquid to CosmosHub
+In this example, we will transfer ATOM from Biyachain to CosmosHub
 
 ```ts
 import {
@@ -34,7 +34,7 @@ const tokenService = new TokenService({
 });
 
 const destinationChainId = CosmosChainId["Cosmoshub"];
-const biyaliquidChainId = CosmosChainId["Biyaliquid"];
+const biyachainChainId = CosmosChainId["Biyachain"];
 
 const endpointsForNetwork = getNetworkEndpoints(Network.Mainnet);
 const bankService = new ChainGrpcBankApi(endpointsForNetwork.grpc);
@@ -56,10 +56,10 @@ const atomToken = (
 ) as Token;
 
 /* find the ibd denom hash for the canonical denom */
-const biyaliquidToCosmosHubChannelId = "channel-1";
+const biyachainToCosmosHubChannelId = "channel-1";
 const atomDenomFromSupply = ibcSupplyWithToken.find(
   ({ channelId, baseDenom }) =>
-    channelId === biyaliquidToCosmosHubChannelId && baseDenom === atomToken.denom
+    channelId === biyachainToCosmosHubChannelId && baseDenom === atomToken.denom
 ) as IbcToken;
 const canonicalDenomHash = atomDenomFromSupply.denom;
 
@@ -69,7 +69,7 @@ const amount = {
   amount: toChainFormat(0.001, atomDenomFromSupply.decimals).toFixed(),
 };
 
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const destinationAddress = "cosmos...";
 const port = "transfer";
 const timeoutTimestamp = makeTimeoutTimestampInNs();
@@ -87,10 +87,10 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
 /* create message in proto format */
 const msg = MsgTransfer.fromJSON({
   port,
-  memo: `IBC transfer from ${biyaliquidChainId} to ${destinationChainId}`,
-  sender: biyaliquidAddress,
+  memo: `IBC transfer from ${biyachainChainId} to ${destinationChainId}`,
+  sender: biyachainAddress,
   receiver: destinationAddress,
-  channelId: biyaliquidToCosmosHubChannelId,
+  channelId: biyachainToCosmosHubChannelId,
   timeout: timeoutTimestamp,
   height: {
     revisionHeight: timeoutHeight.toNumber(),

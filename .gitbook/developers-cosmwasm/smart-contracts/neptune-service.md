@@ -1,6 +1,6 @@
 # NeptuneService
 
-`NeptuneService` is a straightforward tool that interacts with the Neptune CosmWasm smart contracts on Biyaliquid. It allows you to fetch asset prices, calculate exchange ratios, create deposit and withdraw messages, and retrieve lending rates.
+`NeptuneService` is a straightforward tool that interacts with the Neptune CosmWasm smart contracts on Biyachain. It allows you to fetch asset prices, calculate exchange ratios, create deposit and withdraw messages, and retrieve lending rates.
 
 Below are examples of how to use each method in the `NeptuneService` class.
 
@@ -148,7 +148,7 @@ import {
 import { toChainFormat } from '@biya-coin/utils'
 
 const privateKey = '0x...'
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 const denom = 'peggy0xdAC17F958D2ee523a2206206994597C13D831ec7' // USDT denom
 
 const amountInUsdt = '100'
@@ -159,7 +159,7 @@ const amount = toChainFormat(amountInUsdt, 6).toFixed()
 const depositMsg = neptuneService.createDepositMsg({
   denom,
   amount,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
 })
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -185,7 +185,7 @@ import {
 import { toChainFormat } from '@biya-coin/utils'
 
 const privateKey = '0x...' // Your private key
-const biyaliquidAddress = 'biya1...' // Your Biyaliquid address
+const biyachainAddress = 'biya1...' // Your Biyachain address
 
 // Define the amount to withdraw (e.g., 100 nUSDT)
 const amountInNusdt = '100'
@@ -195,7 +195,7 @@ const amount = toChainFormat(amountInNusdt, 6).toFixed()
 
 const withdrawMsg = neptuneService.createWithdrawMsg({
   amount,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
 })
 
 const txHash = await new MsgBroadcasterWithPk({

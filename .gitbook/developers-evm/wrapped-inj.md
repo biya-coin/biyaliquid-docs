@@ -2,7 +2,7 @@
 
 ## What is a wrapped cryptocurrency?
 
-On Biyaliquid, BIYA is the cryptocurrency, which is what is used to pay transaction fees on the network.
+On Biyachain, BIYA is the cryptocurrency, which is what is used to pay transaction fees on the network.
 
 However, some dApps (including DEXes), only accept ERC20 tokens in their interfaces, and thus BIYA does **not** work with them.
 
@@ -23,12 +23,12 @@ For those of you familiar with Ethereum,
 you may be thinking that this sounds the same as wrapper Ether (wETH).
 You are right, so far wBIYA behaves in the same way as wETH.
 
-However, note that the Biyaliquid network is designed with a MultiVM technical architecture.
+However, note that the Biyachain network is designed with a MultiVM technical architecture.
 This means that if wBIYA were to be implemented using a *standard* ERC20 implementation,
 as wETH does, wBIYA would **not** be accessible when interacting with
-the the non-EVM parts of the Biyaliquid network (e.g. Cosmos transactions).
+the the non-EVM parts of the Biyachain network (e.g. Cosmos transactions).
 
-This is precisely the type of limitation that Biyaliquid's
+This is precisely the type of limitation that Biyachain's
 [MultiVM Token Standard (MTS)](./multivm-token-standard.md)
 was designed for.
 
@@ -45,10 +45,10 @@ the wBIYA smart contract uses the `Bank` precompile.
 The magic happens in the
 [`_update` function of `BankERC20`](https://github.com/biya-coin/solidity-contracts/blob/b152129a/src/BankERC20.sol#L50-L81),
 where `mint`, `burn`, or `transfer` functions in the `Bank` module are invoked,
-via its [EVM precompile](./bank-precompile.md "EVM precompile for Biyaliquid's native Bank module").
+via its [EVM precompile](./bank-precompile.md "EVM precompile for Biyachain's native Bank module").
 
 As those balances are stored/ retrieved from the `Bank` precompile,
-they are accessible from elsewhere within Biyaliquid's MultiVM architecture.
+they are accessible from elsewhere within Biyachain's MultiVM architecture.
 For example, using the Cosmos SDK you can query the wBIYA balances,
 even after updating them through EVM transactions;
 and vice versa.
@@ -58,8 +58,8 @@ Check out a [full demo of wBIYA](https://github.com/biya-coin/solidity-contracts
 
 ## How to use wBIYA programmatically
 
-- Address on Biyaliquid Mainnet: `0x0000000088827d2d103ee2d9A6b781773AE03FfB`
-- Address on Biyaliquid Testnet: `0x0000000088827d2d103ee2d9A6b781773AE03FfB`
+- Address on Biyachain Mainnet: `0x0000000088827d2d103ee2d9A6b781773AE03FfB`
+- Address on Biyachain Testnet: `0x0000000088827d2d103ee2d9A6b781773AE03FfB`
 
 To convert BIYA to wBIYA, invoke the `deposit` function on this smart contract:
 
@@ -76,8 +76,8 @@ All other functions, e.g. transfers, are the same as standard ERC20.
 
 ## How to use wBIYA via the network explorer
 
-- Explorer URL for Biyaliquid Mainnet: [`0x0000000088827d2d103ee2d9A6b781773AE03FfB`](https://blockscout.biyaliquid.network/address/0x0000000088827d2d103ee2d9A6b781773AE03FfB?tab=contract)
-- Explorer URL for Biyaliquid Testnet: [`0x0000000088827d2d103ee2d9A6b781773AE03FfB`](https://testnet.blockscout.biyaliquid.network/address/0x0000000088827d2d103ee2d9A6b781773AE03FfB?tab=contract)
+- Explorer URL for Biyachain Mainnet: [`0x0000000088827d2d103ee2d9A6b781773AE03FfB`](https://blockscout.biyachain.network/address/0x0000000088827d2d103ee2d9A6b781773AE03FfB?tab=contract)
+- Explorer URL for Biyachain Testnet: [`0x0000000088827d2d103ee2d9A6b781773AE03FfB`](https://testnet.blockscout.biyachain.network/address/0x0000000088827d2d103ee2d9A6b781773AE03FfB?tab=contract)
 
 To convert BIYA to wBIYA, invoke the `deposit` function on this smart contract:
 
@@ -101,12 +101,12 @@ To convert wBIYA to BIYA, invoke the `withdraw` function on this smart contract:
 - Your wallet should reflect an BIYA increase and a wBIYA decrease by the amount you selected.
   - Note that the BIYA increase will be marginally less, because it is used to pay for transaction fees.
 
-# How to use wBIYA via Biyaliquid Do
+# How to use wBIYA via Biyachain Do
 
-- Visit [Biyaliquid Do](https://do.biyaliquid.network/)
+- Visit [Biyachain Do](https://do.biyachain.network/)
 - Press the "Connect" button in the top right corner
 - Select your wallet
-- In your wallet select "Allow" to allow it to connect ot the Biyaliquid Do dApp.
+- In your wallet select "Allow" to allow it to connect ot the Biyachain Do dApp.
 - You should now see your wallet address apear in the top right corner (where the "Connect" button was previously)
 - In the nav bar at the top, select "EVM"
 - In the drop-down menu select "Wrap/Unwrap"

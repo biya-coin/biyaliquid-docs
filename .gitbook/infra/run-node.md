@@ -11,7 +11,7 @@ It is highly recommended that you set up a local private network before joining 
 * Use the network via public endpoints; or
 * Join by running a node
 
-Anyone can set up their node with endpoints to communicate with the Biyaliquid blockchain. For convenience, there are also some public endpoints available to querying the chain. These are recommended for development and testing purposes. For maximum control and reliability, running your node is recommended.
+Anyone can set up their node with endpoints to communicate with the Biyachain blockchain. For convenience, there are also some public endpoints available to querying the chain. These are recommended for development and testing purposes. For maximum control and reliability, running your node is recommended.
 
 ## Preparation For Running a Node
 
@@ -19,7 +19,7 @@ If you choose to run a node (either to set up a private network or join the publ
 
 ## Interacting With The Node
 
-Once the node is up and running, there are a few ways to interact with a node, namely using the gPRC endpoints, REST endpoints, or `biyaliquidd` CLI. You can learn more here[#interacting-with-the-node](./#interacting-with-the-node "mention")
+Once the node is up and running, there are a few ways to interact with a node, namely using the gPRC endpoints, REST endpoints, or `biyachaind` CLI. You can learn more here[#interacting-with-the-node](./#interacting-with-the-node "mention")
 
 ## Guides on Running Your Node
 

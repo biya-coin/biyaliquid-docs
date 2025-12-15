@@ -1,10 +1,10 @@
 # 执行清算
 
-本指南详细说明 Biyaliquid 上的交易者如何利用 `MsgLiquidatePosition` 函数来清算水下头寸。
+本指南详细说明 Biyachain 上的交易者如何利用 `MsgLiquidatePosition` 函数来清算水下头寸。
 
 **在继续之前，请确保您了解以下内容：**
 
-* **清算机制：** Biyaliquid 采用动态清算机制，超过特定抵押比率（即低于阈值）的头寸可由任何市场参与者清算。执行清算有好处，但需要大量前期资金。
+* **清算机制：** Biyachain 采用动态清算机制，超过特定抵押比率（即低于阈值）的头寸可由任何市场参与者清算。执行清算有好处，但需要大量前期资金。
 * **MsgLiquidatePosition 函数：** 此函数允许交易者对符合条件的头寸发起清算，为他们提供捕获清算费用的机会。
 
 **清算的不同情况：**
@@ -23,7 +23,7 @@
 **缺点**
 
 * 以破产价格接管可能对清算者不够有吸引力，特别是当标记价格非常接近破产价格时。
-  * 如果假设总是至少有一个"白衣骑士"清算者（目前 Biyaliquid 上就有），这个担忧可以得到缓解。
+  * 如果假设总是至少有一个"白衣骑士"清算者（目前 Biyachain 上就有），这个担忧可以得到缓解。
 
 **示例**
 
@@ -63,13 +63,13 @@
 
 **清算头寸的步骤：**
 
-1.  **识别可清算头寸：** 利用 Biyaliquid 的 `LiquidablePositions` 端点识别抵押比率低于清算阈值的头寸。相关数据点包括：
+1.  **识别可清算头寸：** 利用 Biyachain 的 `LiquidablePositions` 端点识别抵押比率低于清算阈值的头寸。相关数据点包括：
 
     * **抵押品：** 作为头寸抵押品存入的代币总价值。
     * **负债：** 头寸中借入代币的总价值。
     * **清算阈值：** 避免清算所需的最小抵押比率。
 
     示例可以在[这里找到 Go 版本](https://github.com/biya-coin/sdk-go/blob/master/examples/exchange/derivatives/20\_LiquidablePositions/example.go)和[这里找到 Python 版本](https://github.com/biya-coin/sdk-python/blob/master/examples/exchange\_client/derivative\_exchange\_rpc/23\_LiquidablePositions.py)。
-2. **准备清算交易：** 使用 `MsgLiquidatePosition` 函数构建订单交易，指定 [API 文档](https://api.biyaliquid.exchange/?python#derivatives-msgliquidateposition)中列出的参数。虽然不是强制性的，但强烈建议使用限价交易而不是市价交易。
+2. **准备清算交易：** 使用 `MsgLiquidatePosition` 函数构建订单交易，指定 [API 文档](https://api.biyachain.exchange/?python#derivatives-msgliquidateposition)中列出的参数。虽然不是强制性的，但强烈建议使用限价交易而不是市价交易。
 
-注意，执行清算需要限价单。通过遵循这些步骤并考虑概述的因素，做市商可以有效地利用 `MsgLiquidatePosition` 函数参与 Biyaliquid 的清算机制并捕获潜在的利润机会。
+注意，执行清算需要限价单。通过遵循这些步骤并考虑概述的因素，做市商可以有效地利用 `MsgLiquidatePosition` 函数参与 Biyachain 的清算机制并捕获潜在的利润机会。

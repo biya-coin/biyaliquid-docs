@@ -60,7 +60,7 @@ npx hardhat test
 ```
 
 The following command runs the test, but **not** within the emulated EVM instance.
-Instead, the smart contract is deployed to the Biyaliquid Testnet (a public network), and then tests are run against it.
+Instead, the smart contract is deployed to the Biyachain Testnet (a public network), and then tests are run against it.
 This is **not recommended** in most cases, and is only needed in select/ advanced use cases.
 
 ```shell

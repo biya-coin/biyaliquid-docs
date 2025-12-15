@@ -1,6 +1,6 @@
-# Biyaliquid Trader
+# Biyachain Trader
 
-Biyaliquid Trader is a professional-grade framework that provides a high-performance, reliable foundation for developing and deploying algorithmic trading strategies on the Biyaliquid blockchain. It bridges the gap between algorithmic trading strategies and blockchain execution, eliminating technical barriers. The framework takes care of the heavy lifting - real-time data streaming, order execution, reconnection/recovery, transaction batching, and analytics This frees up traders to focus solely on strategy development rather than blockchain complexities.
+Biyachain Trader is a professional-grade framework that provides a high-performance, reliable foundation for developing and deploying algorithmic trading strategies on the Biyachain blockchain. It bridges the gap between algorithmic trading strategies and blockchain execution, eliminating technical barriers. The framework takes care of the heavy lifting - real-time data streaming, order execution, reconnection/recovery, transaction batching, and analytics This frees up traders to focus solely on strategy development rather than blockchain complexities.
 
 You can use it to import existing strategies or create new ones that:
 
@@ -37,38 +37,38 @@ You can use it to import existing strategies or create new ones that:
 * Detailed performance analytics
 
 {% hint style="warning" %}
-Biyaliquid trader transacts assets with real value, as such security is paramount. Be sure to use the following as a security baseline, and also take further measures to protect your assets.
+Biyachain trader transacts assets with real value, as such security is paramount. Be sure to use the following as a security baseline, and also take further measures to protect your assets.
 
 * **Never share private keys** or commit them to Git.
 * Store secrets in a local **`.env` file** and load via environment variables.
-* For extra safety, consider using [**AuthZ**](https://github.com/biya-coin/biyaliquid-trader/tree/master?tab=readme-ov-file#authorization-trading-authz) to grant trading rights without exposing your main account.
+* For extra safety, consider using [**AuthZ**](https://github.com/biya-coin/biyachain-trader/tree/master?tab=readme-ov-file#authorization-trading-authz) to grant trading rights without exposing your main account.
 {% endhint %}
 
 ## Quick Start (5 minutes)
 
-### 1. Get Your Biyaliquid Account Ready (and Funded)
+### 1. Get Your Biyachain Account Ready (and Funded)
 
-1. **Create an account** on Biyaliquid using Keplr or `biyaliquidd`.
+1. **Create an account** on Biyachain using Keplr or `biyachaind`.
 2. If using Keplr, **export your private key** for the `.env` file.
    * _Tip: With AuthZ, you can grant limited permissions to a trading account for better security._
-3. **Fund your account** with USDT by sending from another Biyaliquid address, or via [bridge.biyaliquid.network](http://bridge.biyaliquid.network/).
-   * _EVM tip: You can derive your `biya` address with the TS SDK and bridge USDT from Ethereum to Biyaliquid without even setting up an Biyaliquid account._
+3. **Fund your account** with USDT by sending from another Biyachain address, or via [bridge.biyachain.network](http://bridge.biyachain.network/).
+   * _EVM tip: You can derive your `biya` address with the TS SDK and bridge USDT from Ethereum to Biyachain without even setting up an Biyachain account._
 
 ### 2. Download and Setup
 
 ```bash
-git clone https://github.com/biya-coin/biyaliquid-trader.git
-cd biyaliquid-trader
+git clone https://github.com/biya-coin/biyachain-trader.git
+cd biyachain-trader
 
 # Create a virtual environment (recommended)
 python3 -m venv .venv
 source .venv/bin/activate    # Windows: .venv\Scripts\Activate.ps1
 
 pip install -r requirements.txt
-pip install "biyaliquid-py==1.9"
+pip install "biyachain-py==1.9"
 ```
 
-_Note: `biyaliquid-trader` is not yet compatible with `biyaliquid-py` v1.11._
+_Note: `biyachain-trader` is not yet compatible with `biyachain-py` v1.11._
 
 ### 3. Configure Your Strategy
 
@@ -108,12 +108,12 @@ Strategies:
 
 ### 4. Set Your Private Key
 
-Instead of a single `biyaliquid_PRIVATE_KEY`, use **bot-scoped environment variables** in `.env` (matches the framework defaults):
+Instead of a single `biyachain_PRIVATE_KEY`, use **bot-scoped environment variables** in `.env` (matches the framework defaults):
 
 ```
 # For bot named "MyBot"
-MyBot_GRANTER_biyaliquid_PRIVATE_KEY=your_granter_private_key_here
-MyBot_GRANTEE_0_biyaliquid_PRIVATE_KEY=your_first_grantee_private_key_here
+MyBot_GRANTER_biyachain_PRIVATE_KEY=your_granter_private_key_here
+MyBot_GRANTEE_0_biyachain_PRIVATE_KEY=your_first_grantee_private_key_here
 ```
 
 Load them into your session:
@@ -168,7 +168,7 @@ You should now be able to do **Run → Start Debugging** in your IDE.
 
 ### System Architecture Diagram
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt="Biyaliquid Trader Network Architecture Diagram" width="563"><figcaption><p>Biyaliquid Trader Network Architecture Diagram</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt="Biyachain Trader Network Architecture Diagram" width="563"><figcaption><p>Biyachain Trader Network Architecture Diagram</p></figcaption></figure>
 
 ### Core Design Patterns
 
@@ -212,4 +212,4 @@ You should now be able to do **Run → Start Debugging** in your IDE.
 
 ## Next
 
-Learn more about the [simple strategy](biyaliquid-trader-simple-strategy.md) that ships with Biyaliquid Trader, to get yourself comfortable with the codebase before diving in.
+Learn more about the [simple strategy](biyachain-trader-simple-strategy.md) that ships with Biyachain Trader, to get yourself comfortable with the codebase before diving in.

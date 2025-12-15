@@ -2,11 +2,11 @@
 
 ## Abstract
 
-The peggy module enables the Biyaliquid Chain to support a trustless, on-chain bidirectional ERC-20 token bridge to Ethereum. In this system,\
+The peggy module enables the Biyachain Chain to support a trustless, on-chain bidirectional ERC-20 token bridge to Ethereum. In this system,\
 holders of ERC-20 tokens on Ethereum can convert their ERC-20 tokens to Cosmos-native coins on\
-the Biyaliquid Chain and vice-versa.
+the Biyachain Chain and vice-versa.
 
-This decentralized bridge is secured and operated by the validators of the Biyaliquid Chain.
+This decentralized bridge is secured and operated by the validators of the Biyachain Chain.
 
 ## Contents
 
@@ -22,7 +22,7 @@ This decentralized bridge is secured and operated by the validators of the Biyal
 ### Components
 
 1. [**Peggy**](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3) **smart contract on Ethereum**
-2. **Peggy module on the Biyaliquid Chain**
+2. **Peggy module on the Biyachain Chain**
 3. [**Peggo**](https://github.com/biya-coin/peggo) **(off-chain relayer aka orchestrator)**
    * **Oracle** (Observes events of Peggy contract and send claims to the Peggy module)
    * **EthSigner** (Signs Valset and Batch confirmations to the Peggy module)
@@ -30,10 +30,10 @@ This decentralized bridge is secured and operated by the validators of the Biyal
    * **Valset Relayer** (Submits Validator set updates to the Peggy contract)
    * **Batch Relayer** (Submits batches of token withdrawals to the Peggy contract)
 
-In addition to running an `biyaliquidd` node to sign blocks, Biyaliquid Chain validators must also run the `peggo` orchestrator to relay data from the Peggy smart contract on Ethereum and the Peggy module on the Biyaliquid Chain.
+In addition to running an `biyachaind` node to sign blocks, Biyachain Chain validators must also run the `peggo` orchestrator to relay data from the Peggy smart contract on Ethereum and the Peggy module on the Biyachain Chain.
 
 ### Peggo Functionalities
 
-1. **Maintaining an up-to-date checkpoint of the Biyaliquid Chain validator set on Ethereum**
-2. **Transferring ERC-20 tokens from Ethereum to the Biyaliquid Chain**
-3. **Transferring pegged tokens from the Biyaliquid Chain to Ethereum**
+1. **Maintaining an up-to-date checkpoint of the Biyachain Chain validator set on Ethereum**
+2. **Transferring ERC-20 tokens from Ethereum to the Biyachain Chain**
+3. **Transferring pegged tokens from the Biyachain Chain to Ethereum**

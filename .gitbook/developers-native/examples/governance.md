@@ -1,12 +1,12 @@
 # Governance
 
-Biyaliquid is a community-run blockchain and users who have staked BIYA are able to participate in governance as it relates to the blockchain. Proposals can be submitted to make revisions to Biyaliquid programs, tech upgrades, or any other Biyaliquid related changes that impact the entire Biyaliquid ecosystem.
+Biyachain is a community-run blockchain and users who have staked BIYA are able to participate in governance as it relates to the blockchain. Proposals can be submitted to make revisions to Biyachain programs, tech upgrades, or any other Biyachain related changes that impact the entire Biyachain ecosystem.
 
-For every proposal you create, we require you to deposit at least 1 BIYA. This is to ensure that you are an active participant of the Biyaliquid community and you are eligible to make proposals and govern the protocol moving forward. For the proposal to pass to the voting stage, it must have 500 BIYA deposited. You can deposit the 500 BIYA yourself or collaborate with the community to deposit them collectively.
+For every proposal you create, we require you to deposit at least 1 BIYA. This is to ensure that you are an active participant of the Biyachain community and you are eligible to make proposals and govern the protocol moving forward. For the proposal to pass to the voting stage, it must have 500 BIYA deposited. You can deposit the 500 BIYA yourself or collaborate with the community to deposit them collectively.
 
 ## Messages
 
-Let's explore (and provide examples) the messages that the Governance module exports and we can use to interact with the Biyaliquid chain. For example, you can use these messages to propose new spot, perpetual, or futures markets.
+Let's explore (and provide examples) the messages that the Governance module exports and we can use to interact with the Biyachain chain. For example, you can use these messages to propose new spot, perpetual, or futures markets.
 
 ### MsgGovDeposit
 
@@ -23,7 +23,7 @@ import { Network } from "@biya-coin/networks";
 const denom = 'biya'
 const proposalId = 12345
 const privateKey = "0x...";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed()
 
 const message = MsgGovDeposit.fromJSON({
@@ -32,7 +32,7 @@ const message = MsgGovDeposit.fromJSON({
     amount
   },
   proposalId,
-  depositor: biyaliquidAddress
+  depositor: biyachainAddress
 })
 
 /* broadcast transaction */
@@ -55,13 +55,13 @@ import { VoteOption } from "@biya-coin/sdk-ts";
 
 const proposalId = 12345;
 const privateKey = "0x...";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const vote = VoteOption.VOTE_OPTION_YES;
 
 const message = MsgVote.fromJSON({
   vote,
   proposalId,
-  voter: biyaliquidAddress,
+  voter: biyachainAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -74,7 +74,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgSubmitTextProposal
 
-Propose any action on Biyaliquid. TextProposal defines a standard text proposal whose changes need to be manually updated in case of approval.
+Propose any action on Biyachain. TextProposal defines a standard text proposal whose changes need to be manually updated in case of approval.
 
 ```ts
 import {
@@ -86,13 +86,13 @@ import { toChainFormat } from "@biya-coin/utils";
 
 const denom = "biya";
 const privateKey = "0x...";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const message = MsgSubmitTextProposal.fromJSON({
   title: "Title of Proposal",
   description: "Description of Proposal",
-  proposer: biyaliquidAddress,
+  proposer: biyachainAddress,
   deposit: {
     denom,
     amount,
@@ -119,14 +119,14 @@ import {
 } from "@biya-coin/sdk-ts";
 import { toChainFormat, toHumanReadable } from "@biya-coin/utils";
 import { getNetworkEndpoints, Network } from "@biya-coin/networks";
-// refer to https://github.com/biya-coin/biyaliquid-lists
+// refer to https://github.com/biya-coin/biyachain-lists
 import { tokens } from "../data/tokens.json";
 
 const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[]);
 
 const denom = "biya";
 const privateKey = "0x...";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const market = {
@@ -164,7 +164,7 @@ const marketWithTickSizes = {
 
 const message = MsgSubmitProposalSpotMarketLaunch.fromJSON({
   market: marketWithTickSizes,
-  proposer: biyaliquidAddress,
+  proposer: biyachainAddress,
   deposit: {
     denom,
     amount,
@@ -191,14 +191,14 @@ import {
 } from "@biya-coin/sdk-ts";
 import { toChainFormat } from "@biya-coin/utils";
 import { getNetworkEndpoints, Network } from "@biya-coin/networks";
-// refer to https://github.com/biya-coin/biyaliquid-lists
+// refer to https://github.com/biya-coin/biyachain-lists
 import { tokens } from "../data/tokens.json";
 
 const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[]);
 
 const denom = "biya";
 const privateKey = "0x...";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const market = {
@@ -235,7 +235,7 @@ const marketWithTickSizes = {
 
 const message = MsgSubmitProposalPerpetualMarketLaunch.fromJSON({
   market: marketWithTickSizes,
-  proposer: biyaliquidAddress,
+  proposer: biyachainAddress,
   deposit: {
     denom,
     amount,
@@ -262,13 +262,13 @@ import {
 } from "@biya-coin/sdk-ts";
 import { toChainFormat } from "@biya-coin/utils";
 import { getNetworkEndpoints, Network } from "@biya-coin/networks";
-// refer to https://github.com/biya-coin/biyaliquid-lists
+// refer to https://github.com/biya-coin/biyachain-lists
 import { tokens } from "../data/tokens.json";
 
 const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[]);
 
 const denom = "biya";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const privateKey = "0x...";
 const amount = toChainFormat(1).toFixed();
 
@@ -308,7 +308,7 @@ const marketWithTickSizes = {
 
 const message = MsgSubmitProposalExpiryFuturesMarketLaunch.fromJSON({
   market: marketWithTickSizes,
-  proposer: biyaliquidAddress,
+  proposer: biyachainAddress,
   deposit: {
     denom,
     amount,
@@ -338,7 +338,7 @@ import { MarketStatusMap } from "@biya-coin/chain-api";
 
 const denom = "biya";
 const privateKey = "0x...";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const market = {
@@ -356,7 +356,7 @@ const market = {
 
 const message = MsgSubmitProposalSpotMarketParamUpdate.fromJSON({
   market,
-  proposer: biyaliquidAddress,
+  proposer: biyachainAddress,
   deposit: {
     denom,
     amount,

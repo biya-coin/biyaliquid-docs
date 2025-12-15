@@ -3,14 +3,14 @@
 ## Gas 和费用
 
 {% hint style="info" %}
-了解 Biyaliquid 上 `Gas` 和 `Fees` 之间的区别。
+了解 Biyachain 上 `Gas` 和 `Fees` 之间的区别。
 
 前置阅读 -> [Cosmos SDK Gas](https://docs.cosmos.network/main/build/modules/auth#gas--fees)
 {% endhint %}
 
 Gas 表示在状态机上执行特定操作所需的计算工作量。
 
-Biyaliquid 利用 gas 的概念来跟踪执行期间操作的资源使用情况。Biyaliquid 上的操作表示为对链存储的读取或写入。
+Biyachain 利用 gas 的概念来跟踪执行期间操作的资源使用情况。Biyachain 上的操作表示为对链存储的读取或写入。
 
 费用在消息执行期间计算并向用户收取。该费用根据消息执行中消耗的所有 gas 的总和计算：
 

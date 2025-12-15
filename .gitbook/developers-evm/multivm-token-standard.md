@@ -1,12 +1,12 @@
 ---
-description: Understanding token representation in Biyaliquid's multi-VM architecture
+description: Understanding token representation in Biyachain's multi-VM architecture
 ---
 
 # MultiVM Token Standard
 
 ## What is MultiVM Token Standard (MTS)?
 
-MTS (MultiVM Token Standard) ensures that every token on Biyaliquid—whether deployed using Cosmos modules or via the Ethereum Virtual Machine (EVM)—has one canonical balance and identity. This unified approach prevents fragmentation and eliminates the need for bridging or wrapping tokens, thereby enabling seamless interoperability and unified liquidity for decentralized finance (DeFi) and dApp interactions.
+MTS (MultiVM Token Standard) ensures that every token on Biyachain—whether deployed using Cosmos modules or via the Ethereum Virtual Machine (EVM)—has one canonical balance and identity. This unified approach prevents fragmentation and eliminates the need for bridging or wrapping tokens, thereby enabling seamless interoperability and unified liquidity for decentralized finance (DeFi) and dApp interactions.
 
 ## Why is MTS Important?
 
@@ -20,34 +20,34 @@ MTS (MultiVM Token Standard) ensures that every token on Biyaliquid—whether de
 The system comprises two main components:
 
 * [**Bank Precompile**](bank-precompile.md):
-  * Developed in Go, this precompile is embedded directly in the Biyaliquid EVM.
+  * Developed in Go, this precompile is embedded directly in the Biyachain EVM.
   * It provides a Solidity interface that proxies ERC20 operations—such as mint, burn, and transfer—to the bank module.
 * [**ERC20 Module**](erc20-module.md):
   * This module maps native bank denoms (e.g., BIYA, IBC tokens, Peggy assets) to an ERC20 contract within the EVM.
   * It deploys MTS-compliant ERC20 contracts that always reflect the canonical token balance as maintained by the bank module.
 
-<figure><img src="https://github.com/biya-coin/biyaliquid-docs/blob/master/.gitbook/assets/multivm-token-single-token-representation-architecture.png" alt=""><figcaption><p>Single Token Representation Architecture</p></figcaption></figure>
+<figure><img src="https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/assets/multivm-token-single-token-representation-architecture.png" alt=""><figcaption><p>Single Token Representation Architecture</p></figcaption></figure>
 
 ### **Creating an** MT&#x53;**-Compliant Token**
 
 1. [**Using Our Prebuilt Templates**](https://github.com/biya-coin/solidity-contracts/tree/master/src):
    * Start with the provided Solidity templates, such as `BankERC20.sol`, `MintBurnBankERC20.sol`, or `FixedSupplyBankERC20.sol`.
 2. [**Deploying the Contract**](smart-contracts/):
-   * Deploy your MTS token contract on the Biyaliquid EVM network.
+   * Deploy your MTS token contract on the Biyachain EVM network.
    * The contract automatically interacts with the Bank Precompile to update the canonical state.
 
 ### **Interoperability and Cross-Chain Integration**
 
 #### **Native Interoperability**
 
-Biyaliquid’s EVM is integrated directly into the Cosmos-based chain.
+Biyachain’s EVM is integrated directly into the Cosmos-based chain.
 
 * EVM smart contracts, when using MTS, perform operations that reflect immediately on native modules (such as the exchange, staking, and governance modules).
-* [JSON-RPC endpoints](network-information.md) provided within the Biyaliquid binary are compatible with Ethereum, ensuring smooth developer integration.
+* [JSON-RPC endpoints](network-information.md) provided within the Biyachain binary are compatible with Ethereum, ensuring smooth developer integration.
 
 #### **Cross-Chain Operations**
 
-* **IBC Compatibility:** Existing native tokens (e.g., those created via a [Token Factory](../developers-native/biyaliquid/tokenfactory/) or pegged via Peggy) are accessible from the EVM once an MTS pairing is established.
+* **IBC Compatibility:** Existing native tokens (e.g., those created via a [Token Factory](../developers-native/biyachain/tokenfactory/) or pegged via Peggy) are accessible from the EVM once an MTS pairing is established.
 * **Bridging Alternatives:** While many blockchains require separate bridge operations (lock, mint, unlock), MTS avoids these steps by natively synchronizing states.
 
 #### **Allowances & Extended ERC20 Functions**

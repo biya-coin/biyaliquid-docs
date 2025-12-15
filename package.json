@@ -1,9 +1,9 @@
 {
-  "name": "biyaliquid-docs",
+  "name": "biyachain-docs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "generate:core-specs": "./scripts/biyaliquid-core-specs.sh"
+    "generate:core-specs": "./scripts/biyachain-core-specs.sh"
   },
   "dependencies": {
     "dotenv": "^16.4.5"

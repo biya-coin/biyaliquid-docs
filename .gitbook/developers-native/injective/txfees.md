@@ -1,6 +1,6 @@
 # Txfees
 
-The txfees module for Biyaliquid provides the required functionality to support fee market as per EIP-1559.
+The txfees module for Biyachain provides the required functionality to support fee market as per EIP-1559.
 
 EIP-1559 introduces a "base fee" that automatically adjusts based on network congestion. When network activity increases, the base fee increases, and when activity decreases, the base fee decreases. This creates a more predictable and efficient fee market compared to a simple first-price auction model.
 
@@ -134,7 +134,7 @@ Example of updating multiple parameters:
   "description": "Adjust fee market parameters to improve network performance during congestion",
   "messages": [
     {
-      "@type": "/biyaliquid.txfees.v1beta1.MsgUpdateParams",
+      "@type": "/biyachain.txfees.v1beta1.MsgUpdateParams",
       "authority": "biya10d07y265gmmuvt4z0w9aw880jnsr700jvss730",  // gov module account
       "params": {
         "max_gas_wanted_per_tx": "100000000",             // Increase max gas per tx to 100M
@@ -164,12 +164,12 @@ When updating parameters:
 
 You can query current parameter values using the gRPC endpoint:
 ```bash
-/biyaliquid/txfees/v1beta1/params
+/biyachain/txfees/v1beta1/params
 ```
 
 You can also query the current EIP-1559 base fee using the CLI:
 ```bash
-biyaliquidd query txfees base-fee
+biyachaind query txfees base-fee
 ```
 
 ### Query Current Base Fee
@@ -178,7 +178,7 @@ The current EIP-1559 base fee can be queried through multiple interfaces:
 
 #### CLI
 ```bash
-biyaliquidd query txfees base-fee
+biyachaind query txfees base-fee
 ```
 
 #### gRPC
@@ -201,7 +201,7 @@ message EipBaseFee {
 
 Example using `grpcurl`:
 ```bash
-grpcurl -plaintext localhost:9090 biyaliquid.txfees.v1beta1.Query/GetEipBaseFee
+grpcurl -plaintext localhost:9090 biyachain.txfees.v1beta1.Query/GetEipBaseFee
 
 # Osmosis-like path for compatibility with IBC relayers and wallets
 grpcurl -plaintext localhost:9090 osmosis.txfees.v1beta1.Query/GetEipBaseFee
@@ -214,14 +214,14 @@ Service Definition:
 service Query {
   // Returns the current fee market EIP base fee
   rpc GetEipBaseFee(QueryEipBaseFeeRequest) returns (QueryEipBaseFeeResponse) {
-    option (google.api.http).get = "/biyaliquid/txfees/v1beta1/cur_eip_base_fee";
+    option (google.api.http).get = "/biyachain/txfees/v1beta1/cur_eip_base_fee";
   }
 }
 ```
 
 #### gRPC-Gateway (REST)
 ```bash
-curl -X GET "http://localhost:1317/biyaliquid/txfees/v1beta1/cur_eip_base_fee"
+curl -X GET "http://localhost:1317/biyachain/txfees/v1beta1/cur_eip_base_fee"
 ```
 
 #### Response Format

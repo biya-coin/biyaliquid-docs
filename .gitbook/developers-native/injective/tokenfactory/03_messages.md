@@ -100,7 +100,7 @@ capability, if enabled.
 
 ```protobuf
 message MsgSetDenomMetadata {
-  option (amino.name) = "biyaliquid/tokenfactory/set-denom-metadata";
+  option (amino.name) = "biyachain/tokenfactory/set-denom-metadata";
   option (cosmos.msg.v1.signer) = "sender";
 
   string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];

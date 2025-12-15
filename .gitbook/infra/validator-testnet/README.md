@@ -18,7 +18,7 @@ First, run the keygen command with your desired validator key name.
 
 ```bash
 export VALIDATOR_KEY_NAME=[my-validator-key]
-biyaliquidd keys add $VALIDATOR_KEY_NAME
+biyachaind keys add $VALIDATOR_KEY_NAME
 ```
 
 This will derive a new private key and encrypt it to disk. Make sure to remember the password you used.
@@ -41,19 +41,19 @@ It is the only way to recover your account if you ever forget your password.
 {% hint style="warning" %}
 **The output will contain a mnemonic phrase that represents your key in plain text. Make sure to save this phrase as a backup of your key, since without a key you will not be able to control your validator. The phrase is better be backed up on physical paper, storing it in cloud storage may compromise your validator later.**
 
-Remember the address starting from `biya`, this is going to be your Biyaliquid Chain Validator Account address.
+Remember the address starting from `biya`, this is going to be your Biyachain Chain Validator Account address.
 {% endhint %}
 
 ### Step 2: Obtain BIYA
 
-In order to proceed with the next step, you will have to obtain some BIYA on Biyaliquid.
+In order to proceed with the next step, you will have to obtain some BIYA on Biyachain.
 
-You can request funds from the [Testnet Faucet](https://faucet.biyaliquid.network/).
+You can request funds from the [Testnet Faucet](https://faucet.biyachain.network/).
 
-After a few minutes, you should be able to verify that your deposit was successful on the UI. Alternatively, you can query your account balance using the `biyaliquidd` CLI with the following command:
+After a few minutes, you should be able to verify that your deposit was successful on the UI. Alternatively, you can query your account balance using the `biyachaind` CLI with the following command:
 
 ```bash
-biyaliquidd q bank balances <my-validator-biya-address>
+biyachaind q bank balances <my-validator-biya-address>
 ```
 
 ### Step 3: Create your validator account
@@ -61,7 +61,7 @@ biyaliquidd q bank balances <my-validator-biya-address>
 Obtain your node's Tendermint validator Bech32 encoded PubKey consensus address.
 
 ```bash
-VALIDATOR_PUBKEY=$(biyaliquidd tendermint show-validator)
+VALIDATOR_PUBKEY=$(biyachaind tendermint show-validator)
 echo $VALIDATOR_PUBKEY
 
 # Example: {"@type": "/cosmos.crypto.ed25519.PubKey", "key": "GWEJv/KSFhUUcKBWuf9TTT3Ful+3xV/1lFhchyW1TZ8="}
@@ -90,7 +90,7 @@ MIN_SELF_DELEGATION_AMOUNT=50000000000000000000 # e.g. for a minimum 50 BIYA sel
 Then run the following command to create your validator.
 
 ```bash
-biyaliquidd tx staking create-validator \
+biyachaind tx staking create-validator \
 --moniker=$MONIKER \
 --amount=$AMOUNT \
 --gas-prices=500000000biya \
@@ -99,7 +99,7 @@ biyaliquidd tx staking create-validator \
 --keyring-backend=file \
 --yes \
 --node=tcp://localhost:26657 \
---chain-id=biyaliquid-888
+--chain-id=biyachain-888
 --commission-max-change-rate=$COMMISSION_MAX_CHANGE_RATE \
 --commission-max-rate=$COMMISSION_MAX_RATE \
 --commission-rate=$COMMISSION_RATE \
@@ -116,7 +116,7 @@ Extra `create-validator` options to consider:
 ```
 
 You can check that your validator was successfully created by checking the
-[staking dashboard](https://biyahub.com/stake/),
+[staking dashboard](https://prv.hub.biya.io/stake/),
 and scrolling down to the "Validators" section.
 It looks like this:
 ![Biya Hub Staking Validators Section](../../.gitbook/assets/biya-hub-staking-validators-section.png)
@@ -124,21 +124,21 @@ It looks like this:
 Alternatively, enter the following CLI command:
 
 ```bash
-biyaliquidd q staking validators
+biyachaind q staking validators
 ```
 
 If you see your validator in the list of validators, then congratulations, you have officially joined as an Equinox Staking validator! 🎉
 
 ### Step 4: (Optional) Delegate Additional BIYA to your Validator
 
-To gain a deeper empirical understanding of the user experience that your future delegators will experience, you can complete the remaining steps in the [Staking Guide](https://medium.com/biyaliquid-labs/biyaliquid-hub-guide-9a14f09f6a7d).
+To gain a deeper empirical understanding of the user experience that your future delegators will experience, you can complete the remaining steps in the [Staking Guide](https://medium.com/biyachain-labs/biyachain-hub-guide-9a14f09f6a7d).
 
 These steps will allow you to experience the delegation flow using MetaMask Transactions. 🦊
 
-Alternatively, you can always use the Biyaliquid CLI to send a delegation transaction.
+Alternatively, you can always use the Biyachain CLI to send a delegation transaction.
 
 ```bash
-biyaliquidd tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --chain-id=biyaliquid-888 --keyring-backend=file --yes --node=tcp://localhost:26657
+biyachaind tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --chain-id=biyachain-888 --keyring-backend=file --yes --node=tcp://localhost:26657
 ```
 
 ### Next Steps

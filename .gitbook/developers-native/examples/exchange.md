@@ -1,12 +1,12 @@
 # Exchange
 
-The `exchange` module is the heart of the Biyaliquid Chain which enables fully decentralized spot and derivative exchange. It is the sine qua non module of the chain and integrates tightly with the `auction`, `insurance`, `oracle`, and `peggy` modules.
+The `exchange` module is the heart of the Biyachain Chain which enables fully decentralized spot and derivative exchange. It is the sine qua non module of the chain and integrates tightly with the `auction`, `insurance`, `oracle`, and `peggy` modules.
 
 The exchange protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process of orderbook management, trade execution, order matching and settlement occurs on chain through the logic codified by the exchange module.
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Exchange module exports and we can use to interact with the Biyaliquid chain.
+Let's explore (and provide examples) the Messages that the Exchange module exports and we can use to interact with the Biyachain chain.
 
 ### MsgDeposit
 
@@ -22,14 +22,14 @@ import {
 } from "@biya-coin/sdk-ts";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 
 const amount = {
   denom: "biya",
   amount: toChainFormat(1),
 };
 
-const ethereumAddress = getEthereumAddress(biyaliquidAddress);
+const ethereumAddress = getEthereumAddress(biyachainAddress);
 const subaccountIndex = 0;
 const suffix = "0".repeat(23) + subaccountIndex;
 const subaccountId = ethereumAddress + suffix;
@@ -37,7 +37,7 @@ const subaccountId = ethereumAddress + suffix;
 const msg = MsgDeposit.fromJSON({
   amount,
   subaccountId,
-  biyaliquidAddress,
+  biyachainAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -64,14 +64,14 @@ import { toChainFormat } from "@biya-coin/utils";
 import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 
 const amount = {
   denom: "biya",
   amount: toChainFormat(1).toFixed(),
 };
 
-const ethereumAddress = getEthereumAddress(biyaliquidAddress);
+const ethereumAddress = getEthereumAddress(biyachainAddress);
 const subaccountIndex = 0;
 const suffix = "0".repeat(23) + subaccountIndex;
 const subaccountId = ethereumAddress + suffix;
@@ -79,7 +79,7 @@ const subaccountId = ethereumAddress + suffix;
 const msg = MsgWithdraw.fromJSON({
   amount,
   subaccountId,
-  biyaliquidAddress,
+  biyachainAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -110,7 +110,7 @@ import {
 } from "@biya-coin/utils";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const feeRecipient = "biya1...";
 const market = {
   marketId: "0x...",
@@ -129,14 +129,14 @@ const order = {
   quantity: 1,
 };
 
-const ethereumAddress = getEthereumAddress(biyaliquidAddress);
+const ethereumAddress = getEthereumAddress(biyachainAddress);
 const subaccountIndex = 0;
 const suffix = "0".repeat(23) + subaccountIndex;
 const subaccountId = ethereumAddress + suffix;
 
 const msg = MsgCreateSpotLimitOrder.fromJSON({
   subaccountId,
-  biyaliquidAddress,
+  biyachainAddress,
   orderType: 1 /* Buy */,
   price: spotPriceToChainPriceToFixed({
     value: order.price,
@@ -181,7 +181,7 @@ import {
 import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const feeRecipient = "biya1...";
 const market = {
   marketId: "0x...",
@@ -199,14 +199,14 @@ const order = {
   quantity: 1,
 };
 
-const ethereumAddress = getEthereumAddress(biyaliquidAddress);
+const ethereumAddress = getEthereumAddress(biyachainAddress);
 const subaccountIndex = 0;
 const suffix = "0".repeat(23) + subaccountIndex;
 const subaccountId = ethereumAddress + suffix;
 
 const msg = MsgCreateSpotMarketOrder.fromJSON({
   subaccountId,
-  biyaliquidAddress,
+  biyachainAddress,
   orderType: 1 /* Buy */,
   price: spotPriceToChainPriceToFixed({
     value: order.price,
@@ -252,7 +252,7 @@ import {
 import { Network } from '@biya-coin/networks'
 
 const privateKey = '0x...'
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 const feeRecipient = 'biya1...'
 const market = {
   marketId: '0x...',
@@ -269,7 +269,7 @@ const order = {
   margin: 10
 }
 
-const ethereumAddress = getEthereumAddress(biyaliquidAddress)
+const ethereumAddress = getEthereumAddress(biyachainAddress)
 const subaccountIndex = 0
 const suffix = '0'.repeat(23) + subaccountIndex
 const subaccountId = ethereumAddress + suffix
@@ -277,7 +277,7 @@ const subaccountId = ethereumAddress + suffix
 const msg = MsgCreateDerivativeLimitOrder.fromJSON(
   orderType: 1 /* Buy */,
   triggerPrice: '0',
-  biyaliquidAddress,
+  biyachainAddress,
   price: derivativePriceToChainPriceToFixed({
     value: order.price,
     quoteDecimals: market.quoteDecimals
@@ -321,7 +321,7 @@ import {
 import { Network } from '@biya-coin/networks'
 
 const privateKey = '0x...'
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 const feeRecipient = 'biya1...'
 const market = {
   marketId: '0x...',
@@ -338,7 +338,7 @@ const order = {
   margin: 10
 }
 
-const ethereumAddress = getEthereumAddress(biyaliquidAddress)
+const ethereumAddress = getEthereumAddress(biyachainAddress)
 const subaccountIndex = 0
 const suffix = '0'.repeat(23) + subaccountIndex
 const subaccountId = ethereumAddress + suffix
@@ -346,7 +346,7 @@ const subaccountId = ethereumAddress + suffix
 const msg = MsgCreateDerivativeMarketOrder.fromJSON(
   orderType: 1 /* Buy */,
   triggerPrice: '0',
-  biyaliquidAddress,
+  biyachainAddress,
   price: derivativePriceToChainPriceToFixed({
     value: order.price,
     tensMultiplier: market.priceTensMultiplier,
@@ -395,7 +395,7 @@ import {
 import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const feeRecipient = "biya1...";
 const derivativeMarket = {
   marketId: "0x...",
@@ -430,13 +430,13 @@ const spotOrder = {
   margin: 10,
 };
 
-const ethereumAddress = getEthereumAddress(biyaliquidAddress);
+const ethereumAddress = getEthereumAddress(biyachainAddress);
 const subaccountIndex = 0;
 const suffix = "0".repeat(23) + subaccountIndex;
 const subaccountId = ethereumAddress + suffix;
 
 const msg = MsgBatchUpdateOrders.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   subaccountId: subaccountId,
   derivativeOrdersToCreate: [
     {
@@ -453,7 +453,7 @@ const msg = MsgBatchUpdateOrders.fromJSON({
         quoteDecimals: 6 /* USDT has 6 decimals */,
       }),
       marketId: derivativeMarket.marketId,
-      feeRecipient: biyaliquidAddress,
+      feeRecipient: biyachainAddress,
     },
   ],
   spotOrdersToCreate: [
@@ -469,7 +469,7 @@ const msg = MsgBatchUpdateOrders.fromJSON({
         baseDecimals: 18 /* BIYA has 18 decimals */,
       }),
       marketId: spotMarket.marketId,
-      feeRecipient: biyaliquidAddress,
+      feeRecipient: biyachainAddress,
     },
   ],
 });
@@ -496,7 +496,7 @@ import {
 import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const orders = [
   {
     marketId: "0x...",
@@ -512,7 +512,7 @@ const orders = [
 
 const messages = orders.map((order) =>
   MsgBatchCancelSpotOrders.fromJSON({
-    biyaliquidAddress,
+    biyachainAddress,
     orders: [
       {
         marketId: order.marketId,
@@ -545,7 +545,7 @@ import {
 import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const orders = [
   {
     marketId: "0x...",
@@ -561,7 +561,7 @@ const orders = [
 
 const messages = orders.map((order) =>
   MsgBatchCancelDerivativeOrders.fromJSON({
-    biyaliquidAddress,
+    biyachainAddress,
     orders: [
       {
         marketId: order.marketId,
@@ -591,9 +591,9 @@ import { MsgRewardsOptOut, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 
-const msg = MsgRewardsOptOut.fromJSON({ sender: biyaliquidAddress });
+const msg = MsgRewardsOptOut.fromJSON({ sender: biyachainAddress });
 
 const txHash = await new MsgBroadcasterWithPk({
   privateKey,
@@ -611,16 +611,16 @@ This message is used to transfer balance from one subaccount to another subaccou
 
 Note:
 
-- You cannot transfer from your default subaccountId since that balance is now associated with your Biyaliquid address in the bank module. Therefore, in order for `MsgExternalTransfer` to work, you will need to transfer from a non-default subaccountId.
+- You cannot transfer from your default subaccountId since that balance is now associated with your Biyachain address in the bank module. Therefore, in order for `MsgExternalTransfer` to work, you will need to transfer from a non-default subaccountId.
 
 How to find the subaccountId that you will be transferring from:
 
 - you can query your existing subaccountIds via the [account portfolio api](../query-indexer/portfolio.md).
 
-How to use funds that are currently associated with your Biyaliquid Address in bank module:
+How to use funds that are currently associated with your Biyachain Address in bank module:
 
 - If you have existing non-default subaccounts, you'll want to do a [MsgDeposit](exchange.md#MsgDeposit) to one of your existing non-default subaccountIds and use that subaccountId as the `srcSubaccountId` below.
-- If you don't have existing non-default subaccounts, you can do a [MsgDeposit](exchange.md#MsgDeposit) to a new default subaccountId, which would be done via importing `getSubaccountId` from `sdk-ts` and setting the `subaccountId` field in [MsgDeposit](exchange.md#MsgDeposit) to `getSubaccountId(biyaliquidAddress, 1)`.
+- If you don't have existing non-default subaccounts, you can do a [MsgDeposit](exchange.md#MsgDeposit) to a new default subaccountId, which would be done via importing `getSubaccountId` from `sdk-ts` and setting the `subaccountId` field in [MsgDeposit](exchange.md#MsgDeposit) to `getSubaccountId(biyachainAddress, 1)`.
 
 ```ts
 import {
@@ -633,7 +633,7 @@ import { Network } from "@biya-coin/networks";
 
 const denomClient = new DenomClient(Network.Testnet);
 
-const biyaliquidAddress = "biya...";
+const biyachainAddress = "biya...";
 const srcSubaccountId = "0x...";
 const dstSubaccountId = `0x...`;
 const BIYA_TOKEN_SYMBOL = "BIYA";
@@ -651,7 +651,7 @@ const msg = MsgExternalTransfer.fromJSON({
   amount,
   dstSubaccountId,
   srcSubaccountId,
-  biyaliquidAddress,
+  biyachainAddress,
 });
 
 const privateKey = "0x...";

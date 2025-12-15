@@ -1,6 +1,6 @@
 # Getting Started
 
-Biyaliquid Trader comes built in with a "Simple Strategy" to aid with rapid prototyping and familiarizing yourself with the codebase.
+Biyachain Trader comes built in with a "Simple Strategy" to aid with rapid prototyping and familiarizing yourself with the codebase.
 
 **What it does:**
 
@@ -10,7 +10,7 @@ Biyaliquid Trader comes built in with a "Simple Strategy" to aid with rapid prot
 * Maintains a spread for profitability
 * Respects position limits for risk control
 
-**Best for:** predictable and steady trading while familiarizing yourself with Biyaliquid Trader. **Not recommended for production use.**
+**Best for:** predictable and steady trading while familiarizing yourself with Biyachain Trader. **Not recommended for production use.**
 
 **Example Logs:**
 
@@ -113,7 +113,7 @@ grep "ERROR" logs/my_bot.log
 **No private keys found**
 
 ```bash
-echo $MyBot_GRANTER_biyaliquid_PRIVATE_KEY
+echo $MyBot_GRANTER_biyachain_PRIVATE_KEY
 ```
 
 * **Insufficient balance** → Add USDT / reduce `OrderSize`
@@ -133,4 +133,4 @@ python main.py MyBot config.yaml --log_path logs/my_bot.log --network mainnet
 
 ## Next
 
-Learn how to develop your own [custom strategy](biyaliquid-trader-strategy-development-guide.md) for Biyaliquid Trader.
+Learn how to develop your own [custom strategy](biyachain-trader-strategy-development-guide.md) for Biyachain Trader.

@@ -6,9 +6,9 @@ description: 如何获得并保持 OLP 奖励资格
 
 ## 全新资格认定
 
-Biyaliquid 地址可以通过满足以下条件来获得 OLP 资格：
+Biyachain 地址可以通过满足以下条件来获得 OLP 资格：
 
-* **地址必须在资格认定过程开始之前退出交易与赚取 (T\&E) 计划**。地址在资格认定过程中不会获得 T\&E 奖励。有关以编程方式退出的示例，请参阅 [Python](https://github.com/biya-coin/sdk-python/blob/master/examples/chain_client/24_MsgRewardsOptOut.py)、[Go](https://github.com/biya-coin/sdk-go/blob/master/examples/chain/24_MsgRegisterAsDMM/example.go) 和 [TS](https://github.com/biya-coin/biyaliquid-ts/wiki/04CoreModulesExchange#msgrewardsoptout)。
+* **地址必须在资格认定过程开始之前退出交易与赚取 (T\&E) 计划**。地址在资格认定过程中不会获得 T\&E 奖励。有关以编程方式退出的示例，请参阅 [Python](https://github.com/biya-coin/sdk-python/blob/master/examples/chain_client/24_MsgRewardsOptOut.py)、[Go](https://github.com/biya-coin/sdk-go/blob/master/examples/chain/24_MsgRegisterAsDMM/example.go) 和 [TS](https://github.com/biya-coin/biyachain-ts/wiki/04CoreModulesExchange#msgrewardsoptout)。
   * 注意：资格认定过程的资格从退出完成后的第二天 00:00 UTC 开始。
 * 地址的做市交易量必须**连续 3 天**在同一周期内占[**合格市场**](eligible-markets.md)的**每日交易所做市总交易量的至少 0.25%**。严格禁止自交易。
 
@@ -17,7 +17,7 @@ Biyaliquid 地址可以通过满足以下条件来获得 OLP 资格：
 {% hint style="warning" %}
 将交易策略整合到单个地址以增加做市交易量可能是明智的。否则，做市交易量低于所需阈值的地址将没有资格获得奖励，即使多个地址之间的总交易量超过阈值。
 
-有关从单个地址执行多个策略同时保留交易[费用折扣](https://helixapp.com/fee-discounts)的方法，请参阅 [Biyaliquid `authz` 模块文档](https://docs.biyaliquid.network/develop/modules/Core/authz/)。
+有关从单个地址执行多个策略同时保留交易[费用折扣](https://helixapp.com/fee-discounts)的方法，请参阅 [Biyachain `authz` 模块文档](https://docs.biyachain.network/develop/modules/Core/authz/)。
 {% endhint %}
 
 ## 保持下一周期资格/预资格认定

@@ -1,26 +1,26 @@
 # Accounts
 
-Biyaliquid defines its own custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biyaliquid-based accounts is `m/44'/60'/0'/0.`
+Biyachain defines its own custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biyachain-based accounts is `m/44'/60'/0'/0.`
 
 ### Address conversion
 
-You can easily convert between an Biyaliquid address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
+You can easily convert between an Biyachain address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
 
 ```ts
-import { getBiyaliquidAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
+import { getBiyachainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
 
-const biyaliquidAddress = 'biya1...'
+const biyachainAddress = 'biya1...'
 const ethereumAddress = '0x..'
 
-console.log('Biyaliquid address from Ethereum address => ', getBiyaliquidAddress(ethereumAddress))
-console.log('Ethereum address from Biyaliquid address => ', getEthereumAddress(biyaliquidAddress))
+console.log('Biyachain address from Ethereum address => ', getBiyachainAddress(ethereumAddress))
+console.log('Ethereum address from Biyachain address => ', getEthereumAddress(biyachainAddress))
 ```
 
 ### Deriving wallets
 
-**Using Biyaliquid utility classes**
+**Using Biyachain utility classes**
 
-* Example code snippet on how to derive Biyaliquid Account from a private key and/or a mnemonic phrase:
+* Example code snippet on how to derive Biyachain Account from a private key and/or a mnemonic phrase:
 
 ```ts
 import { PrivateKey } from '@biya-coin/sdk-ts'
@@ -31,7 +31,7 @@ const privateKeyFromMnemonic = PrivateKey.fromMnemonic(mnemonic)
 const privateKeyFromHex = PrivateKey.fromPrivateKey(privateKey)
 
 const address = privateKeyFromMnemonic.toAddress() /* or privateKeyFromHex.toAddress() */
-console.log({ biyaliquidAddress: address.toBech32(), ethereumAddress: address.toHex() })
+console.log({ biyachainAddress: address.toBech32(), ethereumAddress: address.toHex() })
 ```
 
 * Example code snipped on how to derive a public address from a public key:
@@ -52,14 +52,14 @@ import { PublicKey } from '@biya-coin/sdk-ts'
 
 const privateKey = "afdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890"
 const publicKey = PublicKey.fromPrivateKeyHex(privateKey)
-const type = '/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey'
+const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 
 console.log(publicKey.toBase64())
 ```
 
-**Without using Biyaliquid utility classes**
+**Without using Biyachain utility classes**
 
-* Example code snippet on how to derive Biyaliquid Account from a private key and/or a mnemonic phrase:
+* Example code snippet on how to derive Biyachain Account from a private key and/or a mnemonic phrase:
 
 ```ts
 import { Wallet } from 'ethers'
@@ -74,7 +74,7 @@ const isPrivateKey: boolean = true /* just for the example */
 const wallet = isPrivateKey ? Wallet.fromMnemonic(mnemonic, defaultDerivationPath) : new Wallet(privateKey)
 const ethereumAddress = wallet.address
 const addressBuffer = EthereumUtilsAddress.fromString(ethereumAddress.toString()).toBuffer()
-const biyaliquidAddress = bech32.encode(defaultBech32Prefix, bech32.toWords(addressBuffer))
+const biyachainAddress = bech32.encode(defaultBech32Prefix, bech32.toWords(addressBuffer))
 ```
 
 * Example code snipped on how to derive a public key from a private key:
@@ -91,12 +91,12 @@ const buf2 = Buffer.from([publicKeyByte.length])
 const buf3 = Buffer.from(publicKeyByte)
 
 const publicKey = Buffer.concat([buf1, buf2, buf3]).toString('base64')
-const type = '/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey'
+const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 ```
 
-#### Convert Cosmos address to Biyaliquid Address
+#### Convert Cosmos address to Biyachain Address
 
-As Biyaliquid has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biyaliquid one.
+As Biyachain has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biyachain one.
 
 Here is an example of how to do it
 
@@ -120,7 +120,7 @@ config();
   }
 
   console.log(
-    "biyaliquidAddress",
+    "biyachainAddress",
     PublicKey.fromBase64(account.pub_key.key || "")
       .toAddress()
       .toBech32()

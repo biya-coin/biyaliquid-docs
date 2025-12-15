@@ -4,7 +4,7 @@ The module enables Cosmos SDK-based blockchain to support an advanced Proof-of-S
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the Staking module exports and we can use to interact with the Biyaliquid chain.
+Let's explore (and provide examples) the Messages that the Staking module exports and we can use to interact with the Biyachain chain.
 
 ### MsgBeginRedelegate
 
@@ -21,12 +21,12 @@ import { Network } from "@biya-coin/networks";
 const denom = "biya";
 const privateKey = "0x...";
 const amount = toChainFormat(5);
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const sourceValidatorAddress = "biya1...";
 const destinationValidatorAddress = "biya1...";
 
 const msg = MsgBeginRedelegate.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   dstValidatorAddress: destinationValidatorAddress,
   srcValidatorAddress: sourceValidatorAddress,
   amount: {
@@ -56,12 +56,12 @@ import { MsgDelegate, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 
 const denom = "biya";
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const validatorAddress = "biya1...";
 const amount = toChainFormat(5).toFixed();
 
 const msg = MsgDelegate.fromJSON({
-  biyaliquidAddress,
+  biyachainAddress,
   validatorAddress,
   amount: {
     denom,

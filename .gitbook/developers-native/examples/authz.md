@@ -11,20 +11,20 @@ An authorization grant is created using the MsgGrant message. If there is alread
 List of useful message types:
 
 ```
-"/biyaliquid.exchange.v1beta1.MsgCreateSpotLimitOrder",
-"/biyaliquid.exchange.v1beta1.MsgCreateSpotMarketOrder",
-"/biyaliquid.exchange.v1beta1.MsgCancelSpotOrder",
-"/biyaliquid.exchange.v1beta1.MsgBatchUpdateOrders",
-"/biyaliquid.exchange.v1beta1.MsgBatchCancelSpotOrders",
-"/biyaliquid.exchange.v1beta1.MsgDeposit",
-"/biyaliquid.exchange.v1beta1.MsgWithdraw",
-"/biyaliquid.exchange.v1beta1.MsgCreateDerivativeLimitOrder",
-"/biyaliquid.exchange.v1beta1.MsgCreateDerivativeMarketOrder",
-"/biyaliquid.exchange.v1beta1.MsgCancelDerivativeOrder",
-"/biyaliquid.exchange.v1beta1.MsgBatchUpdateOrders",
-"/biyaliquid.exchange.v1beta1.MsgBatchCancelDerivativeOrders",
-"/biyaliquid.exchange.v1beta1.MsgDeposit",
-"/biyaliquid.exchange.v1beta1.MsgWithdraw",
+"/biyachain.exchange.v1beta1.MsgCreateSpotLimitOrder",
+"/biyachain.exchange.v1beta1.MsgCreateSpotMarketOrder",
+"/biyachain.exchange.v1beta1.MsgCancelSpotOrder",
+"/biyachain.exchange.v1beta1.MsgBatchUpdateOrders",
+"/biyachain.exchange.v1beta1.MsgBatchCancelSpotOrders",
+"/biyachain.exchange.v1beta1.MsgDeposit",
+"/biyachain.exchange.v1beta1.MsgWithdraw",
+"/biyachain.exchange.v1beta1.MsgCreateDerivativeLimitOrder",
+"/biyachain.exchange.v1beta1.MsgCreateDerivativeMarketOrder",
+"/biyachain.exchange.v1beta1.MsgCancelDerivativeOrder",
+"/biyachain.exchange.v1beta1.MsgBatchUpdateOrders",
+"/biyachain.exchange.v1beta1.MsgBatchCancelDerivativeOrders",
+"/biyachain.exchange.v1beta1.MsgDeposit",
+"/biyachain.exchange.v1beta1.MsgWithdraw",
 ```
 
 Per [cosmos sdk docs](https://docs.cosmos.network/main/modules/authz), "Authorizations must be granted for a particular Msg service method one by one", so the following code snipped must be repeated for each message type that you would like for the `grantee` to have authorization on behalf of a `granter`.
@@ -36,7 +36,7 @@ import { Network } from '@biya-coin/networks'
 const privateKeyOfGranter = '0x...'
 const grantee = 'biya...'
 const granter = 'biya...'
-const messageType = '/biyaliquid.exchange.v1beta1.MsgCreateSpotLimitOrder' /* example message type */
+const messageType = '/biyachain.exchange.v1beta1.MsgCreateSpotLimitOrder' /* example message type */
 
 const msg = MsgGrant.fromJSON({
    messageType,
@@ -72,8 +72,8 @@ const msgs = MsgSend.fromJSON({
         denom: 'biya',
         amount: toChainFormat(0.01).toFixed()
     },
-    srcBiyaliquidAddress: granter,
-    dstBiyaliquidAddress: 'biya1...',
+    srcBiyachainAddress: granter,
+    dstBiyachainAddress: 'biya1...',
   });
 
 const msg = MsgExec.fromJSON({
@@ -102,7 +102,7 @@ import { Network } from '@biya-coin/networks'
 const privateKeyOfGranter = '0x...'
 const grantee = 'biya...'
 const granter = 'biya...'
-const messageType = '/biyaliquid.exchange.v1beta1.MsgCreateSpotLimitOrder' /* example message type */
+const messageType = '/biyachain.exchange.v1beta1.MsgCreateSpotLimitOrder' /* example message type */
 
 const msg = MsgRevoke.fromJSON({
    messageType,

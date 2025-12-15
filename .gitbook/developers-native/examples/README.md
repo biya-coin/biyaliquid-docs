@@ -1,6 +1,6 @@
 # Core Modules
 
-Within this section, we are going to explore the core modules of the Biyaliquid chain and provide examples of how to make and broadcast transactions for each of the Messages defined on-chain.
+Within this section, we are going to explore the core modules of the Biyachain chain and provide examples of how to make and broadcast transactions for each of the Messages defined on-chain.
 
 ### Topics
 
@@ -15,7 +15,7 @@ Within this section, we are going to explore the core modules of the Biyaliquid 
 | [Governance](governance.md)      | Used for on-chain governance                         |
 | [IBC](ibc.md)                    | Used for cross-Cosmos chain transfers                |
 | [Insurance](insurance.md)        | Used for on-chain insurance funds                    |
-| [Peggy](peggy.md)                | Used for the Biyaliquid <> Ethereum Bridge            |
+| [Peggy](peggy.md)                | Used for the Biyachain <> Ethereum Bridge            |
 | [Permissions](permissions.md)    | Used fot on-chain permissions
 | [Staking](staking.md)            | Used for on-chain staking                            |
 | [Tokenfactory](token-factory.md) | Used for creating and managing `tokenfactory` tokens |

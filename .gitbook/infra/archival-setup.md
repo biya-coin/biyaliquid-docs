@@ -4,9 +4,9 @@ This guide will walk you through the process of creating a fleet of nodes that s
 
 ## Architecture
 
-To make serving archival data more accessible we split the data into smaller segments. These segments are stored in `s3://biyaliquid-snapshots/mainnet/subnode`
+To make serving archival data more accessible we split the data into smaller segments. These segments are stored in `s3://biyachain-snapshots/mainnet/subnode`
 
-| Snapshot Dir | Height Range | Biyaliquid Version | Recommended Disk Size |
+| Snapshot Dir | Height Range | Biyachain Version | Recommended Disk Size |
 | ------------ | ------------ | ----------------- | --------------------- |
 | `/0073`      | 0 – 73M      | v1.12.1           | 42 TiB                |
 | `/6068`      | 60M – 68M    | v1.12.1           | 7 TiB                 |
@@ -40,15 +40,15 @@ Each node hosting a slice of archival data should have the following minimum req
 #### 1. Download the archival segments with the history your setup requires using
 
 ```bash
-aws s3 cp --recursive s3://biyaliquid-snapshots/mainnet/subnode/<SNAPSHOT_DIR> $BIYA_HOME
+aws s3 cp --recursive s3://biyachain-snapshots/mainnet/subnode/<SNAPSHOT_DIR> $BIYA_HOME
 ```
 
-#### 2. Download or set the appropriate biyaliquid binary or image tag based on the table above
+#### 2. Download or set the appropriate biyachain binary or image tag based on the table above
 
 #### 3. Generate your config folder
 
 ```bash
-biyaliquidd init $MONIKER --chain-id biyaliquid-1 --home $BIYA_HOME --overwrite
+biyachaind init $MONIKER --chain-id biyachain-1 --home $BIYA_HOME --overwrite
 ```
 
 #### 4. Disable pruning in your app.toml file and block p2p and set the log level to error in your config.toml files.
@@ -85,7 +85,7 @@ sed -i 's/^log_level *= *.*/log_level = "error"/' $BIYA_HOME/config/app.toml
 #### 5. Run your node
 
 ```bash
-biyaliquidd start --home $BIYA_HOME
+biyachaind start --home $BIYA_HOME
 ```
 
 ### Gateway configuration

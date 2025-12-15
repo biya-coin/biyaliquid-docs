@@ -16,25 +16,25 @@ Register at [WalletConnect Cloud](https://cloud.walletconnect.com) and obtain th
 npm install ethers wagmi viem @walletconnect/ethereum-provider
 ```
 
-Set up Biyaliquid EVM network configuration
+Set up Biyachain EVM network configuration
 
 ```javascript
-// lib/biyaliquidChain.ts
+// lib/biyachainChain.ts
 import { defineChain } from 'viem'
 
-export const biyaliquidEvm = defineChain({
+export const biyachainEvm = defineChain({
   id: 1439,
-  name: 'Biyaliquid EVM',
+  name: 'Biyachain EVM',
   nativeCurrency: {
     name: 'BIYA',
     symbol: 'BIYA',
     decimals: 18,
   },
   rpcUrls: {
-    default: { http: ['https://k8s.testnet.json-rpc.biyaliquid.network'] },
+    default: { http: ['https://k8s.testnet.json-rpc.biyachain.network'] },
   },
   blockExplorers: {
-    default: { name: 'BiyaliquidScan', url: 'https://testnet.blockscout.biyaliquid.network/blocks' },
+    default: { name: 'BiyachainScan', url: 'https://testnet.blockscout.biyachain.network/blocks' },
   },
 })
 ```
@@ -45,10 +45,10 @@ Set up Wagmi + WalletConnect
  // lib/wagmi.ts
 import { createConfig, http } from '@wagmi/core'
 import { walletConnect } from '@wagmi/connectors'
-import { biyaliquidEvm } from './biyaliquidChain'
+import { biyachainEvm } from './biyachainChain'
 
 export const wagmiConfig = createConfig({
-  chains: [biyaliquidEvm],
+  chains: [biyachainEvm],
   connectors: [
     walletConnect({
       projectId: 'your-walletconnect-project-id', // From WalletConnect Cloud
@@ -56,7 +56,7 @@ export const wagmiConfig = createConfig({
     }),
   ],
   transports: {
-    [biyaliquidEvm.id]: http(biyaliquidEvm.rpcUrls.default.http[0]),
+    [biyachainEvm.id]: http(biyachainEvm.rpcUrls.default.http[0]),
   },
 })
 

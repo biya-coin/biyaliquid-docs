@@ -35,8 +35,8 @@ Open `hardhat.config.js`, and look at the `etherscan` and `sourcify` elements.
         network: 'biya_testnet',
         chainId: 1439,
         urls: {
-          apiURL: 'https://testnet.blockscout-api.biyaliquid.network/api',
-          browserURL: 'https://testnet.blockscout.biyaliquid.network/',
+          apiURL: 'https://testnet.blockscout-api.biyachain.network/api',
+          browserURL: 'https://testnet.blockscout.biyachain.network/',
         },
       },
     ],
@@ -47,10 +47,10 @@ Open `hardhat.config.js`, and look at the `etherscan` and `sourcify` elements.
 ```
 
 Sourcify and Etherscan are two popular block explorers, each with a different API for verification.
-Biyaliquid uses Blockscout, which is compatible with the Etherscan API.
+Biyachain uses Blockscout, which is compatible with the Etherscan API.
 Hence, Sourcify is disabled in the configuration.
 Within the Etherscan configuration, the `apiKey` value is not needed, so any non-empty value is OK.
-The `biya_testnet` network within `customChains` is already configured with the appropriate values for Biyaliquid Testnet.
+The `biya_testnet` network within `customChains` is already configured with the appropriate values for Biyachain Testnet.
 
 ## Run the verification command
 
@@ -78,7 +78,7 @@ contracts/Counter.sol:Counter at 0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b
 for verification on the block explorer. Waiting for verification result...
 
 Successfully verified contract Counter on the block explorer.
-https://testnet.blockscout.biyaliquid.network/address/0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b#code
+https://testnet.blockscout.biyachain.network/address/0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b#code
 ```
 
 The more interesting outcome is visiting the network explorer.

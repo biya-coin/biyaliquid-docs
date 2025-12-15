@@ -1,2 +1,2 @@
-# biyaliquidd 命令
+# biyachaind 命令
 

@@ -1,4 +1,4 @@
-name: Biyaliquid Chain canonical docs deployment
+name: Biyachain Chain canonical docs deployment
 on:
   push:
     branches: [dev]
@@ -19,15 +19,15 @@ jobs:
           chmod 600 ~/.ssh/devnet.key
 
           cat >>~/.ssh/config <<END
-          Host biyaliquid-devnet
+          Host biyachain-devnet
             HostName $SSH_HOST
             User $SSH_USER
             IdentityFile ~/.ssh/devnet.key
             StrictHostKeyChecking no
           END
       - name: Check out the source
-        run: ssh biyaliquid-devnet 'cd ~/biyaliquid/biyaliquid-docs && git stash && git checkout dev -- && git pull origin dev'
+        run: ssh biyachain-devnet 'cd ~/biyachain/biyachain-docs && git stash && git checkout dev -- && git pull origin dev'
       - name: Install Dependencies and generate module docs
-        run: ssh biyaliquid-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/biyaliquid/biyaliquid-docs && rm -rf node_modules && yarn install'
+        run: ssh biyachain-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/biyachain/biyachain-docs && rm -rf node_modules && yarn install'
       - name: Build static site and copy the dist
-        run: ssh biyaliquid-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/biyaliquid/biyaliquid-docs && yarn build'
+        run: ssh biyachain-devnet 'export PATH=~/.nvm/versions/node/v16.15.0/bin/:$PATH && cd ~/biyachain/biyachain-docs && yarn build'

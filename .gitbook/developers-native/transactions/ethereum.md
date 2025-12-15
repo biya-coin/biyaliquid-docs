@@ -1,6 +1,6 @@
 # Ethereum Transaction
 
-Every transaction on Biyaliquid follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biyachain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
@@ -24,11 +24,11 @@ import {
 import { ChainId, EvmChainId } from "@biya-coin/ts-types";
 import { Network, getNetworkEndpoints } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1";
+const biyachainAddress = "biya1";
 const chainId = ChainId.Mainnet;
 const evmChainId = EvmChainId.Mainnet;
 const restEndpoint =
-  "https://lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
+  "https://lcd.biyachain.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
 const amount = {
   denom: "biya",
   amount: toChainFormat(0.01).toFixed(),
@@ -37,7 +37,7 @@ const amount = {
 /** Account Details **/
 const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-  biyaliquidAddress
+  biyachainAddress
 );
 const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 const accountDetails = baseAccount.toAccountDetails();
@@ -53,8 +53,8 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
 /** Preparing the transaction */
 const msg = MsgSend.fromJSON({
   amount,
-  srcBiyaliquidAddress: biyaliquidAddress,
-  dstBiyaliquidAddress: biyaliquidAddress,
+  srcBiyachainAddress: biyachainAddress,
+  dstBiyachainAddress: biyachainAddress,
 });
 
 /** EIP712 for signing on Ethereum wallets */
@@ -93,7 +93,7 @@ You can also use our `@biya-coin/wallet-strategy` package to get out-of-the-box 
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Biyaliquid chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biyachain chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
 
 ```ts
 import {
@@ -128,7 +128,7 @@ txRawEip712.signatures = [signatureBuff /* From previous step */];
 
 /** Broadcast the Transaction */
 const restEndpoint =
-  "https://lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
+  "https://lcd.biyachain.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
 const txRestApi = new TxRestApi(restEndpoint);
 
 const txHash = await txRestApi.broadcast(txRawEip712);
@@ -173,10 +173,10 @@ import {
 import { ChainId, EvmChainId } from "@biya-coin/ts-types";
 import { Network, getNetworkEndpoints } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1";
+const biyachainAddress = "biya1";
 const chainId = ChainId.Mainnet;
 const evmChainId = EvmChainId.Mainnet;
-const ethereumAddress = getEthereumAddress(biyaliquidAddress);
+const ethereumAddress = getEthereumAddress(biyachainAddress);
 const restEndpoint = getNetworkEndpoints(Network.MainnetSentry).rest;
 const amount = {
   denom: "biya",
@@ -186,7 +186,7 @@ const amount = {
 /** Account Details **/
 const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-  biyaliquidAddress
+  biyachainAddress
 );
 const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 const accountDetails = baseAccount.toAccountDetails();
@@ -202,8 +202,8 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
 /** Preparing the transaction */
 const msg = MsgSend.fromJSON({
   amount,
-  srcBiyaliquidAddress: biyaliquidAddress,
-  dstBiyaliquidAddress: biyaliquidAddress,
+  srcBiyachainAddress: biyachainAddress,
+  dstBiyachainAddress: biyachainAddress,
 });
 
 /** EIP712 for signing on Ethereum wallets */
@@ -257,4 +257,4 @@ const response = await txRestApi.fetchTxPoll(txResponse.txHash);
 
 ## Example with WalletStrategy (Prepare + Sign + Broadcast)
 
-Example can be found [here](https://github.com/biya-coin/biyaliquid-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L166-L248).
+Example can be found [here](https://github.com/biya-coin/biyachain-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L166-L248).

@@ -58,7 +58,7 @@ type RoleManager struct {
 ```go
 // PolicyStatus defines whether an action is disabled or enabled and if the policy is sealed
 type PolicyStatus struct {
-	Action     Action `protobuf:"varint,1,opt,name=action,proto3,enum=biyaliquid.permissions.v1beta1.Action" json:"action,omitempty"`
+	Action     Action `protobuf:"varint,1,opt,name=action,proto3,enum=biyachain.permissions.v1beta1.Action" json:"action,omitempty"`
 	IsDisabled bool   `protobuf:"varint,2,opt,name=is_disabled,json=isDisabled,proto3" json:"is_disabled,omitempty"`
 	IsSealed   bool   `protobuf:"varint,3,opt,name=is_sealed,json=isSealed,proto3" json:"is_sealed,omitempty"`
 }
@@ -70,7 +70,7 @@ type PolicyStatus struct {
 // PolicyManagerCapability defines if the policy manager of an action can disable or seal the action policy
 type PolicyManagerCapability struct {
 	Manager    string `protobuf:"bytes,1,opt,name=manager,proto3" json:"manager,omitempty"`
-	Action     Action `protobuf:"varint,2,opt,name=action,proto3,enum=biyaliquid.permissions.v1beta1.Action" json:"action,omitempty"`
+	Action     Action `protobuf:"varint,2,opt,name=action,proto3,enum=biyachain.permissions.v1beta1.Action" json:"action,omitempty"`
 	CanDisable bool   `protobuf:"varint,3,opt,name=can_disable,json=canDisable,proto3" json:"can_disable,omitempty"`
 	CanSeal    bool   `protobuf:"varint,4,opt,name=can_seal,json=canSeal,proto3" json:"can_seal,omitempty"`
 }
