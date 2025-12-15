@@ -3,14 +3,14 @@
 ## Gas and Fees
 
 {% hint style="info" %}
-Learn about the differences between `Gas` and `Fees` on Biyachain.
+Learn about the differences between `Gas` and `Fees` on Biya Chain.
 
 Pre-requisite Readings -> [Cosmos SDK Gas](https://docs.cosmos.network/main/build/modules/auth#gas--fees)
 {% endhint %}
 
 Gas represents the amount of computational effort required to execute specific operations on the state machine.
 
-Biyachain utilizes the concept of gas to track the resource usage of operations during execution. Operations on Biyachain are represented as read or writes done to the chain's store.
+Biya Chain utilizes the concept of gas to track the resource usage of operations during execution. Operations on Biya Chain are represented as read or writes done to the chain's store.
 
 A fee is calculated and charged to the user during a message execution. This fee is calculated from the sum of all gas consumed in a message execution:
 

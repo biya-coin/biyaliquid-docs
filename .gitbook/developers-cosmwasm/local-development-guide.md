@@ -1,6 +1,6 @@
 # Local Development
 
-This guide will get you started deploying `cw20` smart contracts on a local Biyachain network running on your computer.
+This guide will get you started deploying `cw20` smart contracts on a local Biya Chain network running on your computer.
 
 We'll use the `cw20-base` contract from [CosmWasm's collection of specifications and contracts](https://github.com/CosmWasm/cw-plus) designed for production use on real networks. `cw20-base` is a basic implementation of a `cw20` compatible contract that can be imported in any custom contract you want to build on. It contains a straightforward but complete implementation of the cw20 spec along with all extensions. `cw20-base` can be deployed as-is or imported by other contracts.
 
@@ -448,10 +448,10 @@ biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 
 Here are the main differences between a `local` and `testnet` development/deployment
 
-* You can use our [Biyachain Testnet Faucet](https://testnet.faucet.biyachain.network) to get testnet funds to your address,
-* You can use the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io/smart-contracts/code/) to query your transactions and get more details,
+* You can use our [Biya Chain Testnet Faucet](https://testnet.faucet.biyachain.network) to get testnet funds to your address,
+* You can use the [Biya Chain Testnet Explorer](https://testnet.prv.scan.biya.io/smart-contracts/code/) to query your transactions and get more details,
 * When you are using `biyachaind` you have to specify the `testnet` rpc using the `node` flag `--node=https://testnet.sentry.tm.biyachain.network:443`
 * Instead of using `biyachain-1` as a `chainId` you should use `biyachain-888` i.e the `chain-id` flag should now be `--chain-id="biyachain-888"`
-* You can use the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
+* You can use the [Biya Chain Testnet Explorer](https://testnet.prv.scan.biya.io/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
 
 You can read more on the `biyachaind` and how to use it to query/send transactions against `testnet` [using-biyachaind.md](../developers/biyachaind/use.md "mention").

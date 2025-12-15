@@ -11,7 +11,7 @@ It is highly recommended that you set up a local private network before joining 
 * Use the network via public endpoints; or
 * Join by running a node
 
-Anyone can set up their node with endpoints to communicate with the Biyachain blockchain. For convenience, there are also some public endpoints available to querying the chain. These are recommended for development and testing purposes. For maximum control and reliability, running your node is recommended.
+Anyone can set up their node with endpoints to communicate with the Biya Chain blockchain. For convenience, there are also some public endpoints available to querying the chain. These are recommended for development and testing purposes. For maximum control and reliability, running your node is recommended.
 
 ## Preparation For Running a Node
 

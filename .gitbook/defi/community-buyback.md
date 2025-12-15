@@ -2,7 +2,7 @@
 
 ### What is the Community BuyBack?
 
-The Community BuyBack is a monthly onchain event that allows anyone to take part in Biyachain’s deflationary mechanism. Participants commit BIYA, and in return receive a pro rata share of the revenue generated across the Biyachain ecosystem. The BIYA exchanged is then permanently burned, reducing the total supply.
+The Community BuyBack is a monthly onchain event that allows anyone to take part in Biya Chain’s deflationary mechanism. Participants commit BIYA, and in return receive a pro rata share of the revenue generated across the Biya Chain ecosystem. The BIYA exchanged is then permanently burned, reducing the total supply.
 
 This process rewards the community, increases scarcity of BIYA, and aligns long-term value with ecosystem success. The Community BuyBack evolved from the original Burn Auction, replacing the winner-take-all model with a simpler, more accessible, and community-driven design.
 
@@ -36,11 +36,11 @@ A quick reference box (almost like a cheat sheet) with the most important parame
 3. **Claim Earnings**\
    When the event concludes, all BIYA commitments are exchanged for the revenue collected that month. This revenue, made up of multiple different tokens, is distributed pro rata to all participants.\
    \
-   To claim, simply go to Biyachain Hub → Community BuyBack, and press Claim next to the round you participated in under BuyBack History.
+   To claim, simply go to Biya Chain Hub → Community BuyBack, and press Claim next to the round you participated in under BuyBack History.
 4. **BIYA BuyBack**\
    The total BIYA collected from all participants is permanently burned, reducing the total supply of BIYA.
 5. **Get Ready for Next Month**\
-   Track your earnings, monitor stats from previous rounds, and stay updated on the next Community BuyBack directly from your Biyachain Hub dashboard. All slot reservations, commitments, burn transactions, and distributions are publicly visible onchain.
+   Track your earnings, monitor stats from previous rounds, and stay updated on the next Community BuyBack directly from your Biya Chain Hub dashboard. All slot reservations, commitments, burn transactions, and distributions are publicly visible onchain.
 
 ### FAQ
 
@@ -51,7 +51,7 @@ Your share equals your committed BIYA divided by the total BIYA committed across
 No, commitments are final once submitted.
 
 **How do I know the burn happened?**\
-The burn transaction is onchain and can be tracked via the [Biyachain Hub](https://biyahub.com/community-buyback).
+The burn transaction is onchain and can be tracked via the [Biya Chain Hub](https://biyahub.com/community-buyback).
 
 **What if I miss a round?**\
 You’ll need to wait until next month’s event opens.

@@ -1,6 +1,6 @@
-# Biyachain Trader
+# Biya Chain Trader
 
-Biyachain Trader is a professional-grade framework that provides a high-performance, reliable foundation for developing and deploying algorithmic trading strategies on the Biyachain blockchain. It bridges the gap between algorithmic trading strategies and blockchain execution, eliminating technical barriers. The framework takes care of the heavy lifting - real-time data streaming, order execution, reconnection/recovery, transaction batching, and analytics This frees up traders to focus solely on strategy development rather than blockchain complexities.
+Biya Chain Trader is a professional-grade framework that provides a high-performance, reliable foundation for developing and deploying algorithmic trading strategies on the Biya Chain blockchain. It bridges the gap between algorithmic trading strategies and blockchain execution, eliminating technical barriers. The framework takes care of the heavy lifting - real-time data streaming, order execution, reconnection/recovery, transaction batching, and analytics This frees up traders to focus solely on strategy development rather than blockchain complexities.
 
 You can use it to import existing strategies or create new ones that:
 
@@ -37,7 +37,7 @@ You can use it to import existing strategies or create new ones that:
 * Detailed performance analytics
 
 {% hint style="warning" %}
-Biyachain trader transacts assets with real value, as such security is paramount. Be sure to use the following as a security baseline, and also take further measures to protect your assets.
+Biya Chain trader transacts assets with real value, as such security is paramount. Be sure to use the following as a security baseline, and also take further measures to protect your assets.
 
 * **Never share private keys** or commit them to Git.
 * Store secrets in a local **`.env` file** and load via environment variables.
@@ -46,13 +46,13 @@ Biyachain trader transacts assets with real value, as such security is paramount
 
 ## Quick Start (5 minutes)
 
-### 1. Get Your Biyachain Account Ready (and Funded)
+### 1. Get Your Biya Chain Account Ready (and Funded)
 
-1. **Create an account** on Biyachain using Keplr or `biyachaind`.
+1. **Create an account** on Biya Chain using Keplr or `biyachaind`.
 2. If using Keplr, **export your private key** for the `.env` file.
    * _Tip: With AuthZ, you can grant limited permissions to a trading account for better security._
-3. **Fund your account** with USDT by sending from another Biyachain address, or via [bridge.biyachain.network](http://bridge.biyachain.network/).
-   * _EVM tip: You can derive your `biya` address with the TS SDK and bridge USDT from Ethereum to Biyachain without even setting up an Biyachain account._
+3. **Fund your account** with USDT by sending from another Biya Chain address, or via [bridge.biyachain.network](http://bridge.biyachain.network/).
+   * _EVM tip: You can derive your `biya` address with the TS SDK and bridge USDT from Ethereum to Biya Chain without even setting up an Biya Chain account._
 
 ### 2. Download and Setup
 
@@ -168,7 +168,7 @@ You should now be able to do **Run → Start Debugging** in your IDE.
 
 ### System Architecture Diagram
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt="Biyachain Trader Network Architecture Diagram" width="563"><figcaption><p>Biyachain Trader Network Architecture Diagram</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt="Biya Chain Trader Network Architecture Diagram" width="563"><figcaption><p>Biya Chain Trader Network Architecture Diagram</p></figcaption></figure>
 
 ### Core Design Patterns
 
@@ -212,4 +212,4 @@ You should now be able to do **Run → Start Debugging** in your IDE.
 
 ## Next
 
-Learn more about the [simple strategy](biyachain-trader-simple-strategy.md) that ships with Biyachain Trader, to get yourself comfortable with the codebase before diving in.
+Learn more about the [simple strategy](biyachain-trader-simple-strategy.md) that ships with Biya Chain Trader, to get yourself comfortable with the codebase before diving in.

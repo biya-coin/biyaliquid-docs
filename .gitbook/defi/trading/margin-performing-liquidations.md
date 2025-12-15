@@ -1,10 +1,10 @@
 # Performing Liquidations
 
-This guide details how traders on Biyachain can utilize the `MsgLiquidatePosition` function to liquidate underwater positions.
+This guide details how traders on Biya Chain can utilize the `MsgLiquidatePosition` function to liquidate underwater positions.
 
 **Before proceeding, ensure you understand the following:**
 
-* **Liquidation Mechanics:** Biyachain employs a dynamic liquidation mechanism where positions exceeding a specific collateralization ratio (i.e. below threshold) become eligible for liquidation by any market participant. There are benefits for performing liquidations, which requires substantial upfront capital.
+* **Liquidation Mechanics:** Biya Chain employs a dynamic liquidation mechanism where positions exceeding a specific collateralization ratio (i.e. below threshold) become eligible for liquidation by any market participant. There are benefits for performing liquidations, which requires substantial upfront capital.
 * **MsgLiquidatePosition Function:** This function allows traders to initiate liquidations on eligible positions, offering them an opportunity to capture a liquidation fee.
 
 **Different Cases for Liquidations:**
@@ -23,7 +23,7 @@ The position will be sold using a market order with a worst price equal to the b
 **Downsides**
 
 * Taking over at bankruptcy price may not be attractive enough for liquidators, especially when the mark price is very close to the bankruptcy price.
-  * This concern is mitigated if one assumes there will always be at least one “white knight” liquidator, as there currently is on Biyachain.
+  * This concern is mitigated if one assumes there will always be at least one “white knight” liquidator, as there currently is on Biya Chain.
 
 **Example**
 
@@ -63,7 +63,7 @@ Similar to the case above, the liquidator can choose to submit their own order a
 
 **Steps to Liquidate Positions:**
 
-1.  **Identify Liquidatable Positions:** Utilize Biyachain's `LiquidablePositions` endpoint to identify positions with a collateralization ratio below the liquidation threshold. Relevant data points include:
+1.  **Identify Liquidatable Positions:** Utilize Biya Chain's `LiquidablePositions` endpoint to identify positions with a collateralization ratio below the liquidation threshold. Relevant data points include:
 
     * **Collateral:** Total value of tokens deposited as collateral for the position.
     * **Liabilities:** Total value of borrowed tokens in the position.
@@ -72,4 +72,4 @@ Similar to the case above, the liquidator can choose to submit their own order a
     An example can be found [here for Go ](https://github.com/biya-coin/sdk-go/blob/master/examples/exchange/derivatives/20\_LiquidablePositions/example.go)and [here for Python](https://github.com/biya-coin/sdk-python/blob/master/examples/exchange\_client/derivative\_exchange\_rpc/23\_LiquidablePositions.py).
 2. **Prepare Liquidation Transaction:** Construct an order transaction using the `MsgLiquidatePosition` function, specifying the parameters listed in the [API docs](https://api.biyachain.exchange/?python#derivatives-msgliquidateposition). While not compulsory, a limit transaction is highly recommended over a market transaction.
 
-Note, performing a liquidation requires a limit order. By following these steps and considering the outlined factors, market makers can effectively utilize the `MsgLiquidatePosition` function to participate in Biyachain's liquidation mechanism and capture potential profit opportunities.
+Note, performing a liquidation requires a limit order. By following these steps and considering the outlined factors, market makers can effectively utilize the `MsgLiquidatePosition` function to participate in Biya Chain's liquidation mechanism and capture potential profit opportunities.

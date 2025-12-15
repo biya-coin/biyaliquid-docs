@@ -16,7 +16,7 @@ Check out this table to see which platform is supported to run `biyachaind` CLI:
 
 ## Getting started with pre-built binaries
 
-At the moment, the only supported platform to run a pre-built `biyachaind` CLI is Linux x86_64. The pre-built binaries are available on the [Biyachain GitHub Releases page](https://github.com/biya-coin/biyachain-chain-releases/releases).
+At the moment, the only supported platform to run a pre-built `biyachaind` CLI is Linux x86_64. The pre-built binaries are available on the [Biya Chain GitHub Releases page](https://github.com/biya-coin/biyachain-chain-releases/releases).
 
 ```bash
 wget https://github.com/biya-coin/biyachain-chain-releases/releases/download/v1.14.1-1740773301/linux-amd64.zip
@@ -25,8 +25,8 @@ unzip linux-amd64.zip
 
 This zip file will contain these files:
 
-* **`biyachaind`** - Biyachain daemon also CLI
-* **`peggo`** - Biyachain Ethereum's bridge relayer daemon
+* **`biyachaind`** - Biya Chain daemon also CLI
+* **`peggo`** - Biya Chain Ethereum's bridge relayer daemon
 * **`libwasmvm.x86_64.so`** - the WASM virtual machine support file
 
 Note: you do not need `peggo` for deploying and instantiating smart contracts, this is for validators.
@@ -45,7 +45,7 @@ Version v1.14.1 (0fe59376dc)
 Compiled at 20250302-2204 using Go go1.23.1 (amd64)
 ```
 
-Continue to [Using biyachaind](./use.md) to learn how to use `biyachaind` CLI for interacting with the Biyachain blockchain.
+Continue to [Using biyachaind](./use.md) to learn how to use `biyachaind` CLI for interacting with the Biya Chain blockchain.
 
 ## Getting started with Docker
 
@@ -61,7 +61,7 @@ Compiled at 20250302-2220 using Go go1.22.11 (amd64)
 This is compatible with most platforms and arm64 / x86_64 architectures.
 
 
-Continue to [Using biyachaind](./use.md) to learn how to use `biyachaind` CLI for interacting with the Biyachain blockchain.
+Continue to [Using biyachaind](./use.md) to learn how to use `biyachaind` CLI for interacting with the Biya Chain blockchain.
 
 
 ## Getting started with source code
@@ -69,7 +69,7 @@ Continue to [Using biyachaind](./use.md) to learn how to use `biyachaind` CLI fo
 The following command will build `biyachaind` CLI from source code:
 
 ```bash
-git clone https://github.com/BiyachainFoundation/biyachain-core.git
+git clone https://github.com/Biya ChainFoundation/biyachain-core.git
 cd biyachain-core && git checkout v1.14.1
 make install
 ```
@@ -85,4 +85,4 @@ Compiled at 20250302-2230 using Go go1.24.0 (amd64)
 
 (the commit hash may be different, as the open-source repository is published separately from the pre-built versions).
 
-Continue to [Using biyachaind](./use.md) to learn how to use `biyachaind` CLI for interacting with the Biyachain blockchain.
+Continue to [Using biyachaind](./use.md) to learn how to use `biyachaind` CLI for interacting with the Biya Chain blockchain.

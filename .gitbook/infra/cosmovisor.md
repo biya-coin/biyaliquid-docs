@@ -1,6 +1,6 @@
-# Cosmovisor Setup Guide for the Biyachain Network
+# Cosmovisor Setup Guide for the Biya Chain Network
 
-Cosmovisor is a process manager designed for Cosmos SDK–based blockchains that simplifies the management of binary (chain) upgrades. This guide provides step‐by‐step instructions to set up Cosmovisor for your Biyachain Network node.
+Cosmovisor is a process manager designed for Cosmos SDK–based blockchains that simplifies the management of binary (chain) upgrades. This guide provides step‐by‐step instructions to set up Cosmovisor for your Biya Chain Network node.
 
 > **Note:** These instructions assume you already have an existing chain binary (e.g., `biyachaind`) and a working Go environment if you choose to install Cosmovisor from source. Adjust the names and paths as needed for your specific setup.
 
@@ -130,7 +130,7 @@ For production environments, it is common to run your node as a systemd service.
 
    ```ini
    [Unit]
-   Description=Biyachain Daemon managed by Cosmovisor
+   Description=Biya Chain Daemon managed by Cosmovisor
    After=network-online.target
 
    [Service]

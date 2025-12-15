@@ -6,7 +6,7 @@ This guide will walk you through the process of creating a fleet of nodes that s
 
 To make serving archival data more accessible we split the data into smaller segments. These segments are stored in `s3://biyachain-snapshots/mainnet/subnode`
 
-| Snapshot Dir | Height Range | Biyachain Version | Recommended Disk Size |
+| Snapshot Dir | Height Range | Biya Chain Version | Recommended Disk Size |
 | ------------ | ------------ | ----------------- | --------------------- |
 | `/0073`      | 0 – 73M      | v1.12.1           | 42 TiB                |
 | `/6068`      | 60M – 68M    | v1.12.1           | 7 TiB                 |

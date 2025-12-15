@@ -1,6 +1,6 @@
 # Derivatives
 
-Biyachain natively supports trading of multiple types of derivatives:
+Biya Chain natively supports trading of multiple types of derivatives:
 
 * [Perpetuals](./derivatives-perpetuals.md)
 * [Expiry Futures](./derivatives-expiry-futures.md)

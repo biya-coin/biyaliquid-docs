@@ -1,6 +1,6 @@
 # BIYA coin
 
-BIYA is the native asset powering Biyachain and its broader ecosystem. Each component of BIYA is deliberately engineered to cultivate a thriving Web3 ecosystem. As the native asset of the blockchain, BIYA plays a central role in facilitating various operations on Biyachain. Integral to Biyachain’s custom implementation of the Tendermint Proof-of-Stake (PoS) consensus framework, BIYA is crucial for securing the network through staking. Additionally, BIYA functions as Biyachain’s governance token and serves as a means of exchange within the broader Biyachain ecosystem. Notably, BIYA distinguishes itself from other native assets on PoS chains by leveraging core Biyachain modules to engineer deflationary characteristics through an innovative burn and a dynamic supply mechanism.
+BIYA is the native asset powering Biya Chain and its broader ecosystem. Each component of BIYA is deliberately engineered to cultivate a thriving Web3 ecosystem. As the native asset of the blockchain, BIYA plays a central role in facilitating various operations on Biya Chain. Integral to Biya Chain’s custom implementation of the Tendermint Proof-of-Stake (PoS) consensus framework, BIYA is crucial for securing the network through staking. Additionally, BIYA functions as Biya Chain’s governance token and serves as a means of exchange within the broader Biya Chain ecosystem. Notably, BIYA distinguishes itself from other native assets on PoS chains by leveraging core Biya Chain modules to engineer deflationary characteristics through an innovative burn and a dynamic supply mechanism.
 
 ### Base Denomination
 
@@ -16,23 +16,23 @@ This matches Ethereum's denomination:
 1 wei = 1x10⁻¹⁸ ETH
 ```
 
-### Biyachain Tokenomics and Utility
+### Biya Chain Tokenomics and Utility
 
 #### 1. Security and Staking
 
-Biyachain is secured via staking, which is an essential use case for BIYA. Validators and delegators can freely participate in the Biyachain network via staking. Validators operate nodes on Biyachain, and delegators can assign BIYA to a particular node of choice. Staked BIYA enables a robust decentralized environment in which security is ensured via penalty and reward systems.
+Biya Chain is secured via staking, which is an essential use case for BIYA. Validators and delegators can freely participate in the Biya Chain network via staking. Validators operate nodes on Biya Chain, and delegators can assign BIYA to a particular node of choice. Staked BIYA enables a robust decentralized environment in which security is ensured via penalty and reward systems.
 
 A validator’s staked BIYA is subject to slashing in the event of malicious behavior or failure to effectively fulfill responsibilities. Additionally, BIYA is used to reward validators for participation in transaction validation and block creation. Rewards for validators comprise newly minted BIYA (block rewards) and a portion of the associated transaction fees.
 
-Holders of BIYA may also participate in staking without necessarily having to operate a node to earn a share of validator rewards. To do so, users delegate BIYA to validator(s), which can be done through supported browser wallets, or directly through the Biyachain Hub. In return for locking up BIYA, users earn a share of the validator’s BIYA rewards, less the fee charged by the selected validator (commission), distributed pro rata. A user’s staked BIYA is also subject to slashing in the event the validator delegated to incurs a slashing event. This ensures that both validators and delegators are aligned in contributing to the overall security of the network.
+Holders of BIYA may also participate in staking without necessarily having to operate a node to earn a share of validator rewards. To do so, users delegate BIYA to validator(s), which can be done through supported browser wallets, or directly through the Biya Chain Hub. In return for locking up BIYA, users earn a share of the validator’s BIYA rewards, less the fee charged by the selected validator (commission), distributed pro rata. A user’s staked BIYA is also subject to slashing in the event the validator delegated to incurs a slashing event. This ensures that both validators and delegators are aligned in contributing to the overall security of the network.
 
-Beyond securing the Biyachain chain, BIYA also extends its security serviceability to the broader ecosystem through Electro Chains. These Biyachain-based rollups offer a myriad of technical advantages, such as supporting multiple virtual machines, as seen with inEVM. Since these rollups settle to Biyachain, BIYA powers the foundational security layer for these networks. This interconnected security framework underscores the pivotal role of BIYA in maintaining the integrity and robustness of not only the Biyachain network, but also the diverse ecosystem of Electro Chains.
+Beyond securing the Biya Chain chain, BIYA also extends its security serviceability to the broader ecosystem through Electro Chains. These Biya Chain-based rollups offer a myriad of technical advantages, such as supporting multiple virtual machines, as seen with inEVM. Since these rollups settle to Biya Chain, BIYA powers the foundational security layer for these networks. This interconnected security framework underscores the pivotal role of BIYA in maintaining the integrity and robustness of not only the Biya Chain network, but also the diverse ecosystem of Electro Chains.
 
 #### 2. Governance
 
-BIYA is utilized for community led governance across all parameters of the chain. Biyachain uniquely has a permissioning layer for smart contract uploads as well, meaning that the community of stakers must vote in order to instantiate a smart contract on mainnet. This empowers the community to directly govern all parameters of Biyachain as a whole.
+BIYA is utilized for community led governance across all parameters of the chain. Biya Chain uniquely has a permissioning layer for smart contract uploads as well, meaning that the community of stakers must vote in order to instantiate a smart contract on mainnet. This empowers the community to directly govern all parameters of Biya Chain as a whole.
 
-For governance, BIYA is used for proposal creation and token-weighted voting on active proposals. As a spam deterrent, Biyachain requires a minimum deposit, made in BIYA, for the proposal to move on to the voting stage. This deposit threshold can either be met entirely by the proposer, or cumulatively by other users contributing BIYA to the proposal deposit. If the minimum deposit amount is not reached by the time the maximum deposit period elapses, the proposal will be automatically rejected, and the deposit(s) burned. Additionally, if the proposal does not pass upon voting period expiry, the proposal deposit is burned.
+For governance, BIYA is used for proposal creation and token-weighted voting on active proposals. As a spam deterrent, Biya Chain requires a minimum deposit, made in BIYA, for the proposal to move on to the voting stage. This deposit threshold can either be met entirely by the proposer, or cumulatively by other users contributing BIYA to the proposal deposit. If the minimum deposit amount is not reached by the time the maximum deposit period elapses, the proposal will be automatically rejected, and the deposit(s) burned. Additionally, if the proposal does not pass upon voting period expiry, the proposal deposit is burned.
 
 Proposal voting occurs during a preset voting period, which is set via governance and invariably applied to all governance votes. During the voting process, only staked BIYA is eligible to participate in voting. Hence, only validators and delegators can vote on active proposals. Voting power is token-weighted, meaning that 1 BIYA equals 1 vote. Delegators are not required to actively participate in governance to maintain their status. However, they have the option to vote directly on proposals. If a delegator does not vote, their voting power will automatically be inherited by the validator to whom they have delegated, for that specific voting event.
 
@@ -51,7 +51,7 @@ Full details on the governance process can be found [here](https://blog.biyachai
 
 #### 3. Medium of Exchange
 
-BIYA is used as the default asset to facilitate the purchase and sale of goods and services between parties on the blockchain. Common examples of this are paying for transaction fees (gas), buying/selling NFTs, paying for trading fees, or depositing the asset as collateral. While most goods and services can be denominated in any asset, all transaction fees incurred on Biyachain are paid in BIYA. Additionally, all protocol revenue generated by applications leveraging Biyachain’s shared liquidity layer via the exchange module is accumulated in BIYA.
+BIYA is used as the default asset to facilitate the purchase and sale of goods and services between parties on the blockchain. Common examples of this are paying for transaction fees (gas), buying/selling NFTs, paying for trading fees, or depositing the asset as collateral. While most goods and services can be denominated in any asset, all transaction fees incurred on Biya Chain are paid in BIYA. Additionally, all protocol revenue generated by applications leveraging Biya Chain’s shared liquidity layer via the exchange module is accumulated in BIYA.
 
 #### 4. Exchange dApps Incentives
 
@@ -65,4 +65,4 @@ More details on the auction mechanism can be found [here](../community-buyback.m
 
 #### 6. Backing Collateral for Derivatives
 
-BIYA can be utilized as an alternative to stablecoins as margin and collateral for Biyachain's derivatives markets. In some derivative markets, BIYA can also be used as backing collateral for insurance pool staking, where stakers can earn interest on their locked tokens.
+BIYA can be utilized as an alternative to stablecoins as margin and collateral for Biya Chain's derivatives markets. In some derivative markets, BIYA can also be used as backing collateral for insurance pool staking, where stakers can earn interest on their locked tokens.

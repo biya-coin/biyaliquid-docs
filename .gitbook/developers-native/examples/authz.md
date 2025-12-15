@@ -72,8 +72,8 @@ const msgs = MsgSend.fromJSON({
         denom: 'biya',
         amount: toChainFormat(0.01).toFixed()
     },
-    srcBiyachainAddress: granter,
-    dstBiyachainAddress: 'biya1...',
+    srcBiya ChainAddress: granter,
+    dstBiya ChainAddress: 'biya1...',
   });
 
 const msg = MsgExec.fromJSON({

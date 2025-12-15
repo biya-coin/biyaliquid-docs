@@ -1,6 +1,6 @@
 # Creating Tokens
 
-The easiest way to create your own token on Biyachain is by using the `tokenfactory` module. The `tokenfactory` module allows any account to create a new token with the name `factory/{creator address}/{subdenom}`. Because tokens are namespaced by creator address, this allows token minting to be permissionless, due to not needing to resolve name collisions.
+The easiest way to create your own token on Biya Chain is by using the `tokenfactory` module. The `tokenfactory` module allows any account to create a new token with the name `factory/{creator address}/{subdenom}`. Because tokens are namespaced by creator address, this allows token minting to be permissionless, due to not needing to resolve name collisions.
 
 A single account can create multiple denoms, by providing a unique subdenom for each created denom. Once a denom is created, the original creator is given "admin" privileges over the asset. This allows them to:
 

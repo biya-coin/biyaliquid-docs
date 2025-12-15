@@ -1,26 +1,26 @@
 # Launch a Token
 
-Within this document, we'll explain how to launch a token on Biyachain.
+Within this document, we'll explain how to launch a token on Biya Chain.
 
-There are two options for launching a token on Biyachain: bridging an existing token or creating a new token.
+There are two options for launching a token on Biya Chain: bridging an existing token or creating a new token.
 
 ## Bridging <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The easiest way to launch a token on Biyachain is by bridging your existing assets from one of the supported networks that Biyachain is interoperable with. There are guides in the [bridge](../defi/bridge/README.md "mention") sections that you can reference to bridge assets from other networks to Biyachain.
+The easiest way to launch a token on Biya Chain is by bridging your existing assets from one of the supported networks that Biya Chain is interoperable with. There are guides in the [bridge](../defi/bridge/README.md "mention") sections that you can reference to bridge assets from other networks to Biya Chain.
 
-Once the bridging process is completed, a token will be created on Biyachain, which you can then use to [launch-a-market.md](./market-launch.md "mention").
+Once the bridging process is completed, a token will be created on Biya Chain, which you can then use to [launch-a-market.md](./market-launch.md "mention").
 
 ## Creating a New Token
 
-You can also create a new token on Biyachain using the `TokenFactory` module. There are multiple ways on how to achieve this.
+You can also create a new token on Biya Chain using the `TokenFactory` module. There are multiple ways on how to achieve this.
 
-### Using Biyachain Hub <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
+### Using Biya Chain Hub <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The [Biyachain Hub](https://biyahub.com/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biyachain's [native orderbook](../developers-native/biyachain/exchange), etc.
+The [Biya Chain Hub](https://biyahub.com/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biya Chain's [native orderbook](../developers-native/biyachain/exchange), etc.
 
 ### Using TokenStation[​](../developers-defi/token-launch.md) <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The [TokenStation](https://www.tokenstation.app/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biyachain's [native orderbook](../developers-native/biyachain/exchange/), launching an airdrop, and much more.
+The [TokenStation](https://www.tokenstation.app/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biya Chain's [native orderbook](../developers-native/biyachain/exchange/), launching an airdrop, and much more.
 
 ### Using DojoSwap[​](../developers-defi/token-launch.md#4-via-dojoswap) <a href="#id-4-via-dojoswap" id="id-4-via-dojoswap"></a>
 
@@ -32,7 +32,7 @@ Similar to above, you can utilize [DojoSwap's Market Creation module](https://do
 
 Learn more about [launching a token](../developers/assets/token-create.md).
 
-#### Using Biyachain CLI
+#### Using Biya Chain CLI
 
 {% hint style="info" %}
 You have to have `biyachaind` installed locally before proceeding with this tutorial. You can learn more about it on the [biyachaind](../developers/biyachaind/ "mention")page.
@@ -52,7 +52,7 @@ Tokens are namespaced by the creator address to be permissionless and avoid name
 
 2. **Submit token metadata**
 
-To get your token visible on Biyachain dApps, you have to submit its metadata.
+To get your token visible on Biya Chain dApps, you have to submit its metadata.
 
 ```bash
 biyachaind tx tokenfactory set-denom-metadata "My Token Description" 'factory/biya17vytdwqczqz72j65saukplrktd4gyfme5agf6c/ak' AKK AKCoin AK '' '' '[
@@ -108,10 +108,10 @@ To create and manage a bank token programmatically via a smart contract, one can
 `create_new_denom_msg`
 
 ```rust
-pub fn create_new_denom_msg(sender: String, subdenom: String) -> CosmosMsg<BiyachainMsgWrapper> {
-    BiyachainMsgWrapper {
-        route: BiyachainRoute::Tokenfactory,
-        msg_data: BiyachainMsg::CreateDenom { sender, subdenom },
+pub fn create_new_denom_msg(sender: String, subdenom: String) -> CosmosMsg<Biya ChainMsgWrapper> {
+    Biya ChainMsgWrapper {
+        route: Biya ChainRoute::Tokenfactory,
+        msg_data: Biya ChainMsg::CreateDenom { sender, subdenom },
     }
     .into()
 }
@@ -124,7 +124,7 @@ Parameters:
 * `sender`: The address of the account initiating the creation.
 * `subdenom`: The sub-denomination identifier for the new token.
 
-Returns: A `CosmosMsg` wrapped in an `BiyachainMsgWrapper`, ready to be sent to the Biyachain blockchain.
+Returns: A `CosmosMsg` wrapped in an `Biya ChainMsgWrapper`, ready to be sent to the Biya Chain blockchain.
 
 Example:
 
@@ -138,10 +138,10 @@ let new_denom_message = create_new_denom_msg(
 #### `create_set_token_metadata_msg`
 
 ```rust
-pub fn create_set_token_metadata_msg(denom: String, name: String, symbol: String, decimals: u8) -> CosmosMsg<BiyachainMsgWrapper> {
-    BiyachainMsgWrapper {
-        route: BiyachainRoute::Tokenfactory,
-        msg_data: BiyachainMsg::SetTokenMetadata {
+pub fn create_set_token_metadata_msg(denom: String, name: String, symbol: String, decimals: u8) -> CosmosMsg<Biya ChainMsgWrapper> {
+    Biya ChainMsgWrapper {
+        route: Biya ChainRoute::Tokenfactory,
+        msg_data: Biya ChainMsg::SetTokenMetadata {
             denom,
             name,
             symbol,
@@ -161,7 +161,7 @@ Parameters:
 * `symbol`: The symbol of the token.
 * `decimals`: The number of decimal places the token uses.
 
-Returns: A `CosmosMsg` wrapped in an `BiyachainMsgWrapper`, ready to be sent to the Biyachain blockchain.
+Returns: A `CosmosMsg` wrapped in an `Biya ChainMsgWrapper`, ready to be sent to the Biya Chain blockchain.
 
 Example:
 
@@ -177,10 +177,10 @@ let metadata_message = create_set_token_metadata_msg(
 #### `create_mint_tokens_msg`
 
 ```rust
-pub fn create_mint_tokens_msg(sender: Addr, amount: Coin, mint_to: String) -> CosmosMsg<BiyachainMsgWrapper> {
-    BiyachainMsgWrapper {
-        route: BiyachainRoute::Tokenfactory,
-        msg_data: BiyachainMsg::Mint { sender, amount, mint_to },
+pub fn create_mint_tokens_msg(sender: Addr, amount: Coin, mint_to: String) -> CosmosMsg<Biya ChainMsgWrapper> {
+    Biya ChainMsgWrapper {
+        route: Biya ChainRoute::Tokenfactory,
+        msg_data: Biya ChainMsg::Mint { sender, amount, mint_to },
     }
     .into()
 }
@@ -194,7 +194,7 @@ Parameters:
 * `amount`: The amount of tokens to mint.
 * `mint_to`: The recipient address where the newly minted tokens should be sent.
 
-Returns: A `CosmosMsg` wrapped in an `BiyachainMsgWrapper`, ready to be sent to the Biyachain blockchain.
+Returns: A `CosmosMsg` wrapped in an `Biya ChainMsgWrapper`, ready to be sent to the Biya Chain blockchain.
 
 Example:
 
@@ -209,10 +209,10 @@ let mint_message = create_mint_tokens_msg(
 #### `create_burn_tokens_msg`
 
 ```rust
-pub fn create_burn_tokens_msg(sender: Addr, amount: Coin) -> CosmosMsg<BiyachainMsgWrapper> {
-    BiyachainMsgWrapper {
-        route: BiyachainRoute::Tokenfactory,
-        msg_data: BiyachainMsg::Burn { sender, amount },
+pub fn create_burn_tokens_msg(sender: Addr, amount: Coin) -> CosmosMsg<Biya ChainMsgWrapper> {
+    Biya ChainMsgWrapper {
+        route: Biya ChainRoute::Tokenfactory,
+        msg_data: Biya ChainMsg::Burn { sender, amount },
     }
     .into()
 }
@@ -225,7 +225,7 @@ Parameters:
 * `sender`: The address of the account initiating the burn operation.
 * `amount`: The amount of tokens to burn.
 
-Returns: A `CosmosMsg` wrapped in an `BiyachainMsgWrapper`, ready to be sent to the Biyachain blockchain.
+Returns: A `CosmosMsg` wrapped in an `Biya ChainMsgWrapper`, ready to be sent to the Biya Chain blockchain.
 
 Example:
 

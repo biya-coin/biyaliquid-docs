@@ -13,6 +13,6 @@ We suggest that you follow this guide: [Your First CosmWasm Smart Contract](./yo
 
 | Topic                                                                                      | Description            |
 | ------------------------------------------------------------------------------------------ | ---------------------- |
-| [Biyachain Name Service](biyachain-name-service.md)                                        | Biyachain Name Service |
+| [Biya Chain Name Service](biyachain-name-service.md)                                        | Biya Chain Name Service |
 | [Neptune Service](neptune-service.md)                                                      | Neptune Service        |
 | [CW20 to Bank & Market Order in One Transaction](cw20-convert-market-order.md) | Convert Cw20 Example   |

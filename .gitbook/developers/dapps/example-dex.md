@@ -1,6 +1,6 @@
 # DEX
 
-Within these short series we are going to showcase how easy it is to build a DEX on top of Biyachain. There is an open-sourced [DEX](https://github.com/biya-coin/biyachain-dex) which everyone can reference and use to build on top of Biyachain. For those who want to start from scratch, this is the right place to start.
+Within these short series we are going to showcase how easy it is to build a DEX on top of Biya Chain. There is an open-sourced [DEX](https://github.com/biya-coin/biyachain-dex) which everyone can reference and use to build on top of Biya Chain. For those who want to start from scratch, this is the right place to start.
 
 The series will include:
 
@@ -9,13 +9,13 @@ The series will include:
 - Connect to a user wallet and get their address,
 - Fetching Spot and Derivative markets and their orderbooks,
 - Placing market orders on both spot and a derivative market,
-- View all positions for an Biyachain address.
+- View all positions for an Biya Chain address.
 
 ## Setup
 
 First, configure your desired UI framework. You can find more details on the configuration here.
 
-To get started with the dex, we need to setup the API clients and the environment. To build our DEX we are going to query data from both the Biyachain Chain and the Indexer API. In this example, we are going to use the existing **Testnet** environment.
+To get started with the dex, we need to setup the API clients and the environment. To build our DEX we are going to query data from both the Biya Chain Chain and the Indexer API. In this example, we are going to use the existing **Testnet** environment.
 
 Let's first setup some of the classes we need to query the data.
 
@@ -47,15 +47,15 @@ export const indexerDerivativeStream = new IndexerGrpcDerivativeStream(
 );
 ```
 
-Then, we also need to setup a wallet connection to allow the user to connect to our DEX and start signing transactions. To make this happen we are going to use our `@biya-coin/wallet-strategy` package which allows users to connect with a various of different wallet providers and use them to sign transactions on Biyachain.
+Then, we also need to setup a wallet connection to allow the user to connect to our DEX and start signing transactions. To make this happen we are going to use our `@biya-coin/wallet-strategy` package which allows users to connect with a various of different wallet providers and use them to sign transactions on Biya Chain.
 
 ```ts
 // filename: Wallet.ts
 import { ChainId, EvmChainId } from "@biya-coin/ts-types";
 import { WalletStrategy } from "@biya-coin/wallet-strategy";
 
-const chainId = ChainId.Testnet; // The Biyachain Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm; // The Biyachain Evm Testnet Chain ID
+const chainId = ChainId.Testnet; // The Biya Chain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm; // The Biya Chain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`;
 
@@ -70,7 +70,7 @@ export const walletStrategy = new WalletStrategy({
 
 If we don't want to use Ethereum native wallets, just omit the `evmOptions` within the `WalletStrategy` constructor.
 
-Finally, to do the whole transaction flow (prepare + sign + broadcast) on Biyachain we are going to use the MsgBroadcaster class.
+Finally, to do the whole transaction flow (prepare + sign + broadcast) on Biya Chain we are going to use the MsgBroadcaster class.
 
 ```ts
 // filename: MsgBroadcaster.ts
@@ -242,8 +242,8 @@ export const makeMsgSend = ({
 
   return MsgSend.fromJSON({
     amount,
-    srcBiyachainAddress: sender,
-    dstBiyachainAddress: recipient,
+    srcBiya ChainAddress: sender,
+    dstBiya ChainAddress: recipient,
   })
 }
 
@@ -335,7 +335,7 @@ After we have the Messages, you can use the `msgBroadcaster` client to broadcast
 ```ts
 const response = await msgBroadcaster({
   msgs: /** the message here */,
-  biyachainAddress: signersBiyachainAddress,
+  biyachainAddress: signersBiya ChainAddress,
 })
 
 console.log(response)

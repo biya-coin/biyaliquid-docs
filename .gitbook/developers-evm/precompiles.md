@@ -1,27 +1,27 @@
 # Precompiles
 
-### What are Precompiles on Biyachain?
+### What are Precompiles on Biya Chain?
 
-On Biyachain, precompiles are special, highly-optimized smart contracts embedded directly into our EVM (Ethereum Virtual Machine) layer at the protocol level. Unlike standard Solidity smart contracts that are deployed by users, precompiles are part of the chain's core logic. They are written in Go instead of Solidity and are exposed to the EVM with fixed addresses, making them callable from your Solidity smart contracts just like any other smart contract.
+On Biya Chain, precompiles are special, highly-optimized smart contracts embedded directly into our EVM (Ethereum Virtual Machine) layer at the protocol level. Unlike standard Solidity smart contracts that are deployed by users, precompiles are part of the chain's core logic. They are written in Go instead of Solidity and are exposed to the EVM with fixed addresses, making them callable from your Solidity smart contracts just like any other smart contract.
 
-Think of them as native functions of the Biyachain chain that have been given an Ethereum-style interface.
+Think of them as native functions of the Biya Chain chain that have been given an Ethereum-style interface.
 
 ### Why are they necessary? (Bridging EVM & Native Modules)
 
-The Biyachain EVM doesn't operate in a silo. It's deeply integrated with Biyachain's powerful native Cosmos SDK modules, such as the Bank module (for token management), the Exchange module (for the on-chain order book), the Staking module, and more.
+The Biya Chain EVM doesn't operate in a silo. It's deeply integrated with Biya Chain's powerful native Cosmos SDK modules, such as the Bank module (for token management), the Exchange module (for the on-chain order book), the Staking module, and more.
 
-Precompiles serve as the crucial **bridge** between the EVM world (where your Solidity contracts live) and these native Biyachain functionalities. Without precompiles, your EVM smart contracts would be isolated, unable to tap into the rich features and liquidity of the broader Biyachain ecosystem.
+Precompiles serve as the crucial **bridge** between the EVM world (where your Solidity contracts live) and these native Biya Chain functionalities. Without precompiles, your EVM smart contracts would be isolated, unable to tap into the rich features and liquidity of the broader Biya Chain ecosystem.
 
 For example, our [MultiVM Token Standard (MTS)](./multivm-token-standard.md) model, which ensures unified token balances across native and EVM environments, is heavily reliant on the **Bank Precompile**.
 
 ### Benefits for Developers
 
-* **Access to Native Features:** Directly interact with Biyachain's unique modules like the on-chain order book, native staking, governance, and the bank module for MTS.
+* **Access to Native Features:** Directly interact with Biya Chain's unique modules like the on-chain order book, native staking, governance, and the bank module for MTS.
 * **Enhanced Performance:** Operations executed via precompiles can be significantly faster and more gas-efficient than trying to replicate complex native logic purely in Solidity, as they run as optimized native code.
-* **Seamless Interoperability:** Build truly integrated applications that leverage the strengths of both the EVM and Biyachain's Cosmos-native capabilities.
+* **Seamless Interoperability:** Build truly integrated applications that leverage the strengths of both the EVM and Biya Chain's Cosmos-native capabilities.
 * **Simplified Development:** Interact with complex native functionalities through familiar Solidity interfaces, abstracting away much of the underlying Cosmos complexity.
 
-A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Biyachain’s Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts). Key contracts include:
+A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Biya Chain’s Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts). Key contracts include:
 
 * [**Bank.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/Bank.sol) – precompile interface
 * [**BankERC20.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/BankERC20.sol) – abstract ERC20 implementation backed by the Bank precompile
@@ -32,17 +32,17 @@ These implementations are based on OpenZeppelin’s ERC20 contracts. Developers 
 
 ### Demos to get you started
 
-We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Biyachain EVM using the most common Ethereum development framework — **Foundry**.
+We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Biya Chain EVM using the most common Ethereum development framework — **Foundry**.
 
-By leveraging Foundry's `cast` tool, you can easily deploy contracts and interact with the Biyachain chain directly from your terminal. This enables builders to quickly experiment, test, and deploy powerful applications that tap into Biyachain's native modules.
+By leveraging Foundry's `cast` tool, you can easily deploy contracts and interact with the Biya Chain chain directly from your terminal. This enables builders to quickly experiment, test, and deploy powerful applications that tap into Biya Chain's native modules.
 
 Explore the demos below to see:
 
 - How to write Solidity contracts that call precompiles for token management, trading, and staking.
-- How to use Foundry scripts and `cast` commands to deploy and interact with these contracts on Biyachain EVM.
-- Best practices for bridging EVM logic with Biyachain's native features.
+- How to use Foundry scripts and `cast` commands to deploy and interact with these contracts on Biya Chain EVM.
+- Best practices for bridging EVM logic with Biya Chain's native features.
 
-Jumpstart your development by cloning the [Biyachain Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts/tree/master/demos) and following the step-by-step guides in each demo directory.
+Jumpstart your development by cloning the [Biya Chain Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts/tree/master/demos) and following the step-by-step guides in each demo directory.
 
 * [Bank Precompile Demo](https://github.com/biya-coin/solidity-contracts/tree/master/demos/erc20)
 * [Exchange Precompile Demo](https://github.com/biya-coin/solidity-contracts/tree/master/demos/exchange)
@@ -58,7 +58,7 @@ Jumpstart your development by cloning the [Biyachain Solidity Contracts Reposito
 
 ## The non-contract address error
 
-When using Foundry, and you "fork" the Biyachain Mainnet or Biyachain Testnet locally,
+When using Foundry, and you "fork" the Biya Chain Mainnet or Biya Chain Testnet locally,
 and execute your smart contracts in that environment,
 you may see an error similar to the following:
 
@@ -66,15 +66,15 @@ you may see an error similar to the following:
 [Revert] call to non-contract address 0x0000000000000000000000000000000000000064
 ```
 
-This occurs becuase Foundry is *simulating* Biyachain locally,
-rather than actually running on Biyachain.
+This occurs becuase Foundry is *simulating* Biya Chain locally,
+rather than actually running on Biya Chain.
 It is therefore running a *generic EVM* simulation,
-and not one that is specific to Biyachain.
-The difference lies in Biyachain's native functionality not being present,
+and not one that is specific to Biya Chain.
+The difference lies in Biya Chain's native functionality not being present,
 and therefore it being unaware of the precompiles.
 
 The fix for this is simple:
-Use a version of Foundry that has been patched to include Biyachain's precompiles:
+Use a version of Foundry that has been patched to include Biya Chain's precompiles:
 [github.com/biya-coin/foundry/releases](https://github.com/biya-coin/foundry/releases).
 
 These include pre-built binaries for x86_64 Linux and macOS ARM64.

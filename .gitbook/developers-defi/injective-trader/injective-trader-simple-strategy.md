@@ -1,6 +1,6 @@
 # Getting Started
 
-Biyachain Trader comes built in with a "Simple Strategy" to aid with rapid prototyping and familiarizing yourself with the codebase.
+Biya Chain Trader comes built in with a "Simple Strategy" to aid with rapid prototyping and familiarizing yourself with the codebase.
 
 **What it does:**
 
@@ -10,7 +10,7 @@ Biyachain Trader comes built in with a "Simple Strategy" to aid with rapid proto
 * Maintains a spread for profitability
 * Respects position limits for risk control
 
-**Best for:** predictable and steady trading while familiarizing yourself with Biyachain Trader. **Not recommended for production use.**
+**Best for:** predictable and steady trading while familiarizing yourself with Biya Chain Trader. **Not recommended for production use.**
 
 **Example Logs:**
 
@@ -133,4 +133,4 @@ python main.py MyBot config.yaml --log_path logs/my_bot.log --network mainnet
 
 ## Next
 
-Learn how to develop your own [custom strategy](biyachain-trader-strategy-development-guide.md) for Biyachain Trader.
+Learn how to develop your own [custom strategy](biyachain-trader-strategy-development-guide.md) for Biya Chain Trader.

@@ -4,7 +4,7 @@ description: Asset speculation before release
 
 # Pre-Launch Futures
 
-Many assets generate large amounts of trading activity when they are publicly launched but are generally unavailable to be traded prior to public release. To capture escalating interest and allow investors to speculate on assets prior to their public release dates, Biyachain has created Pre-Launch Futures (PLF). The first Pre-Launch Futures market on Biyachain will be based on an expiry futures contract, though PLFs[^1] can also take the form of a perpetual futures contract.
+Many assets generate large amounts of trading activity when they are publicly launched but are generally unavailable to be traded prior to public release. To capture escalating interest and allow investors to speculate on assets prior to their public release dates, Biya Chain has created Pre-Launch Futures (PLF). The first Pre-Launch Futures market on Biya Chain will be based on an expiry futures contract, though PLFs[^1] can also take the form of a perpetual futures contract.
 
 ### How do Pre-Launch Futures Work?
 

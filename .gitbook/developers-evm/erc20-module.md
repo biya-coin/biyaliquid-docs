@@ -2,7 +2,7 @@
 
 ### ERC20 Module
 
-The ERC20 module enables **existing** bank denoms (e.g., IBC-bridged tokens, USDC, tokenfactory, and Peggy) to integrate with the Biyachain EVM. It maintains a mapping between token pairs within its storage, creating an association between ERC20 tokens and their corresponding bank denoms. When a new token pair is generated for an existing bank denom, the module deploys an ERC20 contract that interacts with the Bank precompile, which then references the storage mapping to align the ERC20 address with the respective bank denom. This module serves several essential purposes:
+The ERC20 module enables **existing** bank denoms (e.g., IBC-bridged tokens, USDC, tokenfactory, and Peggy) to integrate with the Biya Chain EVM. It maintains a mapping between token pairs within its storage, creating an association between ERC20 tokens and their corresponding bank denoms. When a new token pair is generated for an existing bank denom, the module deploys an ERC20 contract that interacts with the Bank precompile, which then references the storage mapping to align the ERC20 address with the respective bank denom. This module serves several essential purposes:
 
 1. **Storage**: Maps between bank denom ↔ ERC20 address
 2. **New Message Type**: Enables users to establish new token pair mappings by issuing a chain message

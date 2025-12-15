@@ -1,12 +1,12 @@
 # Governance
 
-Biyachain is a community-run blockchain and users who have staked BIYA are able to participate in governance as it relates to the blockchain. Proposals can be submitted to make revisions to Biyachain programs, tech upgrades, or any other Biyachain related changes that impact the entire Biyachain ecosystem.
+Biya Chain is a community-run blockchain and users who have staked BIYA are able to participate in governance as it relates to the blockchain. Proposals can be submitted to make revisions to Biya Chain programs, tech upgrades, or any other Biya Chain related changes that impact the entire Biya Chain ecosystem.
 
-For every proposal you create, we require you to deposit at least 1 BIYA. This is to ensure that you are an active participant of the Biyachain community and you are eligible to make proposals and govern the protocol moving forward. For the proposal to pass to the voting stage, it must have 500 BIYA deposited. You can deposit the 500 BIYA yourself or collaborate with the community to deposit them collectively.
+For every proposal you create, we require you to deposit at least 1 BIYA. This is to ensure that you are an active participant of the Biya Chain community and you are eligible to make proposals and govern the protocol moving forward. For the proposal to pass to the voting stage, it must have 500 BIYA deposited. You can deposit the 500 BIYA yourself or collaborate with the community to deposit them collectively.
 
 ## Messages
 
-Let's explore (and provide examples) the messages that the Governance module exports and we can use to interact with the Biyachain chain. For example, you can use these messages to propose new spot, perpetual, or futures markets.
+Let's explore (and provide examples) the messages that the Governance module exports and we can use to interact with the Biya Chain chain. For example, you can use these messages to propose new spot, perpetual, or futures markets.
 
 ### MsgGovDeposit
 
@@ -74,7 +74,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgSubmitTextProposal
 
-Propose any action on Biyachain. TextProposal defines a standard text proposal whose changes need to be manually updated in case of approval.
+Propose any action on Biya Chain. TextProposal defines a standard text proposal whose changes need to be manually updated in case of approval.
 
 ```ts
 import {

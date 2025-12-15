@@ -1,6 +1,6 @@
 # Wallet Strategy
 
-The main purpose of the `@biya-coin/wallet-strategy` is to offer developers a way to have different wallet implementations on Biyachain. All of these wallets implementations are exposing the same `ConcreteStrategy` interface which means that users can just use these methods without the need to know the underlying implementation for specific wallets as they are abstracted away.
+The main purpose of the `@biya-coin/wallet-strategy` is to offer developers a way to have different wallet implementations on Biya Chain. All of these wallets implementations are exposing the same `ConcreteStrategy` interface which means that users can just use these methods without the need to know the underlying implementation for specific wallets as they are abstracted away.
 
 To start, you have to make an instance of the `WalletStrategy` class which gives you the ability to use different wallets out of the box. You can switch the current wallet that is used by using the `setWallet` method on the `walletStrategy` instance.
 
@@ -8,14 +8,14 @@ Let's have a look at the methods that `WalletStrategy` strategy exposes and what
 
 **Both Ethereum and Cosmos native wallets:**
 
-- `getAddresses` gets the addresses from the connected wallet strategy. This method returns the Ethereum addresses for Ethereum native wallets (strategies) and Biyachain addresses for Cosmos native wallets (strategies).
+- `getAddresses` gets the addresses from the connected wallet strategy. This method returns the Ethereum addresses for Ethereum native wallets (strategies) and Biya Chain addresses for Cosmos native wallets (strategies).
 - `signTransaction` signs a transaction using the corresponding wallet type method (`signCosmosTransaction` for Cosmos native wallets, `signEip712TypedData` for Ethereum native wallets)
 - `sendTransaction` signs a transaction using the corresponding wallet type method (needs a `sentryEndpoint` passed to the options if we wanna use it on Ethereum native wallets - explanation can be found below)
 - `getWalletDeviceType` returns the wallet connection type (mobile, browser, hardware),
 
 **Cosmos native wallets:**
 
-- `signCosmosTransaction` signs an Biyachain transaction using the connected wallet strategy,
+- `signCosmosTransaction` signs an Biya Chain transaction using the connected wallet strategy,
 - `getPublicKey` get the public key for the Cosmos native wallet strategies,
 
 **Ethereum native wallets:**
@@ -37,7 +37,7 @@ export interface WalletStrategyEvmOptions {
 }
 
 export interface EthereumWalletStrategyArgs {
-  chainId: ChainId; // the Biyachain chain id
+  chainId: ChainId; // the Biya Chain chain id
   evmOptions?: WalletStrategyEvmOptions; // optional, needed only if you are using Ethereum native wallets
   disabledWallets?: Wallet[]; // optional, needed if you wanna disable some wallets for being instantiated
   wallet?: Wallet; // optional, the initial wallet selected (defaults to Metamask if `evmOptions` are passed and Keplr if they are not)
@@ -54,8 +54,8 @@ import { Web3Exception } from '@biya-coin/exceptions'
 import { ChainId, EvmChainId } from '@biya-coin/ts-types'
 import { WalletStrategy } from '@biya-coin/wallet-strategy'
 
-const chainId = ChainId.Testnet // The Biyachain Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm // The Biyachain Evm Testnet Chain ID
+const chainId = ChainId.Testnet // The Biya Chain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm // The Biya Chain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`
 
@@ -78,7 +78,7 @@ export const getAddresses = async (): Promise<string[]> => {
   return addresses
 }
 
-// Sign an Biyachain transaction
+// Sign an Biya Chain transaction
 export const signTransaction = async (tx: TxRaw): Promise<string[]> => {
   const response = await walletStrategy.signCosmosTransaction(
     /*transaction:*/ { txRaw: tx, accountNumber: /* */, chainId: 'biyachain-1' },
@@ -88,7 +88,7 @@ export const signTransaction = async (tx: TxRaw): Promise<string[]> => {
   return response
 }
 
-// Send an Biyachain transaction
+// Send an Biya Chain transaction
 export const sendTransaction = async (tx: TxRaw): Promise<string[]> => {
   const response = await walletStrategy.sendTransaction(
     tx,

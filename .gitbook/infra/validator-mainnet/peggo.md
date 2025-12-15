@@ -1,6 +1,6 @@
 # Peggo
 
-If you're on this page then you've probably become a Validator on Biyachain. Congratulations! Configuring `peggo` is the final step of your setup.
+If you're on this page then you've probably become a Validator on Biya Chain. Congratulations! Configuring `peggo` is the final step of your setup.
 
 Example of `.env` for peggo:
 
@@ -8,16 +8,16 @@ Example of `.env` for peggo:
 PEGGO_ENV="local"         # environment name for metrics (dev/test/staging/prod/local)
 PEGGO_LOG_LEVEL="debug"   # log level depth
 
-PEGGO_COSMOS_CHAIN_ID="biyachain-1"           # chain ID of the Biyachain network
+PEGGO_COSMOS_CHAIN_ID="biyachain-1"           # chain ID of the Biya Chain network
 PEGGO_COSMOS_GRPC="tcp://localhost:9090"      # gRPC of your biyachaind process
 PEGGO_TENDERMINT_RPC="http://localhost:26657" # Tendermint RPC of your biyachaind process
 
 # Note: omitting PEGGO_COSMOS_GRPC and PEGGO_TENDERMINT_RPC enables stand-alone peggo mode. In this mode,
-# peggo is connected to load balanced endpoints provided by the Biyachain network. This decouples peggo's connection from your biyachaind process.
+# peggo is connected to load balanced endpoints provided by the Biya Chain network. This decouples peggo's connection from your biyachaind process.
 
-# Biyachain config
-PEGGO_COSMOS_FEE_DENOM="biya"            # token used to pay fees on Biyachain
-PEGGO_COSMOS_GAS_PRICES="160000000biya"  # default --gas-prices flag value for sending messages to Biyachain
+# Biya Chain config
+PEGGO_COSMOS_FEE_DENOM="biya"            # token used to pay fees on Biya Chain
+PEGGO_COSMOS_GAS_PRICES="160000000biya"  # default --gas-prices flag value for sending messages to Biya Chain
 PEGGO_COSMOS_KEYRING="file"             # keyring backends ("os", "file", "kwallet", "memory", "pass", "test")
 PEGGO_COSMOS_KEYRING_DIR=               # path to your keyring dir
 PEGGO_COSMOS_KEYRING_APP="peggo"        # arbitrary name for your keyring app
@@ -60,13 +60,13 @@ PEGGO_STATSD_DISABLED=true
 ```
 
 {% hint style="info" %}
-**IMPORTANT NOTE:** if you're running your own `biyachaind` (Biyachain node) and `geth` (Ethereum node) processes, ensure that they are in sync with the latest state. Outdated nodes can skew the business logic of `peggo` to display "false alarm" logs sometimes.
+**IMPORTANT NOTE:** if you're running your own `biyachaind` (Biya Chain node) and `geth` (Ethereum node) processes, ensure that they are in sync with the latest state. Outdated nodes can skew the business logic of `peggo` to display "false alarm" logs sometimes.
 {% endhint %}
 
 ## Step 1: Configuring .env
 
 ```bash
-# official Biyachain mainnet .env config 
+# official Biya Chain mainnet .env config 
 mkdir ~/.peggo
 cp mainnet-config/10001/peggo-config.env ~/.peggo/.env
 cd ~/.peggo
@@ -126,16 +126,16 @@ Simply update the `PEGGO_ETH_PK` with a new Ethereum Private Key from a new acco
 
 Then ensure that your Ethereum address has enough ETH.
 
-## Biyachain config
+## Biya Chain config
 
-### **Creating your delegated Cosmos Key for sending Biyachain transactions**
+### **Creating your delegated Cosmos Key for sending Biya Chain transactions**
 
 Your peggo orchestrator can either:
 
 * Use an explicitly delegated account key specific for sending validator specific Peggy transactions (i.e., `ValsetConfirm`, `BatchConfirm`, and `SendToCosmos` transactions) or
 * Simply use your validator's account key ("your Validator is your Orchestrator")
 
-For isolation purposes, we recommend creating a delegated Cosmos key to send Biyachain transactions instead of using your validator account key.
+For isolation purposes, we recommend creating a delegated Cosmos key to send Biya Chain transactions instead of using your validator account key.
 
 To create a new key, run
 
@@ -143,7 +143,7 @@ To create a new key, run
 biyachaind keys add $ORCHESTRATOR_KEY_NAME
 ```
 
-Then ensure that your orchestrator biya address has BIYA balance in it, so peggo orchestrator can send messages to Biyachain.
+Then ensure that your orchestrator biya address has BIYA balance in it, so peggo orchestrator can send messages to Biya Chain.
 
 To obtain your orchestrator's biya address, run
 
@@ -281,7 +281,7 @@ This is an advanced DevOps topic, consult with your sysadmin.
 
 Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually the keyring is located within node's homedir, i.e. `~/.biyachaind/keyring-file`.
 
-Some sections of the Biyachain Staking documentation will guide you through using this key for governance purposes, i.e. submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
+Some sections of the Biya Chain Staking documentation will guide you through using this key for governance purposes, i.e. submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
 
 In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
 

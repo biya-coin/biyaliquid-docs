@@ -2,7 +2,7 @@
 
 ### Chain Upgrades
 
-Biyachain periodically undergoes software upgrades. When a chain upgrade governance proposal is passed, a block height will be specified at which all nodes will automatically panic and stop running. At this point, the upgraded `biyachaind` binaries can be installed, and the node can be restarted.
+Biya Chain periodically undergoes software upgrades. When a chain upgrade governance proposal is passed, a block height will be specified at which all nodes will automatically panic and stop running. At this point, the upgraded `biyachaind` binaries can be installed, and the node can be restarted.
 
 See [biya-coin/biyachain-chain-releases](https://github.com/biya-coin/biyachain-chain-releases/releases) for the most recent and prior chain releases.
 
@@ -21,6 +21,6 @@ To manage chain upgrades, use [Cosmovisor](./cosmovisor.md).
 
 ### Node Maintenance (Managing Storage)
 
-As Biyachain state grows, your disk space may fill up. It’s recommended you periodically prune the chain data by downloading new snapshots. Beyond the overhead on the disk, the node is more performant when the chain state is smaller.
+As Biya Chain state grows, your disk space may fill up. It’s recommended you periodically prune the chain data by downloading new snapshots. Beyond the overhead on the disk, the node is more performant when the chain state is smaller.
 
-Biyachain validators take daily light snapshots that you can use to clean the chain state, which grows at about 10-15 GB daily. These snapshots are normally only around 2-3 GB. We recommend pruning the chain data every 300-400 GB. For links to snapshots as well as directions for applying the snapshot/syncing the node, see [Join Mainnet](./join-a-network.md).
+Biya Chain validators take daily light snapshots that you can use to clean the chain state, which grows at about 10-15 GB daily. These snapshots are normally only around 2-3 GB. We recommend pruning the chain data every 300-400 GB. For links to snapshots as well as directions for applying the snapshot/syncing the node, see [Join Mainnet](./join-a-network.md).

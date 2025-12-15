@@ -162,7 +162,7 @@ This is an advanced DevOps topic, consult with your sysadmin.
 
 Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.biyachaind/keyring-file`.
 
-Some sections of the Biyachain Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
+Some sections of the Biya Chain Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
 
 In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
 
@@ -184,16 +184,16 @@ First, update the `PEGGO_ETH_RPC` in the `.env` file with a valid Ethereum EVM R
 
 To create your own Ethereum full node, you can follow our instructions [here](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/). It's possible to use an external Ethereum RPC provider such as Alchemy or Infura, but keep in mind that the Peggo bridge relayer uses heavy use of `eth_getLogs` calls which may increase your cost burden depending on your provider.
 
-Peggo also requires access to your validator's delegated Biyachain Chain account and Ethereum key credentials to sign transactions for the corresponding networks.
+Peggo also requires access to your validator's delegated Biya Chain Chain account and Ethereum key credentials to sign transactions for the corresponding networks.
 
-### **Creating your delegated Cosmos Key for sending Biyachain transactions**
+### **Creating your delegated Cosmos Key for sending Biya Chain transactions**
 
 Your peggo relayer can either
 
 * Use an explicitly delegated account key specific for sending validator specific Peggy transactions (i.e. `ValsetConfirm`, `BatchConfirm`, and `SendToCosmos` transactions), or
 * Simply use your validator's account key.
 
-For isolation purposes, we recommend creating a delegated Cosmos key to send Biyachain transactions instead of using your validator account key.
+For isolation purposes, we recommend creating a delegated Cosmos key to send Biya Chain transactions instead of using your validator account key.
 
 To create a new key, run:
 
@@ -389,7 +389,7 @@ This is an advanced DevOps topic, consult with your sysadmin.
 
 Learn more about Cosmos Keyring setup [here](https://docs.cosmos.network/v0.46/run-node/keyring.html). Once you've launched your node, the default keyring will have the validator operator key stored on disk in the encrypted form. Usually, the keyring is located within node's homedir, i.e. `~/.biyachaind/keyring-file`.
 
-Some sections of the Biyachain Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
+Some sections of the Biya Chain Staking documentation will guide you through using this key for governance purposes, i.e., submitting transactions and setting up an Ethereum bridge. In order to protect the keys from unauthorized access, even when the keyring passphrase is leaked via configs, you can set OS permissions to allow disk access to `biyachaind` / `peggo` processes only.
 
 In Linux systems like Debian, Ubuntu and RHEL, this can be achieved using POSIX Access Control Lists (ACLs). Before beginning to work with ACLs, the file system must be mounted with ACLs turned on. There are some official guides for each distro:
 

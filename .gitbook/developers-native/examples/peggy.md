@@ -1,12 +1,12 @@
 # Peggy
 
-The `peggy` module is the heart of the biyachain <> ethereum bridge, where deposited funds will be locked on the ethereum [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code) and minted on the Biyachain chain. Similarly withdrawal funds will be burned on the biyachain chain and unlocked on the ethereum peggy contract.
+The `peggy` module is the heart of the biyachain <> ethereum bridge, where deposited funds will be locked on the ethereum [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code) and minted on the Biya Chain chain. Similarly withdrawal funds will be burned on the biyachain chain and unlocked on the ethereum peggy contract.
 
 ## Messages
 
 ### MsgSendToEth
 
-This message is used to withdraw funds from the Biyachain Chain via the [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code), in the process funds will be burned on the biyachain chain and distributed to the ethereum address from the peggy contract.
+This message is used to withdraw funds from the Biya Chain Chain via the [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code), in the process funds will be burned on the biyachain chain and distributed to the ethereum address from the peggy contract.
 
 Note that a $10 USD bridge fee will be charged for this transaction to cover for the ethereum gas fee on top of the standard BIYA transaction fee.
 

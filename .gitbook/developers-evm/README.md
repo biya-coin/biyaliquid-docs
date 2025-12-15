@@ -4,7 +4,7 @@ icon: rectangle-code
 
 # EVM Developers
 
-Welcome, EVM developers! Native EVM support on Biyachain lets you deploy Solidity smart contracts. It also opens up possibilities such as interacting with the exchange module, building dApps, and much more. You can now build in Biyachain with familiar tools, libraries, and workflows!
+Welcome, EVM developers! Native EVM support on Biya Chain lets you deploy Solidity smart contracts. It also opens up possibilities such as interacting with the exchange module, building dApps, and much more. You can now build in Biya Chain with familiar tools, libraries, and workflows!
 
 ## Start Building on EVM
 

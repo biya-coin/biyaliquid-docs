@@ -6,7 +6,7 @@ description: >-
 
 # Premium Endpoints
 
-Here is a list of external providers offering private Biyachain infrastructure services. For more information, click on their websites below:
+Here is a list of external providers offering private Biya Chain infrastructure services. For more information, click on their websites below:
 
 * [QuickNode](https://www.quicknode.com/chains/biya)
 * [CryptoCrew](https://forms.gle/Aa2XYBB4sLxzHNzc6)

@@ -108,7 +108,7 @@ message UpdateBandOracleRequestProposal {
 
 ## EnableBandIBCProposal
 
-This proposal is to enable IBC connection between Band chain and Biyachain chain.\
+This proposal is to enable IBC connection between Band chain and Biya Chain chain.\
 When the proposal is approved, it updates the BandIBCParams into newer one configured on the proposal.
 
 ```protobuf

@@ -1,6 +1,6 @@
-# Biyachain Name Service
+# Biya Chain Name Service
 
-Within this section, we will look at how to query the Biyachain name service contracts.
+Within this section, we will look at how to query the Biya Chain name service contracts.
 
 ## Abstraction Service (deprecated)
 
@@ -73,7 +73,7 @@ import {
 } from '@biya-coin/networks'
 import {
   ChainGrpcWasmApi,
-  QueryBiyachainAddress,
+  QueryBiya ChainAddress,
   BiyaNameServiceQueryTransformer,
 } from '@biya-coin/sdk-ts'
 import { nameToNode, normalizeName } from '@biya-coin/sdk-ts'
@@ -89,7 +89,7 @@ const name = 'allen.biya'
 const normalizedName = normalizeName(name)
 const node = nameToNode(normalizedName)
 
-const query = new QueryBiyachainAddress({ node }).toPayload()
+const query = new QueryBiya ChainAddress({ node }).toPayload()
 
 const response = await chainGrpcWasmApi.fetchSmartContractState(
   reverseResolverContractAddress,
@@ -97,7 +97,7 @@ const response = await chainGrpcWasmApi.fetchSmartContractState(
 )
 
 const biyachainAddress =
-  BiyaNameServiceQueryTransformer.biyachainAddressResponseToBiyachainAddress(
+  BiyaNameServiceQueryTransformer.biyachainAddressResponseToBiya ChainAddress(
     response,
   )
 
@@ -138,7 +138,7 @@ const response = await chainGrpcWasmApi.fetchSmartContractState(
   query,
 )
 
-const name = BiyaNameServiceQueryTransformer.biyachainNameResponseToBiyachainName(response)
+const name = BiyaNameServiceQueryTransformer.biyachainNameResponseToBiya ChainName(response)
 
 if (!name) {
   throw new Error(`.biya not found for ${biyachainAddress}`)

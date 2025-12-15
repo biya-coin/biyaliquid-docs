@@ -4,25 +4,25 @@ Within this document, we'll outline some examples on how to convert addresses be
 
 ### Convert Hex <> Bech32 address
 
-As we've mentioned in the [wallet](../defi/wallet/README.md "mention") section, Biyachain addresses are compatible with Ethereum addresses. You can convert between the two formats easily.
+As we've mentioned in the [wallet](../defi/wallet/README.md "mention") section, Biya Chain addresses are compatible with Ethereum addresses. You can convert between the two formats easily.
 
 ### Using TypeScript
 
-You can easily convert between an Biyachain address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
+You can easily convert between an Biya Chain address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
 
 ```typescript
-import { getBiyachainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
+import { getBiya ChainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
 
 const biyachainAddress = 'biya1...'
 const ethereumAddress = '0x..'
 
-console.log('Biyachain address from Ethereum address => ', getBiyachainAddress(ethereumAddress))
-console.log('Ethereum address from Biyachain address => ', getEthereumAddress(biyachainAddress))
+console.log('Biya Chain address from Ethereum address => ', getBiya ChainAddress(ethereumAddress))
+console.log('Ethereum address from Biya Chain address => ', getEthereumAddress(biyachainAddress))
 ```
 
-### **Convert Cosmos address to Biyachain Address**
+### **Convert Cosmos address to Biya Chain Address**
 
-As Biyachain has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biyachain one.
+As Biya Chain has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biya Chain one.
 
 ### Using TypeScript
 

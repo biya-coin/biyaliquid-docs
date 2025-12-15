@@ -1,10 +1,10 @@
 # Setting up the keyring
 
 {% hint style="info" %}
-This document describes how to configure and use the keyring and its various backends for an Biyachain node. `biyachaind` should be installed prior to setting up the keyring. See the [Install `biyachaind` page](../developers/biyachaind/install.md) for more information.
+This document describes how to configure and use the keyring and its various backends for an Biya Chain node. `biyachaind` should be installed prior to setting up the keyring. See the [Install `biyachaind` page](../developers/biyachaind/install.md) for more information.
 {% endhint %}
 
-The keyring holds the private/public keypairs used to interact with the node. For instance, a validator key needs to be set up before running the Biyachain node, so that blocks can be correctly signed. The private key can be stored in different locations, called "backends", such as a file or the operating system's own key storage.
+The keyring holds the private/public keypairs used to interact with the node. For instance, a validator key needs to be set up before running the Biya Chain node, so that blocks can be correctly signed. The private key can be stored in different locations, called "backends", such as a file or the operating system's own key storage.
 
 ### Available backends for the keyring
 

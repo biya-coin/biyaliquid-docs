@@ -1,26 +1,26 @@
 # Accounts
 
-Biyachain defines its own custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biyachain-based accounts is `m/44'/60'/0'/0.`
+Biya Chain defines its own custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biya Chain-based accounts is `m/44'/60'/0'/0.`
 
 ### Address conversion
 
-You can easily convert between an Biyachain address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
+You can easily convert between an Biya Chain address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
 
 ```ts
-import { getBiyachainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
+import { getBiya ChainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
 
 const biyachainAddress = 'biya1...'
 const ethereumAddress = '0x..'
 
-console.log('Biyachain address from Ethereum address => ', getBiyachainAddress(ethereumAddress))
-console.log('Ethereum address from Biyachain address => ', getEthereumAddress(biyachainAddress))
+console.log('Biya Chain address from Ethereum address => ', getBiya ChainAddress(ethereumAddress))
+console.log('Ethereum address from Biya Chain address => ', getEthereumAddress(biyachainAddress))
 ```
 
 ### Deriving wallets
 
-**Using Biyachain utility classes**
+**Using Biya Chain utility classes**
 
-* Example code snippet on how to derive Biyachain Account from a private key and/or a mnemonic phrase:
+* Example code snippet on how to derive Biya Chain Account from a private key and/or a mnemonic phrase:
 
 ```ts
 import { PrivateKey } from '@biya-coin/sdk-ts'
@@ -57,9 +57,9 @@ const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 console.log(publicKey.toBase64())
 ```
 
-**Without using Biyachain utility classes**
+**Without using Biya Chain utility classes**
 
-* Example code snippet on how to derive Biyachain Account from a private key and/or a mnemonic phrase:
+* Example code snippet on how to derive Biya Chain Account from a private key and/or a mnemonic phrase:
 
 ```ts
 import { Wallet } from 'ethers'
@@ -94,9 +94,9 @@ const publicKey = Buffer.concat([buf1, buf2, buf3]).toString('base64')
 const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 ```
 
-#### Convert Cosmos address to Biyachain Address
+#### Convert Cosmos address to Biya Chain Address
 
-As Biyachain has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biyachain one.
+As Biya Chain has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biya Chain one.
 
 Here is an example of how to do it
 

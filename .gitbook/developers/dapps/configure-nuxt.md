@@ -2,7 +2,7 @@
 
 ## Nuxt3 - The Intuitive Web Framework
 
-The preferred choice of UI framework to build decentralized applications on top of Biyachain at @biya-coin is Nuxt3. We are going to help you configure Nuxt3 + the Vite builder with the `@biya-coin` packages and some polyfills since you'll need them to interact with Crypto wallets.
+The preferred choice of UI framework to build decentralized applications on top of Biya Chain at @biya-coin is Nuxt3. We are going to help you configure Nuxt3 + the Vite builder with the `@biya-coin` packages and some polyfills since you'll need them to interact with Crypto wallets.
 
 ### 1. Installing Nuxt 3
 

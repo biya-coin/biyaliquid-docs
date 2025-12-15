@@ -1,6 +1,6 @@
 # Ethereum Transaction
 
-Every transaction on Biyachain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biya Chain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
@@ -53,8 +53,8 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
 /** Preparing the transaction */
 const msg = MsgSend.fromJSON({
   amount,
-  srcBiyachainAddress: biyachainAddress,
-  dstBiyachainAddress: biyachainAddress,
+  srcBiya ChainAddress: biyachainAddress,
+  dstBiya ChainAddress: biyachainAddress,
 });
 
 /** EIP712 for signing on Ethereum wallets */
@@ -93,7 +93,7 @@ You can also use our `@biya-coin/wallet-strategy` package to get out-of-the-box 
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Biyachain chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biya Chain chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
 
 ```ts
 import {
@@ -202,8 +202,8 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
 /** Preparing the transaction */
 const msg = MsgSend.fromJSON({
   amount,
-  srcBiyachainAddress: biyachainAddress,
-  dstBiyachainAddress: biyachainAddress,
+  srcBiya ChainAddress: biyachainAddress,
+  dstBiya ChainAddress: biyachainAddress,
 });
 
 /** EIP712 for signing on Ethereum wallets */

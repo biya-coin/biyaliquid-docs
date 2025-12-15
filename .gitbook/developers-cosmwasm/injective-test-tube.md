@@ -1,6 +1,6 @@
-# Biyachain Test Tube
+# Biya Chain Test Tube
 
-`biyachain-test-tube` is a CosmWasm x Biyachain integration testing library that, unlike `cw-multi-test`, allows you to test your CosmWasm contract against the chain's actual logic instead of mocks.
+`biyachain-test-tube` is a CosmWasm x Biya Chain integration testing library that, unlike `cw-multi-test`, allows you to test your CosmWasm contract against the chain's actual logic instead of mocks.
 
 The `dev` branch depends on currently private repos, but you can use published versions instead. Please refer to [`CHANGELOG`](https://github.com/biya-coin/test-tube/blob/dev/packages/biyachain-test-tube/CHANGELOG.md) for features and update information.
 
@@ -12,10 +12,10 @@ Here is how to set up the test:
 
 ```rust
 use cosmwasm_std::Coin;
-use biyachain_test_tube::BiyachainTestApp;
+use biyachain_test_tube::Biya ChainTestApp;
 
 // create new biyachain appchain instance.
-let app = BiyachainTestApp::new();
+let app = Biya ChainTestApp::new();
 
 // create new account with initial funds
 let accs = app
@@ -38,9 +38,9 @@ Note that `init_accounts` is a convenience function that creates multiple accoun
 
 ```rust
 use cosmwasm_std::Coin;
-use biyachain_test_tube::BiyachainTestApp;
+use biyachain_test_tube::Biya ChainTestApp;
 
-let app = BiyachainTestApp::new();
+let app = Biya ChainTestApp::new();
 
 let account = app.init_account(&[
     Coin::new(1_000_000_000_000, "usdt"),
@@ -59,9 +59,9 @@ Then we can start interacting with our contract. Let's do just that.
 ```rust
 use cosmwasm_std::Coin;
 use cw1_whitelist::msg::{InstantiateMsg}; // for instantiating cw1_whitelist contract
-use biyachain_test_tube::{Account, Module, BiyachainTestApp, Wasm};
+use biyachain_test_tube::{Account, Module, Biya ChainTestApp, Wasm};
 
-let app = BiyachainTestApp::new();
+let app = Biya ChainTestApp::new();
 let accs = app
     .init_accounts(
         &[
@@ -94,9 +94,9 @@ Not that in this example, it loads wasm bytecode from [cw-plus release](https://
 ```rust
 use cosmwasm_std::Coin;
 use cw1_whitelist::msg::{InstantiateMsg, QueryMsg, AdminListResponse};
-use biyachain_test_tube::{Account, Module, BiyachainTestApp, Wasm};
+use biyachain_test_tube::{Account, Module, Biya ChainTestApp, Wasm};
 
-let app = BiyachainTestApp::new();
+let app = Biya ChainTestApp::new();
 let accs = app
     .init_accounts(
         &[
@@ -153,9 +153,9 @@ Now let's execute the contract and verify that the contract's state is updated p
 ```rust
 use cosmwasm_std::Coin;
 use cw1_whitelist::msg::{InstantiateMsg, QueryMsg, ExecuteMsg, AdminListResponse};
-use biyachain_test_tube::{Account, Module, BiyachainTestApp, Wasm};
+use biyachain_test_tube::{Account, Module, Biya ChainTestApp, Wasm};
 
-let app = BiyachainTestApp::new();
+let app = Biya ChainTestApp::new();
 let accs = app
     .init_accounts(
         &[
@@ -227,7 +227,7 @@ assert!(admin_list.mutable);
 
 ### Debugging
 
-In your contract code, if you want to debug, you can use [`deps.api.debug(..)`](https://docs.rs/cosmwasm-std/latest/cosmwasm_std/trait.Api.html#tymethod.debug) which will print the debug message to stdout. `wasmd` disabled this by default but `BiyachainTestApp` allows stdout emission so that you can debug your smart contract while running tests.
+In your contract code, if you want to debug, you can use [`deps.api.debug(..)`](https://docs.rs/cosmwasm-std/latest/cosmwasm_std/trait.Api.html#tymethod.debug) which will print the debug message to stdout. `wasmd` disabled this by default but `Biya ChainTestApp` allows stdout emission so that you can debug your smart contract while running tests.
 
 ### Using Module Wrapper
 
@@ -241,10 +241,10 @@ use biyachain_std::types::biyachain::exchange::v1beta1::{
     MarketStatus, MsgInstantSpotMarketLaunch,
     QuerySpotMarketsRequest, QuerySpotMarketsResponse, SpotMarket,
 };
-use biyachain_test_tube::{Account, Exchange, BiyachainTestApp};
+use biyachain_test_tube::{Account, Exchange, Biya ChainTestApp};
 use test_tube_biya::Module;
 
-let app = BiyachainTestApp::new();
+let app = Biya ChainTestApp::new();
 let signer = app
     .init_account(&[
         Coin::new(10_000_000_000_000_000_000_000u128, "biya"),

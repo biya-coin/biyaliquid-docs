@@ -1,10 +1,10 @@
-# Biyachain List
+# Biya Chain List
 
 We have moved the on-chain denoms token metadata to the [biyachain-list](https://github.com/biya-coin/biyachain-lists) repository. This repository will aggregate data from several sources and produce a comprehensive token metadata master list.
 
 Here is an example of how to integrate biyachain-list with the TokenFactoryStatic class:
 
-1. Download the [Biyachain list JSON file](https://github.com/biya-coin/biyachain-lists?tab=readme-ov-file#-usage) from GitHub
+1. Download the [Biya Chain list JSON file](https://github.com/biya-coin/biyachain-lists?tab=readme-ov-file#-usage) from GitHub
 
 2. Use the `TokenStaticFactory` class from the `sdk-ts` package
 

@@ -292,7 +292,7 @@ biyachaind testnet --v 4 --keyring-backend test --output-dir ./output --ip-addre
 
 ### `tx`
 
-Manages generation, signing, and broadcasting of transactions. See Using Biyachaind for examples.
+Manages generation, signing, and broadcasting of transactions. See Using Biya Chaind for examples.
 
 For more information on syntax and available subcommands and, run the `tx` command with the `--help` or `-h` flag:
 
@@ -348,7 +348,7 @@ biyachaind validate-genesis </path-to-file>
 
 ### `version`
 
-Returns the version of Biyachain you’re running.
+Returns the version of Biya Chain you’re running.
 
 **Syntax**
 

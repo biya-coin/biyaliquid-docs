@@ -1,5 +1,5 @@
 ---
-description: Essential information about the Biyachain EVM networks
+description: Essential information about the Biya Chain EVM networks
 ---
 
 # EVM Network Information
@@ -16,7 +16,7 @@ description: Essential information about the Biyachain EVM networks
 * Explorer API: `https://blockscout-api.biyachain.network/api`
 
 {% hint style="info" %}
-Note that the Biyachain Chain ID is natively `biyachain-1`. However, EVM uses a numeric chain ID of `1776`. While these are different, they map to the **same** network.
+Note that the Biya Chain Chain ID is natively `biyachain-1`. However, EVM uses a numeric chain ID of `1776`. While these are different, they map to the **same** network.
 
 See [network information](../developers/network-information.md) for more details.
 {% endhint %}
@@ -32,7 +32,7 @@ See [network information](../developers/network-information.md) for more details
 {% hint style="info" %}
 Note that tokens that are **MTS** follow the [MultiVM Token Standard](https://docs.biyachain.network/developers-evm/multivm-token-standard).
 
-This means the same token can be used in all Biyachain modules (EVM, Cosmos) without using a bridge.
+This means the same token can be used in all Biya Chain modules (EVM, Cosmos) without using a bridge.
 {% endhint %}
 
 #### More Providers
@@ -59,7 +59,7 @@ This means the same token can be used in all Biyachain modules (EVM, Cosmos) wit
 * Explorer API: `https://testnet.blockscout-api.biyachain.network/api`
 
 {% hint style="info" %}
-Note that the Biyachain Chain ID is natively `biyachain-888`. However, EVM uses a numeric chain ID of `1439`. While these are different, they map to the **same** network.
+Note that the Biya Chain Chain ID is natively `biyachain-888`. However, EVM uses a numeric chain ID of `1439`. While these are different, they map to the **same** network.
 
 See [network information](../developers/network-information.md) for more details.
 {% endhint %}
@@ -72,7 +72,7 @@ See [network information](../developers/network-information.md) for more details
 {% hint style="info" %}
 Note that tokens that are **MTS** follow the [MultiVM Token Standard](https://docs.biyachain.network/developers-evm/multivm-token-standard).
 
-This means the same token can be used in all Biyachain modules (EVM, Cosmos) without using a bridge.
+This means the same token can be used in all Biya Chain modules (EVM, Cosmos) without using a bridge.
 {% endhint %}
 
 #### More Providers
@@ -89,7 +89,7 @@ This means the same token can be used in all Biyachain modules (EVM, Cosmos) wit
 
 #### More Info
 
-For more information about Biyachain EVM Testnet see the following pages:
+For more information about Biya Chain EVM Testnet see the following pages:
 
 * Basics:
   * [Start Building on EVM](./)

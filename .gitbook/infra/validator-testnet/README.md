@@ -41,12 +41,12 @@ It is the only way to recover your account if you ever forget your password.
 {% hint style="warning" %}
 **The output will contain a mnemonic phrase that represents your key in plain text. Make sure to save this phrase as a backup of your key, since without a key you will not be able to control your validator. The phrase is better be backed up on physical paper, storing it in cloud storage may compromise your validator later.**
 
-Remember the address starting from `biya`, this is going to be your Biyachain Chain Validator Account address.
+Remember the address starting from `biya`, this is going to be your Biya Chain Chain Validator Account address.
 {% endhint %}
 
 ### Step 2: Obtain BIYA
 
-In order to proceed with the next step, you will have to obtain some BIYA on Biyachain.
+In order to proceed with the next step, you will have to obtain some BIYA on Biya Chain.
 
 You can request funds from the [Testnet Faucet](https://faucet.biyachain.network/).
 
@@ -135,7 +135,7 @@ To gain a deeper empirical understanding of the user experience that your future
 
 These steps will allow you to experience the delegation flow using MetaMask Transactions. 🦊
 
-Alternatively, you can always use the Biyachain CLI to send a delegation transaction.
+Alternatively, you can always use the Biya Chain CLI to send a delegation transaction.
 
 ```bash
 biyachaind tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --chain-id=biyachain-888 --keyring-backend=file --yes --node=tcp://localhost:26657

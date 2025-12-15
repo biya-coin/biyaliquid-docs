@@ -26,7 +26,7 @@ npm start
 ....
 ```
 
-Go to the http://localhost:8080/ in your browser. If you have a Kelr wallet set up and connected to the Biyachain testnet, you should see "Confirm Transaction" pop up window.
+Go to the http://localhost:8080/ in your browser. If you have a Kelr wallet set up and connected to the Biya Chain testnet, you should see "Confirm Transaction" pop up window.
 
 ## How does it work?
 

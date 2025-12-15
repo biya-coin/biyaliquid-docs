@@ -1,6 +1,6 @@
 # Txfees
 
-The txfees module for Biyachain provides the required functionality to support fee market as per EIP-1559.
+The txfees module for Biya Chain provides the required functionality to support fee market as per EIP-1559.
 
 EIP-1559 introduces a "base fee" that automatically adjusts based on network congestion. When network activity increases, the base fee increases, and when activity decreases, the base fee decreases. This creates a more predictable and efficient fee market compared to a simple first-price auction model.
 

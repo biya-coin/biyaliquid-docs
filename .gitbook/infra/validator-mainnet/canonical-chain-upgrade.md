@@ -52,7 +52,7 @@ Compiled at 20250802-1911 using Go go1.23.9 (arm64)
 ```
 
 Note that you should replace `v1.16.1` in the commands above
-with your intended Biyachain release version number.
+with your intended Biya Chain release version number.
 
 ### Checking for matches
 
@@ -63,7 +63,7 @@ the following in addition to the version numbers (e.g. `v1.16.1`):
 - The compiled time stamp (e.g. `20250802-1910`)
 - The compiler (e.g. `Go go1.23.9 (amd64)`)
 
-You can verify that these **match** the values stated in the [Biyachain chain releases](https://github.com/biya-coin/biyachain-chain-releases/releases) page on Github.
+You can verify that these **match** the values stated in the [Biya Chain chain releases](https://github.com/biya-coin/biyachain-chain-releases/releases) page on Github.
 
 ## History of Canonical Chain Upgrades
 
@@ -75,7 +75,7 @@ November 8th, 2021, 14:00 UTC
 
 Block number: [4,352,000](https://prv.scan.biya.io/block/4352000)
 
-Released Artifacts: [Biyachain Chain 10002-rc1 release](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.1.0-1636178708)
+Released Artifacts: [Biya Chain Chain 10002-rc1 release](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.1.0-1636178708)
 
 Following [proposal #65](https://biyahub.com/proposals/65)
 
@@ -87,7 +87,7 @@ November 15th, 2021
 
 Block number: [4,594,100](https://prv.scan.biya.io/block/4594100)
 
-Released Artifacts: [Biyachain Chain 10002-rc2 release](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.1.1-1636733798)
+Released Artifacts: [Biya Chain Chain 10002-rc2 release](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.1.1-1636733798)
 
 Following [proposal #70](https://biyahub.com/proposals/70)
 

@@ -1,3 +1,3 @@
-# Biyachain
+# Biya Chain
 
-## Biyachain Modules
+## Biya Chain Modules

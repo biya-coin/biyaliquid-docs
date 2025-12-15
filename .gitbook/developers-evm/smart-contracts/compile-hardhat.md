@@ -23,7 +23,7 @@ If you do not have NodeJs installed yet, do so using:
 You will need a wallet, and an account that has been funded with some Testnet BIYA.
 
 {% hint style="info" %}
-You can request EVM testnet funds from the [Biyachain Testnet faucet](https://testnet.faucet.biyachain.network/).
+You can request EVM testnet funds from the [Biya Chain Testnet faucet](https://testnet.faucet.biyachain.network/).
 {% endhint %}
 
 After creating your account, be sure to copy your private key somewhere accessible, as you will need it to complete this tutorial.
@@ -65,8 +65,8 @@ hardhat-biya/
   .example.env
 ```
 
-The `hardhat.config.js` file is already pre-configured to connect to the Biyachain EVM Testnet.
-All you need to do before proceeding is to provide it with a private key of your Biyachain Testnet account.
+The `hardhat.config.js` file is already pre-configured to connect to the Biya Chain EVM Testnet.
+All you need to do before proceeding is to provide it with a private key of your Biya Chain Testnet account.
 
 ```shell
 cp .example.env .env

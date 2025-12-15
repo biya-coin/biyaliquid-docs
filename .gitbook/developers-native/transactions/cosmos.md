@@ -1,12 +1,12 @@
 # Cosmos Transactions
 
-Every transaction on Biyachain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biya Chain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
 First of, we need to prepare the transaction for signing.
 
-At this point you **can't** use some online abstractions that provide a quick way to prepare the transaction for you based on the provided Message and the signer (ex. using the `@cosmjs/stargate` package). The reason why is that these packages don't support Biyachain's publicKey typeUrl, so we have to do the preparation of the address on the client side.
+At this point you **can't** use some online abstractions that provide a quick way to prepare the transaction for you based on the provided Message and the signer (ex. using the `@cosmjs/stargate` package). The reason why is that these packages don't support Biya Chain's publicKey typeUrl, so we have to do the preparation of the address on the client side.
 
 To resolve this, we have provided functions which can prepare the `txRaw` transaction within out `@biya-coin/sdk-ts` package. `txRaw` is the transaction interface used in Cosmos that contains details about the transaction and the signer itself.
 
@@ -51,8 +51,8 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
   /** Preparing the transaction */
   const msg = MsgSend.fromJSON({
     amount,
-    srcBiyachainAddress: biyachainAddress,
-    dstBiyachainAddress: biyachainAddress,
+    srcBiya ChainAddress: biyachainAddress,
+    dstBiya ChainAddress: biyachainAddress,
   });
 
   /** Get the PubKey of the Signer from the Wallet/Private Key */
@@ -101,7 +101,7 @@ You can also use our `@biya-coin/wallet-strategy` package to get out-of-the-box 
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Biyachain chain itself. After getting the signature from the second step, we need to include it in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biya Chain chain itself. After getting the signature from the second step, we need to include it in the signed transaction and broadcast it to the chain.
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
@@ -249,8 +249,8 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
   /** Preparing the transaction */
   const msg = MsgSend.fromJSON({
     amount,
-    srcBiyachainAddress: biyachainAddress,
-    dstBiyachainAddress: biyachainAddress,
+    srcBiya ChainAddress: biyachainAddress,
+    dstBiya ChainAddress: biyachainAddress,
   });
 
   /** Prepare the Transaction **/

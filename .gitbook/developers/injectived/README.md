@@ -1,6 +1,6 @@
 # biyachaind
 
-`biyachaind` is the command-line interface and node daemon that connects to Biyachain. Biyachain core is the official Golang reference implementation of the Biyachain node software.
+`biyachaind` is the command-line interface and node daemon that connects to Biya Chain. Biya Chain core is the official Golang reference implementation of the Biya Chain node software.
 
 ## Getting Started
 
