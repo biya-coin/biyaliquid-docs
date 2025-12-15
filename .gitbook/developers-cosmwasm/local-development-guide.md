@@ -1,6 +1,6 @@
 # Local Development
 
-This guide will get you started deploying `cw20` smart contracts on a local Biyaliquid network running on your computer.
+This guide will get you started deploying `cw20` smart contracts on a local Biyachain network running on your computer.
 
 We'll use the `cw20-base` contract from [CosmWasm's collection of specifications and contracts](https://github.com/CosmWasm/cw-plus) designed for production use on real networks. `cw20-base` is a basic implementation of a `cw20` compatible contract that can be imported in any custom contract you want to build on. It contains a straightforward but complete implementation of the cw20 spec along with all extensions. `cw20-base` can be deployed as-is or imported by other contracts.
 
@@ -27,11 +27,11 @@ rustup target add wasm32-unknown-unknown
 cargo install cargo-generate
 ```
 
-### biyaliquidd
+### biyachaind
 
-Make sure you have `biyaliquidd` installed locally. You can follow the [install-biyaliquidd.md](../developers/biyaliquidd/install.md "mention")guide to get `biyaliquidd` and other prerequisites running locally.
+Make sure you have `biyachaind` installed locally. You can follow the [install-biyachaind.md](../developers/biyachaind/install.md "mention")guide to get `biyachaind` and other prerequisites running locally.
 
-Once you have `biyaliquidd` installed, you should also [start a local chain instance.](..//developers/biyaliquidd/install.md#start-biyaliquidd)
+Once you have `biyachaind` installed, you should also [start a local chain instance.](..//developers/biyachaind/install.md#start-biyachaind)
 
 ### Compile CosmWasm Contracts
 
@@ -66,7 +66,7 @@ The docker script builds and optimizes all the CW contracts in the repo, with th
 
 ```bash
 # inside the CosmWasm/cw-plus repo 
-yes 12345678 | biyaliquidd tx wasm store artifacts/cw20_base.wasm --from=genesis --chain-id="biyaliquid-1" --yes --gas-prices=500000000biya --gas=20000000
+yes 12345678 | biyachaind tx wasm store artifacts/cw20_base.wasm --from=genesis --chain-id="biyachain-1" --yes --gas-prices=500000000biya --gas=20000000
 ```
 
 **Output:**
@@ -90,7 +90,7 @@ txhash: 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
 Then query the transaction by the `txhash` to verify the contract was indeed deployed.
 
 ```bash
-biyaliquidd query tx 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
+biyachaind query tx 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
 ```
 
 **Output:**
@@ -234,7 +234,7 @@ tx:
         single:
           mode: SIGN_MODE_DIRECT
       public_key:
-        '@type': /biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey
+        '@type': /biyachain.crypto.v1beta1.ethsecp256k1.PubKey
         key: Ay+cc/lvd4Mn4pbgFkN87vWDaCXuXjVJYJGsdhrD09vk
       sequence: "1"
   body:
@@ -324,7 +324,7 @@ Make sure you have the private keys for the address you choose—you won't be ab
 To find the genesis address, run:
 
 ```bash
-yes 12345678 | biyaliquidd keys show genesis
+yes 12345678 | biyachaind keys show genesis
 ```
 
 **Output:**
@@ -333,7 +333,7 @@ yes 12345678 | biyaliquidd keys show genesis
 - name: genesis
   type: local
   address: biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3
-  pubkey: '{"@type":"/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey","key":"ArtVkg9feLXjD4p6XRtWxVpvJUDhrcqk/5XYLsQI4slb"}'
+  pubkey: '{"@type":"/biyachain.crypto.v1beta1.ethsecp256k1.PubKey","key":"ArtVkg9feLXjD4p6XRtWxVpvJUDhrcqk/5XYLsQI4slb"}'
   mnemonic: ""
 ```
 
@@ -342,7 +342,7 @@ Run the CLI command with `code_id` `1` along with the JSON encoded initializatio
 ```bash
 CODE_ID=1
 INIT='{"name":"Albcoin","symbol":"ALB","decimals":6,"initial_balances":[{"address":"biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3","amount":"69420"}],"mint":{"minter":"biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"},"marketing":{}}'
-yes 12345678 | biyaliquidd tx wasm instantiate $CODE_ID $INIT --label="Albcoin Token" --from=genesis --chain-id="biyaliquid-1" --yes --gas-prices=500000000biya --gas=20000000 --no-admin
+yes 12345678 | biyachaind tx wasm instantiate $CODE_ID $INIT --label="Albcoin Token" --from=genesis --chain-id="biyachain-1" --yes --gas-prices=500000000biya --gas=20000000 --no-admin
 ```
 
 Now the address of the instantiated contract can be obtained on `http://localhost:10337/swagger/#/Query/ContractsByCode`
@@ -350,14 +350,14 @@ Now the address of the instantiated contract can be obtained on `http://localhos
 And the contract info metadata can be obtained on `http://localhost:10337/swagger/#/Query/ContractInfo` or by CLI query
 
 ```bash
-CONTRACT=$(biyaliquidd query wasm list-contract-by-code $CODE_ID --output json | jq -r '.contracts[-1]')
-biyaliquidd query wasm contract $CONTRACT
+CONTRACT=$(biyachaind query wasm list-contract-by-code $CODE_ID --output json | jq -r '.contracts[-1]')
+biyachaind query wasm contract $CONTRACT
 ```
 
 **Output:**
 
 ```bash
-biyaliquidd query wasm contract $CONTRACT
+biyachaind query wasm contract $CONTRACT
 address: biya14hj2tavq8fpesdwxxcu44rty3hh90vhujaxlnz
 contract_info:
   admin: ""
@@ -376,7 +376,7 @@ contract_info:
 The entire contract state can be queried with:
 
 ```bash
-biyaliquidd query wasm contract-state all $CONTRACT
+biyachaind query wasm contract-state all $CONTRACT
 ```
 
 **Output:**
@@ -400,7 +400,7 @@ The individual user’s token balance can also be queried with:
 
 ```bash
 BALANCE_QUERY='{"balance": {"address": "biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"}}'
-biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
+biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
 ```
 
 **Output:**
@@ -413,7 +413,7 @@ biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output 
 
 ```bash
 TRANSFER='{"transfer":{"recipient":"biya1dzqd00lfd4y4qy2pxa0dsdwzfnmsu27hgttswz","amount":"420"}}'
-yes 12345678 | biyaliquidd tx wasm execute $CONTRACT "$TRANSFER" --from genesis --chain-id="biyaliquid-1" --yes --gas-prices=500000000biya --gas=20000000
+yes 12345678 | biyachaind tx wasm execute $CONTRACT "$TRANSFER" --from genesis --chain-id="biyachain-1" --yes --gas-prices=500000000biya --gas=20000000
 ```
 
 Then confirm the balance transfer occurred successfully with:
@@ -421,7 +421,7 @@ Then confirm the balance transfer occurred successfully with:
 ```bash
 # first address balance query
 BALANCE_QUERY='{"balance": {"address": "biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"}}'
-biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
+biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
 ```
 
 **Output:**
@@ -435,7 +435,7 @@ And confirm the recipient received the funds:
 ```bash
 # recipient's address balance query
 BALANCE_QUERY='{"balance": {"address": "biya1dzqd00lfd4y4qy2pxa0dsdwzfnmsu27hgttswz"}}'
-biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
+biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output json
 ```
 
 **Output:**
@@ -448,10 +448,10 @@ biyaliquidd query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output 
 
 Here are the main differences between a `local` and `testnet` development/deployment
 
-* You can use our [Biyaliquid Testnet Faucet](https://testnet.faucet.biyaliquid.network) to get testnet funds to your address,
-* You can use the [Biyaliquid Testnet Explorer](https://testnet.explorer.biyaliquid.network/smart-contracts/code/) to query your transactions and get more details,
-* When you are using `biyaliquidd` you have to specify the `testnet` rpc using the `node` flag `--node=https://testnet.sentry.tm.biyaliquid.network:443`
-* Instead of using `biyaliquid-1` as a `chainId` you should use `biyaliquid-888` i.e the `chain-id` flag should now be `--chain-id="biyaliquid-888"`
-* You can use the [Biyaliquid Testnet Explorer](https://testnet.explorer.biyaliquid.network/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
+* You can use our [Biyachain Testnet Faucet](https://testnet.faucet.biyachain.network) to get testnet funds to your address,
+* You can use the [Biyachain Testnet Explorer](https://testnet.explorer.biyachain.network/smart-contracts/code/) to query your transactions and get more details,
+* When you are using `biyachaind` you have to specify the `testnet` rpc using the `node` flag `--node=https://testnet.sentry.tm.biyachain.network:443`
+* Instead of using `biyachain-1` as a `chainId` you should use `biyachain-888` i.e the `chain-id` flag should now be `--chain-id="biyachain-888"`
+* You can use the [Biyachain Testnet Explorer](https://testnet.explorer.biyachain.network/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
 
-You can read more on the `biyaliquidd` and how to use it to query/send transactions against `testnet` [using-biyaliquidd.md](../developers/biyaliquidd/use.md "mention").
+You can read more on the `biyachaind` and how to use it to query/send transactions against `testnet` [using-biyachaind.md](../developers/biyachaind/use.md "mention").

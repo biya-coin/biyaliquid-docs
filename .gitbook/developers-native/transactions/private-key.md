@@ -1,8 +1,8 @@
 # Private Key Transaction
 
-In this document, we are going to show you how to use a PrivateKey to sign transactions on Biyaliquid.
+In this document, we are going to show you how to use a PrivateKey to sign transactions on Biyachain.
 
-Every transaction on Biyaliquid follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biyachain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
@@ -28,12 +28,12 @@ import { Network, getNetworkEndpoints } from "@biya-coin/networks";
 
 const privateKeyHash = "";
 const privateKey = PrivateKey.fromHex(privateKeyHash);
-const biyaliquidAddress = privateKey.toBech32();
+const biyachainAddress = privateKey.toBech32();
 const address = privateKey.toAddress();
 const pubKey = privateKey.toPublicKey().toBase64();
-const chainId = "biyaliquid-1"; /* ChainId.Mainnet */
+const chainId = "biyachain-1"; /* ChainId.Mainnet */
 const restEndpoint =
-  "https://lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
+  "https://lcd.biyachain.network"; /* getNetworkEndpoints(Network.Mainnet).rest */
 const amount = {
   denom: "biya",
   amount: toChainFormat(0.01).toFixed(),
@@ -42,7 +42,7 @@ const amount = {
 /** Account Details **/
 const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-  biyaliquidAddress
+  biyachainAddress
 );
 const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 const accountDetails = baseAccount.toAccountDetails();
@@ -58,8 +58,8 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
 /** Preparing the transaction */
 const msg = MsgSend.fromJSON({
   amount,
-  srcBiyaliquidAddress: biyaliquidAddress,
-  dstBiyaliquidAddress: biyaliquidAddress,
+  srcBiyachainAddress: biyachainAddress,
+  dstBiyachainAddress: biyachainAddress,
 });
 
 /** Prepare the Transaction **/
@@ -92,7 +92,7 @@ const signature = await privateKey.sign(Buffer.from(signBytes));
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Biyaliquid chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biyachain chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
@@ -155,12 +155,12 @@ import { toChainFormat, getDefaultStdFee } from "@biya-coin/utils";
   const privateKeyHash =
     "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3";
   const privateKey = PrivateKey.fromHex(privateKeyHash);
-  const biyaliquidAddress = privateKey.toBech32();
+  const biyachainAddress = privateKey.toBech32();
   const publicKey = privateKey.toPublicKey().toBase64();
 
   /** Account Details **/
   const accountDetails = await new ChainRestAuthApi(network.rest).fetchAccount(
-    biyaliquidAddress
+    biyachainAddress
   );
 
   /** Prepare the Message */
@@ -171,8 +171,8 @@ import { toChainFormat, getDefaultStdFee } from "@biya-coin/utils";
 
   const msg = MsgSend.fromJSON({
     amount,
-    srcBiyaliquidAddress: biyaliquidAddress,
-    dstBiyaliquidAddress: biyaliquidAddress,
+    srcBiyachainAddress: biyachainAddress,
+    dstBiyachainAddress: biyachainAddress,
   });
 
   /** Prepare the Transaction **/
@@ -233,15 +233,15 @@ import { toChainFormat } from "@biya-coin/utils";
 import { MsgSend, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
 
 const privateKey = "0x...";
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const amount = {
   denom: "biya",
   amount: toChainFormat(1).toFixed(),
 };
 const msg = MsgSend.fromJSON({
   amount,
-  srcBiyaliquidAddress: biyaliquidAddress,
-  dstBiyaliquidAddress: biyaliquidAddress,
+  srcBiyachainAddress: biyachainAddress,
+  dstBiyachainAddress: biyachainAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({

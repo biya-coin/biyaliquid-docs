@@ -33,7 +33,7 @@ const feeDiscountSchedule =
 console.log(feeDiscountSchedule)
 ```
 
-### Fetch the fee discounts associated with an biyaliquid address
+### Fetch the fee discounts associated with an biyachain address
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -42,10 +42,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const feeDiscountAccountInfo =
-  await chainGrpcExchangeApi.fetchFeeDiscountAccountInfo(biyaliquidAddress)
+  await chainGrpcExchangeApi.fetchFeeDiscountAccountInfo(biyachainAddress)
 
 console.log(feeDiscountAccountInfo)
 ```
@@ -65,7 +65,7 @@ const tradingRewardsCampaign =
 console.log(tradingRewardsCampaign)
 ```
 
-### Fetch the trading rewards points for an biyaliquid address
+### Fetch the trading rewards points for an biyachain address
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -74,16 +74,16 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const tradeRewardsPoints = await chainGrpcExchangeApi.fetchTradeRewardsPoints(
-  biyaliquidAddress,
+  biyachainAddress,
 )
 
 console.log(tradeRewardsPoints)
 ```
 
-### Fetch the pending trading rewards points for biyaliquid addresses
+### Fetch the pending trading rewards points for biyachain addresses
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -92,10 +92,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const biyaliquidAddresses = ['biya...']
+const biyachainAddresses = ['biya...']
 
 const pendingTradeRewardsPoints =
-  await chainGrpcExchangeApi.fetchPendingTradeRewardPoints(biyaliquidAddresses)
+  await chainGrpcExchangeApi.fetchPendingTradeRewardPoints(biyachainAddresses)
 
 console.log(pendingTradeRewardsPoints)
 ```
@@ -109,7 +109,7 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcExchangeApi = new ChainGrpcExchangeApi(endpoints.grpc)
 
-const positions = await chainGrpcExchangeApi.fetchPositions(biyaliquidAddresses)
+const positions = await chainGrpcExchangeApi.fetchPositions(biyachainAddresses)
 
 console.log(positions)
 ```

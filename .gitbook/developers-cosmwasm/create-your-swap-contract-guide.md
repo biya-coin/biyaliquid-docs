@@ -4,13 +4,13 @@ The [swap contract](https://github.com/biya-coin/swap-contract) allows an instan
 
 ### Getting started
 
-Anyone can instantiate an instance of the swap contract. There is a version of this contract uploaded on Biyaliquid mainnet already, and can be found [here](https://biyascan.com/code/67/).
+Anyone can instantiate an instance of the swap contract. There is a version of this contract uploaded on Biyachain mainnet already, and can be found [here](https://biyascan.com/code/67/).
 
 Before instantiating the contract, as the contract owner, you have three questions to answer:
 
 #### 1. Which address should be the fee recipient?
 
-Since orders placed by the swap contract are orders in the Biyaliquid Exchange Module, this means each order can have a fee recipient which can receive 40% of the trading fee. Typically, Exchange dApps will set the fee recipient as their own addresses.
+Since orders placed by the swap contract are orders in the Biyachain Exchange Module, this means each order can have a fee recipient which can receive 40% of the trading fee. Typically, Exchange dApps will set the fee recipient as their own addresses.
 
 #### 2. What tokens should this contract support?
 
@@ -32,11 +32,11 @@ Initializes the contract state with the contract version and configuration detai
 
 ```rust
 pub fn instantiate(
-    deps: DepsMut<BiyaliquidQueryWrapper>,
+    deps: DepsMut<BiyachainQueryWrapper>,
     env: Env,
     info: MessageInfo,
     msg: InstantiateMsg,
-) -> Result<Response<BiyaliquidMsgWrapper>, ContractError>
+) -> Result<Response<BiyachainMsgWrapper>, ContractError>
 ```
 
 #### Execute
@@ -52,11 +52,11 @@ Handles different types of transactions and admin functions:
 
 ```rust
 pub fn execute(
-    deps: DepsMut<BiyaliquidQueryWrapper>,
+    deps: DepsMut<BiyachainQueryWrapper>,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
-) -> Result<Response<BiyaliquidMsgWrapper>, ContractError>
+) -> Result<Response<BiyachainMsgWrapper>, ContractError>
 ```
 
 #### Reply
@@ -65,10 +65,10 @@ Handles the replies from other contracts or transactions.
 
 ```rust
 pub fn reply(
-    deps: DepsMut<BiyaliquidQueryWrapper>,
+    deps: DepsMut<BiyachainQueryWrapper>,
     env: Env,
     msg: Reply,
-) -> Result<Response<BiyaliquidMsgWrapper>, ContractError>
+) -> Result<Response<BiyachainMsgWrapper>, ContractError>
 ```
 
 #### Query
@@ -81,7 +81,7 @@ Handles various queries to the contract:
 * GetAllRoutes: Get all available swap routes.
 
 ```rust
-pub fn query(deps: Deps<BiyaliquidQueryWrapper>, env: Env, msg: QueryMsg) -> StdResult<Binary>
+pub fn query(deps: Deps<BiyachainQueryWrapper>, env: Env, msg: QueryMsg) -> StdResult<Binary>
 ```
 
 ### Repo

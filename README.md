@@ -1,6 +1,6 @@
-# 🌟 Biyaliquid Docs
+# 🌟 Biyachain Docs
 
-[The main documentation for Biyaliquid](https://docs.biyaliquid.network)
+[The main documentation for Biyachain](https://docs.biyachain.network)
 
 ---
 
@@ -9,13 +9,13 @@
 1. Clone the repository and create your branch
 
 ```bash
-$ git clone git@github.com:biya-coin/biyaliquid-docs.git
-$ cd biyaliquid-docs
+$ git clone git@github.com:biya-coin/biyachain-docs.git
+$ cd biyachain-docs
 ```
 
-2. Update your content in the `.gitbook` folder. _Note: `.gitbook/developers/modules` should not be done as it's automatically pulled from the `biyaliquid-core` repo_
+2. Update your content in the `.gitbook` folder. _Note: `.gitbook/developers/modules` should not be done as it's automatically pulled from the `biyachain-core` repo_
 
-3. Regenerate documentation based on the desired branches for `biyaliquid-core` and `cosmos-sdk`. _Note: you can change the branches/tags in the `scripts/setup.sh` file_
+3. Regenerate documentation based on the desired branches for `biyachain-core` and `cosmos-sdk`. _Note: you can change the branches/tags in the `scripts/setup.sh` file_
 
 ```bash
 $ yarn generate
@@ -25,11 +25,11 @@ $ yarn generate
 
 ## 🔓 License
 
-Copyright © 2021 - 2025 Biyaliquid Foundation (https://biyaliquid.com/)
+Copyright © 2021 - 2025 Biyachain Foundation (https://biyachain.com/)
 
 <a href="https://iili.io/mNneZN.md.png"><img src="https://iili.io/mNneZN.md.png" style="width: 300px; max-width: 100%; height: auto" />
 
-Originally released by Biyaliquid Foundation under: <br />
+Originally released by Biyachain Foundation under: <br />
 Apache License <br />
 Version 2.0, January 2004 <br />
 http://www.apache.org/licenses/

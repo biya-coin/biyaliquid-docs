@@ -15,13 +15,13 @@ import {
 } from "@biya-coin/sdk-ts";
 import {  Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const validatorAddress = "biya1...";
 
 /* create message in proto format */
 const msg = MsgWithdrawDelegatorReward.fromJSON({
   validatorAddress,
-  delegatorAddress: biyaliquidAddress,
+  delegatorAddress: biyachainAddress,
 });
 
 const privateKey = "0x...";
@@ -48,7 +48,7 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const validatorAddress = "biya1...";
 
 /* create message in proto format */

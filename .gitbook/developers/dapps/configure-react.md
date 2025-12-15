@@ -23,7 +23,7 @@ $ yarn add @biya-coin/sdk-ts @biya-coin/networks @biya-coin/ts-types @biya-coin/
 $ yarn add @biya-coin/wallet-strategy
 ```
 
-These are the most commonly used packages from the `biyaliquid-ts` monorepo.
+These are the most commonly used packages from the `biyachain-ts` monorepo.
 
 ### 3. Configuring Vite and adding polyfills
 

@@ -47,11 +47,11 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcPermissionsApi = new ChainGrpcPermissionsApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 const subdenom = 'NBIYAA'
 
 const addressRoles = await chainGrpcPermissionsApi.fetchAddressRoles({
-  biyaliquidAddress,
+  biyachainAddress,
   denom: subdenom,
 })
 
@@ -79,7 +79,7 @@ const addressesByRole = await chainGrpcPermissionsApi.fetchAddressesByRole({
 console.log(addressesByRole)
 ```
 
-### Fetch vouchers for a given biyaliquid address
+### Fetch vouchers for a given biyachain address
 
 ```ts
 import { ChainGrpcPermissionsApi } from '@biya-coin/sdk-ts'
@@ -88,10 +88,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcPermissionsApi = new ChainGrpcPermissionsApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const vouchers = await chainGrpcPermissionsApi.fetchVouchersForAddress(
-    biyaliquidAddress,
+    biyachainAddress,
 )
 
 console.log(vouchers)

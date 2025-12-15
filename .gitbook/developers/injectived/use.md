@@ -1,21 +1,21 @@
-# Using biyaliquidd
+# Using biyachaind
 
-The following page explains what one can do via `biyaliquidd`, the command-line interface that connects to Biyaliquid. You can use `biyaliquidd` to interact with the Biyaliquid blockchain by uploading smart contracts, querying data, managing staking activities, working with governance proposals, and more.
+The following page explains what one can do via `biyachaind`, the command-line interface that connects to Biyachain. You can use `biyachaind` to interact with the Biyachain blockchain by uploading smart contracts, querying data, managing staking activities, working with governance proposals, and more.
 
 ## Prerequisites
 
-### Ensuring biyaliquidd is installed
+### Ensuring biyachaind is installed
 
-See [Install biyaliquidd](./install.md) for more information. If you have installed `biyaliquidd` successfully, you should be able to run the following command:
+See [Install biyachaind](./install.md) for more information. If you have installed `biyachaind` successfully, you should be able to run the following command:
 
 ```bash
-biyaliquidd version
+biyachaind version
 ```
 
 Please adjust your command to use the home dir properly.
 
 ```bash
-biyaliquidd keys list --home ~/.biyaliquid
+biyachaind keys list --home ~/.biyachain
 ```
 
 ### Using Dockerized CLI
@@ -23,35 +23,35 @@ biyaliquidd keys list --home ~/.biyaliquid
 In case when running from Docker, you have to mount the home dir to the container.
 
 ```bash
-docker run -it --rm -v ~/.biyaliquid:/root/.biyaliquid biya-coin/biyaliquid-core:v1.14.1 biyaliquidd keys list --home /root/.biyaliquid
+docker run -it --rm -v ~/.biyachain:/root/.biyachain biya-coin/biyachain-core:v1.14.1 biyachaind keys list --home /root/.biyachain
 ```
 
 Adding a key using Dockerized CLI is straightforward.
 
 ```bash
-docker run -it --rm -v ~/.biyaliquid:/root/.biyaliquid biya-coin/biyaliquid-core:v1.14.1 biyaliquidd keys add my_key --home /root/.biyaliquid
+docker run -it --rm -v ~/.biyachain:/root/.biyachain biya-coin/biyachain-core:v1.14.1 biyachaind keys add my_key --home /root/.biyachain
 ```
 
 There's a breakdown of that command:
 
-* docker runs the image `biya-coin/biyaliquid-core:v1.14.1`
-* `biyaliquidd` is the command to run the CLI from within the container
+* docker runs the image `biya-coin/biyachain-core:v1.14.1`
+* `biyachaind` is the command to run the CLI from within the container
 * `keys add` is the command to add a key
 * `my_key` is the name of the key
-* `--home /root/.biyaliquid` is the home directory for CLI inside the container
-* `-v ~/.biyaliquid:/root/.biyaliquid` simply mounts the host `~/.biyaliquid` dir to the container's `/root/.biyaliquid` dir.
+* `--home /root/.biyachain` is the home directory for CLI inside the container
+* `-v ~/.biyachain:/root/.biyachain` simply mounts the host `~/.biyachain` dir to the container's `/root/.biyachain` dir.
 
-It will create a key pair and save it to the container's `/root/.biyaliquid/keyring-file` dir, which is the same as your host `~/.biyaliquid/keyring-file` dir.
+It will create a key pair and save it to the container's `/root/.biyachain/keyring-file` dir, which is the same as your host `~/.biyachain/keyring-file` dir.
 
 You can list all the keys by running:
 
 ```bash
-docker run -it --rm -v ~/.biyaliquid:/root/.biyaliquid biya-coin/biyaliquid-core:v1.14.1 biyaliquidd keys list --home /root/.biyaliquid
+docker run -it --rm -v ~/.biyachain:/root/.biyachain biya-coin/biyachain-core:v1.14.1 biyachaind keys list --home /root/.biyachain
 ```
 
 ### Using the RPC endpoint
 
-Before you can access the Biyaliquid blockchain, you need to have a node running. You can either run your own full node or connect to someone else’s.
+Before you can access the Biyachain blockchain, you need to have a node running. You can either run your own full node or connect to someone else’s.
 
 To query the state and send transactions, you must connect to a node, which is the access point to the entire network of peer connections. You can either run your own full node or connect to someone else’s.
 
@@ -60,18 +60,18 @@ To query the state and send transactions, you must connect to a node, which is t
 To set the RPC endpoint, you can use the following command:
 
 ```bash
-biyaliquidd config set client node https://sentry.tm.biyaliquid.network:443
-biyaliquidd config set client chain-id biyaliquid-1
+biyachaind config set client node https://sentry.tm.biyachain.network:443
+biyachaind config set client chain-id biyachain-1
 ```
 
 {% hint style="info" %}
-For testnet only, you can use: `https://k8s.testnet.tm.biyaliquid.network:443` (chain-id `biyaliquid-888`)
+For testnet only, you can use: `https://k8s.testnet.tm.biyachain.network:443` (chain-id `biyachain-888`)
 {% endhint %}
 
 Now try to query the state:
 
 ```bash
-biyaliquidd q bank balances biya1yu75ch9u6twffwp94gdtf4sa7hqm6n7egsu09s
+biyachaind q bank balances biya1yu75ch9u6twffwp94gdtf4sa7hqm6n7egsu09s
 
 balances:
 - amount: "28748617927330656"
@@ -80,30 +80,30 @@ balances:
 
 ### General help
 
-For more general information about `biyaliquidd`, run:
+For more general information about `biyachaind`, run:
 
 ```bash
-biyaliquidd --help
+biyachaind --help
 ```
 
-For more information about a specific `biyaliquidd` command, append the `-h` or `--help` flag after the command. For example:
+For more information about a specific `biyachaind` command, append the `-h` or `--help` flag after the command. For example:
 
 ```bash
-biyaliquidd query --help.
+biyachaind query --help.
 ```
 
-### Configuring `biyaliquidd` client
+### Configuring `biyachaind` client
 
-To configure more options of `biyaliquidd`, edit the `config.toml` file in the `~/.biyaliquid/config/` directory. Keyring file is located in `~/.biyaliquid/keyring-file` directory when keyring-backend is set to `file`. It's possible to set keyring-backend to `test` or `os` as well. In case for the test, it will be also stored as file `~/.biyaliquid/keyring-test` but not password-protected.
+To configure more options of `biyachaind`, edit the `config.toml` file in the `~/.biyachain/config/` directory. Keyring file is located in `~/.biyachain/keyring-file` directory when keyring-backend is set to `file`. It's possible to set keyring-backend to `test` or `os` as well. In case for the test, it will be also stored as file `~/.biyachain/keyring-test` but not password-protected.
 
-All options in the file can be set using the CLI: `biyaliquidd config set client <option> <value>`.
+All options in the file can be set using the CLI: `biyachaind config set client <option> <value>`.
 
 ## Generate, Sign, and Broadcast a Transaction
 
 Running the following command sends BIYA tokens from the sender's account to the recipient's account. `1000biya` is the amount of BIYA tokens to send, where `1 BIYA = 10^18 biya`, so `1000biya` is a really small amount.
 
 ```bash
-biyaliquidd tx bank send MY_WALLET RECEIVER_WALLET 1000biya --from MY_WALLET
+biyachaind tx bank send MY_WALLET RECEIVER_WALLET 1000biya --from MY_WALLET
 ```
 
 The following steps are performed:
@@ -112,7 +112,7 @@ The following steps are performed:
 * Ask the user for confirmation to send the transaction from the `$MY_WALLET` account.
 * Fetch `$MY_WALLET` from the keyring. This is possible because we have set up the CLI's keyring in a previous step.
 * Sign the generated transaction with the keyring's account.
-* Broadcast the signed transaction to the network. This is possible because the CLI connects to the public Biyaliquid node's RPC endpoint.
+* Broadcast the signed transaction to the network. This is possible because the CLI connects to the public Biyachain node's RPC endpoint.
 
 The CLI bundles all the necessary steps into a simple-to-use user experience. However, it is possible to run all the steps individually as well.
 
@@ -121,7 +121,7 @@ The CLI bundles all the necessary steps into a simple-to-use user experience. Ho
 Generating a transaction can simply be done by appending the `--generate-only` flag on any `tx` command, e.g.,
 
 ```bash
-biyaliquidd tx bank send MY_WALLET RECEIVER_WALLET 1000biya --from MY_WALLET --generate-only
+biyachaind tx bank send MY_WALLET RECEIVER_WALLET 1000biya --from MY_WALLET --generate-only
 ```
 
 This will output the unsigned transaction as JSON in the console. We can also save the unsigned transaction to a file (to be passed around between signers more easily) by appending `> unsigned_tx.json` to the above command.
@@ -131,13 +131,13 @@ This will output the unsigned transaction as JSON in the console. We can also sa
 Signing a transaction using the CLI requires the unsigned transaction to be saved in a file. Let's assume the unsigned transaction is in a file called `unsigned_tx.json` in the current directory (see previous paragraph on how to do that). Then, simply run the following command:
 
 ```bash
-biyaliquidd tx sign unsigned_tx.json --from=MY_WALLET
+biyachaind tx sign unsigned_tx.json --from=MY_WALLET
 ```
 
 This command will decode the unsigned transaction and sign it with `SIGN_MODE_DIRECT` with `MY_WALLET`'s key, which we already set up in the keyring. The signed transaction will be output as JSON to the console, and, as above, we can save it to a file by appending `> signed_tx.json` to the commandline.
 
 ```bash
-biyaliquidd tx sign unsigned_tx.json --from=MY_WALLET > signed_tx.json
+biyachaind tx sign unsigned_tx.json --from=MY_WALLET > signed_tx.json
 ```
 
 Some useful flags to consider in the `tx sign` command:
@@ -153,12 +153,12 @@ For example, starting with the `unsigned_tx.json`, and assuming the transaction 
 
 ```bash
 # Let signer1 sign the unsigned tx.
-biyaliquidd tx multi-sign unsigned_tx.json signer_key_1 > partial_tx_1.json
+biyachaind tx multi-sign unsigned_tx.json signer_key_1 > partial_tx_1.json
 # Now signer1 will send the partial_tx_1.json to the signer2.
 # Signer2 appends their signature:
-biyaliquidd tx multi-sign partial_tx_1.json signer_key_2 > partial_tx_2.json
+biyachaind tx multi-sign partial_tx_1.json signer_key_2 > partial_tx_2.json
 # Signer2 sends the partial_tx_2.json file to signer3, and signer3 can append his signature:
-biyaliquidd tx multi-sign partial_tx_2.json signer_key_3 > partial_tx_3.json
+biyachaind tx multi-sign partial_tx_2.json signer_key_3 > partial_tx_3.json
 ```
 
 ### Broadcasting a Transaction
@@ -166,7 +166,7 @@ biyaliquidd tx multi-sign partial_tx_2.json signer_key_3 > partial_tx_3.json
 Broadcasting a transaction is done using the following command:
 
 ```bash
-biyaliquidd tx broadcast tx_signed.json
+biyachaind tx broadcast tx_signed.json
 ```
 
 You may optionally pass the `--broadcast-mode` flag to specify which response to receive from the node:
@@ -178,7 +178,7 @@ You may optionally pass the `--broadcast-mode` flag to specify which response to
 To query the transaction result, you can use the following command:
 
 ```bash
-biyaliquidd tx query TX_HASH
+biyachaind tx query TX_HASH
 ```
 
 ## Additional Troubleshooting
@@ -186,5 +186,5 @@ biyaliquidd tx query TX_HASH
 Sometimes the config is not set correctly. You can force the correct node RPC endpoint by adding the following to the commandline. When sharing commands with others, it is recommended to have all the flags explicitly set in the commandline. (chain-id, node, keyring-backend, etc.)
 
 ```bash
-biyaliquidd --node https://sentry.tm.biyaliquid.network:443
+biyachaind --node https://sentry.tm.biyachain.network:443
 ```

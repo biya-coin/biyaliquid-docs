@@ -10,7 +10,7 @@ redirects:
   develop/cheat-sheet: developers/README.md
   develop/tech-concepts: developers/README.md
   nodes/RunNode/testnet: infra/run-node.md
-  develop/tools: developers/biyaliquidd/README.md
+  develop/tools: developers/biyachaind/README.md
   develop/guides: developers/README.md
   develop/modules: developers-native/README.md
   develop/modules/Core/auth: developers-native/core/auth/README.md
@@ -65,89 +65,89 @@ redirects:
   nodes/public-endpoints: infra/public-endpoints.md
   nodes/private-nodes: infra/premium-endpoints.md
   developers/modules: developers-native/README.md
-  developers/modules/biyaliquid: developers-native/biyaliquid/README.md
-  developers/modules/biyaliquid/auction: developers-native/biyaliquid/auction/README.md
-  developers/modules/biyaliquid/auction/01_state: developers-native/biyaliquid/auction/01_state.md
-  developers/modules/biyaliquid/auction/02_messages: developers-native/biyaliquid/auction/02_messages.md
-  developers/modules/biyaliquid/auction/03_end_block: developers-native/biyaliquid/auction/03_end_block.md
-  developers/modules/biyaliquid/auction/04_events: developers-native/biyaliquid/auction/04_events.md
-  developers/modules/biyaliquid/auction/05_params: developers-native/biyaliquid/auction/05_params.md
-  developers/modules/biyaliquid/auction/99_errors: developers-native/biyaliquid/auction/99_errors.md
-  developers/modules/biyaliquid/exchange: developers-native/biyaliquid/exchange/README.md
-  developers/modules/biyaliquid/exchange/00_derivative_market_concepts: developers-native/biyaliquid/exchange/00_derivative_market_concepts.md
-  developers/modules/biyaliquid/exchange/01_spot_market_concepts: developers-native/biyaliquid/exchange/01_spot_market_concepts.md
-  developers/modules/biyaliquid/exchange/02_binary_options_markets: developers-native/biyaliquid/exchange/02_binary_options_markets.md
-  developers/modules/biyaliquid/exchange/02_other_concepts: developers-native/biyaliquid/exchange/02_other_concepts.md
-  developers/modules/biyaliquid/exchange/03_state: developers-native/biyaliquid/exchange/03_state.md
-  developers/modules/biyaliquid/exchange/04_state_transitions: developers-native/biyaliquid/exchange/04_state_transitions.md
-  developers/modules/biyaliquid/exchange/05_messages: developers-native/biyaliquid/exchange/05_messages.md
-  developers/modules/biyaliquid/exchange/06_proposals: developers-native/biyaliquid/exchange/06_proposals.md
-  developers/modules/biyaliquid/exchange/07_begin_block: developers-native/biyaliquid/exchange/07_begin_block.md
-  developers/modules/biyaliquid/exchange/08_end_block: developers-native/biyaliquid/exchange/08_end_block.md
-  developers/modules/biyaliquid/exchange/09_events: developers-native/biyaliquid/exchange/09_events.md
-  developers/modules/biyaliquid/exchange/10_params: developers-native/biyaliquid/exchange/10_params.md
-  developers/modules/biyaliquid/exchange/11_msg_privileged_execute_contract: developers-native/biyaliquid/exchange/11_msg_privileged_execute_contract.md
-  developers/modules/biyaliquid/exchange/99_errors: developers-native/biyaliquid/exchange/99_errors.md
-  developers/modules/biyaliquid/insurance: developers-native/biyaliquid/insurance/README.md
-  developers/modules/biyaliquid/insurance/01_state: developers-native/biyaliquid/insurance/01_state.md
-  developers/modules/biyaliquid/insurance/02_state_transitions: developers-native/biyaliquid/insurance/02_state_transitions.md
-  developers/modules/biyaliquid/insurance/03_messages: developers-native/biyaliquid/insurance/03_messages.md
-  developers/modules/biyaliquid/insurance/04_end_block: developers-native/biyaliquid/insurance/04_end_block.md
-  developers/modules/biyaliquid/insurance/05_events: developers-native/biyaliquid/insurance/05_events.md
-  developers/modules/biyaliquid/insurance/06_params: developers-native/biyaliquid/insurance/06_params.md
-  developers/modules/biyaliquid/insurance/07_future_improvements: developers-native/biyaliquid/insurance/07_future_improvements.md
-  developers/modules/biyaliquid/insurance/99_errors: developers-native/biyaliquid/insurance/99_errors.md
-  developers/modules/biyaliquid/ocr: developers-native/biyaliquid/ocr/README.md
-  developers/modules/biyaliquid/ocr/01_concepts: developers-native/biyaliquid/ocr/01_concepts.md
-  developers/modules/biyaliquid/ocr/02_state: developers-native/biyaliquid/ocr/02_state.md
-  developers/modules/biyaliquid/ocr/03_messages: developers-native/biyaliquid/ocr/03_messages.md
-  developers/modules/biyaliquid/ocr/04_proposals: developers-native/biyaliquid/ocr/04_proposals.md
-  developers/modules/biyaliquid/ocr/05_begin_block: developers-native/biyaliquid/ocr/05_begin_block.md
-  developers/modules/biyaliquid/ocr/06_hooks: developers-native/biyaliquid/ocr/06_hooks.md
-  developers/modules/biyaliquid/ocr/07_events: developers-native/biyaliquid/ocr/07_events.md
-  developers/modules/biyaliquid/ocr/08_params: developers-native/biyaliquid/ocr/08_params.md
-  developers/modules/biyaliquid/ocr/99_errors: developers-native/biyaliquid/ocr/99_errors.md
-  developers/modules/biyaliquid/oracle: developers-native/biyaliquid/oracle/README.md
-  developers/modules/biyaliquid/oracle/01_state: developers-native/biyaliquid/oracle/01_state.md
-  developers/modules/biyaliquid/oracle/02_keeper: developers-native/biyaliquid/oracle/02_keeper.md
-  developers/modules/biyaliquid/oracle/03_messages: developers-native/biyaliquid/oracle/03_messages.md
-  developers/modules/biyaliquid/oracle/04_proposals: developers-native/biyaliquid/oracle/04_proposals.md
-  developers/modules/biyaliquid/oracle/05_events: developers-native/biyaliquid/oracle/05_events.md
-  developers/modules/biyaliquid/oracle/06_future_improvements: developers-native/biyaliquid/oracle/06_future_improvements.md
-  developers/modules/biyaliquid/oracle/99_errors: developers-native/biyaliquid/oracle/99_errors.md
-  developers/modules/biyaliquid/peggy: developers-native/biyaliquid/peggy/README.md
-  developers/modules/biyaliquid/peggy/01_definitions: developers-native/biyaliquid/peggy/01_definitions.md
-  developers/modules/biyaliquid/peggy/02_workflow: developers-native/biyaliquid/peggy/02_workflow.md
-  developers/modules/biyaliquid/peggy/03_state: developers-native/biyaliquid/peggy/03_state.md
-  developers/modules/biyaliquid/peggy/04_messages: developers-native/biyaliquid/peggy/04_messages.md
-  developers/modules/biyaliquid/peggy/05_slashing: developers-native/biyaliquid/peggy/05_slashing.md
-  developers/modules/biyaliquid/peggy/06_end_block: developers-native/biyaliquid/peggy/06_end_block.md
-  developers/modules/biyaliquid/peggy/07_events: developers-native/biyaliquid/peggy/07_events.md
-  developers/modules/biyaliquid/peggy/08_params: developers-native/biyaliquid/peggy/08_params.md
-  developers/modules/biyaliquid/peggy/09_relay_semantics: developers-native/biyaliquid/peggy/09_relay_semantics.md
-  developers/modules/biyaliquid/peggy/10_future_improvements: developers-native/biyaliquid/peggy/10_future_improvements.md
-  developers/modules/biyaliquid/peggy/99_errors: developers-native/biyaliquid/peggy/99_errors.md
-  developers/modules/biyaliquid/permissions: developers-native/biyaliquid/permissions/README.md
-  developers/modules/biyaliquid/permissions/01_concepts: developers-native/biyaliquid/permissions/01_concepts.md
-  developers/modules/biyaliquid/permissions/02_state: developers-native/biyaliquid/permissions/02_state.md
-  developers/modules/biyaliquid/permissions/03_state_transitions: developers-native/biyaliquid/permissions/03_state_transitions.md
-  developers/modules/biyaliquid/permissions/99_errors: developers-native/biyaliquid/permissions/99_errors.md
-  developers/modules/biyaliquid/tokenfactory: developers-native/biyaliquid/tokenfactory/README.md
-  developers/modules/biyaliquid/tokenfactory/01_concepts: developers-native/biyaliquid/tokenfactory/01_concepts.md
-  developers/modules/biyaliquid/tokenfactory/02_state: developers-native/biyaliquid/tokenfactory/02_state.md
-  developers/modules/biyaliquid/tokenfactory/03_messages: developers-native/biyaliquid/tokenfactory/03_messages.md
-  developers/modules/biyaliquid/tokenfactory/04_events: developers-native/biyaliquid/tokenfactory/04_events.md
-  developers/modules/biyaliquid/tokenfactory/05_params: developers-native/biyaliquid/tokenfactory/05_params.md
-  developers/modules/biyaliquid/tokenfactory/99_errors: developers-native/biyaliquid/tokenfactory/99_errors.md
-  developers/modules/biyaliquid/wasmx: developers-native/biyaliquid/wasmx/README.md
-  developers/modules/biyaliquid/wasmx/01_concepts: developers-native/biyaliquid/wasmx/01_concepts.md
-  developers/modules/biyaliquid/wasmx/02_data: developers-native/biyaliquid/wasmx/02_data.md
-  developers/modules/biyaliquid/wasmx/03_proposals: developers-native/biyaliquid/wasmx/03_proposals.md
-  developers/modules/biyaliquid/wasmx/04_messages: developers-native/biyaliquid/wasmx/04_messages.md
-  developers/modules/biyaliquid/wasmx/05_params: developers-native/biyaliquid/wasmx/05_params.md
-  developers/modules/biyaliquid/wasmx/99_errors: developers-native/biyaliquid/wasmx/99_errors.md
-  developers/modules/biyaliquid/lanes: developers-native/biyaliquid/lanes/README.md
-  developers/modules/biyaliquid/txfees: developers-native/biyaliquid/txfees/README.md
+  developers/modules/biyachain: developers-native/biyachain/README.md
+  developers/modules/biyachain/auction: developers-native/biyachain/auction/README.md
+  developers/modules/biyachain/auction/01_state: developers-native/biyachain/auction/01_state.md
+  developers/modules/biyachain/auction/02_messages: developers-native/biyachain/auction/02_messages.md
+  developers/modules/biyachain/auction/03_end_block: developers-native/biyachain/auction/03_end_block.md
+  developers/modules/biyachain/auction/04_events: developers-native/biyachain/auction/04_events.md
+  developers/modules/biyachain/auction/05_params: developers-native/biyachain/auction/05_params.md
+  developers/modules/biyachain/auction/99_errors: developers-native/biyachain/auction/99_errors.md
+  developers/modules/biyachain/exchange: developers-native/biyachain/exchange/README.md
+  developers/modules/biyachain/exchange/00_derivative_market_concepts: developers-native/biyachain/exchange/00_derivative_market_concepts.md
+  developers/modules/biyachain/exchange/01_spot_market_concepts: developers-native/biyachain/exchange/01_spot_market_concepts.md
+  developers/modules/biyachain/exchange/02_binary_options_markets: developers-native/biyachain/exchange/02_binary_options_markets.md
+  developers/modules/biyachain/exchange/02_other_concepts: developers-native/biyachain/exchange/02_other_concepts.md
+  developers/modules/biyachain/exchange/03_state: developers-native/biyachain/exchange/03_state.md
+  developers/modules/biyachain/exchange/04_state_transitions: developers-native/biyachain/exchange/04_state_transitions.md
+  developers/modules/biyachain/exchange/05_messages: developers-native/biyachain/exchange/05_messages.md
+  developers/modules/biyachain/exchange/06_proposals: developers-native/biyachain/exchange/06_proposals.md
+  developers/modules/biyachain/exchange/07_begin_block: developers-native/biyachain/exchange/07_begin_block.md
+  developers/modules/biyachain/exchange/08_end_block: developers-native/biyachain/exchange/08_end_block.md
+  developers/modules/biyachain/exchange/09_events: developers-native/biyachain/exchange/09_events.md
+  developers/modules/biyachain/exchange/10_params: developers-native/biyachain/exchange/10_params.md
+  developers/modules/biyachain/exchange/11_msg_privileged_execute_contract: developers-native/biyachain/exchange/11_msg_privileged_execute_contract.md
+  developers/modules/biyachain/exchange/99_errors: developers-native/biyachain/exchange/99_errors.md
+  developers/modules/biyachain/insurance: developers-native/biyachain/insurance/README.md
+  developers/modules/biyachain/insurance/01_state: developers-native/biyachain/insurance/01_state.md
+  developers/modules/biyachain/insurance/02_state_transitions: developers-native/biyachain/insurance/02_state_transitions.md
+  developers/modules/biyachain/insurance/03_messages: developers-native/biyachain/insurance/03_messages.md
+  developers/modules/biyachain/insurance/04_end_block: developers-native/biyachain/insurance/04_end_block.md
+  developers/modules/biyachain/insurance/05_events: developers-native/biyachain/insurance/05_events.md
+  developers/modules/biyachain/insurance/06_params: developers-native/biyachain/insurance/06_params.md
+  developers/modules/biyachain/insurance/07_future_improvements: developers-native/biyachain/insurance/07_future_improvements.md
+  developers/modules/biyachain/insurance/99_errors: developers-native/biyachain/insurance/99_errors.md
+  developers/modules/biyachain/ocr: developers-native/biyachain/ocr/README.md
+  developers/modules/biyachain/ocr/01_concepts: developers-native/biyachain/ocr/01_concepts.md
+  developers/modules/biyachain/ocr/02_state: developers-native/biyachain/ocr/02_state.md
+  developers/modules/biyachain/ocr/03_messages: developers-native/biyachain/ocr/03_messages.md
+  developers/modules/biyachain/ocr/04_proposals: developers-native/biyachain/ocr/04_proposals.md
+  developers/modules/biyachain/ocr/05_begin_block: developers-native/biyachain/ocr/05_begin_block.md
+  developers/modules/biyachain/ocr/06_hooks: developers-native/biyachain/ocr/06_hooks.md
+  developers/modules/biyachain/ocr/07_events: developers-native/biyachain/ocr/07_events.md
+  developers/modules/biyachain/ocr/08_params: developers-native/biyachain/ocr/08_params.md
+  developers/modules/biyachain/ocr/99_errors: developers-native/biyachain/ocr/99_errors.md
+  developers/modules/biyachain/oracle: developers-native/biyachain/oracle/README.md
+  developers/modules/biyachain/oracle/01_state: developers-native/biyachain/oracle/01_state.md
+  developers/modules/biyachain/oracle/02_keeper: developers-native/biyachain/oracle/02_keeper.md
+  developers/modules/biyachain/oracle/03_messages: developers-native/biyachain/oracle/03_messages.md
+  developers/modules/biyachain/oracle/04_proposals: developers-native/biyachain/oracle/04_proposals.md
+  developers/modules/biyachain/oracle/05_events: developers-native/biyachain/oracle/05_events.md
+  developers/modules/biyachain/oracle/06_future_improvements: developers-native/biyachain/oracle/06_future_improvements.md
+  developers/modules/biyachain/oracle/99_errors: developers-native/biyachain/oracle/99_errors.md
+  developers/modules/biyachain/peggy: developers-native/biyachain/peggy/README.md
+  developers/modules/biyachain/peggy/01_definitions: developers-native/biyachain/peggy/01_definitions.md
+  developers/modules/biyachain/peggy/02_workflow: developers-native/biyachain/peggy/02_workflow.md
+  developers/modules/biyachain/peggy/03_state: developers-native/biyachain/peggy/03_state.md
+  developers/modules/biyachain/peggy/04_messages: developers-native/biyachain/peggy/04_messages.md
+  developers/modules/biyachain/peggy/05_slashing: developers-native/biyachain/peggy/05_slashing.md
+  developers/modules/biyachain/peggy/06_end_block: developers-native/biyachain/peggy/06_end_block.md
+  developers/modules/biyachain/peggy/07_events: developers-native/biyachain/peggy/07_events.md
+  developers/modules/biyachain/peggy/08_params: developers-native/biyachain/peggy/08_params.md
+  developers/modules/biyachain/peggy/09_relay_semantics: developers-native/biyachain/peggy/09_relay_semantics.md
+  developers/modules/biyachain/peggy/10_future_improvements: developers-native/biyachain/peggy/10_future_improvements.md
+  developers/modules/biyachain/peggy/99_errors: developers-native/biyachain/peggy/99_errors.md
+  developers/modules/biyachain/permissions: developers-native/biyachain/permissions/README.md
+  developers/modules/biyachain/permissions/01_concepts: developers-native/biyachain/permissions/01_concepts.md
+  developers/modules/biyachain/permissions/02_state: developers-native/biyachain/permissions/02_state.md
+  developers/modules/biyachain/permissions/03_state_transitions: developers-native/biyachain/permissions/03_state_transitions.md
+  developers/modules/biyachain/permissions/99_errors: developers-native/biyachain/permissions/99_errors.md
+  developers/modules/biyachain/tokenfactory: developers-native/biyachain/tokenfactory/README.md
+  developers/modules/biyachain/tokenfactory/01_concepts: developers-native/biyachain/tokenfactory/01_concepts.md
+  developers/modules/biyachain/tokenfactory/02_state: developers-native/biyachain/tokenfactory/02_state.md
+  developers/modules/biyachain/tokenfactory/03_messages: developers-native/biyachain/tokenfactory/03_messages.md
+  developers/modules/biyachain/tokenfactory/04_events: developers-native/biyachain/tokenfactory/04_events.md
+  developers/modules/biyachain/tokenfactory/05_params: developers-native/biyachain/tokenfactory/05_params.md
+  developers/modules/biyachain/tokenfactory/99_errors: developers-native/biyachain/tokenfactory/99_errors.md
+  developers/modules/biyachain/wasmx: developers-native/biyachain/wasmx/README.md
+  developers/modules/biyachain/wasmx/01_concepts: developers-native/biyachain/wasmx/01_concepts.md
+  developers/modules/biyachain/wasmx/02_data: developers-native/biyachain/wasmx/02_data.md
+  developers/modules/biyachain/wasmx/03_proposals: developers-native/biyachain/wasmx/03_proposals.md
+  developers/modules/biyachain/wasmx/04_messages: developers-native/biyachain/wasmx/04_messages.md
+  developers/modules/biyachain/wasmx/05_params: developers-native/biyachain/wasmx/05_params.md
+  developers/modules/biyachain/wasmx/99_errors: developers-native/biyachain/wasmx/99_errors.md
+  developers/modules/biyachain/lanes: developers-native/biyachain/lanes/README.md
+  developers/modules/biyachain/txfees: developers-native/biyachain/txfees/README.md
   developers/modules/core: developers-native/core/README.md
   developers/modules/core/auth: developers-native/core/auth/README.md
   developers/modules/core/authz: developers-native/core/authz/README.md
@@ -187,7 +187,7 @@ redirects:
   developers/cosmwasm-developers/guides/creating-uis: developers-cosmwasm/create-uis-guide.md
   developers/cosmwasm-developers/cosmwasm-any: developers-cosmwasm/cosmwasm-any.md
   developers/cosmwasm-developers/page-1: developers-cosmwasm/cw20-adapter.md
-  developers/cosmwasm-developers/biyaliquid-test-tube: developers-cosmwasm/biyaliquid-test-tube.md
+  developers/cosmwasm-developers/biyachain-test-tube: developers-cosmwasm/biyachain-test-tube.md
   developers/evm-developers: developers-evm/README.md
   developers-evm/your-first-smart-contract: developers-evm/smart-contracts/README.md
   developers/evm-developers/your-first-smart-contract: developers-evm/smart-contracts/README.md
@@ -207,8 +207,8 @@ redirects:
   developers/getting-started/guides: developers/testnet-proposals.md
   developers/getting-started/guides/testnet-proposals: developers/testnet-proposals.md
   developers/getting-started/guides/convert-addresses: developers/convert-addresses.md
-  toolkits: developers/biyaliquidd/README.md
-  toolkits/biyaliquidd: developers/biyaliquidd/README.md
-  toolkits/biyaliquidd/install-biyaliquidd: developers/biyaliquidd/install.md
-  toolkits/biyaliquidd/using-biyaliquidd: developers/biyaliquidd/use.md
-  toolkits/biyaliquidd/advanced: developers/biyaliquidd/advanced.md
+  toolkits: developers/biyachaind/README.md
+  toolkits/biyachaind: developers/biyachaind/README.md
+  toolkits/biyachaind/install-biyachaind: developers/biyachaind/install.md
+  toolkits/biyachaind/using-biyachaind: developers/biyachaind/use.md
+  toolkits/biyachaind/advanced: developers/biyachaind/advanced.md

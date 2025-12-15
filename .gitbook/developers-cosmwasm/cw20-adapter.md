@@ -1,14 +1,14 @@
 # CW20 Adapter
 
-In this document, we'll explain the CW20 Adapter Contract that allows exchanging CW-20 tokens for Biyaliquid issued native tokens (using the TokenFactory module) and vice versa. For the CW-20 Adapter GitHub repository, see [here](https://github.com/biya-coin/cw20-adapter/tree/master/contracts/cw20-adapter).
+In this document, we'll explain the CW20 Adapter Contract that allows exchanging CW-20 tokens for Biyachain issued native tokens (using the TokenFactory module) and vice versa. For the CW-20 Adapter GitHub repository, see [here](https://github.com/biya-coin/cw20-adapter/tree/master/contracts/cw20-adapter).
 
 ## Background
 
 CW-20 is a specification for fungible tokens in CosmWasm, loosely based on ERC-20 specification. It allows creating and handling of arbitrary fungible tokens within CosmWasm, specifying methods for creating, minting and burning and transferring those tokens between accounts. The adapter contract will ensure that only authorized source CW-20 contracts can mint tokens (to avoid creating “counterfeit” tokens).
 
-While the CW-20 standard is relatively mature and complete, the tokens exist purely within the CosmWasm context and are entirely managed by the issuing contract (including keeping track of account balances). That means that they cannot interact directly with Biyaliquid's native modules (for example, it’s not possible to trade them via the Biyaliquid exchange module, or to transfer without involving issuing contracts).
+While the CW-20 standard is relatively mature and complete, the tokens exist purely within the CosmWasm context and are entirely managed by the issuing contract (including keeping track of account balances). That means that they cannot interact directly with Biyachain's native modules (for example, it’s not possible to trade them via the Biyachain exchange module, or to transfer without involving issuing contracts).
 
-Considering the above, it’s necessary to provide a solution that would work as a bridge between CW20 and the Biyaliquid bank module.
+Considering the above, it’s necessary to provide a solution that would work as a bridge between CW20 and the Biyachain bank module.
 
 The workflow of the contract is
 
@@ -26,11 +26,11 @@ Registers a new CW-20 contract (`addr`) that will be handled by the adapter and 
 ExecuteMsg::RegisterCw20Contract { addr } => execute_register::handle_register_msg(deps, env, info, addr)
 
 pub fn handle_register_msg(
-    deps: DepsMut<BiyaliquidQueryWrapper>,
+    deps: DepsMut<BiyachainQueryWrapper>,
     env: Env,
     info: MessageInfo,
     addr: Addr,
-) -> Result<Response<BiyaliquidMsgWrapper>, ContractError> {
+) -> Result<Response<BiyachainMsgWrapper>, ContractError> {
     if is_contract_registered(&deps, &addr) {
         return Err(ContractError::ContractAlreadyRegistered);
     }
@@ -70,12 +70,12 @@ Must be called by the CW-20 contract only.
 ExecuteMsg::Receive { sender, amount, msg: _ } => execute_receive::handle_on_received_cw20_funds_msg(deps, env, info, sender, amount)
 
 pub fn handle_on_received_cw20_funds_msg(
-    deps: DepsMut<BiyaliquidQueryWrapper>,
+    deps: DepsMut<BiyachainQueryWrapper>,
     env: Env,
     info: MessageInfo,
     recipient: String,
     amount: Uint128,
-) -> Result<Response<BiyaliquidMsgWrapper>, ContractError> {
+) -> Result<Response<BiyachainMsgWrapper>, ContractError> {
     if!info.funds.is_empty() {
         return Err(ContractError::SuperfluousFundsProvided);
     }
@@ -109,12 +109,12 @@ ExecuteMsg::RedeemAndTransfer { recipient } => execute_redeem::handle_redeem_msg
 ExecuteMsg::RedeemAndSend { recipient, submsg } => execute_redeem::handle_redeem_msg(deps, env, info, Some(recipient), Some(submsg))
 
 pub fn handle_redeem_msg(
-    deps: DepsMut<BiyaliquidQueryWrapper>,
+    deps: DepsMut<BiyachainQueryWrapper>,
     env: Env,
     info: MessageInfo,
     recipient: Option<String>,
     submessage: Option<Binary>,
-) -> Result<Response<BiyaliquidMsgWrapper>, ContractError> {
+) -> Result<Response<BiyachainMsgWrapper>, ContractError> {
     let recipient = recipient.unwrap_or_else(|| info.sender.to_string());
 
     if info.funds.len() > 1 {
@@ -170,10 +170,10 @@ Will query the CW-20 address (if registered) for metadata and will call setMetad
 ExecuteMsg::UpdateMetadata { addr } => execute_metadata::handle_update_metadata(deps, env, addr)
 
 pub fn handle_update_metadata(
-    deps: DepsMut<BiyaliquidQueryWrapper>,
+    deps: DepsMut<BiyachainQueryWrapper>,
     env: Env,
     cw20_addr: Addr,
-) -> Result<Response<BiyaliquidMsgWrapper>, ContractError> {
+) -> Result<Response<BiyachainMsgWrapper>, ContractError> {
     let is_contract_registered = CW20_CONTRACTS.contains(deps.storage, cw20_addr.as_str());
     if!is_contract_registered {
         return Err(ContractError::ContractNotRegistered);
@@ -192,12 +192,12 @@ Return a list of registered CW-20 contracts.
 
 QueryMsg::RegisteredContracts {} => to_binary(&query::registered_contracts(deps)?)
 
-pub fn registered_contracts(deps: Deps<BiyaliquidQueryWrapper>) -> StdResult<Vec<Addr>> {}
+pub fn registered_contracts(deps: Deps<BiyachainQueryWrapper>) -> StdResult<Vec<Addr>> {}
 
 NewDenomFee {}
 Returns a fee required to register a new tokenFactory denom.
 
 QueryMsg::NewDenomFee {} => to_binary(&query::new_denom_fee(deps)?)
 
-pub fn new_denom_fee(deps: Deps<BiyaliquidQueryWrapper>) -> StdResult<Uint128> {}
+pub fn new_denom_fee(deps: Deps<BiyachainQueryWrapper>) -> StdResult<Uint128> {}
 ```

@@ -1,10 +1,10 @@
 # Setting up the keyring
 
 {% hint style="info" %}
-This document describes how to configure and use the keyring and its various backends for an Biyaliquid node. `biyaliquidd` should be installed prior to setting up the keyring. See the [Install `biyaliquidd` page](../developers/biyaliquidd/install.md) for more information.
+This document describes how to configure and use the keyring and its various backends for an Biyachain node. `biyachaind` should be installed prior to setting up the keyring. See the [Install `biyachaind` page](../developers/biyachaind/install.md) for more information.
 {% endhint %}
 
-The keyring holds the private/public keypairs used to interact with the node. For instance, a validator key needs to be set up before running the Biyaliquid node, so that blocks can be correctly signed. The private key can be stored in different locations, called "backends", such as a file or the operating system's own key storage.
+The keyring holds the private/public keypairs used to interact with the node. For instance, a validator key needs to be set up before running the Biyachain node, so that blocks can be correctly signed. The private key can be stored in different locations, called "backends", such as a file or the operating system's own key storage.
 
 ### Available backends for the keyring
 
@@ -30,10 +30,10 @@ The `file` stores the keyring encrypted within the app's configuration directory
 
 ```bash
 # assuming that KEYPASSWD is set in the environment
-yes $KEYPASSWD | biyaliquidd keys add me
-yes $KEYPASSWD | biyaliquidd keys show me
-# start biyaliquidd with keyring-backend flag
-biyaliquidd --keyring-backend=file start
+yes $KEYPASSWD | biyachaind keys add me
+yes $KEYPASSWD | biyachaind keys show me
+# start biyachaind with keyring-backend flag
+biyachaind --keyring-backend=file start
 ```
 
 {% hint style="info" %}
@@ -74,19 +74,19 @@ The `memory` backend stores keys in memory. The keys are immediately deleted aft
 
 ### Adding keys to the keyring
 
-You can use `biyaliquidd keys` for help about the keys command and `biyaliquidd keys [command] --help` for more information about a particular subcommand.
+You can use `biyachaind keys` for help about the keys command and `biyachaind keys [command] --help` for more information about a particular subcommand.
 
 {% hint style="info" %}
-You can also enable auto-completion with the `biyaliquidd completion` command. For example, at the start of a bash session, run `. <(biyaliquidd completion)`, and all `biyaliquidd` subcommands will be auto-completed.
+You can also enable auto-completion with the `biyachaind completion` command. For example, at the start of a bash session, run `. <(biyachaind completion)`, and all `biyachaind` subcommands will be auto-completed.
 {% endhint %}
 
 To create a new key in the keyring, run the `add` subcommand with a `<key_name>` argument. For the purpose of this tutorial, we will solely use the `test` backend, and call our new key `my_validator`. This key will be used in the next section.
 
 ```bash
-$ biyaliquidd keys add my_validator --keyring-backend test
+$ biyachaind keys add my_validator --keyring-backend test
 
 # Put the generated address in a variable for later use.
-MY_VALIDATOR_ADDRESS=$(biyaliquidd keys show my_validator -a --keyring-backend test)
+MY_VALIDATOR_ADDRESS=$(biyachaind keys show my_validator -a --keyring-backend test)
 ```
 
 This command generates a new 24-word mnemonic phrase, persists it to the relevant backend, and outputs information about the keypair. If this keypair will be used to hold value-bearing tokens, be sure to write down the mnemonic phrase somewhere safe!

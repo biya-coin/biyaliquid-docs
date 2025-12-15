@@ -1,9 +1,9 @@
 # Accounts
 
-This section describes the built-in accounts system of Biyaliquid.
+This section describes the built-in accounts system of Biyachain.
 
 {% hint style="info" %}
-This document describes the built-in accounts system of Biyaliquid.
+This document describes the built-in accounts system of Biyachain.
 
 Pre-requisite Readings:
 
@@ -11,11 +11,11 @@ Pre-requisite Readings:
 * [Ethereum Accounts](https://ethereum.org/en/whitepaper/#ethereum-accounts)
 {% endhint %}
 
-Biyaliquid defines its custom `Account` type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biyaliquid-based accounts is `m/44'/60'/0'/0`.
+Biyachain defines its custom `Account` type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biyachain-based accounts is `m/44'/60'/0'/0`.
 
 ### Addresses and Public Keys
 
-There are 3 main types of `Addresses`/`PubKeys` available by default on Biyaliquid:
+There are 3 main types of `Addresses`/`PubKeys` available by default on Biyachain:
 
 * Addresses and Keys for **accounts**, that identify users (i.e., the sender of a `message`). They are derived using the **`eth_secp256k1`** curve.
 * Addresses and Keys for **validator operators**, which identify the operators of validators. They are derived using the **`eth_secp256k1`** curve.
@@ -35,15 +35,15 @@ The Bech32 format is the default format for Cosmos-SDK queries and transactions 
 
 * Address (Bech32): `biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku`
 * Address ([EIP55](https://eips.ethereum.org/EIPS/eip-55) Hex): `0xAF79152AC5dF276D9A8e1E2E22822f9713474902`
-* Compressed Public Key: `{"@type":"/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey","key":"ApNNebT58zlZxO2yjHiRTJ7a7ufjIzeq5HhLrbmtg9Y/"}`
+* Compressed Public Key: `{"@type":"/biyachain.crypto.v1beta1.ethsecp256k1.PubKey","key":"ApNNebT58zlZxO2yjHiRTJ7a7ufjIzeq5HhLrbmtg9Y/"}`
 
 You can query an account address using the Cosmos CLI or REST clients:
 
 ```bash
 # NOTE: the --output (-o) flag will define the output format in JSON or YAML (text)
-biyaliquidd q auth account $(biyaliquidd keys show <MYKEY> -a) -o text
+biyachaind q auth account $(biyachaind keys show <MYKEY> -a) -o text
 |
-  '@type': /biyaliquid.types.v1beta1.EthAccount
+  '@type': /biyachain.types.v1beta1.EthAccount
   base_account:
     account_number: "3"
     address: biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku
@@ -57,15 +57,15 @@ biyaliquidd q auth account $(biyaliquidd keys show <MYKEY> -a) -o text
 curl -X GET "http://localhost:10337/cosmos/auth/v1beta1/accounts/biya14au322k9munkmx5wrchz9q30juf5wjgz2cfqku" -H "accept: application/json"
 ```
 
-See the [Swagger API](https://lcd.biyaliquid.network/swagger/) reference for the full docs on the accounts API.
+See the [Swagger API](https://lcd.biyachain.network/swagger/) reference for the full docs on the accounts API.
 
 {% hint style="info" %}
-The Cosmos SDK Keyring output (i.e `biyaliquidd keys`) only supports addresses in Bech32 format.
+The Cosmos SDK Keyring output (i.e `biyachaind keys`) only supports addresses in Bech32 format.
 {% endhint %}
 
-### Derive Biyaliquid Account from a private key/mnemonic
+### Derive Biyachain Account from a private key/mnemonic
 
-Below is an example of how to derive an Biyaliquid Account from a private key and/or a mnemonic phrase:
+Below is an example of how to derive an Biyachain Account from a private key and/or a mnemonic phrase:
 
 ```js
 import { Wallet } from 'ethers'
@@ -80,7 +80,7 @@ const isPrivateKey: boolean = true /* just for the example */
 const wallet = isPrivateKey ? Wallet.fromMnemonic(mnemonic, defaultDerivationPath) : new Wallet(privateKey)
 const ethereumAddress = wallet.address
 const addressBuffer = EthereumUtilsAddress.fromString(ethereumAddress.toString()).toBuffer()
-const biyaliquidAddress = bech32.encode(defaultBech32Prefix, bech32.toWords(addressBuffer))
+const biyachainAddress = bech32.encode(defaultBech32Prefix, bech32.toWords(addressBuffer))
 ```
 
 Below is an example of how to derive a public key from a private key:
@@ -97,5 +97,5 @@ const buf2 = Buffer.from([publicKeyByte.length])
 const buf3 = Buffer.from(publicKeyByte)
 
 const publicKey = Buffer.concat([buf1, buf2, buf3]).toString('base64')
-const type = '/biyaliquid.crypto.v1beta1.ethsecp256k1.PubKey'
+const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 ```

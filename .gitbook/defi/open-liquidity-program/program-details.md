@@ -4,7 +4,7 @@ description: OLP Program Overview
 
 # Program Details
 
-To promote deep, lasting liquidity across the Biyaliquid on-chain orderbook, the following metrics are prioritized by OLP:
+To promote deep, lasting liquidity across the Biyachain on-chain orderbook, the following metrics are prioritized by OLP:
 
 * **Dual-sided liquidity** (both bid and ask liquidity)
 * **Liquidity depth**

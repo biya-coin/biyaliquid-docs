@@ -2,13 +2,13 @@
 
 Smart contracts are code that runs on a blockchain.
 You can compile Solidity smart contracts,
-and test, deploy, verify, and interact with them on Biyaliquid's Ethereum Virtual Machine (EVM).
+and test, deploy, verify, and interact with them on Biyachain's Ethereum Virtual Machine (EVM).
 You can do so using standard EVM developer tools and frameworks too.
 These guides show you how to do so using Hardhat and Foundry.
 
 ## Hardhat
 
-This guide will walk you through building an EVM Smart Contract on Biyaliquid Testnet using [Hardhat](https://hardhat.org/).
+This guide will walk you through building an EVM Smart Contract on Biyachain Testnet using [Hardhat](https://hardhat.org/).
 
 * [Set up Hardhat and compile a smart contract](./compile-hardhat.md)
 * [Test a smart contract using Hardhat](./test-hardhat.md)
@@ -18,7 +18,7 @@ This guide will walk you through building an EVM Smart Contract on Biyaliquid Te
 
 ## Foundry
 
-This guide will walk you through building an EVM Smart Contract on Biyaliquid Testnet using [Foundry](https://getfoundry.sh/).
+This guide will walk you through building an EVM Smart Contract on Biyachain Testnet using [Foundry](https://getfoundry.sh/).
 
 * [Set up Foundry and compile a smart contract](./compile-foundry.md)
 * [Test a smart contract using Foundry](./test-foundry.md)

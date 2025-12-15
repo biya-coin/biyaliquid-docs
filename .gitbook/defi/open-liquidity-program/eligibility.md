@@ -6,10 +6,10 @@ description: How to Qualify and Remain Qualified for OLP Rewards
 
 ## Clean Slate Qualification
 
-An Biyaliquid address can qualify for OLP by meeting the following criteria:
+An Biyachain address can qualify for OLP by meeting the following criteria:
 
-* The **address must be opted out of the Trade & Earn (T\&E) program** prior to the start of the qualification process. The address will not earn T\&E rewards during the qualification process. See examples in [Python](https://github.com/biya-coin/sdk-python/blob/master/examples/chain\_client/24\_MsgRewardsOptOut.py), [Go](https://github.com/biya-coin/sdk-go/blob/master/examples/chain/24\_MsgRegisterAsDMM/example.go), and [TS](https://github.com/biya-coin/biyaliquid-ts/wiki/04CoreModulesExchange#msgrewardsoptout) for opting out programatically.
-  * Note: Eligibility for the qualification process begins at 00:00 UTC the day after the opt out is complete. To check if an address has been successfully opted out of T\&E, [this list can be cross referenced](https://lcd.biyaliquid.network/biyaliquid/exchange/v1beta1/opted\_out\_of\_rewards\_accounts).
+* The **address must be opted out of the Trade & Earn (T\&E) program** prior to the start of the qualification process. The address will not earn T\&E rewards during the qualification process. See examples in [Python](https://github.com/biya-coin/sdk-python/blob/master/examples/chain\_client/24\_MsgRewardsOptOut.py), [Go](https://github.com/biya-coin/sdk-go/blob/master/examples/chain/24\_MsgRegisterAsDMM/example.go), and [TS](https://github.com/biya-coin/biyachain-ts/wiki/04CoreModulesExchange#msgrewardsoptout) for opting out programatically.
+  * Note: Eligibility for the qualification process begins at 00:00 UTC the day after the opt out is complete. To check if an address has been successfully opted out of T\&E, [this list can be cross referenced](https://lcd.biyachain.network/biyachain/exchange/v1beta1/opted\_out\_of\_rewards\_accounts).
 * The address's maker volume must account for **at least 0.25% of the total daily exchange maker volume of** [**eligible markets**](./eligible-markets.md) **for 3 days in a row** in the same epoch. Self trading is strictly prohibited.
 
 Assuming both of these requirements have been met, the address will qualify for OLP rewards on the 4th day at 00:00 UTC. Once qualified, an address will remain eligible for rewards through the rest of the epoch unless special circumstances (e.g. abusing the system, wash trading, etc.) compel the removal of the address. Note that activity prior to qualification will not count towards rewards.
@@ -17,7 +17,7 @@ Assuming both of these requirements have been met, the address will qualify for 
 {% hint style="warning" %}
 It may be prudent to consolidate trading strategies into a single address to increase maker volume. Otherwise, addresses with less maker volume than the required threshold will not qualify for rewards even if volume on an aggregate level between multiple addresses exceeds the threshold.&#x20;
 
-See [documentation on the Biyaliquid `authz` module](https://docs.biyaliquid.network/develop/modules/Core/authz/) for a method of executing multiple strategies from a single address while retaining trading [fee discounts](https://helixapp.com/fee-discounts).
+See [documentation on the Biyachain `authz` module](https://docs.biyachain.network/develop/modules/Core/authz/) for a method of executing multiple strategies from a single address while retaining trading [fee discounts](https://helixapp.com/fee-discounts).
 {% endhint %}
 
 ## Maintaining Next Epoch Eligibility/Pre-Qualification
@@ -40,6 +40,6 @@ Disqualification occurs at the end of each epoch, meaning addresses continue to 
 
 ## Tracking Eligibility
 
-The [OLP dashboard](https://trading.biyaliquid.network/program/liquidity/eligibility) can be used to track current and future epoch reward eligibility.
+The [OLP dashboard](https://trading.biyachain.network/program/liquidity/eligibility) can be used to track current and future epoch reward eligibility.
 
-{% embed url="https://trading.biyaliquid.network/program/liquidity/eligibility" %}
+{% embed url="https://trading.biyachain.network/program/liquidity/eligibility" %}

@@ -32,7 +32,7 @@ type MsgPrivilegedExecuteContract struct {
 If you want to enable privileged actions on your contract, you must implement the following execute method:
 
 ```rust
-BiyaliquidExec {
+BiyachainExec {
     origin: String,
     name: String,
     args: MyArgs,

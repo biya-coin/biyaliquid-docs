@@ -18,7 +18,7 @@ First, run the keygen command with your desired validator key name.
 
 ```bash
 export VALIDATOR_KEY_NAME=[my-validator-key]
-biyaliquidd keys add $VALIDATOR_KEY_NAME
+biyachaind keys add $VALIDATOR_KEY_NAME
 ```
 
 This will derive a new private key and encrypt it to disk. Make sure to remember the password you used.
@@ -41,21 +41,21 @@ It is the only way to recover your account if you ever forget your password.
 {% hint style="warning" %}
 **The output will contain a mnemonic phrase that represents your key in plain text. Make sure to save this phrase as a backup of your key, since without a key you will not be able to control your validator. The phrase is better be backed up on physical paper, storing it in cloud storage may compromise your validator later.**
 
-Remember the address starting from `biya`, this is going to be your Biyaliquid Validator Account address.
+Remember the address starting from `biya`, this is going to be your Biyachain Validator Account address.
 {% endhint %}
 
 ### Step 2: Obtain Mainnet BIYA
 
 To proceed with the next step, you will need to obtain some real BIYA on Mainnet Ethereum (ERC-20 token address [`0xe28b3b32b6c345a34ff64674606124dd5aceca30`](https://etherscan.io/token/0xe28b3b32b6c345a34ff64674606124dd5aceca30)).
 
-### Step 3: "Transfer" BIYA to your validator account on Biyaliquid
+### Step 3: "Transfer" BIYA to your validator account on Biyachain
 
-Deposit your Mainnet BIYA tokens into your validator's account on Biyaliquid by using the staking dashboard. You will have to [connect your wallet](https://medium.com/biyaliquid-labs/biyaliquid-hub-guide-9a14f09f6a7d) on our [Hub](https://biyahub.com/bridge) and then deposit BIYA from Ethereum Mainnet network. This will trigger an automated bridge that maps tokens from Ethereum network to Biyaliquid.
+Deposit your Mainnet BIYA tokens into your validator's account on Biyachain by using the staking dashboard. You will have to [connect your wallet](https://medium.com/biyachain-labs/biyachain-hub-guide-9a14f09f6a7d) on our [Hub](https://biyahub.com/bridge) and then deposit BIYA from Ethereum Mainnet network. This will trigger an automated bridge that maps tokens from Ethereum network to Biyachain.
 
-After a few minutes, you should be able to verify that your deposit was successful on the UI. Alternatively, you can query your account balance using the `biyaliquidd` CLI with the following command:
+After a few minutes, you should be able to verify that your deposit was successful on the UI. Alternatively, you can query your account balance using the `biyachaind` CLI with the following command:
 
 ```bash
-biyaliquidd q bank balances <my-validator-biya-address>
+biyachaind q bank balances <my-validator-biya-address>
 ```
 
 ### Step 4: Create your validator account
@@ -63,7 +63,7 @@ biyaliquidd q bank balances <my-validator-biya-address>
 Obtain your node's Tendermint validator Bech32 encoded PubKey consensus address.
 
 ```bash
-VALIDATOR_PUBKEY=$(biyaliquidd tendermint show-validator)
+VALIDATOR_PUBKEY=$(biyachaind tendermint show-validator)
 echo $VALIDATOR_PUBKEY
 
 # Example: {"@type": "/cosmos.crypto.ed25519.PubKey", "key": "GWEJv/KSFhUUcKBWuf9TTT3Ful+3xV/1lFhchyW1TZ8="}
@@ -92,7 +92,7 @@ MIN_SELF_DELEGATION_AMOUNT=50000000000000000000 # e.g. for a minimum 50 BIYA sel
 Then run the following command to create your validator.
 
 ```bash
-biyaliquidd tx staking create-validator \
+biyachaind tx staking create-validator \
 --moniker=$MONIKER \
 --amount=$AMOUNT \
 --gas-prices=500000000biya \
@@ -101,7 +101,7 @@ biyaliquidd tx staking create-validator \
 --keyring-backend=file \
 --yes \
 --node=tcp://localhost:26657 \
---chain-id=biyaliquid-1
+--chain-id=biyachain-1
 --commission-max-change-rate=$COMMISSION_MAX_CHANGE_RATE \
 --commission-max-rate=$COMMISSION_MAX_RATE \
 --commission-rate=$COMMISSION_RATE \
@@ -117,35 +117,35 @@ Extra `create-validator` options to consider:
 --website=         		The validator's (optional) website
 ```
 
-You can check that your validator was successfully created by checking the [Biyaliquid Hub staking dashboard](https://biyahub.com/stake) or by entering the following CLI command.
+You can check that your validator was successfully created by checking the [Biyachain Hub staking dashboard](https://biyahub.com/stake) or by entering the following CLI command.
 
 ```bash
-biyaliquidd q staking validators
+biyachaind q staking validators
 ```
 
-If you see your validator in the list of validators, then congratulations, you've officially joined as an Biyaliquid Mainnet validator! 🎉
+If you see your validator in the list of validators, then congratulations, you've officially joined as an Biyachain Mainnet validator! 🎉
 
 ### Step 5: (Optional) Delegate Additional BIYA to your Validator
 
-To gain a deeper empirical understanding of user experience that your future delegators will experience, you can try delegation through [Staking Guide](https://medium.com/biyaliquid-labs/biyaliquid-hub-guide-9a14f09f6a7d).
+To gain a deeper empirical understanding of user experience that your future delegators will experience, you can try delegation through [Staking Guide](https://medium.com/biyachain-labs/biyachain-hub-guide-9a14f09f6a7d).
 
 These steps will allow you to experience the delegation flow using MetaMask Transactions. 🦊
 
-Alternatively, you can always use the Biyaliquid CLI to send a delegation transaction.
+Alternatively, you can always use the Biyachain CLI to send a delegation transaction.
 
 ```bash
-biyaliquidd tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --keyring-backend=file --yes --node=tcp://localhost:26657
+biyachaind tx staking delegate [validator-addr] [amount] --from $VALIDATOR_KEY_NAME --keyring-backend=file --yes --node=tcp://localhost:26657
 ```
 
 ### Step 6: (Recommended) Connecting Your Validator Identity with Keybase
 
-By adding your Keybase pubkey to your validator identity information in Biyaliquid, you can automatically pull in your Keybase public profile information in client applications like the Biyaliquid Hub and Explorer. Here's how to connect your validator identity with your Keybase pubkey:
+By adding your Keybase pubkey to your validator identity information in Biyachain, you can automatically pull in your Keybase public profile information in client applications like the Biyachain Hub and Explorer. Here's how to connect your validator identity with your Keybase pubkey:
 
 1. Create a validator profile on Keybase at [https://keybase.io/](https://keybase.io/) and make sure it's complete.
-2. Add your validator identity pubkey to Biyaliquid:
+2. Add your validator identity pubkey to Biyachain:
    * Send a `MsgEditValidator` to update your `Identity` validator identity with your Keybase pubkey. You can also use this message to change your website, contact email, and other details.
 
-That's it! Once you've connected your validator identity with Keybase, the Biyaliquid Explorer and Hub can automatically pull in your brand identity, and other public profile information.
+That's it! Once you've connected your validator identity with Keybase, the Biyachain Explorer and Hub can automatically pull in your brand identity, and other public profile information.
 
 #### Next Steps
 

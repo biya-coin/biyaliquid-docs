@@ -4,15 +4,15 @@ icon: money-bill-transfer
 
 # DeFi Developers
 
-Biyaliquid marks the forefront of exchange-focused layer-1 blockchains offering decentralized perpetual swaps, futures, and spot trading. It fully taps into the possibilities of decentralized derivatives and borderless DeFi. Every component is designed to embody complete trustlessness, resistance to censorship, public verifiability, and resilience against front-running.
+Biyachain marks the forefront of exchange-focused layer-1 blockchains offering decentralized perpetual swaps, futures, and spot trading. It fully taps into the possibilities of decentralized derivatives and borderless DeFi. Every component is designed to embody complete trustlessness, resistance to censorship, public verifiability, and resilience against front-running.
 
-Biyaliquid enables traders to create and trade arbitrary spot and derivatives markets. Biyaliquid also enables on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Biyaliquid Chain's [Exchange Module](../developers-native/biyaliquid/exchange/).
+Biyachain enables traders to create and trade arbitrary spot and derivatives markets. Biyachain also enables on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Biyachain Chain's [Exchange Module](../developers-native/biyachain/exchange/).
 
-## Build an Orderbook DEX on Biyaliquid
+## Build an Orderbook DEX on Biyachain
 
-As an incentive mechanism to encourage exchanges to build on Biyaliquid and source trading activity, exchanges that originate orders into the shared orderbook of Biyaliquid's exchange protocol ([read more](../developers-native/biyaliquid/exchange/)) are rewarded with $$β=40%β=40%$$ of the trading fee from orders that they source. The exchange protocol implements a global minimum trading fee of $$rm=0.1%rm​=0.1%$$ for makers and $$rt=0.2%rt​=0.2%$$ for takers.
+As an incentive mechanism to encourage exchanges to build on Biyachain and source trading activity, exchanges that originate orders into the shared orderbook of Biyachain's exchange protocol ([read more](../developers-native/biyachain/exchange/)) are rewarded with $$β=40%β=40%$$ of the trading fee from orders that they source. The exchange protocol implements a global minimum trading fee of $$rm=0.1%rm​=0.1%$$ for makers and $$rt=0.2%rt​=0.2%$$ for takers.
 
-The goal of Biyaliquid's incentive mechanism is to allow exchanges competing amongst each other to provide a better user experience and to better serve users, broadening access to DeFi for users all around the world.
+The goal of Biyachain's incentive mechanism is to allow exchanges competing amongst each other to provide a better user experience and to better serve users, broadening access to DeFi for users all around the world.
 
 An exchange can easily set up a client (such as a UI on web or mobile) and an API provider.
 

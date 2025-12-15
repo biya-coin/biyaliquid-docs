@@ -1,23 +1,23 @@
 # Mainnet Deployment
 
-This guide will get you started with the governance process of deploying and instantiating CosmWasm smart contracts on Biyaliquid Mainnet.
+This guide will get you started with the governance process of deploying and instantiating CosmWasm smart contracts on Biyachain Mainnet.
 
 ### Submit a Code Upload Proposal
 
 In this section, you will learn how to submit a smart contract code proposal and vote for it.
 
-Biyaliquid network participants can propose smart contracts deployments and vote in governance to enable them. The `wasmd` authorization settings are by on-chain governance, which means deployment of a contract is completely determined by governance. Because of this, a governance proposal is the first step to uploading contracts to Biyaliquid mainnet.
+Biyachain network participants can propose smart contracts deployments and vote in governance to enable them. The `wasmd` authorization settings are by on-chain governance, which means deployment of a contract is completely determined by governance. Because of this, a governance proposal is the first step to uploading contracts to Biyachain mainnet.
 
-Sample usage of `biyaliquidd` to start a governance proposal to upload code to the chain:
+Sample usage of `biyachaind` to start a governance proposal to upload code to the chain:
 
 ```bash
-biyaliquidd tx wasm submit-proposal wasm-store artifacts/cw_controller.wasm
+biyachaind tx wasm submit-proposal wasm-store artifacts/cw_controller.wasm
 --title="Proposal Title" \
 --summary="Proposal Summary" \
 --instantiate-everybody true \
 --broadcast-mode=sync \
---chain-id=biyaliquid-1 \
---node=https://sentry.tm.biyaliquid.network:443 \
+--chain-id=biyachain-1 \
+--node=https://sentry.tm.biyachain.network:443 \
 --deposit=100000000000000000000biya \
 --gas=20000000 \
 --gas-prices=160000000biya \
@@ -26,7 +26,7 @@ biyaliquidd tx wasm submit-proposal wasm-store artifacts/cw_controller.wasm
 --output json
 ```
 
-The command `biyaliquidd tx gov submit-proposal wasm-store` submits a wasm binary proposal. The code will be deployed if the proposal is approved by governance.
+The command `biyachaind tx gov submit-proposal wasm-store` submits a wasm binary proposal. The code will be deployed if the proposal is approved by governance.
 
 Let’s go through two key flags `instantiate-everybody` and `instantiate-only-address`, which set instantiation permissions of the uploaded code. By default, everyone can instantiate the contract.
 
@@ -37,10 +37,10 @@ Let’s go through two key flags `instantiate-everybody` and `instantiate-only-a
 
 ### Contract Instantiation (No Governance)
 
-In most cases, you don’t need to push another governance proposal to instantiate. Simply instantiate with `biyaliquidd tx wasm instantiate`. You only need a governance proposal to _upload_ a contract. You don’t need to go through governance to instantiate unless if the contract has the `--instantiate-everybody` flag to set to `false`, and `--instantiate-only-address` flag set to the governance module. The default value for `--instantiate-everybody` is `true`, and in this case you can permissionlessly instantiate via `biyaliquidd tx wasm instantiate`.
+In most cases, you don’t need to push another governance proposal to instantiate. Simply instantiate with `biyachaind tx wasm instantiate`. You only need a governance proposal to _upload_ a contract. You don’t need to go through governance to instantiate unless if the contract has the `--instantiate-everybody` flag to set to `false`, and `--instantiate-only-address` flag set to the governance module. The default value for `--instantiate-everybody` is `true`, and in this case you can permissionlessly instantiate via `biyachaind tx wasm instantiate`.
 
 ```bash
-biyaliquidd tx wasm instantiate [code_id_int64] [json_encoded_init_args] --label [text] --admin [address,optional] --amount [coins,optional]  [flags]
+biyachaind tx wasm instantiate [code_id_int64] [json_encoded_init_args] --label [text] --admin [address,optional] --amount [coins,optional]  [flags]
 ```
 
 ```bash
@@ -77,25 +77,25 @@ Flags:
   -y, --yes                      Skip tx broadcasting prompt confirmation
 ```
 
-An example `biyaliquidd tx wasm instantiate` can look something like this:
+An example `biyachaind tx wasm instantiate` can look something like this:
 
 ```bash
-biyaliquidd tx wasm instantiate \
+biyachaind tx wasm instantiate \
 150 \
 '{"bank": "biya1egl894wme0d4d029hlv3kuqs0mc9atep2s89h8"}' \
 --label="LABEL" \
 --from=biya17vytdwqczqz72j65saukplrktd4gyfme5agf6c \
---chain-id=biyaliquid-1 \
+--chain-id=biyachain-1 \
 --yes \
 --gas-prices 160000000biya \
 --gas=10000000 \
 --no-admin \
---node=https://sentry.tm.biyaliquid.network:443 \
+--node=https://sentry.tm.biyachain.network:443 \
 ```
 
 ### Contract Instantiation (Governance)
 
-As mentioned above, contract instantiation permissions on mainnet depend on the flags used when uploading the code. By default, it is set to permissionless, as we can verify on the genesis `wasmd` Biyaliquid setup:
+As mentioned above, contract instantiation permissions on mainnet depend on the flags used when uploading the code. By default, it is set to permissionless, as we can verify on the genesis `wasmd` Biyachain setup:
 
 ```json
 "wasm": {
@@ -116,13 +116,13 @@ As mentioned above, contract instantiation permissions on mainnet depend on the 
 However, if the `--instantiate-everybody` flag is set to `false`, then the contract instantiation must go through governance.
 
 {% hint style="info" %}
-The Biyaliquid testnet is permissionless by default in order to allow developers to easily deploy contracts.
+The Biyachain testnet is permissionless by default in order to allow developers to easily deploy contracts.
 {% endhint %}
 
 #### Contract Instantiation Proposal
 
 ```bash
- biyaliquidd tx gov submit-proposal instantiate-contract [code_id_int64] [json_encoded_init_args] --label [text] --title [text] --description [text] --run-as [address] --admin [address,optional] --amount [coins,optional] [flags]
+ biyachaind tx gov submit-proposal instantiate-contract [code_id_int64] [json_encoded_init_args] --label [text] --title [text] --description [text] --run-as [address] --admin [address,optional] --amount [coins,optional] [flags]
 ```
 
 ```bash

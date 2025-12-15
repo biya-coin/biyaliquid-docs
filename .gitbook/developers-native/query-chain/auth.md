@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcAuthApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch ccount details associated with an biyaliquid address such as the account's address, sequence, or pub\_key
+### Fetch ccount details associated with an biyachain address such as the account's address, sequence, or pub\_key
 
 ```ts
 import { ChainGrpcAuthApi } from '@biya-coin/sdk-ts'
@@ -26,10 +26,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcAuthApi = new ChainGrpcAuthApi(endpoints.grpc)
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const accountDetailsResponse = await chainGrpcAuthApi.fetchAccount(
-  biyaliquidAddress,
+  biyachainAddress,
 )
 
 console.log(accountDetailsResponse)
@@ -43,7 +43,7 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcAuthApi = new ChainGrpcAuthApi(endpoints.grpc)
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 const pagination = {...} as PaginationOption
 
 const accounts = await chainGrpcAuthApi.fetchAccounts(/* optional pagination params*/)
@@ -53,7 +53,7 @@ console.log(accounts)
 
 ## Using HTTP REST
 
-### Fetch account details associated with an biyaliquid address such as the account's address, sequence, or pub\_key
+### Fetch account details associated with an biyachain address such as the account's address, sequence, or pub\_key
 
 ```ts
 import { ChainRestAuthApi } from '@biya-coin/sdk-ts'
@@ -61,16 +61,16 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainRestAuthApi = new ChainRestAuthApi(endpoints.rest)
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-  biyaliquidAddress,
+  biyachainAddress,
 )
 
 console.log(accountDetailsResponse)
 ```
 
-#### Fetch cosmos address from an biyaliquid address
+#### Fetch cosmos address from an biyachain address
 
 ```ts
 import { ChainRestAuthApi } from '@biya-coin/sdk-ts'
@@ -78,10 +78,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainRestAuthApi = new ChainRestAuthApi(endpoints.rest)
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const cosmosAddress = await chainRestAuthApi.fetchCosmosAccount(
-  biyaliquidAddress,
+  biyachainAddress,
 )
 
 console.log(cosmosAddress)

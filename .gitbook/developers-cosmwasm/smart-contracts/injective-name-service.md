@@ -1,6 +1,6 @@
-# Biyaliquid Name Service
+# Biyachain Name Service
 
-Within this section, we will look at how to query the Biyaliquid name service contracts.
+Within this section, we will look at how to query the Biyachain name service contracts.
 
 ## Abstraction Service (deprecated)
 
@@ -73,7 +73,7 @@ import {
 } from '@biya-coin/networks'
 import {
   ChainGrpcWasmApi,
-  QueryBiyaliquidAddress,
+  QueryBiyachainAddress,
   BiyaNameServiceQueryTransformer,
 } from '@biya-coin/sdk-ts'
 import { nameToNode, normalizeName } from '@biya-coin/sdk-ts'
@@ -89,28 +89,28 @@ const name = 'allen.biya'
 const normalizedName = normalizeName(name)
 const node = nameToNode(normalizedName)
 
-const query = new QueryBiyaliquidAddress({ node }).toPayload()
+const query = new QueryBiyachainAddress({ node }).toPayload()
 
 const response = await chainGrpcWasmApi.fetchSmartContractState(
   reverseResolverContractAddress,
   query,
 )
 
-const biyaliquidAddress =
-  BiyaNameServiceQueryTransformer.biyaliquidAddressResponseToBiyaliquidAddress(
+const biyachainAddress =
+  BiyaNameServiceQueryTransformer.biyachainAddressResponseToBiyachainAddress(
     response,
   )
 
-if (!biyaliquidAddress) {
+if (!biyachainAddress) {
   throw new Error(`address not found for ${name}`)
 }
 
-console.log(biyaliquidAddress)
+console.log(biyachainAddress)
 ```
 
 ## Reverse Resolution
 
-* Get the primary name for biyaliquid address.
+* Get the primary name for biyachain address.
 
 ```ts
 import {
@@ -129,25 +129,25 @@ const chainGrpcWasmApi = new ChainGrpcWasmApi(endpoints.grpc)
 
 const reverseResolverContractAddress =
   getBiyaNameReverseResolverContractForNetwork(Network.Testnet)
-const biyaliquidAddress = ''
+const biyachainAddress = ''
 
-const query = new QueryBiyaName({ address: biyaliquidAddress }).toPayload()
+const query = new QueryBiyaName({ address: biyachainAddress }).toPayload()
 
 const response = await chainGrpcWasmApi.fetchSmartContractState(
   reverseResolverContractAddress,
   query,
 )
 
-const name = BiyaNameServiceQueryTransformer.biyaliquidNameResponseToBiyaliquidName(response)
+const name = BiyaNameServiceQueryTransformer.biyachainNameResponseToBiyachainName(response)
 
 if (!name) {
-  throw new Error(`.biya not found for ${biyaliquidAddress}`)
+  throw new Error(`.biya not found for ${biyachainAddress}`)
 }
 
 const addressForName = /** fetch as above example */
 
 if (addressForName.toLowerCase() !== address.toLowerCase()) {
-  throw new Error(`.biya not found for ${biyaliquidAddress}`)
+  throw new Error(`.biya not found for ${biyachainAddress}`)
 }
 
 console.log(name)

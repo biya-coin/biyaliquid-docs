@@ -1,10 +1,10 @@
-# Using Biyaliquid Modules and Queries in CosmWasm
+# Using Biyachain Modules and Queries in CosmWasm
 
-This guide provides a comprehensive overview of how to interact with Biyaliquid's modules and queries in CosmWasm using `Any` messages and queries. The older [biyaliquid-cosmwasm](https://github.com/biya-coin/cw-biyaliquid/tree/dev/packages/biyaliquid-cosmwasm) package, which relied on JSON-encoded messages, is no longer maintained and may become outdated. This guide focuses on the recommended approach using protobuf-encoded `Any` messages and queries, which is more efficient and aligned with modern CosmWasm standards.
+This guide provides a comprehensive overview of how to interact with Biyachain's modules and queries in CosmWasm using `Any` messages and queries. The older [biyachain-cosmwasm](https://github.com/biya-coin/cw-biyachain/tree/dev/packages/biyachain-cosmwasm) package, which relied on JSON-encoded messages, is no longer maintained and may become outdated. This guide focuses on the recommended approach using protobuf-encoded `Any` messages and queries, which is more efficient and aligned with modern CosmWasm standards.
 
 ## What are `Any` Messages in CosmWasm?
 
-In CosmWasm, `Any` messages are part of the `CosmosMsg` enum, allowing you to send messages wrapped in a protobuf `Any` type supported by the chain. They replace the deprecated `Stargate` messages (still available under the `stargate` feature flag) with improved naming and syntax. `Any` messages are feature-gated with `cosmwasm_2_0`, meaning they require a chain running CosmWasm 2.0 which is supported by Biyaliquid. Here’s a snippet of the `CosmosMsg` definition:
+In CosmWasm, `Any` messages are part of the `CosmosMsg` enum, allowing you to send messages wrapped in a protobuf `Any` type supported by the chain. They replace the deprecated `Stargate` messages (still available under the `stargate` feature flag) with improved naming and syntax. `Any` messages are feature-gated with `cosmwasm_2_0`, meaning they require a chain running CosmWasm 2.0 which is supported by Biyachain. Here’s a snippet of the `CosmosMsg` definition:
 
 ```rust
 pub enum CosmosMsg<T = Empty> {
@@ -24,19 +24,19 @@ The `type_url` specifies the protobuf message type, and `value` contains the ser
 
 ## Why Use This Method?
 
-The `biyaliquid-cosmwasm` package used JSON-based messages, which are less efficient and may not remain compatible with future updates. The new `Any` message approach uses protobuf encoding, offering better performance, type safety, and compatibility with CosmWasm 2.0+. This is now the recommended method for interacting with Biyaliquid's modules and queries.
+The `biyachain-cosmwasm` package used JSON-based messages, which are less efficient and may not remain compatible with future updates. The new `Any` message approach uses protobuf encoding, offering better performance, type safety, and compatibility with CosmWasm 2.0+. This is now the recommended method for interacting with Biyachain's modules and queries.
 
 ## Sending Messages
 
-To send messages, you create a protobuf message, encode it, and wrap it in an `Any` message. Below is an example of creating a spot market order on Biyaliquid's exchange module.
+To send messages, you create a protobuf message, encode it, and wrap it in an `Any` message. Below is an example of creating a spot market order on Biyachain's exchange module.
 
 ### Example: Creating a Spot Market Order
 
 ```rust
 use cosmwasm_std::{AnyMsg, CosmosMsg, StdResult};
-use biyaliquid_cosmwasm::{BiyaliquidMsgWrapper, OrderType, SpotMarket};
-use biyaliquid_math::{round_to_min_tick, round_to_nearest_tick, FPDecimal};
-use biyaliquid_std::types::biyaliquid::exchange::v1beta1 as Exchange;
+use biyachain_cosmwasm::{BiyachainMsgWrapper, OrderType, SpotMarket};
+use biyachain_math::{round_to_min_tick, round_to_nearest_tick, FPDecimal};
+use biyachain_std::types::biyachain::exchange::v1beta1 as Exchange;
 use prost::Message;
 
 pub fn create_spot_market_order_message(
@@ -47,7 +47,7 @@ pub fn create_spot_market_order_message(
     subaccount_id: &str,
     fee_recipient: &str,
     market: &SpotMarket,
-) -> StdResult<CosmosMsg<BiyaliquidMsgWrapper>> {
+) -> StdResult<CosmosMsg<BiyachainMsgWrapper>> {
     let msg = create_spot_market_order(price, quantity, order_type, sender, subaccount_id, fee_recipient, market);
 
     let mut order_bytes = vec![];
@@ -100,16 +100,16 @@ This approach can be adapted for other modules (e.g., auction, tokenfactory) by 
 
 ## Performing Queries
 
-Queries are performed using `QuerierWrapper` with `BiyaliquidQueryWrapper`. You can use pre-built queriers from `biyaliquid_std` or send raw queries. Below are examples covering different modules.
+Queries are performed using `QuerierWrapper` with `BiyachainQueryWrapper`. You can use pre-built queriers from `biyachain_std` or send raw queries. Below are examples covering different modules.
 
 ### Example: Querying a Spot Market (Exchange Module)
 
 ```rust
 use cosmwasm_std::{to_json_binary, Binary, Deps, StdResult};
-use biyaliquid_cosmwasm::BiyaliquidQueryWrapper;
-use biyaliquid_std::types::biyaliquid::exchange::v1beta1::ExchangeQuerier;
+use biyachain_cosmwasm::BiyachainQueryWrapper;
+use biyachain_std::types::biyachain::exchange::v1beta1::ExchangeQuerier;
 
-pub fn handle_query_spot_market(deps: Deps<BiyaliquidQueryWrapper>, market_id: &str) -> StdResult<Binary> {
+pub fn handle_query_spot_market(deps: Deps<BiyachainQueryWrapper>, market_id: &str) -> StdResult<Binary> {
     let querier = ExchangeQuerier::new(&deps.querier);
     to_json_binary(&querier.spot_market(market_id.to_string())?)
 }
@@ -125,10 +125,10 @@ pub fn handle_query_spot_market(deps: Deps<BiyaliquidQueryWrapper>, market_id: &
 
 ```rust
 use cosmwasm_std::{to_json_binary, Binary, Deps, StdResult};
-use biyaliquid_cosmwasm::BiyaliquidQueryWrapper;
-use biyaliquid_std::types::cosmos::bank::v1beta1::BankQuerier;
+use biyachain_cosmwasm::BiyachainQueryWrapper;
+use biyachain_std::types::cosmos::bank::v1beta1::BankQuerier;
 
-pub fn handle_query_bank_params(deps: Deps<BiyaliquidQueryWrapper>) -> StdResult<Binary> {
+pub fn handle_query_bank_params(deps: Deps<BiyachainQueryWrapper>) -> StdResult<Binary> {
     let querier = BankQuerier::new(&deps.querier);
     to_json_binary(&querier.params()?)
 }
@@ -142,9 +142,9 @@ pub fn handle_query_bank_params(deps: Deps<BiyaliquidQueryWrapper>) -> StdResult
 
 ## Working with Other Modules
 
-The same principles apply to other Biyaliquid modules like auction, insurance, oracle, permissions, and tokenfactory, as well as the Cosmos native modules. For example:
+The same principles apply to other Biyachain modules like auction, insurance, oracle, permissions, and tokenfactory, as well as the Cosmos native modules. For example:
 
 - **Auction Module**: Use `AuctionQuerier` for queries or encode `MsgBid` as an `Any` message.
 - **Tokenfactory Module**: Encode `MsgCreateDenom` or use `TokenFactoryQuerier`.
 
-Refer to [biyaliquid_std](https://github.com/biya-coin/biyaliquid-rust/tree/dev/packages/biyaliquid-std) for specific message types and queriers.
+Refer to [biyachain_std](https://github.com/biya-coin/biyachain-rust/tree/dev/packages/biyachain-std) for specific message types and queriers.

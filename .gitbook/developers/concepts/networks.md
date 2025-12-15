@@ -1,12 +1,12 @@
 # Networks
 
 {% hint style="warning" %}
-Up-to-date public Endpoints can be found [here](https://docs.biyaliquid.network/develop/public-endpoints/#mainnet). We <mark style="color:red;">**do not recommend**</mark> using them in production for applications having high usage/traffic. There are thousands of developers using the public infrastructure and we cannot promise 100% uptime and reliability. \
+Up-to-date public Endpoints can be found [here](https://docs.biyachain.network/develop/public-endpoints/#mainnet). We <mark style="color:red;">**do not recommend**</mark> using them in production for applications having high usage/traffic. There are thousands of developers using the public infrastructure and we cannot promise 100% uptime and reliability. \
 \
 If you still opt to use the **public** networks, you can use the `Network.{Mainnet|Testnet}Sentry` from the `@biya-coin/networks` package.
 {% endhint %}
 
-Building dApps on Biyaliquid requires tapping into different environments and networks where you can easily test your dApp. As part of the `biyaliquid-ts` monorepo, we have the `@biya-coin/networks` package allows developers to easily access pre-defined environments to connect to different pieces of Biyaliquid.
+Building dApps on Biyachain requires tapping into different environments and networks where you can easily test your dApp. As part of the `biyachain-ts` monorepo, we have the `@biya-coin/networks` package allows developers to easily access pre-defined environments to connect to different pieces of Biyachain.
 
 There are two key functions exported from this package:
 

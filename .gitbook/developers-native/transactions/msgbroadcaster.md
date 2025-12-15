@@ -1,8 +1,8 @@
 # MsgBroadcaster Transaction
 
-The `MsgBroadcaster` abstraction class is a way to broadcast transactions on Biyaliquid with ease. With it, you can pass a Message that you want to be packed in a transaction and the signer's address and the transaction will be prepared, signed, and broadcasted.
+The `MsgBroadcaster` abstraction class is a way to broadcast transactions on Biyachain with ease. With it, you can pass a Message that you want to be packed in a transaction and the signer's address and the transaction will be prepared, signed, and broadcasted.
 
-An example of usage can be found on our [Helix demo repo](https://github.com/biya-coin/biyaliquid-helix-demo). As for the messages that you can pass to the `broadcast` methods, you can find examples in the [Core Modules](../examples/) section of the docs.
+An example of usage can be found on our [Helix demo repo](https://github.com/biya-coin/biyachain-helix-demo). As for the messages that you can pass to the `broadcast` methods, you can find examples in the [Core Modules](../examples/) section of the docs.
 
 ## MsgBroadcaster + Wallet Strategy
 
@@ -18,8 +18,8 @@ import { ChainId, EvmChainId } from "@biya-coin/ts-types";
 import { WalletStrategy } from "@biya-coin/wallet-strategy";
 import { Network, getNetworkEndpoints } from "@biya-coin/networks";
 
-const chainId = ChainId.Testnet; // The Biyaliquid Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm; // The Biyaliquid Evm Testnet Chain ID
+const chainId = ChainId.Testnet; // The Biyachain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm; // The Biyachain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`;
 
@@ -47,13 +47,13 @@ export const msgBroadcaster = new MsgBroadcaster({
         denom: "biya",
         amount: toChainFormat(0.01).toFixed(),
       },
-      srcBiyaliquidAddress: signer,
-      dstBiyaliquidAddress: "biya1...",
+      srcBiyachainAddress: signer,
+      dstBiyachainAddress: "biya1...",
     });
 
     // Prepare + Sign + Broadcast the transaction using the Wallet Strategy
     await msgBroadcastClient.broadcast({
-      biyaliquidAddress: signer,
+      biyachainAddress: signer,
       msgs: msg,
     });
   }
@@ -82,7 +82,7 @@ export interface MsgBroadcasterOptions {
 
 export interface MsgBroadcasterTxOptions {
   memo?: string /** MEMO added to the transaction **/
-  biyaliquidAddress: string /** the signer of the transaction **/
+  biyachainAddress: string /** the signer of the transaction **/
   msgs: Msgs | Msgs[] /** the messages to pack into a transaction **/
 
   /*
@@ -124,13 +124,13 @@ export const msgBroadcasterWithPk = new MsgBroadcasterWithPk({
         denom: "biya",
         amount: toChainFormat(0.01).toFixed(),
       },
-      srcBiyaliquidAddress: signer,
-      dstBiyaliquidAddress: "biya1...",
+      srcBiyachainAddress: signer,
+      dstBiyachainAddress: "biya1...",
     });
 
     // Prepare + Sign + Broadcast the transaction using the Wallet Strategy
     await msgBroadcasterWithPk.broadcast({
-      biyaliquidAddress: signer,
+      biyachainAddress: signer,
       msgs: msg,
     });
   }

@@ -29,10 +29,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const account = await indexerGrpcExplorerApi.fetchAccountTx({
-  biyaliquidAddress,
+  biyachainAddress,
 })
 
 console.log(account)

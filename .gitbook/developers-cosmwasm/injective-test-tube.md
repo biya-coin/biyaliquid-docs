@@ -1,21 +1,21 @@
-# Biyaliquid Test Tube
+# Biyachain Test Tube
 
-`biyaliquid-test-tube` is a CosmWasm x Biyaliquid integration testing library that, unlike `cw-multi-test`, allows you to test your CosmWasm contract against the chain's actual logic instead of mocks.
+`biyachain-test-tube` is a CosmWasm x Biyachain integration testing library that, unlike `cw-multi-test`, allows you to test your CosmWasm contract against the chain's actual logic instead of mocks.
 
-The `dev` branch depends on currently private repos, but you can use published versions instead. Please refer to [`CHANGELOG`](https://github.com/biya-coin/test-tube/blob/dev/packages/biyaliquid-test-tube/CHANGELOG.md) for features and update information.
+The `dev` branch depends on currently private repos, but you can use published versions instead. Please refer to [`CHANGELOG`](https://github.com/biya-coin/test-tube/blob/dev/packages/biyachain-test-tube/CHANGELOG.md) for features and update information.
 
 ### Getting Started
 
-To demonstrate how `biyaliquid-test-tube` works, let us use a simple example contract: [cw-whitelist](https://github.com/CosmWasm/cw-plus/tree/main/contracts/cw1-whitelist) from `cw-plus`.
+To demonstrate how `biyachain-test-tube` works, let us use a simple example contract: [cw-whitelist](https://github.com/CosmWasm/cw-plus/tree/main/contracts/cw1-whitelist) from `cw-plus`.
 
 Here is how to set up the test:
 
 ```rust
 use cosmwasm_std::Coin;
-use biyaliquid_test_tube::BiyaliquidTestApp;
+use biyachain_test_tube::BiyachainTestApp;
 
-// create new biyaliquid appchain instance.
-let app = BiyaliquidTestApp::new();
+// create new biyachain appchain instance.
+let app = BiyachainTestApp::new();
 
 // create new account with initial funds
 let accs = app
@@ -38,9 +38,9 @@ Note that `init_accounts` is a convenience function that creates multiple accoun
 
 ```rust
 use cosmwasm_std::Coin;
-use biyaliquid_test_tube::BiyaliquidTestApp;
+use biyachain_test_tube::BiyachainTestApp;
 
-let app = BiyaliquidTestApp::new();
+let app = BiyachainTestApp::new();
 
 let account = app.init_account(&[
     Coin::new(1_000_000_000_000, "usdt"),
@@ -59,9 +59,9 @@ Then we can start interacting with our contract. Let's do just that.
 ```rust
 use cosmwasm_std::Coin;
 use cw1_whitelist::msg::{InstantiateMsg}; // for instantiating cw1_whitelist contract
-use biyaliquid_test_tube::{Account, Module, BiyaliquidTestApp, Wasm};
+use biyachain_test_tube::{Account, Module, BiyachainTestApp, Wasm};
 
-let app = BiyaliquidTestApp::new();
+let app = BiyachainTestApp::new();
 let accs = app
     .init_accounts(
         &[
@@ -94,9 +94,9 @@ Not that in this example, it loads wasm bytecode from [cw-plus release](https://
 ```rust
 use cosmwasm_std::Coin;
 use cw1_whitelist::msg::{InstantiateMsg, QueryMsg, AdminListResponse};
-use biyaliquid_test_tube::{Account, Module, BiyaliquidTestApp, Wasm};
+use biyachain_test_tube::{Account, Module, BiyachainTestApp, Wasm};
 
-let app = BiyaliquidTestApp::new();
+let app = BiyachainTestApp::new();
 let accs = app
     .init_accounts(
         &[
@@ -153,9 +153,9 @@ Now let's execute the contract and verify that the contract's state is updated p
 ```rust
 use cosmwasm_std::Coin;
 use cw1_whitelist::msg::{InstantiateMsg, QueryMsg, ExecuteMsg, AdminListResponse};
-use biyaliquid_test_tube::{Account, Module, BiyaliquidTestApp, Wasm};
+use biyachain_test_tube::{Account, Module, BiyachainTestApp, Wasm};
 
-let app = BiyaliquidTestApp::new();
+let app = BiyachainTestApp::new();
 let accs = app
     .init_accounts(
         &[
@@ -227,7 +227,7 @@ assert!(admin_list.mutable);
 
 ### Debugging
 
-In your contract code, if you want to debug, you can use [`deps.api.debug(..)`](https://docs.rs/cosmwasm-std/latest/cosmwasm_std/trait.Api.html#tymethod.debug) which will print the debug message to stdout. `wasmd` disabled this by default but `BiyaliquidTestApp` allows stdout emission so that you can debug your smart contract while running tests.
+In your contract code, if you want to debug, you can use [`deps.api.debug(..)`](https://docs.rs/cosmwasm-std/latest/cosmwasm_std/trait.Api.html#tymethod.debug) which will print the debug message to stdout. `wasmd` disabled this by default but `BiyachainTestApp` allows stdout emission so that you can debug your smart contract while running tests.
 
 ### Using Module Wrapper
 
@@ -237,14 +237,14 @@ Let's try to interact with `Exchange` module:
 
 ```rust
 use cosmwasm_std::{Addr, Coin};
-use biyaliquid_std::types::biyaliquid::exchange::v1beta1::{
+use biyachain_std::types::biyachain::exchange::v1beta1::{
     MarketStatus, MsgInstantSpotMarketLaunch,
     QuerySpotMarketsRequest, QuerySpotMarketsResponse, SpotMarket,
 };
-use biyaliquid_test_tube::{Account, Exchange, BiyaliquidTestApp};
+use biyachain_test_tube::{Account, Exchange, BiyachainTestApp};
 use test_tube_biya::Module;
 
-let app = BiyaliquidTestApp::new();
+let app = BiyachainTestApp::new();
 let signer = app
     .init_account(&[
         Coin::new(10_000_000_000_000_000_000_000u128, "biya"),
@@ -314,21 +314,21 @@ let expected_response = QuerySpotMarketsResponse {
 assert_eq!(spot_markets, expected_response);
 ```
 
-Additional examples can be found in the [modules](https://github.com/biya-coin/test-tube/tree/dev/packages/biyaliquid-test-tube/src/module) directory.
+Additional examples can be found in the [modules](https://github.com/biya-coin/test-tube/tree/dev/packages/biyachain-test-tube/src/module) directory.
 
 ### Versioning
 
-The version of biyaliquid-test-tube is determined by the versions of its dependencies, biyaliquid and test-tube, as well as its own changes. The version is represented in the format A.B.C, where:
+The version of biyachain-test-tube is determined by the versions of its dependencies, biyachain and test-tube, as well as its own changes. The version is represented in the format A.B.C, where:
 
-* A is the major version of biyaliquid,
+* A is the major version of biyachain,
 * B is the minor version of test-tube,
-* C is the patch number of biyaliquid-test-tube itself.
+* C is the patch number of biyachain-test-tube itself.
 
-When a new version of biyaliquid is released and contains breaking changes, we will also release breaking changes from test-tube if any and increment the major version of biyaliquid-test-tube. This way, it's clear that the new version of biyaliquid-test-tube is not backwards-compatible with previous versions.
+When a new version of biyachain is released and contains breaking changes, we will also release breaking changes from test-tube if any and increment the major version of biyachain-test-tube. This way, it's clear that the new version of biyachain-test-tube is not backwards-compatible with previous versions.
 
-When adding a new feature to biyaliquid-test-tube that is backward-compatible, the minor version number will be incremented.
+When adding a new feature to biyachain-test-tube that is backward-compatible, the minor version number will be incremented.
 
-When fixing bugs or making other changes that are `biyaliquid-test-tube` specific and backward-compatible, the patch number will be incremented.
+When fixing bugs or making other changes that are `biyachain-test-tube` specific and backward-compatible, the patch number will be incremented.
 
 Please review the upgrade guide for upgrading the package, in case of breaking changes
 

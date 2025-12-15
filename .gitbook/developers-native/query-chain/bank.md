@@ -17,7 +17,7 @@ const moduleParams = await chainGrpcBankApi.fetchModuleParams()
 console.log(moduleParams)
 </code></pre>
 
-### Fetching biyaliquid address's balances
+### Fetching biyachain address's balances
 
 ```ts
 import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
@@ -26,9 +26,9 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcBankApi = new ChainGrpcBankApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
-const balances = await chainGrpcBankApi.fetchBalances(biyaliquidAddress)
+const balances = await chainGrpcBankApi.fetchBalances(biyachainAddress)
 
 console.log(balances)
 ```
@@ -42,11 +42,11 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcBankApi = new ChainGrpcBankApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya1' /* example is using Cosmos Hub */
+const biyachainAddress = 'biya1' /* example is using Cosmos Hub */
 const denom = 'biya'
 
 const balance = await chainGrpcBankApi.fetchBalance({
-  accountAddress: biyaliquidAddress,
+  accountAddress: biyachainAddress,
   denom,
 })
 
@@ -82,9 +82,9 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainRestBankApi = new ChainRestBankApi(endpoints.rest)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
-const balances = await chainGrpcBankApi.fetchBalances(biyaliquidAddress)
+const balances = await chainGrpcBankApi.fetchBalances(biyachainAddress)
 
 console.log(balances)
 ```

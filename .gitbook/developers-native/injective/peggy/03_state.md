@@ -116,7 +116,7 @@ type OutgoingTransferTx struct {
 
 ### LastTXPoolID
 
-Monotonically increasing value for each withdrawal received by Biyaliquid
+Monotonically increasing value for each withdrawal received by Biyachain
 
 | Key                                    | Value                   | Type     | Encoding           |
 | -------------------------------------- | ----------------------- | -------- | ------------------ |
@@ -146,7 +146,7 @@ type OutgoingTxBatch struct {
 
 ### LastOutgoingBatchID
 
-Monotonically increasing value for each batch created on Biyaliquid by some `Batch Creator`
+Monotonically increasing value for each batch created on Biyachain by some `Batch Creator`
 
 | Key                                   | Value              | Type     | Encoding           |
 | ------------------------------------- | ------------------ | -------- | ------------------ |
@@ -179,7 +179,7 @@ A denom that is originally from a counter chain will be from a contract. The tok
 
 ### LastObservedValset
 
-This entry represents the last observed Valset that was successfully relayed to Ethereum. Updates after an attestation of `ValsetUpdatedEvent` has been processed on Biyaliquid.
+This entry represents the last observed Valset that was successfully relayed to Ethereum. Updates after an attestation of `ValsetUpdatedEvent` has been processed on Biyachain.
 
 | Key            | Value                            | Type           | Encoding         |
 | -------------- | -------------------------------- | -------------- | ---------------- |
@@ -237,12 +237,12 @@ type Attestation struct {
 
 ### PastEthSignatureCheckpoint
 
-A computed hash indicating that a validator set/token batch in fact existed on Biyaliquid. This checkpoint also exists in `Peggy contract`.\
+A computed hash indicating that a validator set/token batch in fact existed on Biyachain. This checkpoint also exists in `Peggy contract`.\
 Updated on each new valset update and token batch creation.
 
 | Key            | Value                                     | Type              | Encoding             |
 | -------------- | ----------------------------------------- | ----------------- | -------------------- |
-| `[]byte{0x1b}` | Last created checkpoint hash on Biyaliquid | `gethcommon.Hash` | store in byte format |
+| `[]byte{0x1b}` | Last created checkpoint hash on Biyachain | `gethcommon.Hash` | store in byte format |
 
 ### EthereumBlacklist
 

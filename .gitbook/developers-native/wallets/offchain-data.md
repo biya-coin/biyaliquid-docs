@@ -13,7 +13,7 @@ You can use the `generateArbitrarySignDoc` function from `@biya-coin/sdk-ts` to 
 (async () => {
   const message = "Offline Sign Message Example";
   const signer = 'biya1...'
-  const chainId = 'biyaliquid-1'
+  const chainId = 'biyachain-1'
   
   // Sign Arbitrary Data
   const signature = await window.keplr.signArbitrary(chainId, signer, message)
@@ -37,11 +37,11 @@ config();
 
 (async () => {
   const { privateKey } = PrivateKey.generate();
-  const biyaliquidAddress = privateKey.toBech32();
+  const biyachainAddress = privateKey.toBech32();
   const publicKey = privateKey.toPublicKey();
   
   const message = "Offline Sign Message Example";
-  const { signDocBuff } = generateArbitrarySignDoc(message, biyaliquidAddress);
+  const { signDocBuff } = generateArbitrarySignDoc(message, biyachainAddress);
 
   const signature = await privateKey.sign(signDocBuff);
   const signatureInHex = Buffer.from(signature).toString("hex");

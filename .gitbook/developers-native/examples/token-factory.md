@@ -8,7 +8,7 @@ _Note #2: It's recommended to change your admin to the zero address for safety a
 
 ## Messages
 
-Let's explore (and provide examples) the Messages that the TokenFactory module exports and we can use to interact with the Biyaliquid chain.
+Let's explore (and provide examples) the Messages that the TokenFactory module exports and we can use to interact with the Biyachain chain.
 
 ### MsgCreateDenom
 
@@ -20,7 +20,7 @@ Keep in mind that that the `admin` of the token can change the supply (mint or b
 import { Network } from "@biya-coin/networks";
 import { MsgCreateDenom } from "@biya-coin/sdk-ts";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const subdenom = "biya-test";
 
@@ -28,7 +28,7 @@ const msg = MsgCreateDenom.fromJSON({
   subdenom,
   symbol: "BiyaTest",
   name: "Biya Testing",
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
 });
 
 const txHash = await new MsgBroadcasterWithPk({
@@ -49,15 +49,15 @@ Minting of a specific denom is only allowed for the current admin. Note, the cur
 import { MsgMint } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const subdenom = "biya-test";
 const amountToMint = 1_000_000_000;
 
 const msg = MsgMint.fromJSON({
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   amount: {
-    denom: `factory/${biyaliquidAddress}/${subdenom}`,
+    denom: `factory/${biyachainAddress}/${subdenom}`,
     amount: amountToMint,
   },
 });
@@ -80,15 +80,15 @@ The admin can burn the supply of the token factory. Everyone else can use this m
 import { MsgBurn } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const subdenom = "biya-test";
 const amountToBurn = 1_000_000_000;
 
 const msg = MsgBurn.fromJSON({
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   amount: {
-    denom: `factory/${biyaliquidAddress}/${subdenom}`,
+    denom: `factory/${biyachainAddress}/${subdenom}`,
     amount: amountToBurn,
   },
 });
@@ -113,10 +113,10 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const subdenom = 'biya-test'
-const denom = `factory/${biyaliquidAddress}/${subdenom}`;
+const denom = `factory/${biyachainAddress}/${subdenom}`;
 
 const denomUnitsIfTokenHas0Decimals = [
   {
@@ -139,7 +139,7 @@ const denomUnitsIfTokenHas6Decimals = [
 ]
 
 const msg = MsgSetDenomMetadata.fromJSON({
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   metadata: {
     base: denom, /** the base denom */
     description: '', /** description of your token */
@@ -170,14 +170,14 @@ The admin of the denom can mint new supply or burn existing one. It's recommende
 import { Network } from "@biya-coin/networks";
 import { MsgChangeAdmin } from "@biya-coin/sdk-ts";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const subdenom = "biya-test";
-const denom = `factory/${biyaliquidAddress}/${subdenom}`;
+const denom = `factory/${biyachainAddress}/${subdenom}`;
 
 const msg = MsgChangeAdmin.fromJSON({
   denom,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   newAdmin:
     "biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49" /** SET TO ZERO ADDRESS */,
 });
@@ -194,7 +194,7 @@ console.log(txHash);
 
 ## Full Example
 
-Here is a full example on how to create a new token, mint new tokens and set token metadata on Biyaliquid.
+Here is a full example on how to create a new token, mint new tokens and set token metadata on Biyachain.
 
 ```ts
 import {
@@ -202,30 +202,30 @@ import {
 } from "@biya-coin/sdk-ts";
 import { Network } from "@biya-coin/networks";
 
-const biyaliquidAddress = "biya1...";
+const biyachainAddress = "biya1...";
 const privateKey = "0x...";
 const subdenom = 'biya-test'
-const denom = `factory/${biyaliquidAddress}/${subdenom}`;
+const denom = `factory/${biyachainAddress}/${subdenom}`;
 const amount = 1_000_000_000
 
 const msgCreateDenom = MsgCreateDenom.fromJSON({
   subdenom,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
 });
 const msgMint = MsgMint.fromJSON({
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   amount: {
-    denom: `factory/${biyaliquidAddress}/${subdenom}`,
+    denom: `factory/${biyachainAddress}/${subdenom}`,
     amount: amount
   }
 });
 const msgChangeAdmin = MsgChangeAdmin.fromJSON({
-  denom: `factory/${biyaliquidAddress}/${subdenom}`,
-  sender: biyaliquidAddress,
+  denom: `factory/${biyachainAddress}/${subdenom}`,
+  sender: biyachainAddress,
   newAdmin: 'biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49' /** SET TO ZERO ADDRESS */
 });
 const msgSetDenomMetadata = MsgSetDenomMetadata.fromJSON({
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   metadata: {
     base: denom, /** the base denom */
     description: '', /** description of your token */

@@ -1,21 +1,21 @@
 # Denom Metadata
 
-A `denom` is how tokens are represented within the `Bank` module of Biyaliquid. These assets can be used for trading, creating new markets on the exchange module, participating in auctions, transferring to another address, etc.
+A `denom` is how tokens are represented within the `Bank` module of Biyachain. These assets can be used for trading, creating new markets on the exchange module, participating in auctions, transferring to another address, etc.
 
 One of the biggest pain points for developers and traders is getting the metadata of these `denoms`. This metadata includes `decimals`, `symbol`, `name`, etc.
 
-This guide shows how to fetch `denom` metadata directly from the `biyaliquid-lists` repository and map it to your `denom`. You can also use this approach to map `denoms`'s metadata for Spot and Derivative Markets.
+This guide shows how to fetch `denom` metadata directly from the `biyachain-lists` repository and map it to your `denom`. You can also use this approach to map `denoms`'s metadata for Spot and Derivative Markets.
 
-## Biyaliquid Lists
+## Biyachain Lists
 
-`biyaliquid-lists` is a public repository that holds metadata information for all tokens on Biyaliquid. It's the most up-to-date and reliable source of this particular information. You can submit your token information by creating a PR for this repo. Be sure to correctly specify the fields. In particular,  `"denom"` field (read about [token standards](../defi/tokens/README.md)) should have respective `ibc`, `peggy` and `factory` prefixes depending on the token standard.
+`biyachain-lists` is a public repository that holds metadata information for all tokens on Biyachain. It's the most up-to-date and reliable source of this particular information. You can submit your token information by creating a PR for this repo. Be sure to correctly specify the fields. In particular,  `"denom"` field (read about [token standards](../defi/tokens/README.md)) should have respective `ibc`, `peggy` and `factory` prefixes depending on the token standard.
 
 The metadata is fetched automatically for new `denoms` on chain every 30 minutes and the `json` files are regenerated.
 
-You can head to the [https://github.com/biya-coin/biyaliquid-lists/tree/master/json/tokens](https://github.com/biya-coin/biyaliquid-lists/tree/master/json/tokens) folder and download the metadata based on the environment:
+You can head to the [https://github.com/biya-coin/biyachain-lists/tree/master/json/tokens](https://github.com/biya-coin/biyachain-lists/tree/master/json/tokens) folder and download the metadata based on the environment:
 
-1. [Mainnet Raw JSON](https://raw.githubusercontent.com/biya-coin/biyaliquid-lists/refs/heads/master/json/tokens/mainnet.json)
-2. [Testnet Raw JSON](https://github.com/biya-coin/biyaliquid-lists/blob/master/json/tokens/testnet.json)
+1. [Mainnet Raw JSON](https://raw.githubusercontent.com/biya-coin/biyachain-lists/refs/heads/master/json/tokens/mainnet.json)
+2. [Testnet Raw JSON](https://github.com/biya-coin/biyachain-lists/blob/master/json/tokens/testnet.json)
 
 Once you have the JSON, you have to map the metadata with the particular `denom`.
 
@@ -54,8 +54,8 @@ config();
   const endpoints = getNetworkEndpoints(Network.MainnetSentry);
   const chainGrpcBankApi = new ChainGrpcBankApi(endpoints.grpc);
 
-  const biyaliquidAddress = "biya...";
-  const { balances } = chainGrpcBankApi.fetchBalances(biyaliquidAddress);
+  const biyachainAddress = "biya...";
+  const { balances } = chainGrpcBankApi.fetchBalances(biyachainAddress);
 
   console.log(bankBalances);
 

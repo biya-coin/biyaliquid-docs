@@ -1,7 +1,7 @@
 # Interact with a node programmatically with Go
 
 {% hint style="info" %}
-The following examples are in Go, but the Python and TS SDKs can also be used to programatically interact with a node/Biyaliquid.
+The following examples are in Go, but the Python and TS SDKs can also be used to programatically interact with a node/Biyachain.
 
 * [TypeScript Examples](../developers-native/examples/README.md)
 * [Python Examples](https://github.com/biya-coin/sdk-python/tree/master/examples)

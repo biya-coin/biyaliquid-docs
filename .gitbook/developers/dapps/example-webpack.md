@@ -1,19 +1,19 @@
 # Simple HTML example with Webpack
 
-The [example](https://github.com/biya-coin/biyaliquid-ts-webpack-example) is based on the [Cosmos transaction handling section](../../developers-native/transactions/cosmos.md).
+The [example](https://github.com/biya-coin/biyachain-ts-webpack-example) is based on the [Cosmos transaction handling section](../../developers-native/transactions/cosmos.md).
 
 ## Running the example
 
 Clone the project repo:
 
 ```
-git clone https://github.com/biya-coin/biyaliquid-ts-webpack-example.git
+git clone https://github.com/biya-coin/biyachain-ts-webpack-example.git
 ```
 
 Ensure you have npm installed and install dependencies:
 
 ```
-cd biyaliquid-ts-webpack-example && npm install
+cd biyachain-ts-webpack-example && npm install
 ```
 
 Run the example:
@@ -26,7 +26,7 @@ npm start
 ....
 ```
 
-Go to the http://localhost:8080/ in your browser. If you have a Kelr wallet set up and connected to the Biyaliquid testnet, you should see "Confirm Transaction" pop up window.
+Go to the http://localhost:8080/ in your browser. If you have a Kelr wallet set up and connected to the Biyachain testnet, you should see "Confirm Transaction" pop up window.
 
 ## How does it work?
 

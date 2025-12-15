@@ -1,12 +1,12 @@
 # Cosmos Transactions
 
-Every transaction on Biyaliquid follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Every transaction on Biyachain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
 
 ## Preparing a transaction
 
 First of, we need to prepare the transaction for signing.
 
-At this point you **can't** use some online abstractions that provide a quick way to prepare the transaction for you based on the provided Message and the signer (ex. using the `@cosmjs/stargate` package). The reason why is that these packages don't support Biyaliquid's publicKey typeUrl, so we have to do the preparation of the address on the client side.
+At this point you **can't** use some online abstractions that provide a quick way to prepare the transaction for you based on the provided Message and the signer (ex. using the `@cosmjs/stargate` package). The reason why is that these packages don't support Biyachain's publicKey typeUrl, so we have to do the preparation of the address on the client side.
 
 To resolve this, we have provided functions which can prepare the `txRaw` transaction within out `@biya-coin/sdk-ts` package. `txRaw` is the transaction interface used in Cosmos that contains details about the transaction and the signer itself.
 
@@ -24,10 +24,10 @@ import { toBigNumber, toChainFormat } from "@biya-coin/utils";
 import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
 
 (async () => {
-  const biyaliquidAddress = "biya1";
-  const chainId = "biyaliquid-1"; /* ChainId.Mainnet */
+  const biyachainAddress = "biya1";
+  const chainId = "biyachain-1"; /* ChainId.Mainnet */
   const restEndpoint =
-    "https://sentry.lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
+    "https://sentry.lcd.biyachain.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
   const amount = {
     denom: "biya",
     amount: toChainFormat(0.01).toFixed(),
@@ -36,7 +36,7 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
   /** Account Details **/
   const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-    biyaliquidAddress
+    biyachainAddress
   );
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 
@@ -51,8 +51,8 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
   /** Preparing the transaction */
   const msg = MsgSend.fromJSON({
     amount,
-    srcBiyaliquidAddress: biyaliquidAddress,
-    dstBiyaliquidAddress: biyaliquidAddress,
+    srcBiyachainAddress: biyachainAddress,
+    dstBiyachainAddress: biyachainAddress,
   });
 
   /** Get the PubKey of the Signer from the Wallet/Private Key */
@@ -101,7 +101,7 @@ You can also use our `@biya-coin/wallet-strategy` package to get out-of-the-box 
 
 ## Broadcasting a transaction
 
-Once we have the signature ready, we need to broadcast the transaction to the Biyaliquid chain itself. After getting the signature from the second step, we need to include it in the signed transaction and broadcast it to the chain.
+Once we have the signature ready, we need to broadcast the transaction to the Biyachain chain itself. After getting the signature from the second step, we need to include it in the signed transaction and broadcast it to the chain.
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
@@ -161,7 +161,7 @@ const txHash = await broadcastTx(ChainId.Mainnet, txRaw)
  * it can happen that it's still in the mempool so we need to query
  * the chain to see when the transaction will be included
  */
-const restEndpoint = 'https://sentry.lcd.biyaliquid.network' /* getNetworkEndpoints(Network.MainnetSentry).rest */
+const restEndpoint = 'https://sentry.lcd.biyachain.network' /* getNetworkEndpoints(Network.MainnetSentry).rest */
 const txRestApi = new TxRestApi(restEndpoint)
 
  /** This will poll querying the transaction and await for it's inclusion in the block */
@@ -220,12 +220,12 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
 };
 
 (async () => {
-  const chainId = "biyaliquid-1"; /* ChainId.Mainnet */
+  const chainId = "biyachain-1"; /* ChainId.Mainnet */
   const { key, offlineSigner } = await getKeplr(chainId);
   const pubKey = Buffer.from(key.pubKey).toString("base64");
-  const biyaliquidAddress = key.bech32Address;
+  const biyachainAddress = key.bech32Address;
   const restEndpoint =
-    "https://sentry.lcd.biyaliquid.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
+    "https://sentry.lcd.biyachain.network"; /* getNetworkEndpoints(Network.MainnetSentry).rest */
   const amount = {
     denom: "biya",
     amount: toChainFormat(0.01).toFixed(),
@@ -234,7 +234,7 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
   /** Account Details **/
   const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
-    biyaliquidAddress
+    biyachainAddress
   );
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 
@@ -249,8 +249,8 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
   /** Preparing the transaction */
   const msg = MsgSend.fromJSON({
     amount,
-    srcBiyaliquidAddress: biyaliquidAddress,
-    dstBiyaliquidAddress: biyaliquidAddress,
+    srcBiyachainAddress: biyachainAddress,
+    dstBiyachainAddress: biyachainAddress,
   });
 
   /** Prepare the Transaction **/
@@ -265,7 +265,7 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
   });
 
   const directSignResponse = await offlineSigner.signDirect(
-    biyaliquidAddress,
+    biyachainAddress,
     signDoc as SignDoc
   );
   const txRaw = getTxRawFromTxRawOrDirectSignResponse(directSignResponse);
@@ -278,4 +278,4 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
 
 ## Example with WalletStrategy (Prepare + Sign + Broadcast)
 
-Example can be found [here](https://github.com/biya-coin/biyaliquid-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L301-L365).
+Example can be found [here](https://github.com/biya-coin/biyachain-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L301-L365).

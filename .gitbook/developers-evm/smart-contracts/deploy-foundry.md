@@ -15,7 +15,7 @@ Run the following command to deploy the smart contract:
 ```shell
 forge create \
   src/Counter.sol:Counter \
-  --rpc-url biyaliquidEvm \
+  --rpc-url biyachainEvm \
   --legacy \
   --account biyaTest \
   --gas-price 160000000 \
@@ -37,7 +37,7 @@ Deployed to: 0x213bA803265386C10CE04a2cAa0f31FF3440b9cF
 Transaction hash: 0x6aa9022f593083c7779da014a3032efd40f3faa2cf3473f4252a8fbd2a80db6c
 ```
 
-Copy the deployed address, visit [`https://testnet.blockscout.biyaliquid.network`](https://testnet.blockscout.biyaliquid.network/), and paste the address in the search field.
+Copy the deployed address, visit [`https://testnet.blockscout.biyachain.network`](https://testnet.blockscout.biyachain.network/), and paste the address in the search field.
 You'll visit the smart contract page in the block explorer for the smart contract that you have just deployed.
 
 If you click on the "Contract" tab, you should see the EVM bytecode for that contract, and it will match the EVM bytecode found in your artifacts directory after compilation.

@@ -1,30 +1,30 @@
-# Add Biyaliquid to Your dApp
+# Add Biyachain to Your dApp
 
-Enable your users to connect to the Biyaliquid network with a single click.\
+Enable your users to connect to the Biyachain network with a single click.\
 \
-Use the code snippet below to add an “Add Biyaliquid Network” button to your dApp, making it easy for users to add Biyaliquid to MetaMask or any EVM-compatible wallet.
+Use the code snippet below to add an “Add Biyachain Network” button to your dApp, making it easy for users to add Biyachain to MetaMask or any EVM-compatible wallet.
 
 
 
 1. Copy and paste the snippet into your frontend codebase.
-2. Connect the `addBiyaliquidNetwork` function to your preferred UI button.
-3. That’s it—your users can now add Biyaliquid to their wallet in seconds
+2. Connect the `addBiyachainNetwork` function to your preferred UI button.
+3. That’s it—your users can now add Biyachain to their wallet in seconds
 
 ```tsx
 // Network configuration
-const biyaliquid_MAINNET_CONFIG = {
+const biyachain_MAINNET_CONFIG = {
   chainId: '0x6f0', // 1776 in decimal
-  chainName: 'Biyaliquid',
-  rpcUrls: ['https://evm-rpc.biyaliquid.network'],
+  chainName: 'Biyachain',
+  rpcUrls: ['https://evm-rpc.biyachain.network'],
   nativeCurrency: {
-    name: 'Biyaliquid',
+    name: 'Biyachain',
     symbol: 'BIYA',
     decimals: 18
   },
-  blockExplorerUrls: ['https://explorer.biyaliquid.network']
+  blockExplorerUrls: ['https://explorer.biyachain.network']
 };
 
-async function addBiyaliquidNetwork() {
+async function addBiyachainNetwork() {
   // Check if MetaMask or another Web3 wallet is installed
   if (!window.ethereum) {
     alert('Please install MetaMask or another Web3 wallet!');
@@ -32,31 +32,31 @@ async function addBiyaliquidNetwork() {
   }
 
   try {
-    // First, try to switch to the Biyaliquid network
+    // First, try to switch to the Biyachain network
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: biyaliquid_MAINNET_CONFIG.chainId }],
+      params: [{ chainId: biyachain_MAINNET_CONFIG.chainId }],
     });
     
-    console.log('Switched to Biyaliquid network successfully!');
+    console.log('Switched to Biyachain network successfully!');
   } catch (switchError) {
     // Error code 4902 means the network hasn't been added yet
     if (switchError.code === 4902) {
       try {
-        // Add the Biyaliquid network
+        // Add the Biyachain network
         await window.ethereum.request({
           method: 'wallet_addEthereumChain',
-          params: [biyaliquid_MAINNET_CONFIG],
+          params: [biyachain_MAINNET_CONFIG],
         });
         
-        console.log('Biyaliquid network added successfully!');
+        console.log('Biyachain network added successfully!');
       } catch (addError) {
-        console.error('Failed to add Biyaliquid network:', addError);
-        alert('Failed to add Biyaliquid network. Please try again.');
+        console.error('Failed to add Biyachain network:', addError);
+        alert('Failed to add Biyachain network. Please try again.');
       }
     } else {
       console.error('Failed to switch network:', switchError);
-      alert('Failed to switch to Biyaliquid network.');
+      alert('Failed to switch to Biyachain network.');
     }
   }
 }

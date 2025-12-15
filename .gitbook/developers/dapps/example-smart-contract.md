@@ -1,8 +1,8 @@
 # Smart Contract
 
-Within these short series we are going to showcase how easy it is to build a dApp on top of Biyaliquid. There is an open-sourced [dApp](https://github.com/biya-coin/biyaliquid-simple-sc-counter-ui) which everyone can reference and use to build on top of Biyaliquid. There are examples for Next, Nuxt and Vanilla Js. For those who want to start from scratch, this is the right place to start.
+Within these short series we are going to showcase how easy it is to build a dApp on top of Biyachain. There is an open-sourced [dApp](https://github.com/biya-coin/biyachain-simple-sc-counter-ui) which everyone can reference and use to build on top of Biyachain. There are examples for Next, Nuxt and Vanilla Js. For those who want to start from scratch, this is the right place to start.
 
-In this example we will implement the connection and interact with an example Smart Contract deployed on the Biyaliquid Chain using the biyaliquid-ts module.
+In this example we will implement the connection and interact with an example Smart Contract deployed on the Biyachain Chain using the biyachain-ts module.
 
 The series will include:
 
@@ -16,7 +16,7 @@ The series will include:
 
 First, configure your desired UI framework. You can find more details on the configuration here.
 
-To get started with the dex, we need to setup the API clients and the environment. To build our DEX we are going to query data from both the Biyaliquid Chain and the Indexer API. In this example, we are going to use the existing **Testnet** environment.
+To get started with the dex, we need to setup the API clients and the environment. To build our DEX we are going to query data from both the Biyachain Chain and the Indexer API. In this example, we are going to use the existing **Testnet** environment.
 
 Let's first setup some of the classes we need to query the data.
 
@@ -35,9 +35,9 @@ export const ENDPOINTS = getNetworkEndpoints(NETWORK);
 export const chainGrpcWasmApi = new ChainGrpcWasmApi(ENDPOINTS.grpc);
 ```
 
-Then, we also need to setup a wallet connection to allow the user to connect to our DEX and start signing transactions. To make this happen we are going to use our `@biya-coin/wallet-strategy` package which allows users to connect with a various of different wallet providers and use them to sign transactions on Biyaliquid.
+Then, we also need to setup a wallet connection to allow the user to connect to our DEX and start signing transactions. To make this happen we are going to use our `@biya-coin/wallet-strategy` package which allows users to connect with a various of different wallet providers and use them to sign transactions on Biyachain.
 
-The main purpose of the `@biya-coin/wallet-strategy` is to offer developers a way to have different wallet implementations on Biyaliquid. All of these wallets implementations are exposing the same `ConcreteStrategy` interface which means that users can just use these methods without the need to know the underlying implementation for specific wallets as they are abstracted away.
+The main purpose of the `@biya-coin/wallet-strategy` is to offer developers a way to have different wallet implementations on Biyachain. All of these wallets implementations are exposing the same `ConcreteStrategy` interface which means that users can just use these methods without the need to know the underlying implementation for specific wallets as they are abstracted away.
 
 To start, you have to make an instance of the WalletStrategy class which gives you the ability to use different wallets out of the box. You can switch the current wallet that is used by using the `setWallet` method on the walletStrategy instance. The default is `Metamask`.
 
@@ -46,8 +46,8 @@ To start, you have to make an instance of the WalletStrategy class which gives y
 import { ChainId, EvmChainId } from "@biya-coin/ts-types";
 import { WalletStrategy } from "@biya-coin/wallet-strategy";
 
-const chainId = ChainId.Testnet; // The Biyaliquid Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm; // The Biyaliquid Evm Testnet Chain ID
+const chainId = ChainId.Testnet; // The Biyachain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm; // The Biyachain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`;
 
@@ -62,7 +62,7 @@ export const walletStrategy = new WalletStrategy({
 
 If we don't want to use Ethereum native wallets, just omit the `evmOptions` within the `WalletStrategy` constructor.
 
-Finally, to do the whole transaction flow (prepare + sign + broadcast) on Biyaliquid we are going to use the MsgBroadcaster class.
+Finally, to do the whole transaction flow (prepare + sign + broadcast) on Biyachain we are going to use the MsgBroadcaster class.
 
 ```js
 import { Network } from "@biya-coin/networks";
@@ -116,7 +116,7 @@ export const getAddresses = async (wallet: Wallet): Promise<string[]> => {
   }
 
   // If we are using Ethereum native wallets the 'addresses' are the hex addresses
-  // If we are using Cosmos native wallets the 'addresses' are bech32 biyaliquid addresses,
+  // If we are using Cosmos native wallets the 'addresses' are bech32 biyachain addresses,
   return addresses;
 };
 ```
@@ -160,7 +160,7 @@ Lets first see how to increment the count.
 
 const msg = MsgExecuteContractCompat.fromJSON({
   contractAddress: COUNTER_CONTRACT_ADDRESS,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   msg: {
     increment: {}, // we pass an empty object if the method doesn't have parameters
   },
@@ -170,7 +170,7 @@ const msg = MsgExecuteContractCompat.fromJSON({
 
 const response = await msgBroadcastClient.broadcast({
   msgs: msg, // we can pass multiple messages here using an array. ex: [msg1,msg2]
-  biyaliquidAddress: biyaliquidAddress,
+  biyachainAddress: biyachainAddress,
 });
 
 console.log(response);
@@ -183,7 +183,7 @@ Now, lets see an example of how to set the counter to a specific value. Note tha
 
 const msg = MsgExecuteContractCompat.fromJSON({
   contractAddress: COUNTER_CONTRACT_ADDRESS,
-  sender: biyaliquidAddress,
+  sender: biyachainAddress,
   msg: {
     reset: {
       count: parseInt(number, 10), // we are parsing the number variable here because usually it comes from an input which always gives a string, and we need to pass a number instead.
@@ -195,7 +195,7 @@ const msg = MsgExecuteContractCompat.fromJSON({
 
 const response = await msgBroadcastClient.broadcast({
   msgs: msg,
-  biyaliquidAddress: biyaliquidAddress,
+  biyachainAddress: biyachainAddress,
 });
 
 console.log(response);
@@ -203,16 +203,16 @@ console.log(response);
 
 ### Full example
 
-Now lets see a full example of this in Vanilla JS (You can find examples for specific frameworks like Nuxt And Next [HERE](https://github.com/biya-coin/biyaliquid-simple-sc-counter-ui))
+Now lets see a full example of this in Vanilla JS (You can find examples for specific frameworks like Nuxt And Next [HERE](https://github.com/biya-coin/biyachain-simple-sc-counter-ui))
 
 ```js
 import { Web3Exception } from "@biya-coin/exceptions"
 import { WalletStrategy } from "@biya-coin/wallet-strategy"
 import { Network, getNetworkEndpoints } from "@biya-coin/networks"
-import { ChainGrpcWasmApi, getBiyaliquidAddress } from "@biya-coin/sdk-ts"
+import { ChainGrpcWasmApi, getBiyachainAddress } from "@biya-coin/sdk-ts"
 
-const chainId = ChainId.Testnet // The Biyaliquid Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm // The Biyaliquid Evm Testnet Chain ID
+const chainId = ChainId.Testnet // The Biyachain Testnet Chain ID
+const evmChainId = EvmChainId.TestnetEvm // The Biyachain Evm Testnet Chain ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`
 
@@ -247,7 +247,7 @@ const msgBroadcastClient = new MsgBroadcaster({
 })
 
 const [address] = await getAddresses()
-const biyaliquidAddress = getBiyaliquidAddress(getBiyaliquidAddress)
+const biyachainAddress = getBiyachainAddress(getBiyachainAddress)
 
 async function fetchCount() {
   const response = (await chainGrpcWasmApi.fetchSmartContractState(
@@ -263,7 +263,7 @@ async function fetchCount() {
 async function increment(){
     const msg = MsgExecuteContractCompat.fromJSON({
     contractAddress: COUNTER_CONTRACT_ADDRESS,
-    sender: biyaliquidAddress,
+    sender: biyachainAddress,
     msg: {
         increment: {},
         },
@@ -273,7 +273,7 @@ async function increment(){
 
     await msgBroadcastClient.broadcast({
         msgs: msg,
-        biyaliquidAddress: biyaliquidAddress,
+        biyachainAddress: biyachainAddress,
     })
 }
 

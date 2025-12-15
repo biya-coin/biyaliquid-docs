@@ -49,7 +49,7 @@ const insuranceFund = await chainGrpcInsuranceFundApi.fetchInsuranceFund(
 console.log(insuranceFund)
 ```
 
-### Fetch estimated redemptions for a given biyaliquid address for a market
+### Fetch estimated redemptions for a given biyachain address for a market
 
 ```ts
 import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
@@ -59,18 +59,18 @@ const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcInsuranceFundApi = new ChainGrpcInsuranceFundApi(endpoints.grpc)
 
 const marketId = '0x...'
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const estimatedRedemptions =
   await chainGrpcInsuranceFundApi.fetchEstimatedRedemptions({
     marketId,
-    address: biyaliquidAddress,
+    address: biyachainAddress,
   })
 
 console.log(estimatedRedemptions)
 ```
 
-### Fetch pending redemptions for a given biyaliquid address for a market
+### Fetch pending redemptions for a given biyachain address for a market
 
 ```ts
 import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
@@ -80,12 +80,12 @@ const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcInsuranceFundApi = new ChainGrpcInsuranceFundApi(endpoints.grpc)
 
 const marketId = '0x...'
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 
 const pendingRedemptions =
   await chainGrpcInsuranceFundApi.fetchPendingRedemptions({
     marketId,
-    address: biyaliquidAddress,
+    address: biyachainAddress,
   })
 
 console.log(pendingRedemptions)

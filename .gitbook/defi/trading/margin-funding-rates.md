@@ -4,7 +4,7 @@ While margin trading unlocks the door to amplified gains, it also introduces ano
 
 **What are Funding Rates?**
 
-In traditional futures contracts, the price on the exchange converges with the spot price over time. In contrast, perpetual futures on Biyaliquid never expire, creating a potential disconnect between the contract price and the underlying asset's spot price. To keep these prices in sync, a mechanism called funding payments kicks in.
+In traditional futures contracts, the price on the exchange converges with the spot price over time. In contrast, perpetual futures on Biyachain never expire, creating a potential disconnect between the contract price and the underlying asset's spot price. To keep these prices in sync, a mechanism called funding payments kicks in.
 
 Funding rates are essentially periodic fees exchanged between long and short positions. The direction of these payments depends on the prevailing market sentiment:
 

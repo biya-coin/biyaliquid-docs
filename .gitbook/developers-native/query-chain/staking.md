@@ -102,7 +102,7 @@ const unbondingDelegations = await chainGrpcStakingApi.fetchValidatorUnbondingDe
 console.log(unbondingDelegations)
 ```
 
-### Fetch delegations associated with an biyaliquid address for a specific validator
+### Fetch delegations associated with an biyachain address for a specific validator
 
 ```ts
 import { ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -111,18 +111,18 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcStakingApi = new ChainGrpcStakingApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 const validatorAddress = 'biyavaloper...'
 
 const delegation = await chainGrpcStakingApi.fetchDelegation({
-  biyaliquidAddress,
+  biyachainAddress,
   validatorAddress,
 })
 
 console.log(delegation)
 ```
 
-### Fetch delegations for an biyaliquid address
+### Fetch delegations for an biyachain address
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -131,11 +131,11 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcStakingApi = new ChainGrpcStakingApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 const pagination = {...} as PaginationOption
 
 const delegations = await chainGrpcStakingApi.fetchDelegationsNoThrow({
-  biyaliquidAddress,
+  biyachainAddress,
   pagination /* optional pagination options */
 })
 
@@ -162,7 +162,7 @@ const delegators = await chainGrpcStakingApi.fetchDelegatorsNoThrow({
 console.log(delegators)
 ```
 
-### Fetch unbonding delegations for an biyaliquid address
+### Fetch unbonding delegations for an biyachain address
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -171,18 +171,18 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcStakingApi = new ChainGrpcStakingApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 const pagination = {...} as PaginationOption
 
 const unbondingDelegations = await chainGrpcStakingApi.fetchUnbondingDelegationsNoThrow({
-  biyaliquidAddress,
+  biyachainAddress,
   pagination /* optional pagination options */
 })
 
 console.log(unbondingDelegations)
 ```
 
-### Fetch redelegations for an biyaliquid address
+### Fetch redelegations for an biyachain address
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -191,11 +191,11 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcStakingApi = new ChainGrpcStakingApi(endpoints.grpc)
 
-const biyaliquidAddress = 'biya...'
+const biyachainAddress = 'biya...'
 const pagination = {...} as PaginationOption
 
 const unbondingDelegations = await chainGrpcStakingApi.fetchReDelegationsNoThrow({
-  biyaliquidAddress,
+  biyachainAddress,
   pagination /* optional pagination options */
 })
 

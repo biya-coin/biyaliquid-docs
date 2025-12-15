@@ -2,9 +2,9 @@
 
 The Bank Precompile is a system smart contract residing at the fixed address `0x0000000000000000000000000000000000000064`.
 
-It offers EVM developers a gas-efficient and native pathway to interact directly with the Biyaliquid's **bank module** (`x/bank`). This effectively bringing ERC-20 tokens on-chain. Any ERC-20 contract using the Bank precompile will be represented as `erc20:0x...` denom on-chain. Technically, this means that tokens reside only on-chain, with the EVM providing a view to the chain state rather than maintaining a separate copy. Unlike traditional bridging, where two token versions require user actions to switch, the Bank precompile offers real-time, dual-environment reflection for any transfer using either the on-chain bank denom or the ERC-20 `transfer()` method.
+It offers EVM developers a gas-efficient and native pathway to interact directly with the Biyachain's **bank module** (`x/bank`). This effectively bringing ERC-20 tokens on-chain. Any ERC-20 contract using the Bank precompile will be represented as `erc20:0x...` denom on-chain. Technically, this means that tokens reside only on-chain, with the EVM providing a view to the chain state rather than maintaining a separate copy. Unlike traditional bridging, where two token versions require user actions to switch, the Bank precompile offers real-time, dual-environment reflection for any transfer using either the on-chain bank denom or the ERC-20 `transfer()` method.
 
-A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Biyaliquid’s Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts). Key contracts include:
+A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Biyachain’s Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts). Key contracts include:
 
 * **Bank.sol** – precompile interface
 * **BankERC20.sol** – abstract ERC20 implementation backed by the Bank precompile
@@ -40,6 +40,6 @@ makes use of the Bank EVM precompile in order to implement the
 
 ## Start building
 
-We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Biyaliquid EVM using the most common Ethereum development framework—**Foundry**.
+We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Biyachain EVM using the most common Ethereum development framework—**Foundry**.
 
 See the bank precompile demo [here](https://github.com/biya-coin/solidity-contracts/tree/master/demos/erc20) and follow the corresponding README.
