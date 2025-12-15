@@ -1,4 +1,4 @@
-# Launch a Token
+# 发行代币
 
 Within this document, we'll explain how to launch a token on Biyachain.
 
@@ -6,9 +6,9 @@ There are two options for launching a token on Biyachain: bridging an existing t
 
 ## Bridging <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The easiest way to launch a token on Biyachain is by bridging your existing assets from one of the supported networks that Biyachain is interoperable with. There are guides in the [bridge](../defi/bridge/README.md "mention") sections that you can reference to bridge assets from other networks to Biyachain.
+The easiest way to launch a token on Biyachain is by bridging your existing assets from one of the supported networks that Biyachain is interoperable with. There are guides in the [Broken link](/broken/pages/5jS9URg21YzbsatmAKpe "mention") sections that you can reference to bridge assets from other networks to Biyachain.
 
-Once the bridging process is completed, a token will be created on Biyachain, which you can then use to [launch-a-market.md](./market-launch.md "mention").
+Once the bridging process is completed, a token will be created on Biyachain, which you can then use to [market-launch.md](market-launch.md "mention").
 
 ## Creating a New Token
 
@@ -16,13 +16,13 @@ You can also create a new token on Biyachain using the `TokenFactory` module. Th
 
 ### Using Biyachain Hub <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The [Biyachain Hub](https://prv.hub.biya.io/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biyachain's [native orderbook](../developers-native/biyachain/exchange), etc.
+The [Biyachain Hub](https://prv.hub.biya.io/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biyachain's [native orderbook](../developers-native/biyachain/exchange/), etc.
 
-### Using TokenStation[​](../developers-defi/token-launch.md) <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
+### Using TokenStation[​](token-launch.md) <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
 The [TokenStation](https://www.tokenstation.app/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biyachain's [native orderbook](../developers-native/biyachain/exchange/), launching an airdrop, and much more.
 
-### Using DojoSwap[​](../developers-defi/token-launch.md#4-via-dojoswap) <a href="#id-4-via-dojoswap" id="id-4-via-dojoswap"></a>
+### Using DojoSwap[​](token-launch.md#4-via-dojoswap) <a href="#id-4-via-dojoswap" id="id-4-via-dojoswap"></a>
 
 Similar to above, you can utilize [DojoSwap's Market Creation module](https://docs.dojo.trading/introduction/market-creation) to create, manage, and list your token, along with several other useful features.
 

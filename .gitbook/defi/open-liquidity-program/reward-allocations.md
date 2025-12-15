@@ -6,7 +6,7 @@ description: OLP 奖励分配（第 43 周期起）
 
 ## 市场奖励分配
 
-奖励通过三种不同方法分配给[合格市场](eligible-markets.md)：
+奖励通过三种不同方法分配给[合格市场](/broken/pages/kL1qh68IUtu47dUGRqSL)：
 
 1. 静态分配
 2. 具有动态成分的最低分配

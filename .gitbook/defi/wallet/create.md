@@ -12,6 +12,6 @@ description: 了解如何使用不同方法在 Biyachain 上创建钱包。
 
 ### 本地钱包
 
-您可以在 CLI 环境中使用 [biyachaind](../../developers/biyachaind/ "mention") 为开发目的创建 Biyachain 钱包。您可以使用 `biyachaind keys` [命令](../../developers/biyachaind/advanced.md#keys)来完成此操作。
+您可以在 CLI 环境中使用 `biyachaind keys` [命令](../../developers/biyachaind/advanced.md#keys)来完成此操作。
 
 您也可以在此页面了解更多关于使用 `biyachaind` 进行密钥环管理的信息：[set-up-keyring.md](../../infra/set-up-keyring.md "mention")
