@@ -22,7 +22,7 @@ biyachaind start # Blocks should start coming in after running this
 
 有关脚本正在做什么的进一步说明以及对设置过程的更细粒度控制，请继续阅读下文。
 
-#### 初始化链
+**初始化链**
 
 在运行 Biyachain 节点之前，我们需要初始化链以及节点的创世文件：
 
@@ -46,7 +46,7 @@ biyachaind init <moniker> --chain-id=biyachain-1
       |- priv_validator_key.json    # Private key to use as a validator in the consensus protocol.
 ```
 
-#### 修改 `genesis.json` 文件
+**修改 `genesis.json` 文件**
 
 此时，需要在 `genesis.json` 文件中进行修改：
 
@@ -65,7 +65,7 @@ cat $HOME/.biyachaind/config/genesis.json | jq '.app_state["mint"]["params"]["mi
 上面的命令仅在使用了默认 `.biyachaind` 目录时才有效。对于特定目录，请修改上面的命令或手动编辑 `genesis.json` 文件以反映更改。
 {% endhint %}
 
-#### 为验证器账户创建密钥
+**为验证器账户创建密钥**
 
 在启动链之前，您需要在状态中填充至少一个账户。为此，首先在 `test` 密钥环后端下创建一个名为 `my_validator` 的新账户（可以自由选择其他名称和其他后端）：
 
@@ -84,7 +84,7 @@ biyachaind add-genesis-account $MY_VALIDATOR_ADDRESS 100000000000000000000000000
 
 `$MY_VALIDATOR_ADDRESS` 是保存密钥环中 `my_validator` 密钥地址的变量。Biyachain 中的代币具有 `{amount}{denom}` 格式：`amount` 是一个 18 位精度的十进制数，`denom` 是带有其面额键的唯一代币标识符（例如 `biya`）。在这里，我们授予 `biya` 代币，因为 `biya` 是 `biyachaind` 中用于质押的代币标识符。
 
-#### 将验证器添加到链
+**将验证器添加到链**
 
 现在您的账户有一些代币，您需要向链添加验证器。验证器是参与共识过程以向链添加新区块的特殊全节点。任何账户都可以声明其成为验证器运营者的意图，但只有那些有足够委托的账户才能进入活跃集合。在本指南中，您将把本地节点（通过上面的 `init` 命令创建）添加为链的验证器。验证器可以在链首次启动之前通过包含在创世文件中的特殊交易（称为 `gentx`）来声明：
 
@@ -108,7 +108,7 @@ biyachaind genesis collect-gentxs
 biyachaind genesis gentx --help
 ```
 
-#### 使用 `app.toml` 和 `config.toml` 配置节点
+**使用 `app.toml` 和 `config.toml` 配置节点**
 
 在 `~/.biyachaind/config` 内自动生成两个配置文件：
 
@@ -126,7 +126,7 @@ biyachaind genesis gentx --help
  minimum-gas-prices = "0biya"
 ```
 
-#### 运行本地网络
+**运行本地网络**
 
 现在一切都已设置好，您终于可以启动节点了：
 
@@ -138,21 +138,21 @@ biyachaind start # Blocks should start coming in after running this
 {% endtab %}
 
 {% tab title="测试网网络" %}
-#### 硬件规格
+**硬件规格**
 
 节点运营者应部署裸机服务器以实现最佳性能。此外，验证器节点必须满足推荐的硬件规格，特别是 CPU 要求，以确保高正常运行时间。
 
-|       _最低要求_       |    _推荐配置_   |
-| :-------------------: | :-------------------: |
-|    内存 128GB   |    内存 128GB   |
-|      CPU 12 核     |      CPU 16 核     |
+|      _最低要求_     |      _推荐配置_     |
+| :-------------: | :-------------: |
+|     内存 128GB    |     内存 128GB    |
+|     CPU 12 核    |     CPU 16 核    |
 | CPU 基础频率 3.7GHz | CPU 基础频率 4.2GHz |
-|    存储 2TB NVMe   |    存储 2TB NVMe   |
-|     网络 1Gbps+    |     网络 1Gbps+    |
+|   存储 2TB NVMe   |   存储 2TB NVMe   |
+|    网络 1Gbps+    |    网络 1Gbps+    |
 
-#### 安装 `biyachaind` 和 `peggo`
+**安装 `biyachaind` 和 `peggo`**
 
-有关最新版本，请参阅 [Biyachain 发布仓库](https://github.com/biya-coin/testnet/releases)。非验证器节点运营者无需安装 `peggo`。
+非验证器节点运营者无需安装 `peggo`。
 
 ```bash
 wget https://github.com/biya-coin/testnet/releases/latest/download/linux-amd64.zip
@@ -162,7 +162,7 @@ sudo mv biyachaind /usr/bin
 sudo mv libwasmvm.x86_64.so /usr/lib 
 ```
 
-#### 初始化新的 Biyachain 链节点
+**初始化新的 Biyachain 链节点**
 
 在运行 Biyachain 节点之前，我们需要初始化链以及节点的创世文件：
 
@@ -175,7 +175,7 @@ biyachaind init $MONIKER --chain-id biyachain-888
 
 运行 `init` 命令将在 `~/.biyachaind` 创建 `biyachaind` 默认配置文件。
 
-#### 准备加入测试网的配置
+**准备加入测试网的配置**
 
 您现在应该使用测试网的创世文件和应用配置文件更新默认配置，并使用种子节点配置您的持久对等节点。
 
@@ -197,7 +197,7 @@ cp testnet/corfu/70001/config.toml ~/.biyachaind/config/config.toml
 sha256sum ~/.biyachaind/config/genesis.json
 ```
 
-#### 为 `biyachaind` 配置 `systemd` 服务
+**为 `biyachaind` 配置 `systemd` 服务**
 
 编辑 `/etc/systemd/system/biyachaind.service` 处的配置：
 
@@ -230,145 +230,5 @@ sudo systemctl enable biyachaind
 # To check Logs
 journalctl -u biyachaind -f
 ```
-
-#### 与网络同步
-
-参考 [Polkachu Biyachain 测试网节点快照](https://polkachu.com/testnets/biyachain/snapshots) 下载快照并与网络同步。
-
-**支持**
-
-如有任何其他问题，您可以通过 [Discord](https://discord.gg/biyachain)、[Telegram](https://t.me/joinbiyachain) 或 [email](mailto:contact@biya-coin.org) 联系 Biyachain 团队。
-{% endtab %}
-
-{% tab title="主网网络" %}
-#### 硬件规格
-
-节点运营者应部署裸机服务器以实现最佳性能。此外，验证器节点必须满足推荐的硬件规格，特别是 CPU 要求，以确保高正常运行时间。
-
-|       _最低要求_       |    _推荐配置_   |
-| :-------------------: | :-------------------: |
-|    内存 128GB   |    内存 128GB   |
-|      CPU 12 核     |      CPU 16 核     |
-| CPU 基础频率 3.7GHz | CPU 基础频率 4.2GHz |
-|    存储 2TB NVMe   |    存储 2TB NVMe   |
-|     网络 1Gbps+    |     网络 1Gbps+    |
-
-#### 安装 `biyachaind` 和 `peggo`
-
-有关最新版本，请参阅 [Biyachain 链发布仓库](https://github.com/biya-coin/biyachain-chain-releases/releases/)。非验证器节点运营者无需安装 `peggo`。
-
-```bash
-wget https://github.com/biya-coin/biyachain-chain-releases/releases/latest/download/linux-amd64.zip
-unzip linux-amd64.zip
-sudo mv peggo /usr/bin
-sudo mv biyachaind /usr/bin
-sudo mv libwasmvm.x86_64.so /usr/lib 
-```
-
-#### 初始化新的 Biyachain 节点
-
-在运行 Biyachain 节点之前，我们需要初始化链以及节点的创世文件：
-
-```bash
-# The argument <moniker> is the custom username of your node. It should be human-readable.
-export MONIKER=<moniker>
-# Biyachain Mainnet has a chain-id of "biyachain-1"
-biyachaind init $MONIKER --chain-id biyachain-1
-```
-
-运行 `init` 命令将在 `~/.biyachaind` 创建 `biyachaind` 默认配置文件。
-
-#### 准备加入主网的配置
-
-您现在应该使用主网的创世文件和应用配置文件更新默认配置，并使用种子节点配置您的持久对等节点。
-
-```bash
-git clone https://github.com/biya-coin/mainnet-config
-
-# copy genesis file to config directory
-cp mainnet-config/10001/genesis.json ~/.biyachaind/config/genesis.json
-
-# copy config file to config directory
-cp mainnet-config/10001/app.toml  ~/.biyachaind/config/app.toml
-```
-
-您还可以运行验证创世校验和 - 573b89727e42b41d43156cd6605c0c8ad4a1ce16d9aad1e1604b02864015d528
-
-```bash
-sha256sum ~/.biyachaind/config/genesis.json
-```
-
-然后使用 `mainnet-config/10001/seeds.txt` 的内容更新 `~/.biyachaind/config/config.toml` 中的 `seeds` 字段，并将 `timeout_commit` 更新为 `300ms`。
-
-```bash
-cat mainnet-config/10001/seeds.txt
-nano ~/.biyachaind/config/config.toml
-```
-
-#### 为 `biyachaind` 配置 `systemd` 服务
-
-编辑 `/etc/systemd/system/biyachaind.service` 处的配置：
-
-```bash
-[Unit]
-  Description=biyachaind
-
-[Service]
-  WorkingDirectory=/usr/bin
-  ExecStart=/bin/bash -c '/usr/bin/biyachaind --log-level=error start'
-  Type=simple
-  Restart=always
-  RestartSec=5
-  User=root
-
-[Install]
-  WantedBy=multi-user.target
-```
-
-启动和重启 systemd 服务：
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart biyachaind
-sudo systemctl status biyachaind
-
-# enable start on system boot
-sudo systemctl enable biyachaind
-
-# To check Logs
-journalctl -u biyachaind -f
-```
-
-在快照数据加载到正确目录之前应停止服务，之后应启动服务。
-
-```bash
-# to stop the node
-sudo systemctl stop biyachaind
-
-# to start the node
-sudo systemctl start biyachaind
-```
-
-#### 与网络同步
-
-**选项 1. 状态同步**
-
-_即将添加_
-
-**选项 2. 快照**
-
-**已修剪**
-
-1. [Polkachu](https://polkachu.com/tendermint_snapshots/biyachain)。
-2. [HighStakes](https://tools.highstakes.ch/files/biyachain.tar.gz)。
-3. [Imperator](https://www.imperator.co/services/chain-services/mainnets/biyachain)。
-4. [Bware Labs](https://bwarelabs.com/snapshots)。
-5. [AutoStake](https://autostake.com/networks/biyachain/#validator)。
-
-如果 Biyachain `mainnet-config seeds.txt` 列表不起作用（节点无法同步区块），ChainLayer、Polkachu 和 Autostake 维护对等节点列表（可在 `config.toml` 的 `persistent_peers` 字段中使用）或地址簿（用于更快的对等节点发现）。
-
-**支持**
-
-如有任何其他问题，您可以通过 [Discord](https://discord.gg/biyachain)、[Telegram](https://t.me/joinbiyachain) 或 [email](mailto:contact@biya-coin.org) 联系 Biyachain 团队
 {% endtab %}
 {% endtabs %}

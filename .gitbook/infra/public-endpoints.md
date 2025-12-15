@@ -4,42 +4,21 @@
 我们**不建议**在高使用量/高流量的生产应用中使用这些端点。有数千名开发者使用公共基础设施，我们无法保证 100% 的正常运行时间和可靠性。
 {% endhint %}
 
-## 主网
-
-| 服务          			| 地址                                                       |
-| ---------------- | ------------------------------------------------------------- |
-| Chain Swagger          | https://sentry.lcd.biyachain.network/swagger/#/               		 |
-| Chain LCD              | https://sentry.lcd.biyachain.network:443                      |
-| Chain RPC              | https://sentry.tm.biyachain.network:443                       |
-| Chain WebSocket        | wss://sentry.tm.biyachain.network:443/websocket               |
-| Chain Streamer     | sentry.chain.stream.biyachain.network:443                     		 |
-| Chain gRPC             | sentry.chain.grpc.biyachain.network:443                       |
-| Chain gRPC-Web         | https://sentry.chain.grpc-web.biyachain.network:443           |
-| Indexer Swagger  | https://sentry.exchange.grpc-web.biyachain.network/swagger/#/ 		 |
-| Indexer gRPC     | sentry.exchange.grpc.biyachain.network:443                 |
-| Indexer gRPC-Web | https://sentry.exchange.grpc-web.biyachain.network:443     |
-| Indexer EventProvider | k8s.global.mainnet.events.grpc.biyachain.network:443     |
-| Hub              | https://prv.hub.biya.io/                                |
-| Explorer         | https://prv.scan.biya.io/zh/transactions/                           |
-| Faucet           | https://biya.supply/                                           |
-| Status           | https://uptime.com/statuspage/status.biyachain.network                                           |
-
 ## 测试网
 
-| 服务          | 地址                                                               |
+| 服务               | 地址                                                                    |
 | ---------------- | --------------------------------------------------------------------- |
-| Chain Swagger          | https://testnet.sentry.lcd.biyachain.network/swagger/                 |
-| Chain RPC              | https://testnet.sentry.tm.biyachain.network:443                       |
-| Chain LCD              | https://testnet.sentry.lcd.biyachain.network:443                      |
-| Chain WebSocket        | wss://testnet.sentry.tm.biyachain.network:443/websocket               |
-| Chain Streamer     | testnet.sentry.chain.stream.biyachain.network:443                     |
-| Chain gRPC             | testnet.sentry.chain.grpc.biyachain.network:443                       |
-| Chain gRPC-Web         | https://testnet.sentry.chain.grpc-web.biyachain.network:443           |
+| Chain Swagger    | https://testnet.sentry.lcd.biyachain.network/swagger/                 |
+| Chain RPC        | https://testnet.sentry.tm.biyachain.network:443                       |
+| Chain LCD        | https://testnet.sentry.lcd.biyachain.network:443                      |
+| Chain WebSocket  | wss://testnet.sentry.tm.biyachain.network:443/websocket               |
+| Chain Streamer   | testnet.sentry.chain.stream.biyachain.network:443                     |
+| Chain gRPC       | testnet.sentry.chain.grpc.biyachain.network:443                       |
+| Chain gRPC-Web   | https://testnet.sentry.chain.grpc-web.biyachain.network:443           |
 | Indexer Swagger  | https://testnet.sentry.exchange.grpc-web.biyachain.network/swagger/#/ |
 | Indexer gRPC     | testnet.sentry.exchange.grpc.biyachain.network:443                    |
 | Indexer gRPC-Web | https://testnet.sentry.exchange.grpc-web.biyachain.network:443        |
-| Indexer EventProvider | k8s.global.testnet.events.grpc.biyachain.network:443     |
 | Hub              | https://testnet.hub.biyachain.network/                                |
-| Explorer         | https://testnet.prv.scan.biya.io/zh/transactions/                           |
+| Explorer         | https://testnet.prv.scan.biya.io/zh/transactions/                     |
 | Faucet           | https://testnet.faucet.biyachain.network/                             |
-| Status           | https://uptime.com/statuspage/testnet.status.biyachain.network                            |
+| Status           | https://uptime.com/statuspage/testnet.status.biyachain.network        |
