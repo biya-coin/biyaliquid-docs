@@ -20,7 +20,7 @@ We **do not recommend** using these in production for applications having high u
 | Indexer gRPC-Web | https://sentry.exchange.grpc-web.biyachain.network:443     |
 | Indexer EventProvider | k8s.global.mainnet.events.grpc.biyachain.network:443     |
 | Hub              | https://biyahub.com/                                |
-| Explorer         | https://explorer.biyachain.network/                           |
+| Explorer         | https://prv.scan.biya.io/                           |
 | Faucet           | https://biya.supply/                                           |
 | Status           | https://uptime.com/statuspage/status.biyachain.network                                           |
 
@@ -39,7 +39,7 @@ We **do not recommend** using these in production for applications having high u
 | Indexer gRPC     | testnet.sentry.exchange.grpc.biyachain.network:443                    |
 | Indexer gRPC-Web | https://testnet.sentry.exchange.grpc-web.biyachain.network:443        |
 | Indexer EventProvider | k8s.global.testnet.events.grpc.biyachain.network:443     |
-| Hub              | https://testnet.hub.biyachain.network/                                |
-| Explorer         | https://testnet.explorer.biyachain.network/                           |
+| Hub              | https://testnet.prv.hub.biya.io/                                |
+| Explorer         | https://testnet.prv.scan.biya.io/                           |
 | Faucet           | https://testnet.faucet.biyachain.network/                             |
 | Status           | https://uptime.com/statuspage/testnet.status.biyachain.network                            |

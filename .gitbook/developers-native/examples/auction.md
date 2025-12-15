@@ -4,7 +4,7 @@ The `auction` module is heart of the `buy-back-and-burn` on chain mechanism, whe
 
 ## MsgBid
 
-This message is used to submit a bid on the [auction](https://hub.biyachain.network/auction/) held weekly to allow members to use BIYA to bid for the basket of trading fees (60%) collected by Biyachain that week.
+This message is used to submit a bid on the [auction](https://prv.hub.biya.io/auction/) held weekly to allow members to use BIYA to bid for the basket of trading fees (60%) collected by Biyachain that week.
 
 ```ts
 import {

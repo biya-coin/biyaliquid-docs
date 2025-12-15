@@ -468,7 +468,7 @@ You can request testnet funds for your recently generated test address using the
 
 Now you have successfully created `testuser` an Biyachain Testnet. It should also hold some funds after requesting `testnet` funds from the faucet.
 
-To confirm, search for your address on the [Biyachain Testnet Explorer](https://testnet.explorer.biyachain.network/) to check your balance.
+To confirm, search for your address on the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io/) to check your balance.
 
 Alternatively, you can verify it by [querying the bank balance](https://sentry.testnet.lcd.biyachain.network/swagger/#/Query/AllBalances) or with curl:
 
@@ -507,14 +507,14 @@ tx: null
 txhash: 912458AA8E0D50A479C8CF0DD26196C49A65FCFBEEB67DF8A2EA22317B130E2C
 ```
 
-Check your address on the [Biyachain Testnet Explorer](https://testnet.explorer.biyachain.network), and look for a transaction with the `txhash` returned from storing the code on chain. The transaction type should be `MsgStoreCode`.
+Check your address on the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io), and look for a transaction with the `txhash` returned from storing the code on chain. The transaction type should be `MsgStoreCode`.
 
-You can see all stored codes on Biyachain Testnet under [Code](https://testnet.explorer.biyachain.network/smart-contracts/code/).
+You can see all stored codes on Biyachain Testnet under [Code](https://testnet.prv.scan.biya.io/smart-contracts/code/).
 
 {% hint style="info" %}
 There are different ways to find the code that you just stored:
 
-* Look for the TxHash on the Biyachain Explorer [codes list](https://testnet.explorer.biyachain.network/smart-contracts/code/); it is most likely the most recent.
+* Look for the TxHash on the Biyachain Explorer [codes list](https://testnet.prv.scan.biya.io/smart-contracts/code/); it is most likely the most recent.
 * Use `biyachaind` to query transaction info.
 {% endhint %}
 

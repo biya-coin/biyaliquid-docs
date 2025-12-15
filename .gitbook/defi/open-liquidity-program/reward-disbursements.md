@@ -12,4 +12,4 @@ All rewards are subject to governance approval, and all addresses eligible for m
 Disbursements usually occur a few days after the conclusion of each epoch due to the governance process required.
 {% endhint %}
 
-Reward disbursements can be tracked on the Community Spend Pool page on the [Biyachain Explorer](https://explorer.biyachain.network/).
+Reward disbursements can be tracked on the Community Spend Pool page on the [Biyachain Explorer](https://prv.scan.biya.io/).

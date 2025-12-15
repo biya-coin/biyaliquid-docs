@@ -73,7 +73,7 @@ You can verify that these **match** the values stated in the [Biyachain chain re
 
 November 8th, 2021, 14:00 UTC
 
-Block number: [4,352,000](https://explorer.biyachain.network/block/4352000)
+Block number: [4,352,000](https://prv.scan.biya.io/block/4352000)
 
 Released Artifacts: [Biyachain Chain 10002-rc1 release](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.1.0-1636178708)
 
@@ -85,7 +85,7 @@ Following [proposal #65](https://biyahub.com/proposals/65)
 
 November 15th, 2021
 
-Block number: [4,594,100](https://explorer.biyachain.network/block/4594100)
+Block number: [4,594,100](https://prv.scan.biya.io/block/4594100)
 
 Released Artifacts: [Biyachain Chain 10002-rc2 release](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.1.1-1636733798)
 
@@ -97,7 +97,7 @@ Following [proposal #70](https://biyahub.com/proposals/70)
 
 Thursday, December 30th, 2021
 
-Block number: [6,159,200](https://explorer.biyachain.network/block/6159200)
+Block number: [6,159,200](https://prv.scan.biya.io/block/6159200)
 
 Released Artifacts: [Mainnet-10003-rc1-1640627705](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.1.1-1640627705)
 
@@ -109,7 +109,7 @@ Following [proposal #93](https://biyahub.com/proposals/93)
 
 Tuesday, January 25th, 2022
 
-Block number: [7067700](https://explorer.biyachain.network/block/7067700)
+Block number: [7067700](https://prv.scan.biya.io/block/7067700)
 
 Released Artifacts: [Mainnet-10004-rc1-v1.4.0-1642928125](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.4.0-1642928125)
 
@@ -121,7 +121,7 @@ Following [proposal #106](https://biyahub.com/proposals/106)
 
 Sunday, February 20th, 2022
 
-Block number: [7941974](https://explorer.biyachain.network/block/7941974)
+Block number: [7941974](https://prv.scan.biya.io/block/7941974)
 
 Released Artifacts: [Mainnet-10004-rc1-v1.4.0-1645352045](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.4.0-1645352045)
 
@@ -131,7 +131,7 @@ Released Artifacts: [Mainnet-10004-rc1-v1.4.0-1645352045](https://github.com/biy
 
 Monday, April 11th, 2022
 
-Block number: [9614200](https://explorer.biyachain.network/block/9614200)
+Block number: [9614200](https://prv.scan.biya.io/block/9614200)
 
 Released Artifacts: [Mainnet-v1.5.0-1649280277](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.5.0-1649280277)
 
@@ -141,7 +141,7 @@ Released Artifacts: [Mainnet-v1.5.0-1649280277](https://github.com/biya-coin/biy
 
 Tuesday, July 5th, 2022
 
-Block number: [12569420](https://explorer.biyachain.network/block/12569420)
+Block number: [12569420](https://prv.scan.biya.io/block/12569420)
 
 Released Artifacts: [Mainnet-v1.6.0-1656650662](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.6.0-1656650662)
 
@@ -151,7 +151,7 @@ Released Artifacts: [Mainnet-v1.6.0-1656650662](https://github.com/biya-coin/biy
 
 Thursday, September 1st, 2022
 
-Block number: [14731000](https://explorer.biyachain.network/block/14731000)
+Block number: [14731000](https://prv.scan.biya.io/block/14731000)
 
 Released Artifacts: [Mainnet-v1.7.0-1661881062](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.7.0-1661881062)
 
@@ -161,7 +161,7 @@ Released Artifacts: [Mainnet-v1.7.0-1661881062](https://github.com/biya-coin/biy
 
 Monday, November 21st, 2022
 
-Block number: [19761600](https://explorer.biyachain.network/block/19761600)
+Block number: [19761600](https://prv.scan.biya.io/block/19761600)
 
 Released Artifacts: [Mainnet-10008-1668679102](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.8.0-1668679102)
 
@@ -171,7 +171,7 @@ Released Artifacts: [Mainnet-10008-1668679102](https://github.com/biya-coin/biya
 
 Tuesday, January 18th, 2022
 
-Block number: [24204000](https://explorer.biyachain.network/block/24204000/)
+Block number: [24204000](https://prv.scan.biya.io/block/24204000/)
 
 Released Artifacts: [Mainnet-10009-1673970775](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.9.0-1673970775)
 
@@ -181,7 +181,7 @@ Released Artifacts: [Mainnet-10009-1673970775](https://github.com/biya-coin/biya
 
 Friday, March 17th, 2023
 
-Block number: [28864000](https://explorer.biyachain.network/block/28864000/)
+Block number: [28864000](https://prv.scan.biya.io/block/28864000/)
 
 Released Artifacts: [Mainnet-v1.10-1678709842](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.10-1678709842)
 
@@ -191,7 +191,7 @@ Released Artifacts: [Mainnet-v1.10-1678709842](https://github.com/biya-coin/biya
 
 Thursday, June 1st, 2023
 
-Block number: [34775000](https://explorer.biyachain.network/block/34775000/)
+Block number: [34775000](https://prv.scan.biya.io/block/34775000/)
 
 Released Artifacts: [v1.11-1685225746](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.11-1685225746)
 
@@ -201,7 +201,7 @@ Released Artifacts: [v1.11-1685225746](https://github.com/biya-coin/biyachain-ch
 
 Thursday, January 11th, 2024
 
-Block number: [57076000](https://explorer.biyachain.network/block/57076000/)
+Block number: [57076000](https://prv.scan.biya.io/block/57076000/)
 
 Released Artifacts: [Mainnet-v1.12.0-1704530206](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.12.0-1704530206)
 
@@ -221,7 +221,7 @@ Released Artifacts: [Mainnet-v1.12.1-1705909076](https://github.com/biya-coin/bi
 
 Thursday, August 1st, 2024
 
-Block number: [80319200](https://explorer.biyachain.network/block/80319200/)
+Block number: [80319200](https://prv.scan.biya.io/block/80319200/)
 
 Released Artifacts: [Mainnet-v1.13.0-1722157491](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.13.0-1722157491)
 
@@ -231,6 +231,6 @@ Released Artifacts: [Mainnet-v1.13.0-1722157491](https://github.com/biya-coin/bi
 
 Tuesday, August 20th, 2024
 
-Block number: [82830000](https://explorer.biyachain.network/block/82830000/)
+Block number: [82830000](https://prv.scan.biya.io/block/82830000/)
 
 Released Artifacts: [Mainnet-v1.13.2-1723753267](https://github.com/biya-coin/biyachain-chain-releases/releases/tag/v1.13.2-1723753267)

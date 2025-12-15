@@ -449,9 +449,9 @@ biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 Here are the main differences between a `local` and `testnet` development/deployment
 
 * You can use our [Biyachain Testnet Faucet](https://testnet.faucet.biyachain.network) to get testnet funds to your address,
-* You can use the [Biyachain Testnet Explorer](https://testnet.explorer.biyachain.network/smart-contracts/code/) to query your transactions and get more details,
+* You can use the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io/smart-contracts/code/) to query your transactions and get more details,
 * When you are using `biyachaind` you have to specify the `testnet` rpc using the `node` flag `--node=https://testnet.sentry.tm.biyachain.network:443`
 * Instead of using `biyachain-1` as a `chainId` you should use `biyachain-888` i.e the `chain-id` flag should now be `--chain-id="biyachain-888"`
-* You can use the [Biyachain Testnet Explorer](https://testnet.explorer.biyachain.network/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
+* You can use the [Biyachain Testnet Explorer](https://testnet.prv.scan.biya.io/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
 
 You can read more on the `biyachaind` and how to use it to query/send transactions against `testnet` [using-biyachaind.md](../developers/biyachaind/use.md "mention").

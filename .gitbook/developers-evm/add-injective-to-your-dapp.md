@@ -21,7 +21,7 @@ const biyachain_MAINNET_CONFIG = {
     symbol: 'BIYA',
     decimals: 18
   },
-  blockExplorerUrls: ['https://explorer.biyachain.network']
+  blockExplorerUrls: ['https://prv.scan.biya.io']
 };
 
 async function addBiyachainNetwork() {
