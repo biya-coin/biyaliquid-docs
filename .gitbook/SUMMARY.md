@@ -3,6 +3,7 @@
 * [关于 Biya Chain](README.md)
 * [生态工具](ecosystem/README.md)
   * [官方网站](https://biya.io)
+  * [公链管理台](https://prv.admin.biya.io)
   * [区块链浏览器](https://prv.scan.biya.io)
   * [Biya Chain Hub](https://prv.hub.biya.io/)
   * [技术白皮书](ecosystem/whitepaper.md)
