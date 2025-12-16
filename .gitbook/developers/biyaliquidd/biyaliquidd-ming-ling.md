@@ -1,2 +1,0 @@
-# biyachaind 命令
-
