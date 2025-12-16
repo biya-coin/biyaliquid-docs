@@ -1,6 +1,11 @@
 # Table of contents
 
 * [关于 Biya Chain](README.md)
+* [生态工具](ecosystem/README.md)
+  * [官方网站](https://biya.io)
+  * [区块链浏览器](https://prv.scan.biya.io)
+  * [Biya Chain Hub](https://prv.hub.biya.io/)
+  * [技术白皮书](ecosystem/whitepaper.md)
 * [DeFi](defi/README.md)
   * [钱包](defi/wallet/README.md)
     * [创建钱包](defi/wallet/create.md)
@@ -41,8 +46,6 @@
     * [奖励发放](defi/open-liquidity-program/reward-disbursements.md)
     * [波动性响应修改](defi/open-liquidity-program/volatility-response-modifications.md)
     * [费用层级](defi/open-liquidity-program/fee-tiers.md)
-  * [Biya Chain Hub](https://prv.hub.biya.io/)
-  * [Biya Chain Explorer](https://prv.scan.biya.io/zh/transactions)
 * [基础设施](infra/README.md)
   * [命令行节点交互](infra/interact-node-command-line.md)
   * [gRPC 节点交互](infra/interact-node-grpc.md)
