@@ -29,7 +29,7 @@ redirects:
   getting-started/token-standards/cw20-standard: defi/tokens/cw20-standard.md
   getting-started/transactions: defi/transactions.md
   getting-started/transactions/gas-and-fees: defi/transaction-fees.md
-  nodes/getting-started/interact-with-a-node: infra/interact-node-rest.md
+  nodes/getting-started/interact-with-a-node: infra/interact/interact-node-rest.md
   nodes/getting-started/running-a-node: infra/run-node.md
   nodes/getting-started/running-a-node/1.-setting-up-the-keyring: infra/set-up-keyring.md
   nodes/getting-started/running-a-node/join-a-network: infra/join-a-network.md
