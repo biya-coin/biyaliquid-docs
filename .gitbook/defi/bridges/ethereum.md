@@ -1,35 +1,35 @@
-# Ethereum Bridge
+# 以太坊桥接
 
-The Biya Chain Ethereum bridge enables the Biya Chain Chain to support a trustless, on-chain bidirectional token bridge. In this system, holders of ERC-20 tokens on Ethereum can instantaneously convert their ERC-20 tokens to Cosmos-native coins on the Biya Chain Chain and vice-versa.
+Biya Chain 以太坊桥接使 Biya Chain 能够支持无需信任的链上双向代币桥接。在这个系统中，以太坊上的 ERC-20 代币持有者可以即时将其 ERC-20 代币转换为 Biya Chain 上的 Cosmos 原生代币，反之亦然。
 
-The Biya Chain Peggy bridge consists of three main components:
+Biya Chain Peggy 桥接由三个主要组件组成：
 
-1. Peggy Contract on Ethereum
-2. Peggo Orchestrator
-3. Peggy Module on the Biya Chain Chain
+1. 以太坊上的 Peggy 合约
+2. Peggo 编排器
+3. Biya Chain 上的 Peggy 模块
 
-## Peggy Contract
+## Peggy 合约
 
-The function of the Peggy contract is to facilitate efficient, bidirectional cross-chain transfers of ERC-20 tokens from Ethereum to the Biya Chain Chain. Unlike other token bridge setups, the Biya Chain Peggy bridge is a decentralized, non-custodial bridge operated solely by the validators on Biya Chain. The bridge is secured by the proof of stake security of the Biya Chain Chain, as deposits and withdrawals are processed in accordance with attestations made by at least two-thirds of the validators based on consensus staking power.
+Peggy 合约的功能是促进从以太坊到 Biya Chain 的 ERC-20 代币的高效双向跨链转移。与其他代币桥接设置不同，Biya Chain Peggy 桥接是一个去中心化、非托管的桥接，完全由 Biya Chain 上的验证者运营。桥接由 Biya Chain 的权益证明安全性保护，因为存款和提款是根据至少三分之二的验证者基于共识质押权重的证明来处理的。
 
-## Peggo Orchestrator
+## Peggo 编排器
 
-The orchestrator is an off-chain relayer that every Biya Chain Chain validator operates which serves the function of transmitting ERC-20 token transfer data from Ethereum to the Biya Chain Chain.
+编排器是每个 Biya Chain 验证者运行的链下中继器，其功能是将 ERC-20 代币转移数据从以太坊传输到 Biya Chain。
 
-## Peggy Module
+## Peggy 模块
 
-On a basic level, the Peggy module mints new tokens on the Biya Chain Chain upon an ERC-20 deposit from Ethereum and burns tokens upon withdrawing a token from the Biya Chain Chain back to Ethereum. The Peggy module also manages the economic incentives to ensure that validators act honestly and efficiently, through a variety of mechanisms including slashing penalties, native token rewards, and withdrawal fees.
+基本上，Peggy 模块在从以太坊存入 ERC-20 代币时在 Biya Chain 上铸造新代币，并在从 Biya Chain 提取代币回以太坊时销毁代币。Peggy 模块还管理经济激励，通过各种机制（包括惩罚、原生代币奖励和提款费用）确保验证者诚实高效地行动。
 
-## From Ethereum to Biya Chain
+## 从以太坊到 Biya Chain
 
-To transfer from Ethereum to Biya Chain you have to make a Web3 Transaction and interact with the Peggy contract on Ethereum. There are two steps required to make a transfer:
+要从以太坊转移到 Biya Chain，您需要进行 Web3 交易并与以太坊上的 Peggy 合约交互。进行转移需要两个步骤：
 
-1. As we are basically locking our ERC20 assets on the Peggy Contract which lives on Ethereum, we need to set an allowance for the assets we are transferring to the Peggy Contract. We have an [example](https://github.com/biya-coin/biyachain-ts/blob/1fbc2577b9278a62d1676041d6e502e12f5880a8/deprecated/sdk-ui-ts/src/services/web3/Web3Composer.ts#L41-L91) here about how to make this transaction and you can use any web3 provider to sign and broadcast the transaction to the Ethereum Network.
-2. After the allowance is set, we need to call the `sendToBiyachain` function on the Peggy Contract with the desired amount and asset that we want to transfer to the Biya Chain Chain, an example can be found [here](https://github.com/biya-coin/biyachain-ts/blob/1fbc2577b9278a62d1676041d6e502e12f5880a8/deprecated/sdk-ui-ts/src/services/web3/Web3Composer.ts#L93-L156). Once we get the transaction, we can use a web3 provider to sign and broadcast the transaction to the Ethereum Network. Once the transaction is confirmed, it’ll take a couple of minutes for the assets to show on the Biya Chain Chain.
+1. 由于我们基本上是将 ERC20 资产锁定在以太坊上的 Peggy 合约中，我们需要为要转移到 Peggy 合约的资产设置授权。我们这里有一个[示例](https://github.com/biya-coin/biyachain-ts/blob/1fbc2577b9278a62d1676041d6e502e12f5880a8/deprecated/sdk-ui-ts/src/services/web3/Web3Composer.ts#L41-L91)，说明如何进行此交易，您可以使用任何 web3 提供者来签名并将交易广播到以太坊网络。
+2. 设置授权后，我们需要在 Peggy 合约上调用 `sendToBiyachain` 函数，传入要转移到 Biya Chain 的所需数量和资产，可以在此处找到[示例](https://github.com/biya-coin/biyachain-ts/blob/1fbc2577b9278a62d1676041d6e502e12f5880a8/deprecated/sdk-ui-ts/src/services/web3/Web3Composer.ts#L93-L156)。一旦我们获得交易，我们可以使用 web3 提供者来签名并将交易广播到以太坊网络。交易确认后，资产将在几分钟内显示在 Biya Chain 上。
 
-Couple of notes about the examples above:
+关于上述示例的一些说明：
 
-- The destination address (if you want to build the transaction yourself) is in the following format
+- 目标地址（如果您想自己构建交易）采用以下格式
 
 ```ts
 "0x000000000000000000000000{ETHEREUM_ADDRESS_HERE_WITHOUT_0X_PREFIX}";
@@ -37,9 +37,9 @@ Couple of notes about the examples above:
 "0x000000000000000000000000e28b3b32b6c345a34ff64674606124dd5aceca30";
 ```
 
-where the Ethereum address is the corresponding Ethereum address of the destination Biya Chain address.
+其中以太坊地址是目标 Biya Chain 地址对应的以太坊地址。
 
-- `const web3 = walletStrategy.getWeb3()` `walletStrategy` is an abstraction that we’ve built which supports a lot of wallets which can be used to sign and broadcast transactions (both on Ethereum and on the Biya Chain Chain), more details can be found in the documentation of the npm package [@biya-coin/wallet-ts](https://github.com/biya-coin/biyachain-ts/blob/master/packages/wallet-ts). Obviously, this is just an example and you can use the web3 package directly, or any web3 provider to handle the transaction.
+- `const web3 = walletStrategy.getWeb3()` `walletStrategy` 是我们构建的一个抽象，支持许多可用于签名和广播交易的钱包（在以太坊和 Biya Chain 上），更多详细信息可以在 npm 包 [@biya-coin/wallet-ts](https://github.com/biya-coin/biyachain-ts/blob/master/packages/wallet-ts) 的文档中找到。显然，这只是一个示例，您可以直接使用 web3 包或任何 web3 提供者来处理交易。
 
 ```ts
 import { PeggyContract } from "@biya-coin/contracts";
@@ -51,19 +51,19 @@ const contract = new PeggyContract({
 });
 ```
 
-- The snippet below instantiates a PeggyContract instance which can easily `estimateGas` and `sendTransaction` using the `web3` we provide to the contract’s constructor. Its implementation can be found [here](https://github.com/biya-coin/biyachain-ts/blob/master/packages/contracts/src/contracts/Peggy.ts). Obviously, this is just an example and you can use the web3 package directly + the ABI of the contract to instantiate the contract, and then handle the logic of signing and broadcasting the transaction using some web3 provider.
+- 下面的代码片段实例化了一个 PeggyContract 实例，可以使用我们提供给合约构造函数的 `web3` 轻松进行 `estimateGas` 和 `sendTransaction`。其实现可以在此处找到[这里](https://github.com/biya-coin/biyachain-ts/blob/master/packages/contracts/src/contracts/Peggy.ts)。显然，这只是一个示例，您可以直接使用 web3 包 + 合约的 ABI 来实例化合约，然后使用某个 web3 提供者处理签名和广播交易的逻辑。
 
-## From Biya Chain to Ethereum
+## 从 Biya Chain 到以太坊
 
-Now that you have the ERC20 version of BIYA transferred over to Biya Chain, the native `biya` denom on the Biya Chain Chain is minted and it is the canonical version of the BIYA token. To withdraw `biya` from Biya Chain to Ethereum we have to prepare, sign and then broadcast a native Cosmos transaction on the Biya Chain Chain.
+现在您已经将 ERC20 版本的 BIYA 转移到 Biya Chain，Biya Chain 上的原生 `biya` 代币单位被铸造，它是 BIYA 代币的规范版本。要从 Biya Chain 提取 `biya` 到以太坊，我们必须在 Biya Chain 上准备、签名然后广播一个原生 Cosmos 交易。
 
-If you are not familiar with how Transactions (and Messages) work on Cosmos you can find more information here. The Message we need to pack into a transaction to instruct Biya Chain to withdraw funds from Biya Chain to Ethereum is `MsgSendToEth`.
+如果您不熟悉 Cosmos 上的交易（和消息）如何工作，可以在此处找到更多信息。我们需要打包到交易中以指示 Biya Chain 从 Biya Chain 提取资金到以太坊的消息是 `MsgSendToEth`。
 
-When `MsgSendToEth` is called on the chain, some of the validators will pick up the transaction, batch multiple `MsgSendToEth` requests into one and: burn the assets being withdrawn on Biya Chain, unlock these funds on the Peggy Smart Contract on Ethereum and send them to the respective address.
+当在链上调用 `MsgSendToEth` 时，一些验证者将拾取交易，将多个 `MsgSendToEth` 请求批处理为一个，然后：在 Biya Chain 上销毁正在提取的资产，在以太坊上的 Peggy 智能合约上解锁这些资金，并将它们发送到相应的地址。
 
-There is a bridgeFee included in these transactions to incentivize Validators to pick up and process your withdrawal requests faster. The bridgeFee is in the asset the user wants to withdraw to Ethereum (if you withdraw BIYA you have to pay the bridgeFee in BIYA as well).
+这些交易中包含桥接费用，以激励验证者更快地拾取和处理您的提款请求。桥接费用以用户想要提取到以太坊的资产计价（如果您提取 BIYA，您也必须以 BIYA 支付桥接费用）。
 
-Here is an example implementation that prepares the transaction, uses a privateKey to sign it and finally, broadcasts it to Biya Chain:
+以下是一个示例实现，它准备交易，使用私钥签名，最后将其广播到 Biya Chain：
 
 ```ts
 import { getNetworkInfo, Network } from "@biya-coin/networks";

@@ -1,14 +1,14 @@
-# Bridge
+# 桥接
 
-Biya Chain is a blockchain built specifically to support financial applications. A key strength of Biya Chain is its ability to perform seamless cross-chain transactions with the majority of popular blockchains.
+Biya Chain 是一个专门为支持金融应用而构建的区块链。Biya Chain 的一个关键优势是能够与大多数流行的区块链执行无缝的跨链交易。
 
-### Bridges Supported
+### 支持的桥接
 
-| Topic                                  | Description                               |
+| 主题                                  | 描述                               |
 | -------------------------------------- | ----------------------------------------- |
-| [Peggy (Ethereum Bridge)](ethereum.md) | Bridging to/from Biya Chain <-> Ethereum   |
+| [Peggy (以太坊桥接)](ethereum.md) | Biya Chain <-> 以太坊之间的桥接   |
 
 <!-- 
-| [IBC Bridge](ibc.md)                   | Bridging to/from Biya Chain using IBC      |
-| [Wormhole Bridge](wormhole.md)         | Bridging to/from Biya Chain using Wormhole |
+| [IBC 桥接](ibc.md)                   | 使用 IBC 在 Biya Chain 之间桥接      |
+| [Wormhole 桥接](wormhole.md)         | 使用 Wormhole 在 Biya Chain 之间桥接 |
 -->
