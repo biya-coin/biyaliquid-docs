@@ -100,7 +100,7 @@ biyachaind query --help.
 
 ## 生成、签名和广播交易
 
-运行以下命令将 INJ 代币从发送者账户发送到接收者账户。`1000biya` 是要发送的 INJ 代币数量,其中 `1 INJ = 10^18 biya`,因此 `1000biya` 是一个非常小的数量。
+运行以下命令将 BIYA 代币从发送者账户发送到接收者账户。`1000biya` 是要发送的 BIYA 代币数量,其中 `1 BIYA = 10^18 biya`,因此 `1000biya` 是一个非常小的数量。
 
 ```bash
 biyachaind tx bank send MY_WALLET RECEIVER_WALLET 1000biya --from MY_WALLET
