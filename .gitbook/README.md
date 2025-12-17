@@ -14,7 +14,7 @@ Biya Chain 是为金融而生的区块链。
 
 ***
 
-<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>您是用户吗？</td><td>了解如何创建钱包</td><td><a href="users/wallet/">wallet</a></td><td><a href=".gitbook/assets/user-hero.png">user-hero.png</a></td></tr><tr><td>您想使用 DeFi 吗？</td><td>了解如何在 Biya Chain 上开始交易</td><td><a href="users/">users</a></td><td><a href=".gitbook/assets/trader-hero.png">trader-hero.png</a></td></tr><tr><td>您想运行基础设施吗？</td><td>了解如何运行哨兵节点和验证节点</td><td><a href="infra/">infra</a></td><td><a href=".gitbook/assets/validator-hero.png">validator-hero.png</a></td></tr><tr><td>您是开发者吗？</td><td>了解如何在 Biya Chain 上构建</td><td><a href="developers/">developers</a></td><td><a href=".gitbook/assets/dev-hero.png">dev-hero.png</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>您是用户吗？</td><td>了解如何创建钱包</td><td><a href="users/wallet/">wallet</a></td><td><a href=".gitbook/assets/user-hero.png">user-hero.png</a></td></tr><tr><td>您想使用 DeFi 吗？</td><td>了解如何在 Biya Chain 上开始交易</td><td><a href="users/">users</a></td><td><a href=".gitbook/assets/trader-hero.png">trader-hero.png</a></td></tr><tr><td>您想运行基础设施吗？</td><td>了解如何运行哨兵节点和验证节点</td><td><a href="operations/">operations</a></td><td><a href=".gitbook/assets/validator-hero.png">validator-hero.png</a></td></tr><tr><td>您是开发者吗？</td><td>了解如何在 Biya Chain 上构建</td><td><a href="developers/">developers</a></td><td><a href=".gitbook/assets/dev-hero.png">dev-hero.png</a></td></tr></tbody></table>
 
 ## 入门指南
 

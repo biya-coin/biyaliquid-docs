@@ -19,7 +19,7 @@ Developer tools and resources to get you building on Biya Chain
 | [Biya Chain REST API](https://lcd.biyachain.network/swagger/)                                  | Swagger API explorer                                                                                                         |
 | [Biya Chain TypeScript SDK](https://docs.ts.biyachain.network)                                 | Build dApps on Biya Chain using TypeScript                                                                                   |
 | [Biya Chain API Reference](https://api.biyachain.exchange)                                     | Detailed API documentation for interacting with Biya Chain for traders                                                       |
-| [Cosmovisor](infra/cosmovisor.md)                                                              | Small process manager around Cosmos SDK binaries that monitors the governance module                                         |
+| [Cosmovisor](operations/cosmovisor.md)                                                         | Small process manager around Cosmos SDK binaries that monitors the governance module                                         |
 | [CosmosSDK](https://docs.cosmos.network/main/build)                                            | The Cosmos SDK documentation serving as a valuable resource for developers integrating with the Biya Chain ecosystem         |
 
 ### Ecosystem Tools and Resources
@@ -65,7 +65,7 @@ Find developer support on Discord or Telegram
 
 ### Public Endpoints
 
-For a list of public endpoints, visit [public-endpoints.md](infra/public-endpoints.md "mention")
+For a list of public endpoints, visit [public-endpoints.md](operations/public-endpoints.md "mention")
 
 ### Private / Dedicated Node Services
 
