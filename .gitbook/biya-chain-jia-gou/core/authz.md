@@ -6,37 +6,15 @@ sidebar_position: 1
 
 ## 摘要
 
-`x/authz` 是 Cosmos SDK 模块的实现，根据 [ADR 30](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md)，它允许\
-从一个账户（授权者）向另一个账户（被授权者）授予任意权限。必须使用 `Authorization` 接口的实现逐个为特定的 Msg 服务方法授予授权。
-
-## 目录
-
-* [概念](authz.md#concepts)
-  * [授权和授权授予](authz.md#authorization-and-grant)
-  * [内置授权](authz.md#built-in-authorizations)
-  * [Gas](authz.md#gas)
-* [状态](authz.md#state)
-  * [授权授予](authz.md#grant)
-  * [授权队列](authz.md#grantqueue)
-* [消息](authz.md#messages)
-  * [MsgGrant](authz.md#msggrant)
-  * [MsgRevoke](authz.md#msgrevoke)
-  * [MsgExec](authz.md#msgexec)
-* [事件](authz.md#events)
-* [客户端](authz.md#client)
-  * [CLI](authz.md#cli)
-  * [gRPC](authz.md#grpc)
-  * [REST](authz.md#rest)
+`x/authz` 是 Cosmos SDK 模块的实现，根据 [ADR 30](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md)，它允许从一个账户（授权者）向另一个账户（被授权者）授予任意权限。必须使用 `Authorization` 接口的实现逐个为特定的 Msg 服务方法授予授权。
 
 ## 概念
 
 ### 授权和授权授予
 
-`x/authz` 模块定义接口和消息，授予代表一个账户向其他账户执行操作的授权。\
-该设计在 [ADR 030](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md) 中定义。
+`x/authz` 模块定义接口和消息，授予代表一个账户向其他账户执行操作的授权。该设计在 [ADR 030](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md) 中定义。
 
-授权授予（grant）是被授权者代表授权者执行 Msg 的许可。\
-授权是一个接口，必须由具体的授权逻辑实现以验证和执行授权授予。授权是可扩展的，可以为任何 Msg 服务方法定义，甚至可以在定义 Msg 方法的模块之外定义。有关更多详细信息，请参见下一节中的 `SendAuthorization` 示例。
+授权授予（grant）是被授权者代表授权者执行 Msg 的许可。授权是一个接口，必须由具体的授权逻辑实现以验证和执行授权授予。授权是可扩展的，可以为任何 Msg 服务方法定义，甚至可以在定义 Msg 方法的模块之外定义。有关更多详细信息，请参见下一节中的 `SendAuthorization` 示例。
 
 **注意：** authz 模块不同于负责指定基础交易和账户类型的 [auth（身份验证）](auth.md) 模块。
 
@@ -138,8 +116,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/authz/keeper/keys.go#L77
 
 ### MsgGrant
 
-使用 `MsgGrant` 消息创建授权授予。\
-如果 `(granter, grantee, Authorization)` 三元组已存在授权授予，则新授权授予将覆盖前一个。要更新或扩展现有授权授予，应创建具有相同 `(granter, grantee, Authorization)` 三元组的新授权授予。
+使用 `MsgGrant` 消息创建授权授予。如果 `(granter, grantee, Authorization)` 三元组已存在授权授予，则新授权授予将覆盖前一个。要更新或扩展现有授权授予，应创建具有相同 `(granter, grantee, Authorization)` 三元组的新授权授予。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/authz/v1beta1/tx.proto#L35-L45

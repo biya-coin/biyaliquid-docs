@@ -8,37 +8,11 @@ sidebar_position: 1
 
 本文档指定了 Cosmos SDK 的 bank 模块。
 
-bank 模块负责处理账户之间的多资产代币转账，\
-并跟踪特殊情况的伪转账，这些伪转账必须与特定类型的账户\
-（特别是归属账户的委托/取消委托）以不同方式工作。\
-它暴露了几个具有不同能力的接口，用于与必须更改用户余额的其他模块进行安全交互。
+bank 模块负责处理账户之间的多资产代币转账，并跟踪特殊情况的伪转账，这些伪转账必须与特定类型的账户（特别是归属账户的委托/取消委托）以不同方式工作。它暴露了几个具有不同能力的接口，用于与必须更改用户余额的其他模块进行安全交互。
 
-此外，bank 模块跟踪并提供对应用中使用的\
-所有资产总供应量的查询支持。
+此外，bank 模块跟踪并提供对应用中使用的所有资产总供应量的查询支持。
 
 此模块在 Cosmos Hub 中使用。
-
-## 目录
-
-* [供应](bank.md#supply)
-  * [总供应量](bank.md#total-supply)
-* [模块账户](bank.md#module-accounts)
-  * [权限](bank.md#permissions)
-* [状态](bank.md#state)
-* [参数](bank.md#params)
-* [Keepers](bank.md#keepers)
-* [消息](bank.md#messages)
-* [事件](bank.md#events)
-  * [消息事件](bank.md#message-events)
-  * [Keeper 事件](bank.md#keeper-events)
-* [参数](bank.md#parameters)
-  * [SendEnabled](bank.md#sendenabled)
-  * [DefaultSendEnabled](bank.md#defaultsendenabled)
-* [客户端](bank.md#client)
-  * [CLI](bank.md#cli)
-  * [查询](bank.md#query)
-  * [交易](bank.md#transactions)
-* [gRPC](bank.md#grpc)
 
 ## 供应
 
@@ -50,18 +24,11 @@ bank 模块负责处理账户之间的多资产代币转账，\
 
 ### 总供应量
 
-网络的总 `Supply` 等于所有账户的代币总和。\
-每次铸造 `Coin`（例如：作为通胀机制的一部分）或销毁 `Coin`（例如：由于削减或治理提案被否决）时，总供应量都会更新。
+网络的总 `Supply` 等于所有账户的代币总和。每次铸造 `Coin`（例如：作为通胀机制的一部分）或销毁 `Coin`（例如：由于削减或治理提案被否决）时，总供应量都会更新。
 
 ## 模块账户
 
-供应功能引入了一种新类型的 `auth.Account`，模块可以使用它\
-来分配代币，并在特殊情况下铸造或销毁代币。在基础\
-级别，这些模块账户能够与 `auth.Account` 和其他模块账户\
-发送/接收代币。此设计取代了以前的替代设计，在那些设计中，\
-为了持有代币，模块会从发送者账户销毁传入的代币，然后在内部跟踪这些代币。\
-后来，为了发送代币，模块需要在目标账户中有效地铸造代币。\
-新设计消除了模块之间执行此会计处理的重复逻辑。
+供应功能引入了一种新类型的 `auth.Account`，模块可以使用它来分配代币，并在特殊情况下铸造或销毁代币。在基础级别，这些模块账户能够与 `auth.Account` 和其他模块账户发送/接收代币。此设计取代了以前的替代设计，在那些设计中，为了持有代币，模块会从发送者账户销毁传入的代币，然后在内部跟踪这些代币。后来，为了发送代币，模块需要在目标账户中有效地铸造代币。新设计消除了模块之间执行此会计处理的重复逻辑。
 
 `ModuleAccount` 接口定义如下：
 
@@ -75,23 +42,17 @@ type ModuleAccount interface {
 }
 ```
 
-> **警告！**\
-> 任何允许直接或间接发送资金的模块或消息处理器必须明确保证这些资金不能发送到模块账户（除非允许）。
+> **警告！** 任何允许直接或间接发送资金的模块或消息处理器必须明确保证这些资金不能发送到模块账户（除非允许）。
 
-供应 `Keeper` 还为与 `ModuleAccount` 相关的 auth `Keeper`\
-和 bank `Keeper` 引入了新的包装函数，以便能够：
+供应 `Keeper` 还为与 `ModuleAccount` 相关的 auth `Keeper`和 bank `Keeper` 引入了新的包装函数，以便能够：
 
 * 通过提供 `Name` 获取和设置 `ModuleAccount`。
-* 仅通过传递 `Name` 从其他 `ModuleAccount` 或标准 `Account`\
-  （`BaseAccount` 或 `VestingAccount`）发送和接收代币。
+* 仅通过传递 `Name` 从其他 `ModuleAccount` 或标准 `Account`  （`BaseAccount` 或 `VestingAccount`）发送和接收代币。
 * 为 `ModuleAccount` `Mint` 或 `Burn` 代币（受其权限限制）。
 
 ### 权限
 
-每个 `ModuleAccount` 都有不同的权限集，提供不同的\
-对象能力来执行某些操作。权限需要在\
-创建供应 `Keeper` 时注册，以便每次 `ModuleAccount` 调用允许的函数时，\
-`Keeper` 可以查找该特定账户的权限并执行或不执行该操作。
+每个 `ModuleAccount` 都有不同的权限集，提供不同的对象能力来执行某些操作。权限需要在创建供应 `Keeper` 时注册，以便每次 `ModuleAccount` 调用允许的函数时，`Keeper` 可以查找该特定账户的权限并执行或不执行该操作。
 
 可用权限包括：
 
@@ -108,8 +69,7 @@ type ModuleAccount interface {
 3. 所有余额的总供应量
 4. 允许发送哪些代币单位的信息。
 
-此外，`x/bank` 模块保持以下索引来管理\
-上述状态：
+此外，`x/bank` 模块保持以下索引来管理上述状态：
 
 * 供应索引: `0x0 | byte(denom) -> byte(amount)`
 * 代币单位元数据索引: `0x1 | byte(denom) -> ProtocolBuffer(Metadata)`
@@ -118,8 +78,7 @@ type ModuleAccount interface {
 
 ## 参数
 
-bank 模块将其参数存储在状态中，前缀为 `0x05`，\
-可以通过治理或具有权限的地址进行更新。
+bank 模块将其参数存储在状态中，前缀为 `0x05`，可以通过治理或具有权限的地址进行更新。
 
 * Params: `0x05 | ProtocolBuffer(Params)`
 
@@ -129,22 +88,15 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/
 
 ## Keepers
 
-bank 模块提供这些导出的 keeper 接口，可以\
-传递给读取或更新账户余额的其他模块。模块\
-应该使用提供其所需功能的最小权限接口。
+bank 模块提供这些导出的 keeper 接口，可以传递给读取或更新账户余额的其他模块。模块应该使用提供其所需功能的最小权限接口。
 
-最佳实践要求仔细审查 `bank` 模块代码，以确保\
-权限按您期望的方式受到限制。
+最佳实践要求仔细审查 `bank` 模块代码，以确保权限按您期望的方式受到限制。
 
 ### 拒绝的地址
 
-`x/bank` 模块接受一个地址映射，这些地址被视为被阻止\
-通过 `MsgSend` 和 `MsgMultiSend` 等方式以及 `SendCoinsFromModuleToAccount` 等直接 API 调用\
-直接和明确接收资金。
+`x/bank` 模块接受一个地址映射，这些地址被视为被阻止通过 `MsgSend` 和 `MsgMultiSend` 等方式以及 `SendCoinsFromModuleToAccount` 等直接 API 调用直接和明确接收资金。
 
-通常，这些地址是模块账户。如果这些地址在\
-状态机的预期规则之外接收资金，不变量可能会被\
-破坏，并可能导致网络停止。
+通常，这些地址是模块账户。如果这些地址在状态机的预期规则之外接收资金，不变量可能会被破坏，并可能导致网络停止。
 
 通过向 `x/bank` 模块提供被阻止的地址集，如果用户或客户端尝试直接或间接向被阻止的账户发送资金（例如，通过使用 [IBC](https://ibc.cosmos.network)），操作将出错。
 
@@ -219,8 +171,7 @@ type Keeper interface {
 
 ### SendKeeper
 
-发送 keeper 提供对账户余额的访问以及在账户之间\
-转移代币的能力。发送 keeper 不会改变总供应量（铸造或销毁代币）。
+发送 keeper 提供对账户余额的访问以及在账户之间转移代币的能力。发送 keeper 不会改变总供应量（铸造或销毁代币）。
 
 ```go
 // SendKeeper defines a module interface that facilitates the transfer of coins
@@ -261,19 +212,15 @@ type SendKeeper interface {
 type SendRestrictionFn func(ctx context.Context, fromAddr, toAddr sdk.AccAddress, amt sdk.Coins) (newToAddr sdk.AccAddress, err error)
 ```
 
-创建 `SendKeeper`（或 `BaseKeeper`）后，可以使用 `AppendSendRestriction` 或 `PrependSendRestriction` 函数向其添加发送限制。\
-这两个函数将提供的限制与任何先前提供的限制组合在一起。`AppendSendRestriction` 将提供的限制添加为在任何先前提供的发送限制之后运行。`PrependSendRestriction` 将限制添加为在任何先前提供的发送限制之前运行。\
-组合在遇到错误时会短路。即，如果第一个返回错误，第二个不会运行。
+创建 `SendKeeper`（或 `BaseKeeper`）后，可以使用 `AppendSendRestriction` 或 `PrependSendRestriction` 函数向其添加发送限制。这两个函数将提供的限制与任何先前提供的限制组合在一起。`AppendSendRestriction` 将提供的限制添加为在任何先前提供的发送限制之后运行。`PrependSendRestriction` 将限制添加为在任何先前提供的发送限制之前运行。组合在遇到错误时会短路。即，如果第一个返回错误，第二个不会运行。
 
-在 `SendCoins` 期间，发送限制在从 from 地址移除代币之后应用，但在将它们添加到 to 地址之前。\
-在 `InputOutputCoins` 期间，发送限制在移除输入代币之后应用，并在添加资金之前为每个输出应用一次。
+在 `SendCoins` 期间，发送限制在从 from 地址移除代币之后应用，但在将它们添加到 to 地址之前。在 `InputOutputCoins` 期间，发送限制在移除输入代币之后应用，并在添加资金之前为每个输出应用一次。
 
 发送限制函数应该使用上下文中的自定义值，以允许绕过该特定限制。
 
 发送限制不应用于 `ModuleToAccount` 或 `ModuleToModule` 转账。这样做是因为模块需要将资金移动到用户账户和其他模块账户。这是一个设计决策，允许状态机具有更大的灵活性。状态机应该能够在模块账户和用户账户之间不受限制地移动资金。
 
-其次，这种限制甚至会限制状态机本身的使用。用户将无法接收奖励，无法在模块账户之间移动资金。在用户从用户账户向社区池发送资金，然后使用治理提案将这些代币放入用户账户的情况下，这将取决于应用链开发者的决定。我们不能在这里做出强有力的假设。\
-第三，如果代币被禁用并且在 begin/endblock 中移动代币，这个问题可能导致链停止。这是我们看到当前更改的最后一个原因，对用户的损害大于好处。
+其次，这种限制甚至会限制状态机本身的使用。用户将无法接收奖励，无法在模块账户之间移动资金。在用户从用户账户向社区池发送资金，然后使用治理提案将这些代币放入用户账户的情况下，这将取决于应用链开发者的决定。我们不能在这里做出强有力的假设。第三，如果代币被禁用并且在 begin/endblock 中移动代币，这个问题可能导致链停止。这是我们看到当前更改的最后一个原因，对用户的损害大于好处。
 
 For example, in your module's keeper package, you'd define the send restriction function:
 
@@ -567,14 +514,11 @@ bank 模块包含以下参数
 
 ### SendEnabled
 
-SendEnabled 参数现已弃用，不再使用。它已被\
-状态存储记录取代。
+SendEnabled 参数现已弃用，不再使用。它已被状态存储记录取代。
 
 ### DefaultSendEnabled
 
-默认发送启用值控制所有\
-代币单位的发送转账能力，除非明确包含在 `SendEnabled`\
-参数数组中。
+默认发送启用值控制所有代币单位的发送转账能力，除非明确包含在 `SendEnabled` 参数数组中。
 
 ## 客户端
 

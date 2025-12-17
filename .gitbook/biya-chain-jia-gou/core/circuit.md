@@ -20,37 +20,7 @@ https://github.com/cosmos/cosmos-sdk/blob/x/circuit/v0.1.0/x/circuit/ante/circui
 https://github.com/cosmos/cosmos-sdk/blob/v0.50.1/baseapp/msg_service_router.go#L104-L115
 ```
 
-:::note\
-`CircuitBreakerDecorator` 适用于大多数用例，但[不检查交易内部消息](https://docs.cosmos.network/main/learn/beginner/tx-lifecycle#antehandler)。因此某些交易（例如 `x/authz` 交易或某些 `x/gov` 交易）可能会通过 ante handler。**这不会影响断路器**，因为消息路由器检查仍会使交易失败。\
-这种权衡是为了避免在 `x/circuit` 模块中引入更多依赖。如果链希望这样做，可以重新定义 `CircuitBreakerDecorator` 来检查内部消息。\
-:::
-
-# Circuit
-
-## 概念
-
-断路器（Circuit Breaker）是一个模块，旨在避免链在存在漏洞时需要停止/关闭，而是允许禁用特定消息或所有消息。在运行链时，如果它是应用特定的，那么链的停止影响较小，但如果链上构建了应用程序，则停止会因对应用程序的干扰而代价高昂。
-
-断路器的工作原理是：一个地址或一组地址有权阻止消息被执行和/或包含在内存池中。任何具有权限的地址都能够重置该消息的断路器。
-
-交易在两个点进行检查并可能被拒绝：
-
-* 在 `CircuitBreakerDecorator` [ante handler](https://docs.cosmos.network/main/learn/advanced/baseapp#antehandler) 中：
-
-```go
-https://github.com/cosmos/cosmos-sdk/blob/x/circuit/v0.1.0/x/circuit/ante/circuit.go#L27-L41
-```
-
-* 通过 [消息路由器检查](https://docs.cosmos.network/main/learn/advanced/baseapp#msg-service-router)：
-
-```go
-https://github.com/cosmos/cosmos-sdk/blob/v0.50.1/baseapp/msg_service_router.go#L104-L115
-```
-
-:::note\
-`CircuitBreakerDecorator` 适用于大多数用例，但[不检查交易内部消息](https://docs.cosmos.network/main/learn/beginner/tx-lifecycle#antehandler)。因此某些交易（例如 `x/authz` 交易或某些 `x/gov` 交易）可能会通过 ante handler。**这不会影响断路器**，因为消息路由器检查仍会使交易失败。\
-这种权衡是为了避免在 `x/circuit` 模块中引入更多依赖。如果链希望这样做，可以重新定义 `CircuitBreakerDecorator` 来检查内部消息。\
-:::
+:::note`CircuitBreakerDecorator` 适用于大多数用例，但[不检查交易内部消息](https://docs.cosmos.network/main/learn/beginner/tx-lifecycle#antehandler)。因此某些交易（例如 `x/authz` 交易或某些 `x/gov` 交易）可能会通过 ante handler。**这不会影响断路器**，因为消息路由器检查仍会使交易失败。这种权衡是为了避免在 `x/circuit` 模块中引入更多依赖。如果链希望这样做，可以重新定义 `CircuitBreakerDecorator` 来检查内部消息。:::
 
 ## 状态
 
