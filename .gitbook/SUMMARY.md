@@ -1,7 +1,7 @@
 # Table of contents
 
 * [关于 Biya Chain](README.md)
-  * [Biya Chain for users](readme/biya-chain-for-users.md)
+  * [Biya Chain与以太坊](readme/biya-chain-ethereum.md)
 * [生态入口](ecosystem/README.md)
   * [官方网站](https://biya.io)
   * [区块链浏览器](https://prv.scan.biya.io)
