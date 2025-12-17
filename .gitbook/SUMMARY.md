@@ -180,7 +180,6 @@
     * [智能合约示例](developers/dapps/example-smart-contract.md)
     * [DEX 示例](developers/dapps/example-dex.md)
     * [Webpack 示例](developers/dapps/example-webpack.md)
-  * [The Graph](https://docs.substreams.dev/documentation/how-to-guides/biyachain)
 * [节点运维](operations/README.md)
   * [节点交互](operations/jie-dian-jiao-hu/README.md)
     * [命令行节点交互](operations/jie-dian-jiao-hu/ming-ling-xing-jie-dian-jiao-hu.md)
