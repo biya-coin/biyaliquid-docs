@@ -29,13 +29,13 @@ redirects:
   getting-started/token-standards/cw20-standard: defi/tokens/cw20-standard.md
   getting-started/transactions: defi/transactions.md
   getting-started/transactions/gas-and-fees: defi/transaction-fees.md
-  nodes/getting-started/interact: infra/interact/README.md
-  nodes/getting-started/interact/command-line: infra/interact/interact-node-command-line.md
-  nodes/getting-started/interact/grpc: infra/interact/interact-node-grpc.md
-  nodes/getting-started/interact/go: infra/interact/interact-node-go.md
-  nodes/getting-started/interact/rest: infra/interact/interact-node-rest.md
-  nodes/getting-started/interact/typescript: infra/interact/interact-node-typescript.md
-  nodes/getting-started/interact/python: infra/interact/interact-node-python.md
+  # nodes/getting-started/interact: infra/interact/README.md
+  # nodes/getting-started/interact/command-line: infra/interact/interact-node-command-line.md
+  # nodes/getting-started/interact/grpc: infra/interact/interact-node-grpc.md
+  # nodes/getting-started/interact/go: infra/interact/interact-node-go.md
+  # nodes/getting-started/interact/rest: infra/interact/interact-node-rest.md
+  # nodes/getting-started/interact/typescript: infra/interact/interact-node-typescript.md
+  # nodes/getting-started/interact/python: infra/interact/interact-node-python.md
   nodes/getting-started/running-a-node: infra/run-node.md
   nodes/getting-started/running-a-node/1.-setting-up-the-keyring: infra/set-up-keyring.md
   nodes/getting-started/running-a-node/join-a-network: infra/join-a-network.md
