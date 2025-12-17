@@ -35,7 +35,7 @@ Learn more about [launching a token](../developers/assets/token-create.md).
 #### Using Biya Chain CLI
 
 {% hint style="info" %}
-You have to have `biyachaind` installed locally before proceeding with this tutorial. You can learn more about it on the [biyachaind](../developers/biyachaind/ "mention")page.
+You have to have `biyachaind` installed locally before proceeding with this tutorial. You can learn more about it on the [biyachaind](../kai-fa-gong-ju/biyachaind/ "mention")page.
 {% endhint %}
 
 Once you have `biyachaind` installed and a key added, you can use the CLI to launch your token:

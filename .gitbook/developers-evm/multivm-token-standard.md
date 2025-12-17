@@ -2,7 +2,7 @@
 description: Understanding token representation in Biya Chain's multi-VM architecture
 ---
 
-# MultiVM Token Standard
+# 多虚拟机代币标准
 
 ## What is MultiVM Token Standard (MTS)?
 
@@ -64,7 +64,7 @@ Biya Chain’s EVM is integrated directly into the Cosmos-based chain.
 
 #### **Security**
 
-* The [bank module](../developers-native/core/bank.md), as the single source of truth, underpins MTS’s security by ensuring that token balances are consistent and verifiable.
+* The [bank module](../biya-chain-jia-gou/core/bank.md), as the single source of truth, underpins MTS’s security by ensuring that token balances are consistent and verifiable.
 * The use of [precompiles](precompiles.md) prevents common pitfalls like state desynchronization, ensuring that all operations—no matter where initiated—update the same canonical ledger.
 * Advanced security guidelines and best practices for smart contract development are provided in our security section and external resources.
 
