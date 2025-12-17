@@ -40,7 +40,7 @@
   * [Cosmovisor](infra/cosmovisor.md)
   * [设置密钥环](infra/set-up-keyring.md)
   * [归档设置](infra/archival-setup.md)
-  * [节点交互](infra/README.md)
+  * [节点交互]()
     * [命令行节点交互](infra/interact-node-command-line.md)
     * [gRPC 节点交互](infra/interact-node-grpc.md)
     * [Go 节点交互](infra/interact-node-go.md)
