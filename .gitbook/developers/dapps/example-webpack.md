@@ -1,6 +1,6 @@
-# Simple HTML example with Webpack
+# Webpack 示例
 
-The [example](https://github.com/biya-coin/biyachain-ts-webpack-example) is based on the [Cosmos transaction handling section](../../developers-native/transactions/cosmos.md).
+The [example](https://github.com/biya-coin/biyachain-ts-webpack-example) is based on the [Cosmos transaction handling section](../developers-native/transactions/cosmos.md).
 
 ## Running the example
 
@@ -30,6 +30,6 @@ Go to the http://localhost:8080/ in your browser. If you have a Kelr wallet set 
 
 ## How does it work?
 
-Transaction logic is in the `src/sendTx.tx`, which is loaded by `src/index.html`  Webpack is used to put eveything together and serve on the local server endpoint.
+Transaction logic is in the `src/sendTx.tx`, which is loaded by `src/index.html` Webpack is used to put eveything together and serve on the local server endpoint.
 
 The `webpack.config.js` file configures Webpack to bundle a TypeScript application starting from `./src/sendTx.ts`, using `ts-loader` to transpile TypeScript files, and includes rules to handle `.js` and `.json` files appropriately. It resolves browser-compatible versions of Node.js core modules using the `fallback` option, enabling modules like `buffer`, `crypto`, and `stream` in the browser environment. The configuration utilizes `HtmlWebpackPlugin` to generate an HTML file based on `src/index.html`, and `ProvidePlugin` to automatically load `Buffer` and `process` variables globally. The bundled output is named `bundle.js` and placed in the `dist` directory, and the `devServer` is set up to serve content from `./dist` for development purposes.

@@ -1,10 +1,10 @@
-# Convert addresses
+# 转换地址
 
 Within this document, we'll outline some examples on how to convert addresses between different formats and derivation paths.
 
 ### Convert Hex <> Bech32 address
 
-As we've mentioned in the [wallet](../defi/wallet/README.md "mention") section, Biya Chain addresses are compatible with Ethereum addresses. You can convert between the two formats easily.
+As we've mentioned in the [wallet](../../users/wallet/ "mention") section, Biya Chain addresses are compatible with Ethereum addresses. You can convert between the two formats easily.
 
 ### Using TypeScript
 
@@ -55,5 +55,5 @@ config();
 ```
 
 {% hint style="info" %}
-More examples can be found in [wallet accounts](../defi/wallet/accounts.md).
+More examples can be found in [wallet accounts](../../users/wallet/accounts.md).
 {% endhint %}

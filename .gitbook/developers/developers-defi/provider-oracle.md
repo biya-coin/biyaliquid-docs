@@ -1,10 +1,10 @@
-# Provider Oracle
+# 提供商预言机
 
 {% hint style="info" %}
-Prerequisite reading [Biya Chain Oracle Module](../developers-native/biyachain/oracle/)
+Prerequisite reading [Biya Chain Oracle Module](../../developers-native/biyachain/oracle/)
 {% endhint %}
 
-The goal of this section is to provide users a guide on how to launch and maintain an oracle provider on Biya Chain. These oracles can be used for various purposes, like Perpetual Markets, Expiry Futures Markets, [Binary Options markets](../developers-native/biyachain/exchange/02_binary_options_markets.md), etc.
+The goal of this section is to provide users a guide on how to launch and maintain an oracle provider on Biya Chain. These oracles can be used for various purposes, like Perpetual Markets, Expiry Futures Markets, [Binary Options markets](../../developers-native/biyachain/exchange/02_binary_options_markets.md), etc.
 
 First, what is an oracle provider? It's an oracle **TYPE** that allows external parties to relay price feeds to the Biya Chain chain. These external parties are called providers. A provider identifies each external party, and all the price feeds provided on the chain are stored under that particular provider. This allows custom price feeds to be created on Biya Chain, which can power creative and advanced markets being launched on Biya Chain.
 

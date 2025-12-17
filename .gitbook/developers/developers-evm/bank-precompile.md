@@ -1,4 +1,4 @@
-# Bank Precompile
+# Bank 预编译合约
 
 The Bank Precompile is a system smart contract residing at the fixed address `0x0000000000000000000000000000000000000064`.
 
@@ -15,7 +15,7 @@ These implementations are based on OpenZeppelin’s ERC20 contracts. Developers 
 
 ## ERC20 Contract Deployment
 
-**ℹ️ Note:**
+**ℹ️ Note:**
 
 To prevent denom spam, deploying an ERC20 contract via the ERC20 module is a **payable operation** and requires a deployment fee of **1 BIYA**. Make sure your ERC20 contract deployment transaction includes this amount, or the operation will be rejected.
 
@@ -34,9 +34,7 @@ To prevent denom spam, deploying an ERC20 contract via the ERC20 module is a **p
 
 ## Example
 
-[Wrapped BIYA (wBIYA)](./wrapped-biya.md#is-wbiya-the-same-as-weth "Is wBIYA the same as wETH?") 
-makes use of the Bank EVM precompile in order to implement the
-[MultiVM Token Standard (MTS)](./multivm-token-standard.md).
+[Wrapped BIYA (wBIYA)](../../developers-evm/wrapped-biya.md#is-wbiya-the-same-as-weth) makes use of the Bank EVM precompile in order to implement the [MultiVM Token Standard (MTS)](multivm-token-standard.md).
 
 ## Start building
 

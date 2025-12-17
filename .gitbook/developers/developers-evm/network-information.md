@@ -2,11 +2,11 @@
 description: Essential information about the Biya Chain EVM networks
 ---
 
-# EVM Network Information
+# EVM 网络信息
 
 {% tabs %}
 {% tab title="Mainnet" %}
-#### Network Info
+**Network Info**
 
 * Chain ID: `1776`
 * JSON-RPC Endpoint: `https://sentry.evm-rpc.biyachain.network/`
@@ -18,10 +18,10 @@ description: Essential information about the Biya Chain EVM networks
 {% hint style="info" %}
 Note that the Biya Chain Chain ID is natively `biyachain-1`. However, EVM uses a numeric chain ID of `1776`. While these are different, they map to the **same** network.
 
-See [network information](../developers/network-information.md) for more details.
+See [network information](../kuai-su-kai-shi/network-information.md) for more details.
 {% endhint %}
 
-#### Contracts
+**Contracts**
 
 * **USDT** USDT (MTS) - [`0x88f7F2b685F9692caf8c478f5BADF09eE9B1Cc13`](https://blockscout.biyachain.network/address/0x88f7F2b685F9692caf8c478f5BADF09eE9B1Cc13)
 * **wETH** wrapped ETH (MTS) - [`0x83A15000b753AC0EeE06D2Cb41a69e76D0D5c7F7`](https://blockscout.biyachain.network/address/0x83A15000b753AC0EeE06D2Cb41a69e76D0D5c7F7)
@@ -35,7 +35,7 @@ Note that tokens that are **MTS** follow the [MultiVM Token Standard](https://do
 This means the same token can be used in all Biya Chain modules (EVM, Cosmos) without using a bridge.
 {% endhint %}
 
-#### More Providers
+**More Providers**
 
 * Explorers
   * Blockscout mirror: [`biyachain.cloud.blockscout.com`](https://biyachain.cloud.blockscout.com)
@@ -49,7 +49,7 @@ This means the same token can be used in all Biya Chain modules (EVM, Cosmos) wi
 {% endtab %}
 
 {% tab title="Testnet" %}
-#### Network Info
+**Network Info**
 
 * Chain ID: `1439`
 * JSON-RPC Endpoint: `https://k8s.testnet.json-rpc.biyachain.network/`
@@ -61,10 +61,10 @@ This means the same token can be used in all Biya Chain modules (EVM, Cosmos) wi
 {% hint style="info" %}
 Note that the Biya Chain Chain ID is natively `biyachain-888`. However, EVM uses a numeric chain ID of `1439`. While these are different, they map to the **same** network.
 
-See [network information](../developers/network-information.md) for more details.
+See [network information](../kuai-su-kai-shi/network-information.md) for more details.
 {% endhint %}
 
-#### Contracts
+**Contracts**
 
 * **wBIYA** wrapped BIYA (MTS) - [`0x0000000088827d2d103ee2d9A6b781773AE03FfB`](https://testnet.blockscout.biyachain.network/address/0x0000000088827d2d103ee2d9A6b781773AE03FfB)
 * **USDT** USDT (MTS) - [`0xaDC7bcB5d8fe053Ef19b4E0C861c262Af6e0db60`](https://testnet.blockscout.biyachain.network/address/0xaDC7bcB5d8fe053Ef19b4E0C861c262Af6e0db60)
@@ -75,7 +75,7 @@ Note that tokens that are **MTS** follow the [MultiVM Token Standard](https://do
 This means the same token can be used in all Biya Chain modules (EVM, Cosmos) without using a bridge.
 {% endhint %}
 
-#### More Providers
+**More Providers**
 
 * Explorers
   * Blockscout mirror: [`testnet-biyachain.cloud.blockscout.com/`](https://testnet-biyachain.cloud.blockscout.com/)
@@ -87,7 +87,7 @@ This means the same token can be used in all Biya Chain modules (EVM, Cosmos) wi
     * Note that you will need to create an account on thirdweb to obtain an endpoint URL
     * [ThirdWeb Playground](https://playground.thirdweb.com/)
 
-#### More Info
+**More Info**
 
 For more information about Biya Chain EVM Testnet see the following pages:
 

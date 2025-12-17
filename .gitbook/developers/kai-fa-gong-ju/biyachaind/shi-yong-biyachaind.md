@@ -6,7 +6,7 @@
 
 ### 确保 biyachaind 已安装
 
-有关更多信息,请参阅 [安装 Biyachaind](./an-zhuang-biyachaind.md)。如果您已成功安装 `biyachaind`,应该能够运行以下命令:
+有关更多信息,请参阅 [安装 Biyachaind](an-zhuang-biyachaind.md)。如果您已成功安装 `biyachaind`,应该能够运行以下命令:
 
 ```bash
 biyachaind version
@@ -55,7 +55,7 @@ docker run -it --rm -v ~/.biyachain:/root/.biyachain biya-coin/biyachain-core:v1
 
 要查询状态和发送交易,您必须连接到一个节点,这是访问整个对等连接网络的接入点。您可以运行自己的全节点或连接到他人的节点。
 
-[运行自己的节点](../../infra/join-a-network.md) 仅适用于高级用户。对于大多数用户,建议连接到公共节点。
+[运行自己的节点](../../../infra/join-a-network.md) 仅适用于高级用户。对于大多数用户,建议连接到公共节点。
 
 要设置 RPC 端点,您可以使用以下命令:
 

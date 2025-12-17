@@ -1,7 +1,7 @@
-# Launch a Market
+# 发行市场
 
 {% hint style="info" %}
-The prerequisite for launching a market is to [launch-a-token.md](./token-launch.md "mention")
+The prerequisite for launching a market is to [token-launch.md](token-launch.md "mention")
 {% endhint %}
 
 Launching a trading pair on Biya Chain is quick, easy, and best of all, permissionless!
@@ -12,15 +12,15 @@ For an Biya Chain-native token, skip the bridging portion and head straight to s
 
 1. Navigate to the [Biya Chain Bridge](http://bridge.biyachain.network/) to begin the process of bridging your chosen ERC-20 token from Ethereum to Biya Chain using the Peggy bridge.
 
-![Biya Chain Bridge](<../.gitbook/assets/Docs - Deposit Peggy.png>)
+![Biya Chain Bridge](<../../.gitbook/assets/Docs - Deposit Peggy.png>)
 
 2. Click the dropdown, scroll to the bottom, and click "add" next to the advanced tool to add a custom ERC-20 token using the token address, which you may want to verify on a trusted source like CoinGecko.
 
-![Add Custom ERC-20 Token](<../.gitbook/assets/Docs - Deposit From.png>)
+![Add Custom ERC-20 Token](<../../.gitbook/assets/Docs - Deposit From.png>)
 
 3. Copy and paste the correct contract address, and click "add."
 
-![Add Smart Contract Address](<../.gitbook/assets/Docs - Add and Bridge ERC20.png>)
+![Add Smart Contract Address](<../../.gitbook/assets/Docs - Add and Bridge ERC20.png>)
 
 4. Now enter the desired amount of the ERC-20 token you wish to bridge, click "approve," confirm the transaction, then click "review," confirm the transaction, and wait.
 
@@ -28,16 +28,16 @@ For an Biya Chain-native token, skip the bridging portion and head straight to s
 
 5. Once the approve spend and deposit transactions are confirmed on the Ethereum blockchain, you will see the progress of the bridging transaction. Once the transaction is confirmed on Biya Chain, your bridged ERC-20 token will be available in your Biya Chain wallet. (Note, if you used MetaMask with the source chain, by default your bridged tokens will be sent to the biya address linked to your MetaMask. This can be changed by clicking the lock icon next to the recipient address at the beginning of step 4.)
 
-![Bridging Completion](<../.gitbook/assets/Docs - Transaction Submitted.png>)
+![Bridging Completion](<../../.gitbook/assets/Docs - Transaction Submitted.png>)
 
 6. After the bridging transaction is complete, you're able to list the token permissionlessly on Biya Chain by navigating to the [Biya Chain Hub](https://prv.hub.biya.io/proposal/create/).
 
-![List on Biya Chain](<../.gitbook/assets/Docs - New Proposal.png>)
+![List on Biya Chain](<../../.gitbook/assets/Docs - New Proposal.png>)
 
 7. Choose "instant spot market launch" from the first dropdown, and specify a ticker. In this example, let's use PEPE/BIYA. Now pick the base token from the dropdown. However, beware, several tokens might exist under the same ticker. Always match the correct token address. In this case, as the token was bridged using the Peggy bridge, the address will be peggy followed by the ERC-20 contract address.
 
-![Specify Ticker](<../.gitbook/assets/Docs - Select Ticker.png>)
+![Specify Ticker](<../../.gitbook/assets/Docs - Select Ticker.png>)
 
 8. Now select the correct quote denom, in this case, biya. (Note, if you wish to pair the token with USDT, make sure to select the "correct" USDT address, which is peggy followed by the ERC-20 contract address for USDT.) Finally, specify a minimum price tick size and minimum quantity tick size. Because PEPE/BIYA would trade at a fraction of a penny, the minimum ticks are set accordingly.
 
-![Select Quote Denom](<../.gitbook/assets/Docs - Quote Denom.png>)
+![Select Quote Denom](<../../.gitbook/assets/Docs - Quote Denom.png>)

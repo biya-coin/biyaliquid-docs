@@ -1,4 +1,4 @@
-# Building dApps
+# dApps
 
 Biya Chain is a Layer-1 blockchain built for finance. Biya Chain offers developers out-of-the-box primitives for building decentralized financial applications in addition to an open and permissionless smart contracts layer providing advanced capabilities in building robust Web3 applications.
 
@@ -21,8 +21,7 @@ The latest versions are published using the `next` tag. For stable versions use 
 {% endhint %}
 
 {% hint style="info" %}
-If you are looking for how to build a dApp on Biya Chain EVM,
-you should check out the guides in [your first EVM dApp](../../developers-evm/dapps/README.md).
+If you are looking for how to build a dApp on Biya Chain EVM, you should check out the guides in [your first EVM dApp](../developers-evm/dapps/).
 {% endhint %}
 
 ### Create Biya Chain dApp CLI tool
@@ -35,20 +34,15 @@ $ npx @biya-coin/create-biyachain-app
 
 ### Configuration
 
-| Topic                                     | Description                 |
-| ----------------------------------------- | --------------------------- |
-| [Configuring Nuxt](configure-nuxt.md)     | Configuring Nuxt 3.x + Vite |
-| [Configuring React](configure-react.md)   | Configuring React 18 + Vite |
+| Topic                                   | Description                 |
+| --------------------------------------- | --------------------------- |
+| [Configuring Nuxt](configure-nuxt.md)   | Configuring Nuxt 3.x + Vite |
+| [Configuring React](configure-react.md) | Configuring React 18 + Vite |
 
 ### dApps
 
-| Topic                                      | Description                                              |
-| ------------------------------------------ | -------------------------------------------------------- |
+| Topic                                              | Description                                               |
+| -------------------------------------------------- | --------------------------------------------------------- |
 | [DEX](example-dex.md)                              | Building a decentralized exchange on top of Biya Chain    |
 | [Simple Smart Contract](example-smart-contract.md) | Building a simple smart contract app on top of Biya Chain |
-| [Webpack](example-webpack.md) | Simple HTML example with Webpack and Biya Chain |
-
-<!--
-| [Bridge](example-bridge.md)                        | Building a simple bridge between Biya Chain and Ethereum  |
--->
-
+| [Webpack](example-webpack.md)                      | Simple HTML example with Webpack and Biya Chain           |

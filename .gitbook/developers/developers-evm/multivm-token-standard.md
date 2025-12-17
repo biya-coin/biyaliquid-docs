@@ -47,7 +47,7 @@ Biya Chain’s EVM is integrated directly into the Cosmos-based chain.
 
 #### **Cross-Chain Operations**
 
-* **IBC Compatibility:** Existing native tokens (e.g., those created via a [Token Factory](../developers-native/biyachain/tokenfactory/) or pegged via Peggy) are accessible from the EVM once an MTS pairing is established.
+* **IBC Compatibility:** Existing native tokens (e.g., those created via a [Token Factory](../../developers-native/biyachain/tokenfactory/) or pegged via Peggy) are accessible from the EVM once an MTS pairing is established.
 * **Bridging Alternatives:** While many blockchains require separate bridge operations (lock, mint, unlock), MTS avoids these steps by natively synchronizing states.
 
 #### **Allowances & Extended ERC20 Functions**
@@ -64,7 +64,7 @@ Biya Chain’s EVM is integrated directly into the Cosmos-based chain.
 
 #### **Security**
 
-* The [bank module](../biya-chain-jia-gou/core/bank.md), as the single source of truth, underpins MTS’s security by ensuring that token balances are consistent and verifiable.
+* The [bank module](../../biya-chain-jia-gou/core/bank.md), as the single source of truth, underpins MTS’s security by ensuring that token balances are consistent and verifiable.
 * The use of [precompiles](precompiles.md) prevents common pitfalls like state desynchronization, ensuring that all operations—no matter where initiated—update the same canonical ledger.
 * Advanced security guidelines and best practices for smart contract development are provided in our security section and external resources.
 

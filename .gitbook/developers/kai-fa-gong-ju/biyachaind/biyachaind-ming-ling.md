@@ -26,7 +26,7 @@ biyachaind add-genesis-account acc1 100000000000biya
 
 ### `collect-gentxs`
 
-收集创世交易并将其输出到 `genesis.json`。有关 `genesis.json` 的更多信息,请参阅[此处](../../infra/join-a-network.md)的加入测试网或加入主网指南。
+收集创世交易并将其输出到 `genesis.json`。有关 `genesis.json` 的更多信息,请参阅[此处](../../../infra/join-a-network.md)的加入测试网或加入主网指南。
 
 **语法**
 

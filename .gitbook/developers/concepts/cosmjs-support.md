@@ -1,10 +1,10 @@
-# CosmJs Support
+# CosmJs 支持
 
 Biya Chain is not natively supported on the `@cosmjs` packages. It's highly recommended to use our `@biya-coin` packages to interact with Biya Chain.
 
 If you are familiar with the `@cosmjs` packages we are exporting similar interfaces/classes that work the same as the classes on `@cosmjs` but have support for Biya Chain as well.
 
-Again, keep in mind that the recommended approach is to use the Biya Chain's standard approach, which you can learn more about in [Cosmos transactions](../../developers-native/transactions/cosmos.md).
+Again, keep in mind that the recommended approach is to use the Biya Chain's standard approach, which you can learn more about in [Cosmos transactions](../developers-native/transactions/cosmos.md).
 
 ## Usage using Keplr
 
@@ -70,7 +70,7 @@ import { assertIsBroadcastTxSuccess } from '@cosmjs/stargate'
 
 Here is an example on how to use the `@biya-coin` alternatives from the `@cosmjs` packages in a node or CLI environment.
 
-Again, keep in mind that the recommended approach is to use the [MsgBroadcasterWithPk](../../developers-native/transactions/private-key.md#example-with-msgbroadcasterwithpk) abstraction to follow the Biya Chain's standard approach.
+Again, keep in mind that the recommended approach is to use the [MsgBroadcasterWithPk](../developers-native/transactions/private-key.md#example-with-msgbroadcasterwithpk) abstraction to follow the Biya Chain's standard approach.
 
 ```ts
 import {

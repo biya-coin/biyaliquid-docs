@@ -1,4 +1,4 @@
-# Creating Tokens
+# 创建代币
 
 The easiest way to create your own token on Biya Chain is by using the `tokenfactory` module. The `tokenfactory` module allows any account to create a new token with the name `factory/{creator address}/{subdenom}`. Because tokens are namespaced by creator address, this allows token minting to be permissionless, due to not needing to resolve name collisions.
 
@@ -16,4 +16,4 @@ One special use case for the factory denoms is the `CW20_ADAPTER`. Using this ad
 The denom for a CW20 asset is always in the `factory/{CW20_ADAPTER_CONTRACT_ADDRESS}/{CW20_ASSET_ADDRESS}` where `CW20_ADAPTER_CONTRACT_ADDRESS=biya14ejqjyq8um4p3xfqj74yld5waqljf88f9eneuk` for mainnet.
 {% endhint %}
 
-To start creating your denoms, head to our [TokenFactory Core Module page](../../developers-native/examples/token-factory.md)to see examples.
+To start creating your denoms, head to our [TokenFactory Core Module page](../developers-native/examples/token-factory.md)to see examples.

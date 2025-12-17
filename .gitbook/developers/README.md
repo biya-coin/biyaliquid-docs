@@ -5,7 +5,7 @@ description: >-
 icon: laptop-code
 ---
 
-# 开发者
+# 开发者指南
 
 Biya Chain is the only blockchain specifically designed for cross-chain trading, derivatives, DeFi, and Web3 applications. Positioned to become the premier global destination for DeFi ecosystem builders, Biya Chain offers a multitude of advantages for developers, empowering them to build more powerful applications in less time.
 
@@ -15,4 +15,4 @@ Biya Chain is the only blockchain specifically designed for cross-chain trading,
 
 ## What Are You Interested In?
 
-<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>EVM</td><td>Build smart contracts and dApps on Biya Chain's Ethereum Virtual Machine</td><td><a href="../developers-evm/">developers-evm</a></td><td><a href="../.gitbook/assets/dev-hero.png">dev-hero.png</a></td></tr><tr><td>Cosmwasm</td><td>Build smart contracts and dApps on Biya Chain's CosmWasm module</td><td><a href="/broken/pages/n0fZikagelhqhNMl78kM">Broken link</a></td><td><a href="../.gitbook/assets/launch-token-hero.png">launch-token-hero.png</a></td></tr><tr><td>DeFi</td><td>Build decentralized finance applications, for example a DEX like Helix</td><td><a href="../developers-defi/">developers-defi</a></td><td><a href="../.gitbook/assets/trader-hero.png">trader-hero.png</a></td></tr><tr><td>Native Modules</td><td>Build using Biya Chain's native modules. (low-level)</td><td><a href="../developers-native/">developers-native</a></td><td><a href="../.gitbook/assets/txs-hero.png">txs-hero.png</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>EVM</td><td>Build smart contracts and dApps on Biya Chain's Ethereum Virtual Machine</td><td><a href="developers-evm/">developers-evm</a></td><td><a href="../.gitbook/assets/dev-hero.png">dev-hero.png</a></td></tr><tr><td>Cosmwasm</td><td>Build smart contracts and dApps on Biya Chain's CosmWasm module</td><td><a href="/broken/pages/n0fZikagelhqhNMl78kM">Broken link</a></td><td><a href="../.gitbook/assets/launch-token-hero.png">launch-token-hero.png</a></td></tr><tr><td>DeFi</td><td>Build decentralized finance applications, for example a DEX like Helix</td><td><a href="developers-defi/">developers-defi</a></td><td><a href="../.gitbook/assets/trader-hero.png">trader-hero.png</a></td></tr><tr><td>Native Modules</td><td>Build using Biya Chain's native modules. (low-level)</td><td><a href="developers-native/">developers-native</a></td><td><a href="../.gitbook/assets/txs-hero.png">txs-hero.png</a></td></tr></tbody></table>

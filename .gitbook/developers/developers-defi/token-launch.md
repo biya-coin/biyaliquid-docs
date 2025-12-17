@@ -16,11 +16,11 @@ You can also create a new token on Biya Chain using the `TokenFactory` module. T
 
 ### Using Biya Chain Hub <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The [Biya Chain Hub](https://prv.hub.biya.io/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biya Chain's [native orderbook](../developers-native/biyachain/exchange/), etc.
+The [Biya Chain Hub](https://prv.hub.biya.io/token-factory/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biya Chain's [native orderbook](../../developers-native/biyachain/exchange/), etc.
 
 ### Using TokenStation[​](token-launch.md) <a href="#id-3-via-tokenstation" id="id-3-via-tokenstation"></a>
 
-The [TokenStation](https://www.tokenstation.app/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biya Chain's [native orderbook](../developers-native/biyachain/exchange/), launching an airdrop, and much more.
+The [TokenStation](https://www.tokenstation.app/) web app provides you the ability to create and manage tokens seamlessly, creating a market on Biya Chain's [native orderbook](../../developers-native/biyachain/exchange/), launching an airdrop, and much more.
 
 ### Using DojoSwap[​](token-launch.md#4-via-dojoswap) <a href="#id-4-via-dojoswap" id="id-4-via-dojoswap"></a>
 
@@ -30,7 +30,7 @@ Similar to above, you can utilize [DojoSwap's Market Creation module](https://do
 
 #### Using TypeScript
 
-Learn more about [launching a token](../developers/assets/token-create.md).
+Learn more about [launching a token](../assets/token-create.md).
 
 #### Using Biya Chain CLI
 

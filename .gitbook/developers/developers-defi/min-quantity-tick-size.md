@@ -1,4 +1,4 @@
-# Min Quantity Tick Size
+# 最小数量变动单位计算
 
 ## Minimum Market Quantity Tick Size
 
@@ -22,4 +22,4 @@ To convert back to a human-readable format:
 
 $$\text{humanReadableFormat} = \text{value} \times 10^{-\text{baseDecimals}}$$
 
-Also, be sure to check out our [concepts](../developers/concepts/calculation-min-price-tick-size.md).
+Also, be sure to check out our [concepts](../concepts/calculation-min-price-tick-size.md).

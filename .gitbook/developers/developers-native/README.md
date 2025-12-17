@@ -1,8 +1,4 @@
----
-icon: microchip
----
-
-# 原生开发者
+# 原生开发
 
 ## What are Modules?​
 
@@ -14,4 +10,4 @@ Modules work like building blocks that can be combined to expand the blockchain�
 
 ## Explore Modules
 
-<table data-view="cards" data-full-width="false"><thead><tr><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td>Biya Chain</td><td><a href="biyachain/">biyachain</a></td></tr><tr><td>Core</td><td><a href="../biya-chain-jia-gou/core/">core</a></td></tr></tbody></table>
+<table data-view="cards" data-full-width="false"><thead><tr><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td>Biya Chain</td><td><a href="../../developers-native/biyachain/">biyachain</a></td></tr><tr><td>Core</td><td><a href="../../biya-chain-jia-gou/core/">core</a></td></tr></tbody></table>

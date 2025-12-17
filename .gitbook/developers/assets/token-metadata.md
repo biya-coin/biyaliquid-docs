@@ -1,4 +1,4 @@
-# Token Metadata
+# 代币元数据
 
 Assets on Biya Chain are represented as denoms. Denoms (and the amounts) are not human readable and this is why we need to have a way to "attach" token metadata information for a particular denom.
 
@@ -17,6 +17,6 @@ We maintain our token metadata list off-chain for faster access to the[ biyachai
 Verifying your token's metadata can be done in a couple of ways. Here are the verification levels and what they mean:
 
 * **Verified** -> Your asset metadata has been **submitted and verified** to the `@biya-coin/token-metadata` package. You can find a tutorial on how to add your token's metadata to the package [here](https://github.com/biya-coin/biyachain-lists/blob/master/CONTRIBUTING.md).
-* **Internal** -> Your asset's metadata has been verified on-chain using the `MsgSetDenomMetadata` message, as explained [here](../../developers-native/examples/token-factory.md#msgsetdenommetadata).
+* **Internal** -> Your asset's metadata has been verified on-chain using the `MsgSetDenomMetadata` message, as explained [here](../developers-native/examples/token-factory.md#msgsetdenommetadata).
 * **External** -> Your asset's metadata has been verified on some external source like from Ethereum's contract details, etc.
 * **Unverified** -> Your asset's metadata has not been provided anywhere.

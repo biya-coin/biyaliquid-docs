@@ -1,4 +1,4 @@
-# Denom Metadata
+# 代币单位元数据
 
 A `denom` is how tokens are represented within the `Bank` module of Biya Chain. These assets can be used for trading, creating new markets on the exchange module, participating in auctions, transferring to another address, etc.
 
@@ -8,7 +8,7 @@ This guide shows how to fetch `denom` metadata directly from the `biyachain-list
 
 ## Biya Chain Lists
 
-`biyachain-lists` is a public repository that holds metadata information for all tokens on Biya Chain. It's the most up-to-date and reliable source of this particular information. You can submit your token information by creating a PR for this repo. Be sure to correctly specify the fields. In particular,  `"denom"` field (read about [token standards](../defi/tokens/README.md)) should have respective `ibc`, `peggy` and `factory` prefixes depending on the token standard.
+`biyachain-lists` is a public repository that holds metadata information for all tokens on Biya Chain. It's the most up-to-date and reliable source of this particular information. You can submit your token information by creating a PR for this repo. Be sure to correctly specify the fields. In particular, `"denom"` field (read about [token standards](../../users/tokens/)) should have respective `ibc`, `peggy` and `factory` prefixes depending on the token standard.
 
 The metadata is fetched automatically for new `denoms` on chain every 30 minutes and the `json` files are regenerated.
 

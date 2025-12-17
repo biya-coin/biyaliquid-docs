@@ -1,4 +1,4 @@
-# MsgBroadcaster Transaction
+# MsgBroadcaster 交易
 
 The `MsgBroadcaster` abstraction class is a way to broadcast transactions on Biya Chain with ease. With it, you can pass a Message that you want to be packed in a transaction and the signer's address and the transaction will be prepared, signed, and broadcasted.
 
@@ -101,7 +101,7 @@ export interface MsgBroadcasterTxOptions {
 ```
 ````
 
-\{% hint style="info" %\} To override the `endpoints` and use your infrastructure (which is something we recommend), please read more on the [Networks](../../developers/concepts/networks.md) page on the endpoints you need to provide and how to set them up. \{% endhint %\}
+\{% hint style="info" %\} To override the `endpoints` and use your infrastructure (which is something we recommend), please read more on the [Networks](../../concepts/networks.md) page on the endpoints you need to provide and how to set them up. \{% endhint %\}
 
 ## MsgBroadcaster with Private Key
 
