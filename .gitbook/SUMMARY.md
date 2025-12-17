@@ -286,8 +286,8 @@
       * [错误](biya-chain-jia-gou/biyachain/wasmx/99_errors.md) -->
     * [Lanes](biya-chain-jia-gou/biyachain/lanes.md)
     * [TxFees](biya-chain-jia-gou/biyachain/txfees.md)
-  * [核心模块](biya-chain-jia-gou/core/README.md)
-    * [认证](biya-chain-jia-gou/core/auth.md)
+  * [Cosmos模块](biya-chain-jia-gou/core/README.md)
+    * [Auth](biya-chain-jia-gou/core/auth.md)
     * [授权](biya-chain-jia-gou/core/authz.md)
     * [Bank](biya-chain-jia-gou/core/bank.md)
     * [共识](biya-chain-jia-gou/core/consensus.md)
