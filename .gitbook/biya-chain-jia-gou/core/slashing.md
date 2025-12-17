@@ -4,109 +4,109 @@ sidebar_position: 1
 
 # Slashing
 
-## Abstract
+## 摘要
 
-This section specifies the slashing module of the Cosmos SDK, which implements functionality\
-first outlined in the [Cosmos Whitepaper](https://cosmos.network/about/whitepaper) in June 2016.
+本节指定了 Cosmos SDK 的 slashing 模块，该模块实现了\
+2016 年 6 月在 [Cosmos 白皮书](https://cosmos.network/about/whitepaper)中首次概述的功能。
 
-The slashing module enables Cosmos SDK-based blockchains to disincentivize any attributable action\
-by a protocol-recognized actor with value at stake by penalizing them ("slashing").
+slashing 模块使基于 Cosmos SDK 的区块链能够通过惩罚（"削减"）来阻止任何协议认可的\
+有权益价值的参与者进行可归因的行为。
 
-Penalties may include, but are not limited to:
+惩罚可能包括但不限于：
 
-* Burning some amount of their stake
-* Removing their ability to vote on future blocks for a period of time.
+* 销毁其部分权益
+* 在一段时间内移除他们对未来区块投票的能力。
 
-This module will be used by the Cosmos Hub, the first hub in the Cosmos ecosystem.
+此模块将被 Cosmos Hub 使用，Cosmos Hub 是 Cosmos 生态系统中的第一个中心。
 
-## Contents
+## 目录
 
-* [Concepts](slashing.md#concepts)
-  * [States](slashing.md#states)
-  * [Tombstone Caps](slashing.md#tombstone-caps)
-  * [Infraction Timelines](slashing.md#infraction-timelines)
-* [State](slashing.md#state)
-  * [Signing Info (Liveness)](slashing.md#signing-info-liveness)
-  * [Params](slashing.md#params)
-* [Messages](slashing.md#messages)
-  * [Unjail](slashing.md#unjail)
+* [概念](slashing.md#concepts)
+  * [状态](slashing.md#states)
+  * [墓碑上限](slashing.md#tombstone-caps)
+  * [违规时间线](slashing.md#infraction-timelines)
+* [状态](slashing.md#state)
+  * [签名信息（活跃度）](slashing.md#signing-info-liveness)
+  * [参数](slashing.md#params)
+* [消息](slashing.md#messages)
+  * [解除监禁](slashing.md#unjail)
 * [BeginBlock](slashing.md#beginblock)
-  * [Liveness Tracking](slashing.md#liveness-tracking)
-* [Hooks](slashing.md#hooks)
-* [Events](slashing.md#events)
-* [Staking Tombstone](slashing.md#staking-tombstone)
-* [Parameters](slashing.md#parameters)
+  * [活跃度跟踪](slashing.md#liveness-tracking)
+* [钩子](slashing.md#hooks)
+* [事件](slashing.md#events)
+* [质押墓碑](slashing.md#staking-tombstone)
+* [参数](slashing.md#parameters)
 * [CLI](slashing.md#cli)
-  * [Query](slashing.md#query)
-  * [Transactions](slashing.md#transactions)
+  * [查询](slashing.md#query)
+  * [交易](slashing.md#transactions)
   * [gRPC](slashing.md#grpc)
   * [REST](slashing.md#rest)
 
-## Concepts
+## 概念
 
-### States
+### 状态
 
-At any given time, there are any number of validators registered in the state\
-machine. Each block, the top `MaxValidators` (defined by `x/staking`) validators\
-who are not jailed become _bonded_, meaning that they may propose and vote on\
-blocks. Validators who are _bonded_ are _at stake_, meaning that part or all of\
-their stake and their delegators' stake is at risk if they commit a protocol fault.
+在任何给定时间，状态机中注册有任意数量的验证者。\
+每个区块，前 `MaxValidators`（由 `x/staking` 定义）个未监禁的验证者\
+成为_绑定_状态，这意味着他们可以提议和投票\
+区块。_绑定_的验证者处于_风险中_，这意味着如果他们犯下协议错误，\
+他们的部分或全部权益及其委托者的权益将面临风险。
 
-For each of these validators we keep a `ValidatorSigningInfo` record that contains\
-information partaining to validator's liveness and other infraction related\
-attributes.
+对于这些验证者中的每一个，我们保留一个 `ValidatorSigningInfo` 记录，其中包含\
+与验证者活跃度和其他违规相关\
+属性的信息。
 
-### Tombstone Caps
+### 墓碑上限
 
-In order to mitigate the impact of initially likely categories of non-malicious\
-protocol faults, the Cosmos Hub implements for each validator\
-a _tombstone_ cap, which only allows a validator to be slashed once for a double\
-sign fault. For example, if you misconfigure your HSM and double-sign a bunch of\
-old blocks, you'll only be punished for the first double-sign (and then immediately tombstombed). This will still be quite expensive and desirable to avoid, but tombstone caps\
-somewhat blunt the economic impact of unintentional misconfiguration.
+为了减轻最初可能出现的非恶意\
+协议错误类别的影响，Cosmos Hub 为每个验证者实现\
+一个_墓碑_上限，只允许验证者因双重\
+签名错误被削减一次。例如，如果您错误配置了 HSM 并对一堆\
+旧区块进行双重签名，您只会因第一次双重签名而受到惩罚（然后立即被墓碑化）。这仍然相当昂贵且需要避免，但墓碑上限\
+在一定程度上减轻了无意错误配置的经济影响。
 
-Liveness faults do not have caps, as they can't stack upon each other. Liveness bugs are "detected" as soon as the infraction occurs, and the validators are immediately put in jail, so it is not possible for them to commit multiple liveness faults without unjailing in between.
+活跃度错误没有上限，因为它们不能相互叠加。活跃度错误在违规发生时立即被"检测"到，验证者立即被监禁，因此他们不可能在不解除监禁的情况下犯下多个活跃度错误。
 
-### Infraction Timelines
+### 违规时间线
 
-To illustrate how the `x/slashing` module handles submitted evidence through\
-CometBFT consensus, consider the following examples:
+为了说明 `x/slashing` 模块如何通过\
+CometBFT 共识处理提交的证据，请考虑以下示例：
 
-**Definitions**:
+**定义**：
 
-_\[_ : timeline start\
-&#xNAN;_]_ : timeline end\
-&#xNAN;_&#x43;_<sub>_n_</sub> : infraction `n` committed\
-&#xNAN;_&#x44;_<sub>_n_</sub> : infraction `n` discovered\
-&#xNAN;_&#x56;_<sub>_b_</sub> : validator bonded\
-&#xNAN;_&#x56;_<sub>_u_</sub> : validator unbonded
+_\[_ : 时间线开始\
+&#xNAN;_]_ : 时间线结束\
+&#xNAN;_&#x43;_<sub>_n_</sub> : 违规 `n` 已犯\
+&#xNAN;_&#x44;_<sub>_n_</sub> : 违规 `n` 被发现\
+&#xNAN;_&#x56;_<sub>_b_</sub> : 验证者绑定\
+&#xNAN;_&#x56;_<sub>_u_</sub> : 验证者解绑
 
-#### Single Double Sign Infraction
+#### 单个双重签名违规
 
 \[----------C<sub>1</sub>----D<sub>1</sub>,V<sub>u</sub>-----]
 
-A single infraction is committed then later discovered, at which point the\
-validator is unbonded and slashed at the full amount for the infraction.
+单个违规被犯下，然后被发现，此时\
+验证者被解绑并因违规被全额削减。
 
-#### Multiple Double Sign Infractions
+#### 多个双重签名违规
 
 \[----------C<sub>1</sub>--C<sub>2</sub>---C<sub>3</sub>---D<sub>1</sub>,D<sub>2</sub>,D<sub>3</sub>V<sub>u</sub>-----]
 
-Multiple infractions are committed and then later discovered, at which point the\
-validator is jailed and slashed for only one infraction. Because the validator\
-is also tombstoned, they can not rejoin the validator set.
+多个违规被犯下，然后被发现，此时\
+验证者被监禁并仅因一个违规而被削减。因为验证者\
+也被墓碑化，他们无法重新加入验证者集合。
 
-## State
+## 状态
 
-### Signing Info (Liveness)
+### 签名信息（活跃度）
 
-Every block includes a set of precommits by the validators for the previous block,\
-known as the `LastCommitInfo` provided by CometBFT. A `LastCommitInfo` is valid so\
-long as it contains precommits from +2/3 of total voting power.
+每个区块都包含验证者对前一区块的一组预提交，\
+称为 CometBFT 提供的 `LastCommitInfo`。只要 `LastCommitInfo` 包含\
+来自总投票权 +2/3 的预提交，它就是有效的。
 
-Proposers are incentivized to include precommits from all validators in the CometBFT `LastCommitInfo`\
-by receiving additional fees proportional to the difference between the voting\
-power included in the `LastCommitInfo` and +2/3 (see [fee distribution](distribution.md#begin-block)).
+提案者通过接收与 `LastCommitInfo` 中包含的投票权\
+与 +2/3 之间的差值成比例的额外费用来激励在 CometBFT `LastCommitInfo` 中包含所有验证者的预提交\
+（参见[费用分配](distribution.md#begin-block)）。
 
 ```go
 type LastCommitInfo struct {
@@ -115,41 +115,41 @@ type LastCommitInfo struct {
 }
 ```
 
-Validators are penalized for failing to be included in the `LastCommitInfo` for some\
-number of blocks by being automatically jailed, potentially slashed, and unbonded.
+验证者因在多个区块中未能包含在 `LastCommitInfo` 中而受到惩罚，\
+通过自动监禁、可能被削减和解绑。
 
-Information about validator's liveness activity is tracked through `ValidatorSigningInfo`.\
-It is indexed in the store as follows:
+关于验证者活跃度的信息通过 `ValidatorSigningInfo` 跟踪。\
+它在存储中的索引如下：
 
 * ValidatorSigningInfo: `0x01 | ConsAddrLen (1 byte) | ConsAddress -> ProtocolBuffer(ValSigningInfo)`
-* MissedBlocksBitArray: `0x02 | ConsAddrLen (1 byte) | ConsAddress | LittleEndianUint64(signArrayIndex) -> VarInt(didMiss)` (varint is a number encoding format)
+* MissedBlocksBitArray: `0x02 | ConsAddrLen (1 byte) | ConsAddress | LittleEndianUint64(signArrayIndex) -> VarInt(didMiss)` (varint 是一种数字编码格式)
 
-The first mapping allows us to easily lookup the recent signing info for a\
-validator based on the validator's consensus address.
+第一个映射允许我们根据验证者的共识地址轻松查找验证者的\
+最近签名信息。
 
-The second mapping (`MissedBlocksBitArray`) acts\
-as a bit-array of size `SignedBlocksWindow` that tells us if the validator missed\
-the block for a given index in the bit-array. The index in the bit-array is given\
-as little endian uint64.\
-The result is a `varint` that takes on `0` or `1`, where `0` indicates the\
-validator did not miss (did sign) the corresponding block, and `1` indicates\
-they missed the block (did not sign).
+第二个映射（`MissedBlocksBitArray`）充当\
+大小为 `SignedBlocksWindow` 的位数组，告诉我们验证者是否错过了\
+位数组中给定索引的区块。位数组中的索引以\
+小端 uint64 给出。\
+结果是一个取 `0` 或 `1` 的 `varint`，其中 `0` 表示\
+验证者没有错过（已签名）相应的区块，`1` 表示\
+他们错过了区块（未签名）。
 
-Note that the `MissedBlocksBitArray` is not explicitly initialized up-front. Keys\
-are added as we progress through the first `SignedBlocksWindow` blocks for a newly\
-bonded validator. The `SignedBlocksWindow` parameter defines the size\
-(number of blocks) of the sliding window used to track validator liveness.
+请注意，`MissedBlocksBitArray` 不会预先显式初始化。键\
+在我们遍历新绑定验证者的前 `SignedBlocksWindow` 个区块时添加。\
+`SignedBlocksWindow` 参数定义用于跟踪验证者活跃度的\
+滑动窗口的大小（区块数）。
 
-The information stored for tracking validator liveness is as follows:
+用于跟踪验证者活跃度的存储信息如下：
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/slashing/v1beta1/slashing.proto#L13-L35
 ```
 
-### Params
+### 参数
 
-The slashing module stores it's params in state with the prefix of `0x00`,\
-it can be updated with governance or the address with authority.
+slashing 模块将其参数存储在状态中，前缀为 `0x00`，\
+可以通过治理或具有权限的地址进行更新。
 
 * Params: `0x00 | ProtocolBuffer(Params)`
 
@@ -157,14 +157,14 @@ it can be updated with governance or the address with authority.
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/slashing/v1beta1/slashing.proto#L37-L59
 ```
 
-## Messages
+## 消息
 
-In this section we describe the processing of messages for the `slashing` module.
+在本节中，我们描述 `slashing` 模块的消息处理。
 
-### Unjail
+### 解除监禁
 
-If a validator was automatically unbonded due to downtime and wishes to come back online &\
-possibly rejoin the bonded set, it must send `MsgUnjail`:
+如果验证者因停机而自动解绑，并希望重新上线并\
+可能重新加入绑定集合，它必须发送 `MsgUnjail`：
 
 ```protobuf
 // MsgUnjail is an sdk.Msg used for unjailing a jailed validator, thus returning
@@ -175,7 +175,7 @@ message MsgUnjail {
 }
 ```
 
-Below is a pseudocode of the `MsgSrv/Unjail` RPC:
+以下是 `MsgSrv/Unjail` RPC 的伪代码：
 
 ```go
 unjail(tx MsgUnjail)
@@ -201,27 +201,30 @@ unjail(tx MsgUnjail)
     return
 ```
 
-If the validator has enough stake to be in the top `n = MaximumBondedValidators`, it will be automatically rebonded,\
-and all delegators still delegated to the validator will be rebonded and begin to again collect\
-provisions and rewards.
+如果验证者有足够的权益进入前 `n = MaximumBondedValidators`，它将自动重新绑定，\
+所有仍委托给该验证者的委托者将重新绑定并开始再次收集\
+供应和奖励。
 
 ## BeginBlock
 
-### Liveness Tracking
+### 活跃度跟踪
 
-At the beginning of each block, we update the `ValidatorSigningInfo` for each\
-validator and check if they've crossed below the liveness threshold over a\
-sliding window. This sliding window is defined by `SignedBlocksWindow` and the\
-index in this window is determined by `IndexOffset` found in the validator's`ValidatorSigningInfo`. For each block processed, the `IndexOffset` is incremented\
-regardless if the validator signed or not. Once the index is determined, the`MissedBlocksBitArray` and `MissedBlocksCounter` are updated accordingly.
+在每个区块开始时，我们更新每个验证者的 `ValidatorSigningInfo`\
+并检查他们是否在滑动窗口内低于活跃度阈值。\
+此滑动窗口由 `SignedBlocksWindow` 定义，窗口中的\
+索引由验证者 `ValidatorSigningInfo` 中找到的 `IndexOffset` 确定。\
+对于每个处理的区块，无论验证者是否签名，`IndexOffset` 都会递增。\
+一旦确定了索引，`MissedBlocksBitArray` 和 `MissedBlocksCounter` 会相应更新。
 
-Finally, in order to determine if a validator crosses below the liveness threshold,\
-we fetch the maximum number of blocks missed, `maxMissed`, which is`SignedBlocksWindow - (MinSignedPerWindow * SignedBlocksWindow)` and the minimum\
-height at which we can determine liveness, `minHeight`. If the current block is\
-greater than `minHeight` and the validator's `MissedBlocksCounter` is greater than`maxMissed`, they will be slashed by `SlashFractionDowntime`, will be jailed\
-for `DowntimeJailDuration`, and have the following values reset:`MissedBlocksBitArray`, `MissedBlocksCounter`, and `IndexOffset`.
+最后，为了确定验证者是否低于活跃度阈值，\
+我们获取错过的最大区块数 `maxMissed`，即\
+`SignedBlocksWindow - (MinSignedPerWindow * SignedBlocksWindow)`，以及\
+我们可以确定活跃度的最小高度 `minHeight`。如果当前区块\
+大于 `minHeight` 且验证者的 `MissedBlocksCounter` 大于\
+`maxMissed`，他们将被 `SlashFractionDowntime` 削减，将被监禁\
+`DowntimeJailDuration`，并重置以下值：`MissedBlocksBitArray`、`MissedBlocksCounter` 和 `IndexOffset`。
 
-**Note**: Liveness slashes do **NOT** lead to a tombstombing.
+**注意**：活跃度削减**不会**导致墓碑化。
 
 ```go
 height := block.Height
@@ -295,26 +298,29 @@ for vote in block.LastCommitInfo.Votes {
 }
 ```
 
-## Hooks
+## 钩子
 
-This section contains a description of the module's `hooks`. Hooks are operations that are executed automatically when events are raised.
+本节包含模块 `hooks` 的描述。钩子是在事件触发时自动执行的操作。
 
-### Staking hooks
+### 质押钩子
 
-The slashing module implements the `StakingHooks` defined in `x/staking` and are used as record-keeping of validators information. During the app initialization, these hooks should be registered in the staking module struct.
+slashing 模块实现了 `x/staking` 中定义的 `StakingHooks`，\
+用作验证者信息的记录保存。在应用初始化期间，\
+这些钩子应在 staking 模块结构中注册。
 
-The following hooks impact the slashing state:
+以下钩子影响 slashing 状态：
 
-* `AfterValidatorBonded` creates a `ValidatorSigningInfo` instance as described in the following section.
-* `AfterValidatorCreated` stores a validator's consensus key.
-* `AfterValidatorRemoved` removes a validator's consensus key.
+* `AfterValidatorBonded` 创建如下节所述的 `ValidatorSigningInfo` 实例。
+* `AfterValidatorCreated` 存储验证者的共识密钥。
+* `AfterValidatorRemoved` 移除验证者的共识密钥。
 
-### Validator Bonded
+### 验证者绑定
 
-Upon successful first-time bonding of a new validator, we create a new `ValidatorSigningInfo` structure for the\
-now-bonded validator, which `StartHeight` of the current block.
+在新验证者首次成功绑定后，我们为\
+现在绑定的验证者创建一个新的 `ValidatorSigningInfo` 结构，\
+其 `StartHeight` 为当前区块。
 
-If the validator was out of the validator set and gets bonded again, its new bonded height is set.
+如果验证者不在验证者集合中并再次绑定，则设置其新的绑定高度。
 
 ```go
 onValidatorBonded(address sdk.ValAddress)
@@ -337,178 +343,178 @@ onValidatorBonded(address sdk.ValAddress)
   return
 ```
 
-## Events
+## 事件
 
-The slashing module emits the following events:
+slashing 模块发出以下事件：
 
 ### MsgServer
 
 #### MsgUnjail
 
-| Type    | Attribute Key | Attribute Value    |
-| ------- | ------------- | ------------------ |
-| message | module        | slashing           |
-| message | sender        | {validatorAddress} |
+| 类型    | 属性键   | 属性值            |
+| ------- | -------- | ----------------- |
+| message | module   | slashing           |
+| message | sender   | {validatorAddress} |
 
 ### Keeper
 
 ### BeginBlocker: HandleValidatorSignature
 
-| Type  | Attribute Key | Attribute Value             |
-| ----- | ------------- | --------------------------- |
-| slash | address       | {validatorConsensusAddress} |
-| slash | power         | {validatorPower}            |
-| slash | reason        | {slashReason}               |
-| slash | jailed \[0]   | {validatorConsensusAddress} |
-| slash | burned coins  | {math.Int}                  |
+| 类型  | 属性键   | 属性值                     |
+| ----- | -------- | -------------------------- |
+| slash | address  | {validatorConsensusAddress} |
+| slash | power    | {validatorPower}            |
+| slash | reason   | {slashReason}               |
+| slash | jailed \[0] | {validatorConsensusAddress} |
+| slash | burned coins | {math.Int}                  |
 
-* \[0] Only included if the validator is jailed.
+* \[0] 仅在验证者被监禁时包含。
 
-| Type     | Attribute Key  | Attribute Value             |
-| -------- | -------------- | --------------------------- |
-| liveness | address        | {validatorConsensusAddress} |
+| 类型     | 属性键        | 属性值                     |
+| -------- | ------------ | -------------------------- |
+| liveness | address      | {validatorConsensusAddress} |
 | liveness | missed\_blocks | {missedBlocksCounter}       |
-| liveness | height         | {blockHeight}               |
+| liveness | height       | {blockHeight}               |
 
 #### Slash
 
-* same as `"slash"` event from `HandleValidatorSignature`, but without the `jailed` attribute.
+* 与 `HandleValidatorSignature` 的 `"slash"` 事件相同，但没有 `jailed` 属性。
 
 #### Jail
 
-| Type  | Attribute Key | Attribute Value    |
-| ----- | ------------- | ------------------ |
-| slash | jailed        | {validatorAddress} |
+| 类型  | 属性键   | 属性值            |
+| ----- | -------- | ----------------- |
+| slash | jailed   | {validatorAddress} |
 
-## Staking Tombstone
+## 质押墓碑
 
-### Abstract
+### 摘要
 
-In the current implementation of the `slashing` module, when the consensus engine\
-informs the state machine of a validator's consensus fault, the validator is\
-partially slashed, and put into a "jail period", a period of time in which they\
-are not allowed to rejoin the validator set. However, because of the nature of\
-consensus faults and ABCI, there can be a delay between an infraction occurring,\
-and evidence of the infraction reaching the state machine (this is one of the\
-primary reasons for the existence of the unbonding period).
+在 `slashing` 模块的当前实现中，当共识引擎\
+通知状态机验证者的共识错误时，验证者被\
+部分削减，并被置于"监禁期"，即他们\
+不被允许重新加入验证者集合的时期。\
+但是，由于共识错误和 ABCI 的性质，违规发生\
+与违规证据到达状态机之间可能存在延迟\
+（这是解绑期存在的主要原因之一）。
 
-> Note: The tombstone concept, only applies to faults that have a delay between\
-> the infraction occurring and evidence reaching the state machine. For example,\
-> evidence of a validator double signing may take a while to reach the state machine\
-> due to unpredictable evidence gossip layer delays and the ability of validators to\
-> selectively reveal double-signatures (e.g. to infrequently-online light clients).\
-> Liveness slashing, on the other hand, is detected immediately as soon as the\
-> infraction occurs, and therefore no slashing period is needed. A validator is\
-> immediately put into jail period, and they cannot commit another liveness fault\
-> until they unjail. In the future, there may be other types of byzantine faults\
-> that have delays (for example, submitting evidence of an invalid proposal as a transaction).\
-> When implemented, it will have to be decided whether these future types of\
-> byzantine faults will result in a tombstoning (and if not, the slash amounts\
-> will not be capped by a slashing period).
+> 注意：墓碑概念仅适用于违规发生\
+> 与证据到达状态机之间存在延迟的错误。例如，\
+> 验证者双重签名的证据可能需要一段时间才能到达状态机\
+>，这是由于不可预测的证据八卦层延迟以及验证者\
+> 选择性揭示双重签名的能力（例如，向不经常在线的轻客户端）。\
+> 另一方面，活跃度削减在违规发生时立即被检测到，\
+> 因此不需要削减期。验证者\
+> 立即被置于监禁期，他们无法在解除监禁之前\
+> 犯下另一个活跃度错误。未来，可能有其他类型的拜占庭错误\
+> 具有延迟（例如，将无效提案的证据作为交易提交）。\
+> 当实现时，必须决定这些未来类型的\
+> 拜占庭错误是否会导致墓碑化（如果不是，削减金额\
+> 将不受削减期限制）。
 
-In the current system design, once a validator is put in the jail for a consensus\
-fault, after the `JailPeriod` they are allowed to send a transaction to `unjail`\
-themselves, and thus rejoin the validator set.
+在当前系统设计中，一旦验证者因共识\
+错误被监禁，在 `JailPeriod` 之后，他们被允许发送交易以 `unjail`\
+自己，从而重新加入验证者集合。
 
-One of the "design desires" of the `slashing` module is that if multiple\
-infractions occur before evidence is executed (and a validator is put in jail),\
-they should only be punished for single worst infraction, but not cumulatively.\
-For example, if the sequence of events is:
+`slashing` 模块的"设计愿望"之一是，如果在证据执行之前发生多个\
+违规（并且验证者被监禁），\
+他们应该只因单个最严重的违规而受到惩罚，而不是累积惩罚。\
+例如，如果事件序列是：
 
-1. Validator A commits Infraction 1 (worth 30% slash)
-2. Validator A commits Infraction 2 (worth 40% slash)
-3. Validator A commits Infraction 3 (worth 35% slash)
-4. Evidence for Infraction 1 reaches state machine (and validator is put in jail)
-5. Evidence for Infraction 2 reaches state machine
-6. Evidence for Infraction 3 reaches state machine
+1. 验证者 A 犯下违规 1（价值 30% 削减）
+2. 验证者 A 犯下违规 2（价值 40% 削减）
+3. 验证者 A 犯下违规 3（价值 35% 削减）
+4. 违规 1 的证据到达状态机（验证者被监禁）
+5. 违规 2 的证据到达状态机
+6. 违规 3 的证据到达状态机
 
-Only Infraction 2 should have its slash take effect, as it is the highest. This\
-is done, so that in the case of the compromise of a validator's consensus key,\
-they will only be punished once, even if the hacker double-signs many blocks.\
-Because, the unjailing has to be done with the validator's operator key, they\
-have a chance to re-secure their consensus key, and then signal that they are\
-ready using their operator key. We call this period during which we track only\
-the max infraction, the "slashing period".
+只有违规 2 应该生效其削减，因为它是最高的。这样做\
+是为了在验证者的共识密钥被泄露的情况下，\
+他们只会受到一次惩罚，即使黑客对许多区块进行双重签名。\
+因为，解除监禁必须使用验证者的运营者密钥完成，他们\
+有机会重新保护其共识密钥，然后使用其运营者密钥\
+发出准备就绪的信号。我们将仅跟踪\
+最大违规的这段时间称为"削减期"。
 
-Once, a validator rejoins by unjailing themselves, we begin a new slashing period;\
-if they commit a new infraction after unjailing, it gets slashed cumulatively on\
-top of the worst infraction from the previous slashing period.
+一旦验证者通过解除监禁重新加入，我们开始一个新的削减期；\
+如果他们在解除监禁后犯下新的违规，它会在\
+前一削减期的最严重违规之上累积削减。
 
-However, while infractions are grouped based off of the slashing periods, because\
-evidence can be submitted up to an `unbondingPeriod` after the infraction, we\
-still have to allow for evidence to be submitted for previous slashing periods.\
-For example, if the sequence of events is:
+但是，虽然违规基于削减期分组，但由于\
+证据可以在违规后最多 `unbondingPeriod` 提交，我们\
+仍然必须允许为之前的削减期提交证据。\
+例如，如果事件序列是：
 
-1. Validator A commits Infraction 1 (worth 30% slash)
-2. Validator A commits Infraction 2 (worth 40% slash)
-3. Evidence for Infraction 1 reaches state machine (and Validator A is put in jail)
-4. Validator A unjails
+1. 验证者 A 犯下违规 1（价值 30% 削减）
+2. 验证者 A 犯下违规 2（价值 40% 削减）
+3. 违规 1 的证据到达状态机（验证者 A 被监禁）
+4. 验证者 A 解除监禁
 
-We are now in a new slashing period, however we still have to keep the door open\
-for the previous infraction, as the evidence for Infraction 2 may still come in.\
-As the number of slashing periods increase, it creates more complexity as we have\
-to keep track of the highest infraction amount for every single slashing period.
+我们现在处于新的削减期，但我们仍然必须为\
+之前的违规敞开大门，因为违规 2 的证据可能仍会到来。\
+随着削减期数量的增加，它会产生更多复杂性，因为我们必须\
+跟踪每个削减期的最高违规金额。
 
-> Note: Currently, according to the `slashing` module spec, a new slashing period\
-> is created every time a validator is unbonded then rebonded. This should probably\
-> be changed to jailed/unjailed. See issue [#3205](https://github.com/cosmos/cosmos-sdk/issues/3205)\
-> for further details. For the remainder of this, I will assume that we only start\
-> a new slashing period when a validator gets unjailed.
+> 注意：目前，根据 `slashing` 模块规范，每次\
+> 验证者解绑然后重新绑定时都会创建新的削减期。这应该\
+> 改为监禁/解除监禁。有关详细信息，请参见问题 [#3205](https://github.com/cosmos/cosmos-sdk/issues/3205)\
+>。对于本文的其余部分，我将假设我们只在\
+> 验证者解除监禁时开始新的削减期。
 
-The maximum number of slashing periods is the `len(UnbondingPeriod) / len(JailPeriod)`.\
-The current defaults in Gaia for the `UnbondingPeriod` and `JailPeriod` are 3 weeks\
-and 2 days, respectively. This means there could potentially be up to 11 slashing\
-periods concurrently being tracked per validator. If we set the `JailPeriod >= UnbondingPeriod`,\
-we only have to track 1 slashing period (i.e not have to track slashing periods).
+削减期的最大数量是 `len(UnbondingPeriod) / len(JailPeriod)`。\
+Gaia 中 `UnbondingPeriod` 和 `JailPeriod` 的当前默认值分别为 3 周\
+和 2 天。这意味着每个验证者可能同时跟踪多达 11 个削减\
+期。如果我们将 `JailPeriod >= UnbondingPeriod`，\
+我们只需要跟踪 1 个削减期（即不需要跟踪削减期）。
 
-Currently, in the jail period implementation, once a validator unjails, all of\
-their delegators who are delegated to them (haven't unbonded / redelegated away),\
-stay with them. Given that consensus safety faults are so egregious\
-(way more so than liveness faults), it is probably prudent to have delegators not\
-"auto-rebond" to the validator.
+目前，在监禁期实现中，一旦验证者解除监禁，所有\
+委托给他们的委托者（尚未解绑/重新委托离开），\
+与他们一起。鉴于共识安全错误如此严重\
+（远超过活跃度错误），让委托者不\
+"自动重新绑定"到验证者可能是谨慎的。
 
-#### Proposal: infinite jail
+#### 提案：无限监禁
 
-We propose setting the "jail time" for a\
-validator who commits a consensus safety fault, to `infinite` (i.e. a tombstone state).\
-This essentially kicks the validator out of the validator set and does not allow\
-them to re-enter the validator set. All of their delegators (including the operator themselves)\
-have to either unbond or redelegate away. The validator operator can create a new\
-validator if they would like, with a new operator key and consensus key, but they\
-have to "re-earn" their delegations back.
+我们建议将犯下共识安全错误的\
+验证者的"监禁时间"设置为 `infinite`（即墓碑状态）。\
+这实际上将验证者踢出验证者集合，不允许\
+他们重新进入验证者集合。所有他们的委托者（包括运营者本人）\
+必须解绑或重新委托离开。验证者运营者可以创建新的\
+验证者（如果他们愿意），使用新的运营者密钥和共识密钥，但他们\
+必须"重新获得"他们的委托。
 
-Implementing the tombstone system and getting rid of the slashing period tracking\
-will make the `slashing` module way simpler, especially because we can remove all\
-of the hooks defined in the `slashing` module consumed by the `staking` module\
-(the `slashing` module still consumes hooks defined in `staking`).
+实现墓碑系统并摆脱削减期跟踪\
+将使 `slashing` 模块简单得多，特别是因为我们可以移除\
+`staking` 模块使用的 `slashing` 模块中定义的所有钩子\
+（`slashing` 模块仍使用 `staking` 中定义的钩子）。
 
-#### Single slashing amount
+#### 单一削减金额
 
-Another optimization that can be made is that if we assume that all ABCI faults\
-for CometBFT consensus are slashed at the same level, we don't have to keep\
-track of "max slash". Once an ABCI fault happens, we don't have to worry about\
-comparing potential future ones to find the max.
+可以进行的另一个优化是，如果我们假设 CometBFT 共识的所有 ABCI 错误\
+都在同一级别削减，我们不需要跟踪\
+"最大削减"。一旦发生 ABCI 错误，我们不需要担心\
+比较潜在的未来错误以找到最大值。
 
-Currently the only CometBFT ABCI fault is:
+目前唯一的 CometBFT ABCI 错误是：
 
-* Unjustified precommits (double signs)
+* 不合理的预提交（双重签名）
 
-It is currently planned to include the following fault in the near future:
+目前计划在不久的将来包含以下错误：
 
-* Signing a precommit when you're in unbonding phase (needed to make light client bisection safe)
+* 在解绑阶段签署预提交（需要使轻客户端二分法安全）
 
-Given that these faults are both attributable byzantine faults, we will likely\
-want to slash them equally, and thus we can enact the above change.
+鉴于这些错误都是可归因的拜占庭错误，我们可能\
+希望同等削减它们，因此我们可以实施上述更改。
 
-> Note: This change may make sense for current CometBFT consensus, but maybe\
-> not for a different consensus algorithm or future versions of CometBFT that\
-> may want to punish at different levels (for example, partial slashing).
+> 注意：此更改可能对当前的 CometBFT 共识有意义，但可能\
+> 不适用于不同的共识算法或可能希望\
+> 在不同级别惩罚的 CometBFT 未来版本（例如，部分削减）。
 
-## Parameters
+## 参数
 
-The slashing module contains the following parameters:
+slashing 模块包含以下参数：
 
-| Key                     | Type           | Example                |
+| 键                     | 类型           | 示例                |
 | ----------------------- | -------------- | ---------------------- |
 | SignedBlocksWindow      | string (int64) | "100"                  |
 | MinSignedPerWindow      | string (dec)   | "0.500000000000000000" |
@@ -518,11 +524,11 @@ The slashing module contains the following parameters:
 
 ## CLI
 
-A user can query and interact with the `slashing` module using the CLI.
+用户可以使用 CLI 查询和与 `slashing` 模块交互。
 
-### Query
+### 查询
 
-The `query` commands allow users to query `slashing` state.
+`query` 命令允许用户查询 `slashing` 状态。
 
 ```shell
 simd query slashing --help
@@ -530,19 +536,19 @@ simd query slashing --help
 
 #### params
 
-The `params` command allows users to query genesis parameters for the slashing module.
+`params` 命令允许用户查询 slashing 模块的创世参数。
 
 ```shell
 simd query slashing params [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query slashing params
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 downtime_jail_duration: 600s
@@ -554,20 +560,20 @@ slash_fraction_downtime: "0.010000000000000000"
 
 #### signing-info
 
-The `signing-info` command allows users to query signing-info of the validator using consensus public key.
+`signing-info` 命令允许用户使用共识公钥查询验证者的签名信息。
 
 ```shell
 simd query slashing signing-infos [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query slashing signing-info '{"@type":"/cosmos.crypto.ed25519.PubKey","key":"Auxs3865HpB/EfssYOzfqNhEJjzys6jD5B6tPgC8="}'
 
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 address: cosmosvalcons1nrqsld3aw6lh6t082frdqc84uwxn0t958c
@@ -580,19 +586,19 @@ tombstoned: false
 
 #### signing-infos
 
-The `signing-infos` command allows users to query signing infos of all validators.
+`signing-infos` 命令允许用户查询所有验证者的签名信息。
 
 ```shell
 simd query slashing signing-infos [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query slashing signing-infos
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 info:
@@ -607,9 +613,9 @@ pagination:
   total: "0"
 ```
 
-### Transactions
+### 交易
 
-The `tx` commands allow users to interact with the `slashing` module.
+`tx` 命令允许用户与 `slashing` 模块交互。
 
 ```bash
 simd tx slashing --help
@@ -617,13 +623,13 @@ simd tx slashing --help
 
 #### unjail
 
-The `unjail` command allows users to unjail a validator previously jailed for downtime.
+`unjail` 命令允许用户解除因停机而被监禁的验证者的监禁。
 
 ```bash
 simd tx slashing unjail --from mykey [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx slashing unjail --from mykey
@@ -631,23 +637,23 @@ simd tx slashing unjail --from mykey
 
 ### gRPC
 
-A user can query the `slashing` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `slashing` 模块。
 
 #### Params
 
-The `Params` endpoint allows users to query the parameters of slashing module.
+`Params` 端点允许用户查询 slashing 模块的参数。
 
 ```shell
 cosmos.slashing.v1beta1.Query/Params
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext localhost:9090 cosmos.slashing.v1beta1.Query/Params
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -663,19 +669,19 @@ Example Output:
 
 #### SigningInfo
 
-The SigningInfo queries the signing info of given cons address.
+SigningInfo 查询给定共识地址的签名信息。
 
 ```shell
 cosmos.slashing.v1beta1.Query/SigningInfo
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext -d '{"cons_address":"cosmosvalcons1nrqsld3aw6lh6t082frdqc84uwxn0t958c"}' localhost:9090 cosmos.slashing.v1beta1.Query/SigningInfo
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -689,19 +695,19 @@ Example Output:
 
 #### SigningInfos
 
-The SigningInfos queries signing info of all validators.
+SigningInfos 查询所有验证者的签名信息。
 
 ```shell
 cosmos.slashing.v1beta1.Query/SigningInfos
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext localhost:9090 cosmos.slashing.v1beta1.Query/SigningInfos
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -720,7 +726,7 @@ Example Output:
 
 ### REST
 
-A user can query the `slashing` module using REST endpoints.
+用户可以使用 REST 端点查询 `slashing` 模块。
 
 #### Params
 
@@ -728,13 +734,13 @@ A user can query the `slashing` module using REST endpoints.
 /cosmos/slashing/v1beta1/params
 ```
 
-Example:
+示例：
 
 ```shell
 curl "localhost:1317/cosmos/slashing/v1beta1/params"
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -753,13 +759,13 @@ Example Output:
 /cosmos/slashing/v1beta1/signing_infos/%s
 ```
 
-Example:
+示例：
 
 ```shell
 curl "localhost:1317/cosmos/slashing/v1beta1/signing_infos/cosmosvalcons1nrqslkwd3pz096lh6t082frdqc84uwxn0t958c"
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -780,13 +786,13 @@ Example Output:
 /cosmos/slashing/v1beta1/signing_infos
 ```
 
-Example:
+示例：
 
 ```shell
 curl "localhost:1317/cosmos/slashing/v1beta1/signing_infos
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {

@@ -4,44 +4,46 @@ sidebar_position: 1
 
 # Evidence
 
-* [Concepts](evidence.md#concepts)
-* [State](evidence.md#state)
-* [Messages](evidence.md#messages)
-* [Events](evidence.md#events)
-* [Parameters](evidence.md#parameters)
+* [概念](evidence.md#concepts)
+* [状态](evidence.md#state)
+* [消息](evidence.md#messages)
+* [事件](evidence.md#events)
+* [参数](evidence.md#parameters)
 * [BeginBlock](evidence.md#beginblock)
-* [Client](evidence.md#client)
+* [客户端](evidence.md#client)
   * [CLI](evidence.md#cli)
   * [REST](evidence.md#rest)
   * [gRPC](evidence.md#grpc)
 
-## Abstract
+## 摘要
 
-`x/evidence` is an implementation of a Cosmos SDK module, per [ADR 009](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-009-evidence-module.md),\
-that allows for the submission and handling of arbitrary evidence of misbehavior such\
-as equivocation and counterfactual signing.
+`x/evidence` 是 Cosmos SDK 模块的实现，根据 [ADR 009](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-009-evidence-module.md)，\
+它允许提交和处理任意的不当行为证据，例如\
+双重签名和反事实签名。
 
-The evidence module differs from standard evidence handling which typically expects the\
-underlying consensus engine, e.g. CometBFT, to automatically submit evidence when\
-it is discovered by allowing clients and foreign chains to submit more complex evidence\
-directly.
+evidence 模块不同于标准的证据处理，后者通常期望\
+底层共识引擎（例如 CometBFT）在发现时自动提交证据，\
+它通过允许客户端和外部链直接提交更复杂的证据来实现这一点。
 
-All concrete evidence types must implement the `Evidence` interface contract. Submitted`Evidence` is first routed through the evidence module's `Router` in which it attempts\
-to find a corresponding registered `Handler` for that specific `Evidence` type.\
-Each `Evidence` type must have a `Handler` registered with the evidence module's\
-keeper in order for it to be successfully routed and executed.
+所有具体的证据类型必须实现 `Evidence` 接口契约。提交的\
+`Evidence` 首先通过 evidence 模块的 `Router` 路由，在其中它尝试\
+为该特定 `Evidence` 类型找到相应的已注册 `Handler`。\
+每个 `Evidence` 类型必须在 evidence 模块的\
+keeper 中注册一个 `Handler`，才能成功路由和执行。
 
-Each corresponding handler must also fulfill the `Handler` interface contract. The`Handler` for a given `Evidence` type can perform any arbitrary state transitions\
-such as slashing, jailing, and tombstoning.
+每个相应的处理器还必须满足 `Handler` 接口契约。给定\
+`Evidence` 类型的 `Handler` 可以执行任何任意状态转换，\
+例如削减、监禁和标记为墓碑。
 
-## Concepts
+## 概念
 
-### Evidence
+### 证据
 
-Any concrete type of evidence submitted to the `x/evidence` module must fulfill the`Evidence` contract outlined below. Not all concrete types of evidence will fulfill\
-this contract in the same way and some data may be entirely irrelevant to certain\
-types of evidence. An additional `ValidatorEvidence`, which extends `Evidence`,\
-has also been created to define a contract for evidence against malicious validators.
+提交到 `x/evidence` 模块的任何具体证据类型都必须满足下面概述的\
+`Evidence` 契约。并非所有具体的证据类型都会以相同的方式满足\
+此契约，某些数据可能对某些\
+类型的证据完全不相关。还创建了一个额外的 `ValidatorEvidence`，它扩展了 `Evidence`，\
+用于定义针对恶意验证者的证据契约。
 
 ```go
 // Evidence defines the contract which concrete evidence types of misbehavior
@@ -74,12 +76,13 @@ type ValidatorEvidence interface {
 }
 ```
 
-### Registration & Handling
+### 注册和处理
 
-The `x/evidence` module must first know about all types of evidence it is expected\
-to handle. This is accomplished by registering the `Route` method in the `Evidence`\
-contract with what is known as a `Router` (defined below). The `Router` accepts`Evidence` and attempts to find the corresponding `Handler` for the `Evidence`\
-via the `Route` method.
+`x/evidence` 模块必须首先了解它预期\
+处理的所有证据类型。这是通过将 `Evidence`\
+契约中的 `Route` 方法注册到称为 `Router`（如下定义）的对象来实现的。`Router` 接受\
+`Evidence` 并尝试通过 `Route` 方法为 `Evidence`\
+找到相应的 `Handler`。
 
 ```go
 type Router interface {
@@ -91,12 +94,12 @@ type Router interface {
 }
 ```
 
-The `Handler` (defined below) is responsible for executing the entirety of the\
-business logic for handling `Evidence`. This typically includes validating the\
-evidence, both stateless checks via `ValidateBasic` and stateful checks via any\
-keepers provided to the `Handler`. In addition, the `Handler` may also perform\
-capabilities such as slashing and jailing a validator. All `Evidence` handled\
-by the `Handler` should be persisted.
+`Handler`（如下定义）负责执行处理 `Evidence` 的\
+全部业务逻辑。这通常包括验证\
+证据，通过 `ValidateBasic` 进行无状态检查，以及通过提供给\
+`Handler` 的任何 keepers 进行有状态检查。此外，`Handler` 还可以执行\
+诸如削减和监禁验证者等功能。由\
+`Handler` 处理的所有 `Evidence` 都应该被持久化。
 
 ```go
 // Handler defines an agnostic Evidence handler. The handler is responsible
@@ -106,10 +109,10 @@ by the `Handler` should be persisted.
 type Handler func(context.Context, Evidence) error
 ```
 
-## State
+## 状态
 
-Currently the `x/evidence` module only stores valid submitted `Evidence` in state.\
-The evidence state is also stored and exported in the `x/evidence` module's `GenesisState`.
+目前，`x/evidence` 模块仅在状态中存储有效提交的 `Evidence`。\
+证据状态也存储在 `x/evidence` 模块的 `GenesisState` 中并导出。
 
 ```protobuf
 // GenesisState defines the evidence module's genesis state.
@@ -120,13 +123,13 @@ message GenesisState {
 
 ```
 
-All `Evidence` is retrieved and stored via a prefix `KVStore` using prefix `0x00` (`KeyPrefixEvidence`).
+所有 `Evidence` 都通过使用前缀 `0x00`（`KeyPrefixEvidence`）的前缀 `KVStore` 检索和存储。
 
-## Messages
+## 消息
 
 ### MsgSubmitEvidence
 
-Evidence is submitted through a `MsgSubmitEvidence` message:
+证据通过 `MsgSubmitEvidence` 消息提交：
 
 ```protobuf
 // MsgSubmitEvidence represents a message that supports submitting arbitrary
@@ -137,11 +140,11 @@ message MsgSubmitEvidence {
 }
 ```
 
-Note, the `Evidence` of a `MsgSubmitEvidence` message must have a corresponding`Handler` registered with the `x/evidence` module's `Router` in order to be processed\
-and routed correctly.
+注意，`MsgSubmitEvidence` 消息的 `Evidence` 必须在 `x/evidence` 模块的 `Router` 中注册相应的\
+`Handler`，才能被正确处理\
+和路由。
 
-Given the `Evidence` is registered with a corresponding `Handler`, it is processed\
-as follows:
+假设 `Evidence` 已注册相应的 `Handler`，它按以下方式处理：
 
 ```go
 func SubmitEvidence(ctx Context, evidence Evidence) error {
@@ -169,85 +172,85 @@ func SubmitEvidence(ctx Context, evidence Evidence) error {
 }
 ```
 
-First, there must not already exist valid submitted `Evidence` of the exact same\
-type. Secondly, the `Evidence` is routed to the `Handler` and executed. Finally,\
-if there is no error in handling the `Evidence`, an event is emitted and it is persisted to state.
+首先，必须不存在完全相同类型的有效提交 `Evidence`。\
+其次，`Evidence` 被路由到 `Handler` 并执行。最后，\
+如果在处理 `Evidence` 时没有错误，则发出事件并将其持久化到状态。
 
-## Events
+## 事件
 
-The `x/evidence` module emits the following events:
+`x/evidence` 模块发出以下事件：
 
-### Handlers
+### 处理器
 
 #### MsgSubmitEvidence
 
-| Type             | Attribute Key  | Attribute Value  |
-| ---------------- | -------------- | ---------------- |
+| 类型             | 属性键        | 属性值          |
+| ---------------- | ------------ | --------------- |
 | submit\_evidence | evidence\_hash | {evidenceHash}   |
-| message          | module         | evidence         |
-| message          | sender         | {senderAddress}  |
-| message          | action         | submit\_evidence |
+| message          | module       | evidence         |
+| message          | sender       | {senderAddress}  |
+| message          | action       | submit\_evidence |
 
-## Parameters
+## 参数
 
-The evidence module does not contain any parameters.
+evidence 模块不包含任何参数。
 
 ## BeginBlock
 
-### Evidence Handling
+### 证据处理
 
-CometBFT blocks can include[Evidence](https://github.com/cometbft/cometbft/blob/main/spec/abci/abci%2B%2B_basic_concepts.md#evidence) that indicates if a validator committed malicious behavior. The relevant information is forwarded to the application as ABCI Evidence in `abci.RequestBeginBlock` so that the validator can be punished accordingly.
+CometBFT 区块可以包含[证据](https://github.com/cometbft/cometbft/blob/main/spec/abci/abci%2B%2B_basic_concepts.md#evidence)，指示验证者是否实施了恶意行为。相关信息在 `abci.RequestBeginBlock` 中作为 ABCI 证据转发给应用，以便相应地惩罚验证者。
 
-#### Equivocation
+#### 双重签名
 
-The Cosmos SDK handles two types of evidence inside the ABCI `BeginBlock`:
+Cosmos SDK 在 ABCI `BeginBlock` 内处理两种类型的证据：
 
-* `DuplicateVoteEvidence`,
-* `LightClientAttackEvidence`.
+* `DuplicateVoteEvidence`，
+* `LightClientAttackEvidence`。
 
-The evidence module handles these two evidence types the same way. First, the Cosmos SDK converts the CometBFT concrete evidence type to an SDK `Evidence` interface using `Equivocation` as the concrete type.
+evidence 模块以相同方式处理这两种证据类型。首先，Cosmos SDK 使用 `Equivocation` 作为具体类型，将 CometBFT 具体证据类型转换为 SDK `Evidence` 接口。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/evidence/v1beta1/evidence.proto#L12-L32
 ```
 
-For some `Equivocation` submitted in `block` to be valid, it must satisfy:
+对于在 `block` 中提交的某些 `Equivocation` 要有效，它必须满足：
 
 `Evidence.Timestamp >= block.Timestamp - MaxEvidenceAge`
 
-Where:
+其中：
 
-* `Evidence.Timestamp` is the timestamp in the block at height `Evidence.Height`
-* `block.Timestamp` is the current block timestamp.
+* `Evidence.Timestamp` 是高度 `Evidence.Height` 处区块中的时间戳
+* `block.Timestamp` 是当前区块时间戳。
 
-If valid `Equivocation` evidence is included in a block, the validator's stake is\
-reduced (slashed) by `SlashFractionDoubleSign` as defined by the `x/slashing` module\
-of what their stake was when the infraction occurred, rather than when the evidence was discovered.\
-We want to "follow the stake", i.e., the stake that contributed to the infraction\
-should be slashed, even if it has since been redelegated or started unbonding.
+如果有效的 `Equivocation` 证据包含在区块中，验证者的权益\
+会被 `x/slashing` 模块定义的 `SlashFractionDoubleSign` 削减（slash），\
+削减的是违规发生时的权益，而不是发现证据时的权益。\
+我们希望"跟随权益"，即，导致违规的权益\
+应该被削减，即使它后来被重新委托或开始解绑。
 
-In addition, the validator is permanently jailed and tombstoned to make it impossible for that\
-validator to ever re-enter the validator set.
+此外，验证者被永久监禁并标记为墓碑，使该\
+验证者永远无法重新进入验证者集合。
 
-The `Equivocation` evidence is handled as follows:
+`Equivocation` 证据按以下方式处理：
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/evidence/keeper/infraction.go#L26-L140
 ```
 
-**Note:** The slashing, jailing, and tombstoning calls are delegated through the `x/slashing` module\
-that emits informative events and finally delegates calls to the `x/staking` module. See documentation\
-on slashing and jailing in [State Transitions](staking.md#state-transitions).
+**注意：** 削减、监禁和标记为墓碑的调用通过 `x/slashing` 模块\
+委托，该模块发出信息性事件并最终将调用委托给 `x/staking` 模块。有关\
+削减和监禁的文档，请参见[状态转换](staking.md#state-transitions)。
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `evidence` module using the CLI.
+用户可以使用 CLI 查询和与 `evidence` 模块交互。
 
-#### Query
+#### 查询
 
-The `query` commands allows users to query `evidence` state.
+`query` 命令允许用户查询 `evidence` 状态。
 
 ```bash
 simd query evidence --help
@@ -255,23 +258,23 @@ simd query evidence --help
 
 #### evidence
 
-The `evidence` command allows users to list all evidence or evidence by hash.
+`evidence` 命令允许用户列出所有证据或按哈希查询证据。
 
-Usage:
+用法：
 
 ```bash
 simd query evidence evidence [flags]
 ```
 
-To query evidence by hash
+按哈希查询证据
 
-Example:
+示例：
 
 ```bash
 simd query evidence evidence "DF0C23E8634E480F84B9D5674A7CDC9816466DEC28A3358F73260F68D28D7660"
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 evidence:
@@ -281,15 +284,15 @@ evidence:
   time: "2021-10-20T16:08:38.194017624Z"
 ```
 
-To get all evidence
+获取所有证据
 
-Example:
+示例：
 
 ```bash
 simd query evidence list
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 evidence:
@@ -304,23 +307,23 @@ pagination:
 
 ### REST
 
-A user can query the `evidence` module using REST endpoints.
+用户可以使用 REST 端点查询 `evidence` 模块。
 
 #### Evidence
 
-Get evidence by hash
+按哈希获取证据
 
 ```bash
 /cosmos/evidence/v1beta1/evidence/{hash}
 ```
 
-Example:
+示例：
 
 ```bash
 curl -X GET "http://localhost:1317/cosmos/evidence/v1beta1/evidence/DF0C23E8634E480F84B9D5674A7CDC9816466DEC28A3358F73260F68D28D7660"
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -335,19 +338,19 @@ Example Output:
 
 #### All evidence
 
-Get all evidence
+获取所有证据
 
 ```bash
 /cosmos/evidence/v1beta1/evidence
 ```
 
-Example:
+示例：
 
 ```bash
 curl -X GET "http://localhost:1317/cosmos/evidence/v1beta1/evidence"
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -367,23 +370,23 @@ Example Output:
 
 ### gRPC
 
-A user can query the `evidence` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `evidence` 模块。
 
 #### Evidence
 
-Get evidence by hash
+按哈希获取证据
 
 ```bash
 cosmos.evidence.v1beta1.Query/Evidence
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext -d '{"evidence_hash":"DF0C23E8634E480F84B9D5674A7CDC9816466DEC28A3358F73260F68D28D7660"}' localhost:9090 cosmos.evidence.v1beta1.Query/Evidence
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -398,19 +401,19 @@ Example Output:
 
 #### All evidence
 
-Get all evidence
+获取所有证据
 
 ```bash
 cosmos.evidence.v1beta1.Query/AllEvidence
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext localhost:9090 cosmos.evidence.v1beta1.Query/AllEvidence
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {

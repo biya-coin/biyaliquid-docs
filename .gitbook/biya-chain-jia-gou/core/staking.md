@@ -6,17 +6,11 @@ sidebar_position: 1
 
 ## Abstract
 
-This paper specifies the Staking module of the Cosmos SDK that was first\
-described in the [Cosmos Whitepaper](https://cosmos.network/about/whitepaper)\
-in June 2016.
+本文档指定了 Cosmos SDK 的 Staking 模块，该模块首次在 2016 年 6 月的 [Cosmos 白皮书](https://cosmos.network/about/whitepaper) 中描述。
 
-The module enables Cosmos SDK-based blockchain to support an advanced\
-Proof-of-Stake (PoS) system. In this system, holders of the native staking token of\
-the chain can become validators and can delegate tokens to validators,\
-ultimately determining the effective validator set for the system.
+该模块使基于 Cosmos SDK 的区块链能够支持先进的权益证明（PoS）系统。在这个系统中，链的原生质押代币持有者可以成为验证者，并可以将代币委托给验证者，最终确定系统的有效验证者集合。
 
-This module is used in the Cosmos Hub, the first Hub in the Cosmos\
-network.
+该模块用于 Cosmos Hub，这是 Cosmos 网络中的第一个 Hub。
 
 ## Contents
 
@@ -64,32 +58,32 @@ network.
 
 ### Pool
 
-Pool is used for tracking bonded and not-bonded token supply of the bond denomination.
+Pool 用于跟踪绑定和非绑定代币的供应量（绑定面额）。
 
 ### LastTotalPower
 
-LastTotalPower tracks the total amounts of bonded tokens recorded during the previous end block.\
-Store entries prefixed with "Last" must remain unchanged until EndBlock.
+LastTotalPower 跟踪在上一个结束区块期间记录的绑定代币总量。\
+前缀为 "Last" 的存储条目必须保持不变，直到 EndBlock。
 
 * LastTotalPower: `0x12 -> ProtocolBuffer(math.Int)`
 
 ### ValidatorUpdates
 
-ValidatorUpdates contains the validator updates returned to ABCI at the end of every block.\
-The values are overwritten in every block.
+ValidatorUpdates 包含在每个区块结束时返回给 ABCI 的验证者更新。\
+值在每个区块中被覆盖。
 
 * ValidatorUpdates `0x61 -> []abci.ValidatorUpdate`
 
 ### UnbondingID
 
-UnbondingID stores the ID of the latest unbonding operation. It enables creating unique IDs for unbonding operations, i.e., UnbondingID is incremented every time a new unbonding operation (validator unbonding, unbonding delegation, redelegation) is initiated.
+UnbondingID 存储最新解绑操作的 ID。它能够为解绑操作创建唯一 ID，即每次启动新的解绑操作（验证者解绑、解绑委托、重新委托）时，UnbondingID 都会递增。
 
 * UnbondingID: `0x37 -> uint64`
 
 ### Params
 
-The staking module stores its params in state with the prefix of `0x51`,\
-it can be updated with governance or the address with authority.
+staking 模块将其参数存储在状态中，前缀为 `0x51`，\
+可以通过治理或具有权限的地址进行更新。
 
 * Params: `0x51 | ProtocolBuffer(Params)`
 
@@ -99,31 +93,21 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### Validator
 
-Validators can have one of three statuses
+验证者可以具有三种状态之一
 
-* `Unbonded`: The validator is not in the active set. They cannot sign blocks and do not earn\
-  rewards. They can receive delegations.
-* `Bonded`: Once the validator receives sufficient bonded tokens they automatically join the\
-  active set during [`EndBlock`](staking.md#validator-set-changes) and their status is updated to `Bonded`.\
-  They are signing blocks and receiving rewards. They can receive further delegations.\
-  They can be slashed for misbehavior. Delegators to this validator who unbond their delegation\
-  must wait the duration of the UnbondingTime, a chain-specific param, during which time\
-  they are still slashable for offences of the source validator if those offences were committed\
-  during the period of time that the tokens were bonded.
-* `Unbonding`: When a validator leaves the active set, either by choice or due to slashing, jailing or\
-  tombstoning, an unbonding of all their delegations begins. All delegations must then wait the UnbondingTime\
-  before their tokens are moved to their accounts from the `BondedPool`.
+* `Unbonded`：验证者不在活跃集合中。他们不能签署区块，也不会获得奖励。他们可以接收委托。
+* `Bonded`：一旦验证者收到足够的绑定代币，他们会在 [`EndBlock`](staking.md#validator-set-changes) 期间自动加入活跃集合，其状态更新为 `Bonded`。\
+  他们正在签署区块并接收奖励。他们可以接收进一步的委托。\
+  他们可能因不当行为而被削减。解绑委托给此验证者的委托者必须等待 UnbondingTime 的持续时间（链特定参数），在此期间，如果源验证者的违规行为发生在代币绑定期间，他们仍然可能因源验证者的违规行为而被削减。
+* `Unbonding`：当验证者离开活跃集合时，无论是自愿还是由于削减、监禁或标记为墓碑，所有委托的解绑都会开始。然后所有委托必须等待 UnbondingTime，然后才能将其代币从 `BondedPool` 转移到其账户。
 
 :::warning\
-Tombstoning is permanent, once tombstoned a validator's consensus key can not be reused within the chain where the tombstoning happened.\
+标记为墓碑是永久性的，一旦被标记为墓碑，验证者的共识密钥就不能在发生标记的链中重复使用。\
 :::
 
-Validators objects should be primarily stored and accessed by the`OperatorAddr`, an SDK validator address for the operator of the validator. Two\
-additional indices are maintained per validator object in order to fulfill\
-required lookups for slashing and validator-set updates. A third special index\
-(`LastValidatorPower`) is also maintained which however remains constant\
-throughout each block, unlike the first two indices which mirror the validator\
-records within a block.
+验证者对象应该主要通过 `OperatorAddr`（验证者操作员的 SDK 验证者地址）存储和访问。\
+每个验证者对象维护两个额外的索引，以满足削减和验证者集合更新所需的查找。还维护第三个特殊索引\
+（`LastValidatorPower`），但它在每个区块中保持恒定，与前两个在区块内镜像验证者记录的索引不同。
 
 * Validators: `0x21 | OperatorAddrLen (1 byte) | OperatorAddr -> ProtocolBuffer(validator)`
 * ValidatorsByConsAddr: `0x22 | ConsAddrLen (1 byte) | ConsAddr -> OperatorAddr`
@@ -131,27 +115,18 @@ records within a block.
 * LastValidatorsPower: `0x11 | OperatorAddrLen (1 byte) | OperatorAddr -> ProtocolBuffer(ConsensusPower)`
 * ValidatorsByUnbondingID: `0x38 | UnbondingID -> 0x21 | OperatorAddrLen (1 byte) | OperatorAddr`
 
-`Validators` is the primary index - it ensures that each operator can have only one\
-associated validator, where the public key of that validator can change in the\
-future. Delegators can refer to the immutable operator of the validator, without\
-concern for the changing public key.
+`Validators` 是主索引 - 它确保每个操作员只能有一个关联的验证者，该验证者的公钥将来可能会更改。\
+委托者可以参考验证者的不可变操作员，而不必担心更改的公钥。
 
-`ValidatorsByUnbondingID` is an additional index that enables lookups for\
-validators by the unbonding IDs corresponding to their current unbonding.
+`ValidatorsByUnbondingID` 是一个额外的索引，可以通过与其当前解绑对应的解绑 ID 来查找验证者。
 
-`ValidatorByConsAddr` is an additional index that enables lookups for slashing.\
-When CometBFT reports evidence, it provides the validator address, so this\
-map is needed to find the operator. Note that the `ConsAddr` corresponds to the\
-address which can be derived from the validator's `ConsPubKey`.
+`ValidatorByConsAddr` 是一个额外的索引，用于查找削减。\
+当 CometBFT 报告证据时，它提供验证者地址，因此需要此映射来查找操作员。请注意，`ConsAddr` 对应于可以从验证者的 `ConsPubKey` 派生的地址。
 
-`ValidatorsByPower` is an additional index that provides a sorted list of\
-potential validators to quickly determine the current active set. Here\
-ConsensusPower is validator.Tokens/10^6 by default. Note that all validators\
-where `Jailed` is true are not stored within this index.
+`ValidatorsByPower` 是一个额外的索引，提供潜在验证者的排序列表，以快速确定当前活跃集合。\
+这里 ConsensusPower 默认为 validator.Tokens/10^6。请注意，`Jailed` 为 true 的所有验证者都不会存储在此索引中。
 
-`LastValidatorsPower` is a special index that provides a historical list of the\
-last-block's bonded validators. This index remains constant during a block but\
-is updated during the validator set update process which takes place in [`EndBlock`](staking.md#end-block).
+`LastValidatorsPower` 是一个特殊索引，提供上一个区块的绑定验证者的历史列表。此索引在区块期间保持恒定，但在 [`EndBlock`](staking.md#end-block) 中发生的验证者集合更新过程中更新。
 
 Each validator's state is stored in a `Validator` struct:
 
@@ -165,15 +140,11 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### Delegation
 
-Delegations are identified by combining `DelegatorAddr` (the address of the delegator)\
-with the `ValidatorAddr` Delegators are indexed in the store as follows:
+委托通过组合 `DelegatorAddr`（委托者的地址）和 `ValidatorAddr` 来标识。委托在存储中索引如下：
 
 * Delegation: `0x31 | DelegatorAddrLen (1 byte) | DelegatorAddr | ValidatorAddrLen (1 byte) | ValidatorAddr -> ProtocolBuffer(delegation)`
 
-Stake holders may delegate coins to validators; under this circumstance their\
-funds are held in a `Delegation` data structure. It is owned by one\
-delegator, and is associated with the shares for one validator. The sender of\
-the transaction is the owner of the bond.
+权益持有者可以将代币委托给验证者；在这种情况下，他们的资金保存在 `Delegation` 数据结构中。它由一个委托者拥有，并与一个验证者的份额相关联。交易的发送者是绑定的所有者。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/staking.proto#L198-L216
@@ -181,43 +152,30 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 #### Delegator Shares
 
-When one delegates tokens to a Validator, they are issued a number of delegator shares based on a\
-dynamic exchange rate, calculated as follows from the total number of tokens delegated to the\
-validator and the number of shares issued so far:
+当一个人将代币委托给验证者时，他们会根据动态汇率获得一定数量的委托者份额，该汇率根据委托给验证者的代币总数和迄今为止发行的份额数量计算如下：
 
 `Shares per Token = validator.TotalShares() / validator.Tokens()`
 
-Only the number of shares received is stored on the DelegationEntry. When a delegator then\
-Undelegates, the token amount they receive is calculated from the number of shares they currently\
-hold and the inverse exchange rate:
+只有收到的份额数量存储在 DelegationEntry 上。当委托者随后解绑时，他们收到的代币数量是根据他们当前持有的份额数量和反向汇率计算的：
 
 `Tokens per Share = validator.Tokens() / validatorShares()`
 
-These `Shares` are simply an accounting mechanism. They are not a fungible asset. The reason for\
-this mechanism is to simplify the accounting around slashing. Rather than iteratively slashing the\
-tokens of every delegation entry, instead the Validator's total bonded tokens can be slashed,\
-effectively reducing the value of each issued delegator share.
+这些 `Shares` 只是一个会计机制。它们不是可替代资产。这种机制的原因是为了简化围绕削减的会计。不是迭代削减每个委托条目的代币，而是可以削减验证者的总绑定代币，\
+有效地降低每个已发行委托者份额的价值。
 
 ### UnbondingDelegation
 
-Shares in a `Delegation` can be unbonded, but they must for some time exist as\
-an `UnbondingDelegation`, where shares can be reduced if Byzantine behavior is\
-detected.
+`Delegation` 中的份额可以解绑，但它们必须在一段时间内作为 `UnbondingDelegation` 存在，如果检测到拜占庭行为，份额可能会减少。
 
-`UnbondingDelegation` are indexed in the store as:
+`UnbondingDelegation` 在存储中索引为：
 
 * UnbondingDelegation: `0x32 | DelegatorAddrLen (1 byte) | DelegatorAddr | ValidatorAddrLen (1 byte) | ValidatorAddr -> ProtocolBuffer(unbondingDelegation)`
 * UnbondingDelegationsFromValidator: `0x33 | ValidatorAddrLen (1 byte) | ValidatorAddr | DelegatorAddrLen (1 byte) | DelegatorAddr -> nil`
-* UnbondingDelegationByUnbondingId: `0x38 | UnbondingId -> 0x32 | DelegatorAddrLen (1 byte) | DelegatorAddr | ValidatorAddrLen (1 byte) | ValidatorAddrUnbondingDelegation` is used in queries, to lookup all unbonding delegations for\
-  a given delegator.
+* UnbondingDelegationByUnbondingId: `0x38 | UnbondingId -> 0x32 | DelegatorAddrLen (1 byte) | DelegatorAddr | ValidatorAddrLen (1 byte) | ValidatorAddrUnbondingDelegation` 用于查询，以查找给定委托者的所有解绑委托。
 
-`UnbondingDelegationsFromValidator` is used in slashing, to lookup all\
-unbonding delegations associated with a given validator that need to be\
-slashed.
+`UnbondingDelegationsFromValidator` 用于削减，以查找与需要削减的给定验证者关联的所有解绑委托。
 
-`UnbondingDelegationByUnbondingId` is an additional index that enables\
-lookups for unbonding delegations by the unbonding IDs of the containing\
-unbonding delegation entries.
+`UnbondingDelegationByUnbondingId` 是一个额外的索引，可以通过包含的解绑委托条目的解绑 ID 来查找解绑委托。
 
 A UnbondingDelegation object is created every time an unbonding is initiated.
 
@@ -227,41 +185,31 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### Redelegation
 
-The bonded tokens worth of a `Delegation` may be instantly redelegated from a\
-source validator to a different validator (destination validator). However when\
-this occurs they must be tracked in a `Redelegation` object, whereby their\
-shares can be slashed if their tokens have contributed to a Byzantine fault\
-committed by the source validator.
+`Delegation` 的绑定代币价值可以立即从源验证者重新委托到不同的验证者（目标验证者）。但是当\
+发生这种情况时，必须在 `Redelegation` 对象中跟踪它们，如果它们的代币对源验证者犯下的拜占庭故障做出了贡献，它们的份额可能会被削减。
 
-`Redelegation` are indexed in the store as:
+`Redelegation` 在存储中索引为：
 
 * Redelegations: `0x34 | DelegatorAddrLen (1 byte) | DelegatorAddr | ValidatorAddrLen (1 byte) | ValidatorSrcAddr | ValidatorDstAddr -> ProtocolBuffer(redelegation)`
 * RedelegationsBySrc: `0x35 | ValidatorSrcAddrLen (1 byte) | ValidatorSrcAddr | ValidatorDstAddrLen (1 byte) | ValidatorDstAddr | DelegatorAddrLen (1 byte) | DelegatorAddr -> nil`
 * RedelegationsByDst: `0x36 | ValidatorDstAddrLen (1 byte) | ValidatorDstAddr | ValidatorSrcAddrLen (1 byte) | ValidatorSrcAddr | DelegatorAddrLen (1 byte) | DelegatorAddr -> nil`
 * RedelegationByUnbondingId: `0x38 | UnbondingId -> 0x34 | DelegatorAddrLen (1 byte) | DelegatorAddr | ValidatorAddrLen (1 byte) | ValidatorSrcAddr | ValidatorDstAddr`
 
-`Redelegations` is used for queries, to lookup all redelegations for a given\
-delegator.
+`Redelegations` 用于查询，以查找给定委托者的所有重新委托。
 
-`RedelegationsBySrc` is used for slashing based on the `ValidatorSrcAddr`.
+`RedelegationsBySrc` 用于基于 `ValidatorSrcAddr` 的削减。
 
-`RedelegationsByDst` is used for slashing based on the `ValidatorDstAddr`
+`RedelegationsByDst` 用于基于 `ValidatorDstAddr` 的削减
 
-The first map here is used for queries, to lookup all redelegations for a given\
-delegator. The second map is used for slashing based on the `ValidatorSrcAddr`,\
-while the third map is for slashing based on the `ValidatorDstAddr`.
+这里的第一个映射用于查询，以查找给定委托者的所有重新委托。第二个映射用于基于 `ValidatorSrcAddr` 的削减，\
+而第三个映射用于基于 `ValidatorDstAddr` 的削减。
 
-`RedelegationByUnbondingId` is an additional index that enables\
-lookups for redelegations by the unbonding IDs of the containing\
-redelegation entries.
+`RedelegationByUnbondingId` 是一个额外的索引，可以通过包含的重新委托条目的解绑 ID 来查找重新委托。
 
-A redelegation object is created every time a redelegation occurs. To prevent\
-"redelegation hopping" redelegations may not occur under the situation that:
+每次发生重新委托时都会创建一个重新委托对象。为了防止"重新委托跳跃"，在以下情况下可能不会发生重新委托：
 
-* the (re)delegator already has another immature redelegation in progress\
-  with a destination to a validator (let's call it `Validator X`)
-* and, the (re)delegator is attempting to create a _new_ redelegation\
-  where the source validator for this new redelegation is `Validator X`.
+* （重新）委托者已经有一个不成熟的重新委托正在进行，目标是一个验证者（我们称它为 `Validator X`）
+* 并且，（重新）委托者试图创建一个_新的_重新委托，其中这个新重新委托的源验证者是 `Validator X`。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/staking.proto#L263-L308
@@ -269,20 +217,17 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### Queues
 
-All queue objects are sorted by timestamp. The time used within any queue is\
-firstly converted to UTC, rounded to the nearest nanosecond then sorted. The sortable time format\
-used is a slight modification of the RFC3339Nano and uses the format string`"2006-01-02T15:04:05.000000000"`. Notably this format:
+所有队列对象都按时间戳排序。任何队列中使用的时间首先转换为 UTC，四舍五入到最近的纳秒，然后排序。使用的可排序时间格式\
+是对 RFC3339Nano 的轻微修改，使用格式字符串 `"2006-01-02T15:04:05.000000000"`。值得注意的是，此格式：
 
-* right pads all zeros
-* drops the time zone info (we already use UTC)
+* 右填充所有零
+* 删除时区信息（我们已经使用 UTC）
 
-In all cases, the stored timestamp represents the maturation time of the queue\
-element.
+在所有情况下，存储的时间戳表示队列元素的成熟时间。
 
 #### UnbondingDelegationQueue
 
-For the purpose of tracking progress of unbonding delegations the unbonding\
-delegations queue is kept.
+为了跟踪解绑委托的进度，保留了解绑委托队列。
 
 * UnbondingDelegation: `0x41 | format(time) -> []DVPair`
 
@@ -292,8 +237,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 #### RedelegationQueue
 
-For the purpose of tracking progress of redelegations the redelegation queue is\
-kept.
+为了跟踪重新委托的进度，保留了重新委托队列。
 
 * RedelegationQueue: `0x42 | format(time) -> []DVVTriplet`
 
@@ -303,214 +247,192 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 #### ValidatorQueue
 
-For the purpose of tracking progress of unbonding validators the validator\
-queue is kept.
+为了跟踪解绑验证者的进度，保留了验证者队列。
 
 * ValidatorQueueTime: `0x43 | format(time) -> []sdk.ValAddress`
 
-The stored object by each key is an array of validator operator addresses from\
-which the validator object can be accessed. Typically it is expected that only\
-a single validator record will be associated with a given timestamp however it is possible\
-that multiple validators exist in the queue at the same location.
+每个键存储的对象是验证者操作员地址的数组，可以从中访问验证者对象。通常期望只有一个验证者记录与给定时间戳关联，但可能在队列的同一位置存在多个验证者。
 
 ### HistoricalInfo
 
-HistoricalInfo objects are stored and pruned at each block such that the staking keeper persists\
-the `n` most recent historical info defined by staking module parameter: `HistoricalEntries`.
+HistoricalInfo 对象在每个区块存储和修剪，以便 staking keeper 持久化由 staking 模块参数 `HistoricalEntries` 定义的 `n` 个最近的历史信息。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/staking.proto#L17-L24
 ```
 
-At each BeginBlock, the staking keeper will persist the current Header and the Validators that committed\
-the current block in a `HistoricalInfo` object. The Validators are sorted on their address to ensure that\
-they are in a deterministic order.\
-The oldest HistoricalEntries will be pruned to ensure that there only exist the parameter-defined number of\
-historical entries.
+在每个 BeginBlock，staking keeper 将在 `HistoricalInfo` 对象中持久化当前 Header 和提交当前区块的验证者。验证者按其地址排序，以确保它们处于确定性顺序。\
+最旧的 HistoricalEntries 将被修剪，以确保只存在参数定义数量的历史条目。
 
 ## State Transitions
 
 ### Validators
 
-State transitions in validators are performed on every [`EndBlock`](staking.md#validator-set-changes)\
-in order to check for changes in the active `ValidatorSet`.
+验证者中的状态转换在每个 [`EndBlock`](staking.md#validator-set-changes) 上执行，\
+以检查活跃 `ValidatorSet` 的变化。
 
-A validator can be `Unbonded`, `Unbonding` or `Bonded`. `Unbonded`\
-and `Unbonding` are collectively called `Not Bonded`. A validator can move\
-directly between all the states, except for from `Bonded` to `Unbonded`.
+验证者可以是 `Unbonded`、`Unbonding` 或 `Bonded`。`Unbonded`\
+和 `Unbonding` 统称为 `Not Bonded`。验证者可以在所有状态之间直接移动，除了从 `Bonded` 到 `Unbonded`。
 
 #### Not bonded to Bonded
 
-The following transition occurs when a validator's ranking in the `ValidatorPowerIndex` surpasses\
-that of the `LastValidator`.
+当验证者在 `ValidatorPowerIndex` 中的排名超过 `LastValidator` 时，会发生以下转换。
 
-* set `validator.Status` to `Bonded`
-* send the `validator.Tokens` from the `NotBondedTokens` to the `BondedPool` `ModuleAccount`
-* delete the existing record from `ValidatorByPowerIndex`
-* add a new updated record to the `ValidatorByPowerIndex`
-* update the `Validator` object for this validator
-* if it exists, delete any `ValidatorQueue` record for this validator
+* 将 `validator.Status` 设置为 `Bonded`
+* 将 `validator.Tokens` 从 `NotBondedTokens` 发送到 `BondedPool` `ModuleAccount`
+* 从 `ValidatorByPowerIndex` 删除现有记录
+* 向 `ValidatorByPowerIndex` 添加新的更新记录
+* 更新此验证者的 `Validator` 对象
+* 如果存在，删除此验证者的任何 `ValidatorQueue` 记录
 
 #### Bonded to Unbonding
 
-When a validator begins the unbonding process the following operations occur:
+当验证者开始解绑过程时，会发生以下操作：
 
-* send the `validator.Tokens` from the `BondedPool` to the `NotBondedTokens` `ModuleAccount`
-* set `validator.Status` to `Unbonding`
-* delete the existing record from `ValidatorByPowerIndex`
-* add a new updated record to the `ValidatorByPowerIndex`
-* update the `Validator` object for this validator
-* insert a new record into the `ValidatorQueue` for this validator
+* 将 `validator.Tokens` 从 `BondedPool` 发送到 `NotBondedTokens` `ModuleAccount`
+* 将 `validator.Status` 设置为 `Unbonding`
+* 从 `ValidatorByPowerIndex` 删除现有记录
+* 向 `ValidatorByPowerIndex` 添加新的更新记录
+* 更新此验证者的 `Validator` 对象
+* 为此验证者插入新的 `ValidatorQueue` 记录
 
 #### Unbonding to Unbonded
 
-A validator moves from unbonding to unbonded when the `ValidatorQueue` object\
-moves from bonded to unbonded
+当 `ValidatorQueue` 对象从绑定移动到未绑定时，验证者从解绑移动到未绑定
 
-* update the `Validator` object for this validator
-* set `validator.Status` to `Unbonded`
+* 更新此验证者的 `Validator` 对象
+* 将 `validator.Status` 设置为 `Unbonded`
 
 #### Jail/Unjail
 
-when a validator is jailed it is effectively removed from the CometBFT set.\
-this process may be also be reversed. the following operations occur:
+当验证者被监禁时，它实际上从 CometBFT 集合中移除。\
+这个过程也可以逆转。发生以下操作：
 
-* set `Validator.Jailed` and update object
-* if jailed delete record from `ValidatorByPowerIndex`
-* if unjailed add record to `ValidatorByPowerIndex`
+* 设置 `Validator.Jailed` 并更新对象
+* 如果被监禁，从 `ValidatorByPowerIndex` 删除记录
+* 如果解除监禁，向 `ValidatorByPowerIndex` 添加记录
 
-Jailed validators are not present in any of the following stores:
+被监禁的验证者不存在于以下任何存储中：
 
-* the power store (from consensus power to address)
+* 权力存储（从共识权力到地址）
 
 ### Delegations
 
 #### Delegate
 
-When a delegation occurs both the validator and the delegation objects are affected
+当发生委托时，验证者和委托对象都会受到影响
 
-* determine the delegators shares based on tokens delegated and the validator's exchange rate
-* remove tokens from the sending account
-* add shares the delegation object or add them to a created validator object
-* add new delegator shares and update the `Validator` object
-* transfer the `delegation.Amount` from the delegator's account to the `BondedPool` or the `NotBondedPool` `ModuleAccount` depending if the `validator.Status` is `Bonded` or not
-* delete the existing record from `ValidatorByPowerIndex`
-* add an new updated record to the `ValidatorByPowerIndex`
+* 根据委托的代币和验证者的汇率确定委托者的份额
+* 从发送账户中移除代币
+* 向委托对象添加份额或将其添加到创建的验证者对象
+* 添加新的委托者份额并更新 `Validator` 对象
+* 根据 `validator.Status` 是否为 `Bonded`，将 `delegation.Amount` 从委托者的账户转移到 `BondedPool` 或 `NotBondedPool` `ModuleAccount`
+* 从 `ValidatorByPowerIndex` 删除现有记录
+* 向 `ValidatorByPowerIndex` 添加新的更新记录
 
 #### Begin Unbonding
 
-As a part of the Undelegate and Complete Unbonding state transitions Unbond\
-Delegation may be called.
+作为解绑和完成解绑状态转换的一部分，可能会调用解绑委托。
 
-* subtract the unbonded shares from delegator
-* add the unbonded tokens to an `UnbondingDelegationEntry`
-* update the delegation or remove the delegation if there are no more shares
-* if the delegation is the operator of the validator and no more shares exist then trigger a jail validator
-* update the validator with removed the delegator shares and associated coins
-* if the validator state is `Bonded`, transfer the `Coins` worth of the unbonded\
-  shares from the `BondedPool` to the `NotBondedPool` `ModuleAccount`
-* remove the validator if it is unbonded and there are no more delegation shares.
-* remove the validator if it is unbonded and there are no more delegation shares
-* get a unique `unbondingId` and map it to the `UnbondingDelegationEntry` in `UnbondingDelegationByUnbondingId`
-* call the `AfterUnbondingInitiated(unbondingId)` hook
-* add the unbonding delegation to `UnbondingDelegationQueue` with the completion time set to `UnbondingTime`
+* 从委托者中减去解绑的份额
+* 将解绑的代币添加到 `UnbondingDelegationEntry`
+* 更新委托，如果没有更多份额则删除委托
+* 如果委托是验证者的操作员且不再有份额，则触发监禁验证者
+* 更新验证者，移除委托者份额和关联的代币
+* 如果验证者状态是 `Bonded`，将解绑份额价值的 `Coins` 从 `BondedPool` 转移到 `NotBondedPool` `ModuleAccount`
+* 如果验证者未绑定且没有更多委托份额，则删除验证者
+* 获取唯一的 `unbondingId` 并将其映射到 `UnbondingDelegationByUnbondingId` 中的 `UnbondingDelegationEntry`
+* 调用 `AfterUnbondingInitiated(unbondingId)` 钩子
+* 将解绑委托添加到 `UnbondingDelegationQueue`，完成时间设置为 `UnbondingTime`
 
 #### Cancel an `UnbondingDelegation` Entry
 
-When a `cancel unbond delegation` occurs both the `validator`, the `delegation` and an `UnbondingDelegationQueue` state will be updated.
+当发生 `cancel unbond delegation` 时，`validator`、`delegation` 和 `UnbondingDelegationQueue` 状态都将更新。
 
-* if cancel unbonding delegation amount equals to the `UnbondingDelegation` entry `balance`, then the `UnbondingDelegation` entry deleted from `UnbondingDelegationQueue`.
-* if the `cancel unbonding delegation amount is less than the` UnbondingDelegation`entry balance, then the`UnbondingDelegation`entry will be updated with new balance in the`UnbondingDelegationQueue\`.
-* cancel `amount` is [Delegated](staking.md#delegations) back to the original `validator`.
+* 如果取消解绑委托金额等于 `UnbondingDelegation` 条目 `balance`，则从 `UnbondingDelegationQueue` 删除 `UnbondingDelegation` 条目。
+* 如果 `cancel unbonding delegation amount` 小于 `UnbondingDelegation` 条目余额，则 `UnbondingDelegation` 条目将在 `UnbondingDelegationQueue` 中使用新余额更新。
+* 取消的 `amount` 被[委托](staking.md#delegations)回原始 `validator`。
 
 #### Complete Unbonding
 
-For undelegations which do not complete immediately, the following operations\
-occur when the unbonding delegation queue element matures:
+对于不能立即完成的解委托，当解绑委托队列元素成熟时，会发生以下操作：
 
-* remove the entry from the `UnbondingDelegation` object
-* transfer the tokens from the `NotBondedPool` `ModuleAccount` to the delegator `Account`
+* 从 `UnbondingDelegation` 对象中删除条目
+* 将代币从 `NotBondedPool` `ModuleAccount` 转移到委托者 `Account`
 
 #### Begin Redelegation
 
-Redelegations affect the delegation, source and destination validators.
+重新委托影响委托、源验证者和目标验证者。
 
-* perform an `unbond` delegation from the source validator to retrieve the tokens worth of the unbonded shares
-* using the unbonded tokens, `Delegate` them to the destination validator
-* if the `sourceValidator.Status` is `Bonded`, and the `destinationValidator` is not,\
-  transfer the newly delegated tokens from the `BondedPool` to the `NotBondedPool` `ModuleAccount`
-* otherwise, if the `sourceValidator.Status` is not `Bonded`, and the `destinationValidator`\
-  is `Bonded`, transfer the newly delegated tokens from the `NotBondedPool` to the `BondedPool` `ModuleAccount`
-* record the token amount in an new entry in the relevant `Redelegation`
+* 从源验证者执行 `unbond` 委托以检索解绑份额的代币价值
+* 使用解绑的代币，将它们 `Delegate` 到目标验证者
+* 如果 `sourceValidator.Status` 是 `Bonded`，而 `destinationValidator` 不是，\
+  将新委托的代币从 `BondedPool` 转移到 `NotBondedPool` `ModuleAccount`
+* 否则，如果 `sourceValidator.Status` 不是 `Bonded`，而 `destinationValidator`\
+  是 `Bonded`，将新委托的代币从 `NotBondedPool` 转移到 `BondedPool` `ModuleAccount`
+* 在相关 `Redelegation` 的新条目中记录代币数量
 
-From when a redelegation begins until it completes, the delegator is in a state of "pseudo-unbonding", and can still be\
-slashed for infractions that occurred before the redelegation began.
+从重新委托开始到完成，委托者处于"伪解绑"状态，仍然可能因在重新委托开始之前发生的违规行为而被削减。
 
 #### Complete Redelegation
 
-When a redelegations complete the following occurs:
+当重新委托完成时，会发生以下情况：
 
-* remove the entry from the `Redelegation` object
+* 从 `Redelegation` 对象中删除条目
 
 ### Slashing
 
 #### Slash Validator
 
-When a Validator is slashed, the following occurs:
+当验证者被削减时，会发生以下情况：
 
-* The total `slashAmount` is calculated as the `slashFactor` (a chain parameter) \* `TokensFromConsensusPower`,\
-  the total number of tokens bonded to the validator at the time of the infraction.
-* Every unbonding delegation and pseudo-unbonding redelegation such that the infraction occured before the unbonding or\
-  redelegation began from the validator are slashed by the `slashFactor` percentage of the initialBalance.
-* Each amount slashed from redelegations and unbonding delegations is subtracted from the\
-  total slash amount.
-* The `remaingSlashAmount` is then slashed from the validator's tokens in the `BondedPool` or`NonBondedPool` depending on the validator's status. This reduces the total supply of tokens.
+* 总 `slashAmount` 计算为 `slashFactor`（链参数）\* `TokensFromConsensusPower`，\
+  违规时绑定到验证者的代币总数。
+* 每个解绑委托和伪解绑重新委托，如果违规发生在解绑或重新委托从验证者开始之前，\
+  则按 `initialBalance` 的 `slashFactor` 百分比削减。
+* 从重新委托和解绑委托中削减的每个金额从总削减金额中减去。
+* 然后根据验证者的状态，从验证者在 `BondedPool` 或 `NonBondedPool` 中的代币中削减 `remaingSlashAmount`。这减少了代币的总供应量。
 
-In the case of a slash due to any infraction that requires evidence to submitted (for example double-sign), the slash\
-occurs at the block where the evidence is included, not at the block where the infraction occured.\
-Put otherwise, validators are not slashed retroactively, only when they are caught.
+对于需要提交证据的违规行为（例如双重签名）导致的削减，削减发生在包含证据的区块，而不是违规发生的区块。\
+换句话说，验证者不会追溯削减，只有在被抓住时才会削减。
 
 #### Slash Unbonding Delegation
 
-When a validator is slashed, so are those unbonding delegations from the validator that began unbonding\
-after the time of the infraction. Every entry in every unbonding delegation from the validator\
-is slashed by `slashFactor`. The amount slashed is calculated from the `InitialBalance` of the\
-delegation and is capped to prevent a resulting negative balance. Completed (or mature) unbondings are not slashed.
+当验证者被削减时，那些在违规时间之后开始解绑的验证者解绑委托也会被削减。验证者的每个解绑委托中的每个条目\
+按 `slashFactor` 削减。削减的金额从委托的 `InitialBalance` 计算，并设置上限以防止负余额。已完成（或成熟）的解绑不会被削减。
 
 #### Slash Redelegation
 
-When a validator is slashed, so are all redelegations from the validator that began after the\
-infraction. Redelegations are slashed by `slashFactor`.\
-Redelegations that began before the infraction are not slashed.\
-The amount slashed is calculated from the `InitialBalance` of the delegation and is capped to\
-prevent a resulting negative balance.\
-Mature redelegations (that have completed pseudo-unbonding) are not slashed.
+当验证者被削减时，所有在违规之后开始的验证者重新委托也会被削减。重新委托按 `slashFactor` 削减。\
+在违规之前开始的重新委托不会被削减。\
+削减的金额从委托的 `InitialBalance` 计算，并设置上限以防止负余额。\
+成熟的重新委托（已完成伪解绑）不会被削减。
 
 ### How Shares are calculated
 
-At any given point in time, each validator has a number of tokens, `T`, and has a number of shares issued, `S`.\
-Each delegator, `i`, holds a number of shares, `S_i`.\
-The number of tokens is the sum of all tokens delegated to the validator, plus the rewards, minus the slashes.
+在任何给定时间点，每个验证者都有一定数量的代币 `T`，并发行了一定数量的份额 `S`。\
+每个委托者 `i` 持有一定数量的份额 `S_i`。\
+代币数量是委托给验证者的所有代币的总和，加上奖励，减去削减。
 
-The delegator is entitled to a portion of the underlying tokens proportional to their proportion of shares.\
-So delegator `i` is entitled to `T * S_i / S` of the validator's tokens.
+委托者有权获得与其份额比例成比例的底层代币部分。\
+因此，委托者 `i` 有权获得验证者代币的 `T * S_i / S`。
 
-When a delegator delegates new tokens to the validator, they receive a number of shares proportional to their contribution.\
-So when delegator `j` delegates `T_j` tokens, they receive `S_j = S * T_j / T` shares.\
-The total number of tokens is now `T + T_j`, and the total number of shares is `S + S_j`.`j`s proportion of the shares is the same as their proportion of the total tokens contributed: `(S + S_j) / S = (T + T_j) / T`.
+当委托者将新代币委托给验证者时，他们会获得与其贡献成比例的份额。\
+因此，当委托者 `j` 委托 `T_j` 代币时，他们获得 `S_j = S * T_j / T` 份额。\
+代币总数现在是 `T + T_j`，份额总数是 `S + S_j`。`j` 的份额比例与其贡献的总代币比例相同：`(S + S_j) / S = (T + T_j) / T`。
 
-A special case is the initial delegation, when `T = 0` and `S = 0`, so `T_j / T` is undefined.\
-For the initial delegation, delegator `j` who delegates `T_j` tokens receive `S_j = T_j` shares.\
-So a validator that hasn't received any rewards and has not been slashed will have `T = S`.
+特殊情况是初始委托，当 `T = 0` 和 `S = 0` 时，`T_j / T` 未定义。\
+对于初始委托，委托 `T_j` 代币的委托者 `j` 获得 `S_j = T_j` 份额。\
+因此，没有收到任何奖励且没有被削减的验证者将有 `T = S`。
 
 ## Messages
 
-In this section we describe the processing of the staking messages and the corresponding updates to the state. All created/modified state objects specified by each message are defined within the [state](staking.md#state) section.
+在本节中，我们描述 staking 消息的处理以及状态的相应更新。每个消息指定的所有创建/修改的状态对象都在 [state](staking.md#state) 部分中定义。
 
 ### MsgCreateValidator
 
-A validator is created using the `MsgCreateValidator` message.\
-The validator must be created with an initial delegation from the operator.
+使用 `MsgCreateValidator` 消息创建验证者。\
+验证者必须通过操作员的初始委托创建。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L20-L21
@@ -520,25 +442,23 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L50-L73
 ```
 
-This message is expected to fail if:
+如果出现以下情况，此消息预期会失败：
 
-* another validator with this operator address is already registered
-* another validator with this pubkey is already registered
-* the initial self-delegation tokens are of a denom not specified as the bonding denom
-* the commission parameters are faulty, namely:
-  * `MaxRate` is either > 1 or < 0
-  * the initial `Rate` is either negative or > `MaxRate`
-  * the initial `MaxChangeRate` is either negative or > `MaxRate`
-* the description fields are too large
+* 已注册具有此操作员地址的另一个验证者
+* 已注册具有此公钥的另一个验证者
+* 初始自委托代币的面额未指定为绑定面额
+* 佣金参数有误，即：
+  * `MaxRate` 要么 > 1 要么 < 0
+  * 初始 `Rate` 要么为负数要么 > `MaxRate`
+  * 初始 `MaxChangeRate` 要么为负数要么 > `MaxRate`
+* 描述字段太大
 
-This message creates and stores the `Validator` object at appropriate indexes.\
-Additionally a self-delegation is made with the initial tokens delegation\
-tokens `Delegation`. The validator always starts as unbonded but may be bonded\
-in the first end-block.
+此消息创建并存储适当索引处的 `Validator` 对象。\
+此外，使用初始代币委托代币 `Delegation` 进行自委托。验证者始终以未绑定状态开始，但可能在第一个结束区块中被绑定。
 
 ### MsgEditValidator
 
-The `Description`, `CommissionRate` of a validator can be updated using the`MsgEditValidator` message.
+可以使用 `MsgEditValidator` 消息更新验证者的 `Description`、`CommissionRate`。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L23-L24
@@ -548,20 +468,19 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L78-L97
 ```
 
-This message is expected to fail if:
+如果出现以下情况，此消息预期会失败：
 
-* the initial `CommissionRate` is either negative or > `MaxRate`
-* the `CommissionRate` has already been updated within the previous 24 hours
-* the `CommissionRate` is > `MaxChangeRate`
-* the description fields are too large
+* 初始 `CommissionRate` 要么为负数要么 > `MaxRate`
+* `CommissionRate` 在过去 24 小时内已更新
+* `CommissionRate` > `MaxChangeRate`
+* 描述字段太大
 
-This message stores the updated `Validator` object.
+此消息存储更新的 `Validator` 对象。
 
 ### MsgDelegate
 
-Within this message the delegator provides coins, and in return receives\
-some amount of their validator's (newly created) delegator-shares that are\
-assigned to `Delegation.Shares`.
+在此消息中，委托者提供代币，作为回报，他们收到一定数量的验证者（新创建的）委托者份额，\
+这些份额分配给 `Delegation.Shares`。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L26-L28
@@ -571,32 +490,28 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L102-L114
 ```
 
-This message is expected to fail if:
+如果出现以下情况，此消息预期会失败：
 
-* the validator does not exist
-* the `Amount` `Coin` has a denomination different than one defined by `params.BondDenom`
-* the exchange rate is invalid, meaning the validator has no tokens (due to slashing) but there are outstanding shares
-* the amount delegated is less than the minimum allowed delegation
+* 验证者不存在
+* `Amount` `Coin` 的面额与 `params.BondDenom` 定义的不同
+* 汇率无效，意味着验证者没有代币（由于削减）但存在未偿还份额
+* 委托金额小于允许的最小委托
 
-If an existing `Delegation` object for provided addresses does not already\
-exist then it is created as part of this message otherwise the existing`Delegation` is updated to include the newly received shares.
+如果提供的地址的现有 `Delegation` 对象尚不存在，\
+则作为此消息的一部分创建它，否则更新现有 `Delegation` 以包含新收到的份额。
 
-The delegator receives newly minted shares at the current exchange rate.\
-The exchange rate is the number of existing shares in the validator divided by\
-the number of currently delegated tokens.
+委托者以当前汇率接收新铸造的份额。\
+汇率是验证者中现有份额数除以当前委托的代币数。
 
-The validator is updated in the `ValidatorByPower` index, and the delegation is\
-tracked in validator object in the `Validators` index.
+验证者在 `ValidatorByPower` 索引中更新，委托在 `Validators` 索引中的验证者对象中跟踪。
 
-It is possible to delegate to a jailed validator, the only difference being it\
-will not be added to the power index until it is unjailed.
+可以委托给被监禁的验证者，唯一的区别是它不会被添加到权力索引中，直到它被解除监禁。
 
 ![Delegation sequence](https://raw.githubusercontent.com/cosmos/cosmos-sdk/release/v0.46.x/docs/uml/svg/delegation_sequence.svg)
 
 ### MsgUndelegate
 
-The `MsgUndelegate` message allows delegators to undelegate their tokens from\
-validator.
+`MsgUndelegate` 消息允许委托者从验证者解委托其代币。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L34-L36
@@ -606,36 +521,36 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L140-L152
 ```
 
-This message returns a response containing the completion time of the undelegation:
+此消息返回包含解委托完成时间的响应：
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L154-L158
 ```
 
-This message is expected to fail if:
+如果出现以下情况，此消息预期会失败：
 
-* the delegation doesn't exist
-* the validator doesn't exist
-* the delegation has less shares than the ones worth of `Amount`
-* existing `UnbondingDelegation` has maximum entries as defined by `params.MaxEntries`
-* the `Amount` has a denomination different than one defined by `params.BondDenom`
+* 委托不存在
+* 验证者不存在
+* 委托的份额少于 `Amount` 价值的份额
+* 现有 `UnbondingDelegation` 具有 `params.MaxEntries` 定义的最大条目数
+* `Amount` 的面额与 `params.BondDenom` 定义的不同
 
-When this message is processed the following actions occur:
+处理此消息时，会发生以下操作：
 
-* validator's `DelegatorShares` and the delegation's `Shares` are both reduced by the message `SharesAmount`
-* calculate the token worth of the shares remove that amount tokens held within the validator
-* with those removed tokens, if the validator is:
-  * `Bonded` - add them to an entry in `UnbondingDelegation` (create `UnbondingDelegation` if it doesn't exist) with a completion time a full unbonding period from the current time. Update pool shares to reduce BondedTokens and increase NotBondedTokens by token worth of the shares.
-  * `Unbonding` - add them to an entry in `UnbondingDelegation` (create `UnbondingDelegation` if it doesn't exist) with the same completion time as the validator (`UnbondingMinTime`).
-  * `Unbonded` - then send the coins the message `DelegatorAddr`
-* if there are no more `Shares` in the delegation, then the delegation object is removed from the store
-  * under this situation if the delegation is the validator's self-delegation then also jail the validator.
+* 验证者的 `DelegatorShares` 和委托的 `Shares` 都按消息 `SharesAmount` 减少
+* 计算份额的代币价值，从验证者持有的代币中移除该数量
+* 使用这些移除的代币，如果验证者是：
+  * `Bonded` - 将它们添加到 `UnbondingDelegation` 的条目中（如果不存在则创建 `UnbondingDelegation`），完成时间为从当前时间起的完整解绑期。更新池份额以按份额的代币价值减少 BondedTokens 并增加 NotBondedTokens。
+  * `Unbonding` - 将它们添加到 `UnbondingDelegation` 的条目中（如果不存在则创建 `UnbondingDelegation`），完成时间与验证者相同（`UnbondingMinTime`）。
+  * `Unbonded` - 然后将代币发送到消息 `DelegatorAddr`
+* 如果委托中没有更多 `Shares`，则从存储中删除委托对象
+  * 在这种情况下，如果委托是验证者的自委托，则也监禁验证者。
 
 ![Unbond sequence](https://raw.githubusercontent.com/cosmos/cosmos-sdk/release/v0.46.x/docs/uml/svg/unbond_sequence.svg)
 
 ### MsgCancelUnbondingDelegation
 
-The `MsgCancelUnbondingDelegation` message allows delegators to cancel the `unbondingDelegation` entry and delegate back to a previous validator.
+`MsgCancelUnbondingDelegation` 消息允许委托者取消 `unbondingDelegation` 条目并委托回先前的验证者。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L38-L42
@@ -645,24 +560,23 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L160-L175
 ```
 
-This message is expected to fail if:
+如果出现以下情况，此消息预期会失败：
 
-* the `unbondingDelegation` entry is already processed.
-* the `cancel unbonding delegation` amount is greater than the `unbondingDelegation` entry balance.
-* the `cancel unbonding delegation` height doesn't exist in the `unbondingDelegationQueue` of the delegator.
+* `unbondingDelegation` 条目已被处理。
+* `cancel unbonding delegation` 金额大于 `unbondingDelegation` 条目余额。
+* `cancel unbonding delegation` 高度在委托者的 `unbondingDelegationQueue` 中不存在。
 
-When this message is processed the following actions occur:
+处理此消息时，会发生以下操作：
 
-* if the `unbondingDelegation` Entry balance is zero
-  * in this condition `unbondingDelegation` entry will be removed from `unbondingDelegationQueue`.
-  * otherwise `unbondingDelegationQueue` will be updated with new `unbondingDelegation` entry balance and initial balance
-* the validator's `DelegatorShares` and the delegation's `Shares` are both increased by the message `Amount`.
+* 如果 `unbondingDelegation` 条目余额为零
+  * 在这种情况下，`unbondingDelegation` 条目将从 `unbondingDelegationQueue` 中删除。
+  * 否则，`unbondingDelegationQueue` 将使用新的 `unbondingDelegation` 条目余额和初始余额更新
+* 验证者的 `DelegatorShares` 和委托的 `Shares` 都按消息 `Amount` 增加。
 
 ### MsgBeginRedelegate
 
-The redelegation command allows delegators to instantly switch validators. Once\
-the unbonding period has passed, the redelegation is automatically completed in\
-the EndBlocker.
+重新委托命令允许委托者立即切换验证者。一旦\
+解绑期过去，重新委托会在 EndBlocker 中自动完成。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L30-L32
@@ -672,93 +586,84 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L119-L132
 ```
 
-This message returns a response containing the completion time of the redelegation:
+此消息返回包含重新委托完成时间的响应：
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L133-L138
 ```
 
-This message is expected to fail if:
+如果出现以下情况，此消息预期会失败：
 
-* the delegation doesn't exist
-* the source or destination validators don't exist
-* the delegation has less shares than the ones worth of `Amount`
-* the source validator has a receiving redelegation which is not matured (aka. the redelegation may be transitive)
-* existing `Redelegation` has maximum entries as defined by `params.MaxEntries`
-* the `Amount` `Coin` has a denomination different than one defined by `params.BondDenom`
+* 委托不存在
+* 源或目标验证者不存在
+* 委托的份额少于 `Amount` 价值的份额
+* 源验证者有一个未成熟的接收重新委托（即重新委托可能是传递的）
+* 现有 `Redelegation` 具有 `params.MaxEntries` 定义的最大条目数
+* `Amount` `Coin` 的面额与 `params.BondDenom` 定义的不同
 
-When this message is processed the following actions occur:
+处理此消息时，会发生以下操作：
 
-* the source validator's `DelegatorShares` and the delegations `Shares` are both reduced by the message `SharesAmount`
-* calculate the token worth of the shares remove that amount tokens held within the source validator.
-* if the source validator is:
-  * `Bonded` - add an entry to the `Redelegation` (create `Redelegation` if it doesn't exist) with a completion time a full unbonding period from the current time. Update pool shares to reduce BondedTokens and increase NotBondedTokens by token worth of the shares (this may be effectively reversed in the next step however).
-  * `Unbonding` - add an entry to the `Redelegation` (create `Redelegation` if it doesn't exist) with the same completion time as the validator (`UnbondingMinTime`).
-  * `Unbonded` - no action required in this step
-* Delegate the token worth to the destination validator, possibly moving tokens back to the bonded state.
-* if there are no more `Shares` in the source delegation, then the source delegation object is removed from the store
-  * under this situation if the delegation is the validator's self-delegation then also jail the validator.
+* 源验证者的 `DelegatorShares` 和委托的 `Shares` 都按消息 `SharesAmount` 减少
+* 计算份额的代币价值，从源验证者持有的代币中移除该数量。
+* 如果源验证者是：
+  * `Bonded` - 向 `Redelegation` 添加条目（如果不存在则创建 `Redelegation`），完成时间为从当前时间起的完整解绑期。更新池份额以按份额的代币价值减少 BondedTokens 并增加 NotBondedTokens（但这可能在下一步中有效逆转）。
+  * `Unbonding` - 向 `Redelegation` 添加条目（如果不存在则创建 `Redelegation`），完成时间与验证者相同（`UnbondingMinTime`）。
+  * `Unbonded` - 此步骤不需要操作
+* 将代币价值委托给目标验证者，可能将代币移回绑定状态。
+* 如果源委托中没有更多 `Shares`，则从存储中删除源委托对象
+  * 在这种情况下，如果委托是验证者的自委托，则也监禁验证者。
 
 ![Begin redelegation sequence](https://raw.githubusercontent.com/cosmos/cosmos-sdk/release/v0.46.x/docs/uml/svg/begin_redelegation_sequence.svg)
 
 ### MsgUpdateParams
 
-The `MsgUpdateParams` update the staking module parameters.\
-The params are updated through a governance proposal where the signer is the gov module account address.
+`MsgUpdateParams` 更新 staking 模块参数。\
+参数通过治理提案更新，其中签名者是 gov 模块账户地址。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L182-L195
 ```
 
-The message handling can fail if:
+如果出现以下情况，消息处理可能会失败：
 
-* signer is not the authority defined in the staking keeper (usually the gov module account).
+* 签名者不是 staking keeper 中定义的权限（通常是 gov 模块账户）。
 
 ## Begin-Block
 
-Each abci begin block call, the historical info will get stored and pruned\
-according to the `HistoricalEntries` parameter.
+每次 abci begin block 调用时，历史信息将根据 `HistoricalEntries` 参数存储和修剪。
 
 ### Historical Info Tracking
 
-If the `HistoricalEntries` parameter is 0, then the `BeginBlock` performs a no-op.
+如果 `HistoricalEntries` 参数为 0，则 `BeginBlock` 执行空操作。
 
-Otherwise, the latest historical info is stored under the key `historicalInfoKey|height`, while any entries older than `height - HistoricalEntries` is deleted.\
-In most cases, this results in a single entry being pruned per block.\
-However, if the parameter `HistoricalEntries` has changed to a lower value there will be multiple entries in the store that must be pruned.
+否则，最新的历史信息存储在键 `historicalInfoKey|height` 下，而任何早于 `height - HistoricalEntries` 的条目将被删除。\
+在大多数情况下，这导致每个区块修剪单个条目。\
+但是，如果参数 `HistoricalEntries` 已更改为较低值，则存储中将有多个条目必须被修剪。
 
 ## End-Block
 
-Each abci end block call, the operations to update queues and validator set\
-changes are specified to execute.
+每次 abci end block 调用时，指定执行更新队列和验证者集合更改的操作。
 
 ### Validator Set Changes
 
-The staking validator set is updated during this process by state transitions\
-that run at the end of every block. As a part of this process any updated\
-validators are also returned back to CometBFT for inclusion in the CometBFT\
-validator set which is responsible for validating CometBFT messages at the\
-consensus layer. Operations are as following:
+staking 验证者集合在此过程中通过在每个区块结束时运行的状态转换更新。\
+作为此过程的一部分，任何更新的验证者也会返回给 CometBFT，以包含在 CometBFT 验证者集合中，\
+该集合负责在共识层验证 CometBFT 消息。操作如下：
 
-* the new validator set is taken as the top `params.MaxValidators` number of\
-  validators retrieved from the `ValidatorsByPower` index
-* the previous validator set is compared with the new validator set:
-  * missing validators begin unbonding and their `Tokens` are transferred from the`BondedPool` to the `NotBondedPool` `ModuleAccount`
-  * new validators are instantly bonded and their `Tokens` are transferred from the`NotBondedPool` to the `BondedPool` `ModuleAccount`
+* 新验证者集合取自从 `ValidatorsByPower` 索引检索的前 `params.MaxValidators` 数量的验证者
+* 将先前的验证者集合与新验证者集合进行比较：
+  * 缺失的验证者开始解绑，其 `Tokens` 从 `BondedPool` 转移到 `NotBondedPool` `ModuleAccount`
+  * 新验证者立即绑定，其 `Tokens` 从 `NotBondedPool` 转移到 `BondedPool` `ModuleAccount`
 
-In all cases, any validators leaving or entering the bonded validator set or\
-changing balances and staying within the bonded validator set incur an update\
-message reporting their new consensus power which is passed back to CometBFT.
+在所有情况下，任何离开或进入绑定验证者集合或更改余额并保持在绑定验证者集合内的验证者都会产生更新\
+消息，报告其新的共识权力，该消息被传递回 CometBFT。
 
-The `LastTotalPower` and `LastValidatorsPower` hold the state of the total power\
-and validator power from the end of the last block, and are used to check for\
-changes that have occurred in `ValidatorsByPower` and the total new power, which\
-is calculated during `EndBlock`.
+`LastTotalPower` 和 `LastValidatorsPower` 保存来自上一个区块结束的总权力和验证者权力的状态，\
+用于检查 `ValidatorsByPower` 和总新权力中发生的变化，这在 `EndBlock` 期间计算。
 
 ### Queues
 
-Within staking, certain state-transitions are not instantaneous but take place\
-over a duration of time (typically the unbonding period). When these\
+在 staking 中，某些状态转换不是瞬时的，而是在一段时间内发生（通常是解绑期）。当这些\
 transitions are mature certain operations must take place in order to complete\
 the state operation. This is achieved through the use of queues which are\
 checked/processed at the end of each block.
@@ -766,69 +671,61 @@ checked/processed at the end of each block.
 #### Unbonding Validators
 
 When a validator is kicked out of the bonded validator set (either through\
-being jailed, or not having sufficient bonded tokens) it begins the unbonding\
-process along with all its delegations begin unbonding (while still being\
-delegated to this validator). At this point the validator is said to be an\
-"unbonding validator", whereby it will mature to become an "unbonded validator"\
-after the unbonding period has passed.
+被监禁，或没有足够的绑定代币）它开始解绑过程，\
+其所有委托也开始解绑（同时仍委托给此验证者）。此时验证者被称为\
+"解绑验证者"，在解绑期过去后，它将成熟成为"未绑定验证者"。
 
-Each block the validator queue is to be checked for mature unbonding validators\
-(namely with a completion time <= current time and completion height <= current\
-block height). At this point any mature validators which do not have any\
-delegations remaining are deleted from state. For all other mature unbonding\
-validators that still have remaining delegations, the `validator.Status` is\
-switched from `types.Unbonding` to`types.Unbonded`.
+每个区块都要检查验证者队列中是否有成熟的解绑验证者\
+（即完成时间 <= 当前时间且完成高度 <= 当前区块高度）。\
+此时，任何没有剩余委托的成熟验证者都会从状态中删除。对于所有其他仍有剩余委托的成熟解绑\
+验证者，`validator.Status` 从 `types.Unbonding` 切换到 `types.Unbonded`。
 
-Unbonding operations can be put on hold by external modules via the `PutUnbondingOnHold(unbondingId)` method.\
-As a result, an unbonding operation (e.g., an unbonding delegation) that is on hold, cannot complete\
-even if it reaches maturity. For an unbonding operation with `unbondingId` to eventually complete\
-(after it reaches maturity), every call to `PutUnbondingOnHold(unbondingId)` must be matched\
-by a call to `UnbondingCanComplete(unbondingId)`.
+解绑操作可以通过外部模块通过 `PutUnbondingOnHold(unbondingId)` 方法暂停。\
+因此，暂停的解绑操作（例如，解绑委托）即使达到成熟也无法完成。\
+对于具有 `unbondingId` 的解绑操作最终完成（在达到成熟后），\
+每次调用 `PutUnbondingOnHold(unbondingId)` 必须与调用 `UnbondingCanComplete(unbondingId)` 匹配。
 
 #### Unbonding Delegations
 
-Complete the unbonding of all mature `UnbondingDelegations.Entries` within the`UnbondingDelegations` queue with the following procedure:
+完成 `UnbondingDelegations` 队列中所有成熟的 `UnbondingDelegations.Entries` 的解绑，使用以下过程：
 
-* transfer the balance coins to the delegator's wallet address
-* remove the mature entry from `UnbondingDelegation.Entries`
-* remove the `UnbondingDelegation` object from the store if there are no\
-  remaining entries.
+* 将余额代币转移到委托者的钱包地址
+* 从 `UnbondingDelegation.Entries` 中删除成熟条目
+* 如果没有剩余条目，则从存储中删除 `UnbondingDelegation` 对象。
 
 #### Redelegations
 
-Complete the unbonding of all mature `Redelegation.Entries` within the`Redelegations` queue with the following procedure:
+完成 `Redelegations` 队列中所有成熟的 `Redelegation.Entries` 的解绑，使用以下过程：
 
-* remove the mature entry from `Redelegation.Entries`
-* remove the `Redelegation` object from the store if there are no\
-  remaining entries.
+* 从 `Redelegation.Entries` 中删除成熟条目
+* 如果没有剩余条目，则从存储中删除 `Redelegation` 对象。
 
 ## Hooks
 
-Other modules may register operations to execute when a certain event has\
-occurred within staking. These events can be registered to execute either\
-right `Before` or `After` the staking event (as per the hook name). The\
-following hooks can registered with staking:
+其他模块可以注册操作，以便在 staking 中发生某些事件时执行。\
+这些事件可以注册为在 staking 事件之前或之后执行（根据钩子名称）。\
+以下钩子可以在 staking 中注册：
 
 * `AfterValidatorCreated(Context, ValAddress) error`
-  * called when a validator is created
+  * 在创建验证者时调用
 * `BeforeValidatorModified(Context, ValAddress) error`
-  * called when a validator's state is changed
+  * 在验证者状态更改时调用
 * `AfterValidatorRemoved(Context, ConsAddress, ValAddress) error`
-  * called when a validator is deleted
+  * 在删除验证者时调用
 * `AfterValidatorBonded(Context, ConsAddress, ValAddress) error`
-  * called when a validator is bonded
+  * 在验证者绑定时调用
 * `AfterValidatorBeginUnbonding(Context, ConsAddress, ValAddress) error`
-  * called when a validator begins unbonding
+  * 在验证者开始解绑时调用
 * `BeforeDelegationCreated(Context, AccAddress, ValAddress) error`
-  * called when a delegation is created
+  * 在创建委托时调用
 * `BeforeDelegationSharesModified(Context, AccAddress, ValAddress) error`
-  * called when a delegation's shares are modified
+  * 在委托份额被修改时调用
 * `AfterDelegationModified(Context, AccAddress, ValAddress) error`
-  * called when a delegation is created or modified
+  * 在创建或修改委托时调用
 * `BeforeDelegationRemoved(Context, AccAddress, ValAddress) error`
-  * called when a delegation is removed
+  * 在删除委托时调用
 * `AfterUnbondingInitiated(Context, UnbondingID)`
-  * called when an unbonding operation (validator unbonding, unbonding delegation, redelegation) was initiated
+  * 在启动解绑操作（验证者解绑、解绑委托、重新委托）时调用
 
 ## Events
 

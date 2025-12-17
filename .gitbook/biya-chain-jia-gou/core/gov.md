@@ -2,171 +2,125 @@
 sidebar_position: 1
 ---
 
-# Gov
+# 治理
 
-## Abstract
+## 摘要
 
-This paper specifies the Governance module of the Cosmos SDK, which was first\
-described in the [Cosmos Whitepaper](https://cosmos.network/about/whitepaper) in\
-June 2016.
+本文档规定了 Cosmos SDK 的治理模块，该模块首次在 2016 年 6 月的 [Cosmos 白皮书](https://cosmos.network/about/whitepaper)中描述。
 
-The module enables Cosmos SDK based blockchain to support an on-chain governance\
-system. In this system, holders of the native staking token of the chain can vote\
-on proposals on a 1 token 1 vote basis. Next is a list of features the module\
-currently supports:
+该模块使基于 Cosmos SDK 的区块链能够支持链上治理系统。在该系统中，链的原生质押代币持有者可以按照 1 代币 1 票的原则对提案进行投票。以下是该模块目前支持的功能列表：
 
-* **Proposal submission:** Users can submit proposals with a deposit. Once the\
-  minimum deposit is reached, the proposal enters voting period. The minimum deposit can be reached by collecting deposits from different users (including proposer) within deposit period.
-* **Vote:** Participants can vote on proposals that reached MinDeposit and entered voting period.
-* **Inheritance and penalties:** Delegators inherit their validator's vote if\
-  they don't vote themselves.
-* **Claiming deposit:** Users that deposited on proposals can recover their\
-  deposits if the proposal was accepted or rejected. If the proposal was vetoed, or never entered voting period (minimum deposit not reached within deposit period), the deposit is burned.
+* **提案提交：** 用户可以提交带押金的提案。一旦达到最低押金，提案进入投票期。最低押金可以通过在押金期内从不同用户（包括提案者）收集押金来达到。
+* **投票：** 参与者可以对达到 MinDeposit 并进入投票期的提案进行投票。
+* **继承和惩罚：** 如果委托者自己不投票，他们将继承其验证者的投票。
+* **提取押金：** 在提案上存入押金的用户，如果提案被接受或拒绝，可以收回押金。如果提案被否决，或从未进入投票期（在押金期内未达到最低押金），押金将被销毁。
 
-This module is in use on the Cosmos Hub (a.k.a [gaia](https://github.com/cosmos/gaia)).\
-Features that may be added in the future are described in [Future Improvements](gov.md#future-improvements).
+该模块在 Cosmos Hub（也称为 [gaia](https://github.com/cosmos/gaia)）上使用。未来可能添加的功能在[未来改进](gov.md#future-improvements)中描述。
 
-## Contents
+## 目录
 
-The following specification uses _ATOM_ as the native staking token. The module\
-can be adapted to any Proof-Of-Stake blockchain by replacing _ATOM_ with the native\
-staking token of the chain.
+以下规范使用 _ATOM_ 作为原生质押代币。该模块可以通过将 _ATOM_ 替换为链的原生质押代币来适配任何权益证明区块链。
 
-* [Concepts](gov.md#concepts)
-  * [Proposal submission](gov.md#proposal-submission)
-  * [Deposit](gov.md#deposit)
-  * [Vote](gov.md#vote)
-  * [Software Upgrade](gov.md#software-upgrade)
-* [State](gov.md#state)
-  * [Proposals](gov.md#proposals)
-  * [Parameters and base types](gov.md#parameters-and-base-types)
-  * [Deposit](gov.md#deposit-1)
+* [概念](gov.md#concepts)
+  * [提案提交](gov.md#proposal-submission)
+  * [押金](gov.md#deposit)
+  * [投票](gov.md#vote)
+  * [软件升级](gov.md#software-upgrade)
+* [状态](gov.md#state)
+  * [提案](gov.md#proposals)
+  * [参数和基础类型](gov.md#parameters-and-base-types)
+  * [押金](gov.md#deposit-1)
   * [ValidatorGovInfo](gov.md#validatorgovinfo)
-  * [Stores](gov.md#stores)
-  * [Proposal Processing Queue](gov.md#proposal-processing-queue)
-  * [Legacy Proposal](gov.md#legacy-proposal)
-* [Messages](gov.md#messages)
-  * [Proposal Submission](gov.md#proposal-submission-1)
-  * [Deposit](gov.md#deposit-2)
-  * [Vote](gov.md#vote-1)
-* [Events](gov.md#events)
+  * [存储](gov.md#stores)
+  * [提案处理队列](gov.md#proposal-processing-queue)
+  * [遗留提案](gov.md#legacy-proposal)
+* [消息](gov.md#messages)
+  * [提案提交](gov.md#proposal-submission-1)
+  * [押金](gov.md#deposit-2)
+  * [投票](gov.md#vote-1)
+* [事件](gov.md#events)
   * [EndBlocker](gov.md#endblocker)
-  * [Handlers](gov.md#handlers)
-* [Parameters](gov.md#parameters)
-* [Client](gov.md#client)
+  * [处理器](gov.md#handlers)
+* [参数](gov.md#parameters)
+* [客户端](gov.md#client)
   * [CLI](gov.md#cli)
   * [gRPC](gov.md#grpc)
   * [REST](gov.md#rest)
-* [Metadata](gov.md#metadata)
-  * [Proposal](gov.md#proposal-3)
-  * [Vote](gov.md#vote-5)
-* [Future Improvements](gov.md#future-improvements)
+* [元数据](gov.md#metadata)
+  * [提案](gov.md#proposal-3)
+  * [投票](gov.md#vote-5)
+* [未来改进](gov.md#future-improvements)
 
-## Concepts
+## 概念
 
-_Disclaimer: This is work in progress. Mechanisms are susceptible to change._
+_免责声明：这是正在进行的工作。机制可能会发生变化。_
 
-The governance process is divided in a few steps that are outlined below:
+治理过程分为以下几个步骤：
 
-* **Proposal submission:** Proposal is submitted to the blockchain with a\
-  deposit.
-* **Vote:** Once deposit reaches a certain value (`MinDeposit`), proposal is\
-  confirmed and vote opens. Bonded Atom holders can then send `TxGovVote`\
-  transactions to vote on the proposal.
-* **Execution** After a period of time, the votes are tallied and depending\
-  on the result, the messages in the proposal will be executed.
+* **提案提交：** 提案通过押金提交到区块链。
+* **投票：** 一旦押金达到某个值（`MinDeposit`），提案被确认并开始投票。已绑定的 Atom 持有者可以发送 `TxGovVote` 交易对提案进行投票。
+* **执行：** 经过一段时间后，投票被统计，根据结果，提案中的消息将被执行。
 
-### Proposal submission
+### 提案提交
 
-#### Right to submit a proposal
+#### 提交提案的权利
 
-Every account can submit proposals by sending a `MsgSubmitProposal` transaction.\
-Once a proposal is submitted, it is identified by its unique `proposalID`.
+每个账户都可以通过发送 `MsgSubmitProposal` 交易来提交提案。一旦提案被提交，它由其唯一的 `proposalID` 标识。
 
-#### Proposal Messages
+#### 提案消息
 
-A proposal includes an array of `sdk.Msg`s which are executed automatically if the\
-proposal passes. The messages are executed by the governance `ModuleAccount` itself. Modules\
-such as `x/upgrade`, that want to allow certain messages to be executed by governance\
-only should add a whitelist within the respective msg server, granting the governance\
-module the right to execute the message once a quorum has been reached. The governance\
-module uses the `MsgServiceRouter` to check that these messages are correctly constructed\
-and have a respective path to execute on but do not perform a full validity check.
+提案包含一个 `sdk.Msg` 数组，如果提案通过，这些消息将自动执行。消息由治理 `ModuleAccount` 本身执行。像 `x/upgrade` 这样希望只允许治理执行某些消息的模块，应该在相应的消息服务器中添加白名单，授予治理模块在达到法定人数后执行消息的权利。治理模块使用 `MsgServiceRouter` 检查这些消息是否正确构造并具有相应的执行路径，但不执行完整的有效性检查。
 
-### Deposit
+### 押金
 
-To prevent spam, proposals must be submitted with a deposit in the coins defined by\
-the `MinDeposit` param.
+为了防止垃圾信息，提案必须使用 `MinDeposit` 参数定义的代币提交押金。
 
-When a proposal is submitted, it has to be accompanied with a deposit that must be\
-strictly positive, but can be inferior to `MinDeposit`. The submitter doesn't need\
-to pay for the entire deposit on their own. The newly created proposal is stored in\
-an _inactive proposal queue_ and stays there until its deposit passes the `MinDeposit`.\
-Other token holders can increase the proposal's deposit by sending a `Deposit`\
-transaction. If a proposal doesn't pass the `MinDeposit` before the deposit end time\
-(the time when deposits are no longer accepted), the proposal will be destroyed: the\
-proposal will be removed from state and the deposit will be burned (see x/gov `EndBlocker`).\
-When a proposal deposit passes the `MinDeposit` threshold (even during the proposal\
-submission) before the deposit end time, the proposal will be moved into th&#x65;_&#x61;ctive proposal queue_ and the voting period will begin.
+当提交提案时，必须附带押金，押金必须严格为正数，但可以低于 `MinDeposit`。提交者不需要自己支付全部押金。新创建的提案存储在_非活跃提案队列_中，并一直保留在那里，直到其押金超过 `MinDeposit`。其他代币持有者可以通过发送 `Deposit` 交易来增加提案的押金。如果提案在押金结束时间（不再接受押金的时间）之前未达到 `MinDeposit`，提案将被销毁：提案将从状态中移除，押金将被销毁（参见 x/gov `EndBlocker`）。当提案押金在押金结束时间之前超过 `MinDeposit` 阈值（即使在提案提交期间），提案将被移动到_活跃提案队列_，投票期将开始。
 
-The deposit is kept in escrow and held by the governance `ModuleAccount` until the\
-proposal is finalized (passed or rejected).
+押金由治理 `ModuleAccount` 保管，直到提案最终确定（通过或拒绝）。
 
-#### Deposit refund and burn
+#### 押金退还和销毁
 
-When a proposal is finalized, the coins from the deposit are either refunded or burned\
-according to the final tally of the proposal:
+当提案最终确定时，押金中的代币根据提案的最终统计结果被退还或销毁：
 
-* If the proposal is approved or rejected but _not_ vetoed, each deposit will be\
-  automatically refunded to its respective depositor (transferred from the governance`ModuleAccount`).
-* When the proposal is vetoed with greater than 1/3, deposits will be burned from the\
-  governance `ModuleAccount` and the proposal information along with its deposit\
-  information will be removed from state.
-* All refunded or burned deposits are removed from the state. Events are issued when\
-  burning or refunding a deposit.
+* 如果提案被批准或拒绝但_未_被否决，每笔押金将自动退还给相应的存款人（从治理 `ModuleAccount` 转移）。
+* 当提案被超过 1/3 的投票否决时，押金将从治理 `ModuleAccount` 中销毁，提案信息及其押金信息将从状态中移除。
+* 所有退还或销毁的押金都从状态中移除。在销毁或退还押金时会发出事件。
 
-### Vote
+### 投票
 
-#### Participants
+#### 参与者
 
-_Participants_ are users that have the right to vote on proposals. On the\
-Cosmos Hub, participants are bonded Atom holders. Unbonded Atom holders and\
-other users do not get the right to participate in governance. However, they\
-can submit and deposit on proposals.
+_参与者_是有权对提案进行投票的用户。在 Cosmos Hub 上，参与者是已绑定的 Atom 持有者。未绑定的 Atom 持有者和其他用户没有参与治理的权利。但是，他们可以提交提案并在提案上存入押金。
 
-Note that when _participants_ have bonded and unbonded Atoms, their voting power is calculated from their bonded Atom holdings only.
+请注意，当_参与者_同时拥有已绑定和未绑定的 Atoms 时，他们的投票权仅根据其已绑定的 Atom 持有量计算。
 
-#### Voting period
+#### 投票期
 
-Once a proposal reaches `MinDeposit`, it immediately enters `Voting period`. We\
-define `Voting period` as the interval between the moment the vote opens and\
-the moment the vote closes. The initial value of `Voting period` is 2 weeks.
+一旦提案达到 `MinDeposit`，它立即进入`投票期`。我们将`投票期`定义为投票开始和投票结束之间的时间间隔。`投票期`的初始值为 2 周。
 
-#### Option set
+#### 选项集
 
-The option set of a proposal refers to the set of choices a participant can\
-choose from when casting its vote.
+提案的选项集是指参与者在投票时可以选择的一组选项。
 
-The initial option set includes the following options:
+初始选项集包括以下选项：
 
-* `Yes`
-* `No`
-* `NoWithVeto`
-* `Abstain`
+* `Yes`（是）
+* `No`（否）
+* `NoWithVeto`（否决）
+* `Abstain`（弃权）
 
-`NoWithVeto` counts as `No` but also adds a `Veto` vote. `Abstain` option\
-allows voters to signal that they do not intend to vote in favor or against the\
-proposal but accept the result of the vote.
+`NoWithVeto` 计为 `No`，但也会添加一个 `Veto` 投票。`Abstain` 选项允许投票者表示他们不打算投票支持或反对提案，但接受投票结果。
 
-_Note: from the UI, for urgent proposals we should maybe add a ‘Not Urgent’ option that casts a `NoWithVeto` vote._
+_注意：从 UI 的角度来看，对于紧急提案，我们也许应该添加一个"不紧急"选项，该选项会投出 `NoWithVeto` 投票。_
 
-#### Weighted Votes
+#### 加权投票
 
-[ADR-037](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-037-gov-split-vote.md) introduces the weighted vote feature which allows a staker to split their votes into several voting options. For example, it could use 70% of its voting power to vote Yes and 30% of its voting power to vote No.
+[ADR-037](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-037-gov-split-vote.md) 引入了加权投票功能，允许质押者将其投票分成多个投票选项。例如，它可以使用 70% 的投票权投票"是"，使用 30% 的投票权投票"否"。
 
-Often times the entity owning that address might not be a single individual. For example, a company might have different stakeholders who want to vote differently, and so it makes sense to allow them to split their voting power. Currently, it is not possible for them to do "passthrough voting" and giving their users voting rights over their tokens. However, with this system, exchanges can poll their users for voting preferences, and then vote on-chain proportionally to the results of the poll.
+拥有该地址的实体通常可能不是单个个人。例如，一家公司可能有不同的利益相关者，他们希望以不同的方式投票，因此允许他们分割投票权是有意义的。目前，他们无法进行"透传投票"并给予用户对其代币的投票权。但是，通过这个系统，交易所可以对其用户进行投票偏好调查，然后根据调查结果按比例在链上投票。
 
-To represent weighted vote on chain, we use the following Protobuf message.
+为了在链上表示加权投票，我们使用以下 Protobuf 消息。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1beta1/gov.proto#L34-L47
@@ -176,149 +130,120 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1beta1/g
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1beta1/gov.proto#L181-L201
 ```
 
-For a weighted vote to be valid, the `options` field must not contain duplicate vote options, and the sum of weights of all options must be equal to 1.
+为了使加权投票有效，`options` 字段不得包含重复的投票选项，并且所有选项的权重之和必须等于 1。
 
-### Quorum
+### 法定人数
 
-Quorum is defined as the minimum percentage of voting power that needs to be\
-cast on a proposal for the result to be valid.
+法定人数定义为提案结果有效所需的最低投票权百分比。
 
-### Expedited Proposals
+### 快速提案
 
-A proposal can be expedited, making the proposal use shorter voting duration and a higher tally threshold by its default. If an expedited proposal fails to meet the threshold within the scope of shorter voting duration, the expedited proposal is then converted to a regular proposal and restarts voting under regular voting conditions.
+提案可以被加速，使提案默认使用更短的投票持续时间和更高的统计阈值。如果快速提案在较短投票持续时间内未能达到阈值，则快速提案将转换为常规提案，并在常规投票条件下重新开始投票。
 
-#### Threshold
+#### 阈值
 
-Threshold is defined as the minimum proportion of `Yes` votes (excluding`Abstain` votes) for the proposal to be accepted.
+阈值定义为提案被接受所需的最低 `Yes` 投票比例（不包括 `Abstain` 投票）。
 
-Initially, the threshold is set at 50% of `Yes` votes, excluding `Abstain`\
-votes. A possibility to veto exists if more than 1/3rd of all votes are`NoWithVeto` votes. Note, both of these values are derived from the `TallyParams`\
-on-chain parameter, which is modifiable by governance.\
-This means that proposals are accepted iff:
+最初，阈值设置为 `Yes` 投票的 50%，不包括 `Abstain` 投票。如果超过 1/3 的投票是 `NoWithVeto` 投票，则存在否决的可能性。请注意，这两个值都来自链上参数 `TallyParams`，可以通过治理进行修改。这意味着提案在以下情况下被接受：
 
-* There exist bonded tokens.
-* Quorum has been achieved.
-* The proportion of `Abstain` votes is inferior to 1/1.
-* The proportion of `NoWithVeto` votes is inferior to 1/3, including`Abstain` votes.
-* The proportion of `Yes` votes, excluding `Abstain` votes, at the end of\
-  the voting period is superior to 1/2.
+* 存在已绑定的代币。
+* 已达到法定人数。
+* `Abstain` 投票的比例低于 1/1。
+* `NoWithVeto` 投票的比例低于 1/3，包括 `Abstain` 投票。
+* 在投票期结束时，`Yes` 投票的比例（不包括 `Abstain` 投票）超过 1/2。
 
-For expedited proposals, by default, the threshold is higher than with a _normal proposal_, namely, 66.7%.
+对于快速提案，默认情况下，阈值高于_常规提案_，即 66.7%。
 
-#### Inheritance
+#### 继承
 
-If a delegator does not vote, it will inherit its validator vote.
+如果委托者不投票，它将继承其验证者的投票。
 
-* If the delegator votes before its validator, it will not inherit from the\
-  validator's vote.
-* If the delegator votes after its validator, it will override its validator\
-  vote with its own. If the proposal is urgent, it is possible\
-  that the vote will close before delegators have a chance to react and\
-  override their validator's vote. This is not a problem, as proposals require more than 2/3rd of the total voting power to pass, when tallied at the end of the voting period. Because as little as 1/3 + 1 validation power could collude to censor transactions, non-collusion is already assumed for ranges exceeding this threshold.
+* 如果委托者在验证者之前投票，它将不会继承验证者的投票。
+* 如果委托者在验证者之后投票，它将用自己的投票覆盖验证者的投票。如果提案很紧急，投票可能在委托者有机会做出反应并覆盖其验证者的投票之前就结束了。这不是问题，因为提案在投票期结束时统计需要超过总投票权的 2/3 才能通过。因为只要 1/3 + 1 的验证权就可以合谋审查交易，所以对于超过此阈值的范围，已经假设不存在合谋。
 
-#### Validator’s punishment for non-voting
+#### 验证者不投票的惩罚
 
-At present, validators are not punished for failing to vote.
+目前，验证者不会因未能投票而受到惩罚。
 
-#### Governance address
+#### 治理地址
 
-Later, we may add permissioned keys that could only sign txs from certain modules. For the MVP, the `Governance address` will be the main validator address generated at account creation. This address corresponds to a different PrivKey than the CometBFT PrivKey which is responsible for signing consensus messages. Validators thus do not have to sign governance transactions with the sensitive CometBFT PrivKey.
+将来，我们可能会添加只能签署来自某些模块的交易的有权限密钥。对于 MVP，`治理地址`将是账户创建时生成的主要验证者地址。该地址对应于与负责签署共识消息的 CometBFT PrivKey 不同的 PrivKey。因此，验证者不必使用敏感的 CometBFT PrivKey 签署治理交易。
 
-#### Burnable Params
+#### 可销毁参数
 
-There are three parameters that define if the deposit of a proposal should be burned or returned to the depositors.
+有三个参数定义提案的押金是否应该被销毁或退还给存款人。
 
-* `BurnVoteVeto` burns the proposal deposit if the proposal gets vetoed.
-* `BurnVoteQuorum` burns the proposal deposit if the proposal deposit if the vote does not reach quorum.
-* `BurnProposalDepositPrevote` burns the proposal deposit if it does not enter the voting phase.
+* `BurnVoteVeto` 如果提案被否决，则销毁提案押金。
+* `BurnVoteQuorum` 如果投票未达到法定人数，则销毁提案押金。
+* `BurnProposalDepositPrevote` 如果提案未进入投票阶段，则销毁提案押金。
 
-> Note: These parameters are modifiable via governance.
+> 注意：这些参数可以通过治理进行修改。
 
-## State
+## 状态
 
-### Constitution
+### 宪法
 
-`Constitution` is found in the genesis state. It is a string field intended to be used to descibe the purpose of a particular blockchain, and its expected norms. A few examples of how the constitution field can be used:
+`Constitution` 在创世状态中找到。它是一个字符串字段，旨在用于描述特定区块链的目的及其预期规范。以下是宪法字段可以如何使用的一些示例：
 
-* define the purpose of the chain, laying a foundation for its future development
-* set expectations for delegators
-* set expectations for validators
-* define the chain's relationship to "meatspace" entities, like a foundation or corporation
+* 定义链的目的，为其未来发展奠定基础
+* 为委托者设定期望
+* 为验证者设定期望
+* 定义链与"现实世界"实体的关系，如基金会或公司
 
-Since this is more of a social feature than a technical feature, we'll now get into some items that may have been useful to have in a genesis constitution:
+由于这更像是一个社会功能而不是技术功能，我们现在将讨论一些在创世宪法中可能有用的项目：
 
-* What limitations on governance exist, if any?
-  * is it okay for the community to slash the wallet of a whale that they no longer feel that they want around? (viz: Juno Proposal 4 and 16)
-  * can governance "socially slash" a validator who is using unapproved MEV? (viz: commonwealth.im/osmosis)
-  * In the event of an economic emergency, what should validators do?
-    * Terra crash of May, 2022, saw validators choose to run a new binary with code that had not been approved by governance, because the governance token had been inflated to nothing.
-* What is the purpose of the chain, specifically?
-  * best example of this is the Cosmos hub, where different founding groups, have different interpertations of the purpose of the network.
+* 治理存在哪些限制（如果有的话）？
+  * 社区是否可以削减他们不再希望存在的大户钱包？（参见：Juno 提案 4 和 16）
+  * 治理是否可以"社会性削减"使用未经批准的 MEV 的验证者？（参见：commonwealth.im/osmosis）
+  * 在经济紧急情况下，验证者应该做什么？
+    * 2022 年 5 月的 Terra 崩溃，看到验证者选择运行一个包含未经治理批准的代码的新二进制文件，因为治理代币已经被通胀到一文不值。
+* 链的具体目的是什么？
+  * 最好的例子是 Cosmos hub，不同的创始团体对网络的目的有不同的解释。
 
-This genesis entry, "constitution" hasn't been designed for existing chains, who should likely just ratify a constitution using their governance system. Instead, this is for new chains. It will allow for validators to have a much clearer idea of purpose and the expecations placed on them while operating thier nodes. Likewise, for community members, the constitution will give them some idea of what to expect from both the "chain team" and the validators, respectively.
+这个创世条目"constitution"不是为现有链设计的，现有链应该使用其治理系统来批准宪法。相反，这是为新链设计的。它将使验证者在运行其节点时对目的和期望有更清晰的认识。同样，对于社区成员来说，宪法将让他们了解可以从"链团队"和验证者那里期望什么。
 
-This constitution is designed to be immutable, and placed only in genesis, though that could change over time by a pull request to the cosmos-sdk that allows for the constitution to be changed by governance. Communities whishing to make amendments to their original constitution should use the governance mechanism and a "signaling proposal" to do exactly that.
+这个宪法被设计为不可变的，并且只放在创世中，尽管随着时间的推移，通过向 cosmos-sdk 提交允许通过治理修改宪法的拉取请求，这可能会改变。希望修改其原始宪法的社区应该使用治理机制和"信号提案"来做到这一点。
 
-**Ideal use scenario for a cosmos chain constitution**
+**Cosmos 链宪法的理想使用场景**
 
-As a chain developer, you decide that you'd like to provide clarity to your key user groups:
+作为链开发者，您决定希望为您的关键用户群体提供清晰度：
 
-* validators
-* token holders
-* developers (yourself)
+* 验证者
+* 代币持有者
+* 开发者（您自己）
 
-You use the constitution to immutably store some Markdown in genesis, so that when difficult questions come up, the constutituon can provide guidance to the community.
+您使用宪法在创世中不可变地存储一些 Markdown，这样当出现困难问题时，宪法可以为社区提供指导。
 
-### Proposals
+### 提案
 
-`Proposal` objects are used to tally votes and generally track the proposal's state.\
-They contain an array of arbitrary `sdk.Msg`'s which the governance module will attempt\
-to resolve and then execute if the proposal passes. `Proposal`'s are identified by a\
-unique id and contains a series of timestamps: `submit_time`, `deposit_end_time`,`voting_start_time`, `voting_end_time` which track the lifecycle of a proposal
+`Proposal` 对象用于统计投票并通常跟踪提案的状态。它们包含一个任意的 `sdk.Msg` 数组，治理模块将尝试解析这些消息，如果提案通过，则执行它们。`Proposal` 由唯一 id 标识，并包含一系列时间戳：`submit_time`、`deposit_end_time`、`voting_start_time`、`voting_end_time`，这些时间戳跟踪提案的生命周期。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/gov.proto#L51-L99
 ```
 
-A proposal will generally require more than just a set of messages to explain its\
-purpose but need some greater justification and allow a means for interested participants\
-to discuss and debate the proposal.\
-In most cases, **it is encouraged to have an off-chain system that supports the on-chain governance process**.\
-To accommodate for this, a proposal contains a special **`metadata`** field, a string,\
-which can be used to add context to the proposal. The `metadata` field allows custom use for networks,\
-however, it is expected that the field contains a URL or some form of CID using a system such as[IPFS](https://docs.ipfs.io/concepts/content-addressing/). To support the case of\
-interoperability across networks, the SDK recommends that the `metadata` represents\
-the following `JSON` template:
+提案通常不仅需要一组消息来解释其目的，还需要一些更大的理由，并允许感兴趣的参与者讨论和辩论提案。在大多数情况下，**鼓励拥有支持链上治理过程的链下系统**。为了适应这一点，提案包含一个特殊的 **`metadata`** 字段，一个字符串，可用于为提案添加上下文。`metadata` 字段允许网络自定义使用，但是，期望该字段包含 URL 或使用 [IPFS](https://docs.ipfs.io/concepts/content-addressing/) 等系统的某种形式的 CID。为了支持跨网络的互操作性，SDK 建议 `metadata` 表示以下 `JSON` 模板：
 
 ```json
 {
   "title": "...",
   "description": "...",
-  "forum": "...", // a link to the discussion platform (i.e. Discord)
-  "other": "..." // any extra data that doesn't correspond to the other fields
+  "forum": "...", // 讨论平台的链接（例如 Discord）
+  "other": "..." // 任何不对应其他字段的额外数据
 }
 ```
 
-This makes it far easier for clients to support multiple networks.
+这使得客户端更容易支持多个网络。
 
-The metadata has a maximum length that is chosen by the app developer, and\
-passed into the gov keeper as a config. The default maximum length in the SDK is 255 characters.
+元数据有一个最大长度，由应用程序开发者选择，并作为配置传递给 gov keeper。SDK 中的默认最大长度为 255 个字符。
 
-#### Writing a module that uses governance
+#### 编写使用治理的模块
 
-There are many aspects of a chain, or of the individual modules that you may want to\
-use governance to perform such as changing various parameters. This is very simple\
-to do. First, write out your message types and `MsgServer` implementation. Add an`authority` field to the keeper which will be populated in the constructor with the\
-governance module account: `govKeeper.GetGovernanceAccount().GetAddress()`. Then for\
-the methods in the `msg_server.go`, perform a check on the message that the signer\
-matches `authority`. This will prevent any user from executing that message.
+链或各个模块的许多方面，您可能希望使用治理来执行，例如更改各种参数。这非常简单。首先，写出您的消息类型和 `MsgServer` 实现。向 keeper 添加一个 `authority` 字段，该字段将在构造函数中使用治理模块账户填充：`govKeeper.GetGovernanceAccount().GetAddress()`。然后对于 `msg_server.go` 中的方法，对消息执行检查，确保签名者匹配 `authority`。这将防止任何用户执行该消息。
 
-### Parameters and base types
+### 参数和基础类型
 
-`Parameters` define the rules according to which votes are run. There can only\
-be one active parameter set at any given time. If governance wants to change a\
-parameter set, either to modify a value or add/remove a parameter field, a new\
-parameter set has to be created and the previous one rendered inactive.
+`Parameters` 定义了投票运行的规则。在任何给定时间只能有一个活动参数集。如果治理想要更改参数集，无论是修改值还是添加/删除参数字段，都必须创建新的参数集，并使之前的参数集变为非活动状态。
 
 #### DepositParams
 
@@ -338,9 +263,9 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/gov.pr
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/gov.proto#L170-L182
 ```
 
-Parameters are stored in a global `GlobalParams` KVStore.
+参数存储在全局 `GlobalParams` KVStore 中。
 
-Additionally, we introduce some basic types:
+此外，我们引入一些基本类型：
 
 ```go
 type Vote byte
@@ -364,15 +289,15 @@ type ProposalStatus byte
 
 const (
     StatusNil           ProposalStatus = 0x00
-    StatusDepositPeriod ProposalStatus = 0x01  // Proposal is submitted. Participants can deposit on it but not vote
-    StatusVotingPeriod  ProposalStatus = 0x02  // MinDeposit is reached, participants can vote
-    StatusPassed        ProposalStatus = 0x03  // Proposal passed and successfully executed
-    StatusRejected      ProposalStatus = 0x04  // Proposal has been rejected
-    StatusFailed        ProposalStatus = 0x05  // Proposal passed but failed execution
+    StatusDepositPeriod ProposalStatus = 0x01  // 提案已提交。参与者可以存入押金但不能投票
+    StatusVotingPeriod  ProposalStatus = 0x02  // 已达到 MinDeposit，参与者可以投票
+    StatusPassed        ProposalStatus = 0x03  // 提案已通过并成功执行
+    StatusRejected      ProposalStatus = 0x04  // 提案已被拒绝
+    StatusFailed        ProposalStatus = 0x05  // 提案已通过但执行失败
 )
 ```
 
-### Deposit
+### 押金
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/gov.proto#L38-L49
@@ -380,7 +305,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/gov.pr
 
 ### ValidatorGovInfo
 
-This type is used in a temp map when tallying
+此类型在统计时用于临时映射
 
 ```go
   type ValidatorGovInfo struct {
@@ -389,61 +314,52 @@ This type is used in a temp map when tallying
   }
 ```
 
-## Stores
+## 存储
 
 :::note\
-Stores are KVStores in the multi-store. The key to find the store is the first parameter in the list\
+存储是多存储中的 KVStore。查找存储的键是列表中的第一个参数\
 :::
 
-We will use one KVStore `Governance` to store four mappings:
+我们将使用一个 KVStore `Governance` 来存储四个映射：
 
-* A mapping from `proposalID|'proposal'` to `Proposal`.
-* A mapping from `proposalID|'addresses'|address` to `Vote`. This mapping allows\
-  us to query all addresses that voted on the proposal along with their vote by\
-  doing a range query on `proposalID:addresses`.
-* A mapping from `ParamsKey|'Params'` to `Params`. This map allows to query all\
-  x/gov params.
-* A mapping from `VotingPeriodProposalKeyPrefix|proposalID` to a single byte. This allows\
-  us to know if a proposal is in the voting period or not with very low gas cost.
+* 从 `proposalID|'proposal'` 到 `Proposal` 的映射。
+* 从 `proposalID|'addresses'|address` 到 `Vote` 的映射。此映射允许我们通过对 `proposalID:addresses` 进行范围查询来查询所有对提案投票的地址及其投票。
+* 从 `ParamsKey|'Params'` 到 `Params` 的映射。此映射允许查询所有 x/gov 参数。
+* 从 `VotingPeriodProposalKeyPrefix|proposalID` 到单个字节的映射。这允许我们以非常低的 gas 成本知道提案是否在投票期内。
 
-For pseudocode purposes, here are the two function we will use to read or write in stores:
+为了伪代码的目的，以下是我们将用于在存储中读取或写入的两个函数：
 
-* `load(StoreKey, Key)`: Retrieve item stored at key `Key` in store found at key `StoreKey` in the multistore
-* `store(StoreKey, Key, value)`: Write value `Value` at key `Key` in store found at key `StoreKey` in the multistore
+* `load(StoreKey, Key)`：在多存储中位于键 `StoreKey` 的存储中检索存储在键 `Key` 处的项目
+* `store(StoreKey, Key, value)`：在多存储中位于键 `StoreKey` 的存储中在键 `Key` 处写入值 `Value`
 
-### Proposal Processing Queue
+### 提案处理队列
 
-**Store:**
+**存储：**
 
-* `ProposalProcessingQueue`: A queue `queue[proposalID]` containing all the`ProposalIDs` of proposals that reached `MinDeposit`. During each `EndBlock`,\
-  all the proposals that have reached the end of their voting period are processed.\
-  To process a finished proposal, the application tallies the votes, computes the\
-  votes of each validator and checks if every validator in the validator set has\
-  voted. If the proposal is accepted, deposits are refunded. Finally, the proposal\
-  content `Handler` is executed.
+* `ProposalProcessingQueue`：一个队列 `queue[proposalID]`，包含所有达到 `MinDeposit` 的提案的 `ProposalIDs`。在每个 `EndBlock` 期间，所有已达到投票期结束的提案都会被处理。为了处理已完成的提案，应用程序统计投票，计算每个验证者的投票，并检查验证者集中的每个验证者是否都已投票。如果提案被接受，押金将被退还。最后，执行提案内容 `Handler`。
 
-And the pseudocode for the `ProposalProcessingQueue`:
+以下是 `ProposalProcessingQueue` 的伪代码：
 
 ```go
   in EndBlock do
 
     for finishedProposalID in GetAllFinishedProposalIDs(block.Time)
-      proposal = load(Governance, <proposalID|'proposal'>) // proposal is a const key
+      proposal = load(Governance, <proposalID|'proposal'>) // proposal 是一个常量键
 
       validators = Keeper.getAllValidators()
       tmpValMap := map(sdk.AccAddress)ValidatorGovInfo
 
-      // Initiate mapping at 0. This is the amount of shares of the validator's vote that will be overridden by their delegator's votes
+      // 将映射初始化为 0。这是验证者投票中将被其委托者投票覆盖的份额数量
       for each validator in validators
         tmpValMap(validator.OperatorAddr).Minus = 0
 
-      // Tally
-      voterIterator = rangeQuery(Governance, <proposalID|'addresses'>) //return all the addresses that voted on the proposal
+      // 统计
+      voterIterator = rangeQuery(Governance, <proposalID|'addresses'>) //返回所有对提案投票的地址
       for each (voterAddress, vote) in voterIterator
-        delegations = stakingKeeper.getDelegations(voterAddress) // get all delegations for current voter
+        delegations = stakingKeeper.getDelegations(voterAddress) // 获取当前投票者的所有委托
 
         for each delegation in delegations
-          // make sure delegation.Shares does NOT include shares being unbonded
+          // 确保 delegation.Shares 不包括正在解绑的份额
           tmpValMap(delegation.ValidatorAddr).Minus += delegation.Shares
           proposal.updateTally(vote, delegation.Shares)
 
@@ -453,183 +369,175 @@ And the pseudocode for the `ProposalProcessingQueue`:
 
       tallyingParam = load(GlobalParams, 'TallyingParam')
 
-      // Update tally if validator voted
+      // 如果验证者投票，更新统计
       for each validator in validators
         if tmpValMap(validator).HasVoted
           proposal.updateTally(tmpValMap(validator).Vote, (validator.TotalShares - tmpValMap(validator).Minus))
 
 
 
-      // Check if proposal is accepted or rejected
+      // 检查提案是被接受还是被拒绝
       totalNonAbstain := proposal.YesVotes + proposal.NoVotes + proposal.NoWithVetoVotes
       if (proposal.Votes.YesVotes/totalNonAbstain > tallyingParam.Threshold AND proposal.Votes.NoWithVetoVotes/totalNonAbstain  < tallyingParam.Veto)
-        //  proposal was accepted at the end of the voting period
-        //  refund deposits (non-voters already punished)
+        //  提案在投票期结束时被接受
+        //  退还押金（未投票者已受到惩罚）
         for each (amount, depositor) in proposal.Deposits
           depositor.AtomBalance += amount
 
         stateWriter, err := proposal.Handler()
         if err != nil
-            // proposal passed but failed during state execution
+            // 提案通过但在状态执行期间失败
             proposal.CurrentStatus = ProposalStatusFailed
          else
-            // proposal pass and state is persisted
+            // 提案通过且状态已持久化
             proposal.CurrentStatus = ProposalStatusAccepted
             stateWriter.save()
       else
-        // proposal was rejected
+        // 提案被拒绝
         proposal.CurrentStatus = ProposalStatusRejected
 
       store(Governance, <proposalID|'proposal'>, proposal)
 ```
 
-### Legacy Proposal
+### 遗留提案
 
 :::warning\
-Legacy proposals are deprecated. Use the new proposal flow by granting the governance module the right to execute the message.\
+遗留提案已弃用。通过授予治理模块执行消息的权利来使用新的提案流程。\
 :::
 
-A legacy proposal is the old implementation of governance proposal.\
-Contrary to proposal that can contain any messages, a legacy proposal allows to submit a set of pre-defined proposals.\
-These proposals are defined by their types and handled by handlers that are registered in the gov v1beta1 router.
+遗留提案是治理提案的旧实现。与可以包含任何消息的提案相反，遗留提案允许提交一组预定义的提案。这些提案由其类型定义，并由在 gov v1beta1 路由器中注册的处理器处理。
 
-More information on how to submit proposals in the [client section](gov.md#client).
+有关如何提交提案的更多信息，请参见[客户端部分](gov.md#client)。
 
-## Messages
+## 消息
 
-### Proposal Submission
+### 提案提交
 
-Proposals can be submitted by any account via a `MsgSubmitProposal` transaction.
+任何账户都可以通过 `MsgSubmitProposal` 交易提交提案。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/tx.proto#L42-L69
 ```
 
-All `sdk.Msgs` passed into the `messages` field of a `MsgSubmitProposal` message\
-must be registered in the app's `MsgServiceRouter`. Each of these messages must\
-have one signer, namely the gov module account. And finally, the metadata length\
-must not be larger than the `maxMetadataLen` config passed into the gov keeper.\
-The `initialDeposit` must be strictly positive and conform to the accepted denom of the `MinDeposit` param.
+传递给 `MsgSubmitProposal` 消息的 `messages` 字段的所有 `sdk.Msgs` 必须在应用程序的 `MsgServiceRouter` 中注册。这些消息中的每一个都必须有一个签名者，即 gov 模块账户。最后，元数据长度不得大于传递给 gov keeper 的 `maxMetadataLen` 配置。`initialDeposit` 必须严格为正数，并符合 `MinDeposit` 参数接受的代币类型。
 
-**State modifications:**
+**状态修改：**
 
-* Generate new `proposalID`
-* Create new `Proposal`
-* Initialise `Proposal`'s attributes
-* Decrease balance of sender by `InitialDeposit`
-* If `MinDeposit` is reached:
-  * Push `proposalID` in `ProposalProcessingQueue`
-* Transfer `InitialDeposit` from the `Proposer` to the governance `ModuleAccount`
+* 生成新的 `proposalID`
+* 创建新的 `Proposal`
+* 初始化 `Proposal` 的属性
+* 将发送者的余额减少 `InitialDeposit`
+* 如果达到 `MinDeposit`：
+  * 将 `proposalID` 推入 `ProposalProcessingQueue`
+* 将 `InitialDeposit` 从 `Proposer` 转移到治理 `ModuleAccount`
 
-### Deposit
+### 押金
 
-Once a proposal is submitted, if `Proposal.TotalDeposit < ActiveParam.MinDeposit`, Atom holders can send`MsgDeposit` transactions to increase the proposal's deposit.
+一旦提案被提交，如果 `Proposal.TotalDeposit < ActiveParam.MinDeposit`，Atom 持有者可以发送 `MsgDeposit` 交易来增加提案的押金。
 
-A deposit is accepted iff:
+押金在以下情况下被接受：
 
-* The proposal exists
-* The proposal is not in the voting period
-* The deposited coins are conform to the accepted denom from the `MinDeposit` param
+* 提案存在
+* 提案不在投票期内
+* 存入的代币符合 `MinDeposit` 参数接受的代币类型
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/tx.proto#L134-L147
 ```
 
-**State modifications:**
+**状态修改：**
 
-* Decrease balance of sender by `deposit`
-* Add `deposit` of sender in `proposal.Deposits`
-* Increase `proposal.TotalDeposit` by sender's `deposit`
-* If `MinDeposit` is reached:
-  * Push `proposalID` in `ProposalProcessingQueueEnd`
-* Transfer `Deposit` from the `proposer` to the governance `ModuleAccount`
+* 将发送者的余额减少 `deposit`
+* 在 `proposal.Deposits` 中添加发送者的 `deposit`
+* 将 `proposal.TotalDeposit` 增加发送者的 `deposit`
+* 如果达到 `MinDeposit`：
+  * 将 `proposalID` 推入 `ProposalProcessingQueueEnd`
+* 将 `Deposit` 从 `proposer` 转移到治理 `ModuleAccount`
 
-### Vote
+### 投票
 
-Once `ActiveParam.MinDeposit` is reached, voting period starts. From there,\
-bonded Atom holders are able to send `MsgVote` transactions to cast their\
-vote on the proposal.
+一旦达到 `ActiveParam.MinDeposit`，投票期开始。从那时起，已绑定的 Atom 持有者能够发送 `MsgVote` 交易来对提案进行投票。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/tx.proto#L92-L108
 ```
 
-**State modifications:**
+**状态修改：**
 
-* Record `Vote` of sender
+* 记录发送者的 `Vote`
 
 :::note\
-Gas cost for this message has to take into account the future tallying of the vote in EndBlocker.\
+此消息的 Gas 成本必须考虑在 EndBlocker 中未来对投票的统计。\
 :::
 
-## Events
+## 事件
 
-The governance module emits the following events:
+治理模块发出以下事件：
 
 ### EndBlocker
 
-| Type               | Attribute Key    | Attribute Value  |
-| ------------------ | ---------------- | ---------------- |
-| inactive\_proposal | proposal\_id     | {proposalID}     |
+| 类型               | 属性键         | 属性值           |
+| ------------------ | -------------- | ---------------- |
+| inactive\_proposal | proposal\_id   | {proposalID}     |
 | inactive\_proposal | proposal\_result | {proposalResult} |
-| active\_proposal   | proposal\_id     | {proposalID}     |
+| active\_proposal   | proposal\_id   | {proposalID}     |
 | active\_proposal   | proposal\_result | {proposalResult} |
 
-### Handlers
+### 处理器
 
 #### MsgSubmitProposal
 
-| Type                  | Attribute Key         | Attribute Value  |
-| --------------------- | --------------------- | ---------------- |
-| submit\_proposal      | proposal\_id          | {proposalID}     |
+| 类型                  | 属性键             | 属性值           |
+| --------------------- | ------------------ | ---------------- |
+| submit\_proposal      | proposal\_id       | {proposalID}     |
 | submit\_proposal \[0] | voting\_period\_start | {proposalID}     |
-| proposal\_deposit     | amount                | {depositAmount}  |
-| proposal\_deposit     | proposal\_id          | {proposalID}     |
-| message               | module                | governance       |
-| message               | action                | submit\_proposal |
-| message               | sender                | {senderAddress}  |
+| proposal\_deposit     | amount             | {depositAmount}  |
+| proposal\_deposit     | proposal\_id       | {proposalID}     |
+| message               | module             | governance       |
+| message               | action             | submit\_proposal |
+| message               | sender             | {senderAddress}  |
 
-* \[0] Event only emitted if the voting period starts during the submission.
+* \[0] 仅在提交期间投票期开始时发出的事件。
 
 #### MsgVote
 
-| Type           | Attribute Key | Attribute Value |
-| -------------- | ------------- | --------------- |
-| proposal\_vote | option        | {voteOption}    |
-| proposal\_vote | proposal\_id  | {proposalID}    |
-| message        | module        | governance      |
-| message        | action        | vote            |
-| message        | sender        | {senderAddress} |
+| 类型           | 属性键      | 属性值        |
+| -------------- | ----------- | ------------- |
+| proposal\_vote | option      | {voteOption}  |
+| proposal\_vote | proposal\_id | {proposalID}  |
+| message        | module      | governance    |
+| message        | action      | vote          |
+| message        | sender      | {senderAddress} |
 
 #### MsgVoteWeighted
 
-| Type           | Attribute Key | Attribute Value       |
-| -------------- | ------------- | --------------------- |
-| proposal\_vote | option        | {weightedVoteOptions} |
-| proposal\_vote | proposal\_id  | {proposalID}          |
-| message        | module        | governance            |
-| message        | action        | vote                  |
-| message        | sender        | {senderAddress}       |
+| 类型           | 属性键      | 属性值              |
+| -------------- | ----------- | ------------------- |
+| proposal\_vote | option      | {weightedVoteOptions} |
+| proposal\_vote | proposal\_id | {proposalID}        |
+| message        | module      | governance          |
+| message        | action      | vote                |
+| message        | sender      | {senderAddress}     |
 
 #### MsgDeposit
 
-| Type                   | Attribute Key         | Attribute Value |
-| ---------------------- | --------------------- | --------------- |
-| proposal\_deposit      | amount                | {depositAmount} |
-| proposal\_deposit      | proposal\_id          | {proposalID}    |
-| proposal\_deposit \[0] | voting\_period\_start | {proposalID}    |
-| message                | module                | governance      |
-| message                | action                | deposit         |
-| message                | sender                | {senderAddress} |
+| 类型                   | 属性键             | 属性值          |
+| ---------------------- | ------------------ | -------------- |
+| proposal\_deposit      | amount             | {depositAmount} |
+| proposal\_deposit      | proposal\_id       | {proposalID}   |
+| proposal\_deposit \[0] | voting\_period\_start | {proposalID}   |
+| message                | module             | governance     |
+| message                | action             | deposit        |
+| message                | sender             | {senderAddress} |
 
-* \[0] Event only emitted if the voting period starts during the submission.
+* \[0] 仅在提交期间投票期开始时发出的事件。
 
-## Parameters
+## 参数
 
-The governance module contains the following parameters:
+治理模块包含以下参数：
 
-| Key                              | Type             | Example                                  |
-| -------------------------------- | ---------------- | ---------------------------------------- |
+| 键                              | 类型             | 示例                                      |
+| -------------------------------- | ---------------- | ----------------------------------------- |
 | min\_deposit                     | array (coins)    | \[{"denom":"uatom","amount":"10000000"}] |
 | max\_deposit\_period             | string (time ns) | "172800000000000" (17280s)               |
 | voting\_period                   | string (time ns) | "172800000000000" (17280s)               |
@@ -644,19 +552,17 @@ The governance module contains the following parameters:
 | burn\_vote\_veto                 | bool             | true                                     |
 | min\_initial\_deposit\_ratio     | string           | "0.1"                                    |
 
-**NOTE**: The governance module contains parameters that are objects unlike other\
-modules. If only a subset of parameters are desired to be changed, only they need\
-to be included and not the entire parameter object structure.
+**注意**：治理模块包含的参数是对象，与其他模块不同。如果只想更改参数的子集，只需要包含它们，而不需要包含整个参数对象结构。
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `gov` module using the CLI.
+用户可以使用 CLI 查询和与 `gov` 模块交互。
 
-#### Query
+#### 查询
 
-The `query` commands allow users to query `gov` state.
+`query` 命令允许用户查询 `gov` 状态。
 
 ```bash
 simd query gov --help
@@ -664,19 +570,19 @@ simd query gov --help
 
 **deposit**
 
-The `deposit` command allows users to query a deposit for a given proposal from a given depositor.
+`deposit` 命令允许用户查询给定提案中给定存款人的押金。
 
 ```bash
 simd query gov deposit [proposal-id] [depositer-addr] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd query gov deposit 1 cosmos1..
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 amount:
@@ -688,19 +594,19 @@ proposal_id: "1"
 
 **deposits**
 
-The `deposits` command allows users to query all deposits for a given proposal.
+`deposits` 命令允许用户查询给定提案的所有押金。
 
 ```bash
 simd query gov deposits [proposal-id] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd query gov deposits 1
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 deposits:
@@ -716,19 +622,19 @@ pagination:
 
 **param**
 
-The `param` command allows users to query a given parameter for the `gov` module.
+`param` 命令允许用户查询 `gov` 模块的给定参数。
 
 ```bash
 simd query gov param [param-type] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd query gov param voting
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 voting_period: "172800000000000"
@@ -736,7 +642,7 @@ voting_period: "172800000000000"
 
 **params**
 
-The `params` command allows users to query all parameters for the `gov` module.
+`params` 命令允许用户查询 `gov` 模块的所有参数。
 
 ```bash
 simd query gov params [flags]
@@ -986,9 +892,9 @@ votes:
   voter: cosmos1..
 ```
 
-#### Transactions
+#### 交易
 
-The `tx` commands allow users to interact with the `gov` module.
+`tx` 命令允许用户与 `gov` 模块交互。
 
 ```bash
 simd tx gov --help
@@ -996,13 +902,13 @@ simd tx gov --help
 
 **deposit**
 
-The `deposit` command allows users to deposit tokens for a given proposal.
+`deposit` 命令允许用户为给定提案存入代币。
 
 ```bash
 simd tx gov deposit [proposal-id] [deposit] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx gov deposit 1 10000000stake --from cosmos1..
@@ -1010,9 +916,9 @@ simd tx gov deposit 1 10000000stake --from cosmos1..
 
 **draft-proposal**
 
-The `draft-proposal` command allows users to draft any type of proposal.\
-The command returns a `draft_proposal.json`, to be used by `submit-proposal` after being completed.\
-The `draft_metadata.json` is meant to be uploaded to [IPFS](gov.md#metadata).
+`draft-proposal` 命令允许用户起草任何类型的提案。\
+该命令返回一个 `draft_proposal.json`，在完成后由 `submit-proposal` 使用。\
+`draft_metadata.json` 旨在上传到 [IPFS](gov.md#metadata)。
 
 ```bash
 simd tx gov draft-proposal
@@ -1020,61 +926,61 @@ simd tx gov draft-proposal
 
 **submit-proposal**
 
-The `submit-proposal` command allows users to submit a governance proposal along with some messages and metadata.\
-Messages, metadata and deposit are defined in a JSON file.
+`submit-proposal` 命令允许用户提交治理提案以及一些消息和元数据。\
+消息、元数据和押金在 JSON 文件中定义。
 
 ```bash
 simd tx gov submit-proposal [path-to-proposal-json] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx gov submit-proposal /path/to/proposal.json --from cosmos1..
 ```
 
-where `proposal.json` contains:
+其中 `proposal.json` 包含：
 
 ```json
 {
   "messages": [
     {
       "@type": "/cosmos.bank.v1beta1.MsgSend",
-      "from_address": "cosmos1...", // The gov module module address
+      "from_address": "cosmos1...", // gov 模块地址
       "to_address": "cosmos1...",
       "amount":[{"denom": "stake","amount": "10"}]
     }
   ],
   "metadata": "AQ==",
   "deposit": "10stake",
-  "title": "Proposal Title",
-  "summary": "Proposal Summary"
+  "title": "提案标题",
+  "summary": "提案摘要"
 }
 ```
 
 :::note\
-By default the metadata, summary and title are both limited by 255 characters, this can be overridden by the application developer.\
+默认情况下，元数据、摘要和标题都限制为 255 个字符，这可以由应用程序开发者覆盖。\
 :::
 
 :::tip\
-When metadata is not specified, the title is limited to 255 characters and the summary 40x the title length.\
+当未指定元数据时，标题限制为 255 个字符，摘要限制为标题长度的 40 倍。\
 :::
 
 **submit-legacy-proposal**
 
-The `submit-legacy-proposal` command allows users to submit a governance legacy proposal along with an initial deposit.
+`submit-legacy-proposal` 命令允许用户提交治理遗留提案以及初始押金。
 
 ```bash
 simd tx gov submit-legacy-proposal [command] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx gov submit-legacy-proposal --title="Test Proposal" --description="testing" --type="Text" --deposit="100000000stake" --from cosmos1..
 ```
 
-Example (`param-change`):
+示例（`param-change`）：
 
 ```bash
 simd tx gov submit-legacy-proposal param-change proposal.json --from cosmos1..
@@ -1097,13 +1003,13 @@ simd tx gov submit-legacy-proposal param-change proposal.json --from cosmos1..
 
 #### cancel-proposal
 
-Once proposal is canceled, from the deposits of proposal `deposits * proposal_cancel_ratio` will be burned or sent to `ProposalCancelDest` address , if `ProposalCancelDest` is empty then deposits will be burned. The `remaining deposits` will be sent to depositers.
+一旦提案被取消，从提案的押金中，`deposits * proposal_cancel_ratio` 将被销毁或发送到 `ProposalCancelDest` 地址，如果 `ProposalCancelDest` 为空，则押金将被销毁。`remaining deposits` 将发送给存款人。
 
 ```bash
 simd tx gov cancel-proposal [proposal-id] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx gov cancel-proposal 1 --from cosmos1...
@@ -1111,13 +1017,13 @@ simd tx gov cancel-proposal 1 --from cosmos1...
 
 **vote**
 
-The `vote` command allows users to submit a vote for a given governance proposal.
+`vote` 命令允许用户提交对给定治理提案的投票。
 
 ```bash
 simd tx gov vote [command] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx gov vote 1 yes --from cosmos1..
@@ -1125,13 +1031,13 @@ simd tx gov vote 1 yes --from cosmos1..
 
 **weighted-vote**
 
-The `weighted-vote` command allows users to submit a weighted vote for a given governance proposal.
+`weighted-vote` 命令允许用户提交对给定治理提案的加权投票。
 
 ```bash
 simd tx gov weighted-vote [proposal-id] [weighted-options] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx gov weighted-vote 1 yes=0.5,no=0.5 --from cosmos1..
@@ -1139,11 +1045,11 @@ simd tx gov weighted-vote 1 yes=0.5,no=0.5 --from cosmos1..
 
 ### gRPC
 
-A user can query the `gov` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `gov` 模块。
 
 #### Proposal
 
-The `Proposal` endpoint allows users to query a given proposal.
+`Proposal` 端点允许用户查询给定提案。
 
 Using legacy v1beta1:
 
@@ -1803,11 +1709,11 @@ Example Output:
 
 ### REST
 
-A user can query the `gov` module using REST endpoints.
+用户可以使用 REST 端点查询 `gov` 模块。
 
 #### proposal
 
-The `proposals` endpoint allows users to query a given proposal.
+`proposals` 端点允许用户查询给定提案。
 
 Using legacy v1beta1:
 
@@ -2470,13 +2376,13 @@ Example Output:
 }
 ```
 
-## Metadata
+## 元数据
 
-The gov module has two locations for metadata where users can provide further context about the on-chain actions they are taking. By default all metadata fields have a 255 character length field where metadata can be stored in json format, either on-chain or off-chain depending on the amount of data required. Here we provide a recommendation for the json structure and where the data should be stored. There are two important factors in making these recommendations. First, that the gov and group modules are consistent with one another, note the number of proposals made by all groups may be quite large. Second, that client applications such as block explorers and governance interfaces have confidence in the consistency of metadata structure accross chains.
+gov 模块有两个元数据位置，用户可以在其中提供有关他们正在执行的链上操作的进一步上下文。默认情况下，所有元数据字段都有一个 255 字符长度的字段，元数据可以以 json 格式存储，根据所需的数据量，可以存储在链上或链下。在这里，我们提供 json 结构的建议以及数据应存储的位置。在制定这些建议时有两个重要因素。首先，gov 和 group 模块彼此一致，请注意所有组提出的提案数量可能相当大。其次，客户端应用程序（如区块浏览器和治理界面）对跨链元数据结构的一致性有信心。
 
-### Proposal
+### 提案
 
-Location: off-chain as json object stored on IPFS (mirrors [group proposal](group.md#metadata))
+位置：链下，作为存储在 IPFS 上的 json 对象（镜像 [group proposal](group.md#metadata)）
 
 ```json
 {
@@ -2490,13 +2396,13 @@ Location: off-chain as json object stored on IPFS (mirrors [group proposal](grou
 ```
 
 :::note\
-The `authors` field is an array of strings, this is to allow for multiple authors to be listed in the metadata.\
-In v0.46, the `authors` field is a comma-separated string. Frontends are encouraged to support both formats for backwards compatibility.\
+`authors` 字段是一个字符串数组，这是为了允许在元数据中列出多个作者。\
+在 v0.46 中，`authors` 字段是一个逗号分隔的字符串。鼓励前端支持两种格式以保持向后兼容性。\
 :::
 
-### Vote
+### 投票
 
-Location: on-chain as json within 255 character limit (mirrors [group vote](group.md#metadata))
+位置：链上，作为 json，限制在 255 个字符内（镜像 [group vote](group.md#metadata)）
 
 ```json
 {
@@ -2504,23 +2410,10 @@ Location: on-chain as json within 255 character limit (mirrors [group vote](grou
 }
 ```
 
-## Future Improvements
+## 未来改进
 
-The current documentation only describes the minimum viable product for the\
-governance module. Future improvements may include:
+当前文档仅描述了治理模块的最小可行产品。未来的改进可能包括：
 
-* **`BountyProposals`:** If accepted, a `BountyProposal` creates an open\
-  bounty. The `BountyProposal` specifies how many Atoms will be given upon\
-  completion. These Atoms will be taken from the `reserve pool`. After a`BountyProposal` is accepted by governance, anybody can submit a`SoftwareUpgradeProposal` with the code to claim the bounty. Note that once a`BountyProposal` is accepted, the corresponding funds in the `reserve pool`\
-  are locked so that payment can always be honored. In order to link a`SoftwareUpgradeProposal` to an open bounty, the submitter of the`SoftwareUpgradeProposal` will use the `Proposal.LinkedProposal` attribute.\
-  If a `SoftwareUpgradeProposal` linked to an open bounty is accepted by\
-  governance, the funds that were reserved are automatically transferred to the\
-  submitter.
-* **Complex delegation:** Delegators could choose other representatives than\
-  their validators. Ultimately, the chain of representatives would always end\
-  up to a validator, but delegators could inherit the vote of their chosen\
-  representative before they inherit the vote of their validator. In other\
-  words, they would only inherit the vote of their validator if their other\
-  appointed representative did not vote.
-* **Better process for proposal review:** There would be two parts to`proposal.Deposit`, one for anti-spam (same as in MVP) and an other one to\
-  reward third party auditors.
+* **`BountyProposals`：** 如果被接受，`BountyProposal` 会创建一个开放的赏金。`BountyProposal` 指定完成时将给予多少 Atoms。这些 Atoms 将从 `reserve pool` 中取出。在 `BountyProposal` 被治理接受后，任何人都可以提交带有代码的 `SoftwareUpgradeProposal` 来领取赏金。请注意，一旦 `BountyProposal` 被接受，`reserve pool` 中的相应资金将被锁定，以便始终可以支付。为了将 `SoftwareUpgradeProposal` 链接到开放的赏金，`SoftwareUpgradeProposal` 的提交者将使用 `Proposal.LinkedProposal` 属性。如果链接到开放赏金的 `SoftwareUpgradeProposal` 被治理接受，预留的资金将自动转移给提交者。
+* **复杂委托：** 委托者可以选择除其验证者之外的其他代表。最终，代表链总是会以验证者结束，但委托者可以在继承其验证者的投票之前继承其选择的代表的投票。换句话说，只有当他们的其他指定代表没有投票时，他们才会继承其验证者的投票。
+* **更好的提案审查流程：** `proposal.Deposit` 将有两个部分，一个用于反垃圾邮件（与 MVP 中相同），另一个用于奖励第三方审计员。

@@ -4,92 +4,90 @@ sidebar_position: 1
 
 # Auth
 
-## Abstract
+## 摘要
 
-This document specifies the auth module of the Cosmos SDK.
+本文档指定了 Cosmos SDK 的 auth 模块。
 
-The auth module is responsible for specifying the base transaction and account types\
-for an application, since the SDK itself is agnostic to these particulars. It contains\
-the middlewares, where all basic transaction validity checks (signatures, nonces, auxiliary fields)\
-are performed, and exposes the account keeper, which allows other modules to read, write, and modify accounts.
+auth 模块负责为应用指定基础交易和账户类型，\
+因为 SDK 本身对这些细节是不可知的。它包含中间件，\
+所有基本交易有效性检查（签名、nonce、辅助字段）都在其中执行，\
+并暴露账户 keeper，允许其他模块读取、写入和修改账户。
 
-This module is used in the Cosmos Hub.
+此模块在 Cosmos Hub 中使用。
 
-## Contents
+## 目录
 
-* [Concepts](auth.md#concepts)
+* [概念](auth.md#concepts)
   * [Gas & Fees](auth.md#gas--fees)
-* [State](auth.md#state)
-  * [Accounts](auth.md#accounts)
+* [状态](auth.md#state)
+  * [账户](auth.md#accounts)
 * [AnteHandlers](auth.md#antehandlers)
 * [Keepers](auth.md#keepers)
-  * [Account Keeper](auth.md#account-keeper)
-* [Parameters](auth.md#parameters)
-* [Client](auth.md#client)
+  * [账户 Keeper](auth.md#account-keeper)
+* [参数](auth.md#parameters)
+* [客户端](auth.md#client)
   * [CLI](auth.md#cli)
   * [gRPC](auth.md#grpc)
   * [REST](auth.md#rest)
 
-## Concepts
+## 概念
 
-**Note:** The auth module is different from the [authz module](authz.md).
+**注意：** auth 模块不同于 [authz 模块](authz.md)。
 
-The differences are:
+区别在于：
 
-* `auth` - authentication of accounts and transactions for Cosmos SDK applications and is responsible for specifying the base transaction and account types.
-* `authz` - authorization for accounts to perform actions on behalf of other accounts and enables a granter to grant authorizations to a grantee that allows the grantee to execute messages on behalf of the granter.
+* `auth` - Cosmos SDK 应用的账户和交易的身份验证，负责指定基础交易和账户类型。
+* `authz` - 账户代表其他账户执行操作的授权，使授权者能够向被授权者授予授权，允许被授权者代表授权者执行消息。
 
 ### Gas & Fees
 
-Fees serve two purposes for an operator of the network.
+费用对网络运营商有两个目的。
 
-Fees limit the growth of the state stored by every full node and allow for\
-general purpose censorship of transactions of little economic value. Fees\
-are best suited as an anti-spam mechanism where validators are disinterested in\
-the use of the network and identities of users.
+费用限制每个全节点存储的状态增长，并允许\
+对经济价值较低的交易进行通用审查。费用\
+最适合作为反垃圾邮件机制，其中验证者不关心\
+网络的使用和用户身份。
 
-Fees are determined by the gas limits and gas prices transactions provide, where`fees = ceil(gasLimit * gasPrices)`. Txs incur gas costs for all state reads/writes,\
-signature verification, as well as costs proportional to the tx size. Operators\
-should set minimum gas prices when starting their nodes. They must set the unit\
-costs of gas in each token denomination they wish to support:
+费用由交易提供的 gas 限制和 gas 价格确定，其中 `fees = ceil(gasLimit * gasPrices)`。交易对所有状态读取/写入、\
+签名验证以及与交易大小成比例的成本产生 gas 成本。运营商\
+应在启动节点时设置最低 gas 价格。他们必须设置\
+他们希望支持的每个代币单位的 gas 单位成本：
 
 `simd start ... --minimum-gas-prices=0.00001stake;0.05photinos`
 
-When adding transactions to mempool or gossipping transactions, validators check\
-if the transaction's gas prices, which are determined by the provided fees, meet\
-any of the validator's minimum gas prices. In other words, a transaction must\
-provide a fee of at least one denomination that matches a validator's minimum\
-gas price.
+当将交易添加到内存池或传播交易时，验证者检查\
+交易提供的费用所确定的 gas 价格是否满足\
+验证者的任何最低 gas 价格。换句话说，交易必须\
+提供至少一个与验证者最低 gas 价格匹配的代币单位的费用。
 
-CometBFT does not currently provide fee based mempool prioritization, and fee\
-based mempool filtering is local to node and not part of consensus. But with\
-minimum gas prices set, such a mechanism could be implemented by node operators.
+CometBFT 目前不提供基于费用的内存池优先级排序，基于费用的\
+内存池过滤是节点本地的，不是共识的一部分。但是通过\
+设置最低 gas 价格，节点运营商可以实现这样的机制。
 
-Because the market value for tokens will fluctuate, validators are expected to\
-dynamically adjust their minimum gas prices to a level that would encourage the\
-use of the network.
+由于代币的市场价值会波动，预计验证者会\
+动态调整其最低 gas 价格，以达到鼓励\
+使用网络的水平。
 
-## State
+## 状态
 
-### Accounts
+### 账户
 
-Accounts contain authentication information for a uniquely identified external user of an SDK blockchain,\
-including public key, address, and account number / sequence number for replay protection. For efficiency,\
-since account balances must also be fetched to pay fees, account structs also store the balance of a user\
-as `sdk.Coins`.
+账户包含 SDK 区块链唯一标识的外部用户的身份验证信息，\
+包括公钥、地址和用于重放保护的账户编号/序列号。为了提高效率，\
+由于还必须获取账户余额以支付费用，账户结构体还将用户的余额\
+存储为 `sdk.Coins`。
 
-Accounts are exposed externally as an interface, and stored internally as\
-either a base account or vesting account. Module clients wishing to add more\
-account types may do so.
+账户在外部作为接口暴露，在内部存储为\
+基础账户或归属账户。希望添加更多\
+账户类型的模块客户端可以这样做。
 
 * `0x01 | Address -> ProtocolBuffer(account)`
 
-#### Account Interface
+#### 账户接口
 
-The account interface exposes methods to read and write standard account information.\
-Note that all of these methods operate on an account struct conforming to the\
-interface - in order to write the account to the store, the account keeper will\
-need to be used.
+账户接口暴露读取和写入标准账户信息的方法。\
+请注意，所有这些方法都在符合接口的\
+账户结构体上操作 - 为了将账户写入存储，需要使用账户 keeper。
 
 ```go
 // AccountI is an interface used to store coins at a given address within state.
@@ -118,10 +116,10 @@ type AccountI interface {
 }
 ```
 
-**Base Account**
+**基础账户**
 
-A base account is the simplest and most common account type, which just stores all requisite\
-fields directly in a struct.
+基础账户是最简单和最常见的账户类型，它只是将所有必需\
+字段直接存储在结构体中。
 
 ```protobuf
 // BaseAccount defines a base account type. It contains all the necessary fields
@@ -135,43 +133,43 @@ message BaseAccount {
 }
 ```
 
-### Vesting Account
+### 归属账户
 
-See [Vesting](https://docs.cosmos.network/main/modules/auth/vesting/).
+参见 [Vesting](https://docs.cosmos.network/main/modules/auth/vesting/)。
 
 ## AnteHandlers
 
-The `x/auth` module presently has no transaction handlers of its own, but does expose the special `AnteHandler`, used for performing basic validity checks on a transaction, such that it could be thrown out of the mempool.\
-The `AnteHandler` can be seen as a set of decorators that check transactions within the current context, per [ADR 010](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-010-modular-antehandler.md).
+`x/auth` 模块目前没有自己的交易处理器，但确实暴露了特殊的 `AnteHandler`，用于对交易执行基本有效性检查，以便可以将其从内存池中丢弃。\
+`AnteHandler` 可以看作是一组装饰器，在当前上下文中检查交易，根据 [ADR 010](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-010-modular-antehandler.md)。
 
-Note that the `AnteHandler` is called on both `CheckTx` and `DeliverTx`, as CometBFT proposers presently have the ability to include in their proposed block transactions which fail `CheckTx`.
+请注意，`AnteHandler` 在 `CheckTx` 和 `DeliverTx` 上都会被调用，因为 CometBFT 提案者目前有能力在其提议的区块中包含在 `CheckTx` 中失败的交易。
 
-### Decorators
+### 装饰器
 
-The auth module provides `AnteDecorator`s that are recursively chained together into a single `AnteHandler` in the following order:
+auth 模块提供 `AnteDecorator`，它们按以下顺序递归链接成单个 `AnteHandler`：
 
-* `SetUpContextDecorator`: Sets the `GasMeter` in the `Context` and wraps the next `AnteHandler` with a defer clause to recover from any downstream `OutOfGas` panics in the `AnteHandler` chain to return an error with information on gas provided and gas used.
-* `RejectExtensionOptionsDecorator`: Rejects all extension options which can optionally be included in protobuf transactions.
-* `MempoolFeeDecorator`: Checks if the `tx` fee is above local mempool `minFee` parameter during `CheckTx`.
-* `ValidateBasicDecorator`: Calls `tx.ValidateBasic` and returns any non-nil error.
-* `TxTimeoutHeightDecorator`: Check for a `tx` height timeout.
-* `ValidateMemoDecorator`: Validates `tx` memo with application parameters and returns any non-nil error.
-* `ConsumeGasTxSizeDecorator`: Consumes gas proportional to the `tx` size based on application parameters.
-* `DeductFeeDecorator`: Deducts the `FeeAmount` from first signer of the `tx`. If the `x/feegrant` module is enabled and a fee granter is set, it deducts fees from the fee granter account.
-* `SetPubKeyDecorator`: Sets the pubkey from a `tx`'s signers that does not already have its corresponding pubkey saved in the state machine and in the current context.
-* `ValidateSigCountDecorator`: Validates the number of signatures in `tx` based on app-parameters.
-* `SigGasConsumeDecorator`: Consumes parameter-defined amount of gas for each signature. This requires pubkeys to be set in context for all signers as part of `SetPubKeyDecorator`.
-* `SigVerificationDecorator`: Verifies all signatures are valid. This requires pubkeys to be set in context for all signers as part of `SetPubKeyDecorator`.
-* `IncrementSequenceDecorator`: Increments the account sequence for each signer to prevent replay attacks.
+* `SetUpContextDecorator`: 在 `Context` 中设置 `GasMeter`，并用 defer 子句包装下一个 `AnteHandler`，以从 `AnteHandler` 链中的任何下游 `OutOfGas` panic 中恢复，返回包含提供的 gas 和使用的 gas 信息的错误。
+* `RejectExtensionOptionsDecorator`: 拒绝所有可以在 protobuf 交易中可选包含的扩展选项。
+* `MempoolFeeDecorator`: 在 `CheckTx` 期间检查 `tx` 费用是否高于本地内存池 `minFee` 参数。
+* `ValidateBasicDecorator`: 调用 `tx.ValidateBasic` 并返回任何非 nil 错误。
+* `TxTimeoutHeightDecorator`: 检查 `tx` 高度超时。
+* `ValidateMemoDecorator`: 使用应用参数验证 `tx` memo 并返回任何非 nil 错误。
+* `ConsumeGasTxSizeDecorator`: 根据应用参数消耗与 `tx` 大小成比例的 gas。
+* `DeductFeeDecorator`: 从 `tx` 的第一个签名者扣除 `FeeAmount`。如果启用了 `x/feegrant` 模块并设置了费用授权者，则从费用授权者账户扣除费用。
+* `SetPubKeyDecorator`: 从 `tx` 的签名者中设置尚未在状态机和当前上下文中保存其对应公钥的公钥。
+* `ValidateSigCountDecorator`: 根据应用参数验证 `tx` 中的签名数量。
+* `SigGasConsumeDecorator`: 为每个签名消耗参数定义的 gas 量。这要求作为 `SetPubKeyDecorator` 的一部分，在上下文中为所有签名者设置公钥。
+* `SigVerificationDecorator`: 验证所有签名是否有效。这要求作为 `SetPubKeyDecorator` 的一部分，在上下文中为所有签名者设置公钥。
+* `IncrementSequenceDecorator`: 为每个签名者递增账户序列号以防止重放攻击。
 
 ## Keepers
 
-The auth module only exposes one keeper, the account keeper, which can be used to read and write accounts.
+auth 模块仅暴露一个 keeper，即账户 keeper，可用于读取和写入账户。
 
-### Account Keeper
+### 账户 Keeper
 
-Presently only one fully-permissioned account keeper is exposed, which has the ability to both read and write\
-all fields of all accounts, and to iterate over all stored accounts.
+目前仅暴露一个完全权限的账户 keeper，它能够读取和写入\
+所有账户的所有字段，并迭代所有存储的账户。
 
 ```go
 // AccountKeeperI is the interface contract that x/auth's keeper implements.
@@ -208,27 +206,27 @@ type AccountKeeperI interface {
 }
 ```
 
-## Parameters
+## 参数
 
-The auth module contains the following parameters:
+auth 模块包含以下参数：
 
-| Key                    | Type   | Example |
-| ---------------------- | ------ | ------- |
-| MaxMemoCharacters      | uint64 | 256     |
-| TxSigLimit             | uint64 | 7       |
-| TxSizeCostPerByte      | uint64 | 10      |
-| SigVerifyCostED25519   | uint64 | 590     |
-| SigVerifyCostSecp256k1 | uint64 | 1000    |
+| 键                      | 类型   | 示例   |
+| ----------------------- | ------ | ------ |
+| MaxMemoCharacters       | uint64 | 256    |
+| TxSigLimit              | uint64 | 7      |
+| TxSizeCostPerByte       | uint64 | 10     |
+| SigVerifyCostED25519    | uint64 | 590    |
+| SigVerifyCostSecp256k1  | uint64 | 1000   |
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `auth` module using the CLI.
+用户可以使用 CLI 查询和与 `auth` 模块交互。
 
-### Query
+### 查询
 
-The `query` commands allow users to query `auth` state.
+`query` 命令允许用户查询 `auth` 状态。
 
 ```bash
 simd query auth --help
@@ -236,19 +234,19 @@ simd query auth --help
 
 #### account
 
-The `account` command allow users to query for an account by it's address.
+`account` 命令允许用户通过地址查询账户。
 
 ```bash
 simd query auth account [address] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd query auth account cosmos1...
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 '@type': /cosmos.auth.v1beta1.BaseAccount
@@ -262,13 +260,13 @@ sequence: "1"
 
 #### accounts
 
-The `accounts` command allow users to query all the available accounts.
+`accounts` 命令允许用户查询所有可用账户。
 
 ```bash
 simd query auth accounts [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd query auth accounts
@@ -361,19 +359,19 @@ pagination:
 
 #### params
 
-The `params` command allow users to query the current auth parameters.
+`params` 命令允许用户查询当前 auth 参数。
 
 ```bash
 simd query auth params [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd query auth params
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 max_memo_characters: "256"
@@ -383,11 +381,11 @@ tx_sig_limit: "7"
 tx_size_cost_per_byte: "10"
 ```
 
-### Transactions
+### 交易
 
-The `auth` module supports transactions commands to help you with signing and more. Compared to other modules you can access directly the `auth` module transactions commands using the only `tx` command.
+`auth` 模块支持交易命令，帮助您进行签名等操作。与其他模块相比，您可以直接使用 `tx` 命令访问 `auth` 模块的交易命令。
 
-Use directly the `--help` flag to get more information about the `tx` command.
+直接使用 `--help` 标志获取有关 `tx` 命令的更多信息。
 
 ```bash
 simd tx --help
@@ -395,73 +393,73 @@ simd tx --help
 
 #### `sign`
 
-The `sign` command allows users to sign transactions that was generated offline.
+`sign` 命令允许用户签署离线生成的交易。
 
 ```bash
 simd tx sign tx.json --from $ALICE > tx.signed.json
 ```
 
-The result is a signed transaction that can be broadcasted to the network thanks to the broadcast command.
+结果是已签名的交易，可以通过 broadcast 命令广播到网络。
 
-More information about the `sign` command can be found running `simd tx sign --help`.
+有关 `sign` 命令的更多信息，可以运行 `simd tx sign --help` 找到。
 
 #### `sign-batch`
 
-The `sign-batch` command allows users to sign multiples offline generated transactions.\
-The transactions can be in one file, with one tx per line, or in multiple files.
+`sign-batch` 命令允许用户签署多个离线生成的交易。\
+交易可以在一个文件中，每行一个交易，也可以在多个文件中。
 
 ```bash
 simd tx sign txs.json --from $ALICE > tx.signed.json
 ```
 
-or
+或
 
 ```bash
 simd tx sign tx1.json tx2.json tx3.json --from $ALICE > tx.signed.json
 ```
 
-The result is multiples signed transactions. For combining the signed transactions into one transactions, use the `--append` flag.
+结果是多个已签名的交易。要将已签名的交易合并为一个交易，请使用 `--append` 标志。
 
-More information about the `sign-batch` command can be found running `simd tx sign-batch --help`.
+有关 `sign-batch` 命令的更多信息，可以运行 `simd tx sign-batch --help` 找到。
 
 #### `multi-sign`
 
-The `multi-sign` command allows users to sign transactions that was generated offline by a multisig account.
+`multi-sign` 命令允许用户签署由多签账户离线生成的交易。
 
 ```bash
 simd tx multisign transaction.json k1k2k3 k1sig.json k2sig.json k3sig.json
 ```
 
-Where `k1k2k3` is the multisig account address, `k1sig.json` is the signature of the first signer, `k2sig.json` is the signature of the second signer, and `k3sig.json` is the signature of the third signer.
+其中 `k1k2k3` 是多签账户地址，`k1sig.json` 是第一个签名者的签名，`k2sig.json` 是第二个签名者的签名，`k3sig.json` 是第三个签名者的签名。
 
-**Nested multisig transactions**
+**嵌套多签交易**
 
-To allow transactions to be signed by nested multisigs, meaning that a participant of a multisig account can be another multisig account, the `--skip-signature-verification` flag must be used.
+要允许交易由嵌套多签签署，即多签账户的参与者可以是另一个多签账户，必须使用 `--skip-signature-verification` 标志。
 
 ```bash
-# First aggregate signatures of the multisig participant
+# 首先聚合多签参与者的签名
 simd tx multi-sign transaction.json ms1 ms1p1sig.json ms1p2sig.json --signature-only --skip-signature-verification > ms1sig.json
 
-# Then use the aggregated signatures and the other signatures to sign the final transaction
+# 然后使用聚合签名和其他签名来签署最终交易
 simd tx multi-sign transaction.json k1ms1 k1sig.json ms1sig.json --skip-signature-verification
 ```
 
-Where `ms1` is the nested multisig account address, `ms1p1sig.json` is the signature of the first participant of the nested multisig account, `ms1p2sig.json` is the signature of the second participant of the nested multisig account, and `ms1sig.json` is the aggregated signature of the nested multisig account.
+其中 `ms1` 是嵌套多签账户地址，`ms1p1sig.json` 是嵌套多签账户第一个参与者的签名，`ms1p2sig.json` 是嵌套多签账户第二个参与者的签名，`ms1sig.json` 是嵌套多签账户的聚合签名。
 
-`k1ms1` is a multisig account comprised of an individual signer and another nested multisig account (`ms1`). `k1sig.json` is the signature of the first signer of the individual member.
+`k1ms1` 是由单个签名者和另一个嵌套多签账户（`ms1`）组成的多签账户。`k1sig.json` 是单个成员第一个签名者的签名。
 
-More information about the `multi-sign` command can be found running `simd tx multi-sign --help`.
+有关 `multi-sign` 命令的更多信息，可以运行 `simd tx multi-sign --help` 找到。
 
 #### `multisign-batch`
 
-The `multisign-batch` works the same way as `sign-batch`, but for multisig accounts.\
-With the difference that the `multisign-batch` command requires all transactions to be in one file, and the `--append` flag does not exist.
+`multisign-batch` 的工作方式与 `sign-batch` 相同，但用于多签账户。\
+不同之处在于 `multisign-batch` 命令要求所有交易都在一个文件中，并且不存在 `--append` 标志。
 
-More information about the `multisign-batch` command can be found running `simd tx multisign-batch --help`.
+有关 `multisign-batch` 命令的更多信息，可以运行 `simd tx multisign-batch --help` 找到。
 
 #### `validate-signatures`
 
-The `validate-signatures` command allows users to validate the signatures of a signed transaction.
+`validate-signatures` 命令允许用户验证已签名交易的签名。
 
 ```bash
 $ simd tx validate-signatures tx.signed.json
@@ -472,31 +470,31 @@ Signatures:
   0: cosmos1l6vsqhh7rnwsyr2kyz3jjg3qduaz8gwgyl8275                      [OK]
 ```
 
-More information about the `validate-signatures` command can be found running `simd tx validate-signatures --help`.
+有关 `validate-signatures` 命令的更多信息，可以运行 `simd tx validate-signatures --help` 找到。
 
 #### `broadcast`
 
-The `broadcast` command allows users to broadcast a signed transaction to the network.
+`broadcast` 命令允许用户将已签名的交易广播到网络。
 
 ```bash
 simd tx broadcast tx.signed.json
 ```
 
-More information about the `broadcast` command can be found running `simd tx broadcast --help`.
+有关 `broadcast` 命令的更多信息，可以运行 `simd tx broadcast --help` 找到。
 
 ### gRPC
 
-A user can query the `auth` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `auth` 模块。
 
 #### Account
 
-The `account` endpoint allow users to query for an account by it's address.
+`account` 端点允许用户通过地址查询账户。
 
 ```bash
 cosmos.auth.v1beta1.Query/Account
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext \
@@ -505,7 +503,7 @@ grpcurl -plaintext \
     cosmos.auth.v1beta1.Query/Account
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -523,13 +521,13 @@ Example Output:
 
 #### Accounts
 
-The `accounts` endpoint allow users to query all the available accounts.
+`accounts` 端点允许用户查询所有可用账户。
 
 ```bash
 cosmos.auth.v1beta1.Query/Accounts
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext \
@@ -639,13 +637,13 @@ Example Output:
 
 #### Params
 
-The `params` endpoint allow users to query the current auth parameters.
+`params` 端点允许用户查询当前 auth 参数。
 
 ```bash
 cosmos.auth.v1beta1.Query/Params
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext \
@@ -653,7 +651,7 @@ grpcurl -plaintext \
     cosmos.auth.v1beta1.Query/Params
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -669,11 +667,11 @@ Example Output:
 
 ### REST
 
-A user can query the `auth` module using REST endpoints.
+用户可以使用 REST 端点查询 `auth` 模块。
 
 #### Account
 
-The `account` endpoint allow users to query for an account by it's address.
+`account` 端点允许用户通过地址查询账户。
 
 ```bash
 /cosmos/auth/v1beta1/account?address={address}
@@ -681,7 +679,7 @@ The `account` endpoint allow users to query for an account by it's address.
 
 #### Accounts
 
-The `accounts` endpoint allow users to query all the available accounts.
+`accounts` 端点允许用户查询所有可用账户。
 
 ```bash
 /cosmos/auth/v1beta1/accounts
@@ -689,7 +687,7 @@ The `accounts` endpoint allow users to query all the available accounts.
 
 #### Params
 
-The `params` endpoint allow users to query the current auth parameters.
+`params` 端点允许用户查询当前 auth 参数。
 
 ```bash
 /cosmos/auth/v1beta1/params

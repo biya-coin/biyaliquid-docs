@@ -4,53 +4,53 @@ sidebar_position: 1
 
 # Mint
 
-## Contents
+## 目录
 
-* [State](mint.md#state)
+* [状态](mint.md#state)
   * [Minter](mint.md#minter)
-  * [Params](mint.md#params)
+  * [参数](mint.md#params)
 * [Begin-Block](mint.md#begin-block)
   * [NextInflationRate](mint.md#nextinflationrate)
   * [NextAnnualProvisions](mint.md#nextannualprovisions)
   * [BlockProvision](mint.md#blockprovision)
-* [Parameters](mint.md#parameters)
-* [Events](mint.md#events)
+* [参数](mint.md#parameters)
+* [事件](mint.md#events)
   * [BeginBlocker](mint.md#beginblocker)
-* [Client](mint.md#client)
+* [客户端](mint.md#client)
   * [CLI](mint.md#cli)
   * [gRPC](mint.md#grpc)
   * [REST](mint.md#rest)
 
-## Concepts
+## 概念
 
-### The Minting Mechanism
+### 铸造机制
 
-The minting mechanism was designed to:
+铸造机制旨在：
 
-* allow for a flexible inflation rate determined by market demand targeting a particular bonded-stake ratio
-* effect a balance between market liquidity and staked supply
+* 允许由市场需求决定的灵活通胀率，目标是特定的绑定权益比率
+* 在市场流动性和质押供应量之间实现平衡
 
-In order to best determine the appropriate market rate for inflation rewards, a\
-moving change rate is used. The moving change rate mechanism ensures that if\
-the % bonded is either over or under the goal %-bonded, the inflation rate will\
-adjust to further incentivize or disincentivize being bonded, respectively. Setting the goal\
-%-bonded at less than 100% encourages the network to maintain some non-staked tokens\
-which should help provide some liquidity.
+为了最好地确定通胀奖励的适当市场利率，使用\
+移动变化率。移动变化率机制确保如果\
+绑定百分比超过或低于目标绑定百分比，通胀率将\
+相应调整以进一步激励或抑制绑定。将目标\
+绑定百分比设置为小于 100% 鼓励网络维持一些非质押代币\
+，这应该有助于提供一些流动性。
 
-It can be broken down in the following way:
+它可以按以下方式分解：
 
-* If the actual percentage of bonded tokens is below the goal %-bonded the inflation rate will\
-  increase until a maximum value is reached
-* If the goal % bonded (67% in Cosmos-Hub) is maintained, then the inflation\
-  rate will stay constant
-* If the actual percentage of bonded tokens is above the goal %-bonded the inflation rate will\
-  decrease until a minimum value is reached
+* 如果实际绑定代币百分比低于目标绑定百分比，通胀率将\
+  增加直到达到最大值
+* 如果维持目标绑定百分比（Cosmos-Hub 中为 67%），则通胀\
+  率将保持恒定
+* 如果实际绑定代币百分比高于目标绑定百分比，通胀率将\
+  减少直到达到最小值
 
-## State
+## 状态
 
 ### Minter
 
-The minter is a space for holding current inflation information.
+minter 是保存当前通胀信息的空间。
 
 * Minter: `0x00 -> ProtocolBuffer(minter)`
 
@@ -58,10 +58,10 @@ The minter is a space for holding current inflation information.
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/mint/v1beta1/mint.proto#L10-L24
 ```
 
-### Params
+### 参数
 
-The mint module stores its params in state with the prefix of `0x01`,\
-it can be updated with governance or the address with authority.
+mint 模块将其参数存储在状态中，前缀为 `0x01`，\
+可以通过治理或具有权限的地址进行更新。
 
 * Params: `mint/params -> legacy_amino(params)`
 
@@ -71,15 +71,15 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/mint/v1beta1/
 
 ## Begin-Block
 
-Minting parameters are recalculated and inflation paid at the beginning of each block.
+在每个区块开始时重新计算铸造参数并支付通胀。
 
-### Inflation rate calculation
+### 通胀率计算
 
-Inflation rate is calculated using an "inflation calculation function" that's\
-passed to the `NewAppModule` function. If no function is passed, then the SDK's\
-default inflation function will be used (`NextInflationRate`). In case a custom\
-inflation calculation logic is needed, this can be achieved by defining and\
-passing a function that matches `InflationCalculationFn`'s signature.
+通胀率使用传递给 `NewAppModule` 函数的\
+"通胀计算函数"计算。如果未传递函数，则将使用 SDK 的\
+默认通胀函数（`NextInflationRate`）。如果需要自定义\
+通胀计算逻辑，可以通过定义并\
+传递匹配 `InflationCalculationFn` 签名的函数来实现。
 
 ```go
 type InflationCalculationFn func(ctx sdk.Context, minter Minter, params Params, bondedRatio math.LegacyDec) math.LegacyDec
@@ -87,11 +87,11 @@ type InflationCalculationFn func(ctx sdk.Context, minter Minter, params Params, 
 
 #### NextInflationRate
 
-The target annual inflation rate is recalculated each block.\
-The inflation is also subject to a rate change (positive or negative)\
-depending on the distance from the desired ratio (67%). The maximum rate change\
-possible is defined to be 13% per year, however, the annual inflation is capped\
-as between 7% and 20%.
+目标年通胀率在每个区块重新计算。\
+通胀也受到速率变化（正或负）的影响，\
+取决于与期望比率（67%）的距离。最大速率变化\
+可能定义为每年 13%，但是，年通胀被限制\
+在 7% 和 20% 之间。
 
 ```go
 NextInflationRate(params Params, bondedRatio math.LegacyDec) (inflation math.LegacyDec) {
@@ -113,8 +113,8 @@ NextInflationRate(params Params, bondedRatio math.LegacyDec) (inflation math.Leg
 
 ### NextAnnualProvisions
 
-Calculate the annual provisions based on current total supply and inflation\
-rate. This parameter is calculated once per block.
+根据当前总供应量和通胀\
+率计算年供应量。此参数每个区块计算一次。
 
 ```go
 NextAnnualProvisions(params Params, totalSupply math.LegacyDec) (provisions math.LegacyDec) {
@@ -123,7 +123,7 @@ NextAnnualProvisions(params Params, totalSupply math.LegacyDec) (provisions math
 
 ### BlockProvision
 
-Calculate the provisions generated for each block based on current annual provisions. The provisions are then minted by the `mint` module's `ModuleMinterAccount` and then transferred to the `auth`'s `FeeCollector` `ModuleAccount`.
+根据当前年供应量计算每个区块生成的供应量。然后由 `mint` 模块的 `ModuleMinterAccount` 铸造供应量，然后转移到 `auth` 的 `FeeCollector` `ModuleAccount`。
 
 ```go
 BlockProvision(params Params) sdk.Coin {
@@ -131,41 +131,41 @@ BlockProvision(params Params) sdk.Coin {
 	return sdk.NewCoin(params.MintDenom, provisionAmt.Truncate())
 ```
 
-## Parameters
+## 参数
 
-The minting module contains the following parameters:
+铸造模块包含以下参数：
 
-| Key                 | Type            | Example                |
-| ------------------- | --------------- | ---------------------- |
-| MintDenom           | string          | "uatom"                |
-| InflationRateChange | string (dec)    | "0.130000000000000000" |
-| InflationMax        | string (dec)    | "0.200000000000000000" |
-| InflationMin        | string (dec)    | "0.070000000000000000" |
-| GoalBonded          | string (dec)    | "0.670000000000000000" |
-| BlocksPerYear       | string (uint64) | "6311520"              |
+| 键                  | 类型            | 示例                    |
+| ------------------- | --------------- | ----------------------- |
+| MintDenom           | string          | "uatom"                 |
+| InflationRateChange | string (dec)    | "0.130000000000000000"   |
+| InflationMax        | string (dec)    | "0.200000000000000000"   |
+| InflationMin        | string (dec)    | "0.070000000000000000"   |
+| GoalBonded          | string (dec)    | "0.670000000000000000"   |
+| BlocksPerYear       | string (uint64) | "6311520"                |
 
-## Events
+## 事件
 
-The minting module emits the following events:
+铸造模块发出以下事件：
 
 ### BeginBlocker
 
-| Type | Attribute Key      | Attribute Value    |
-| ---- | ------------------ | ------------------ |
-| mint | bonded\_ratio      | {bondedRatio}      |
-| mint | inflation          | {inflation}        |
+| 类型 | 属性键           | 属性值            |
+| ---- | ---------------- | ----------------- |
+| mint | bonded\_ratio    | {bondedRatio}     |
+| mint | inflation        | {inflation}       |
 | mint | annual\_provisions | {annualProvisions} |
-| mint | amount             | {amount}           |
+| mint | amount           | {amount}          |
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `mint` module using the CLI.
+用户可以使用 CLI 查询和与 `mint` 模块交互。
 
-#### Query
+#### 查询
 
-The `query` commands allows users to query `mint` state.
+`query` 命令允许用户查询 `mint` 状态。
 
 ```shell
 simd query mint --help
@@ -173,19 +173,19 @@ simd query mint --help
 
 **annual-provisions**
 
-The `annual-provisions` command allows users to query the current minting annual provisions value
+`annual-provisions` 命令允许用户查询当前铸造年供应量值
 
 ```shell
 simd query mint annual-provisions [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query mint annual-provisions
 ```
 
-Example Output:
+示例输出：
 
 ```shell
 22268504368893.612100895088410693
@@ -193,19 +193,19 @@ Example Output:
 
 **inflation**
 
-The `inflation` command allows users to query the current minting inflation value
+`inflation` 命令允许用户查询当前铸造通胀值
 
 ```shell
 simd query mint inflation [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query mint inflation
 ```
 
-Example Output:
+示例输出：
 
 ```shell
 0.199200302563256955
@@ -213,13 +213,13 @@ Example Output:
 
 **params**
 
-The `params` command allows users to query the current minting parameters
+`params` 命令允许用户查询当前铸造参数
 
 ```shell
 simd query mint params [flags]
 ```
 
-Example:
+示例：
 
 ```yml
 blocks_per_year: "4360000"
@@ -232,23 +232,23 @@ mint_denom: stake
 
 ### gRPC
 
-A user can query the `mint` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `mint` 模块。
 
 #### AnnualProvisions
 
-The `AnnualProvisions` endpoint allows users to query the current minting annual provisions value
+`AnnualProvisions` 端点允许用户查询当前铸造年供应量值
 
 ```shell
 /cosmos.mint.v1beta1.Query/AnnualProvisions
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext localhost:9090 cosmos.mint.v1beta1.Query/AnnualProvisions
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -258,19 +258,19 @@ Example Output:
 
 #### Inflation
 
-The `Inflation` endpoint allows users to query the current minting inflation value
+`Inflation` 端点允许用户查询当前铸造通胀值
 
 ```shell
 /cosmos.mint.v1beta1.Query/Inflation
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext localhost:9090 cosmos.mint.v1beta1.Query/Inflation
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -280,19 +280,19 @@ Example Output:
 
 #### Params
 
-The `Params` endpoint allows users to query the current minting parameters
+`Params` 端点允许用户查询当前铸造参数
 
 ```shell
 /cosmos.mint.v1beta1.Query/Params
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext localhost:9090 cosmos.mint.v1beta1.Query/Params
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -309,7 +309,7 @@ Example Output:
 
 ### REST
 
-A user can query the `mint` module using REST endpoints.
+用户可以使用 REST 端点查询 `mint` 模块。
 
 #### annual-provisions
 
@@ -317,13 +317,13 @@ A user can query the `mint` module using REST endpoints.
 /cosmos/mint/v1beta1/annual_provisions
 ```
 
-Example:
+示例：
 
 ```shell
 curl "localhost:1317/cosmos/mint/v1beta1/annual_provisions"
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -337,13 +337,13 @@ Example Output:
 /cosmos/mint/v1beta1/inflation
 ```
 
-Example:
+示例：
 
 ```shell
 curl "localhost:1317/cosmos/mint/v1beta1/inflation"
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -357,13 +357,13 @@ Example Output:
 /cosmos/mint/v1beta1/params
 ```
 
-Example:
+示例：
 
 ```shell
 curl "localhost:1317/cosmos/mint/v1beta1/params"
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {

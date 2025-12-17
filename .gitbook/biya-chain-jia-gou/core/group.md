@@ -2,29 +2,29 @@
 sidebar_position: 1
 ---
 
-# Group
+# 组
 
-## Abstract
+## 摘要
 
-The following documents specify the group module.
+以下文档规定了组模块。
 
-This module allows the creation and management of on-chain multisig accounts and enables voting for message execution based on configurable decision policies.
+该模块允许创建和管理链上多重签名账户，并支持基于可配置决策策略的消息执行投票。
 
-## Contents
+## 目录
 
-* [Concepts](group.md#concepts)
-  * [Group](group.md#group)
-  * [Group Policy](group.md#group-policy)
-  * [Decision Policy](group.md#decision-policy)
-  * [Proposal](group.md#proposal)
-  * [Pruning](group.md#pruning)
-* [State](group.md#state)
-  * [Group Table](group.md#group-table)
-  * [Group Member Table](group.md#group-member-table)
-  * [Group Policy Table](group.md#group-policy-table)
-  * [Proposal Table](group.md#proposal-table)
-  * [Vote Table](group.md#vote-table)
-* [Msg Service](group.md#msg-service)
+* [概念](group.md#concepts)
+  * [组](group.md#group)
+  * [组策略](group.md#group-policy)
+  * [决策策略](group.md#decision-policy)
+  * [提案](group.md#proposal)
+  * [修剪](group.md#pruning)
+* [状态](group.md#state)
+  * [组表](group.md#group-table)
+  * [组成员表](group.md#group-member-table)
+  * [组策略表](group.md#group-policy-table)
+  * [提案表](group.md#proposal-table)
+  * [投票表](group.md#vote-table)
+* [消息服务](group.md#msg-service)
   * [Msg/CreateGroup](group.md#msgcreategroup)
   * [Msg/UpdateGroupMembers](group.md#msgupdategroupmembers)
   * [Msg/UpdateGroupAdmin](group.md#msgupdategroupadmin)
@@ -39,7 +39,7 @@ This module allows the creation and management of on-chain multisig accounts and
   * [Msg/Vote](group.md#msgvote)
   * [Msg/Exec](group.md#msgexec)
   * [Msg/LeaveGroup](group.md#msgleavegroup)
-* [Events](group.md#events)
+* [事件](group.md#events)
   * [EventCreateGroup](group.md#eventcreategroup)
   * [EventUpdateGroup](group.md#eventupdategroup)
   * [EventCreateGroupPolicy](group.md#eventcreategrouppolicy)
@@ -50,526 +50,447 @@ This module allows the creation and management of on-chain multisig accounts and
   * [EventExec](group.md#eventexec)
   * [EventLeaveGroup](group.md#eventleavegroup)
   * [EventProposalPruned](group.md#eventproposalpruned)
-* [Client](group.md#client)
+* [客户端](group.md#client)
   * [CLI](group.md#cli)
   * [gRPC](group.md#grpc)
   * [REST](group.md#rest)
-* [Metadata](group.md#metadata)
+* [元数据](group.md#metadata)
 
-## Concepts
+## 概念
 
-### Group
+### 组
 
-A group is simply an aggregation of accounts with associated weights. It is not\
-an account and doesn't have a balance. It doesn't in and of itself have any\
-sort of voting or decision weight. It does have an "administrator" which has\
-the ability to add, remove and update members in the group. Note that a\
-group policy account could be an administrator of a group, and that the\
-administrator doesn't necessarily have to be a member of the group.
+组只是具有关联权重的账户的聚合。它不是账户，也没有余额。它本身没有任何投票或决策权重。它确实有一个"管理员"，能够添加、删除和更新组中的成员。请注意，组策略账户可以是组的管理员，并且管理员不一定是组的成员。
 
-### Group Policy
+### 组策略
 
-A group policy is an account associated with a group and a decision policy.\
-Group policies are abstracted from groups because a single group may have\
-multiple decision policies for different types of actions. Managing group\
-membership separately from decision policies results in the least overhead\
-and keeps membership consistent across different policies. The pattern that\
-is recommended is to have a single master group policy for a given group,\
-and then to create separate group policies with different decision policies\
-and delegate the desired permissions from the master account to\
-those "sub-accounts" using the `x/authz` module.
+组策略是与组和决策策略关联的账户。组策略从组中抽象出来，因为单个组可能对不同类型的操作有多个决策策略。将组成员身份管理与决策策略分开管理可以最大限度地减少开销，并保持不同策略之间成员身份的一致性。推荐的模式是为给定组设置一个主组策略，然后创建具有不同决策策略的单独组策略，并使用 `x/authz` 模块将所需权限从主账户委托给那些"子账户"。
 
-### Decision Policy
+### 决策策略
 
-A decision policy is the mechanism by which members of a group can vote on\
-proposals, as well as the rules that dictate whether a proposal should pass\
-or not based on its tally outcome.
+决策策略是组成员可以对提案进行投票的机制，以及根据其统计结果决定提案是否应该通过的规则。
 
-All decision policies generally would have a mininum execution period and a\
-maximum voting window. The minimum execution period is the minimum amount of time\
-that must pass after submission in order for a proposal to potentially be executed, and it may\
-be set to 0. The maximum voting window is the maximum time after submission that a proposal may\
-be voted on before it is tallied.
+所有决策策略通常都有一个最小执行期和一个最大投票窗口。最小执行期是提案提交后必须经过的最短时间，提案才能被执行，它可以设置为 0。最大投票窗口是提案提交后可以投票的最长时间，之后将进行统计。
 
-The chain developer also defines an app-wide maximum execution period, which is\
-the maximum amount of time after a proposal's voting period end where users are\
-allowed to execute a proposal.
+链开发者还定义了一个应用程序范围的最大执行期，这是提案投票期结束后允许用户执行提案的最长时间。
 
-The current group module comes shipped with two decision policies: threshold\
-and percentage. Any chain developer can extend upon these two, by creating\
-custom decision policies, as long as they adhere to the `DecisionPolicy`\
-interface:
+当前的组模块附带两个决策策略：阈值和百分比。任何链开发者都可以通过创建自定义决策策略来扩展这两个策略，只要它们遵循 `DecisionPolicy` 接口：
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/group/types.go#L27-L45
 ```
 
-#### Threshold decision policy
+#### 阈值决策策略
 
-A threshold decision policy defines a threshold of yes votes (based on a tally\
-of voter weights) that must be achieved in order for a proposal to pass. For\
-this decision policy, abstain and veto are simply treated as no's.
+阈值决策策略定义了必须达到的"是"投票阈值（基于投票者权重的统计），提案才能通过。对于此决策策略，弃权和否决权仅被视为"否"。
 
-This decision policy also has a VotingPeriod window and a MinExecutionPeriod\
-window. The former defines the duration after proposal submission where members\
-are allowed to vote, after which tallying is performed. The latter specifies\
-the minimum duration after proposal submission where the proposal can be\
-executed. If set to 0, then the proposal is allowed to be executed immediately\
-on submission (using the `TRY_EXEC` option). Obviously, MinExecutionPeriod\
-cannot be greater than VotingPeriod+MaxExecutionPeriod (where MaxExecution is\
-the app-defined duration that specifies the window after voting ended where a\
-proposal can be executed).
+此决策策略还有一个 VotingPeriod 窗口和一个 MinExecutionPeriod 窗口。前者定义提案提交后允许成员投票的持续时间，之后进行统计。后者指定提案提交后可以执行提案的最短持续时间。如果设置为 0，则允许在提交时立即执行提案（使用 `TRY_EXEC` 选项）。显然，MinExecutionPeriod 不能大于 VotingPeriod+MaxExecutionPeriod（其中 MaxExecution 是应用程序定义的持续时间，指定投票结束后可以执行提案的窗口）。
 
-#### Percentage decision policy
+#### 百分比决策策略
 
-A percentage decision policy is similar to a threshold decision policy, except\
-that the threshold is not defined as a constant weight, but as a percentage.\
-It's more suited for groups where the group members' weights can be updated, as\
-the percentage threshold stays the same, and doesn't depend on how those member\
-weights get updated.
+百分比决策策略类似于阈值决策策略，不同之处在于阈值不是定义为常量权重，而是定义为百分比。它更适合组成员权重可以更新的组，因为百分比阈值保持不变，并且不依赖于这些成员权重的更新方式。
 
-Same as the Threshold decision policy, the percentage decision policy has the\
-two VotingPeriod and MinExecutionPeriod parameters.
+与阈值决策策略相同，百分比决策策略有两个 VotingPeriod 和 MinExecutionPeriod 参数。
 
-### Proposal
+### 提案
 
-Any member(s) of a group can submit a proposal for a group policy account to decide upon.\
-A proposal consists of a set of messages that will be executed if the proposal\
-passes as well as any metadata associated with the proposal.
+组的任何成员都可以为组策略账户提交提案以供决定。提案由一组消息组成，如果提案通过，这些消息将被执行，以及与提案关联的任何元数据。
 
-#### Voting
+#### 投票
 
-There are four choices to choose while voting - yes, no, abstain and veto. Not\
-all decision policies will take the four choices into account. Votes can contain some optional metadata.\
-In the current implementation, the voting window begins as soon as a proposal\
-is submitted, and the end is defined by the group policy's decision policy.
+投票时有四个选择 - 是、否、弃权和否决。并非所有决策策略都会考虑这四个选择。投票可以包含一些可选的元数据。在当前实现中，投票窗口在提案提交后立即开始，结束时间由组策略的决策策略定义。
 
-#### Withdrawing Proposals
+#### 撤回提案
 
-Proposals can be withdrawn any time before the voting period end, either by the\
-admin of the group policy or by one of the proposers. Once withdrawn, it is\
-marked as `PROPOSAL_STATUS_WITHDRAWN`, and no more voting or execution is\
-allowed on it.
+提案可以在投票期结束前的任何时间撤回，可以由组策略的管理员或提案者之一撤回。一旦撤回，它被标记为 `PROPOSAL_STATUS_WITHDRAWN`，并且不再允许对其进行投票或执行。
 
-#### Aborted Proposals
+#### 中止的提案
 
-If the group policy is updated during the voting period of the proposal, then\
-the proposal is marked as `PROPOSAL_STATUS_ABORTED`, and no more voting or\
-execution is allowed on it. This is because the group policy defines the rules\
-of proposal voting and execution, so if those rules change during the lifecycle\
-of a proposal, then the proposal should be marked as stale.
+如果在提案的投票期内更新了组策略，则提案被标记为 `PROPOSAL_STATUS_ABORTED`，并且不再允许对其进行投票或执行。这是因为组策略定义了提案投票和执行的规则，因此如果这些规则在提案的生命周期内发生变化，则提案应被标记为过时。
 
-#### Tallying
+#### 统计
 
-Tallying is the counting of all votes on a proposal. It happens only once in\
-the lifecycle of a proposal, but can be triggered by two factors, whichever\
-happens first:
+统计是对提案的所有投票进行计数。它在提案的生命周期中只发生一次，但可以由两个因素触发，以先发生者为准：
 
-* either someone tries to execute the proposal (see next section), which can\
-  happen on a `Msg/Exec` transaction, or a `Msg/{SubmitProposal,Vote}`\
-  transaction with the `Exec` field set. When a proposal execution is attempted,\
-  a tally is done first to make sure the proposal passes.
-* or on `EndBlock` when the proposal's voting period end just passed.
+* 要么有人尝试执行提案（参见下一节），这可能发生在 `Msg/Exec` 交易上，或者设置了 `Exec` 字段的 `Msg/{SubmitProposal,Vote}` 交易上。当尝试执行提案时，首先进行统计以确保提案通过。
+* 或者在 `EndBlock` 上，当提案的投票期刚刚结束时。
 
-If the tally result passes the decision policy's rules, then the proposal is\
-marked as `PROPOSAL_STATUS_ACCEPTED`, or else it is marked as`PROPOSAL_STATUS_REJECTED`. In any case, no more voting is allowed anymore, and the tally\
-result is persisted to state in the proposal's `FinalTallyResult`.
+如果统计结果通过决策策略的规则，则提案被标记为 `PROPOSAL_STATUS_ACCEPTED`，否则被标记为 `PROPOSAL_STATUS_REJECTED`。无论如何，不再允许投票，统计结果被持久化到提案的 `FinalTallyResult` 状态中。
 
-#### Executing Proposals
+#### 执行提案
 
-Proposals are executed only when the tallying is done, and the group account's\
-decision policy allows the proposal to pass based on the tally outcome. They\
-are marked by the status `PROPOSAL_STATUS_ACCEPTED`. Execution must happen\
-before a duration of `MaxExecutionPeriod` (set by the chain developer) after\
-each proposal's voting period end.
+提案只有在统计完成后才会被执行，并且组账户的决策策略根据统计结果允许提案通过。它们由状态 `PROPOSAL_STATUS_ACCEPTED` 标记。执行必须在每个提案的投票期结束后 `MaxExecutionPeriod`（由链开发者设置）的持续时间之前发生。
 
-Proposals will not be automatically executed by the chain in this current design,\
-but rather a user must submit a `Msg/Exec` transaction to attempt to execute the\
-proposal based on the current votes and decision policy. Any user (not only the\
-group members) can execute proposals that have been accepted, and execution fees are\
-paid by the proposal executor.\
-It's also possible to try to execute a proposal immediately on creation or on\
-new votes using the `Exec` field of `Msg/SubmitProposal` and `Msg/Vote` requests.\
-In the former case, proposers signatures are considered as yes votes.\
-In these cases, if the proposal can't be executed (i.e. it didn't pass the\
-decision policy's rules), it will still be opened for new votes and\
-could be tallied and executed later on.
+在当前设计中，提案不会由链自动执行，而是用户必须提交 `Msg/Exec` 交易以尝试根据当前投票和决策策略执行提案。任何用户（不仅仅是组成员）都可以执行已被接受的提案，执行费用由提案执行者支付。也可以使用 `Msg/SubmitProposal` 和 `Msg/Vote` 请求的 `Exec` 字段在创建时或新投票时立即尝试执行提案。在前一种情况下，提案者的签名被视为"是"投票。在这些情况下，如果提案无法执行（即它没有通过决策策略的规则），它仍然会开放供新投票，并且可能稍后被统计和执行。
 
-A successful proposal execution will have its `ExecutorResult` marked as`PROPOSAL_EXECUTOR_RESULT_SUCCESS`. The proposal will be automatically pruned\
-after execution. On the other hand, a failed proposal execution will be marked\
-as `PROPOSAL_EXECUTOR_RESULT_FAILURE`. Such a proposal can be re-executed\
-multiple times, until it expires after `MaxExecutionPeriod` after voting period\
-end.
+成功的提案执行将把其 `ExecutorResult` 标记为 `PROPOSAL_EXECUTOR_RESULT_SUCCESS`。提案将在执行后自动修剪。另一方面，失败的提案执行将被标记为 `PROPOSAL_EXECUTOR_RESULT_FAILURE`。这样的提案可以多次重新执行，直到在投票期结束后的 `MaxExecutionPeriod` 后过期。
 
-### Pruning
+### 修剪
 
-Proposals and votes are automatically pruned to avoid state bloat.
+提案和投票会自动修剪以避免状态膨胀。
 
-Votes are pruned:
+投票在以下情况下被修剪：
 
-* either after a successful tally, i.e. a tally whose result passes the decision\
-  policy's rules, which can be trigged by a `Msg/Exec` or a`Msg/{SubmitProposal,Vote}` with the `Exec` field set,
-* or on `EndBlock` right after the proposal's voting period end. This applies to proposals with status `aborted` or `withdrawn` too.
+* 要么在成功统计之后，即统计结果通过决策策略规则的情况，这可以由 `Msg/Exec` 或设置了 `Exec` 字段的 `Msg/{SubmitProposal,Vote}` 触发，
+* 要么在 `EndBlock` 上，就在提案的投票期结束后。这也适用于状态为 `aborted` 或 `withdrawn` 的提案。
 
-whichever happens first.
+以先发生者为准。
 
-Proposals are pruned:
+提案在以下情况下被修剪：
 
-* on `EndBlock` whose proposal status is `withdrawn` or `aborted` on proposal's voting period end before tallying,
-* and either after a successful proposal execution,
-* or on `EndBlock` right after the proposal's `voting_period_end` +`max_execution_period` (defined as an app-wide configuration) is passed,
+* 在 `EndBlock` 上，提案状态为 `withdrawn` 或 `aborted`，在提案的投票期结束前进行统计，
+* 并且在成功执行提案之后，
+* 或者在 `EndBlock` 上，就在提案的 `voting_period_end` + `max_execution_period`（定义为应用程序范围的配置）通过之后，
 
-whichever happens first.
+以先发生者为准。
 
-## State
+## 状态
 
-The `group` module uses the `orm` package which provides table storage with support for\
-primary keys and secondary indexes. `orm` also defines `Sequence` which is a persistent unique key generator based on a counter that can be used along with `Table`s.
+`group` 模块使用 `orm` 包，它提供支持主键和二级索引的表存储。`orm` 还定义了 `Sequence`，这是一个基于计数器的持久唯一键生成器，可以与 `Table` 一起使用。
 
-Here's the list of tables and associated sequences and indexes stored as part of the `group` module.
+以下是作为 `group` 模块一部分存储的表以及相关的序列和索引列表。
 
-### Group Table
+### 组表
 
-The `groupTable` stores `GroupInfo`: `0x0 | BigEndian(GroupId) -> ProtocolBuffer(GroupInfo)`.
+`groupTable` 存储 `GroupInfo`：`0x0 | BigEndian(GroupId) -> ProtocolBuffer(GroupInfo)`。
 
 #### groupSeq
 
-The value of `groupSeq` is incremented when creating a new group and corresponds to the new `GroupId`: `0x1 | 0x1 -> BigEndian`.
+`groupSeq` 的值在创建新组时递增，对应于新的 `GroupId`：`0x1 | 0x1 -> BigEndian`。
 
-The second `0x1` corresponds to the ORM `sequenceStorageKey`.
+第二个 `0x1` 对应于 ORM `sequenceStorageKey`。
 
 #### groupByAdminIndex
 
-`groupByAdminIndex` allows to retrieve groups by admin address:`0x2 | len([]byte(group.Admin)) | []byte(group.Admin) | BigEndian(GroupId) -> []byte()`.
+`groupByAdminIndex` 允许按管理员地址检索组：`0x2 | len([]byte(group.Admin)) | []byte(group.Admin) | BigEndian(GroupId) -> []byte()`。
 
-### Group Member Table
+### 组成员表
 
-The `groupMemberTable` stores `GroupMember`s: `0x10 | BigEndian(GroupId) | []byte(member.Address) -> ProtocolBuffer(GroupMember)`.
+`groupMemberTable` 存储 `GroupMember`：`0x10 | BigEndian(GroupId) | []byte(member.Address) -> ProtocolBuffer(GroupMember)`。
 
-The `groupMemberTable` is a primary key table and its `PrimaryKey` is given by`BigEndian(GroupId) | []byte(member.Address)` which is used by the following indexes.
+`groupMemberTable` 是一个主键表，其 `PrimaryKey` 由 `BigEndian(GroupId) | []byte(member.Address)` 给出，由以下索引使用。
 
 #### groupMemberByGroupIndex
 
-`groupMemberByGroupIndex` allows to retrieve group members by group id:`0x11 | BigEndian(GroupId) | PrimaryKey -> []byte()`.
+`groupMemberByGroupIndex` 允许按组 id 检索组成员：`0x11 | BigEndian(GroupId) | PrimaryKey -> []byte()`。
 
 #### groupMemberByMemberIndex
 
-`groupMemberByMemberIndex` allows to retrieve group members by member address:`0x12 | len([]byte(member.Address)) | []byte(member.Address) | PrimaryKey -> []byte()`.
+`groupMemberByMemberIndex` 允许按成员地址检索组成员：`0x12 | len([]byte(member.Address)) | []byte(member.Address) | PrimaryKey -> []byte()`。
 
-### Group Policy Table
+### 组策略表
 
-The `groupPolicyTable` stores `GroupPolicyInfo`: `0x20 | len([]byte(Address)) | []byte(Address) -> ProtocolBuffer(GroupPolicyInfo)`.
+`groupPolicyTable` 存储 `GroupPolicyInfo`：`0x20 | len([]byte(Address)) | []byte(Address) -> ProtocolBuffer(GroupPolicyInfo)`。
 
-The `groupPolicyTable` is a primary key table and its `PrimaryKey` is given by`len([]byte(Address)) | []byte(Address)` which is used by the following indexes.
+`groupPolicyTable` 是一个主键表，其 `PrimaryKey` 由 `len([]byte(Address)) | []byte(Address)` 给出，由以下索引使用。
 
 #### groupPolicySeq
 
-The value of `groupPolicySeq` is incremented when creating a new group policy and is used to generate the new group policy account `Address`:`0x21 | 0x1 -> BigEndian`.
+`groupPolicySeq` 的值在创建新组策略时递增，用于生成新的组策略账户 `Address`：`0x21 | 0x1 -> BigEndian`。
 
-The second `0x1` corresponds to the ORM `sequenceStorageKey`.
+第二个 `0x1` 对应于 ORM `sequenceStorageKey`。
 
 #### groupPolicyByGroupIndex
 
-`groupPolicyByGroupIndex` allows to retrieve group policies by group id:`0x22 | BigEndian(GroupId) | PrimaryKey -> []byte()`.
+`groupPolicyByGroupIndex` 允许按组 id 检索组策略：`0x22 | BigEndian(GroupId) | PrimaryKey -> []byte()`。
 
 #### groupPolicyByAdminIndex
 
-`groupPolicyByAdminIndex` allows to retrieve group policies by admin address:`0x23 | len([]byte(Address)) | []byte(Address) | PrimaryKey -> []byte()`.
+`groupPolicyByAdminIndex` 允许按管理员地址检索组策略：`0x23 | len([]byte(Address)) | []byte(Address) | PrimaryKey -> []byte()`。
 
-### Proposal Table
+### 提案表
 
-The `proposalTable` stores `Proposal`s: `0x30 | BigEndian(ProposalId) -> ProtocolBuffer(Proposal)`.
+`proposalTable` 存储 `Proposal`：`0x30 | BigEndian(ProposalId) -> ProtocolBuffer(Proposal)`。
 
 #### proposalSeq
 
-The value of `proposalSeq` is incremented when creating a new proposal and corresponds to the new `ProposalId`: `0x31 | 0x1 -> BigEndian`.
+`proposalSeq` 的值在创建新提案时递增，对应于新的 `ProposalId`：`0x31 | 0x1 -> BigEndian`。
 
-The second `0x1` corresponds to the ORM `sequenceStorageKey`.
+第二个 `0x1` 对应于 ORM `sequenceStorageKey`。
 
 #### proposalByGroupPolicyIndex
 
-`proposalByGroupPolicyIndex` allows to retrieve proposals by group policy account address:`0x32 | len([]byte(account.Address)) | []byte(account.Address) | BigEndian(ProposalId) -> []byte()`.
+`proposalByGroupPolicyIndex` 允许按组策略账户地址检索提案：`0x32 | len([]byte(account.Address)) | []byte(account.Address) | BigEndian(ProposalId) -> []byte()`。
 
 #### ProposalsByVotingPeriodEndIndex
 
-`proposalsByVotingPeriodEndIndex` allows to retrieve proposals sorted by chronological `voting_period_end`:`0x33 | sdk.FormatTimeBytes(proposal.VotingPeriodEnd) | BigEndian(ProposalId) -> []byte()`.
+`proposalsByVotingPeriodEndIndex` 允许按时间顺序 `voting_period_end` 检索提案：`0x33 | sdk.FormatTimeBytes(proposal.VotingPeriodEnd) | BigEndian(ProposalId) -> []byte()`。
 
-This index is used when tallying the proposal votes at the end of the voting period, and for pruning proposals at `VotingPeriodEnd + MaxExecutionPeriod`.
+此索引用于在投票期结束时统计提案投票，以及在 `VotingPeriodEnd + MaxExecutionPeriod` 时修剪提案。
 
-### Vote Table
+### 投票表
 
-The `voteTable` stores `Vote`s: `0x40 | BigEndian(ProposalId) | []byte(voter.Address) -> ProtocolBuffer(Vote)`.
+`voteTable` 存储 `Vote`：`0x40 | BigEndian(ProposalId) | []byte(voter.Address) -> ProtocolBuffer(Vote)`。
 
-The `voteTable` is a primary key table and its `PrimaryKey` is given by`BigEndian(ProposalId) | []byte(voter.Address)` which is used by the following indexes.
+`voteTable` 是一个主键表，其 `PrimaryKey` 由 `BigEndian(ProposalId) | []byte(voter.Address)` 给出，由以下索引使用。
 
 #### voteByProposalIndex
 
-`voteByProposalIndex` allows to retrieve votes by proposal id:`0x41 | BigEndian(ProposalId) | PrimaryKey -> []byte()`.
+`voteByProposalIndex` 允许按提案 id 检索投票：`0x41 | BigEndian(ProposalId) | PrimaryKey -> []byte()`。
 
 #### voteByVoterIndex
 
-`voteByVoterIndex` allows to retrieve votes by voter address:`0x42 | len([]byte(voter.Address)) | []byte(voter.Address) | PrimaryKey -> []byte()`.
+`voteByVoterIndex` 允许按投票者地址检索投票：`0x42 | len([]byte(voter.Address)) | []byte(voter.Address) | PrimaryKey -> []byte()`。
 
-## Msg Service
+## 消息服务
 
 ### Msg/CreateGroup
 
-A new group can be created with the `MsgCreateGroup`, which has an admin address, a list of members and some optional metadata.
+可以使用 `MsgCreateGroup` 创建新组，它具有管理员地址、成员列表和一些可选的元数据。
 
-The metadata has a maximum length that is chosen by the app developer, and\
-passed into the group keeper as a config.
+元数据有一个最大长度，由应用程序开发者选择，并作为配置传递给组 keeper。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L67-L80
 ```
 
-It's expected to fail if
+在以下情况下预期会失败：
 
-* metadata length is greater than `MaxMetadataLen` config
-* members are not correctly set (e.g. wrong address format, duplicates, or with 0 weight).
+* 元数据长度大于 `MaxMetadataLen` 配置
+* 成员未正确设置（例如，错误的地址格式、重复或权重为 0）。
 
 ### Msg/UpdateGroupMembers
 
-Group members can be updated with the `UpdateGroupMembers`.
+可以使用 `UpdateGroupMembers` 更新组成员。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L88-L102
 ```
 
-In the list of `MemberUpdates`, an existing member can be removed by setting its weight to 0.
+在 `MemberUpdates` 列表中，可以通过将其权重设置为 0 来删除现有成员。
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* the signer is not the admin of the group.
-* for any one of the associated group policies, if its decision policy's `Validate()` method fails against the updated group.
+* 签名者不是组的管理员。
+* 对于任何关联的组策略，如果其决策策略的 `Validate()` 方法对更新后的组失败。
 
 ### Msg/UpdateGroupAdmin
 
-The `UpdateGroupAdmin` can be used to update a group admin.
+可以使用 `UpdateGroupAdmin` 更新组管理员。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L107-L120
 ```
 
-It's expected to fail if the signer is not the admin of the group.
+如果签名者不是组的管理员，预期会失败。
 
 ### Msg/UpdateGroupMetadata
 
-The `UpdateGroupMetadata` can be used to update a group metadata.
+可以使用 `UpdateGroupMetadata` 更新组元数据。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L125-L138
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* new metadata length is greater than `MaxMetadataLen` config.
-* the signer is not the admin of the group.
+* 新元数据长度大于 `MaxMetadataLen` 配置。
+* 签名者不是组的管理员。
 
 ### Msg/CreateGroupPolicy
 
-A new group policy can be created with the `MsgCreateGroupPolicy`, which has an admin address, a group id, a decision policy and some optional metadata.
+可以使用 `MsgCreateGroupPolicy` 创建新组策略，它具有管理员地址、组 id、决策策略和一些可选的元数据。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L147-L165
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* the signer is not the admin of the group.
-* metadata length is greater than `MaxMetadataLen` config.
-* the decision policy's `Validate()` method doesn't pass against the group.
+* 签名者不是组的管理员。
+* 元数据长度大于 `MaxMetadataLen` 配置。
+* 决策策略的 `Validate()` 方法对组不通过。
 
 ### Msg/CreateGroupWithPolicy
 
-A new group with policy can be created with the `MsgCreateGroupWithPolicy`, which has an admin address, a list of members, a decision policy, a `group_policy_as_admin` field to optionally set group and group policy admin with group policy address and some optional metadata for group and group policy.
+可以使用 `MsgCreateGroupWithPolicy` 创建带策略的新组，它具有管理员地址、成员列表、决策策略、一个 `group_policy_as_admin` 字段（可选地使用组策略地址设置组和组策略管理员）以及组和组策略的一些可选元数据。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L191-L215
 ```
 
-It's expected to fail for the same reasons as `Msg/CreateGroup` and `Msg/CreateGroupPolicy`.
+预期会因与 `Msg/CreateGroup` 和 `Msg/CreateGroupPolicy` 相同的原因而失败。
 
 ### Msg/UpdateGroupPolicyAdmin
 
-The `UpdateGroupPolicyAdmin` can be used to update a group policy admin.
+可以使用 `UpdateGroupPolicyAdmin` 更新组策略管理员。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L173-L186
 ```
 
-It's expected to fail if the signer is not the admin of the group policy.
+如果签名者不是组策略的管理员，预期会失败。
 
 ### Msg/UpdateGroupPolicyDecisionPolicy
 
-The `UpdateGroupPolicyDecisionPolicy` can be used to update a decision policy.
+可以使用 `UpdateGroupPolicyDecisionPolicy` 更新决策策略。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L226-L241
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* the signer is not the admin of the group policy.
-* the new decision policy's `Validate()` method doesn't pass against the group.
+* 签名者不是组策略的管理员。
+* 新决策策略的 `Validate()` 方法对组不通过。
 
 ### Msg/UpdateGroupPolicyMetadata
 
-The `UpdateGroupPolicyMetadata` can be used to update a group policy metadata.
+可以使用 `UpdateGroupPolicyMetadata` 更新组策略元数据。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L246-L259
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* new metadata length is greater than `MaxMetadataLen` config.
-* the signer is not the admin of the group.
+* 新元数据长度大于 `MaxMetadataLen` 配置。
+* 签名者不是组的管理员。
 
 ### Msg/SubmitProposal
 
-A new proposal can be created with the `MsgSubmitProposal`, which has a group policy account address, a list of proposers addresses, a list of messages to execute if the proposal is accepted and some optional metadata.\
-An optional `Exec` value can be provided to try to execute the proposal immediately after proposal creation. Proposers signatures are considered as yes votes in this case.
+可以使用 `MsgSubmitProposal` 创建新提案，它具有组策略账户地址、提案者地址列表、如果提案被接受要执行的消息列表以及一些可选的元数据。\
+可以提供可选的 `Exec` 值以在提案创建后立即尝试执行提案。在这种情况下，提案者的签名被视为"是"投票。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L281-L315
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* metadata, title, or summary length is greater than `MaxMetadataLen` config.
-* if any of the proposers is not a group member.
+* 元数据、标题或摘要长度大于 `MaxMetadataLen` 配置。
+* 如果任何提案者不是组成员。
 
 ### Msg/WithdrawProposal
 
-A proposal can be withdrawn using `MsgWithdrawProposal` which has an `address` (can be either a proposer or the group policy admin) and a `proposal_id` (which has to be withdrawn).
+可以使用 `MsgWithdrawProposal` 撤回提案，它具有一个 `address`（可以是提案者或组策略管理员）和一个 `proposal_id`（必须撤回的提案）。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L323-L333
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* the signer is neither the group policy admin nor proposer of the proposal.
-* the proposal is already closed or aborted.
+* 签名者既不是组策略管理员也不是提案的提案者。
+* 提案已经关闭或中止。
 
 ### Msg/Vote
 
-A new vote can be created with the `MsgVote`, given a proposal id, a voter address, a choice (yes, no, veto or abstain) and some optional metadata.\
-An optional `Exec` value can be provided to try to execute the proposal immediately after voting.
+可以使用 `MsgVote` 创建新投票，给定提案 id、投票者地址、选择（是、否、否决或弃权）以及一些可选的元数据。\
+可以提供可选的 `Exec` 值以在投票后立即尝试执行提案。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L338-L358
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* metadata length is greater than `MaxMetadataLen` config.
-* the proposal is not in voting period anymore.
+* 元数据长度大于 `MaxMetadataLen` 配置。
+* 提案不再在投票期内。
 
 ### Msg/Exec
 
-A proposal can be executed with the `MsgExec`.
+可以使用 `MsgExec` 执行提案。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L363-L373
 ```
 
-The messages that are part of this proposal won't be executed if:
+如果满足以下条件，作为此提案一部分的消息将不会被执行：
 
-* the proposal has not been accepted by the group policy.
-* the proposal has already been successfully executed.
+* 提案尚未被组策略接受。
+* 提案已经成功执行。
 
 ### Msg/LeaveGroup
 
-The `MsgLeaveGroup` allows group member to leave a group.
+`MsgLeaveGroup` 允许组成员离开组。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L381-L391
 ```
 
-It's expected to fail if:
+在以下情况下预期会失败：
 
-* the group member is not part of the group.
-* for any one of the associated group policies, if its decision policy's `Validate()` method fails against the updated group.
+* 组成员不是组的一部分。
+* 对于任何关联的组策略，如果其决策策略的 `Validate()` 方法对更新后的组失败。
 
-## Events
+## 事件
 
-The group module emits the following events:
+组模块发出以下事件：
 
 ### EventCreateGroup
 
-| Type                             | Attribute Key | Attribute Value                  |
-| -------------------------------- | ------------- | -------------------------------- |
-| message                          | action        | /cosmos.group.v1.Msg/CreateGroup |
-| cosmos.group.v1.EventCreateGroup | group\_id     | {groupId}                        |
+| 类型                             | 属性键    | 属性值                              |
+| -------------------------------- | --------- | ----------------------------------- |
+| message                          | action    | /cosmos.group.v1.Msg/CreateGroup    |
+| cosmos.group.v1.EventCreateGroup | group\_id | {groupId}                           |
 
 ### EventUpdateGroup
 
-| Type                             | Attribute Key | Attribute Value                                            |
-| -------------------------------- | ------------- | ---------------------------------------------------------- |
-| message                          | action        | /cosmos.group.v1.Msg/UpdateGroup{Admin\|Metadata\|Members} |
-| cosmos.group.v1.EventUpdateGroup | group\_id     | {groupId}                                                  |
+| 类型                             | 属性键    | 属性值                                                      |
+| -------------------------------- | --------- | ----------------------------------------------------------- |
+| message                          | action    | /cosmos.group.v1.Msg/UpdateGroup{Admin\|Metadata\|Members} |
+| cosmos.group.v1.EventUpdateGroup | group\_id | {groupId}                                                    |
 
 ### EventCreateGroupPolicy
 
-| Type                                   | Attribute Key | Attribute Value                        |
-| -------------------------------------- | ------------- | -------------------------------------- |
-| message                                | action        | /cosmos.group.v1.Msg/CreateGroupPolicy |
-| cosmos.group.v1.EventCreateGroupPolicy | address       | {groupPolicyAddress}                   |
+| 类型                                   | 属性键  | 属性值                              |
+| -------------------------------------- | ------- | ----------------------------------- |
+| message                                | action  | /cosmos.group.v1.Msg/CreateGroupPolicy |
+| cosmos.group.v1.EventCreateGroupPolicy | address | {groupPolicyAddress}                 |
 
 ### EventUpdateGroupPolicy
 
-| Type                                   | Attribute Key | Attribute Value                                                         |
-| -------------------------------------- | ------------- | ----------------------------------------------------------------------- |
-| message                                | action        | /cosmos.group.v1.Msg/UpdateGroupPolicy{Admin\|Metadata\|DecisionPolicy} |
-| cosmos.group.v1.EventUpdateGroupPolicy | address       | {groupPolicyAddress}                                                    |
+| 类型                                   | 属性键  | 属性值                                                              |
+| -------------------------------------- | ------- | ------------------------------------------------------------------- |
+| message                                | action  | /cosmos.group.v1.Msg/UpdateGroupPolicy{Admin\|Metadata\|DecisionPolicy} |
+| cosmos.group.v1.EventUpdateGroupPolicy | address | {groupPolicyAddress}                                                |
 
 ### EventCreateProposal
 
-| Type                                | Attribute Key | Attribute Value                     |
-| ----------------------------------- | ------------- | ----------------------------------- |
-| message                             | action        | /cosmos.group.v1.Msg/CreateProposal |
-| cosmos.group.v1.EventCreateProposal | proposal\_id  | {proposalId}                        |
+| 类型                                | 属性键      | 属性值                            |
+| ----------------------------------- | ----------- | --------------------------------- |
+| message                             | action      | /cosmos.group.v1.Msg/CreateProposal |
+| cosmos.group.v1.EventCreateProposal | proposal\_id | {proposalId}                      |
 
 ### EventWithdrawProposal
 
-| Type                                  | Attribute Key | Attribute Value                       |
-| ------------------------------------- | ------------- | ------------------------------------- |
-| message                               | action        | /cosmos.group.v1.Msg/WithdrawProposal |
-| cosmos.group.v1.EventWithdrawProposal | proposal\_id  | {proposalId}                          |
+| 类型                                  | 属性键      | 属性值                              |
+| ------------------------------------- | ----------- | ----------------------------------- |
+| message                               | action      | /cosmos.group.v1.Msg/WithdrawProposal |
+| cosmos.group.v1.EventWithdrawProposal | proposal\_id | {proposalId}                        |
 
 ### EventVote
 
-| Type                      | Attribute Key | Attribute Value           |
-| ------------------------- | ------------- | ------------------------- |
-| message                   | action        | /cosmos.group.v1.Msg/Vote |
-| cosmos.group.v1.EventVote | proposal\_id  | {proposalId}              |
+| 类型                      | 属性键      | 属性值                |
+| ------------------------- | ----------- | --------------------- |
+| message                   | action      | /cosmos.group.v1.Msg/Vote |
+| cosmos.group.v1.EventVote | proposal\_id | {proposalId}          |
 
 ## EventExec
 
-| Type                      | Attribute Key | Attribute Value           |
-| ------------------------- | ------------- | ------------------------- |
-| message                   | action        | /cosmos.group.v1.Msg/Exec |
-| cosmos.group.v1.EventExec | proposal\_id  | {proposalId}              |
-| cosmos.group.v1.EventExec | logs          | {logs\_string}            |
+| 类型                      | 属性键      | 属性值                |
+| ------------------------- | ----------- | --------------------- |
+| message                   | action      | /cosmos.group.v1.Msg/Exec |
+| cosmos.group.v1.EventExec | proposal\_id | {proposalId}          |
+| cosmos.group.v1.EventExec | logs        | {logs\_string}        |
 
 ### EventLeaveGroup
 
-| Type                            | Attribute Key | Attribute Value                 |
-| ------------------------------- | ------------- | ------------------------------- |
-| message                         | action        | /cosmos.group.v1.Msg/LeaveGroup |
-| cosmos.group.v1.EventLeaveGroup | proposal\_id  | {proposalId}                    |
-| cosmos.group.v1.EventLeaveGroup | address       | {address}                       |
+| 类型                            | 属性键      | 属性值                    |
+| ------------------------------- | ----------- | ------------------------- |
+| message                         | action      | /cosmos.group.v1.Msg/LeaveGroup |
+| cosmos.group.v1.EventLeaveGroup | proposal\_id | {proposalId}              |
+| cosmos.group.v1.EventLeaveGroup | address     | {address}                 |
 
 ### EventProposalPruned
 
-| Type                                | Attribute Key | Attribute Value                 |
-| ----------------------------------- | ------------- | ------------------------------- |
-| message                             | action        | /cosmos.group.v1.Msg/LeaveGroup |
-| cosmos.group.v1.EventProposalPruned | proposal\_id  | {proposalId}                    |
-| cosmos.group.v1.EventProposalPruned | status        | {ProposalStatus}                |
-| cosmos.group.v1.EventProposalPruned | tally\_result | {TallyResult}                   |
+| 类型                                | 属性键      | 属性值                    |
+| ----------------------------------- | ----------- | ------------------------- |
+| message                             | action      | /cosmos.group.v1.Msg/LeaveGroup |
+| cosmos.group.v1.EventProposalPruned | proposal\_id | {proposalId}              |
+| cosmos.group.v1.EventProposalPruned | status      | {ProposalStatus}          |
+| cosmos.group.v1.EventProposalPruned | tally\_result | {TallyResult}            |
 
 ## Client
 
@@ -2089,13 +2010,13 @@ Example Output:
 }
 ```
 
-## Metadata
+## 元数据
 
-The group module has four locations for metadata where users can provide further context about the on-chain actions they are taking. By default all metadata fields have a 255 character length field where metadata can be stored in json format, either on-chain or off-chain depending on the amount of data required. Here we provide a recommendation for the json structure and where the data should be stored. There are two important factors in making these recommendations. First, that the group and gov modules are consistent with one another, note the number of proposals made by all groups may be quite large. Second, that client applications such as block explorers and governance interfaces have confidence in the consistency of metadata structure across chains.
+组模块有四个元数据位置，用户可以在其中提供有关他们正在执行的链上操作的进一步上下文。默认情况下，所有元数据字段都有一个 255 字符长度的字段，元数据可以以 json 格式存储，根据所需的数据量，可以存储在链上或链下。在这里，我们提供 json 结构的建议以及数据应存储的位置。在制定这些建议时有两个重要因素。首先，group 和 gov 模块彼此一致，请注意所有组提出的提案数量可能相当大。其次，客户端应用程序（如区块浏览器和治理界面）对跨链元数据结构的一致性有信心。
 
-### Proposal
+### 提案
 
-Location: off-chain as json object stored on IPFS (mirrors [gov proposal](gov.md#metadata))
+位置：链下，作为存储在 IPFS 上的 json 对象（镜像 [gov proposal](gov.md#metadata)）
 
 ```json
 {
@@ -2109,13 +2030,13 @@ Location: off-chain as json object stored on IPFS (mirrors [gov proposal](gov.md
 ```
 
 :::note\
-The `authors` field is an array of strings, this is to allow for multiple authors to be listed in the metadata.\
-In v0.46, the `authors` field is a comma-separated string. Frontends are encouraged to support both formats for backwards compatibility.\
+`authors` 字段是一个字符串数组，这是为了允许在元数据中列出多个作者。\
+在 v0.46 中，`authors` 字段是一个逗号分隔的字符串。鼓励前端支持两种格式以保持向后兼容性。\
 :::
 
-### Vote
+### 投票
 
-Location: on-chain as json within 255 character limit (mirrors [gov vote](gov.md#metadata))
+位置：链上，作为 json，限制在 255 个字符内（镜像 [gov vote](gov.md#metadata)）
 
 ```json
 {
@@ -2123,9 +2044,9 @@ Location: on-chain as json within 255 character limit (mirrors [gov vote](gov.md
 }
 ```
 
-### Group
+### 组
 
-Location: off-chain as json object stored on IPFS
+位置：链下，作为存储在 IPFS 上的 json 对象
 
 ```json
 {
@@ -2136,9 +2057,9 @@ Location: off-chain as json object stored on IPFS
 }
 ```
 
-### Decision policy
+### 决策策略
 
-Location: on-chain as json within 255 character limit
+位置：链上，作为 json，限制在 255 个字符内
 
 ```json
 {

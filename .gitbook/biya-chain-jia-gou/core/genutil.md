@@ -1,28 +1,28 @@
 # `x/genutil`
 
-## Concepts
+## 概念
 
-The `genutil` package contains a variety of genesis utility functionalities for usage within a blockchain application. Namely:
+`genutil` 包包含各种创世实用功能，用于区块链应用程序中。即：
 
-* Genesis transactions related (gentx)
-* Commands for collection and creation of gentxs
-* `InitChain` processing of gentxs
-* Genesis file creation
-* Genesis file validation
-* Genesis file migration
-* CometBFT related initialization
-    * Translation of an app genesis to a CometBFT genesis
+* 创世交易相关（gentx）
+* 收集和创建 gentx 的命令
+* gentx 的 `InitChain` 处理
+* 创世文件创建
+* 创世文件验证
+* 创世文件迁移
+* CometBFT 相关初始化
+    * 将应用创世转换为 CometBFT 创世
 
-## Genesis
+## 创世
 
-Genutil contains the data structure that defines an application genesis.
-An application genesis consist of a consensus genesis (g.e. CometBFT genesis) and application related genesis data.
+Genutil 包含定义应用创世的数据结构。
+应用创世由共识创世（例如 CometBFT 创世）和应用相关的创世数据组成。
 
 ```go reference
 https://github.com/cosmos/cosmos-sdk/blob/v0.50.0-rc.0/x/genutil/types/genesis.go#L24-L34
 ```
 
-The application genesis can then be translated to the consensus engine to the right format:
+然后可以将应用创世转换为共识引擎的正确格式：
 
 ```go reference
 https://github.com/cosmos/cosmos-sdk/blob/v0.50.0-rc.0/x/genutil/types/genesis.go#L126-L136
@@ -32,58 +32,58 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.50.0-rc.0/x/genutil/types/genesis.g
 https://github.com/cosmos/cosmos-sdk/blob/v0.50.0-rc.0/server/start.go#L397-L407
 ```
 
-## Client
+## 客户端
 
 ### CLI
 
-The genutil commands are available under the `genesis` subcommand.
+genutil 命令在 `genesis` 子命令下可用。
 
 #### add-genesis-account
 
-Add a genesis account to `genesis.json`. Learn more [here](https://docs.cosmos.network/main/run-node/run-node#adding-genesis-accounts).
+将创世账户添加到 `genesis.json`。了解更多信息[请点击这里](https://docs.cosmos.network/main/run-node/run-node#adding-genesis-accounts)。
 
 #### collect-gentxs
 
-Collect genesis txs and output a `genesis.json` file.
+收集创世交易并输出 `genesis.json` 文件。
 
 ```shell
 simd genesis collect-gentxs
 ```
 
-This will create a new `genesis.json` file that includes data from all the validators (we sometimes call it the "super genesis file" to distinguish it from single-validator genesis files).
+这将创建一个新的 `genesis.json` 文件，其中包含所有验证器的数据（我们有时称其为"超级创世文件"以区别于单验证器创世文件）。
 
 #### gentx
 
-Generate a genesis tx carrying a self delegation.
+生成携带自委托的创世交易。
 
 ```shell
 simd genesis gentx [key_name] [amount] --chain-id [chain-id]
 ```
 
-This will create the genesis transaction for your new chain. Here `amount` should be at least `1000000000stake`.
-If you provide too much or too little, you will encounter an error when starting a node.
+这将为您的链创建创世交易。这里的 `amount` 应至少为 `1000000000stake`。
+如果您提供的数量太多或太少，在启动节点时会遇到错误。
 
 #### migrate
 
-Migrate genesis to a specified target (SDK) version.
+将创世迁移到指定的目标（SDK）版本。
 
 ```shell
 simd genesis migrate [target-version]
 ```
 
 :::tip
-The `migrate` command is extensible and takes a `MigrationMap`. This map is a mapping of target versions to genesis migrations functions.
-When not using the default `MigrationMap`, it is recommended to still call the default `MigrationMap` corresponding the SDK version of the chain and prepend/append your own genesis migrations.
+`migrate` 命令是可扩展的，接受 `MigrationMap`。此映射是目标版本到创世迁移函数的映射。
+当不使用默认 `MigrationMap` 时，建议仍调用与链的 SDK 版本对应的默认 `MigrationMap`，并在其前后添加您自己的创世迁移。
 :::
 
 #### validate-genesis
 
-Validates the genesis file at the default location or at the location passed as an argument.
+验证默认位置或作为参数传递的位置的创世文件。
 
 ```shell
 simd genesis validate-genesis
 ```
 
 :::warning
-Validate genesis only validates if the genesis is valid at the **current application binary**. For validating a genesis from a previous version of the application, use the `migrate` command to migrate the genesis to the current version.
+验证创世仅验证创世在**当前应用二进制文件**中是否有效。要验证来自应用先前版本的创世，请使用 `migrate` 命令将创世迁移到当前版本。
 :::

@@ -4,92 +4,81 @@ sidebar_position: 1
 
 # Crisis
 
-## Overview
+## 概述
 
-The crisis module halts the blockchain under the circumstance that a blockchain\
-invariant is broken. Invariants can be registered with the application during the\
-application initialization process.
+crisis 模块在区块链不变量被破坏的情况下停止区块链。不变量可以在应用初始化过程中向应用注册。
 
-## Contents
+## 目录
 
-* [State](crisis.md#state)
-* [Messages](crisis.md#messages)
-* [Events](crisis.md#events)
-* [Parameters](crisis.md#parameters)
-* [Client](crisis.md#client)
+* [状态](crisis.md#state)
+* [消息](crisis.md#messages)
+* [事件](crisis.md#events)
+* [参数](crisis.md#parameters)
+* [客户端](crisis.md#client)
   * [CLI](crisis.md#cli)
 
-## State
+## 状态
 
 ### ConstantFee
 
-Due to the anticipated large gas cost requirement to verify an invariant (and\
-potential to exceed the maximum allowable block gas limit) a constant fee is\
-used instead of the standard gas consumption method. The constant fee is\
-intended to be larger than the anticipated gas cost of running the invariant\
-with the standard gas consumption method.
+由于验证不变量的预期 gas 成本较高（可能超过最大允许的区块 gas 限制），因此使用固定费用而不是标准 gas 消耗方法。固定费用旨在大于使用标准 gas 消耗方法运行不变量的预期 gas 成本。
 
-The ConstantFee param is stored in the module params state with the prefix of `0x01`,\
-it can be updated with governance or the address with authority.
+ConstantFee 参数存储在模块参数状态中，前缀为 `0x01`，\
+可以通过治理或具有权限的地址进行更新。
 
 * Params: `mint/params -> legacy_amino(sdk.Coin)`
 
-## Messages
+## 消息
 
-In this section we describe the processing of the crisis messages and the\
-corresponding updates to the state.
+在本节中，我们描述 crisis 消息的处理以及相应的状态更新。
 
 ### MsgVerifyInvariant
 
-Blockchain invariants can be checked using the `MsgVerifyInvariant` message.
+可以使用 `MsgVerifyInvariant` 消息检查区块链不变量。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/crisis/v1beta1/tx.proto#L26-L42
 ```
 
-This message is expected to fail if:
+如果出现以下情况，此消息应失败：
 
-* the sender does not have enough coins for the constant fee
-* the invariant route is not registered
+* 发送者没有足够的代币支付固定费用
+* 不变量路由未注册
 
-This message checks the invariant provided, and if the invariant is broken it\
-panics, halting the blockchain. If the invariant is broken, the constant fee is\
-never deducted as the transaction is never committed to a block (equivalent to\
-being refunded). However, if the invariant is not broken, the constant fee will\
-not be refunded.
+此消息检查提供的不变量，如果不变量被破坏，它会 panic，停止区块链。如果不变量被破坏，固定费用永远不会被扣除，因为交易永远不会提交到区块（相当于被退款）。但是，如果不变量未被破坏，固定费用将不会被退还。
 
-## Events
+## 事件
 
-The crisis module emits the following events:
+crisis 模块发出以下事件：
 
-### Handlers
+### 处理器
 
 #### MsgVerifyInvariance
 
-| Type      | Attribute Key | Attribute Value   |
-| --------- | ------------- | ----------------- |
-| invariant | route         | {invariantRoute}  |
-| message   | module        | crisis            |
-| message   | action        | verify\_invariant |
-| message   | sender        | {senderAddress}   |
+| 类型      | 属性键   | 属性值            |
+| --------- | -------- | ----------------- |
+| invariant | route    | {invariantRoute}  |
+| message   | module   | crisis            |
+| message   | action   | verify\_invariant |
+| message   | sender   | {senderAddress}   |
 
-## Parameters
+## 参数
 
-The crisis module contains the following parameters:
+crisis 模块包含以下参数：
 
-| Key         | Type          | Example                           |
+| 键          | 类型          | 示例                             |
 | ----------- | ------------- | --------------------------------- |
 | ConstantFee | object (coin) | {"denom":"uatom","amount":"1000"} |
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `crisis` module using the CLI.
+用户可以使用 CLI 查询和与 `crisis` 模块交互。
 
-#### Transactions
+#### 交易
 
-The `tx` commands allow users to interact with the `crisis` module.
+`tx` 命令允许用户与 `crisis` 模块交互。
 
 ```bash
 simd tx crisis --help
@@ -97,13 +86,13 @@ simd tx crisis --help
 
 **invariant-broken**
 
-The `invariant-broken` command submits proof when an invariant was broken to halt the chain
+`invariant-broken` 命令在不变量被破坏时提交证明以停止链
 
 ```bash
 simd tx crisis invariant-broken [module-name] [invariant-route] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx crisis invariant-broken bank total-supply --from=[keyname or address]

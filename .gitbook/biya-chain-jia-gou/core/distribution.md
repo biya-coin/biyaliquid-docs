@@ -4,137 +4,133 @@ sidebar_position: 1
 
 # Distribution
 
-## Overview
+## 概述
 
-This _simple_ distribution mechanism describes a functional way to passively\
-distribute rewards between validators and delegators. Note that this mechanism does\
-not distribute funds in as precisely as active reward distribution mechanisms and\
-will therefore be upgraded in the future.
+这种_简单_的分配机制描述了一种在验证者和委托者之间被动\
+分配奖励的功能性方法。请注意，此机制不会像主动奖励分配机制那样精确地\
+分配资金，因此将在未来进行升级。
 
-The mechanism operates as follows. Collected rewards are pooled globally and\
-divided out passively to validators and delegators. Each validator has the\
-opportunity to charge commission to the delegators on the rewards collected on\
-behalf of the delegators. Fees are collected directly into a global reward pool\
-and validator proposer-reward pool. Due to the nature of passive accounting,\
-whenever changes to parameters which affect the rate of reward distribution\
-occurs, withdrawal of rewards must also occur.
+该机制按以下方式运行。收集的奖励在全球范围内汇集并\
+被动分配给验证者和委托者。每个验证者都有\
+机会向委托者收取代表委托者收集的奖励的佣金。费用直接收集到全球奖励池\
+和验证者提案者奖励池中。由于被动会计的性质，\
+每当影响奖励分配率的参数发生变化时，\
+也必须提取奖励。
 
-* Whenever withdrawing, one must withdraw the maximum amount they are entitled\
-  to, leaving nothing in the pool.
-* Whenever bonding, unbonding, or re-delegating tokens to an existing account, a\
-  full withdrawal of the rewards must occur (as the rules for lazy accounting\
-  change).
-* Whenever a validator chooses to change the commission on rewards, all accumulated\
-  commission rewards must be simultaneously withdrawn.
+* 无论何时提取，都必须提取他们有权获得的\
+  最大金额，在池中不留任何东西。
+* 无论何时将代币绑定、解绑或重新委托到现有账户，\
+  都必须完全提取奖励（因为延迟会计的规则\
+  发生变化）。
+* 无论何时验证者选择更改奖励的佣金，所有累积的\
+  佣金奖励必须同时提取。
 
-The above scenarios are covered in `hooks.md`.
+上述场景在 `hooks.md` 中涵盖。
 
-The distribution mechanism outlined herein is used to lazily distribute the\
-following rewards between validators and associated delegators:
+此处概述的分配机制用于在验证者和相关委托者之间延迟分配\
+以下奖励：
 
-* multi-token fees to be socially distributed
-* inflated staked asset provisions
-* validator commission on all rewards earned by their delegators stake
+* 要社会分配的多代币费用
+* 通胀的质押资产供应
+* 验证者对其委托者权益获得的所有奖励的佣金
 
-Fees are pooled within a global pool. The mechanisms used allow for validators\
-and delegators to independently and lazily withdraw their rewards.
+费用汇集在全局池中。使用的机制允许验证者\
+和委托者独立且延迟地提取他们的奖励。
 
-## Shortcomings
+## 缺点
 
-As a part of the lazy computations, each delegator holds an accumulation term\
-specific to each validator which is used to estimate what their approximate\
-fair portion of tokens held in the global fee pool is owed to them.
+作为延迟计算的一部分，每个委托者持有特定于每个验证者的累积项\
+，用于估计他们应得的全球费用池中代币的\
+近似公平份额。
 
 ```
 entitlement = delegator-accumulation / all-delegators-accumulation
 ```
 
-Under the circumstance that there was constant and equal flow of incoming\
-reward tokens every block, this distribution mechanism would be equal to the\
-active distribution (distribute individually to all delegators each block).\
-However, this is unrealistic so deviations from the active distribution will\
-occur based on fluctuations of incoming reward tokens as well as timing of\
-reward withdrawal by other delegators.
+在每区块有恒定且相等的传入\
+奖励代币流的情况下，此分配机制将等于\
+主动分配（每区块单独分配给所有委托者）。\
+然而，这是不现实的，因此基于传入奖励代币的波动以及其他委托者\
+奖励提取的时间，将发生与主动分配的偏差。
 
-If you happen to know that incoming rewards are about to significantly increase,\
-you are incentivized to not withdraw until after this event, increasing the\
-worth of your existing _accum_. See [#2764](https://github.com/cosmos/cosmos-sdk/issues/2764)\
-for further details.
+如果您碰巧知道传入奖励即将显著增加，\
+您有动力在此事件之后才提取，增加\
+您现有 _accum_ 的价值。有关更多详细信息，请参见 [#2764](https://github.com/cosmos/cosmos-sdk/issues/2764)。
 
-## Effect on Staking
+## 对质押的影响
 
-Charging commission on Atom provisions while also allowing for Atom-provisions\
-to be auto-bonded (distributed directly to the validators bonded stake) is\
-problematic within BPoS. Fundamentally, these two mechanisms are mutually\
-exclusive. If both commission and auto-bonding mechanisms are simultaneously\
-applied to the staking-token then the distribution of staking-tokens between\
-any validator and its delegators will change with each block. This then\
-necessitates a calculation for each delegation records for each block -\
-which is considered computationally expensive.
+在 BPoS 中，对 Atom 供应收取佣金，同时允许 Atom 供应\
+自动绑定（直接分配给验证者的绑定权益）是\
+有问题的。从根本上说，这两种机制是相互\
+排斥的。如果佣金和自动绑定机制同时\
+应用于质押代币，则任何验证者与其委托者之间的\
+质押代币分配将随每个区块而变化。这需要\
+为每个区块的每个委托记录进行计算 -\
+这被认为是计算昂贵的。
 
-In conclusion, we can only have Atom commission and unbonded atoms\
-provisions or bonded atom provisions with no Atom commission, and we elect to\
-implement the former. Stakeholders wishing to rebond their provisions may elect\
-to set up a script to periodically withdraw and rebond rewards.
+总之，我们只能有 Atom 佣金和未绑定的 atoms\
+供应或没有 Atom 佣金的绑定 atom 供应，我们选择\
+实现前者。希望重新绑定其供应的利益相关者可以选择\
+设置脚本以定期提取和重新绑定奖励。
 
-## Contents
+## 目录
 
-* [Concepts](distribution.md#concepts)
-* [State](distribution.md#state)
-  * [FeePool](distribution.md#feepool)
-  * [Validator Distribution](distribution.md#validator-distribution)
-  * [Delegation Distribution](distribution.md#delegation-distribution)
-  * [Params](distribution.md#params)
+* [概念](distribution.md#concepts)
+* [状态](distribution.md#state)
+  * [费用池](distribution.md#feepool)
+  * [验证者分配](distribution.md#validator-distribution)
+  * [委托分配](distribution.md#delegation-distribution)
+  * [参数](distribution.md#params)
 * [Begin Block](distribution.md#begin-block)
-* [Messages](distribution.md#messages)
-* [Hooks](distribution.md#hooks)
-* [Events](distribution.md#events)
-* [Parameters](distribution.md#parameters)
-* [Client](distribution.md#client)
+* [消息](distribution.md#messages)
+* [钩子](distribution.md#hooks)
+* [事件](distribution.md#events)
+* [参数](distribution.md#parameters)
+* [客户端](distribution.md#client)
   * [CLI](distribution.md#cli)
   * [gRPC](distribution.md#grpc)
 
-## Concepts
+## 概念
 
-In Proof of Stake (PoS) blockchains, rewards gained from transaction fees are paid to validators. The fee distribution module fairly distributes the rewards to the validators' constituent delegators.
+在权益证明（PoS）区块链中，从交易费用获得的奖励支付给验证者。费用分配模块公平地将奖励分配给验证者的组成委托者。
 
-Rewards are calculated per period. The period is updated each time a validator's delegation changes, for example, when the validator receives a new delegation.\
-The rewards for a single validator can then be calculated by taking the total rewards for the period before the delegation started, minus the current total rewards.\
-To learn more, see the [F1 Fee Distribution paper](https://github.com/cosmos/cosmos-sdk/tree/main/docs/spec/fee_distribution/f1_fee_distr.pdf).
+奖励按周期计算。每次验证者的委托发生变化时，周期都会更新，例如，当验证者收到新委托时。\
+然后可以通过获取委托开始前周期的总奖励，减去当前总奖励来计算单个验证者的奖励。\
+要了解更多信息，请参见 [F1 费用分配论文](https://github.com/cosmos/cosmos-sdk/tree/main/docs/spec/fee_distribution/f1_fee_distr.pdf)。
 
-The commission to the validator is paid when the validator is removed or when the validator requests a withdrawal.\
-The commission is calculated and incremented at every `BeginBlock` operation to update accumulated fee amounts.
+验证者的佣金在验证者被移除或验证者请求提取时支付。\
+佣金在每个 `BeginBlock` 操作中计算和递增，以更新累积的费用金额。
 
-The rewards to a delegator are distributed when the delegation is changed or removed, or a withdrawal is requested.\
-Before rewards are distributed, all slashes to the validator that occurred during the current delegation are applied.
+委托者的奖励在委托更改或移除时分配，或请求提取时分配。\
+在分配奖励之前，应用在当前委托期间发生的对验证者的所有削减。
 
-### Reference Counting in F1 Fee Distribution
+### F1 费用分配中的引用计数
 
-In F1 fee distribution, the rewards a delegator receives are calculated when their delegation is withdrawn. This calculation must read the terms of the summation of rewards divided by the share of tokens from the period which they ended when they delegated, and the final period that was created for the withdrawal.
+在 F1 费用分配中，委托者收到的奖励在其委托被提取时计算。此计算必须读取从他们委托时结束的周期到为提取创建的最终周期，奖励总和除以代币份额的项。
 
-Additionally, as slashes change the amount of tokens a delegation will have (but we calculate this lazily,\
-only when a delegator un-delegates), we must calculate rewards in separate periods before / after any slashes\
-which occurred in between when a delegator delegated and when they withdrew their rewards. Thus slashes, like\
-delegations, reference the period which was ended by the slash event.
+此外，由于削减会改变委托将拥有的代币数量（但我们延迟计算这一点，\
+仅在委托者取消委托时），我们必须分别计算在委托者委托和提取奖励之间发生的任何削减\
+之前/之后的周期的奖励。因此，削减与\
+委托一样，引用由削减事件结束的周期。
 
-All stored historical rewards records for periods which are no longer referenced by any delegations\
-or any slashes can thus be safely removed, as they will never be read (future delegations and future\
-slashes will always reference future periods). This is implemented by tracking a `ReferenceCount`\
-along with each historical reward storage entry. Each time a new object (delegation or slash)\
-is created which might need to reference the historical record, the reference count is incremented.\
-Each time one object which previously needed to reference the historical record is deleted, the reference\
-count is decremented. If the reference count hits zero, the historical record is deleted.
+对于不再被任何委托\
+或任何削减引用的周期，所有存储的历史奖励记录因此可以安全地移除，因为它们永远不会被读取（未来的委托和未来的\
+削减将始终引用未来的周期）。这是通过跟踪\
+每个历史奖励存储条目的 `ReferenceCount` 来实现的。每次创建可能需要引用历史记录的新对象（委托或削减）\
+时，引用计数递增。\
+每次删除先前需要引用历史记录的对象时，引用\
+计数递减。如果引用计数达到零，则删除历史记录。
 
-## State
+## 状态
 
-### FeePool
+### 费用池
 
-All globally tracked parameters for distribution are stored within`FeePool`. Rewards are collected and added to the reward pool and\
-distributed to validators/delegators from here.
+所有全局跟踪的分配参数都存储在 `FeePool` 中。奖励被收集并添加到奖励池中，\
+并从这里分配给验证者/委托者。
 
-Note that the reward pool holds decimal coins (`DecCoins`) to allow\
-for fractions of coins to be received from operations like inflation.\
-When coins are distributed from the pool they are truncated back to`sdk.Coins` which are non-decimal.
+请注意，奖励池持有小数代币（`DecCoins`），以允许\
+从通胀等操作中接收代币的小数部分。\
+当从池中分配代币时，它们被截断回 `sdk.Coins`，这是非小数的。
 
 * FeePool: `0x00 -> ProtocolBuffer(FeePool)`
 
@@ -152,13 +148,13 @@ type DecCoin struct {
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/distribution/v1beta1/distribution.proto#L116-L123
 ```
 
-### Validator Distribution
+### 验证者分配
 
-Validator distribution information for the relevant validator is updated each time:
+相关验证者的验证者分配信息在以下每次更新：
 
-1. delegation amount to a validator is updated,
-2. any delegator withdraws from a validator, or
-3. the validator withdraws its commission.
+1. 验证者的委托金额更新时，
+2. 任何委托者从验证者提取时，或
+3. 验证者提取其佣金时。
 
 * ValidatorDistInfo: `0x02 | ValOperatorAddrLen (1 byte) | ValOperatorAddr -> ProtocolBuffer(validatorDistribution)`
 
@@ -170,13 +166,13 @@ type ValidatorDistInfo struct {
 }
 ```
 
-### Delegation Distribution
+### 委托分配
 
-Each delegation distribution only needs to record the height at which it last\
-withdrew fees. Because a delegation must withdraw fees each time it's\
-properties change (aka bonded tokens etc.) its properties will remain constant\
-and the delegator's _accumulation_ factor can be calculated passively knowing\
-only the height of the last withdrawal and its current properties.
+每个委托分配只需要记录它最后\
+提取费用的高度。因为委托必须在每次其\
+属性更改（即绑定代币等）时提取费用，其属性将保持恒定\
+，委托者的_累积_因子可以通过被动计算得知\
+，只需知道最后提取的高度及其当前属性。
 
 * DelegationDistInfo: `0x02 | DelegatorAddrLen (1 byte) | DelegatorAddr | ValOperatorAddrLen (1 byte) | ValOperatorAddr -> ProtocolBuffer(delegatorDist)`
 
@@ -186,10 +182,10 @@ type DelegationDistInfo struct {
 }
 ```
 
-### Params
+### 参数
 
-The distribution module stores it's params in state with the prefix of `0x09`,\
-it can be updated with governance or the address with authority.
+distribution 模块将其参数存储在状态中，前缀为 `0x09`，\
+可以通过治理或具有权限的地址进行更新。
 
 * Params: `0x09 | ProtocolBuffer(Params)`
 
@@ -199,64 +195,63 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/distribution/
 
 ## Begin Block
 
-At each `BeginBlock`, all fees received in the previous block are transferred to\
-the distribution `ModuleAccount` account. When a delegator or validator\
-withdraws their rewards, they are taken out of the `ModuleAccount`. During begin\
-block, the different claims on the fees collected are updated as follows:
+在每个 `BeginBlock`，上一区块收到的所有费用都转移到\
+distribution `ModuleAccount` 账户。当委托者或验证者\
+提取他们的奖励时，它们从 `ModuleAccount` 中取出。在 begin\
+block 期间，对收集的费用不同索赔的更新如下：
 
-* The reserve community tax is charged.
-* The remainder is distributed proportionally by voting power to all bonded validators
+* 收取储备社区税。
+* 其余部分按投票权按比例分配给所有绑定的验证者
 
-### The Distribution Scheme
+### 分配方案
 
-See [params](distribution.md#params) for description of parameters.
+有关参数的描述，请参见[参数](distribution.md#params)。
 
-Let `fees` be the total fees collected in the previous block, including\
-inflationary rewards to the stake. All fees are collected in a specific module\
-account during the block. During `BeginBlock`, they are sent to the`"distribution"` `ModuleAccount`. No other sending of tokens occurs. Instead, the\
-rewards each account is entitled to are stored, and withdrawals can be triggered\
-through the messages `FundCommunityPool`, `WithdrawValidatorCommission` and`WithdrawDelegatorReward`.
+设 `fees` 为上一区块收集的总费用，包括\
+对权益的通胀奖励。所有费用在区块期间收集在特定模块\
+账户中。在 `BeginBlock` 期间，它们被发送到 `"distribution"` `ModuleAccount`。不会发生其他代币发送。相反，\
+每个账户有权获得的奖励被存储，可以通过消息 `FundCommunityPool`、`WithdrawValidatorCommission` 和 `WithdrawDelegatorReward`\
+触发提取。
 
-#### Reward to the Community Pool
+#### 对社区池的奖励
 
-The community pool gets `community_tax * fees`, plus any remaining dust after\
-validators get their rewards that are always rounded down to the nearest\
-integer value.
+社区池获得 `community_tax * fees`，加上验证者获得奖励后\
+始终向下舍入到最近整数值的任何剩余零头。
 
-#### Reward To the Validators
+#### 对验证者的奖励
 
-The proposer receives no extra rewards. All fees are distributed among all the\
-bonded validators, including the proposer, in proportion to their consensus power.
+提案者不获得额外奖励。所有费用在所有\
+绑定的验证者之间分配，包括提案者，按他们的共识权力比例分配。
 
 ```
 powFrac = validator power / total bonded validator power
 voteMul = 1 - community_tax
 ```
 
-All validators receive `fees * voteMul * powFrac`.
+所有验证者获得 `fees * voteMul * powFrac`。
 
-#### Rewards to Delegators
+#### 对委托者的奖励
 
-Each validator's rewards are distributed to its delegators. The validator also\
-has a self-delegation that is treated like a regular delegation in\
-distribution calculations.
+每个验证者的奖励分配给其委托者。验证者还\
+有一个自委托，在\
+分配计算中像常规委托一样处理。
 
-The validator sets a commission rate. The commission rate is flexible, but each\
-validator sets a maximum rate and a maximum daily increase. These maximums cannot be exceeded and protect delegators from sudden increases of validator commission rates to prevent validators from taking all of the rewards.
+验证者设置佣金率。佣金率是灵活的，但每个\
+验证者设置最大比率和最大每日增加。这些最大值不能超过，并保护委托者免受验证者佣金率突然增加的影响，以防止验证者拿走所有奖励。
 
-The outstanding rewards that the operator is entitled to are stored in`ValidatorAccumulatedCommission`, while the rewards the delegators are entitled\
-to are stored in `ValidatorCurrentRewards`. The [F1 fee distribution scheme](distribution.md#concepts) is used to calculate the rewards per delegator as they\
-withdraw or update their delegation, and is thus not handled in `BeginBlock`.
+运营者有权获得的未付奖励存储在 `ValidatorAccumulatedCommission` 中，而委托者有权\
+获得的奖励存储在 `ValidatorCurrentRewards` 中。[F1 费用分配方案](distribution.md#concepts)用于计算每个委托者的奖励，因为他们\
+提取或更新他们的委托，因此不在 `BeginBlock` 中处理。
 
-#### Example Distribution
+#### 分配示例
 
-For this example distribution, the underlying consensus engine selects block proposers in\
-proportion to their power relative to the entire bonded power.
+对于此分配示例，底层共识引擎按\
+其相对于整个绑定权力的权力比例选择区块提案者。
 
-All validators are equally performant at including pre-commits in their proposed\
-blocks. Then hold `(pre_commits included) / (total bonded validator power)`\
-constant so that the amortized block reward for the validator is `( validator power / total bonded power) * (1 - community tax rate)` of\
-the total rewards. Consequently, the reward for a single delegator is:
+所有验证者在在其提议的\
+区块中包含预提交方面表现相同。然后保持 `(包含的预提交) / (总绑定验证者权力)`\
+恒定，以便验证者的摊销区块奖励是总奖励的 `(验证者权力 / 总绑定权力) * (1 - 社区税率)`。\
+因此，单个委托者的奖励是：
 
 ```
 (delegator proportion of the validator power / validator power) * (validator power / total bonded power)
@@ -265,16 +260,16 @@ the total rewards. Consequently, the reward for a single delegator is:
 community tax rate) * (1 - validator commission rate)
 ```
 
-## Messages
+## 消息
 
 ### MsgSetWithdrawAddress
 
-By default, the withdraw address is the delegator address. To change its withdraw address, a delegator must send a `MsgSetWithdrawAddress` message.\
-Changing the withdraw address is possible only if the parameter `WithdrawAddrEnabled` is set to `true`.
+默认情况下，提取地址是委托者地址。要更改其提取地址，委托者必须发送 `MsgSetWithdrawAddress` 消息。\
+只有在参数 `WithdrawAddrEnabled` 设置为 `true` 时才能更改提取地址。
 
-The withdraw address cannot be any of the module accounts. These accounts are blocked from being withdraw addresses by being added to the distribution keeper's `blockedAddrs` array at initialization.
+提取地址不能是任何模块账户。这些账户通过在初始化时添加到 distribution keeper 的 `blockedAddrs` 数组来阻止成为提取地址。
 
-Response:
+响应：
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/distribution/v1beta1/tx.proto#L49-L60
@@ -295,22 +290,22 @@ func (k Keeper) SetWithdrawAddr(ctx context.Context, delegatorAddr sdk.AccAddres
 
 ### MsgWithdrawDelegatorReward
 
-A delegator can withdraw its rewards.\
-Internally in the distribution module, this transaction simultaneously removes the previous delegation with associated rewards, the same as if the delegator simply started a new delegation of the same value.\
-The rewards are sent immediately from the distribution `ModuleAccount` to the withdraw address.\
-Any remainder (truncated decimals) are sent to the community pool.\
-The starting height of the delegation is set to the current validator period, and the reference count for the previous period is decremented.\
-The amount withdrawn is deducted from the `ValidatorOutstandingRewards` variable for the validator.
+委托者可以提取其奖励。\
+在 distribution 模块内部，此交易同时移除先前的委托及其相关奖励，就像委托者简单地开始相同价值的新委托一样。\
+奖励立即从 distribution `ModuleAccount` 发送到提取地址。\
+任何余数（截断的小数）都发送到社区池。\
+委托的起始高度设置为当前验证者周期，并且先前周期的引用计数递减。\
+提取的金额从验证者的 `ValidatorOutstandingRewards` 变量中扣除。
 
-In the F1 distribution, the total rewards are calculated per validator period, and a delegator receives a piece of those rewards in proportion to their stake in the validator.\
-In basic F1, the total rewards that all the delegators are entitled to between to periods is calculated the following way.\
-Let `R(X)` be the total accumulated rewards up to period `X` divided by the tokens staked at that time. The delegator allocation is `R(X) * delegator_stake`.\
-Then the rewards for all the delegators for staking between periods `A` and `B` are `(R(B) - R(A)) * total stake`.\
-However, these calculated rewards don't account for slashing.
+在 F1 分配中，总奖励按验证者周期计算，委托者按其在该验证者中的权益比例获得这些奖励的一部分。\
+在基本 F1 中，所有委托者在两个周期之间有权获得的总奖励按以下方式计算。\
+设 `R(X)` 为到周期 `X` 为止的总累积奖励除以当时质押的代币。委托者分配是 `R(X) * delegator_stake`。\
+那么所有委托者在周期 `A` 和 `B` 之间质押的奖励是 `(R(B) - R(A)) * total stake`。\
+但是，这些计算的奖励不考虑削减。
 
-Taking the slashes into account requires iteration.\
-Let `F(X)` be the fraction a validator is to be slashed for a slashing event that happened at period `X`.\
-If the validator was slashed at periods `P1, ..., PN`, where `A < P1`, `PN < B`, the distribution module calculates the individual delegator's rewards, `T(A, B)`, as follows:
+考虑削减需要迭代。\
+设 `F(X)` 为验证者在周期 `X` 发生的削减事件中被削减的分数。\
+如果验证者在周期 `P1, ..., PN` 被削减，其中 `A < P1`，`PN < B`，distribution 模块计算单个委托者的奖励 `T(A, B)`，如下：
 
 ```go
 stake := initial stake
@@ -323,10 +318,10 @@ for P in P1, ..., PN`:
 rewards = rewards + (R(B) - R(PN)) * stake
 ```
 
-The historical rewards are calculated retroactively by playing back all the slashes and then attenuating the delegator's stake at each step.\
-The final calculated stake is equivalent to the actual staked coins in the delegation with a margin of error due to rounding errors.
+历史奖励通过回放所有削减然后逐步衰减委托者的权益来追溯计算。\
+最终计算的权益等同于委托中的实际质押代币，由于舍入误差存在误差范围。
 
-Response:
+响应：
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/distribution/v1beta1/tx.proto#L66-L77
@@ -334,16 +329,16 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/distribution/
 
 ### WithdrawValidatorCommission
 
-The validator can send the WithdrawValidatorCommission message to withdraw their accumulated commission.\
-The commission is calculated in every block during `BeginBlock`, so no iteration is required to withdraw.\
-The amount withdrawn is deducted from the `ValidatorOutstandingRewards` variable for the validator.\
-Only integer amounts can be sent. If the accumulated awards have decimals, the amount is truncated before the withdrawal is sent, and the remainder is left to be withdrawn later.
+验证者可以发送 WithdrawValidatorCommission 消息以提取其累积的佣金。\
+佣金在每个区块的 `BeginBlock` 期间计算，因此提取不需要迭代。\
+提取的金额从验证者的 `ValidatorOutstandingRewards` 变量中扣除。\
+只能发送整数金额。如果累积的奖励有小数，金额在发送提取之前被截断，余数留待稍后提取。
 
 ### FundCommunityPool
 
-This message sends coins directly from the sender to the community pool.
+此消息将代币直接从发送者发送到社区池。
 
-The transaction fails if the amount cannot be transferred from the sender to the distribution module account.
+如果无法将金额从发送者转移到 distribution 模块账户，交易将失败。
 
 ```go
 func (k Keeper) FundCommunityPool(ctx context.Context, amount sdk.Coins, sender sdk.AccAddress) error {
@@ -366,14 +361,14 @@ func (k Keeper) FundCommunityPool(ctx context.Context, amount sdk.Coins, sender 
 }
 ```
 
-### Common distribution operations
+### 通用分配操作
 
-These operations take place during many different messages.
+这些操作在许多不同的消息期间发生。
 
-#### Initialize delegation
+#### 初始化委托
 
-Each time a delegation is changed, the rewards are withdrawn and the delegation is reinitialized.\
-Initializing a delegation increments the validator period and keeps track of the starting period of the delegation.
+每次委托更改时，都会提取奖励并重新初始化委托。\
+初始化委托会递增验证者周期并跟踪委托的起始周期。
 
 ```go
 // initialize starting info for a new delegation
@@ -397,142 +392,142 @@ func (k Keeper) initializeDelegation(ctx context.Context, val sdk.ValAddress, de
 
 ### MsgUpdateParams
 
-Distribution module params can be updated through `MsgUpdateParams`, which can be done using governance proposal and the signer will always be gov module account address.
+Distribution 模块参数可以通过 `MsgUpdateParams` 更新，可以使用治理提案完成，签名者将始终是 gov 模块账户地址。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/distribution/v1beta1/tx.proto#L133-L147
 ```
 
-The message handling can fail if:
+如果出现以下情况，消息处理可能失败：
 
-* signer is not the gov module account address.
+* 签名者不是 gov 模块账户地址。
 
-## Hooks
+## 钩子
 
-Available hooks that can be called by and from this module.
+可由此模块调用和从此模块调用的可用钩子。
 
-### Create or modify delegation distribution
+### 创建或修改委托分配
 
-* triggered-by: `staking.MsgDelegate`, `staking.MsgBeginRedelegate`, `staking.MsgUndelegate`
+* 触发者：`staking.MsgDelegate`、`staking.MsgBeginRedelegate`、`staking.MsgUndelegate`
 
-#### Before
+#### 之前
 
-* The delegation rewards are withdrawn to the withdraw address of the delegator.\
-  The rewards include the current period and exclude the starting period.
-* The validator period is incremented.\
-  The validator period is incremented because the validator's power and share distribution might have changed.
-* The reference count for the delegator's starting period is decremented.
+* 委托奖励被提取到委托者的提取地址。\
+  奖励包括当前周期并排除起始周期。
+* 验证者周期递增。\
+  验证者周期递增是因为验证者的权力和份额分配可能已更改。
+* 委托者起始周期的引用计数递减。
 
-#### After
+#### 之后
 
-The starting height of the delegation is set to the previous period.\
-Because of the `Before`-hook, this period is the last period for which the delegator was rewarded.
+委托的起始高度设置为前一周期。\
+由于 `Before`-hook，此周期是委托者获得奖励的最后一个周期。
 
-### Validator created
+### 验证者创建
 
-* triggered-by: `staking.MsgCreateValidator`
+* 触发者：`staking.MsgCreateValidator`
 
-When a validator is created, the following validator variables are initialized:
+创建验证者时，初始化以下验证者变量：
 
-* Historical rewards
-* Current accumulated rewards
-* Accumulated commission
-* Total outstanding rewards
-* Period
+* 历史奖励
+* 当前累积奖励
+* 累积佣金
+* 总未付奖励
+* 周期
 
-By default, all values are set to a `0`, except period, which is set to `1`.
+默认情况下，除周期设置为 `1` 外，所有值都设置为 `0`。
 
-### Validator removed
+### 验证者移除
 
-* triggered-by: `staking.RemoveValidator`
+* 触发者：`staking.RemoveValidator`
 
-Outstanding commission is sent to the validator's self-delegation withdrawal address.\
-Remaining delegator rewards get sent to the community fee pool.
+未付佣金发送到验证者的自委托提取地址。\
+剩余的委托者奖励发送到社区费用池。
 
-Note: The validator gets removed only when it has no remaining delegations.\
-At that time, all outstanding delegator rewards will have been withdrawn.\
-Any remaining rewards are dust amounts.
+注意：验证者只有在没有剩余委托时才会被移除。\
+那时，所有未付的委托者奖励都将被提取。\
+任何剩余的奖励都是零头金额。
 
-### Validator is slashed
+### 验证者被削减
 
-* triggered-by: `staking.Slash`
-* The current validator period reference count is incremented.\
-  The reference count is incremented because the slash event has created a reference to it.
-* The validator period is incremented.
-* The slash event is stored for later use.\
-  The slash event will be referenced when calculating delegator rewards.
+* 触发者：`staking.Slash`
+* 当前验证者周期引用计数递增。\
+  引用计数递增是因为削减事件已创建对它的引用。
+* 验证者周期递增。
+* 削减事件被存储以供以后使用。\
+  削减事件将在计算委托者奖励时被引用。
 
-## Events
+## 事件
 
-The distribution module emits the following events:
+distribution 模块发出以下事件：
 
 ### BeginBlocker
 
-| Type             | Attribute Key | Attribute Value    |
-| ---------------- | ------------- | ------------------ |
-| proposer\_reward | validator     | {validatorAddress} |
-| proposer\_reward | reward        | {proposerReward}   |
-| commission       | amount        | {commissionAmount} |
-| commission       | validator     | {validatorAddress} |
-| rewards          | amount        | {rewardAmount}     |
-| rewards          | validator     | {validatorAddress} |
+| 类型             | 属性键   | 属性值            |
+| ---------------- | -------- | ----------------- |
+| proposer\_reward | validator | {validatorAddress} |
+| proposer\_reward | reward  | {proposerReward}   |
+| commission       | amount  | {commissionAmount} |
+| commission       | validator | {validatorAddress} |
+| rewards          | amount  | {rewardAmount}     |
+| rewards          | validator | {validatorAddress} |
 
-### Handlers
+### 处理器
 
 #### MsgSetWithdrawAddress
 
-| Type                   | Attribute Key     | Attribute Value        |
-| ---------------------- | ----------------- | ---------------------- |
+| 类型                   | 属性键           | 属性值            |
+| ---------------------- | ---------------- | ----------------- |
 | set\_withdraw\_address | withdraw\_address | {withdrawAddress}      |
-| message                | module            | distribution           |
-| message                | action            | set\_withdraw\_address |
-| message                | sender            | {senderAddress}        |
+| message                | module           | distribution           |
+| message                | action           | set\_withdraw\_address |
+| message                | sender           | {senderAddress}        |
 
 #### MsgWithdrawDelegatorReward
 
-| Type              | Attribute Key | Attribute Value             |
-| ----------------- | ------------- | --------------------------- |
-| withdraw\_rewards | amount        | {rewardAmount}              |
-| withdraw\_rewards | validator     | {validatorAddress}          |
-| message           | module        | distribution                |
-| message           | action        | withdraw\_delegator\_reward |
-| message           | sender        | {senderAddress}             |
+| 类型              | 属性键   | 属性值                 |
+| ----------------- | -------- | ---------------------- |
+| withdraw\_rewards | amount   | {rewardAmount}              |
+| withdraw\_rewards | validator | {validatorAddress}          |
+| message           | module   | distribution                |
+| message           | action   | withdraw\_delegator\_reward |
+| message           | sender   | {senderAddress}             |
 
 #### MsgWithdrawValidatorCommission
 
-| Type                 | Attribute Key | Attribute Value                 |
-| -------------------- | ------------- | ------------------------------- |
-| withdraw\_commission | amount        | {commissionAmount}              |
-| message              | module        | distribution                    |
-| message              | action        | withdraw\_validator\_commission |
-| message              | sender        | {senderAddress}                 |
+| 类型                 | 属性键   | 属性值                     |
+| -------------------- | -------- | -------------------------- |
+| withdraw\_commission | amount   | {commissionAmount}              |
+| message              | module   | distribution                    |
+| message              | action   | withdraw\_validator\_commission |
+| message              | sender   | {senderAddress}                 |
 
-## Parameters
+## 参数
 
-The distribution module contains the following parameters:
+distribution 模块包含以下参数：
 
-| Key                 | Type         | Example                     |
-| ------------------- | ------------ | --------------------------- |
+| 键                  | 类型         | 示例                     |
+| ------------------- | ------------ | ------------------------ |
 | communitytax        | string (dec) | "0.020000000000000000" \[0] |
 | withdrawaddrenabled | bool         | true                        |
 
-* \[0] `communitytax` must be positive and cannot exceed 1.00.
-* `baseproposerreward` and `bonusproposerreward` were parameters that are deprecated in v0.47 and are not used.
+* \[0] `communitytax` 必须为正数且不能超过 1.00。
+* `baseproposerreward` 和 `bonusproposerreward` 是在 v0.47 中已弃用且不再使用的参数。
 
 :::note\
-The reserve pool is the pool of collected funds for use by governance taken via the `CommunityTax`.\
-Currently with the Cosmos SDK, tokens collected by the CommunityTax are accounted for but unspendable.\
+储备池是通过 `CommunityTax` 收集的用于治理的资金池。\
+目前在 Cosmos SDK 中，由 CommunityTax 收集的代币被计入但不可花费。\
 :::
 
-## Client
+## 客户端
 
 ## CLI
 
-A user can query and interact with the `distribution` module using the CLI.
+用户可以使用 CLI 查询和与 `distribution` 模块交互。
 
-#### Query
+#### 查询
 
-The `query` commands allow users to query `distribution` state.
+`query` 命令允许用户查询 `distribution` 状态。
 
 ```shell
 simd query distribution --help
@@ -540,19 +535,19 @@ simd query distribution --help
 
 **commission**
 
-The `commission` command allows users to query validator commission rewards by address.
+`commission` 命令允许用户通过地址查询验证者佣金奖励。
 
 ```shell
 simd query distribution commission [address] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query distribution commission cosmosvaloper1...
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 commission:
@@ -562,19 +557,19 @@ commission:
 
 **community-pool**
 
-The `community-pool` command allows users to query all coin balances within the community pool.
+`community-pool` 命令允许用户查询社区池内的所有代币余额。
 
 ```shell
 simd query distribution community-pool [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query distribution community-pool
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 pool:
@@ -584,19 +579,19 @@ pool:
 
 **params**
 
-The `params` command allows users to query the parameters of the `distribution` module.
+`params` 命令允许用户查询 `distribution` 模块的参数。
 
 ```shell
 simd query distribution params [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query distribution params
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 base_proposer_reward: "0.000000000000000000"
@@ -607,19 +602,19 @@ withdraw_addr_enabled: true
 
 **rewards**
 
-The `rewards` command allows users to query delegator rewards. Users can optionally include the validator address to query rewards earned from a specific validator.
+`rewards` 命令允许用户查询委托者奖励。用户可以选择包含验证者地址以查询从特定验证者获得的奖励。
 
 ```shell
 simd query distribution rewards [delegator-addr] [validator-addr] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query distribution rewards cosmos1...
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 rewards:
@@ -634,19 +629,19 @@ total:
 
 **slashes**
 
-The `slashes` command allows users to query all slashes for a given block range.
+`slashes` 命令允许用户查询给定区块范围的所有削减。
 
 ```shell
 simd query distribution slashes [validator] [start-height] [end-height] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query distribution slashes cosmosvaloper1... 1 1000
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 pagination:
@@ -659,19 +654,19 @@ slashes:
 
 **validator-outstanding-rewards**
 
-The `validator-outstanding-rewards` command allows users to query all outstanding (un-withdrawn) rewards for a validator and all their delegations.
+`validator-outstanding-rewards` 命令允许用户查询验证者及其所有委托的所有未付（未提取）奖励。
 
 ```shell
 simd query distribution validator-outstanding-rewards [validator] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query distribution validator-outstanding-rewards cosmosvaloper1...
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 rewards:
@@ -681,13 +676,13 @@ rewards:
 
 **validator-distribution-info**
 
-The `validator-distribution-info` command allows users to query validator commission and self-delegation rewards for validator.
+`validator-distribution-info` 命令允许用户查询验证者的验证者佣金和自委托奖励。
 
 ````shell
 simd query distribution validator-distribution-info cosmosvaloper1...
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 commission:
@@ -699,9 +694,9 @@ self_bond_rewards:
   denom: stake
 ```
 
-#### Transactions
+#### 交易
 
-The `tx` commands allow users to interact with the `distribution` module.
+`tx` 命令允许用户与 `distribution` 模块交互。
 
 ```shell
 simd tx distribution --help
@@ -709,13 +704,13 @@ simd tx distribution --help
 
 ##### fund-community-pool
 
-The `fund-community-pool` command allows users to send funds to the community pool.
+`fund-community-pool` 命令允许用户向社区池发送资金。
 
 ```shell
 simd tx distribution fund-community-pool [amount] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd tx distribution fund-community-pool 100stake --from cosmos1...
@@ -723,13 +718,13 @@ simd tx distribution fund-community-pool 100stake --from cosmos1...
 
 ##### set-withdraw-addr
 
-The `set-withdraw-addr` command allows users to set the withdraw address for rewards associated with a delegator address.
+`set-withdraw-addr` 命令允许用户设置与委托者地址关联的奖励提取地址。
 
 ```shell
 simd tx distribution set-withdraw-addr [withdraw-addr] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd tx distribution set-withdraw-addr cosmos1... --from cosmos1...
@@ -737,13 +732,13 @@ simd tx distribution set-withdraw-addr cosmos1... --from cosmos1...
 
 ##### withdraw-all-rewards
 
-The `withdraw-all-rewards` command allows users to withdraw all rewards for a delegator.
+`withdraw-all-rewards` 命令允许用户提取委托者的所有奖励。
 
 ```shell
 simd tx distribution withdraw-all-rewards [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd tx distribution withdraw-all-rewards --from cosmos1...
@@ -751,14 +746,14 @@ simd tx distribution withdraw-all-rewards --from cosmos1...
 
 ##### withdraw-rewards
 
-The `withdraw-rewards` command allows users to withdraw all rewards from a given delegation address,
-and optionally withdraw validator commission if the delegation address given is a validator operator and the user proves the `--commission` flag.
+`withdraw-rewards` 命令允许用户从给定委托地址提取所有奖励，\
+如果给定的委托地址是验证者运营者并且用户提供 `--commission` 标志，则可以选择提取验证者佣金。
 
 ```shell
 simd tx distribution withdraw-rewards [validator-addr] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd tx distribution withdraw-rewards cosmosvaloper1... --from cosmos1... --commission
@@ -766,13 +761,13 @@ simd tx distribution withdraw-rewards cosmosvaloper1... --from cosmos1... --comm
 
 ### gRPC
 
-A user can query the `distribution` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `distribution` 模块。
 
 #### Params
 
-The `Params` endpoint allows users to query parameters of the `distribution` module.
+`Params` 端点允许用户查询 `distribution` 模块的参数。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -780,7 +775,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/Params
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -795,9 +790,9 @@ Example Output:
 
 #### ValidatorDistributionInfo
 
-The `ValidatorDistributionInfo` queries validator commission and self-delegation rewards for validator.
+`ValidatorDistributionInfo` 查询验证者的验证者佣金和自委托奖励。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -806,7 +801,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/ValidatorDistributionInfo
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -830,9 +825,9 @@ Example Output:
 
 #### ValidatorOutstandingRewards
 
-The `ValidatorOutstandingRewards` endpoint allows users to query rewards of a validator address.
+`ValidatorOutstandingRewards` 端点允许用户查询验证者地址的奖励。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -841,7 +836,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/ValidatorOutstandingRewards
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -858,9 +853,9 @@ Example Output:
 
 #### ValidatorCommission
 
-The `ValidatorCommission` endpoint allows users to query accumulated commission for a validator.
+`ValidatorCommission` 端点允许用户查询验证者的累积佣金。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -869,7 +864,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/ValidatorCommission
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -886,9 +881,9 @@ Example Output:
 
 #### ValidatorSlashes
 
-The `ValidatorSlashes` endpoint allows users to query slash events of a validator.
+`ValidatorSlashes` 端点允许用户查询验证者的削减事件。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -897,7 +892,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/ValidatorSlashes
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -915,9 +910,9 @@ Example Output:
 
 #### DelegationRewards
 
-The `DelegationRewards` endpoint allows users to query the total rewards accrued by a delegation.
+`DelegationRewards` 端点允许用户查询委托累积的总奖励。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -926,7 +921,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/DelegationRewards
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -941,9 +936,9 @@ Example Output:
 
 #### DelegationTotalRewards
 
-The `DelegationTotalRewards` endpoint allows users to query the total rewards accrued by each validator.
+`DelegationTotalRewards` 端点允许用户查询每个验证者累积的总奖励。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -952,7 +947,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/DelegationTotalRewards
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -978,9 +973,9 @@ Example Output:
 
 #### DelegatorValidators
 
-The `DelegatorValidators` endpoint allows users to query all validators for given delegator.
+`DelegatorValidators` 端点允许用户查询给定委托者的所有验证者。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -989,7 +984,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/DelegatorValidators
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -999,9 +994,9 @@ Example Output:
 
 #### DelegatorWithdrawAddress
 
-The `DelegatorWithdrawAddress` endpoint allows users to query the withdraw address of a delegator.
+`DelegatorWithdrawAddress` 端点允许用户查询委托者的提取地址。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -1010,7 +1005,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/DelegatorWithdrawAddress
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -1020,9 +1015,9 @@ Example Output:
 
 #### CommunityPool
 
-The `CommunityPool` endpoint allows users to query the community pool coins.
+`CommunityPool` 端点允许用户查询社区池代币。
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -1030,7 +1025,7 @@ grpcurl -plaintext \
     cosmos.distribution.v1beta1.Query/CommunityPool
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -1042,4 +1037,3 @@ Example Output:
   ]
 }
 ```
-````

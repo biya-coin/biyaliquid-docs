@@ -6,17 +6,9 @@ sidebar_position: 1
 
 ## Abstract
 
-`x/upgrade` is an implementation of a Cosmos SDK module that facilitates smoothly\
-upgrading a live Cosmos chain to a new (breaking) software version. It accomplishes this by\
-providing a `PreBlocker` hook that prevents the blockchain state machine from\
-proceeding once a pre-defined upgrade block height has been reached.
+`x/upgrade` 是一个 Cosmos SDK 模块的实现，它有助于顺利地将运行中的 Cosmos 链升级到新的（破坏性）软件版本。它通过提供一个 `PreBlocker` 钩子来实现这一点，该钩子可以防止区块链状态机在达到预定义的升级区块高度后继续运行。
 
-The module does not prescribe anything regarding how governance decides to do an\
-upgrade, but just the mechanism for coordinating the upgrade safely. Without software\
-support for upgrades, upgrading a live chain is risky because all of the validators\
-need to pause their state machines at exactly the same point in the process. If\
-this is not done correctly, there can be state inconsistencies which are hard to\
-recover from.
+该模块并不规定治理如何决定进行升级，而只是提供安全协调升级的机制。如果没有软件升级支持，升级运行中的链是有风险的，因为所有验证者都需要在流程中的完全相同点暂停其状态机。如果操作不当，可能会出现难以恢复的状态不一致。
 
 * [Concepts](upgrade.md#concepts)
 * [State](upgrade.md#state)
@@ -31,14 +23,8 @@ recover from.
 
 ### Plan
 
-The `x/upgrade` module defines a `Plan` type in which a live upgrade is scheduled\
-to occur. A `Plan` can be scheduled at a specific block height.\
-A `Plan` is created once a (frozen) release candidate along with an appropriate upgrade`Handler` (see below) is agreed upon, where the `Name` of a `Plan` corresponds to a\
-specific `Handler`. Typically, a `Plan` is created through a governance proposal\
-process, where if voted upon and passed, will be scheduled. The `Info` of a `Plan`\
-may contain various metadata about the upgrade, typically application specific\
-upgrade info to be included on-chain such as a git commit that validators could\
-automatically upgrade to.
+`x/upgrade` 模块定义了一个 `Plan` 类型，用于安排实时升级的发生。`Plan` 可以在特定的区块高度进行调度。\
+一旦（冻结的）发布候选版本以及相应的升级 `Handler`（见下文）达成一致，就会创建一个 `Plan`，其中 `Plan` 的 `Name` 对应于一个特定的 `Handler`。通常，`Plan` 通过治理提案流程创建，如果投票通过，将被调度。`Plan` 的 `Info` 可能包含有关升级的各种元数据，通常是特定于应用程序的升级信息，要包含在链上，例如验证者可以自动升级到的 git commit。
 
 ```go
 type Plan struct {
@@ -50,50 +36,34 @@ type Plan struct {
 
 #### Sidecar Process
 
-If an operator running the application binary also runs a sidecar process to assist\
-in the automatic download and upgrade of a binary, the `Info` allows this process to\
-be seamless. This tool is [Cosmovisor](https://github.com/cosmos/cosmos-sdk/tree/main/tools/cosmovisor#readme).
+如果运行应用程序二进制的操作员还运行一个 sidecar 进程来协助自动下载和升级二进制文件，`Info` 允许此过程无缝进行。该工具是 [Cosmovisor](https://github.com/cosmos/cosmos-sdk/tree/main/tools/cosmovisor#readme)。
 
 ### Handler
 
-The `x/upgrade` module facilitates upgrading from major version X to major version Y. To\
-accomplish this, node operators must first upgrade their current binary to a new\
-binary that has a corresponding `Handler` for the new version Y. It is assumed that\
-this version has fully been tested and approved by the community at large. This`Handler` defines what state migrations need to occur before the new binary Y\
-can successfully run the chain. Naturally, this `Handler` is application specific\
-and not defined on a per-module basis. Registering a `Handler` is done via`Keeper#SetUpgradeHandler` in the application.
+`x/upgrade` 模块有助于从主版本 X 升级到主版本 Y。为了实现这一点，节点操作员必须首先将其当前二进制文件升级到具有新版本 Y 的相应 `Handler` 的新二进制文件。假设该版本已经过充分测试并获得社区的广泛批准。此 `Handler` 定义了在新二进制文件 Y 成功运行链之前需要发生的状态迁移。自然地，此 `Handler` 是特定于应用程序的，而不是在每个模块的基础上定义的。注册 `Handler` 是通过应用程序中的 `Keeper#SetUpgradeHandler` 完成的。
 
 ```go
 type UpgradeHandler func(Context, Plan, VersionMap) (VersionMap, error)
 ```
 
-During each `EndBlock` execution, the `x/upgrade` module checks if there exists a`Plan` that should execute (is scheduled at that height). If so, the corresponding`Handler` is executed. If the `Plan` is expected to execute but no `Handler` is registered\
-or if the binary was upgraded too early, the node will gracefully panic and exit.
+在每次 `EndBlock` 执行期间，`x/upgrade` 模块检查是否存在应该执行的 `Plan`（在该高度调度）。如果是，则执行相应的 `Handler`。如果 `Plan` 预期执行但没有注册 `Handler`，或者二进制文件升级过早，节点将优雅地 panic 并退出。
 
 ### StoreLoader
 
-The `x/upgrade` module also facilitates store migrations as part of the upgrade. The`StoreLoader` sets the migrations that need to occur before the new binary can\
-successfully run the chain. This `StoreLoader` is also application specific and\
-not defined on a per-module basis. Registering this `StoreLoader` is done via`app#SetStoreLoader` in the application.
+`x/upgrade` 模块还促进作为升级一部分的存储迁移。`StoreLoader` 设置在新二进制文件成功运行链之前需要发生的迁移。此 `StoreLoader` 也是特定于应用程序的，而不是在每个模块的基础上定义的。注册此 `StoreLoader` 是通过应用程序中的 `app#SetStoreLoader` 完成的。
 
 ```go
 func UpgradeStoreLoader (upgradeHeight int64, storeUpgrades *store.StoreUpgrades) baseapp.StoreLoader
 ```
 
-If there's a planned upgrade and the upgrade height is reached, the old binary writes `Plan` to the disk before panicking.
+如果有计划的升级并且达到升级高度，旧二进制文件会在 panic 之前将 `Plan` 写入磁盘。
 
-This information is critical to ensure the `StoreUpgrades` happens smoothly at correct height and\
-expected upgrade. It eliminiates the chances for the new binary to execute `StoreUpgrades` multiple\
-times everytime on restart. Also if there are multiple upgrades planned on same height, the `Name`\
-will ensure these `StoreUpgrades` takes place only in planned upgrade handler.
+此信息对于确保 `StoreUpgrades` 在正确的高度和预期的升级时顺利进行至关重要。它消除了新二进制文件在每次重启时多次执行 `StoreUpgrades` 的可能性。此外，如果在同一高度计划了多个升级，`Name` 将确保这些 `StoreUpgrades` 仅在计划的升级处理程序中发生。
 
 ### Proposal
 
-Typically, a `Plan` is proposed and submitted through governance via a proposal\
-containing a `MsgSoftwareUpgrade` message.\
-This proposal prescribes to the standard governance process. If the proposal passes,\
-the `Plan`, which targets a specific `Handler`, is persisted and scheduled. The\
-upgrade can be delayed or hastened by updating the `Plan.Height` in a new proposal.
+通常，`Plan` 通过治理通过包含 `MsgSoftwareUpgrade` 消息的提案提出并提交。\
+此提案遵循标准治理流程。如果提案通过，针对特定 `Handler` 的 `Plan` 将被持久化并调度。可以通过在新提案中更新 `Plan.Height` 来延迟或加快升级。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/upgrade/v1beta1/tx.proto#L29-L41
@@ -101,52 +71,42 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/upgrade/v1bet
 
 #### Cancelling Upgrade Proposals
 
-Upgrade proposals can be cancelled. There exists a gov-enabled `MsgCancelUpgrade`\
-message type, which can be embedded in a proposal, voted on and, if passed, will\
-remove the scheduled upgrade `Plan`.\
-Of course this requires that the upgrade was known to be a bad idea well before the\
-upgrade itself, to allow time for a vote.
+升级提案可以被取消。存在一个启用治理的 `MsgCancelUpgrade` 消息类型，可以嵌入到提案中，进行投票，如果通过，将删除计划的升级 `Plan`。\
+当然，这要求在升级本身之前很久就知道升级是一个坏主意，以便有时间进行投票。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/upgrade/v1beta1/tx.proto#L48-L57
 ```
 
-If such a possibility is desired, the upgrade height is to be`2 * (VotingPeriod + DepositPeriod) + (SafetyDelta)` from the beginning of the\
-upgrade proposal. The `SafetyDelta` is the time available from the success of an\
-upgrade proposal and the realization it was a bad idea (due to external social consensus).
+如果需要这种可能性，升级高度应该是从升级提案开始时的 `2 * (VotingPeriod + DepositPeriod) + (SafetyDelta)`。`SafetyDelta` 是从升级提案成功到意识到这是一个坏主意（由于外部社会共识）之间的可用时间。
 
-A `MsgCancelUpgrade` proposal can also be made while the original`MsgSoftwareUpgrade` proposal is still being voted upon, as long as the `VotingPeriod`\
-ends after the `MsgSoftwareUpgrade` proposal.
+`MsgCancelUpgrade` 提案也可以在原始 `MsgSoftwareUpgrade` 提案仍在投票时提出，只要 `VotingPeriod` 在 `MsgSoftwareUpgrade` 提案之后结束。
 
 ## State
 
-The internal state of the `x/upgrade` module is relatively minimal and simple. The\
-state contains the currently active upgrade `Plan` (if one exists) by key`0x0` and if a `Plan` is marked as "done" by key `0x1`. The state\
-contains the consensus versions of all app modules in the application. The versions\
-are stored as big endian `uint64`, and can be accessed with prefix `0x2` appended\
-by the corresponding module name of type `string`. The state maintains a`Protocol Version` which can be accessed by key `0x3`.
+`x/upgrade` 模块的内部状态相对最小且简单。\
+状态包含当前活动的升级 `Plan`（如果存在），通过键 `0x0`，以及如果 `Plan` 被标记为"完成"，通过键 `0x1`。状态包含应用程序中所有应用模块的共识版本。版本存储为大端 `uint64`，可以通过前缀 `0x2` 后跟类型为 `string` 的相应模块名称来访问。状态维护一个 `Protocol Version`，可以通过键 `0x3` 访问。
 
 * Plan: `0x0 -> Plan`
 * Done: `0x1 | byte(plan name) -> BigEndian(Block Height)`
 * ConsensusVersion: `0x2 | byte(module name) -> BigEndian(Module Consensus Version)`
 * ProtocolVersion: `0x3 -> BigEndian(Protocol Version)`
 
-The `x/upgrade` module contains no genesis state.
+`x/upgrade` 模块不包含创世状态。
 
 ## Events
 
-The `x/upgrade` does not emit any events by itself. Any and all proposal related\
-events are emitted through the `x/gov` module.
+`x/upgrade` 本身不会发出任何事件。所有与提案相关的事件都通过 `x/gov` 模块发出。
 
 ## Client
 
 ### CLI
 
-A user can query and interact with the `upgrade` module using the CLI.
+用户可以使用 CLI 查询和与 `upgrade` 模块交互。
 
 #### Query
 
-The `query` commands allow users to query `upgrade` state.
+`query` 命令允许用户查询 `upgrade` 状态。
 
 ```bash
 simd query upgrade --help
@@ -154,14 +114,14 @@ simd query upgrade --help
 
 **applied**
 
-The `applied` command allows users to query the block header for height at which a completed upgrade was applied.
+`applied` 命令允许用户查询完成升级应用的区块高度的区块头。
 
 ```bash
 simd query upgrade applied [upgrade-name] [flags]
 ```
 
-If upgrade-name was previously executed on the chain, this returns the header for the block at which it was applied.\
-This helps a client determine which binary was valid over a given range of blocks, as well as more context to understand past migrations.
+如果升级名称先前在链上执行过，这将返回应用它的区块的区块头。\
+这有助于客户端确定哪个二进制文件在给定区块范围内有效，以及更多上下文来理解过去的迁移。
 
 Example:
 
@@ -210,10 +170,9 @@ Example Output:
 
 **module versions**
 
-The `module_versions` command gets a list of module names and their respective consensus versions.
+`module_versions` 命令获取模块名称及其各自共识版本的列表。
 
-Following the command with a specific module name will return only\
-that module's information.
+在命令后跟特定的模块名称将仅返回该模块的信息。
 
 ```bash
 simd query upgrade module_versions [optional module_name] [flags]
@@ -281,7 +240,7 @@ module_versions:
 
 **plan**
 
-The `plan` command gets the currently scheduled upgrade plan, if one exists.
+`plan` 命令获取当前计划的升级计划（如果存在）。
 
 ```bash
 regen query upgrade plan [flags]
@@ -305,9 +264,9 @@ upgraded_client_state: null
 
 #### Transactions
 
-The upgrade module supports the following transactions:
+升级模块支持以下交易：
 
-* `software-proposal` - submits an upgrade proposal:
+* `software-proposal` - 提交升级提案：
 
 ```bash
 simd tx upgrade software-upgrade v2 --title="Test Proposal" --summary="testing" --deposit="100000000stake" --upgrade-height 1000000 \
@@ -322,23 +281,23 @@ simd tx upgrade cancel-software-upgrade --title="Test Proposal" --summary="testi
 
 ### REST
 
-A user can query the `upgrade` module using REST endpoints.
+用户可以使用 REST 端点查询 `upgrade` 模块。
 
 #### Applied Plan
 
-`AppliedPlan` queries a previously applied upgrade plan by its name.
+`AppliedPlan` 按名称查询先前应用的升级计划。
 
 ```bash
 /cosmos/upgrade/v1beta1/applied_plan/{name}
 ```
 
-Example:
+示例：
 
 ```bash
 curl -X GET "http://localhost:1317/cosmos/upgrade/v1beta1/applied_plan/v2.0-upgrade" -H "accept: application/json"
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -348,19 +307,19 @@ Example Output:
 
 #### Current Plan
 
-`CurrentPlan` queries the current upgrade plan.
+`CurrentPlan` 查询当前升级计划。
 
 ```bash
 /cosmos/upgrade/v1beta1/current_plan
 ```
 
-Example:
+示例：
 
 ```bash
 curl -X GET "http://localhost:1317/cosmos/upgrade/v1beta1/current_plan" -H "accept: application/json"
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -370,19 +329,19 @@ Example Output:
 
 #### Module versions
 
-`ModuleVersions` queries the list of module versions from state.
+`ModuleVersions` 从状态查询模块版本列表。
 
 ```bash
 /cosmos/upgrade/v1beta1/module_versions
 ```
 
-Example:
+示例：
 
 ```bash
 curl -X GET "http://localhost:1317/cosmos/upgrade/v1beta1/module_versions" -H "accept: application/json"
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -461,17 +420,17 @@ Example Output:
 
 ### gRPC
 
-A user can query the `upgrade` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `upgrade` 模块。
 
 #### Applied Plan
 
-`AppliedPlan` queries a previously applied upgrade plan by its name.
+`AppliedPlan` 按名称查询先前应用的升级计划。
 
 ```bash
 cosmos.upgrade.v1beta1.Query/AppliedPlan
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext \
@@ -480,7 +439,7 @@ grpcurl -plaintext \
     cosmos.upgrade.v1beta1.Query/AppliedPlan
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -490,19 +449,19 @@ Example Output:
 
 #### Current Plan
 
-`CurrentPlan` queries the current upgrade plan.
+`CurrentPlan` 查询当前升级计划。
 
 ```bash
 cosmos.upgrade.v1beta1.Query/CurrentPlan
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext localhost:9090 cosmos.slashing.v1beta1.Query/CurrentPlan
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -512,19 +471,19 @@ Example Output:
 
 #### Module versions
 
-`ModuleVersions` queries the list of module versions from state.
+`ModuleVersions` 从状态查询模块版本列表。
 
 ```bash
 cosmos.upgrade.v1beta1.Query/ModuleVersions
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext localhost:9090 cosmos.slashing.v1beta1.Query/ModuleVersions
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -601,8 +560,8 @@ Example Output:
 }
 ```
 
-## Resources
+## 资源
 
-A list of (external) resources to learn more about the `x/upgrade` module.
+学习更多关于 `x/upgrade` 模块的（外部）资源列表。
 
-* [Cosmos Dev Series: Cosmos Blockchain Upgrade](https://medium.com/web3-surfers/cosmos-dev-series-cosmos-sdk-based-blockchain-upgrade-b5e99181554c) - The blog post that explains how software upgrades work in detail.
+* [Cosmos 开发系列：Cosmos 区块链升级](https://medium.com/web3-surfers/cosmos-dev-series-cosmos-sdk-based-blockchain-upgrade-b5e99181554c) - 详细解释软件升级工作原理的博客文章。

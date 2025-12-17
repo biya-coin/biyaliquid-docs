@@ -4,53 +4,53 @@ sidebar_position: 1
 
 # AuthZ
 
-## Abstract
+## 摘要
 
-`x/authz` is an implementation of a Cosmos SDK module, per [ADR 30](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md), that allows\
-granting arbitrary privileges from one account (the granter) to another account (the grantee). Authorizations must be granted for a particular Msg service method one by one using an implementation of the `Authorization` interface.
+`x/authz` 是 Cosmos SDK 模块的实现，根据 [ADR 30](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md)，它允许\
+从一个账户（授权者）向另一个账户（被授权者）授予任意权限。必须使用 `Authorization` 接口的实现逐个为特定的 Msg 服务方法授予授权。
 
-## Contents
+## 目录
 
-* [Concepts](authz.md#concepts)
-  * [Authorization and Grant](authz.md#authorization-and-grant)
-  * [Built-in Authorizations](authz.md#built-in-authorizations)
+* [概念](authz.md#concepts)
+  * [授权和授权授予](authz.md#authorization-and-grant)
+  * [内置授权](authz.md#built-in-authorizations)
   * [Gas](authz.md#gas)
-* [State](authz.md#state)
-  * [Grant](authz.md#grant)
-  * [GrantQueue](authz.md#grantqueue)
-* [Messages](authz.md#messages)
+* [状态](authz.md#state)
+  * [授权授予](authz.md#grant)
+  * [授权队列](authz.md#grantqueue)
+* [消息](authz.md#messages)
   * [MsgGrant](authz.md#msggrant)
   * [MsgRevoke](authz.md#msgrevoke)
   * [MsgExec](authz.md#msgexec)
-* [Events](authz.md#events)
-* [Client](authz.md#client)
+* [事件](authz.md#events)
+* [客户端](authz.md#client)
   * [CLI](authz.md#cli)
   * [gRPC](authz.md#grpc)
   * [REST](authz.md#rest)
 
-## Concepts
+## 概念
 
-### Authorization and Grant
+### 授权和授权授予
 
-The `x/authz` module defines interfaces and messages grant authorizations to perform actions\
-on behalf of one account to other accounts. The design is defined in the [ADR 030](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md).
+`x/authz` 模块定义接口和消息，授予代表一个账户向其他账户执行操作的授权。\
+该设计在 [ADR 030](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-030-authz-module.md) 中定义。
 
-A _grant_ is an allowance to execute a Msg by the grantee on behalf of the granter.\
-Authorization is an interface that must be implemented by a concrete authorization logic to validate and execute grants. Authorizations are extensible and can be defined for any Msg service method even outside of the module where the Msg method is defined. See the `SendAuthorization` example in the next section for more details.
+授权授予（grant）是被授权者代表授权者执行 Msg 的许可。\
+授权是一个接口，必须由具体的授权逻辑实现以验证和执行授权授予。授权是可扩展的，可以为任何 Msg 服务方法定义，甚至可以在定义 Msg 方法的模块之外定义。有关更多详细信息，请参见下一节中的 `SendAuthorization` 示例。
 
-**Note:** The authz module is different from the [auth (authentication)](auth.md) module that is responsible for specifying the base transaction and account types.
+**注意：** authz 模块不同于负责指定基础交易和账户类型的 [auth（身份验证）](auth.md) 模块。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/authz/authorizations.go#L11-L25
 ```
 
-### Built-in Authorizations
+### 内置授权
 
-The Cosmos SDK `x/authz` module comes with following authorization types:
+Cosmos SDK `x/authz` 模块附带以下授权类型：
 
 #### GenericAuthorization
 
-`GenericAuthorization` implements the `Authorization` interface that gives unrestricted permission to execute the provided Msg on behalf of granter's account.
+`GenericAuthorization` 实现 `Authorization` 接口，授予代表授权者账户执行提供的 Msg 的无限制权限。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/authz/v1beta1/authz.proto#L14-L22
@@ -60,14 +60,14 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/authz/v1beta1
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/authz/generic_authorization.go#L16-L29
 ```
 
-* `msg` stores Msg type URL.
+* `msg` 存储 Msg 类型 URL。
 
 #### SendAuthorization
 
-`SendAuthorization` implements the `Authorization` interface for the `cosmos.bank.v1beta1.MsgSend` Msg.
+`SendAuthorization` 为 `cosmos.bank.v1beta1.MsgSend` Msg 实现 `Authorization` 接口。
 
-* It takes a (positive) `SpendLimit` that specifies the maximum amount of tokens the grantee can spend. The `SpendLimit` is updated as the tokens are spent.
-* It takes an (optional) `AllowList` that specifies to which addresses a grantee can send token.
+* 它接受一个（正数）`SpendLimit`，指定被授权者可以花费的最大代币数量。`SpendLimit` 会随着代币的消费而更新。
+* 它接受一个（可选的）`AllowList`，指定被授权者可以向哪些地址发送代币。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/authz.proto#L11-L30
@@ -77,12 +77,12 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/bank/types/send_authorization.go#L29-L62
 ```
 
-* `spend_limit` keeps track of how many coins are left in the authorization.
-* `allow_list` specifies an optional list of addresses to whom the grantee can send tokens on behalf of the granter.
+* `spend_limit` 跟踪授权中剩余多少代币。
+* `allow_list` 指定被授权者可以代表授权者向其发送代币的可选地址列表。
 
 #### StakeAuthorization
 
-`StakeAuthorization` implements the `Authorization` interface for messages in the [staking module](https://docs.cosmos.network/v0.50/build/modules/staking). It takes an `AuthorizationType` to specify whether you want to authorise delegating, undelegating or redelegating (i.e. these have to be authorised separately). It also takes an optional `MaxTokens` that keeps track of a limit to the amount of tokens that can be delegated/undelegated/redelegated. If left empty, the amount is unlimited. Additionally, this Msg takes an `AllowList` or a `DenyList`, which allows you to select which validators you allow or deny grantees to stake with.
+`StakeAuthorization` 为 [staking 模块](https://docs.cosmos.network/v0.50/build/modules/staking) 中的消息实现 `Authorization` 接口。它接受一个 `AuthorizationType` 来指定您是要授权委托、取消委托还是重新委托（即这些必须分别授权）。它还接受一个可选的 `MaxTokens`，跟踪可以委托/取消委托/重新委托的代币数量限制。如果留空，则数量不受限制。此外，此 Msg 接受 `AllowList` 或 `DenyList`，允许您选择允许或拒绝被授权者与之质押的验证者。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/authz.proto#L11-L35
@@ -94,29 +94,29 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/staking/types/authz.go#L
 
 ### Gas
 
-In order to prevent DoS attacks, granting `StakeAuthorization`s with `x/authz` incurs gas. `StakeAuthorization` allows you to authorize another account to delegate, undelegate, or redelegate to validators. The authorizer can define a list of validators they allow or deny delegations to. The Cosmos SDK iterates over these lists and charge 10 gas for each validator in both of the lists.
+为了防止 DoS 攻击，使用 `x/authz` 授予 `StakeAuthorization` 会产生 gas。`StakeAuthorization` 允许您授权另一个账户向验证者委托、取消委托或重新委托。授权者可以定义他们允许或拒绝委托的验证者列表。Cosmos SDK 遍历这些列表，并为两个列表中的每个验证者收取 10 gas。
 
-Since the state maintaining a list for granter, grantee pair with same expiration, we are iterating over the list to remove the grant (incase of any revoke of paritcular `msgType`) from the list and we are charging 20 gas per iteration.
+由于状态维护具有相同过期时间的授权者、被授权者对列表，我们遍历列表以从列表中移除授权授予（以防撤销特定 `msgType`），每次迭代收取 20 gas。
 
-## State
+## 状态
 
-### Grant
+### 授权授予
 
-Grants are identified by combining granter address (the address bytes of the granter), grantee address (the address bytes of the grantee) and Authorization type (its type URL). Hence we only allow one grant for the (granter, grantee, Authorization) triple.
+授权授予通过组合授权者地址（授权者的地址字节）、被授权者地址（被授权者的地址字节）和授权类型（其类型 URL）来标识。因此，我们只允许（授权者、被授权者、授权）三元组有一个授权授予。
 
 * Grant: `0x01 | granter_address_len (1 byte) | granter_address_bytes | grantee_address_len (1 byte) | grantee_address_bytes | msgType_bytes -> ProtocolBuffer(AuthorizationGrant)`
 
-The grant object encapsulates an `Authorization` type and an expiration timestamp:
+授权授予对象封装了一个 `Authorization` 类型和一个过期时间戳：
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/authz/v1beta1/authz.proto#L24-L32
 ```
 
-### GrantQueue
+### 授权队列
 
-We are maintaining a queue for authz pruning. Whenever a grant is created, an item will be added to `GrantQueue` with a key of expiration, granter, grantee.
+我们维护一个用于 authz 清理的队列。每当创建授权授予时，将向 `GrantQueue` 添加一个项目，键为过期时间、授权者、被授权者。
 
-In `EndBlock` (which runs for every block) we continuously check and prune the expired grants by forming a prefix key with current blocktime that passed the stored expiration in `GrantQueue`, we iterate through all the matched records from `GrantQueue` and delete them from the `GrantQueue` & `Grant`s store.
+在 `EndBlock`（每个区块运行）中，我们通过使用当前区块时间形成前缀键（该时间已超过 `GrantQueue` 中存储的过期时间）来持续检查和清理过期的授权授予，我们遍历 `GrantQueue` 中的所有匹配记录，并从 `GrantQueue` 和 `Grant` 存储中删除它们。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/5f4ddc6f80f9707320eec42182184207fff3833a/x/authz/keeper/keeper.go#L378-L403
@@ -124,76 +124,76 @@ https://github.com/cosmos/cosmos-sdk/blob/5f4ddc6f80f9707320eec42182184207fff383
 
 * GrantQueue: `0x02 | expiration_bytes | granter_address_len (1 byte) | granter_address_bytes | grantee_address_len (1 byte) | grantee_address_bytes -> ProtocalBuffer(GrantQueueItem)`
 
-The `expiration_bytes` are the expiration date in UTC with the format `"2006-01-02T15:04:05.000000000"`.
+`expiration_bytes` 是 UTC 格式的过期日期，格式为 `"2006-01-02T15:04:05.000000000"`。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/authz/keeper/keys.go#L77-L93
 ```
 
-The `GrantQueueItem` object contains the list of type urls between granter and grantee that expire at the time indicated in the key.
+`GrantQueueItem` 对象包含授权者和被授权者之间在键中指示的时间过期的类型 URL 列表。
 
-## Messages
+## 消息
 
-In this section we describe the processing of messages for the authz module.
+在本节中，我们描述 authz 模块的消息处理。
 
 ### MsgGrant
 
-An authorization grant is created using the `MsgGrant` message.\
-If there is already a grant for the `(granter, grantee, Authorization)` triple, then the new grant overwrites the previous one. To update or extend an existing grant, a new grant with the same `(granter, grantee, Authorization)` triple should be created.
+使用 `MsgGrant` 消息创建授权授予。\
+如果 `(granter, grantee, Authorization)` 三元组已存在授权授予，则新授权授予将覆盖前一个。要更新或扩展现有授权授予，应创建具有相同 `(granter, grantee, Authorization)` 三元组的新授权授予。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/authz/v1beta1/tx.proto#L35-L45
 ```
 
-The message handling should fail if:
+如果出现以下情况，消息处理应失败：
 
-* both granter and grantee have the same address.
-* provided `Expiration` time is less than current unix timestamp (but a grant will be created if no `expiration` time is provided since `expiration` is optional).
-* provided `Grant.Authorization` is not implemented.
-* `Authorization.MsgTypeURL()` is not defined in the router (there is no defined handler in the app router to handle that Msg types).
+* 授权者和被授权者具有相同的地址。
+* 提供的 `Expiration` 时间小于当前 unix 时间戳（但如果未提供 `expiration` 时间，将创建授权授予，因为 `expiration` 是可选的）。
+* 提供的 `Grant.Authorization` 未实现。
+* `Authorization.MsgTypeURL()` 未在路由器中定义（应用路由器中没有定义的处理程序来处理该 Msg 类型）。
 
 ### MsgRevoke
 
-A grant can be removed with the `MsgRevoke` message.
+可以使用 `MsgRevoke` 消息移除授权授予。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/authz/v1beta1/tx.proto#L69-L78
 ```
 
-The message handling should fail if:
+如果出现以下情况，消息处理应失败：
 
-* both granter and grantee have the same address.
-* provided `MsgTypeUrl` is empty.
+* 授权者和被授权者具有相同的地址。
+* 提供的 `MsgTypeUrl` 为空。
 
-NOTE: The `MsgExec` message removes a grant if the grant has expired.
+注意：如果授权授予已过期，`MsgExec` 消息会移除授权授予。
 
 ### MsgExec
 
-When a grantee wants to execute a transaction on behalf of a granter, they must send `MsgExec`.
+当被授权者想要代表授权者执行交易时，他们必须发送 `MsgExec`。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/authz/v1beta1/tx.proto#L52-L63
 ```
 
-The message handling should fail if:
+如果出现以下情况，消息处理应失败：
 
-* provided `Authorization` is not implemented.
-* grantee doesn't have permission to run the transaction.
-* if granted authorization is expired.
+* 提供的 `Authorization` 未实现。
+* 被授权者没有运行交易的权限。
+* 如果授予的授权已过期。
 
-## Events
+## 事件
 
-The authz module emits proto events defined in [the Protobuf reference](https://buf.build/cosmos/cosmos-sdk/docs/main/cosmos.authz.v1beta1#cosmos.authz.v1beta1.EventGrant).
+authz 模块发出在 [Protobuf 参考](https://buf.build/cosmos/cosmos-sdk/docs/main/cosmos.authz.v1beta1#cosmos.authz.v1beta1.EventGrant) 中定义的 proto 事件。
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `authz` module using the CLI.
+用户可以使用 CLI 查询和与 `authz` 模块交互。
 
-#### Query
+#### 查询
 
-The `query` commands allow users to query `authz` state.
+`query` 命令允许用户查询 `authz` 状态。
 
 ```bash
 simd query authz --help
@@ -201,19 +201,19 @@ simd query authz --help
 
 **grants**
 
-The `grants` command allows users to query grants for a granter-grantee pair. If the message type URL is set, it selects grants only for that message type.
+`grants` 命令允许用户查询授权者-被授权者对的授权授予。如果设置了消息类型 URL，它仅选择该消息类型的授权授予。
 
 ```bash
 simd query authz grants [granter-addr] [grantee-addr] [msg-type-url]? [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd query authz grants cosmos1.. cosmos1.. /cosmos.bank.v1beta1.MsgSend
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 grants:
@@ -226,9 +226,9 @@ grants:
 pagination: null
 ```
 
-#### Transactions
+#### 交易
 
-The `tx` commands allow users to interact with the `authz` module.
+`tx` 命令允许用户与 `authz` 模块交互。
 
 ```bash
 simd tx authz --help
@@ -236,13 +236,13 @@ simd tx authz --help
 
 **exec**
 
-The `exec` command allows a grantee to execute a transaction on behalf of granter.
+`exec` 命令允许被授权者代表授权者执行交易。
 
 ```bash
   simd tx authz exec [tx-json-file] --from [grantee] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx authz exec tx.json --from=cosmos1..
@@ -250,35 +250,35 @@ simd tx authz exec tx.json --from=cosmos1..
 
 **grant**
 
-The `grant` command allows a granter to grant an authorization to a grantee.
+`grant` 命令允许授权者向被授权者授予授权。
 
 ```bash
 simd tx authz grant <grantee> <authorization_type="send"|"generic"|"delegate"|"unbond"|"redelegate"> --from <granter> [flags]
 ```
 
-* The `send` authorization\_type refers to the built-in `SendAuthorization` type. The custom flags available are `spend-limit` (required) and `allow-list` (optional) , documented [here](authz.md#SendAuthorization)
+* `send` authorization\_type 指的是内置的 `SendAuthorization` 类型。可用的自定义标志是 `spend-limit`（必需）和 `allow-list`（可选），文档在[这里](authz.md#SendAuthorization)
 
-Example:
+示例：
 
 ```bash
     simd tx authz grant cosmos1.. send --spend-limit=100stake --allow-list=cosmos1...,cosmos2... --from=cosmos1..
 ```
 
-* The `generic` authorization\_type refers to the built-in `GenericAuthorization` type. The custom flag available is `msg-type` ( required) documented [here](authz.md#GenericAuthorization).
+* `generic` authorization\_type 指的是内置的 `GenericAuthorization` 类型。可用的自定义标志是 `msg-type`（必需），文档在[这里](authz.md#GenericAuthorization)。
 
-> Note: `msg-type` is any valid Cosmos SDK `Msg` type url.
+> 注意：`msg-type` 是任何有效的 Cosmos SDK `Msg` 类型 URL。
 
-Example:
+示例：
 
 ```bash
     simd tx authz grant cosmos1.. generic --msg-type=/cosmos.bank.v1beta1.MsgSend --from=cosmos1..
 ```
 
-* The `delegate`,`unbond`,`redelegate` authorization\_types refer to the built-in `StakeAuthorization` type. The custom flags available are `spend-limit` (optional), `allowed-validators` (optional) and `deny-validators` (optional) documented [here](authz.md#StakeAuthorization).
+* `delegate`、`unbond`、`redelegate` authorization\_types 指的是内置的 `StakeAuthorization` 类型。可用的自定义标志是 `spend-limit`（可选）、`allowed-validators`（可选）和 `deny-validators`（可选），文档在[这里](authz.md#StakeAuthorization)。
 
-> Note: `allowed-validators` and `deny-validators` cannot both be empty. `spend-limit` represents the `MaxTokens`
+> 注意：`allowed-validators` 和 `deny-validators` 不能都为空。`spend-limit` 表示 `MaxTokens`
 
-Example:
+示例：
 
 ```bash
 simd tx authz grant cosmos1.. delegate --spend-limit=100stake --allowed-validators=cosmos...,cosmos... --deny-validators=cosmos... --from=cosmos1..
@@ -286,13 +286,13 @@ simd tx authz grant cosmos1.. delegate --spend-limit=100stake --allowed-validato
 
 **revoke**
 
-The `revoke` command allows a granter to revoke an authorization from a grantee.
+`revoke` 命令允许授权者撤销被授权者的授权。
 
 ```bash
 simd tx authz revoke [grantee] [msg-type-url] --from=[granter] [flags]
 ```
 
-Example:
+示例：
 
 ```bash
 simd tx authz revoke cosmos1.. /cosmos.bank.v1beta1.MsgSend --from=cosmos1..
@@ -300,17 +300,17 @@ simd tx authz revoke cosmos1.. /cosmos.bank.v1beta1.MsgSend --from=cosmos1..
 
 ### gRPC
 
-A user can query the `authz` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `authz` 模块。
 
 #### Grants
 
-The `Grants` endpoint allows users to query grants for a granter-grantee pair. If the message type URL is set, it selects grants only for that message type.
+`Grants` 端点允许用户查询授权者-被授权者对的授权授予。如果设置了消息类型 URL，它仅选择该消息类型的授权授予。
 
 ```bash
 cosmos.authz.v1beta1.Query/Grants
 ```
 
-Example:
+示例：
 
 ```bash
 grpcurl -plaintext \
@@ -319,7 +319,7 @@ grpcurl -plaintext \
     cosmos.authz.v1beta1.Query/Grants
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {
@@ -342,19 +342,19 @@ Example Output:
 
 ### REST
 
-A user can query the `authz` module using REST endpoints.
+用户可以使用 REST 端点查询 `authz` 模块。
 
 ```bash
 /cosmos/authz/v1beta1/grants
 ```
 
-Example:
+示例：
 
 ```bash
 curl "localhost:1317/cosmos/authz/v1beta1/grants?granter=cosmos1..&grantee=cosmos1..&msg_type_url=/cosmos.bank.v1beta1.MsgSend"
 ```
 
-Example Output:
+示例输出：
 
 ```bash
 {

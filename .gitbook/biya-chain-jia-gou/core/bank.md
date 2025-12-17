@@ -4,70 +4,66 @@ sidebar_position: 1
 
 # Bank
 
-## Abstract
+## 摘要
 
-This document specifies the bank module of the Cosmos SDK.
+本文档指定了 Cosmos SDK 的 bank 模块。
 
-The bank module is responsible for handling multi-asset coin transfers between\
-accounts and tracking special-case pseudo-transfers which must work differently\
-with particular kinds of accounts (notably delegating/undelegating for vesting\
-accounts). It exposes several interfaces with varying capabilities for secure\
-interaction with other modules which must alter user balances.
+bank 模块负责处理账户之间的多资产代币转账，\
+并跟踪特殊情况的伪转账，这些伪转账必须与特定类型的账户\
+（特别是归属账户的委托/取消委托）以不同方式工作。\
+它暴露了几个具有不同能力的接口，用于与必须更改用户余额的其他模块进行安全交互。
 
-In addition, the bank module tracks and provides query support for the total\
-supply of all assets used in the application.
+此外，bank 模块跟踪并提供对应用中使用的\
+所有资产总供应量的查询支持。
 
-This module is used in the Cosmos Hub.
+此模块在 Cosmos Hub 中使用。
 
-## Contents
+## 目录
 
-* [Supply](bank.md#supply)
-  * [Total Supply](bank.md#total-supply)
-* [Module Accounts](bank.md#module-accounts)
-  * [Permissions](bank.md#permissions)
-* [State](bank.md#state)
-* [Params](bank.md#params)
+* [供应](bank.md#supply)
+  * [总供应量](bank.md#total-supply)
+* [模块账户](bank.md#module-accounts)
+  * [权限](bank.md#permissions)
+* [状态](bank.md#state)
+* [参数](bank.md#params)
 * [Keepers](bank.md#keepers)
-* [Messages](bank.md#messages)
-* [Events](bank.md#events)
-  * [Message Events](bank.md#message-events)
-  * [Keeper Events](bank.md#keeper-events)
-* [Parameters](bank.md#parameters)
+* [消息](bank.md#messages)
+* [事件](bank.md#events)
+  * [消息事件](bank.md#message-events)
+  * [Keeper 事件](bank.md#keeper-events)
+* [参数](bank.md#parameters)
   * [SendEnabled](bank.md#sendenabled)
   * [DefaultSendEnabled](bank.md#defaultsendenabled)
-* [Client](bank.md#client)
+* [客户端](bank.md#client)
   * [CLI](bank.md#cli)
-  * [Query](bank.md#query)
-  * [Transactions](bank.md#transactions)
+  * [查询](bank.md#query)
+  * [交易](bank.md#transactions)
 * [gRPC](bank.md#grpc)
 
-## Supply
+## 供应
 
-The `supply` functionality:
+`supply` 功能：
 
-* passively tracks the total supply of coins within a chain,
-* provides a pattern for modules to hold/interact with `Coins`, and
-* introduces the invariant check to verify a chain's total supply.
+* 被动跟踪链内代币的总供应量，
+* 为模块提供持有/与 `Coins` 交互的模式，以及
+* 引入不变量检查以验证链的总供应量。
 
-### Total Supply
+### 总供应量
 
-The total `Supply` of the network is equal to the sum of all coins from the\
-account. The total supply is updated every time a `Coin` is minted (eg: as part\
-of the inflation mechanism) or burned (eg: due to slashing or if a governance\
-proposal is vetoed).
+网络的总 `Supply` 等于所有账户的代币总和。\
+每次铸造 `Coin`（例如：作为通胀机制的一部分）或销毁 `Coin`（例如：由于削减或治理提案被否决）时，总供应量都会更新。
 
-## Module Accounts
+## 模块账户
 
-The supply functionality introduces a new type of `auth.Account` which can be used by\
-modules to allocate tokens and in special cases mint or burn tokens. At a base\
-level these module accounts are capable of sending/receiving tokens to and from`auth.Account`s and other module accounts. This design replaces previous\
-alternative designs where, to hold tokens, modules would burn the incoming\
-tokens from the sender account, and then track those tokens internally. Later,\
-in order to send tokens, the module would need to effectively mint tokens\
-within a destination account. The new design removes duplicate logic between\
-modules to perform this accounting.
+供应功能引入了一种新类型的 `auth.Account`，模块可以使用它\
+来分配代币，并在特殊情况下铸造或销毁代币。在基础\
+级别，这些模块账户能够与 `auth.Account` 和其他模块账户\
+发送/接收代币。此设计取代了以前的替代设计，在那些设计中，\
+为了持有代币，模块会从发送者账户销毁传入的代币，然后在内部跟踪这些代币。\
+后来，为了发送代币，模块需要在目标账户中有效地铸造代币。\
+新设计消除了模块之间执行此会计处理的重复逻辑。
 
-The `ModuleAccount` interface is defined as follows:
+`ModuleAccount` 接口定义如下：
 
 ```go
 type ModuleAccount interface {
@@ -79,52 +75,51 @@ type ModuleAccount interface {
 }
 ```
 
-> **WARNING!**\
-> Any module or message handler that allows either direct or indirect sending of funds must explicitly guarantee those funds cannot be sent to module accounts (unless allowed).
+> **警告！**\
+> 任何允许直接或间接发送资金的模块或消息处理器必须明确保证这些资金不能发送到模块账户（除非允许）。
 
-The supply `Keeper` also introduces new wrapper functions for the auth `Keeper`\
-and the bank `Keeper` that are related to `ModuleAccount`s in order to be able\
-to:
+供应 `Keeper` 还为与 `ModuleAccount` 相关的 auth `Keeper`\
+和 bank `Keeper` 引入了新的包装函数，以便能够：
 
-* Get and set `ModuleAccount`s by providing the `Name`.
-* Send coins from and to other `ModuleAccount`s or standard `Account`s\
-  (`BaseAccount` or `VestingAccount`) by passing only the `Name`.
-* `Mint` or `Burn` coins for a `ModuleAccount` (restricted to its permissions).
+* 通过提供 `Name` 获取和设置 `ModuleAccount`。
+* 仅通过传递 `Name` 从其他 `ModuleAccount` 或标准 `Account`\
+  （`BaseAccount` 或 `VestingAccount`）发送和接收代币。
+* 为 `ModuleAccount` `Mint` 或 `Burn` 代币（受其权限限制）。
 
-### Permissions
+### 权限
 
-Each `ModuleAccount` has a different set of permissions that provide different\
-object capabilities to perform certain actions. Permissions need to be\
-registered upon the creation of the supply `Keeper` so that every time a`ModuleAccount` calls the allowed functions, the `Keeper` can lookup the\
-permissions to that specific account and perform or not perform the action.
+每个 `ModuleAccount` 都有不同的权限集，提供不同的\
+对象能力来执行某些操作。权限需要在\
+创建供应 `Keeper` 时注册，以便每次 `ModuleAccount` 调用允许的函数时，\
+`Keeper` 可以查找该特定账户的权限并执行或不执行该操作。
 
-The available permissions are:
+可用权限包括：
 
-* `Minter`: allows for a module to mint a specific amount of coins.
-* `Burner`: allows for a module to burn a specific amount of coins.
-* `Staking`: allows for a module to delegate and undelegate a specific amount of coins.
+* `Minter`: 允许模块铸造特定数量的代币。
+* `Burner`: 允许模块销毁特定数量的代币。
+* `Staking`: 允许模块委托和取消委托特定数量的代币。
 
-## State
+## 状态
 
-The `x/bank` module keeps state of the following primary objects:
+`x/bank` 模块保持以下主要对象的状态：
 
-1. Account balances
-2. Denomination metadata
-3. The total supply of all balances
-4. Information on which denominations are allowed to be sent.
+1. 账户余额
+2. 代币单位元数据
+3. 所有余额的总供应量
+4. 允许发送哪些代币单位的信息。
 
-In addition, the `x/bank` module keeps the following indexes to manage the\
-aforementioned state:
+此外，`x/bank` 模块保持以下索引来管理\
+上述状态：
 
-* Supply Index: `0x0 | byte(denom) -> byte(amount)`
-* Denom Metadata Index: `0x1 | byte(denom) -> ProtocolBuffer(Metadata)`
-* Balances Index: `0x2 | byte(address length) | []byte(address) | []byte(balance.Denom) -> ProtocolBuffer(balance)`
-* Reverse Denomination to Address Index: `0x03 | byte(denom) | 0x00 | []byte(address) -> 0`
+* 供应索引: `0x0 | byte(denom) -> byte(amount)`
+* 代币单位元数据索引: `0x1 | byte(denom) -> ProtocolBuffer(Metadata)`
+* 余额索引: `0x2 | byte(address length) | []byte(address) | []byte(balance.Denom) -> ProtocolBuffer(balance)`
+* 反向代币单位到地址索引: `0x03 | byte(denom) | 0x00 | []byte(address) -> 0`
 
-## Params
+## 参数
 
-The bank module stores it's params in state with the prefix of `0x05`,\
-it can be updated with governance or the address with authority.
+bank 模块将其参数存储在状态中，前缀为 `0x05`，\
+可以通过治理或具有权限的地址进行更新。
 
 * Params: `0x05 | ProtocolBuffer(Params)`
 
@@ -134,30 +129,30 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/
 
 ## Keepers
 
-The bank module provides these exported keeper interfaces that can be\
-passed to other modules that read or update account balances. Modules\
-should use the least-permissive interface that provides the functionality they\
-require.
+bank 模块提供这些导出的 keeper 接口，可以\
+传递给读取或更新账户余额的其他模块。模块\
+应该使用提供其所需功能的最小权限接口。
 
-Best practices dictate careful review of `bank` module code to ensure that\
-permissions are limited in the way that you expect.
+最佳实践要求仔细审查 `bank` 模块代码，以确保\
+权限按您期望的方式受到限制。
 
-### Denied Addresses
+### 拒绝的地址
 
-The `x/bank` module accepts a map of addresses that are considered blocklisted\
-from directly and explicitly receiving funds through means such as `MsgSend` and`MsgMultiSend` and direct API calls like `SendCoinsFromModuleToAccount`.
+`x/bank` 模块接受一个地址映射，这些地址被视为被阻止\
+通过 `MsgSend` 和 `MsgMultiSend` 等方式以及 `SendCoinsFromModuleToAccount` 等直接 API 调用\
+直接和明确接收资金。
 
-Typically, these addresses are module accounts. If these addresses receive funds\
-outside the expected rules of the state machine, invariants are likely to be\
-broken and could result in a halted network.
+通常，这些地址是模块账户。如果这些地址在\
+状态机的预期规则之外接收资金，不变量可能会被\
+破坏，并可能导致网络停止。
 
-By providing the `x/bank` module with a blocklisted set of addresses, an error occurs for the operation if a user or client attempts to directly or indirectly send funds to a blocklisted account, for example, by using [IBC](https://ibc.cosmos.network).
+通过向 `x/bank` 模块提供被阻止的地址集，如果用户或客户端尝试直接或间接向被阻止的账户发送资金（例如，通过使用 [IBC](https://ibc.cosmos.network)），操作将出错。
 
-### Common Types
+### 通用类型
 
 #### Input
 
-An input of a multiparty transfer
+多方转账的输入
 
 ```protobuf
 // Input models transaction input.
@@ -169,7 +164,7 @@ message Input {
 
 #### Output
 
-An output of a multiparty transfer.
+多方转账的输出。
 
 ```protobuf
 // Output models transaction outputs.
@@ -181,9 +176,9 @@ message Output {
 
 ### BaseKeeper
 
-The base keeper provides full-permission access: the ability to arbitrary modify any account's balance and mint or burn coins.
+基础 keeper 提供完全权限访问：能够任意修改任何账户的余额并铸造或销毁代币。
 
-Restricted permission to mint per module could be achieved by using baseKeeper with `WithMintCoinsRestriction` to give specific restrictions to mint (e.g. only minting certain denom).
+可以通过使用带有 `WithMintCoinsRestriction` 的 baseKeeper 来为每个模块实现受限的铸造权限，以对铸造施加特定限制（例如，仅铸造某些代币单位）。
 
 ```go
 // Keeper defines a module interface that facilitates the transfer of coins
@@ -224,8 +219,8 @@ type Keeper interface {
 
 ### SendKeeper
 
-The send keeper provides access to account balances and the ability to transfer coins between\
-accounts. The send keeper does not alter the total supply (mint or burn coins).
+发送 keeper 提供对账户余额的访问以及在账户之间\
+转移代币的能力。发送 keeper 不会改变总供应量（铸造或销毁代币）。
 
 ```go
 // SendKeeper defines a module interface that facilitates the transfer of coins
@@ -257,28 +252,28 @@ type SendKeeper interface {
 }
 ```
 
-#### Send Restrictions
+#### 发送限制
 
-The `SendKeeper` applies a `SendRestrictionFn` before each transfer of funds.
+`SendKeeper` 在每次资金转移之前应用 `SendRestrictionFn`。
 
 ```golang
 // A SendRestrictionFn can restrict sends and/or provide a new receiver address.
 type SendRestrictionFn func(ctx context.Context, fromAddr, toAddr sdk.AccAddress, amt sdk.Coins) (newToAddr sdk.AccAddress, err error)
 ```
 
-After the `SendKeeper` (or `BaseKeeper`) has been created, send restrictions can be added to it using the `AppendSendRestriction` or `PrependSendRestriction` functions.\
-Both functions compose the provided restriction with any previously provided restrictions.`AppendSendRestriction` adds the provided restriction to be run after any previously provided send restrictions.`PrependSendRestriction` adds the restriction to be run before any previously provided send restrictions.\
-The composition will short-circuit when an error is encountered. I.e. if the first one returns an error, the second is not run.
+创建 `SendKeeper`（或 `BaseKeeper`）后，可以使用 `AppendSendRestriction` 或 `PrependSendRestriction` 函数向其添加发送限制。\
+这两个函数将提供的限制与任何先前提供的限制组合在一起。`AppendSendRestriction` 将提供的限制添加为在任何先前提供的发送限制之后运行。`PrependSendRestriction` 将限制添加为在任何先前提供的发送限制之前运行。\
+组合在遇到错误时会短路。即，如果第一个返回错误，第二个不会运行。
 
-During `SendCoins`, the send restriction is applied after coins are removed from the from address, but before adding them to the to address.\
-During `InputOutputCoins`, the send restriction is applied after the input coins are removed and once for each output before the funds are added.
+在 `SendCoins` 期间，发送限制在从 from 地址移除代币之后应用，但在将它们添加到 to 地址之前。\
+在 `InputOutputCoins` 期间，发送限制在移除输入代币之后应用，并在添加资金之前为每个输出应用一次。
 
-A send restriction function should make use of a custom value in the context to allow bypassing that specific restriction.
+发送限制函数应该使用上下文中的自定义值，以允许绕过该特定限制。
 
-Send Restrictions are not placed on `ModuleToAccount` or `ModuleToModule` transfers. This is done due to modules needing to move funds to user accounts and other module accounts. This is a design decision to allow for more flexibility in the state machine. The state machine should be able to move funds between module accounts and user accounts without restrictions.
+发送限制不应用于 `ModuleToAccount` 或 `ModuleToModule` 转账。这样做是因为模块需要将资金移动到用户账户和其他模块账户。这是一个设计决策，允许状态机具有更大的灵活性。状态机应该能够在模块账户和用户账户之间不受限制地移动资金。
 
-Secondly this limitation would limit the usage of the state machine even for itself. users would not be able to receive rewards, not be able to move funds between module accounts. In the case that a user sends funds from a user account to the community pool and then a governance proposal is used to get those tokens into the users account this would fall under the discretion of the app chain developer to what they would like to do here. We can not make strong assumptions here.\
-Thirdly, this issue could lead into a chain halt if a token is disabled and the token is moved in the begin/endblock. This is the last reason we see the current change and more damaging then beneficial for users.
+其次，这种限制甚至会限制状态机本身的使用。用户将无法接收奖励，无法在模块账户之间移动资金。在用户从用户账户向社区池发送资金，然后使用治理提案将这些代币放入用户账户的情况下，这将取决于应用链开发者的决定。我们不能在这里做出强有力的假设。\
+第三，如果代币被禁用并且在 begin/endblock 中移动代币，这个问题可能导致链停止。这是我们看到当前更改的最后一个原因，对用户的损害大于好处。
 
 For example, in your module's keeper package, you'd define the send restriction function:
 
@@ -342,7 +337,7 @@ func (k Keeper) DoThing(ctx context.Context, fromAddr, toAddr sdk.AccAddress, am
 
 ### ViewKeeper
 
-The view keeper provides read-only access to account balances. The view keeper does not have balance alteration functionality. All balance lookups are `O(1)`.
+视图 keeper 提供对账户余额的只读访问。视图 keeper 没有余额修改功能。所有余额查找都是 `O(1)`。
 
 ```go
 // ViewKeeper defines a module interface that facilitates read only access to
@@ -363,92 +358,92 @@ type ViewKeeper interface {
 }
 ```
 
-## Messages
+## 消息
 
 ### MsgSend
 
-Send coins from one address to another.
+从一个地址向另一个地址发送代币。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/tx.proto#L38-L53
 ```
 
-The message will fail under the following conditions:
+在以下条件下，消息将失败：
 
-* The coins do not have sending enabled
-* The `to` address is restricted
+* 代币未启用发送
+* `to` 地址被限制
 
 ### MsgMultiSend
 
-Send coins from one sender and to a series of different address. If any of the receiving addresses do not correspond to an existing account, a new account is created.
+从一个发送者向一系列不同地址发送代币。如果任何接收地址不对应现有账户，将创建一个新账户。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/tx.proto#L58-L69
 ```
 
-The message will fail under the following conditions:
+在以下条件下，消息将失败：
 
-* Any of the coins do not have sending enabled
-* Any of the `to` addresses are restricted
-* Any of the coins are locked
-* The inputs and outputs do not correctly correspond to one another
+* 任何代币未启用发送
+* 任何 `to` 地址被限制
+* 任何代币被锁定
+* 输入和输出不能正确对应
 
 ### MsgUpdateParams
 
-The `bank` module params can be updated through `MsgUpdateParams`, which can be done using governance proposal. The signer will always be the `gov` module account address.
+`bank` 模块参数可以通过 `MsgUpdateParams` 更新，可以使用治理提案完成。签名者将始终是 `gov` 模块账户地址。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/tx.proto#L74-L88
 ```
 
-The message handling can fail if:
+如果出现以下情况，消息处理可能失败：
 
-* signer is not the gov module account address.
+* 签名者不是 gov 模块账户地址。
 
 ### MsgSetSendEnabled
 
-Used with the x/gov module to set create/edit SendEnabled entries.
+与 x/gov 模块一起使用，以设置创建/编辑 SendEnabled 条目。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/bank/v1beta1/tx.proto#L96-L117
 ```
 
-The message will fail under the following conditions:
+在以下条件下，消息将失败：
 
-* The authority is not a bech32 address.
-* The authority is not x/gov module's address.
-* There are multiple SendEnabled entries with the same Denom.
-* One or more SendEnabled entries has an invalid Denom.
+* 权限不是 bech32 地址。
+* 权限不是 x/gov 模块的地址。
+* 有多个具有相同 Denom 的 SendEnabled 条目。
+* 一个或多个 SendEnabled 条目具有无效的 Denom。
 
-## Events
+## 事件
 
-The bank module emits the following events:
+bank 模块发出以下事件：
 
-### Message Events
+### 消息事件
 
 #### MsgSend
 
-| Type     | Attribute Key | Attribute Value    |
-| -------- | ------------- | ------------------ |
-| transfer | recipient     | {recipientAddress} |
-| transfer | amount        | {amount}           |
-| message  | module        | bank               |
-| message  | action        | send               |
-| message  | sender        | {senderAddress}    |
+| 类型     | 属性键     | 属性值            |
+| -------- | ---------- | ----------------- |
+| transfer | recipient  | {recipientAddress} |
+| transfer | amount     | {amount}           |
+| message  | module     | bank               |
+| message  | action     | send               |
+| message  | sender     | {senderAddress}    |
 
 #### MsgMultiSend
 
-| Type     | Attribute Key | Attribute Value    |
-| -------- | ------------- | ------------------ |
-| transfer | recipient     | {recipientAddress} |
-| transfer | amount        | {amount}           |
-| message  | module        | bank               |
-| message  | action        | multisend          |
-| message  | sender        | {senderAddress}    |
+| 类型     | 属性键     | 属性值            |
+| -------- | ---------- | ----------------- |
+| transfer | recipient  | {recipientAddress} |
+| transfer | amount     | {amount}           |
+| message  | module     | bank               |
+| message  | action     | multisend          |
+| message  | sender     | {senderAddress}    |
 
-### Keeper Events
+### Keeper 事件
 
-In addition to message events, the bank keeper will produce events when the following methods are called (or any method which ends up calling them)
+除了消息事件外，bank keeper 在调用以下方法（或最终调用它们的任何方法）时会产生事件
 
 #### MintCoins
 
@@ -566,30 +561,30 @@ In addition to message events, the bank keeper will produce events when the foll
 }
 ```
 
-## Parameters
+## 参数
 
-The bank module contains the following parameters
+bank 模块包含以下参数
 
 ### SendEnabled
 
-The SendEnabled parameter is now deprecated and not to be use. It is replaced\
-with state store records.
+SendEnabled 参数现已弃用，不再使用。它已被\
+状态存储记录取代。
 
 ### DefaultSendEnabled
 
-The default send enabled value controls send transfer capability for all\
-coin denominations unless specifically included in the array of `SendEnabled`\
-parameters.
+默认发送启用值控制所有\
+代币单位的发送转账能力，除非明确包含在 `SendEnabled`\
+参数数组中。
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `bank` module using the CLI.
+用户可以使用 CLI 查询和与 `bank` 模块交互。
 
-#### Query
+#### 查询
 
-The `query` commands allow users to query `bank` state.
+`query` 命令允许用户查询 `bank` 状态。
 
 ```shell
 simd query bank --help
@@ -597,19 +592,19 @@ simd query bank --help
 
 **balances**
 
-The `balances` command allows users to query account balances by address.
+`balances` 命令允许用户通过地址查询账户余额。
 
 ```shell
 simd query bank balances [address] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query bank balances cosmos1..
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 balances:
@@ -622,19 +617,19 @@ pagination:
 
 **denom-metadata**
 
-The `denom-metadata` command allows users to query metadata for coin denominations. A user can query metadata for a single denomination using the `--denom` flag or all denominations without it.
+`denom-metadata` 命令允许用户查询代币单位的元数据。用户可以使用 `--denom` 标志查询单个代币单位的元数据，或不使用它查询所有代币单位。
 
 ```shell
 simd query bank denom-metadata [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query bank denom-metadata --denom stake
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 metadata:
@@ -651,19 +646,19 @@ metadata:
 
 **total**
 
-The `total` command allows users to query the total supply of coins. A user can query the total supply for a single coin using the `--denom` flag or all coins without it.
+`total` 命令允许用户查询代币的总供应量。用户可以使用 `--denom` 标志查询单个代币的总供应量，或不使用它查询所有代币。
 
 ```shell
 simd query bank total [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query bank total --denom stake
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 amount: "10000000000"
@@ -672,19 +667,19 @@ denom: stake
 
 **send-enabled**
 
-The `send-enabled` command allows users to query for all or some SendEnabled entries.
+`send-enabled` 命令允许用户查询所有或某些 SendEnabled 条目。
 
 ```shell
 simd query bank send-enabled [denom1 ...] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query bank send-enabled
 ```
 
-Example output:
+示例输出：
 
 ```yml
 send_enabled:
@@ -696,9 +691,9 @@ pagination:
   total: 2 
 ```
 
-#### Transactions
+#### 交易
 
-The `tx` commands allow users to interact with the `bank` module.
+`tx` 命令允许用户与 `bank` 模块交互。
 
 ```shell
 simd tx bank --help
@@ -706,13 +701,13 @@ simd tx bank --help
 
 **send**
 
-The `send` command allows users to send funds from one account to another.
+`send` 命令允许用户从一个账户向另一个账户发送资金。
 
 ```shell
 simd tx bank send [from_key_or_address] [to_address] [amount] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd tx bank send cosmos1.. cosmos1.. 100stake
@@ -720,17 +715,17 @@ simd tx bank send cosmos1.. cosmos1.. 100stake
 
 ## gRPC
 
-A user can query the `bank` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `bank` 模块。
 
 ### Balance
 
-The `Balance` endpoint allows users to query account balance by address for a given denomination.
+`Balance` 端点允许用户通过地址查询给定代币单位的账户余额。
 
 ```shell
 cosmos.bank.v1beta1.Query/Balance
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -739,7 +734,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/Balance
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -752,13 +747,13 @@ Example Output:
 
 ### AllBalances
 
-The `AllBalances` endpoint allows users to query account balance by address for all denominations.
+`AllBalances` 端点允许用户通过地址查询所有代币单位的账户余额。
 
 ```shell
 cosmos.bank.v1beta1.Query/AllBalances
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -767,7 +762,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/AllBalances
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -785,13 +780,13 @@ Example Output:
 
 ### DenomMetadata
 
-The `DenomMetadata` endpoint allows users to query metadata for a single coin denomination.
+`DenomMetadata` 端点允许用户查询单个代币单位的元数据。
 
 ```shell
 cosmos.bank.v1beta1.Query/DenomMetadata
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -800,7 +795,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/DenomMetadata
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -824,13 +819,13 @@ Example Output:
 
 ### DenomsMetadata
 
-The `DenomsMetadata` endpoint allows users to query metadata for all coin denominations.
+`DenomsMetadata` 端点允许用户查询所有代币单位的元数据。
 
 ```shell
 cosmos.bank.v1beta1.Query/DenomsMetadata
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -838,7 +833,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/DenomsMetadata
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -867,13 +862,13 @@ Example Output:
 
 ### DenomOwners
 
-The `DenomOwners` endpoint allows users to query metadata for a single coin denomination.
+`DenomOwners` 端点允许用户查询单个代币单位的元数据。
 
 ```shell
 cosmos.bank.v1beta1.Query/DenomOwners
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -882,7 +877,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/DenomOwners
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -910,13 +905,13 @@ Example Output:
 
 ### TotalSupply
 
-The `TotalSupply` endpoint allows users to query the total supply of all coins.
+`TotalSupply` 端点允许用户查询所有代币的总供应量。
 
 ```shell
 cosmos.bank.v1beta1.Query/TotalSupply
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -924,7 +919,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/TotalSupply
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -942,13 +937,13 @@ Example Output:
 
 ### SupplyOf
 
-The `SupplyOf` endpoint allows users to query the total supply of a single coin.
+`SupplyOf` 端点允许用户查询单个代币的总供应量。
 
 ```shell
 cosmos.bank.v1beta1.Query/SupplyOf
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -957,7 +952,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/SupplyOf
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -970,13 +965,13 @@ Example Output:
 
 ### Params
 
-The `Params` endpoint allows users to query the parameters of the `bank` module.
+`Params` 端点允许用户查询 `bank` 模块的参数。
 
 ```shell
 cosmos.bank.v1beta1.Query/Params
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -984,7 +979,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/Params
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -996,15 +991,15 @@ Example Output:
 
 ### SendEnabled
 
-The `SendEnabled` enpoints allows users to query the SendEnabled entries of the `bank` module.
+`SendEnabled` 端点允许用户查询 `bank` 模块的 SendEnabled 条目。
 
-Any denominations NOT returned, use the `Params.DefaultSendEnabled` value.
+未返回的任何代币单位使用 `Params.DefaultSendEnabled` 值。
 
 ```shell
 cosmos.bank.v1beta1.Query/SendEnabled
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -1012,7 +1007,7 @@ grpcurl -plaintext \
     cosmos.bank.v1beta1.Query/SendEnabled
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {

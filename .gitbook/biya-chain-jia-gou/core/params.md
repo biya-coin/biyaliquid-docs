@@ -4,20 +4,17 @@ sidebar_position: 1
 
 # Params
 
-> Note: The Params module has been depreacted in favour of each module housing its own parameters.
+> 注意：Params 模块已被弃用，改为每个模块管理自己的参数。
 
-## Abstract
+## 摘要
 
-Package params provides a globally available parameter store.
+params 包提供了一个全局可用的参数存储。
 
-There are two main types, Keeper and Subspace. Subspace is an isolated namespace for a\
-paramstore, where keys are prefixed by preconfigured spacename. Keeper has a\
-permission to access all existing spaces.
+主要有两种类型：Keeper 和 Subspace。Subspace 是参数存储的隔离命名空间，其中键由预配置的空间名称作为前缀。Keeper 有权访问所有现有空间。
 
-Subspace can be used by the individual keepers, which need a private parameter store\
-that the other keepers cannot modify. The params Keeper can be used to add a route to `x/gov` router in order to modify any parameter in case a proposal passes.
+Subspace 可以被需要私有参数存储的各个 keeper 使用，其他 keeper 无法修改该存储。params Keeper 可用于向 `x/gov` 路由器添加路由，以便在提案通过时修改任何参数。
 
-The following contents explains how to use params module for master and user modules.
+以下内容解释了如何为主模块和用户模块使用 params 模块。
 
 ## Contents
 
@@ -29,9 +26,9 @@ The following contents explains how to use params module for master and user mod
 
 ## Keeper
 
-In the app initialization stage, [subspaces](params.md#subspace) can be allocated for other modules' keeper using `Keeper.Subspace` and are stored in `Keeper.spaces`. Then, those modules can have a reference to their specific parameter store through `Keeper.GetSubspace`.
+在应用初始化阶段，可以使用 `Keeper.Subspace` 为其他模块的 keeper 分配[子空间](params.md#subspace)，并存储在 `Keeper.spaces` 中。然后，这些模块可以通过 `Keeper.GetSubspace` 获得对其特定参数存储的引用。
 
-Example:
+示例：
 
 ```go
 type ExampleKeeper struct {
@@ -45,33 +42,29 @@ func (k ExampleKeeper) SetParams(ctx sdk.Context, params types.Params) {
 
 ## Subspace
 
-`Subspace` is a prefixed subspace of the parameter store. Each module which uses the\
-parameter store will take a `Subspace` to isolate permission to access.
+`Subspace` 是参数存储的带前缀子空间。使用参数存储的每个模块都会采用一个 `Subspace` 来隔离访问权限。
 
 ### Key
 
-Parameter keys are human readable alphanumeric strings. A parameter for the key`"ExampleParameter"` is stored under `[]byte("SubspaceName" + "/" + "ExampleParameter")`,\
-where `"SubspaceName"` is the name of the subspace.
+参数键是人类可读的字母数字字符串。键 `"ExampleParameter"` 的参数存储在 `[]byte("SubspaceName" + "/" + "ExampleParameter")` 下，\
+其中 `"SubspaceName"` 是子空间的名称。
 
-Subkeys are secondary parameter keys those are used along with a primary parameter key.\
-Subkeys can be used for grouping or dynamic parameter key generation during runtime.
+子键是与主参数键一起使用的辅助参数键。\
+子键可用于分组或在运行时动态生成参数键。
 
 ### KeyTable
 
-All of the parameter keys that will be used should be registered at the compile\
-time. `KeyTable` is essentially a `map[string]attribute`, where the `string` is a parameter key.
+所有将使用的参数键都应在编译时注册。`KeyTable` 本质上是一个 `map[string]attribute`，其中 `string` 是参数键。
 
-Currently, `attribute` consists of a `reflect.Type`, which indicates the parameter\
-type to check that provided key and value are compatible and registered, as well as a function `ValueValidatorFn` to validate values.
+目前，`attribute` 由 `reflect.Type` 组成，它指示参数类型以检查提供的键和值是否兼容并已注册，以及一个函数 `ValueValidatorFn` 来验证值。
 
-Only primary keys have to be registered on the `KeyTable`. Subkeys inherit the\
-attribute of the primary key.
+只有主键必须在 `KeyTable` 上注册。子键继承主键的属性。
 
 ### ParamSet
 
-Modules often define parameters as a proto message. The generated struct can implement`ParamSet` interface to be used with the following methods:
+模块通常将参数定义为 proto 消息。生成的结构体可以实现 `ParamSet` 接口，以与以下方法一起使用：
 
-* `KeyTable.RegisterParamSet()`: registers all parameters in the struct
-* `Subspace.{Get, Set}ParamSet()`: Get to & Set from the struct
+* `KeyTable.RegisterParamSet()`: 注册结构体中的所有参数
+* `Subspace.{Get, Set}ParamSet()`: 从结构体获取和设置
 
-The implementor should be a pointer in order to use `GetParamSet()`.
+实现者应该是指针才能使用 `GetParamSet()`。

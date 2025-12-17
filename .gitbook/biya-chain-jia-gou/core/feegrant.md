@@ -4,35 +4,35 @@ sidebar_position: 1
 
 # Feegrant
 
-## Abstract
+## 摘要
 
-This document specifies the fee grant module. For the full ADR, please see [Fee Grant ADR-029](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-029-fee-grant-module.md).
+本文档指定了费用授权模块。完整的 ADR，请参见 [费用授权 ADR-029](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-029-fee-grant-module.md)。
 
-This module allows accounts to grant fee allowances and to use fees from their accounts. Grantees can execute any transaction without the need to maintain sufficient fees.
+此模块允许账户授予费用授权并使用其账户的费用。被授权者可以执行任何交易，无需维持足够的费用。
 
-## Contents
+## 目录
 
-* [Concepts](feegrant.md#concepts)
-* [State](feegrant.md#state)
-  * [FeeAllowance](feegrant.md#feeallowance)
-  * [FeeAllowanceQueue](feegrant.md#feeallowancequeue)
-* [Messages](feegrant.md#messages)
+* [概念](feegrant.md#concepts)
+* [状态](feegrant.md#state)
+  * [费用授权](feegrant.md#feeallowance)
+  * [费用授权队列](feegrant.md#feeallowancequeue)
+* [消息](feegrant.md#messages)
   * [Msg/GrantAllowance](feegrant.md#msggrantallowance)
   * [Msg/RevokeAllowance](feegrant.md#msgrevokeallowance)
-* [Events](feegrant.md#events)
-* [Msg Server](feegrant.md#msg-server)
+* [事件](feegrant.md#events)
+* [消息服务器](feegrant.md#msg-server)
   * [MsgGrantAllowance](feegrant.md#msggrantallowance-1)
   * [MsgRevokeAllowance](feegrant.md#msgrevokeallowance-1)
-  * [Exec fee allowance](feegrant.md#exec-fee-allowance)
-* [Client](feegrant.md#client)
+  * [执行费用授权](feegrant.md#exec-fee-allowance)
+* [客户端](feegrant.md#client)
   * [CLI](feegrant.md#cli)
   * [gRPC](feegrant.md#grpc)
 
-## Concepts
+## 概念
 
-### Grant
+### 授权授予
 
-`Grant` is stored in the KVStore to record a grant with full context. Every grant will contain `granter`, `grantee` and what kind of `allowance` is granted. `granter` is an account address who is giving permission to `grantee` (the beneficiary account address) to pay for some or all of `grantee`'s transaction fees. `allowance` defines what kind of fee allowance (`BasicAllowance` or `PeriodicAllowance`, see below) is granted to `grantee`. `allowance` accepts an interface which implements `FeeAllowanceI`, encoded as `Any` type. There can be only one existing fee grant allowed for a `grantee` and `granter`, self grants are not allowed.
+`Grant` 存储在 KVStore 中以记录具有完整上下文的授权授予。每个授权授予将包含 `granter`、`grantee` 以及授予的 `allowance` 类型。`granter` 是授予 `grantee`（受益人账户地址）权限以支付 `grantee` 的部分或全部交易费用的账户地址。`allowance` 定义授予 `grantee` 的费用授权类型（`BasicAllowance` 或 `PeriodicAllowance`，见下文）。`allowance` 接受实现 `FeeAllowanceI` 的接口，编码为 `Any` 类型。对于 `grantee` 和 `granter`，只允许存在一个费用授权授予，不允许自我授权。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1beta1/feegrant.proto#L83-L93
@@ -44,9 +44,9 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1be
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/feegrant/fees.go#L9-L32
 ```
 
-### Fee Allowance types
+### 费用授权类型
 
-There are two types of fee allowances present at the moment:
+目前存在三种费用授权类型：
 
 * `BasicAllowance`
 * `PeriodicAllowance`
@@ -54,44 +54,44 @@ There are two types of fee allowances present at the moment:
 
 ### BasicAllowance
 
-`BasicAllowance` is permission for `grantee` to use fee from a `granter`'s account. If any of the `spend_limit` or `expiration` reaches its limit, the grant will be removed from the state.
+`BasicAllowance` 是 `grantee` 使用 `granter` 账户费用的权限。如果 `spend_limit` 或 `expiration` 中的任何一个达到其限制，授权授予将从状态中移除。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1beta1/feegrant.proto#L15-L28
 ```
 
-* `spend_limit` is the limit of coins that are allowed to be used from the `granter` account. If it is empty, it assumes there's no spend limit, `grantee` can use any number of available coins from `granter` account address before the expiration.
-* `expiration` specifies an optional time when this allowance expires. If the value is left empty, there is no expiry for the grant.
-* When a grant is created with empty values for `spend_limit` and `expiration`, it is still a valid grant. It won't restrict the `grantee` to use any number of coins from `granter` and it won't have any expiration. The only way to restrict the `grantee` is by revoking the grant.
+* `spend_limit` 是允许从 `granter` 账户使用的代币限制。如果为空，则假设没有支出限制，`grantee` 可以在过期前使用 `granter` 账户地址中的任何数量的可用代币。
+* `expiration` 指定此授权过期的可选时间。如果值留空，则授权没有过期时间。
+* 当使用 `spend_limit` 和 `expiration` 的空值创建授权授予时，它仍然是有效的授权授予。它不会限制 `grantee` 使用 `granter` 的任何数量的代币，也不会有任何过期时间。限制 `grantee` 的唯一方法是撤销授权授予。
 
 ### PeriodicAllowance
 
-`PeriodicAllowance` is a repeating fee allowance for the mentioned period, we can mention when the grant can expire as well as when a period can reset. We can also define the maximum number of coins that can be used in a mentioned period of time.
+`PeriodicAllowance` 是指定周期的重复费用授权，我们可以指定授权何时过期以及周期何时重置。我们还可以定义在指定时间段内可以使用的最大代币数量。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1beta1/feegrant.proto#L34-L68
 ```
 
-* `basic` is the instance of `BasicAllowance` which is optional for periodic fee allowance. If empty, the grant will have no `expiration` and no `spend_limit`.
-* `period` is the specific period of time, after each period passes, `period_can_spend` will be reset.
-* `period_spend_limit` specifies the maximum number of coins that can be spent in the period.
-* `period_can_spend` is the number of coins left to be spent before the period\_reset time.
-* `period_reset` keeps track of when a next period reset should happen.
+* `basic` 是 `BasicAllowance` 的实例，对于周期性费用授权是可选的。如果为空，授权将没有 `expiration` 和 `spend_limit`。
+* `period` 是特定的时间段，每个周期过去后，`period_can_spend` 将被重置。
+* `period_spend_limit` 指定在周期内可以花费的最大代币数量。
+* `period_can_spend` 是在 period\_reset 时间之前剩余可花费的代币数量。
+* `period_reset` 跟踪下一个周期重置应该发生的时间。
 
 ### AllowedMsgAllowance
 
-`AllowedMsgAllowance` is a fee allowance, it can be any of `BasicFeeAllowance`, `PeriodicAllowance` but restricted only to the allowed messages mentioned by the granter.
+`AllowedMsgAllowance` 是一种费用授权，它可以是 `BasicFeeAllowance`、`PeriodicAllowance` 中的任何一种，但仅限于授权者提到的允许消息。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1beta1/feegrant.proto#L70-L81
 ```
 
-* `allowance` is either `BasicAllowance` or `PeriodicAllowance`.
-* `allowed_messages` is array of messages allowed to execute the given allowance.
+* `allowance` 是 `BasicAllowance` 或 `PeriodicAllowance`。
+* `allowed_messages` 是允许执行给定授权的消息数组。
 
-### FeeGranter flag
+### FeeGranter 标志
 
-`feegrant` module introduces a `FeeGranter` flag for CLI for the sake of executing transactions with fee granter. When this flag is set, `clientCtx` will append the granter account address for transactions generated through CLI.
+`feegrant` 模块为 CLI 引入了 `FeeGranter` 标志，以便使用费用授权者执行交易。设置此标志后，`clientCtx` 将为通过 CLI 生成的交易附加授权者账户地址。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/client/cmd.go#L249-L260
@@ -109,33 +109,33 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/auth/tx/builder.go#L275-
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/tx/v1beta1/tx.proto#L203-L224
 ```
 
-Example cmd:
+示例命令：
 
 ```go
 ./simd tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --from validator-key --fee-granter=cosmos1xh44hxt7spr67hqaa7nyx5gnutrz5fraw6grxn --chain-id=testnet --fees="10stake"
 ```
 
-### Granted Fee Deductions
+### 授权费用扣除
 
-Fees are deducted from grants in the `x/auth` ante handler. To learn more about how ante handlers work, read the [Auth Module AnteHandlers Guide](auth.md#antehandlers).
+费用在 `x/auth` ante handler 中从授权授予中扣除。要了解更多关于 ante handler 的工作原理，请阅读 [Auth 模块 AnteHandlers 指南](auth.md#antehandlers)。
 
 ### Gas
 
-In order to prevent DoS attacks, using a filtered `x/feegrant` incurs gas. The SDK must assure that the `grantee`'s transactions all conform to the filter set by the `granter`. The SDK does this by iterating over the allowed messages in the filter and charging 10 gas per filtered message. The SDK will then iterate over the messages being sent by the `grantee` to ensure the messages adhere to the filter, also charging 10 gas per message. The SDK will stop iterating and fail the transaction if it finds a message that does not conform to the filter.
+为了防止 DoS 攻击，使用过滤的 `x/feegrant` 会产生 gas。SDK 必须确保 `grantee` 的交易都符合 `granter` 设置的过滤器。SDK 通过遍历过滤器中的允许消息并为每个过滤的消息收取 10 gas 来实现这一点。然后 SDK 将遍历 `grantee` 发送的消息，以确保消息遵守过滤器，每个消息也收取 10 gas。如果 SDK 发现不符合过滤器的消息，它将停止迭代并使交易失败。
 
-**WARNING**: The gas is charged against the granted allowance. Ensure your messages conform to the filter, if any, before sending transactions using your allowance.
+**警告**：gas 从授予的授权中扣除。在使用您的授权发送交易之前，请确保您的消息符合过滤器（如果有）。
 
-### Pruning
+### 清理
 
-A queue in the state maintained with the prefix of expiration of the grants and checks them on EndBlock with the current block time for every block to prune.
+状态中维护一个队列，使用授权授予的过期时间作为前缀，并在每个区块的 EndBlock 中使用当前区块时间检查它们以进行清理。
 
-## State
+## 状态
 
-### FeeAllowance
+### 费用授权
 
-Fee Allowances are identified by combining `Grantee` (the account address of fee allowance grantee) with the `Granter` (the account address of fee allowance granter).
+费用授权通过组合 `Grantee`（费用授权被授权者的账户地址）和 `Granter`（费用授权授权者的账户地址）来标识。
 
-Fee allowance grants are stored in the state as follows:
+费用授权授予在状态中存储如下：
 
 * Grant: `0x00 | grantee_addr_len (1 byte) | grantee_addr_bytes | granter_addr_len (1 byte) | granter_addr_bytes -> ProtocolBuffer(Grant)`
 
@@ -143,19 +143,19 @@ Fee allowance grants are stored in the state as follows:
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/x/feegrant/feegrant.pb.go#L222-L230
 ```
 
-### FeeAllowanceQueue
+### 费用授权队列
 
-Fee Allowances queue items are identified by combining the `FeeAllowancePrefixQueue` (i.e., 0x01), `expiration`, `grantee` (the account address of fee allowance grantee), `granter` (the account address of fee allowance granter). Endblocker checks `FeeAllowanceQueue` state for the expired grants and prunes them from `FeeAllowance` if there are any found.
+费用授权队列项通过组合 `FeeAllowancePrefixQueue`（即 0x01）、`expiration`、`grantee`（费用授权被授权者的账户地址）、`granter`（费用授权授权者的账户地址）来标识。Endblocker 检查 `FeeAllowanceQueue` 状态中的过期授权授予，如果找到任何，则从 `FeeAllowance` 中清理它们。
 
-Fee allowance queue keys are stored in the state as follows:
+费用授权队列键在状态中存储如下：
 
 * Grant: `0x01 | expiration_bytes | grantee_addr_len (1 byte) | grantee_addr_bytes | granter_addr_len (1 byte) | granter_addr_bytes -> EmptyBytes`
 
-## Messages
+## 消息
 
 ### Msg/GrantAllowance
 
-A fee allowance grant will be created with the `MsgGrantAllowance` message.
+费用授权授予将使用 `MsgGrantAllowance` 消息创建。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1beta1/tx.proto#L25-L39
@@ -163,58 +163,58 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1be
 
 ### Msg/RevokeAllowance
 
-An allowed grant fee allowance can be removed with the `MsgRevokeAllowance` message.
+允许的费用授权授予可以使用 `MsgRevokeAllowance` 消息移除。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/feegrant/v1beta1/tx.proto#L41-L54
 ```
 
-## Events
+## 事件
 
-The feegrant module emits the following events:
+feegrant 模块发出以下事件：
 
-## Msg Server
+## 消息服务器
 
 ### MsgGrantAllowance
 
-| Type    | Attribute Key | Attribute Value  |
-| ------- | ------------- | ---------------- |
-| message | action        | set\_feegrant    |
-| message | granter       | {granterAddress} |
-| message | grantee       | {granteeAddress} |
+| 类型    | 属性键   | 属性值          |
+| ------- | -------- | --------------- |
+| message | action   | set\_feegrant    |
+| message | granter  | {granterAddress} |
+| message | grantee  | {granteeAddress} |
 
 ### MsgRevokeAllowance
 
-| Type    | Attribute Key | Attribute Value  |
-| ------- | ------------- | ---------------- |
-| message | action        | revoke\_feegrant |
-| message | granter       | {granterAddress} |
-| message | grantee       | {granteeAddress} |
+| 类型    | 属性键   | 属性值            |
+| ------- | -------- | ----------------- |
+| message | action   | revoke\_feegrant  |
+| message | granter  | {granterAddress}  |
+| message | grantee  | {granteeAddress}  |
 
-### Exec fee allowance
+### 执行费用授权
 
-| Type    | Attribute Key | Attribute Value  |
-| ------- | ------------- | ---------------- |
-| message | action        | use\_feegrant    |
-| message | granter       | {granterAddress} |
-| message | grantee       | {granteeAddress} |
+| 类型    | 属性键   | 属性值          |
+| ------- | -------- | --------------- |
+| message | action   | use\_feegrant    |
+| message | granter  | {granterAddress} |
+| message | grantee  | {granteeAddress} |
 
-### Prune fee allowances
+### 清理费用授权
 
-| Type    | Attribute Key | Attribute Value |
-| ------- | ------------- | --------------- |
-| message | action        | prune\_feegrant |
-| message | pruner        | {prunerAddress} |
+| 类型    | 属性键   | 属性值          |
+| ------- | -------- | --------------- |
+| message | action   | prune\_feegrant |
+| message | pruner   | {prunerAddress} |
 
-## Client
+## 客户端
 
 ### CLI
 
-A user can query and interact with the `feegrant` module using the CLI.
+用户可以使用 CLI 查询和与 `feegrant` 模块交互。
 
-#### Query
+#### 查询
 
-The `query` commands allow users to query `feegrant` state.
+`query` 命令允许用户查询 `feegrant` 状态。
 
 ```shell
 simd query feegrant --help
@@ -222,19 +222,19 @@ simd query feegrant --help
 
 **grant**
 
-The `grant` command allows users to query a grant for a given granter-grantee pair.
+`grant` 命令允许用户查询给定授权者-被授权者对的授权授予。
 
 ```shell
 simd query feegrant grant [granter] [grantee] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query feegrant grant cosmos1.. cosmos1..
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 allowance:
@@ -249,19 +249,19 @@ granter: cosmos1..
 
 **grants**
 
-The `grants` command allows users to query all grants for a given grantee.
+`grants` 命令允许用户查询给定被授权者的所有授权授予。
 
 ```shell
 simd query feegrant grants [grantee] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd query feegrant grants cosmos1..
 ```
 
-Example Output:
+示例输出：
 
 ```yml
 allowances:
@@ -278,9 +278,9 @@ pagination:
   total: "0"
 ```
 
-#### Transactions
+#### 交易
 
-The `tx` commands allow users to interact with the `feegrant` module.
+`tx` 命令允许用户与 `feegrant` 模块交互。
 
 ```shell
 simd tx feegrant --help
@@ -288,19 +288,19 @@ simd tx feegrant --help
 
 **grant**
 
-The `grant` command allows users to grant fee allowances to another account. The fee allowance can have an expiration date, a total spend limit, and/or a periodic spend limit.
+`grant` 命令允许用户向另一个账户授予费用授权。费用授权可以有过期日期、总支出限制和/或周期性支出限制。
 
 ```shell
 simd tx feegrant grant [granter] [grantee] [flags]
 ```
 
-Example (one-time spend limit):
+示例（一次性支出限制）：
 
 ```shell
 simd tx feegrant grant cosmos1.. cosmos1.. --spend-limit 100stake
 ```
 
-Example (periodic spend limit):
+示例（周期性支出限制）：
 
 ```shell
 simd tx feegrant grant cosmos1.. cosmos1.. --period 3600 --period-limit 10stake
@@ -308,13 +308,13 @@ simd tx feegrant grant cosmos1.. cosmos1.. --period 3600 --period-limit 10stake
 
 **revoke**
 
-The `revoke` command allows users to revoke a granted fee allowance.
+`revoke` 命令允许用户撤销已授予的费用授权。
 
 ```shell
 simd tx feegrant revoke [granter] [grantee] [flags]
 ```
 
-Example:
+示例：
 
 ```shell
 simd tx feegrant revoke cosmos1.. cosmos1..
@@ -322,17 +322,17 @@ simd tx feegrant revoke cosmos1.. cosmos1..
 
 ### gRPC
 
-A user can query the `feegrant` module using gRPC endpoints.
+用户可以使用 gRPC 端点查询 `feegrant` 模块。
 
 #### Allowance
 
-The `Allowance` endpoint allows users to query a granted fee allowance.
+`Allowance` 端点允许用户查询已授予的费用授权。
 
 ```shell
 cosmos.feegrant.v1beta1.Query/Allowance
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -341,7 +341,7 @@ grpcurl -plaintext \
     cosmos.feegrant.v1beta1.Query/Allowance
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
@@ -355,13 +355,13 @@ Example Output:
 
 #### Allowances
 
-The `Allowances` endpoint allows users to query all granted fee allowances for a given grantee.
+`Allowances` 端点允许用户查询给定被授权者的所有已授予费用授权。
 
 ```shell
 cosmos.feegrant.v1beta1.Query/Allowances
 ```
 
-Example:
+示例：
 
 ```shell
 grpcurl -plaintext \
@@ -370,7 +370,7 @@ grpcurl -plaintext \
     cosmos.feegrant.v1beta1.Query/Allowances
 ```
 
-Example Output:
+示例输出：
 
 ```json
 {
