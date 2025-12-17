@@ -1,18 +1,18 @@
-# Error Codes
+# 错误代码
 
-This document lists the error codes used in the module.
+本文档列出了模块中使用的错误代码。
 
 
-| Module | Error Code | description |
-|--------|------------|-------------|
-| wasmx |  1 | invalid gas limit |
-| wasmx |  2 | invalid gas price |
-| wasmx |  3 | invalid contract address |
-| wasmx |  4 | contract already registered |
-| wasmx |  5 | duplicate contract |
-| wasmx |  6 | no contract addresses found |
-| wasmx |  7 | invalid code id |
-| wasmx |  8 | not possible to deduct gas fees |
-| wasmx |  9 | missing granter address |
-| wasmx |  10 | granter address does not exist |
-| wasmx |  11 | invalid funding mode |
+| 模块  | 错误代码 | 描述                 |
+|-------|----------|----------------------|
+| wasmx | 1        | 无效的 gas 限制      |
+| wasmx | 2        | 无效的 gas 价格      |
+| wasmx | 3        | 无效的合约地址       |
+| wasmx | 4        | 合约已注册           |
+| wasmx | 5        | 重复的合约           |
+| wasmx | 6        | 未找到合约地址       |
+| wasmx | 7        | 无效的代码 ID        |
+| wasmx | 8        | 无法扣除 gas 费用    |
+| wasmx | 9        | 缺少授权者地址       |
+| wasmx | 10       | 授权者地址不存在     |
+| wasmx | 11       | 无效的资金模式       |

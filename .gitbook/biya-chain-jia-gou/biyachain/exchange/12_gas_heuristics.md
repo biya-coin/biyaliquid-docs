@@ -11,13 +11,11 @@ for any transaction the following formula applies:
     tx_gas = ante_gas + msg_gas (+ msg2_gas ...)
 ```
 
-where `ante_gas` is the gas consumed during `AnteHandler` and the subsequent sum of `msg_gas` is gas consumed 
-by MsgServer of each particular msg (highest observed `ante_gas` is 120_000).
+其中 `ante_gas` 是在 `AnteHandler` 期间消耗的 gas，随后的 `msg_gas` 总和是每个特定消息的 MsgServer 消耗的 gas（观察到的最高 `ante_gas` 是 120_000）。
 
-With `fixed_gas_enabled` set to `true` in Exchange params, the following values can be used as `gasWanted` in order to 
-ensure a transaction does not run out of gas:
+在交易所参数中将 `fixed_gas_enabled` 设置为 `true` 时，可以使用以下值作为 `gasWanted`，以确保交易不会耗尽 gas：
 
-> **Note**: It is assumed that the transaction contains a single message`.
+> **注意**：假设交易包含单个消息。
 
 | Message Type                                    | Gas Wanted                   |
 |-------------------------------------------------|------------------------------|
@@ -37,14 +35,13 @@ ensure a transaction does not run out of gas:
 | MsgIncreasePositionMarginGas                    | 171,000                      |
 | MsgDecreasePositionMarginGas                    | 180,000                      |
 
-If the order in question is also a GTB (Good-Till-Block) order, an amount of gas equal to 10% of the above values should be added on top. 
+如果相关订单也是 GTB（Good-Till-Block）订单，则应在上面的值基础上增加等于上述值 10% 的 gas 量。
 
-**Batch Msg types**
+**批量消息类型**
 
-Gas for batch message types varies based on the content of the message itself. Additionally, `ante_gas` scales with the
-number of orders (noticeably around 3000 added gas, included in this formula).:
+批量消息类型的 gas 根据消息本身的内容而变化。此外，`ante_gas` 随订单数量扩展（明显增加约 3000 gas，包含在此公式中）。：
 
-`N` - is the number of orders
+`N` - 是订单数量
 
 - `MsgBatchCreateSpotLimitOrders`:           `tx_gas = 120_000 + N x 103_000` (e.g. for 3 orders you get `329_000`)
 - `MsgBatchCancelSpotOrders`:                `tx_gas = 120_000 + N x 68_000`

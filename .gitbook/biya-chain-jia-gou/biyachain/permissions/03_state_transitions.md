@@ -1,11 +1,11 @@
 ---
 sidebar_position: 3
-title: State Transitions
+title: 状态转换
 ---
 
-# State Transitions
+# 状态转换
 
-## Create Namespace
+## 创建命名空间
 
 ```protobuf
 message MsgCreateNamespace {
@@ -91,7 +91,7 @@ enum Action {
 
 ```
 
-## Update Namespace
+## 更新命名空间
 
 ```protobuf
 message MsgUpdateNamespace {
@@ -166,9 +166,9 @@ enum Action {
 
 ```
 
-## Update Actor Roles
+## 更新角色执行者
 
-- Roles can be given or revoked from addresses with `MsgUpdateActorRoles`
+- 可以使用 `MsgUpdateActorRoles` 向地址授予或撤销角色
 
 ```protobuf
 message MsgUpdateActorRoles {
@@ -188,7 +188,7 @@ message RoleActors {
 }
 ```
 
-## Claim Voucher
+## 申领凭证
 
 ```protobuf
 message MsgClaimVoucher {

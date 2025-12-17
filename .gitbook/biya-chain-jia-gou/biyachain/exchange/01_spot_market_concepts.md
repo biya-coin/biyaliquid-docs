@@ -3,132 +3,130 @@ sidebar_position: 2
 title: Spot Market Concepts
 ---
 
-# Spot Markets Concepts
+# 现货市场概念
 
-## Definitions
+## 定义
 
-In a Spot Market with ticker **AAA/BBB, AAA is the base asset, BBB is the quote asset.**
+在代码为 **AAA/BBB** 的现货市场中，AAA 是基础资产，BBB 是报价资产。
 
-For example, in the ETH/USDT market
+例如，在 ETH/USDT 市场中
 
-* ETH is base asset
-* USDT is the quote asset
+* ETH 是基础资产
+* USDT 是报价资产
 
-The spot market's **price** refers to how much USDT (the quote asset) is required for one unit of ETH (the base\
-asset). For all spot markets, **fees are always paid in the quote asset**, e.g., USDT.
+现货市场的**价格**是指购买一单位 ETH（基础资产）需要多少 USDT（报价资产）。\
+对于所有现货市场，**费用始终以报价资产支付**，例如 USDT。
 
-**Debit vs Credit**
+**借记与贷记**
 
-* **Debit Amount** refers to the amount of asset that is withdrawn from an account.
-* **Credit Amount** refers to the amount of asset that is deposited to an account.
+* **借记金额**是指从账户中提取的资产金额。
+* **贷记金额**是指存入账户的资产金额。
 
-**Refunds**
+**退款**
 
-In our system, a refund refers to the action of incrementing the **available balance** of an account. This liberation of\
-funds occurs as the result of an encumbrance being lifted from the account (e.g. cancelling a limit order, reducing an\
-order's payable fee to a maker fee, using less margin to fund a market order, etc.).
+在我们的系统中，退款是指增加账户**可用余额**的操作。资金的释放是由于\
+账户上的负担被解除（例如取消限价单、将订单应付费用降低为做市商费用、使用更少的保证金为市价单提供资金等）。
 
-### Limit Buy Order
+### 限价买入订单
 
-A limit buy order seeks to buy a specified `Quantity` ETH (**base asset**) in exchange for `Quantity * Price` amount of\
-USDT (**quote asset**) **plus fees** which depend on whether the limit order becomes executed as a maker order or a\
-taker order.
+限价买入订单试图购买指定 `数量` 的 ETH（**基础资产**），以换取 `数量 * 价格` 数量的\
+USDT（**报价资产**）**加上费用**，费用取决于限价单是作为做市商订单还是吃单订单执行。
 
-### Limit Sell Order
+### 限价卖出订单
 
-A limit sell order seeks to sell a specified `Quantity` ETH (**base asset**) in exchange for `Quantity * Price` amount\
-of USDT (**quote asset**) **minus fees** which depend on whether the limit order becomes executed as a maker order or a\
-taker order.
+限价卖出订单试图卖出指定 `数量` 的 ETH（**基础资产**），以换取 `数量 * 价格` 数量的\
+USDT（**报价资产**）**减去费用**，费用取决于限价单是作为做市商订单还是吃单订单执行。
 
-### Market Buy Order
+### 市价买入订单
 
-A market buy order seeks to buy a specified `Quantity` ETH (**base asset**) at a specified worst price which is at or near\
-the current ask using the respective account quote asset balance (USDT) as collateral\*\* (inclusive of fees).
+市价买入订单试图以指定的最差价格购买指定 `数量` 的 ETH（**基础资产**），该价格等于或接近\
+当前卖价，使用相应账户的报价资产余额（USDT）作为抵押**（含费用）**。
 
-As a result, each market buy order implicitly has a maximum acceptable price associated with it, as filling the market\
-order beyond that price would simply fail due to a lack of funds.
+因此，每个市价买入订单都隐式关联一个最大可接受价格，因为以超过该价格的价格\
+填充市价单将因资金不足而失败。
 
-### Market Sell Order
+### 市价卖出订单
 
-A market sell order seeks to sell a specified `Quantity` ETH (**base asset**) at a specified worst price which is at or\
-near the current bid in exchange for any amount of the quote asset (USDT) available in the market.
+市价卖出订单试图以指定的最差价格卖出指定 `数量` 的 ETH（**基础资产**），该价格等于或接近\
+当前买价，以换取市场中可用的任何数量的报价资产（USDT）。
 
-As a result, each market sell order implicitly has a zero price associated with it.
+因此，每个市价卖出订单都隐式关联一个零价格。
 
-### Order Types
+### 订单类型
 
-* BUY (1): A standard buy order to purchase an asset at either the current market price or a set limit price.
-* SELL (2): A standard sell order to sell an asset at either the current market price or a set limit price.
-* STOP\_BUY (3): This order type is not supported for spot markets.
-* STOP\_SELL (4): This order type is not supported for spot markets.
-* TAKE\_BUY (5): This order type is not supported for spot markets.
-* TAKE\_SELL (6): This order type is not supported for spot markets.
-* BUY\_PO (7): Post-Only Buy. This order type ensures that the order will only be added to the order book and not match with a pre-existing order. It guarantees that you will be the market "maker" and not the "taker".
-* SELL\_PO (8): Post-Only Sell. Similar to BUY\_PO, this ensures that your sell order will only add liquidity to the order book and not match with a pre-existing order.
-* BUY\_ATOMIC (9): An atomic buy order is a market order that gets executed instantly, bypassing the Frequent Batch Auctions (FBA). It's intended for smart contracts that need to execute a trade instantly. A higher fee is paid defined in the global exchange parameters.
-* SELL\_ATOMIC (10): An atomic sell order is similar to a BUY\_ATOMIC, and it gets executed instantly at the current market price, bypassing the FBA.
+* BUY (1)：标准买入订单，以当前市场价格或设定的限价购买资产。
+* SELL (2)：标准卖出订单，以当前市场价格或设定的限价卖出资产。
+* STOP\_BUY (3)：现货市场不支持此订单类型。
+* STOP\_SELL (4)：现货市场不支持此订单类型。
+* TAKE\_BUY (5)：现货市场不支持此订单类型。
+* TAKE\_SELL (6)：现货市场不支持此订单类型。
+* BUY\_PO (7)：仅挂单买入。此订单类型确保订单只会添加到订单簿，不会与现有订单匹配。它保证您将成为市场"做市商"而不是"吃单者"。
+* SELL\_PO (8)：仅挂单卖出。类似于 BUY\_PO，这确保您的卖出订单只会向订单簿添加流动性，不会与现有订单匹配。
+* BUY\_ATOMIC (9)：原子买入订单是一种立即执行的市价单，绕过频繁批量拍卖（FBA）。它适用于需要立即执行交易的智能合约。需要支付更高的费用，费用在全局交易所参数中定义。
+* SELL\_ATOMIC (10)：原子卖出订单类似于 BUY\_ATOMIC，它以当前市场价格立即执行，绕过 FBA。
 
-### Market Data Requirements
+### 市场数据要求
 
-Orderbook data aside, so long as our Chain supports the **base capability** to obtain Tick by Tick trading data,\
-aggregations can be applied to obtain most of the necessary higher order data, including
+除了订单簿数据，只要我们的链支持获取逐笔交易数据的**基础能力**，\
+就可以应用聚合来获取大部分必要的高阶数据，包括
 
-* OHLCV data
-* Account Trading History
-* Market Statistics
+* OHLCV 数据
+* 账户交易历史
+* 市场统计
 
-## Spot Market Lifecycle
+## 现货市场生命周期
 
-### Governance based Spot Market Creation
+### 基于治理的现货市场创建
 
-A market is first created either by the instant launch functionality through `MsgInstantSpotMarketLaunch` which creates a market by paying an extra fee which doesn't require governance to approve it. Or it is created in the normal way through governance through `MsgSpotMarketLaunchProposal`.
+市场首先通过即时启动功能创建，通过 `MsgInstantSpotMarketLaunch`，通过支付额外费用创建市场，\
+无需治理批准。或者通过治理以正常方式创建，通过 `MsgSpotMarketLaunchProposal`。
 
-### Listing Fee based Spot Market Creation
+### 基于上币费的现货市场创建
 
-Allow anyone to create an active spot market of their choice without requiring governance approval by burning a pre-set\
-SpotMarketInstantListingFee of BIYA.
+允许任何人通过燃烧预设的 BIYA `SpotMarketInstantListingFee` 来创建他们选择的活跃现货市场，\
+无需治理批准。
 
-We should still check that the denom is valid though.
+我们仍应检查 denom 是否有效。
 
-### Spot Market Status Update
+### 现货市场状态更新
 
-A Spot Market can exist in four different states:
+现货市场可以存在于四种不同的状态：
 
-1. Active
-2. Paused
-3. Suspended
-4. Demolished
+1. 活跃
+2. 暂停
+3. 暂停交易
+4. 已销毁
 
-#### **Active State**
+#### **活跃状态**
 
-If a spot market is an active state, it can accept orders and trades.
+如果现货市场处于活跃状态，它可以接受订单和交易。
 
-#### Paused State
+#### 暂停状态
 
-If a spot market is a paused state, it will no longer accept orders and trades and will also not allow any users to take\
-actions on that market (no order cancellations).
+如果现货市场处于暂停状态，它将不再接受订单和交易，也不允许任何用户\
+对该市场采取任何操作（不允许取消订单）。
 
-#### Suspended State
+#### 暂停交易状态
 
-If a spot market is a suspended state, it will no longer accept orders and trades, and will only allow traders to cancel\
-their orders.
+如果现货市场处于暂停交易状态，它将不再接受订单和交易，只允许交易者取消\
+他们的订单。
 
-## Demolished State
+## 已销毁状态
 
-When a market becomes demolished, all outstanding orders are cancelled.
+当市场被销毁时，所有未完成的订单都会被取消。
 
-#### Market Status State Transitions
+#### 市场状态转换
 
-There are three state transitions that correspond to the following status changes
+有三种状态转换对应于以下状态变化
 
-* Activate Action - **Paused or Suspended Status → Active Status**
-* Pause Action - **Active or Suspended Status → Paused Status**
-* Suspend Action - **Active or Paused Status → Suspended Status**
-* Demolish Action - **Paused or Suspended Status → Demolished Status**
+* 激活操作 - **暂停或暂停交易状态 → 活跃状态**
+* 暂停操作 - **活跃或暂停交易状态 → 暂停状态**
+* 暂停交易操作 - **活跃或暂停状态 → 暂停交易状态**
+* 销毁操作 - **暂停或暂停交易状态 → 已销毁状态**
 
-### Spot Market Parameter Update
+### 现货市场参数更新
 
-The following parameters exist for Spot Markets
+现货市场存在以下参数
 
 * SpotMarketInstantListingFee
 * DefaultSpotMakerFeeRate

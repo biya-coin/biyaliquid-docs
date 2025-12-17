@@ -3,9 +3,9 @@ sidebar_position: 11
 title: Parameters
 ---
 
-# Parameters
+# 参数
 
-The exchange module contains the following parameters:
+交易所模块包含以下参数：
 
 | Key                                         | Type           | Example            |
 | ------------------------------------------- | -------------- | ------------------ |

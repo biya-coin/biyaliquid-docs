@@ -1,31 +1,31 @@
 ---
 sidebar_position: 7
-title: Events
+title: 事件
 ---
 
-# Events
+# 事件
 
-The ocr module emits the following events:
+ocr 模块发出以下事件：
 
-## Handlers
+## 处理器
 
 ### MsgCreateFeed
 
-| Type    | Attribute Key | Attribute Value |
+| 类型    | 属性键 | 属性值 |
 | ------- | ------------- | --------------- |
 | message | action        | MsgCreateFeed   |
 | message | sender        | {sender}        |
 
 ### MsgUpdateFeed
 
-| Type    | Attribute Key | Attribute Value |
+| 类型    | 属性键 | 属性值 |
 | ------- | ------------- | --------------- |
 | message | action        | MsgUpdateFeed   |
 | message | sender        | {sender}        |
 
 ### MsgTransmit
 
-| Type                 | Attribute Key         | Attribute Value         |
+| 类型                 | 属性键         | 属性值         |
 | -------------------- | --------------------- | ----------------------- |
 | EventNewTransmission | FeedId                | {FeedId}                |
 | EventNewTransmission | AggregatorRoundId     | {AggregatorRoundId}     |
@@ -43,44 +43,44 @@ The ocr module emits the following events:
 
 ### MsgFundFeedRewardPool
 
-| Type    | Attribute Key | Attribute Value       |
+| 类型    | 属性键 | 属性值       |
 | ------- | ------------- | --------------------- |
 | message | action        | MsgFundFeedRewardPool |
 | message | sender        | {sender}              |
 
 ### MsgWithdrawFeedRewardPool
 
-| Type    | Attribute Key | Attribute Value           |
+| 类型    | 属性键 | 属性值           |
 | ------- | ------------- | ------------------------- |
 | message | action        | MsgWithdrawFeedRewardPool |
 | message | sender        | {sender}                  |
 
 ### MsgSetPayees
 
-| Type    | Attribute Key | Attribute Value |
+| 类型    | 属性键 | 属性值 |
 | ------- | ------------- | --------------- |
 | message | action        | MsgSetPayees    |
 | message | sender        | {sender}        |
 
 ### MsgTransferPayeeship
 
-| Type    | Attribute Key | Attribute Value      |
+| 类型    | 属性键 | 属性值      |
 | ------- | ------------- | -------------------- |
 | message | action        | MsgTransferPayeeship |
 | message | sender        | {sender}             |
 
 ### MsgAcceptPayeeship
 
-| Type    | Attribute Key | Attribute Value    |
+| 类型    | 属性键 | 属性值    |
 | ------- | ------------- | ------------------ |
 | message | action        | MsgAcceptPayeeship |
 | message | sender        | {sender}           |
 
-## Proposals
+## 提案
 
 ### SetConfigProposal
 
-| Type           | Attribute Key             | Attribute Value             |
+| 类型           | 属性键             | 属性值             |
 | -------------- | ------------------------- | --------------------------- |
 | EventConfigSet | ConfigDigest              | {ConfigDigest}              |
 | EventConfigSet | PreviousConfigBlockNumber | {PreviousConfigBlockNumber} |
@@ -89,7 +89,7 @@ The ocr module emits the following events:
 
 ### SetBatchConfigProposal
 
-| Type              | Attribute Key             | Attribute Value             |
+| 类型              | 属性键             | 属性值             |
 | ----------------- | ------------------------- | --------------------------- |
 | EventConfigSet\[] | ConfigDigest              | {ConfigDigest}              |
 | EventConfigSet\[] | PreviousConfigBlockNumber | {PreviousConfigBlockNumber} |

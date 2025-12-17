@@ -1,13 +1,13 @@
 # ERC20
 
-## Abstract
+## 概述
 
-The erc20 module allows for the associations of existing bank denoms with ERC-20 tokens.
+erc20 模块允许将现有的银行代币单位与 ERC-20 代币进行关联。
 
 
-## Contents
+## 目录
 
-1. **[Concepts](01_concepts.md)**
-2. **[State](02_state.md)**
-3. **[Messages](03_messages.md)**
-4. **[Events](04_events.md)**
+1. **[概念](01_concepts.md)**
+2. **[状态](02_state.md)**
+3. **[消息](03_messages.md)**
+4. **[事件](04_events.md)**

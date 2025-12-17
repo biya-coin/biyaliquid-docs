@@ -1,16 +1,16 @@
 ---
 sidebar_position: 7
-title: Events
+title: 事件
 ---
 
-# Events
+# 事件
 
-The peggy module emits the following events:
+peggy 模块发出以下事件：
 
 ## EndBlocker
 
 ### EventAttestationObserved
-| Type   | Attribute Key    | Attribute Value           |
+| 类型   | 属性键    | 属性值           |
 |--------|------------------|---------------------------|
 | int32  | attestation_type | {attestation_type}        |
 | string | bridge_contract  | {bridge_contract_address} |
@@ -19,7 +19,7 @@ The peggy module emits the following events:
 | uint64 | nonce            | {event_nonce}             |
 
 ### EventValidatorSlash
-| Type   | Attribute Key     | Attribute Value       |
+| 类型   | 属性键     | 属性值       |
 |--------|-------------------|-----------------------|
 | string | reason            | {reason_for_slashing} |
 | int64  | power             | {validator_power}     |
@@ -32,7 +32,7 @@ The peggy module emits the following events:
 
 ### EventSetOrchestratorAddresses
 
-| Type   | Attribute Key        | Attribute Value     |
+| 类型   | 属性键        | 属性值     |
 |--------|----------------------|---------------------|
 | string | validator_address    | {validator_addr}    |
 | string | orchestrator_address | {orchestrator_addr} |
@@ -40,7 +40,7 @@ The peggy module emits the following events:
 
 ### EventSendToEth
 
-| Type     | Attribute Key  | Attribute Value |
+| 类型     | 属性键  | 属性值 |
 |----------|----------------|-----------------|
 | message  | outgoing_tx_id | {tx_id}         |
 | string   | sender         | {sender_addr}   |
@@ -50,7 +50,7 @@ The peggy module emits the following events:
 
 
 ### EventBridgeWithdrawCanceled
-| Type                 | Attribute Key   | Attribute Value   |
+| 类型                 | 属性键   | 属性值   |
 |----------------------|-----------------|-------------------|
 | withdrawal_cancelled | bridge_contract | {bridge_contract} |
 | withdrawal_cancelled | bridge_chain_id | {bridge_chain_id} |
@@ -58,7 +58,7 @@ The peggy module emits the following events:
 
 ### EventOutgoingBatch
 
-| Type     | Attribute Key        | Attribute Value |
+| 类型     | 属性键        | 属性值 |
 |----------|----------------------|-----------------|
 | string   | denom                | {token_denom}   |
 | string   | orchestrator_address | {orch_addr}     |
@@ -67,7 +67,7 @@ The peggy module emits the following events:
 | []uint64 | batch_tx_ids         | {ids}           |
 
 ### EventOutgoingBatchCanceled
-| Type   | Attribute Key   | Attribute Value   |
+| 类型   | 属性键   | 属性值   |
 |--------|-----------------|-------------------|
 | string | bridge_contract | {bridge_contract} |
 | uint64 | bridge_chain_id | {bridge_chain_id} |
@@ -76,7 +76,7 @@ The peggy module emits the following events:
 
 ### EventValsetConfirm
 
-| Type   | Attribute Key        | Attribute Value |
+| 类型   | 属性键        | 属性值 |
 |--------|----------------------|-----------------|
 | uint64 | valset_nonce         | {nonce}         |
 | string | orchestrator_address | {prch_addr}     |
@@ -84,14 +84,14 @@ The peggy module emits the following events:
 
 ### EventConfirmBatch
 
-| Type   | Attribute Key        | Attribute Value |
+| 类型   | 属性键        | 属性值 |
 |--------|----------------------|-----------------|
 | uint64 | batch_nonce          | {nonce}         |
 | string | orchestrator_address | {orch_addr}     |
 
 ### EventDepositClaim
 
-| Type    | Attribute Key        | Attribute Value   |
+| 类型    | 属性键        | 属性值   |
 |---------|----------------------|-------------------|
 | uint64  | event_nonce          | {event_nonce}     |
 | uint64  | event_height         | {event_height}    |
@@ -106,7 +106,7 @@ The peggy module emits the following events:
 
 ### EventWithdrawClaim
 
-| Type   | Attribute Key        | Attribute Value   |
+| 类型   | 属性键        | 属性值   |
 |--------|----------------------|-------------------|
 | uint64 | event_nonce          | {event_nonce{     |
 | uint64 | event_height         | {event_height}    |
@@ -116,7 +116,7 @@ The peggy module emits the following events:
 | string | orchestrator_address | {orch_addr}       |
 
 ### EventERC20DeployedClaim
-| Type   | Attribute Key        | Attribute Value        |
+| 类型   | 属性键        | 属性值        |
 |--------|----------------------|------------------------|
 | uint64 | event_nonce          | {event_nonce}          |
 | uint64 | event_height         | {event_height}         |
@@ -129,7 +129,7 @@ The peggy module emits the following events:
 | string | orchestrator_address | {orch_addr}            |
 
 ### EventValsetUpdateClaim
-| Type               | Attribute Key        | Attribute Value       |
+| 类型               | 属性键        | 属性值       |
 |--------------------|----------------------|-----------------------|
 | uint64             | event_nonce          | {event_nonce}         |
 | uint64             | event_height         | {event_height}        |

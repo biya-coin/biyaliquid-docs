@@ -5,4 +5,4 @@ title: End-Block
 
 # End-Block
 
-At each EndBlock, redemption requests that have matured are automatically processed, resulting in the insurance pool token for the redemption being burned and the pro-rata quote currency amount corresponding to the redemption being withdrawn from the insurance module to the underwriter's balances. More details can be found in the in Automatic withdrawal of pending redemptions in the [state transitions](./02_state_transitions.md) section. 
+在每个 EndBlock，到期的赎回请求会自动处理，导致赎回的保险池代币被销毁，与赎回对应的按比例报价货币金额从保险模块提取到承保人的余额。更多详细信息可以在[状态转换](./02_state_transitions.md)部分的自动提取待处理赎回中找到。 

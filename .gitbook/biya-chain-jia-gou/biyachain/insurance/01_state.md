@@ -3,11 +3,11 @@ sidebar_position: 1
 title: State
 ---
 
-# State
+# 状态
 
-## Params
+## 参数
 
-`Params` is a module-wide configuration structure that stores system parameters and defines overall functioning of the insurance module.
+`Params` 是一个模块范围的配置结构，存储系统参数并定义保险模块的整体功能。
 
 * Params: `Paramsspace("insurance") -> legacy_amino(params)`
 
@@ -20,9 +20,9 @@ type Params struct {
 }
 ```
 
-## Insurance Types
+## 保险类型
 
-`InsuranceFund` defines all the information of the `Insurance Funds` by market.
+`InsuranceFund` 定义了按市场划分的 `Insurance Funds` 的所有信息。
 
 ```go
 
@@ -53,7 +53,7 @@ type InsuranceFund struct {
 }
 ```
 
-`RedemptionSchedule` defines redemption schedules from users - redemption is not executed instantly but there's `redemption_notice_period_duration` specified per market.
+`RedemptionSchedule` 定义用户的赎回计划 - 赎回不会立即执行，而是每个市场都指定了 `redemption_notice_period_duration`。
 
 ```go
 type RedemptionSchedule struct {
@@ -70,8 +70,7 @@ type RedemptionSchedule struct {
 }
 ```
 
-Additionally, we introduce `next_share_denom_id` and `next_redemption_schedule_id` to manage insurance fund share token\
-denom and redemption schedules from various users.
+此外，我们引入 `next_share_denom_id` 和 `next_redemption_schedule_id` 来管理保险基金份额代币面额和来自不同用户的赎回计划。
 
 ```go
 // GenesisState defines the insurance module's genesis state.
@@ -85,7 +84,6 @@ type GenesisState struct {
 }
 ```
 
-## Pending Redemptions
+## 待处理赎回
 
-Pending Redemptions Objects are kept to store all the information about redemption requests and to auto-withdraw when\
-the duration pass.
+待处理赎回对象用于存储所有赎回请求的信息，并在期限过去时自动提取。

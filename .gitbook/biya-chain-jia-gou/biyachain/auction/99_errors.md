@@ -1,9 +1,9 @@
-# Error Codes
+# 错误代码
 
-This document lists the error codes used in the module.
+本文档列出了模块中使用的错误代码。
 
 
-| Module | Error Code | description |
+| 模块 | 错误代码 | 描述 |
 |--------|------------|-------------|
-| auction |  1 | invalid bid denom |
-| auction |  2 | invalid bid round |
+| auction（拍卖） |  1 | 无效的出价代币单位 |
+| auction（拍卖） |  2 | 无效的出价轮次 |

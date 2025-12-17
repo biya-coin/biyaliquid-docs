@@ -1,11 +1,11 @@
 ---
 sidebar_position: 8
-title: Parameters
+title: 参数
 ---
 
-# Params
+# 参数
 
-This document describes and advises configuration of the Peggy module's parameters. The default parameters can be found in the genesis.go of the peggy module.
+本文档描述并建议 Peggy 模块参数的配置。默认参数可以在 peggy 模块的 genesis.go 中找到。
 
 ```go
 type Params struct {
@@ -35,78 +35,77 @@ type Params struct {
 
 ## `peggy_id`
 
-A random 32 byte value to prevent signature reuse, for example if the\
-Biya Chain Chain validators decided to use the same Ethereum keys for another chain\
-also running Peggy we would not want it to be possible to play a deposit\
-from chain A back on chain B's Peggy. This value IS USED ON ETHEREUM so\
-it must be set in your genesis.json before launch and not changed after\
-deploying Peggy. Changing this value after deploying Peggy will result\
-in the bridge being non-functional. To recover just set it back to the original\
-value the contract was deployed with.
+一个随机的 32 字节值，用于防止签名重用，例如，如果\
+Biya Chain 验证者决定将相同的 Ethereum 密钥用于另一条链\
+也运行 Peggy，我们不希望可能将链 A 的存款\
+回放到链 B 的 Peggy 上。此值在 ETHEREUM 上使用，因此\
+必须在启动前在 genesis.json 中设置，并且在\
+部署 Peggy 后不能更改。在部署 Peggy 后更改此值将导致\
+桥接无法运行。要恢复，只需将其设置回\
+合约部署时的原始值。
 
 ## `contract_source_hash`
 
-The code hash of a known good version of the Peggy contract\
-solidity code. This can be used to verify the correct version\
-of the contract has been deployed. This is a reference value for\
-governance action only it is never read by any Peggy code
+已知良好版本的 Peggy 合约\
+solidity 代码的代码哈希。这可用于验证\
+已部署合约的正确版本。这是仅用于\
+治理操作的参考值，任何 Peggy 代码都不会读取它
 
 ## `bridge_ethereum_address`
 
-is address of the bridge contract on the Ethereum side, this is a\
-reference value for governance only and is not actually used by any\
-Peggy module code.
+是 Ethereum 端桥接合约的地址，这是\
+仅用于治理的参考值，实际上不被任何\
+Peggy 模块代码使用。
 
-The Ethereum bridge relayer use this value to interact with Peggy contract for querying events and submitting valset/batches to Peggy contract.
+Ethereum 桥接中继者使用此值与 Peggy 合约交互，以查询事件并向 Peggy 合约提交 valset/批次。
 
 ## `bridge_chain_id`
 
-The bridge chain ID is the unique identifier of the Ethereum chain. This is a reference value only and is not actually used by any Peggy code
+桥接链 ID 是 Ethereum 链的唯一标识符。这仅是参考值，实际上不被任何 Peggy 代码使用
 
-These reference values may be used by future Peggy client implementations to allow for consistency checks.
+这些参考值可能被未来的 Peggy 客户端实现用于一致性检查。
 
-## Signing windows
+## 签名窗口
 
 * `signed_valsets_window`
 * `signed_batches_window`
 * `signed_claims_window`
 
-These values represent the time in blocks that a validator has to submit\
-a signature for a batch or valset, or to submit a claim for a particular\
-attestation nonce.
+这些值表示验证者必须提交\
+批次或 valset 的签名，或为特定\
+证明 nonce 提交声明的时间（以区块为单位）。
 
-In the case of attestations this clock starts when the\
-attestation is created, but only allows for slashing once the event has passed.\
-Note that that claims slashing is not currently enabled see [slashing spec](05_slashing.md)
+对于证明，此时钟在\
+创建证明时开始，但仅在事件过去后才允许惩罚。\
+请注意，声明惩罚目前未启用，请参见[惩罚规范](05_slashing.md)
 
 ## `target_batch_timeout`
 
-This is the 'target' value for when batches time out, this is a target because\
-Ethereum is a probabilistic chain and you can't say for sure what the block\
-frequency is ahead of time.
+这是批次超时的"目标"值，这是一个目标，因为\
+Ethereum 是一个概率链，您无法提前确定\
+区块频率。
 
-## Ethereum timing
+## Ethereum 时间
 
 * `average_block_time`
 * `average_ethereum_block_time`
 
-These values are the average Biya Chain Chain block time and Ethereum block time respectively\
-and they are used to compute what the target batch timeout is. It is important that\
-governance updates these in case of any major, prolonged change in the time it takes\
-to produce a block
+这些值分别是 Biya Chain 平均区块时间和 Ethereum 区块时间\
+，它们用于计算目标批次超时。重要的是\
+治理在产生区块所需时间发生任何重大、长期变化时更新这些值
 
-## Slash fractions
+## 惩罚比例
 
 * `slash_fraction_valset`
 * `slash_fraction_batch`
 * `slash_fraction_claim`
 * `slash_fraction_conflicting_claim`
 
-The slashing fractions for the various peggy related slashing conditions. The first three\
-refer to not submitting a particular message, the third for failing to submit a claim and the last for submitting a different claim than other validators.
+各种 peggy 相关惩罚条件的惩罚比例。前三个\
+指未提交特定消息，第三个指未能提交声明，最后一个指提交与其他验证者不同的声明。
 
-Note that claim slashing is currently disabled as outlined in the [slashing spec](05_slashing.md)
+请注意，声明惩罚目前已禁用，如[惩罚规范](05_slashing.md)中所述
 
 ## `valset_reward`
 
-Valset reward is the reward amount paid to a relayer when they relay a valset to the Peggy contract on Ethereum.
+Valset 奖励是当中继者将 valset 中继到 Ethereum 上的 Peggy 合约时支付给中继者的奖励金额。

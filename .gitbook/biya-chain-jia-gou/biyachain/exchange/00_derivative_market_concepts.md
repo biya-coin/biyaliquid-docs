@@ -3,238 +3,247 @@ sidebar_position: 1
 title: Derivative Market Concept
 ---
 
-# Derivative Markets Concepts
+# 衍生品市场概念
 
-## Definitions
+## 定义
 
-In a derivative market using linear contracts (as opposed to inverse contracts), a contract with ticker **AAA/BBB**\
-offers exposure to the underlying AAA using the quote currency BBB for margin and settlement. For each contract, the\
-quotation unit is the BBB price of one unit of AAA, e.g. the USDT price of one unit of ETH.
+在使用线性合约（相对于反向合约）的衍生品市场中，代码为 **AAA/BBB** 的合约\
+使用报价货币 BBB 作为保证金和结算，提供对标的资产 AAA 的敞口。对于每个合约，\
+报价单位是一单位 AAA 的 BBB 价格，例如一单位 ETH 的 USDT 价格。
 
-**Notional** - the notional value of a position is: `notional = quantity * price`.
+**名义价值** - 持仓的名义价值为：`名义价值 = 数量 * 价格`。
 
-**Refunds -** In our clearing system, a refund refers to the action of incrementing the **available balance** of an\
-account. This liberation of funds occurs as the result of an encumbrance being lifted from the account (e.g. cancelling\
-a limit order, reducing an order's payable fee to a maker fee, using less margin to fund a market order, etc.).
+**退款** - 在我们的清算系统中，退款是指增加账户**可用余额**的操作。\
+资金的释放是由于账户上的负担被解除（例如取消限价单、将订单应付费用降低为做市商费用、使用更少的保证金为市价单提供资金等）。
 
-## Perpetual Market Trading Lifecycle
+## 永续市场交易生命周期
 
-### Perpetual Market Creation
+### 永续市场创建
 
-A market is first created either by the instant launch functionality through `MsgInstantPerpetualMarketLaunch` or `MsgInstantExpiryFuturesMarketLaunch` which creates a market by paying an extra fee which doesn't require governance to approve it. Or it is created in the normal way through governance through `MsgPerpetualMarketLaunchProposal` or `MsgExpiryFuturesMarketLaunchProposal`.
+市场首先通过即时启动功能创建，通过 `MsgInstantPerpetualMarketLaunch` 或 `MsgInstantExpiryFuturesMarketLaunch`，\
+通过支付额外费用创建市场，无需治理批准。或者通过治理以正常方式创建，\
+通过 `MsgPerpetualMarketLaunchProposal` 或 `MsgExpiryFuturesMarketLaunchProposal`。
 
-### Balance Management
+### 余额管理
 
-#### Depositing Funds into Exchange
+#### 向交易所存入资金
 
-A trader can deposit funds, e.g., USDT, into the exchange by sending a `MsgDeposit` which transfers coins from the\
-Cosmos-SDK bank module to the trader's subaccount deposits on the exchange module.
+交易者可以通过发送 `MsgDeposit` 将资金（例如 USDT）存入交易所，该消息将代币从\
+Cosmos-SDK bank 模块转移到交易者在 exchange 模块上的子账户存款。
 
-Depositing a given `Amount` of coin will increment both the trader's subaccount deposit `AvailableBalance`\
-and `TotalBalance` by `Amount`.
+存入给定的 `Amount` 代币将同时增加交易者子账户存款的 `AvailableBalance`\
+和 `TotalBalance`，增加量为 `Amount`。
 
-#### Withdrawing Funds from Exchange
+#### 从交易所提取资金
 
-A trader can withdraw funds from the exchange by sending a `MsgWithdraw` which transfers coins from the trader's subaccount\
-on the exchange module.
+交易者可以通过发送 `MsgWithdraw` 从交易所提取资金，该消息将代币从交易者的子账户\
+转移到交易所模块。
 
-**Withdrawal Requirement:** Withdrawing a given `Amount` of coin will decrement both the trader's subaccount\
-deposit `AvailableBalance` and `TotalBalance` by `Amount`. Note: `Amount` must be less than or equal\
-to `AvailableBalance`.
+**提取要求：** 提取给定的 `Amount` 代币将同时减少交易者子账户\
+存款的 `AvailableBalance` 和 `TotalBalance`，减少量为 `Amount`。注意：`Amount` 必须小于或等于\
+`AvailableBalance`。
 
-#### Transferring Funds between Subaccounts
+#### 在子账户之间转移资金
 
-A trader can transfer funds between his own subaccounts sending a `MsgSubaccountTransfer` which transfer coins from one of\
-the trader's subaccount deposits to another subaccount also owned by the trader.
+交易者可以通过发送 `MsgSubaccountTransfer` 在自己的子账户之间转移资金，该消息将代币从交易者的\
+一个子账户存款转移到交易者拥有的另一个子账户。
 
-Subaccount transfers have the same Withdrawal Requirement as normal withdrawals.
+子账户转账具有与正常提取相同的提取要求。
 
-#### Transferring Funds to another Exchange Account
+#### 向另一个交易所账户转移资金
 
-A trader can transfer funds to an external account by sending a `MsgExternalTransfer` which transfers funds from the\
-trader's subaccount to another third-party account.
+交易者可以通过发送 `MsgExternalTransfer` 将资金转移到外部账户，该消息将资金从\
+交易者的子账户转移到另一个第三方账户。
 
-External Funds transfers have the same Withdrawal Requirement as normal withdrawals.
+外部资金转账具有与正常提取相同的提取要求。
 
-### Order Management
+### 订单管理
 
-#### Placing Limit Orders
+#### 下限价单
 
-A trader can post a limit buy or sell order by sending a `MsgCreateDerivativeLimitOrder`. Upon submission, the order can\
-be:
+交易者可以通过发送 `MsgCreateDerivativeLimitOrder` 提交限价买入或卖出订单。提交后，订单可以：
 
-1. Immediately (fully or partially) matched against other opposing resting orders on the orderbook in the Endblocker\
-   batch auction, thus establishing a position for the user.
-2. Added to the orderbook.
+1. 在 Endblocker 批量拍卖中立即（完全或部分）与订单簿上的其他对手挂单匹配，\
+   从而为用户建立持仓。
+2. 添加到订单簿。
 
-Note that it is possible for an order to be partially matched and for the remaining unmatched portion to be added to the\
-orderbook.
+请注意，订单可能被部分匹配，剩余未匹配部分将被添加到\
+订单簿。
 
-#### Placing Market Orders
+#### 下市价单
 
-A trader can post a market buy or sell order by sending a `MsgCreateDerivativeMarketOrder`. Upon submission, the market\
-order will be executed against other opposing resting orders on the orderbook in the Endblocker batch auction, thus\
-establishing a position for the user.
+交易者可以通过发送 `MsgCreateDerivativeMarketOrder` 提交市价买入或卖出订单。提交后，市价\
+订单将在 Endblocker 批量拍卖中与订单簿上的其他对手挂单执行，从而\
+为用户建立持仓。
 
-#### Cancelling Limit Orders
+#### 取消限价单
 
-User cancels a limit buy or sell order by sending a `MsgCancelDerivativeOrder` which removes the user's limit order from\
-the orderbook.
+用户通过发送 `MsgCancelDerivativeOrder` 取消限价买入或卖出订单，该消息将从\
+订单簿中移除用户的限价单。
 
-### Increasing Position Margin
+### 增加持仓保证金
 
-A user can increase the margin of a position by sending a `MsgIncreasePositionMargin`.
+用户可以通过发送 `MsgIncreasePositionMargin` 增加持仓的保证金。
 
-### Liquidating Insolvent Positions
+### 清算资不抵债的持仓
 
-A third party can liquidate any user's position if the position's maintenance margin ratio is breached by sending a`MsgLiquidatePosition`.
+如果持仓的维持保证金比率被突破，第三方可以通过发送 `MsgLiquidatePosition` 清算任何用户的持仓。
 
-**Initial Margin Requirement**
+**初始保证金要求**
 
-This is the requirement for the ratio of margin to the order's notional as well as the mark price when creating a new position.\
-The idea behind the additional mark price requirement is to minimize the liquidation risk when traded prices and mark prices\
-temporally diverge too far from each other. Given the initial margin ratio, an order must fulfill two requirements:
+这是创建新持仓时保证金与订单名义价值的比率要求，以及标记价格要求。\
+额外标记价格要求背后的想法是，当交易价格和标记价格在时间上\
+偏离太远时，最小化清算风险。给定初始保证金比率，订单必须满足两个要求：
 
-* The margin must fulfill: `Margin ≥ InitialMarginRatio * Price * Quantity`, e.g., in a market with maximally 20x leverage,\
-  the initial margin ratio would be 0.05. Any new position will have a margin which is at least 0.05 of its notional.
-* The margin must fulfill the mark price requirement:
-* `Margin >= Quantity * (InitialMarginRatio * MarkPrice - PNL)`
+* 保证金必须满足：`保证金 ≥ 初始保证金比率 * 价格 * 数量`，例如，在最大杠杆为 20 倍的市场中，\
+  初始保证金比率将为 0.05。任何新持仓的保证金至少为其名义价值的 0.05。
+* 保证金必须满足标记价格要求：
+* `保证金 >= 数量 * (初始保证金比率 * 标记价格 - 盈亏)`
 
-PNL is the expected profit and loss of the position if it was closed at the current MarkPrice. Solved for MarkPrice this results in:
+盈亏是如果以当前标记价格平仓，持仓的预期盈亏。求解标记价格，结果为：
 
-* For Buys: $\mathrm{MarkPrice}$ ≥ $\mathrm{\frac{Margin - Price \* Quantity}{(InitialMarginRatio - 1) \* Quantity\}}$
-* For Sells: $\mathrm{MarkPrice}$ ≤ $\mathrm{\frac{Margin + Price \* Quantity}{(InitialMarginRatio + 1) \* Quantity\}}$
+* 对于买入：$\mathrm{标记价格}$ ≥ $\mathrm{\frac{保证金 - 价格 \* 数量}{(初始保证金比率 - 1) \* 数量\}}$
+* 对于卖出：$\mathrm{标记价格}$ ≤ $\mathrm{\frac{保证金 + 价格 \* 数量}{(初始保证金比率 + 1) \* 数量\}}$
 
-**Maintenance Margin Requirement**
+**维持保证金要求**
 
-Throughout the lifecycle of an active position, if the following margin requirement is not met, the position is subject\
-to liquidation. (Note: for simplicity of notation but without loss of generality, we assume the position considered does\
-not have any funding).
+在活跃持仓的整个生命周期中，如果不满足以下保证金要求，持仓将\
+面临清算。（注意：为简化表示但不失一般性，我们假设所考虑的持仓\
+没有任何资金费率）。
 
-* For Longs: `Margin >= Quantity * MaintenanceMarginRatio * MarkPrice - (MarkPrice - EntryPrice)`
-* For Shorts: `Margin >= Quantity * MaintenanceMarginRatio * MarkPrice - (EntryPrice - MarkPrice)`
+* 对于多头：`保证金 >= 数量 * 维持保证金比率 * 标记价格 - (标记价格 - 入场价格)`
+* 对于空头：`保证金 >= 数量 * 维持保证金比率 * 标记价格 - (入场价格 - 标记价格)`
 
-**Liquidation Payouts**
+**清算支付**
 
-When your position falls below the maintenance margin ratio, the position can be liquidated by anyone. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as _Infinity_ or _0_, implying it will be matched at whatever prices are available in the order book.
+当您的持仓低于维持保证金比率时，任何人都可以清算该持仓。链上发生的情况是，\
+自动创建一个与持仓大小相同的仅减仓市价单。市价单的最差价格定义为 _Infinity_ 或 _0_，\
+这意味着它将以订单簿中可用的任何价格进行匹配。
 
-The payout from executing the reduce-only market order will not go towards the position owner. Instead, a part of the remaining funds are transferred to the liquidator bot and the other part is transferred to the insurance fund. The split is defined in the exchange params by `LiquidatorRewardShareRate`. If the payout in the position was negative, i.e., the position's negative PNL was greater than its margin, then the insurance fund will cover the missing funds.
+执行仅减仓市价单的支付不会归持仓所有者所有。相反，剩余资金的一部分\
+转移给清算机器人，另一部分转移给保险基金。分配比例在 exchange 参数中由\
+`LiquidatorRewardShareRate` 定义。如果持仓的支付为负，即持仓的负盈亏大于其保证金，\
+则保险基金将弥补缺失的资金。
 
-Also note that liquidations are executed immediately in a block before any other order matching occurs.
+还请注意，清算在区块中立即执行，在任何其他订单匹配之前发生。
 
-### Funding Payments
+### 资金费率支付
 
-Funding exists only for perpetual markets as a mechanism to align trading prices with the mark price. It refers to the\
-periodic payments exchanged between the traders that are long or short of a contract at the end of every funding epoch,\
-e.g. every hour. When the funding rate is positive, longs pay shorts. When it is negative, shorts pay longs.
+资金费率仅存在于永续市场，作为使交易价格与标记价格对齐的机制。它指的是\
+在每个资金费率周期结束时（例如每小时），做多或做空合约的交易者之间交换的\
+周期性支付。当资金费率为正时，多头支付空头。当它为负时，空头支付多头。
 
-* `Position Size = Position Quantity * MarkPrice`
-* `Funding Payment = Position Size * Hourly Funding Rate (HFR)`
-* `HFR = Cap((TWAP((SyntheticVWAPExecutionPrice - MarkPrice)/MarkPrice) + DailyInterestRate) * 1/24)`
-* `SyntheticVWAPExecutionPrice = (Price_A*Volume_A +Price_B*Volume_B +Price_C*Volume_C)/(Volume_A + Volume_B + Volume_C)`
-  * `A` is the market buy batch execution
-  * `B` is the market sell batch execution
-  * `C` is the limit matching batch execution
+* `持仓规模 = 持仓数量 * 标记价格`
+* `资金费率支付 = 持仓规模 * 每小时资金费率 (HFR)`
+* `HFR = Cap((TWAP((合成VWAP执行价格 - 标记价格)/标记价格) + 每日利率) * 1/24)`
+* `合成VWAP执行价格 = (价格_A*成交量_A +价格_B*成交量_B +价格_C*成交量_C)/(成交量_A + 成交量_B + 成交量_C)`
+  * `A` 是市价买入批量执行
+  * `B` 是市价卖出批量执行
+  * `C` 是限价匹配批量执行
 
-Funding payments are applied to the whole market by modifying the `CumulativeFunding` value. Each position stores the current `CumulativeFunding` as `CumulativeFundingEntry`. Subsequent funding payments are only applied upon position changes and can be calculated as:
+资金费率支付通过修改 `CumulativeFunding` 值应用于整个市场。每个持仓存储当前的\
+`CumulativeFunding` 作为 `CumulativeFundingEntry`。后续的资金费率支付仅在持仓变化时应用，\
+可以计算为：
 
-* FundingPayment
-  * For Longs: `FundingPayment ← PositionQuantity * (CumulativeFunding - CumulativeFundingEntry)`
-  * For Shorts: `FundingPayment ← PositionQuantity * (CumulativeFundingEntry - CumulativeFunding)`
-* `Margin' ← Margin + FundingPayment`
-* `CumulativeFundingEntry' ← CumulativeFunding`
+* 资金费率支付
+  * 对于多头：`资金费率支付 ← 持仓数量 * (累计资金费率 - 累计资金费率入场值)`
+  * 对于空头：`资金费率支付 ← 持仓数量 * (累计资金费率入场值 - 累计资金费率)`
+* `保证金' ← 保证金 + 资金费率支付`
+* `累计资金费率入场值' ← 累计资金费率`
 
-## Perpetual Market Trading Specification
+## 永续市场交易规范
 
-### Positions
+### 持仓
 
-A trader's position records the conditions under which the trader has entered into the derivative contract and is\
-defined as follows
+交易者的持仓记录交易者进入衍生品合约的条件，\
+定义如下：
 
-* Position Definition:
-  * `Quantity`
-  * `EntryPrice`
-  * `Margin`
-  * `HoldQuantity`
-  * `CumulativeFundingEntry`
+* 持仓定义：
+  * `数量`
+  * `入场价格`
+  * `保证金`
+  * `持有数量`
+  * `累计资金费率入场值`
 
-As an example, consider the following position in the ETH/USDT market:
+例如，考虑 ETH/USDT 市场中的以下持仓：
 
-* `Quantity` = -2
-* `EntryPrice` = 2200
-* `Margin` = 800
-* `HoldQuantity` = 1
-* `CumulativeFundingEntry` = 4838123
+* `数量` = -2
+* `入场价格` = 2200
+* `保证金` = 800
+* `持有数量` = 1
+* `累计资金费率入场值` = 4838123
 
-This position represents short exposure for 2 contracts of the ETH/USDT market collateralized with 800 USDT, with an\
-entry price of 2200. The `HoldQuantity` represents the quantity of the position that the trader has opposing orders for.`CumulativeFundingEntry` represents the cumulative funding value that the position was last updated at.
+该持仓代表 ETH/USDT 市场的 2 个合约的空头敞口，以 800 USDT 作为抵押，\
+入场价格为 2200。`HoldQuantity` 代表交易者已下反向订单的持仓数量。\
+`CumulativeFundingEntry` 代表持仓最后更新时的累计资金费率值。
 
-Position Netting:
+持仓净额：
 
-When a new vanilla order is matched for a subaccount with an existing position, the new position will be the result from\
-netting the existing position with the new vanilla order. A matched vanilla order produces a position delta defined by`FillQuantity`, `FillMargin` and `ClearingPrice`.
+当子账户的现有持仓匹配新的普通订单时，新持仓将是\
+现有持仓与新普通订单净额的结果。匹配的普通订单产生由 `FillQuantity`、`FillMargin` 和 `ClearingPrice`\
+定义的持仓增量。
 
-* Applying Position Delta to a position in the same direction:
-  * `Entry Price' ← (Quantity \* EntryPrice + FillQuantity \* ClearingPrice) / (Quantity + FillQuantity)`
-  * `Quantity' ← Quantity + FillQuantity`
-  * `Margin' ← Margin + FillMargin`
-* Apply Position Delta to a position in the opposing direction:
-  * `Entry Price - no change`
-  * `Quantity' ← Quantity - FillQuantity`
-  * `Margin' ← Margin \* (Quantity - FillQuantity) / Quantity`
+* 将持仓增量应用于同方向的持仓：
+  * `入场价格' ← (数量 \* 入场价格 + 成交数量 \* 清算价格) / (数量 + 成交数量)`
+  * `数量' ← 数量 + 成交数量`
+  * `保证金' ← 保证金 + 成交保证金`
+* 将持仓增量应用于相反方向的持仓：
+  * `入场价格 - 不变`
+  * `数量' ← 数量 - 成交数量`
+  * `保证金' ← 保证金 \* (数量 - 成交数量) / 数量`
 
-### Limit Buy Order
+### 限价买入订单
 
-A limit buy order seeks to purchase a specified Quantity of a derivative contract at a specified Price by providing a\
-specified amount of margin as collateral.
+限价买入订单试图通过提供指定数量的保证金作为抵押，\
+以指定价格购买指定数量的衍生品合约。
 
-### Limit Sell Order
+### 限价卖出订单
 
-A limit sell order seeks to sell a specified Quantity of a derivative contract at a specified Price by providing a\
-specified amount of margin as collateral.
+限价卖出订单试图通过提供指定数量的保证金作为抵押，\
+以指定价格卖出指定数量的衍生品合约。
 
-A matched position will have **subtracted fees** which depend on whether the limit order becomes executed as a\
-maker order or a taker order.
+匹配的持仓将**扣除费用**，费用取决于限价单是作为\
+做市商订单还是吃单订单执行。
 
-### Market Buy Order
+### 市价买入订单
 
-A market buy order seeks to purchase a specified Quantity of a derivative contract at a specified worst price using\
-the subaccount's available balance as margin collateral.
+市价买入订单试图使用子账户的可用余额作为保证金抵押，\
+以指定的最差价格购买指定数量的衍生品合约。
 
-Handler and EndBlocker Execution of the market order are conceptually identical to the Limit Buy Order\
-(Immediately Matched case), since the trader passes the margin which implicitly sets a maximum price limit due to the\
-initial min margin requirements.
+Handler 和 EndBlocker 对市价单的执行在概念上与限价买入订单\
+（立即匹配情况）相同，因为交易者传递的保证金由于\
+初始最小保证金要求而隐式设置了最大价格限制。
 
-### Market Sell Order
+### 市价卖出订单
 
-A market sell order seeks to sell a specified Quantity of a derivative contract at a specified worst price using the\
-subaccount's available balance as margin collateral.
+市价卖出订单试图使用子账户的可用余额作为保证金抵押，\
+以指定的最差价格卖出指定数量的衍生品合约。
 
-Handler and EndBlocker Execution of the market order are conceptually identical to the Limit Sell Order\
-(Immediately Matched case), since the trader passes the margin which implicitly sets a minimum price limit due to the\
-initial min margin requirements.
+Handler 和 EndBlocker 对市价单的执行在概念上与限价卖出订单\
+（立即匹配情况）相同，因为交易者传递的保证金由于\
+初始最小保证金要求而隐式设置了最小价格限制。
 
-### Order Types
+### 订单类型
 
-* BUY (1): A standard buy order to purchase an asset at either the current market price or a set limit price.
-* SELL (2): A standard sell order to sell an asset at either the current market price or a set limit price.
-* STOP\_BUY (3): A stop-buy order converts into a regular buy order once the oracle price reaches or surpasses a specified trigger price.
-* STOP\_SELL (4): A stop-sell order becomes a regular sell order once the oracle price drops to or below a specified trigger price.
-* TAKE\_BUY (5): A take-buy order converts into a regular buy order once the oracle price reaches or drops below a specified trigger price.
-* TAKE\_SELL (6):A stop-sell order becomes a regular sell order once the oracle price reaches or surpasses a specified trigger price.
-* BUY\_PO (7): Post-Only Buy. This order type ensures that the order will only be added to the order book and not match with a pre-existing order. It guarantees that you will be the market "maker" and not the "taker".
-* SELL\_PO (8): Post-Only Sell. Similar to BUY\_PO, this ensures that your sell order will only add liquidity to the order book and not match with a pre-existing order.
-* BUY\_ATOMIC (9): An atomic buy order is a market order that gets executed instantly, bypassing the Frequent Batch Auctions (FBA). It's intended for smart contracts that need to execute a trade instantly. A higher fee is paid defined in the global exchange parameters.
-* SELL\_ATOMIC (10): An atomic sell order is similar to a BUY\_ATOMIC, and it gets executed instantly at the current market price, bypassing the FBA.
+* BUY (1)：标准买入订单，以当前市场价格或设定的限价购买资产。
+* SELL (2)：标准卖出订单，以当前市场价格或设定的限价卖出资产。
+* STOP\_BUY (3)：止损买入订单，一旦预言机价格达到或超过指定的触发价格，就会转换为常规买入订单。
+* STOP\_SELL (4)：止损卖出订单，一旦预言机价格降至或低于指定的触发价格，就会变为常规卖出订单。
+* TAKE\_BUY (5)：止盈买入订单，一旦预言机价格达到或降至指定的触发价格以下，就会转换为常规买入订单。
+* TAKE\_SELL (6)：止盈卖出订单，一旦预言机价格达到或超过指定的触发价格，就会变为常规卖出订单。
+* BUY\_PO (7)：仅挂单买入。此订单类型确保订单只会添加到订单簿，不会与现有订单匹配。它保证您将成为市场"做市商"而不是"吃单者"。
+* SELL\_PO (8)：仅挂单卖出。类似于 BUY\_PO，这确保您的卖出订单只会向订单簿添加流动性，不会与现有订单匹配。
+* BUY\_ATOMIC (9)：原子买入订单是一种立即执行的市价单，绕过频繁批量拍卖（FBA）。它适用于需要立即执行交易的智能合约。需要支付更高的费用，费用在全局交易所参数中定义。
+* SELL\_ATOMIC (10)：原子卖出订单类似于 BUY\_ATOMIC，它以当前市场价格立即执行，绕过 FBA。
 
-### Reduce-Only Orders (Selling Positions)
+### 仅减仓订单（卖出持仓）
 
-### Limit Buy Reduce-Only Order
+### 限价买入仅减仓订单
 
-A limit buy reduce-only order seeks to reduce existing long exposure by a specified `Quantity` ETH (**base currency**).\
-The payout for closing a position will have **subtracted fees**.
+限价买入仅减仓订单试图通过指定的 `数量` ETH（**基础货币**）减少现有的多头敞口。\
+平仓的支付将**扣除费用**。
 
-### Limit Sell Reduce-Only Order
+### 限价卖出仅减仓订单
 
-A limit sell reduce-only order seeks to reduce existing short exposure by a specified `Quantity` ETH (**base currency**).\
-The payout for closing a position will have **subtracted fees**.
+限价卖出仅减仓订单试图通过指定的 `数量` ETH（**基础货币**）减少现有的空头敞口。\
+平仓的支付将**扣除费用**。

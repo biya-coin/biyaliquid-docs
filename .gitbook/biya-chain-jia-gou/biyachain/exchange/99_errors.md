@@ -1,6 +1,6 @@
-# Error Codes
+# 错误代码
 
-This document lists the error codes used in the module.
+本文档列出了模块中使用的错误代码。
 
 
 | Module | Error Code | description |

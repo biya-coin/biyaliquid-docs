@@ -2,106 +2,106 @@
 order: 9
 -->
 
-# Client
+# 客户端
 
-A user can query and interact with the `evm` module using the CLI, JSON-RPC, gRPC or REST.
+用户可以使用 CLI、JSON-RPC、gRPC 或 REST 查询和与 `evm` 模块交互。
 
 ## CLI
 
-Find below a list of `biyachaind` commands added with the `x/evm` module. You can obtain the full list by using the `biyachaind -h` command.
+下面列出了使用 `x/evm` 模块添加的 `biyachaind` 命令列表。您可以使用 `biyachaind -h` 命令获取完整列表。
 
-### Queries
+### 查询
 
-The `query` commands allow users to query `evm` state.
+`query` 命令允许用户查询 `evm` 状态。
 
 **`code`**
 
-Allows users to query the smart contract code at a given address.
+允许用户查询给定地址的智能合约代码。
 
 ```go
 biyachaind query evm code ADDRESS [flags]
 ```
 
 ```bash
-# Example
+# 示例
 $ biyachaind query evm code 0x7bf7b17da59880d9bcca24915679668db75f9397
 
-# Output
+# 输出
 code: "0xef616c92f3cfc9e92dc270d6acff9cea213cecc7020a76ee4395af09bdceb4837a1ebdb5735e11e7d3adb6104e0c3ac55180b4ddf5e54d022cc5e8837f6a4f971b"
 ```
 
 **`storage`**
 
-Allows users to query storage for an account with a given key and height.
+允许用户查询给定键和高度的账户存储。
 
 ```bash
 biyachaind query evm storage ADDRESS KEY [flags]
 ```
 
 ```bash
-# Example
+# 示例
 $ biyachaind query evm storage 0x0f54f47bf9b8e317b214ccd6a7c3e38b893cd7f0 0 --height 0
 
-# Output
+# 输出
 value: "0x0000000000000000000000000000000000000000000000000000000000000000"
 ```
 
-### Transactions
+### 交易
 
-The `tx` commands allow users to interact with the `evm` module.
+`tx` 命令允许用户与 `evm` 模块交互。
 
 **`raw`**
 
-Allows users to build cosmos transactions from raw ethereum transaction.
+允许用户从原始以太坊交易构建 cosmos 交易。
 
 ```bash
 biyachaind tx evm raw TX_HEX [flags]
 ```
 
 ```bash
-# Example
+# 示例
 $ biyachaind tx evm raw 0xf9ff74c86aefeb5f6019d77280bbb44fb695b4d45cfe97e6eed7acd62905f4a85034d5c68ed25a2e7a8eeb9baf1b84
 
-# Output
+# 输出
 value: "0x0000000000000000000000000000000000000000000000000000000000000000"
 ```
 
 ## JSON-RPC
 
-For an overview on  the JSON-RPC methods and namespaces supported on Ethermint, please refer to [https://docs.biyachain.zone/basics/json_rpc.html](https://docs.biyachain.zone/basics/json_rpc.html)
+有关 Ethermint 上支持的 JSON-RPC 方法和命名空间的概述，请参阅 [https://docs.biyachain.zone/basics/json_rpc.html](https://docs.biyachain.zone/basics/json_rpc.html)
 
 ## gRPC
 
-### Queries
+### 查询
 
-| Verb   | Method                                               | Description                                                                |
+| 动词   | 方法                                               | 描述                                                                |
 | ------ | ---------------------------------------------------- | -------------------------------------------------------------------------- |
-| `gRPC` | `biyachain.evm.v1.Query/Account`                     | Get an Ethereum account                                                    |
-| `gRPC` | `biyachain.evm.v1.Query/CosmosAccount`               | Get an Ethereum account's Cosmos Address                                   |
-| `gRPC` | `biyachain.evm.v1.Query/ValidatorAccount`            | Get an Ethereum account's from a validator consensus Address               |
-| `gRPC` | `biyachain.evm.v1.Query/Balance`                     | Get the balance of a the EVM denomination for a single EthAccount.         |
-| `gRPC` | `biyachain.evm.v1.Query/Storage`                     | Get the balance of all coins for a single account                          |
-| `gRPC` | `biyachain.evm.v1.Query/Code`                        | Get the balance of all coins for a single account                          |
-| `gRPC` | `biyachain.evm.v1.Query/Params`                      | Get the parameters of x/evm module                                         |
-| `gRPC` | `biyachain.evm.v1.Query/EthCall`                     | Implements the eth_call rpc api                                            |
-| `gRPC` | `biyachain.evm.v1.Query/EstimateGas`                 | Implements the eth_estimateGas rpc api                                     |
-| `gRPC` | `biyachain.evm.v1.Query/TraceTx`                     | Implements the debug_traceTransaction rpc api                              |
-| `gRPC` | `biyachain.evm.v1.Query/TraceBlock`                  | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
-| `GET`  | `/biyachain/evm/v1/account/{address}`                | Get an Ethereum account                                                    |
-| `GET`  | `/biyachain/evm/v1/cosmos_account/{address}`         | Get an Ethereum account's Cosmos Address                                   |
-| `GET`  | `/biyachain/evm/v1/validator_account/{cons_address}` | Get an Ethereum account's from a validator consensus Address               |
-| `GET`  | `/biyachain/evm/v1/balances/{address}`               | Get the balance of a the EVM denomination for a single EthAccount.         |
-| `GET`  | `/biyachain/evm/v1/storage/{address}/{key}`          | Get the balance of all coins for a single account                          |
-| `GET`  | `/biyachain/evm/v1/codes/{address}`                  | Get the balance of all coins for a single account                          |
-| `GET`  | `/biyachain/evm/v1/params`                           | Get the parameters of x/evm module                                         |
-| `GET`  | `/biyachain/evm/v1/eth_call`                         | Implements the eth_call rpc api                                            |
-| `GET`  | `/biyachain/evm/v1/estimate_gas`                     | Implements the eth_estimateGas rpc api                                     |
-| `GET`  | `/biyachain/evm/v1/trace_tx`                         | Implements the debug_traceTransaction rpc api                              |
-| `GET`  | `/biyachain/evm/v1/trace_block`                      | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
+| `gRPC` | `biyachain.evm.v1.Query/Account`                     | 获取以太坊账户                                                    |
+| `gRPC` | `biyachain.evm.v1.Query/CosmosAccount`               | 获取以太坊账户的 Cosmos 地址                                   |
+| `gRPC` | `biyachain.evm.v1.Query/ValidatorAccount`            | 从验证者共识地址获取以太坊账户               |
+| `gRPC` | `biyachain.evm.v1.Query/Balance`                     | 获取单个 EthAccount 的 EVM 代币单位余额。         |
+| `gRPC` | `biyachain.evm.v1.Query/Storage`                     | 获取单个账户的所有代币余额                          |
+| `gRPC` | `biyachain.evm.v1.Query/Code`                        | 获取单个账户的所有代币余额                          |
+| `gRPC` | `biyachain.evm.v1.Query/Params`                      | 获取 x/evm 模块的参数                                         |
+| `gRPC` | `biyachain.evm.v1.Query/EthCall`                     | 实现 eth_call rpc api                                            |
+| `gRPC` | `biyachain.evm.v1.Query/EstimateGas`                 | 实现 eth_estimateGas rpc api                                     |
+| `gRPC` | `biyachain.evm.v1.Query/TraceTx`                     | 实现 debug_traceTransaction rpc api                              |
+| `gRPC` | `biyachain.evm.v1.Query/TraceBlock`                  | 实现 debug_traceBlockByNumber 和 debug_traceBlockByHash rpc api |
+| `GET`  | `/biyachain/evm/v1/account/{address}`                | 获取以太坊账户                                                    |
+| `GET`  | `/biyachain/evm/v1/cosmos_account/{address}`         | 获取以太坊账户的 Cosmos 地址                                   |
+| `GET`  | `/biyachain/evm/v1/validator_account/{cons_address}` | 从验证者共识地址获取以太坊账户               |
+| `GET`  | `/biyachain/evm/v1/balances/{address}`               | 获取单个 EthAccount 的 EVM 代币单位余额。         |
+| `GET`  | `/biyachain/evm/v1/storage/{address}/{key}`          | 获取单个账户的所有代币余额                          |
+| `GET`  | `/biyachain/evm/v1/codes/{address}`                  | 获取单个账户的所有代币余额                          |
+| `GET`  | `/biyachain/evm/v1/params`                           | 获取 x/evm 模块的参数                                         |
+| `GET`  | `/biyachain/evm/v1/eth_call`                         | 实现 eth_call rpc api                                            |
+| `GET`  | `/biyachain/evm/v1/estimate_gas`                     | 实现 eth_estimateGas rpc api                                     |
+| `GET`  | `/biyachain/evm/v1/trace_tx`                         | 实现 debug_traceTransaction rpc api                              |
+| `GET`  | `/biyachain/evm/v1/trace_block`                      | 实现 debug_traceBlockByNumber 和 debug_traceBlockByHash rpc api |
 
-### Transactions
+### 交易
 
-| Verb   | Method                            | Description                     |
+| 动词   | 方法                            | 描述                     |
 | ------ | --------------------------------- | ------------------------------- |
-| `gRPC` | `biyachain.evm.v1.Msg/EthereumTx` | Submit an Ethereum transactions |
-| `POST` | `/biyachain/evm/v1/ethereum_tx`   | Submit an Ethereum transactions |
+| `gRPC` | `biyachain.evm.v1.Msg/EthereumTx` | 提交以太坊交易 |
+| `POST` | `/biyachain/evm/v1/ethereum_tx`   | 提交以太坊交易 |

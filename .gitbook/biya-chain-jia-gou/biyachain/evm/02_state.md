@@ -2,28 +2,28 @@
 order: 2
 -->
 
-# State
+# 状态
 
-This section gives you an overview of the objects stored in the `x/evm` module state, functionalities that are derived from the go-ethereum `StateDB` interface, and its implementation through the Keeper as well as the state implementation at genesis.
+本节概述了 `x/evm` 模块状态中存储的对象、从 go-ethereum `StateDB` 接口派生的功能、通过 Keeper 的实现以及创世时的状态实现。
 
-## State Objects
+## 状态对象
 
-The `x/evm` module keeps the following objects in state:
+`x/evm` 模块在状态中维护以下对象：
 
-### State
+### 状态
 
-|             | Description                                                  | Key                           | Value               | Store     |
+|             | 描述                                                  | 键                           | 值               | 存储     |
 | ----------- | ------------------------------------------------------------ | ----------------------------- | ------------------- | --------- |
-| Code        | Smart contract bytecode                                      | `[]byte{1} + []byte(address)` | `[]byte{code}`      | KV        |
-| Storage     | Smart contract storage                                       | `[]byte{2} + [32]byte{key}`   | `[32]byte(value)`   | KV        |
-| Block Bloom | Block bloom filter, used to accumulate the bloom filter of current block, emitted to events at end blocker. | `[]byte{1} + []byte(tx.Hash)` | `protobuf([]Log)`   | Transient |
-| Tx Index    | Index of current transaction in current block.               | `[]byte{2}`                   | `BigEndian(uint64)` | Transient |
-| Log Size    | Number of the logs emitted so far in current block. Used to decide the log index of following logs. | `[]byte{3}`                   | `BigEndian(uint64)` | Transient |
-| Gas Used    | Amount of gas used by ethereum messages of current cosmos-sdk tx, it's necessary when cosmos-sdk tx contains multiple ethereum messages. | `[]byte{4}`                   | `BigEndian(uint64)` | Transient |
+| Code        | 智能合约字节码                                      | `[]byte{1} + []byte(address)` | `[]byte{code}`      | KV        |
+| Storage     | 智能合约存储                                       | `[]byte{2} + [32]byte{key}`   | `[32]byte(value)`   | KV        |
+| Block Bloom | 区块布隆过滤器，用于累积当前区块的布隆过滤器，在区块结束处理器处发出事件。 | `[]byte{1} + []byte(tx.Hash)` | `protobuf([]Log)`   | Transient |
+| Tx Index    | 当前区块中当前交易的索引。               | `[]byte{2}`                   | `BigEndian(uint64)` | Transient |
+| Log Size    | 当前区块中已发出的日志数量。用于决定后续日志的日志索引。 | `[]byte{3}`                   | `BigEndian(uint64)` | Transient |
+| Gas Used    | 当前 cosmos-sdk 交易的以太坊消息使用的 gas 数量，当 cosmos-sdk 交易包含多个以太坊消息时这是必要的。 | `[]byte{4}`                   | `BigEndian(uint64)` | Transient |
 
 ## StateDB
 
-The `StateDB` interface is implemented by the `StateDB` in the `x/evm/statedb` module to represent an EVM database for full state querying of both contracts and accounts. Within the Ethereum protocol, `StateDB`s are used to store anything within the IAVL tree and take care of caching and storing nested states.
+`StateDB` 接口由 `x/evm/statedb` 模块中的 `StateDB` 实现，表示用于完整状态查询合约和账户的 EVM 数据库。在以太坊协议中，`StateDB` 用于存储 IAVL 树内的任何内容，并负责缓存和存储嵌套状态。
 
 ```go
 // github.com/ethereum/go-ethereum/core/vm/interface.go
@@ -80,96 +80,92 @@ type StateDB interface {
 }
 ```
 
-The `StateDB` in the `x/evm` provides the following functionalities:
+`x/evm` 中的 `StateDB` 提供以下功能：
 
-### CRUD of Ethereum accounts
+### 以太坊账户的 CRUD
 
-You can create `EthAccount` instances from the provided address and set the value to store on the  `AccountKeeper`with `createAccount()`. If an account with the given address already exists, this function also resets any preexisting code and storage associated with that address.
+您可以从提供的地址创建 `EthAccount` 实例，并使用 `createAccount()` 设置要存储在 `AccountKeeper` 上的值。如果给定地址的账户已存在，此函数还会重置与该地址关联的任何预先存在的代码和存储。
 
-An account's coin balance can be is managed through the `BankKeeper` and can be read with `GetBalance()` and updated with `AddBalance()` and `SubBalance()`.
+账户的代币余额可以通过 `BankKeeper` 进行管理，可以使用 `GetBalance()` 读取，并使用 `AddBalance()` 和 `SubBalance()` 更新。
 
-- `GetBalance()` returns the EVM denomination balance of the provided address. The denomination is obtained from the module parameters.
-- `AddBalance()` adds the given amount to the address balance coin by minting new coins and transferring them to the address. The coin denomination is obtained from the module parameters.
-- `SubBalance()` subtracts the given amount from the address balance by transferring the coins to an escrow account and then burning them. The coin denomination is obtained from the module parameters. This function performs a no-op if the amount is negative or the user doesn't have enough funds for the transfer.
+- `GetBalance()` 返回所提供地址的 EVM 代币单位余额。代币单位从模块参数获取。
+- `AddBalance()` 通过铸造新代币并将其转移到地址，将给定金额添加到地址余额代币。代币单位从模块参数获取。
+- `SubBalance()` 通过将代币转移到托管账户然后销毁它们，从地址余额中减去给定金额。代币单位从模块参数获取。如果金额为负数或用户没有足够的资金进行转移，此函数将执行无操作。
 
-The nonce (or transaction sequence) can be obtained from the Account `Sequence` via the auth module `AccountKeeper`.
+nonce（或交易序列）可以通过 auth 模块 `AccountKeeper` 从账户 `Sequence` 获取。
 
-- `GetNonce()` retrieves the account with the given address and returns the tx sequence (i.e nonce). The function performs a no-op if the account is not found.
-- `SetNonce()` sets the given nonce as the sequence of the address' account. If the account doesn't exist, a new one will be created from the address.
+- `GetNonce()` 检索给定地址的账户并返回交易序列（即 nonce）。如果未找到账户，此函数将执行无操作。
+- `SetNonce()` 将给定的 nonce 设置为地址账户的序列。如果账户不存在，将从地址创建一个新账户。
 
-The smart contract bytecode containing arbitrary contract logic is stored on the `EVMKeeper` and it can be queried with `GetCodeHash()` ,`GetCode()` & `GetCodeSize()`and updated with `SetCode()`.
+包含任意合约逻辑的智能合约字节码存储在 `EVMKeeper` 上，可以使用 `GetCodeHash()`、`GetCode()` 和 `GetCodeSize()` 查询，并使用 `SetCode()` 更新。
 
-- `GetCodeHash()` fetches the account from the store and returns its code hash. If the account doesn't exist or is not an EthAccount type, it returns the empty code hash value.
-- `GetCode()` returns the code byte array associated with the given address. If the code hash from the account is empty, this function returns nil.
-- `SetCode()` stores the code byte array to the application KVStore and sets the code hash to the given account. The code is deleted from the store if it is empty.
-- `GetCodeSize()` returns the size of the contract code associated with this object, or zero if none.
+- `GetCodeHash()` 从存储中获取账户并返回其代码哈希。如果账户不存在或不是 EthAccount 类型，它返回空代码哈希值。
+- `GetCode()` 返回与给定地址关联的代码字节数组。如果账户的代码哈希为空，此函数返回 nil。
+- `SetCode()` 将代码字节数组存储到应用程序 KVStore，并将代码哈希设置为给定账户。如果代码为空，则从存储中删除代码。
+- `GetCodeSize()` 返回与此对象关联的合约代码大小，如果没有则返回零。
 
-Gas refunded needs to be tracked and stored in a separate variable in
-order to add it subtract/add it from/to the gas used value after the EVM
-execution has finalized. The refund value is cleared on every transaction and at the end of every block.
+需要跟踪并存储在单独变量中的 gas 退款，以便在 EVM 执行完成后从 gas 使用值中减去/添加到它。退款值在每个交易和每个区块结束时清除。
 
-- `AddRefund()` adds the given amount of gas to the in-memory refund value.
-- `SubRefund()` subtracts the given amount of gas from the in-memory refund value. This function will panic if gas amount is greater than the current refund.
-- `GetRefund()` returns the amount of gas available for return after the tx execution finalizes. This value is reset to 0 on every transaction.
+- `AddRefund()` 将给定数量的 gas 添加到内存中的退款值。
+- `SubRefund()` 从内存中的退款值中减去给定数量的 gas。如果 gas 数量大于当前退款，此函数将 panic。
+- `GetRefund()` 返回交易执行完成后可用于返回的 gas 数量。此值在每个交易时重置为 0。
 
-The state is stored on the `EVMKeeper`. It can be queried with `GetCommittedState()`, `GetState()` and updated with `SetState()`.
+状态存储在 `EVMKeeper` 上。可以使用 `GetCommittedState()`、`GetState()` 查询，并使用 `SetState()` 更新。
 
-- `GetCommittedState()` returns the value set in store for the given key hash. If the key is not registered this function returns the empty hash.
-- `GetState()` returns the in-memory dirty state for the given key hash, if not exist load the committed value from KVStore.
-- `SetState()` sets the given hashes (key, value) to the state. If the value hash is empty, this function deletes the key from the state, the new value is kept in dirty state at first, and will be committed to KVStore in the end.
+- `GetCommittedState()` 返回存储中为给定键哈希设置的值。如果未注册键，此函数返回空哈希。
+- `GetState()` 返回给定键哈希的内存中脏状态，如果不存在，则从 KVStore 加载已提交的值。
+- `SetState()` 将给定的哈希（键、值）设置到状态。如果值哈希为空，此函数从状态中删除键，新值首先保存在脏状态中，最后将提交到 KVStore。
 
-Accounts can also be set to a suicide state. When a contract commits suicide, the account is marked as suicided, when committing the code, storage and account are deleted (from the next block and forward).
+账户也可以设置为自杀状态。当合约自杀时，账户被标记为已自杀，提交时代码、存储和账户被删除（从下一个区块开始）。
 
-- `Suicide()` marks the given account as suicided and clears the account balance of the EVM tokens.
-- `HasSuicided()` queries the in-memory flag to check if the account has been marked as suicided in the current transaction. Accounts that are suicided will be returned as non-nil during queries and "cleared" after the block has been committed.
+- `Suicide()` 将给定账户标记为已自杀并清除 EVM 代币的账户余额。
+- `HasSuicided()` 查询内存标志以检查账户是否在当前交易中被标记为已自杀。已自杀的账户在查询期间将作为非 nil 返回，并在区块提交后"清除"。
 
-To check account existence use `Exist()` and `Empty()`.
+要检查账户存在性，请使用 `Exist()` 和 `Empty()`。
 
-- `Exist()` returns true if the given account exists in store or if it has been
-marked as suicided.
-- `Empty()` returns true if the address meets the following conditions:
-  - nonce is 0
-  - balance amount for evm denom is 0
-  - account code hash is empty
+- `Exist()` 如果给定账户存在于存储中或已被标记为已自杀，则返回 true。
+- `Empty()` 如果地址满足以下条件，则返回 true：
+  - nonce 为 0
+  - evm 代币单位的余额金额为 0
+  - 账户代码哈希为空
 
-### EIP2930 functionality
+### EIP2930 功能
 
-Supports a transaction type that contains an [access list](https://eips.ethereum.org/EIPS/eip-2930), a list of addresses, and storage keys that the transaction plans to access. The access list state is kept in memory and discarded after the transaction committed.
+支持包含[访问列表](https://eips.ethereum.org/EIPS/eip-2930)的交易类型，该列表包含交易计划访问的地址和存储键列表。访问列表状态保存在内存中，并在交易提交后丢弃。
 
-- `PrepareAccessList()` handles the preparatory steps for executing a state transition with regards to both EIP-2929 and EIP-2930. This method should only be called if Yolov3/Berlin/2929+2930 is applicable at the current number.
-  - Add sender to access list (EIP-2929)
-  - Add destination to access list (EIP-2929)
-  - Add precompiles to access list (EIP-2929)
-  - Add the contents of the optional tx access list (EIP-2930)
-- `AddressInAccessList()` returns true if the address is registered.
-- `SlotInAccessList()` checks if the address and the slots are registered.
-- `AddAddressToAccessList()` adds the given address to the access list. If the address is already in the access list, this function performs a no-op.
-- `AddSlotToAccessList()` adds the given (address, slot) to the access list. If the address and slot are already in the access list, this function performs a no-op.
+- `PrepareAccessList()` 处理执行状态转换的准备工作，涉及 EIP-2929 和 EIP-2930。只有在当前编号适用 Yolov3/Berlin/2929+2930 时才应调用此方法。
+  - 将发送者添加到访问列表（EIP-2929）
+  - 将目标添加到访问列表（EIP-2929）
+  - 将预编译添加到访问列表（EIP-2929）
+  - 添加可选交易访问列表的内容（EIP-2930）
+- `AddressInAccessList()` 如果地址已注册，则返回 true。
+- `SlotInAccessList()` 检查地址和插槽是否已注册。
+- `AddAddressToAccessList()` 将给定地址添加到访问列表。如果地址已在访问列表中，此函数执行无操作。
+- `AddSlotToAccessList()` 将给定的（地址、插槽）添加到访问列表。如果地址和插槽已在访问列表中，此函数执行无操作。
 
-### Snapshot state and Revert functionality
+### 快照状态和回滚功能
 
-The EVM uses state-reverting exceptions to handle errors. Such an exception will undo all changes made to the state in the current call (and all its sub-calls), and the caller could handle the error and don't propagate. You can use `Snapshot()` to identify the current state with a revision and revert the state to a given revision with `RevertToSnapshot()` to support this feature.
+EVM 使用状态回滚异常来处理错误。这样的异常将撤销当前调用（及其所有子调用）中对状态所做的所有更改，调用者可以处理错误而不传播。您可以使用 `Snapshot()` 用修订版标识当前状态，并使用 `RevertToSnapshot()` 将状态回滚到给定修订版以支持此功能。
 
-- `Snapshot()` creates a new snapshot and returns the identifier.
-- `RevertToSnapshot(rev)` undo all the modifications up to the snapshot identified as `rev`.
+- `Snapshot()` 创建新快照并返回标识符。
+- `RevertToSnapshot(rev)` 撤销到标识为 `rev` 的快照的所有修改。
 
-Ethermint adapted the [go-ethereum journal implementation](https://github.com/ethereum/go-ethereum/blob/master/core/state/journal.go#L39) to support this, it uses a list of journal logs to record all the state modification operations done so far,
-snapshot is consists of a unique id and an index in the log list, and to revert to a snapshot it just undo the journal logs after the snapshot index in reversed order.
+Ethermint 采用了 [go-ethereum journal 实现](https://github.com/ethereum/go-ethereum/blob/master/core/state/journal.go#L39) 来支持此功能，它使用日志列表来记录到目前为止完成的所有状态修改操作，快照由唯一 id 和日志列表中的索引组成，要回滚到快照，它只需按相反顺序撤销快照索引之后的日志日志。
 
-### Ethereum Transaction logs
+### 以太坊交易日志
 
-With `AddLog()` you can append the given ethereum `Log` to the list of Logs associated with the transaction hash kept in the current state. This function also fills in the tx hash, block hash, tx index and log index fields before setting the log to store.
+使用 `AddLog()` 您可以将给定的以太坊 `Log` 追加到与当前状态中保存的交易哈希关联的日志列表中。此函数还在将日志设置到存储之前填充交易哈希、区块哈希、交易索引和日志索引字段。
 
 ## Keeper
 
-The EVM module `Keeper` grants access to the EVM module state and implements `statedb.Keeper` interface to support the `StateDB` implementation. The Keeper contains a store key that allows the DB to write to a concrete subtree of the multistore that is only accessible to the EVM module. Instead of using a trie and database for querying and persistence (the `StateDB` implementation on Ethermint), use the Cosmos `KVStore` (key-value store) and Cosmos SDK `Keeper` to facilitate state transitions.
+EVM 模块 `Keeper` 授予对 EVM 模块状态的访问权限，并实现 `statedb.Keeper` 接口以支持 `StateDB` 实现。Keeper 包含一个存储键，允许数据库写入只有 EVM 模块可以访问的多存储的具体子树。不使用 trie 和数据库进行查询和持久化（Ethermint 上的 `StateDB` 实现），而是使用 Cosmos `KVStore`（键值存储）和 Cosmos SDK `Keeper` 来促进状态转换。
 
-To support the interface functionality, it imports 4 module Keepers:
+为了支持接口功能，它导入了 4 个模块 Keepers：
 
-- `auth`: CRUD accounts
-- `bank`: accounting (supply) and CRUD of balances
-- `staking`: query historical headers
-- `fee market`: EIP1559 base fee for processing `DynamicFeeTx` after the `London` hard fork has been activated on the `ChainConfig` parameters
+- `auth`：CRUD 账户
+- `bank`：会计（供应）和余额的 CRUD
+- `staking`：查询历史区块头
+- `fee market`：EIP1559 基础费用，用于在 `ChainConfig` 参数上激活 `London` 硬分叉后处理 `DynamicFeeTx`
 
 ```go
 type Keeper struct {
@@ -208,9 +204,9 @@ type Keeper struct {
 }
 ```
 
-## Genesis State
+## 创世状态
 
-The `x/evm` module `GenesisState` defines the state necessary for initializing the chain from a previous exported height. It contains the `GenesisAccounts` and the module parameters
+`x/evm` 模块 `GenesisState` 定义了从先前导出的高度初始化链所需的状态。它包含 `GenesisAccounts` 和模块参数
 
 ```go
 type GenesisState struct {
@@ -221,13 +217,13 @@ type GenesisState struct {
 }
 ```
 
-## Genesis Accounts
+## 创世账户
 
-The `GenesisAccount` type corresponds to an adaptation of the Ethereum `GenesisAccount` type. It defines an account to be initialized in the genesis state.
+`GenesisAccount` 类型对应于以太坊 `GenesisAccount` 类型的适配。它定义要在创世状态中初始化的账户。
 
-Its main difference is that the one on Ethermint uses a custom `Storage` type that uses a slice instead of maps for the evm `State` (due to non-determinism), and that it doesn't contain the private key field.
+它的主要区别在于 Ethermint 上的账户使用自定义 `Storage` 类型，该类型使用切片而不是映射用于 evm `State`（由于非确定性），并且它不包含私钥字段。
 
-It is also important to note that since the `auth` module on the Cosmos SDK manages the account state,  the `Address` field must correspond to an existing `EthAccount` that is stored in the `auth`'s module `Keeper` (i.e `AccountKeeper`).
+同样重要的是要注意，由于 Cosmos SDK 上的 `auth` 模块管理账户状态，`Address` 字段必须对应于存储在 `auth` 模块 `Keeper`（即 `AccountKeeper`）中的现有 `EthAccount`。
 
 ```go
 type GenesisAccount struct {

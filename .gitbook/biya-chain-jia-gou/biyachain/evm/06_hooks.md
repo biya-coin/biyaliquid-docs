@@ -2,17 +2,17 @@
 order: 6
 -->
 
-# Hooks
+# 钩子
 
-The `x/evm` module implements an `EvmHooks` interface that extend and customize the `Tx` processing logic externally.
+`x/evm` 模块实现了一个 `EvmHooks` 接口，该接口外部扩展和自定义 `Tx` 处理逻辑。
 
-This supports EVM contracts to call native cosmos modules by
+这支持 EVM 合约通过以下方式调用原生 cosmos 模块：
 
-1. defining a log signature and emitting the specific log from the smart contract,
-2. recognizing those logs in the native tx processing code, and
-3. converting them to native module calls.
+1. 定义日志签名并从智能合约发出特定日志，
+2. 在本机交易处理代码中识别这些日志，以及
+3. 将它们转换为原生模块调用。
 
-To do this, the interface includes a  `PostTxProcessing` hook that registers custom `Tx` hooks in the `EvmKeeper`. These  `Tx` hooks are processed after the EVM state transition is finalized and doesn't fail. Note that there are no default hooks implemented in the EVM module.
+为此，接口包括一个 `PostTxProcessing` 钩子，该钩子在 `EvmKeeper` 中注册自定义 `Tx` 钩子。这些 `Tx` 钩子在 EVM 状态转换完成且不失败后处理。请注意，EVM 模块中没有实现默认钩子。
 
 ```go
 type EvmHooks interface {
@@ -23,7 +23,7 @@ type EvmHooks interface {
 
 ## `PostTxProcessing`
 
- `PostTxProcessing` is only called after a EVM transaction finished successfully and delegates the call to underlying hooks.  If no hook has been registered, this function returns with a `nil` error.
+`PostTxProcessing` 仅在 EVM 交易成功完成后调用，并将调用委托给底层钩子。如果未注册钩子，此函数将返回 `nil` 错误。
 
 ```go
 func (k *Keeper) PostTxProcessing(ctx sdk.Context, msg core.Message, receipt *ethtypes.Receipt) error {
@@ -34,15 +34,15 @@ func (k *Keeper) PostTxProcessing(ctx sdk.Context, msg core.Message, receipt *et
 }
 ```
 
-It's executed in the same cache context as the EVM transaction, if it returns an error, the whole EVM transaction is reverted, if the hook implementor doesn't want to revert the tx, they can always return `nil` instead.
+它在与 EVM 交易相同的缓存上下文中执行，如果返回错误，整个 EVM 交易将被回滚，如果钩子实现者不想回滚交易，他们可以始终返回 `nil`。
 
-The error returned by the hooks is translated to a VM error `failed to process native logs`, the detailed error message is stored in the return value. The message is sent to native modules asynchronously, there's no way for the caller to catch and recover the error.
+钩子返回的错误被转换为 VM 错误 `failed to process native logs`，详细错误消息存储在返回值中。消息异步发送到原生模块，调用者无法捕获和恢复错误。
 
-## Use Case: Call Native ERC20 Module on Biya Chain
+## 用例：在 Biya Chain 上调用原生 ERC20 模块
 
-Here is an example taken from the Biya Chain [erc20 module]() that shows how the `EVMHooks` supports a contract calling a native module to convert ERC-20 Tokens into Cosmos native Coins. Following the steps from above.
+这是来自 Biya Chain [erc20 模块]() 的示例，展示了 `EVMHooks` 如何支持合约调用原生模块以将 ERC-20 代币转换为 Cosmos 原生代币。按照上述步骤。
 
-You can define and emit a `Transfer` log signature in the smart contract like this:
+您可以在智能合约中定义并发出 `Transfer` 日志签名，如下所示：
 
 ```solidity
 event Transfer(address indexed from, address indexed to, uint256 value);
@@ -59,7 +59,7 @@ function _transfer(address sender, address recipient, uint256 amount) internal v
 }
 ```
 
-The application will register a `BankSendHook` to the `EvmKeeper`. It recognizes the ethereum tx `Log` and converts it to a call to the bank module's `SendCoinsFromAccountToAccount` method:
+应用程序将向 `EvmKeeper` 注册一个 `BankSendHook`。它识别以太坊交易 `Log` 并将其转换为对银行模块的 `SendCoinsFromAccountToAccount` 方法的调用：
 
 ```go
 
@@ -187,7 +187,7 @@ func (k Keeper) PostTxProcessing(
  return nil
 ```
 
-Lastly, register the hook in `app.go`:
+最后，在 `app.go` 中注册钩子：
 
 ```go
 app.EvmKeeper = app.EvmKeeper.SetHooks(app.Erc20Keeper)

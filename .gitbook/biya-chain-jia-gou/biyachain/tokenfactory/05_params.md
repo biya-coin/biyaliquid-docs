@@ -1,11 +1,11 @@
 ---
 sidebar_position: 5
-title: Params
+title: 参数
 ---
 
-# Parameters
+# 参数
 
-The tokenfactory module contains the following parameters:
+tokenfactory 模块包含以下参数：
 
 ```protobuf
 // Params defines the parameters for the tokenfactory module.

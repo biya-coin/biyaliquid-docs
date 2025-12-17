@@ -3,15 +3,13 @@ sidebar_position: 6
 title: Messages
 ---
 
-# Messages
+# 消息
 
-In this section we describe the processing of the exchange messages and the corresponding updates to the state. All\
-created/modified state objects specified by each message are defined within the [State Transitions](04_state_transitions.md)\
-section.
+在本节中，我们描述交易所消息的处理以及相应的状态更新。每个消息指定的所有创建/修改的状态对象都在[状态转换](04_state_transitions.md)部分中定义。
 
 ## Msg/Deposit
 
-`MsgDeposit` defines a SDK message for transferring coins from the sender's bank balance into the subaccount's exchange deposits.
+`MsgDeposit` 定义了一个 SDK 消息，用于将代币从发送者的银行余额转移到子账户的交易所存款。
 
 ```go
 type MsgDeposit struct {
@@ -23,15 +21,15 @@ type MsgDeposit struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the address who deposits.
-* `SubaccountId` describes the ID of a sub-account to receive a deposit.
-* `Amount` specifies the deposit amount.
+* `Sender` 字段描述存款人的地址。
+* `SubaccountId` 描述接收存款的子账户 ID。
+* `Amount` 指定存款金额。
 
 ## Msg/Withdraw
 
-`MsgWithdraw` defines a SDK message for withdrawing coins from a subaccount's deposits to the user's bank balance.
+`MsgWithdraw` 定义了一个 SDK 消息，用于从子账户的存款中提取代币到用户的银行余额。
 
 ```go
 type MsgWithdraw struct {
@@ -42,15 +40,15 @@ type MsgWithdraw struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the address to receive withdrawal.
-* `SubaccountId` describes the ID of a sub-account to withdraw from.
-* `Amount` specifies the withdrawal amount.
+* `Sender` 字段描述接收提取的地址。
+* `SubaccountId` 描述要从中提取的子账户 ID。
+* `Amount` 指定提取金额。
 
 ## Msg/InstantSpotMarketLaunch
 
-`MsgInstantSpotMarketLaunch` defines a SDK message for creating a new spot market by paying listing fee without governance. The fee is sent to the community spend pool.
+`MsgInstantSpotMarketLaunch` 定义了一个 SDK 消息，用于通过支付上币费创建新的现货市场，无需治理。费用发送到社区支出池。
 
 ```go
 type MsgInstantSpotMarketLaunch struct {
@@ -64,18 +62,18 @@ type MsgInstantSpotMarketLaunch struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of this msg.
-* `Ticker` describes the ticker for the spot market.
-* `BaseDenom` specifies the type of coin to use as the base currency.
-* `QuoteDenom` specifies the type of coin to use as the quote currency.
-* `MinPriceTickSize` defines the minimum tick size of the order's price.
-* `MinQuantityTickSize` defines the minimum tick size of the order's quantity.
+* `Sender` 字段描述此消息的创建者。
+* `Ticker` 描述现货市场的交易代码。
+* `BaseDenom` 指定用作基础货币的代币类型。
+* `QuoteDenom` 指定用作报价货币的代币类型。
+* `MinPriceTickSize` 定义订单价格的最小变动单位。
+* `MinQuantityTickSize` 定义订单数量的最小变动单位。
 
 ## Msg/InstantPerpetualMarketLaunch
 
-`MsgInstantPerpetualMarketLaunch` defines a SDK message for creating a new perpetual futures market by paying listing fee without governance. The fee is sent to the community spend pool.
+`MsgInstantPerpetualMarketLaunch` 定义了一个 SDK 消息，用于通过支付上币费创建新的永续期货市场，无需治理。费用发送到社区支出池。
 
 ```go
 type MsgInstantPerpetualMarketLaunch struct {
@@ -96,25 +94,25 @@ type MsgInstantPerpetualMarketLaunch struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of this msg.
-* `Ticker` field describes the ticker for the derivative market.
-* `QuoteDenom` field describes the type of coin to use as the base currency.
-* `OracleBase` field describes the oracle base currency.
-* `OracleQuote` field describes the oracle quote currency.
-* `OracleScaleFactor` field describes the scale factor for oracle prices.
-* `OracleType` field describes the oracle type.
-* `MakerFeeRate` field describes the trade fee rate for makers on the derivative market.
-* `TakerFeeRate` field describes the trade fee rate for takers on the derivative market.
-* `InitialMarginRatio` field describes the initial margin ratio for the derivative market.
-* `MaintenanceMarginRatio` field describes the maintenance margin ratio for the derivative market.
-* `MinPriceTickSize` field describes the minimum tick size of the order's price and margin.
-* `MinQuantityTickSize` field describes the minimum tick size of the order's quantity.
+* `Sender` 字段描述此消息的创建者。
+* `Ticker` 字段描述衍生品市场的交易代码。
+* `QuoteDenom` 字段描述用作报价货币的代币类型。
+* `OracleBase` 字段描述预言机基础货币。
+* `OracleQuote` 字段描述预言机报价货币。
+* `OracleScaleFactor` 字段描述预言机价格的缩放因子。
+* `OracleType` 字段描述预言机类型。
+* `MakerFeeRate` 字段描述衍生品市场上做市商的交易费率。
+* `TakerFeeRate` 字段描述衍生品市场上吃单者的交易费率。
+* `InitialMarginRatio` 字段描述衍生品市场的初始保证金比率。
+* `MaintenanceMarginRatio` 字段描述衍生品市场的维持保证金比率。
+* `MinPriceTickSize` 字段描述订单价格和保证金的最小变动单位。
+* `MinQuantityTickSize` 字段描述订单数量的最小变动单位。
 
 ## Msg/InstantExpiryFuturesMarketLaunch
 
-`MsgInstantExpiryFuturesMarketLaunch` defines a SDK message for creating a new expiry futures market by paying listing fee without governance. The fee is sent to the community spend pool.
+`MsgInstantExpiryFuturesMarketLaunch` 定义了一个 SDK 消息，用于通过支付上币费创建新的到期期货市场，无需治理。费用发送到社区支出池。
 
 ```go
 type MsgInstantExpiryFuturesMarketLaunch struct {
@@ -136,22 +134,22 @@ type MsgInstantExpiryFuturesMarketLaunch struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of this msg.
-* `Ticker` field describes the ticker for the derivative market.
-* `QuoteDenom` field describes the type of coin to use as the quote currency.
-* `OracleBase` field describes the oracle base currency.
-* `OracleQuote` field describes the oracle quote currency.
-* `OracleScaleFactor` field describes the scale factor for oracle prices.
-* `OracleType` field describes the oracle type.
-* `Expiry` field describes the expiration time of the market.
-* `MakerFeeRate` field describes the trade fee rate for makers on the derivative market.
-* `TakerFeeRate` field describes the trade fee rate for takers on the derivative market.
-* `InitialMarginRatio` field describes the initial margin ratio for the derivative market.
-* `MaintenanceMarginRatio` field describes the maintenance margin ratio for the derivative market.
-* `MinPriceTickSize` field describes the minimum tick size of the order's price and margin.
-* `MinQuantityTickSize` field describes the minimum tick size of the order's quantity.
+* `Sender` 字段描述此消息的创建者。
+* `Ticker` 字段描述衍生品市场的交易代码。
+* `QuoteDenom` 字段描述用作报价货币的代币类型。
+* `OracleBase` 字段描述预言机基础货币。
+* `OracleQuote` 字段描述预言机报价货币。
+* `OracleScaleFactor` 字段描述预言机价格的缩放因子。
+* `OracleType` 字段描述预言机类型。
+* `Expiry` 字段描述市场的到期时间。
+* `MakerFeeRate` 字段描述衍生品市场上做市商的交易费率。
+* `TakerFeeRate` 字段描述衍生品市场上吃单者的交易费率。
+* `InitialMarginRatio` 字段描述衍生品市场的初始保证金比率。
+* `MaintenanceMarginRatio` 字段描述衍生品市场的维持保证金比率。
+* `MinPriceTickSize` 字段描述订单价格和保证金的最小变动单位。
+* `MinQuantityTickSize` 字段描述订单数量的最小变动单位。
 
 ## Msg/CreateSpotLimitOrder
 
@@ -240,7 +238,7 @@ type MsgBatchCancelSpotOrders struct {
 
 ## Msg/CreateDerivativeLimitOrder
 
-`MsgCreateDerivativeLimitOrder` defines the message to create a derivative limit order.
+`MsgCreateDerivativeLimitOrder` 定义了创建衍生品限价单的消息。
 
 ```go
 type MsgCreateDerivativeLimitOrder struct {
@@ -249,14 +247,14 @@ type MsgCreateDerivativeLimitOrder struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of this msg.
-* `Order` field describes the order info.
+* `Sender` 字段描述此消息的创建者。
+* `Order` 字段描述订单信息。
 
-## Batch creation of derivative limit orders
+## 批量创建衍生品限价单
 
-`MsgBatchCreateDerivativeLimitOrders` describes the batch creation of derivative limit orders.
+`MsgBatchCreateDerivativeLimitOrders` 描述批量创建衍生品限价单。
 
 ```go
 type MsgBatchCreateDerivativeLimitOrders struct {
@@ -265,14 +263,14 @@ type MsgBatchCreateDerivativeLimitOrders struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of this msg.
-* `Orders` field describes the orders info.
+* `Sender` 字段描述此消息的创建者。
+* `Orders` 字段描述订单信息。
 
 ## Msg/CreateDerivativeMarketOrder
 
-`MsgCreateDerivativeMarketOrder` is a message to create a derivative market order.
+`MsgCreateDerivativeMarketOrder` 是创建衍生品市价单的消息。
 
 ```go
 // A Cosmos-SDK MsgCreateDerivativeMarketOrder
@@ -282,10 +280,10 @@ type MsgCreateDerivativeMarketOrder struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of this msg.
-* `Order` field describes the order info.
+* `Sender` 字段描述此消息的创建者。
+* `Order` 字段描述订单信息。
 
 ## Msg/CancelDerivativeOrder
 
@@ -412,7 +410,7 @@ type MsgIncreasePositionMargin struct {
 
 ## Msg/BatchUpdateOrders
 
-`MsgBatchUpdateOrders` allows for the atomic cancellation and creation of spot and derivative limit orders, along with a new order cancellation mode. Upon execution, order cancellations (if any) occur first, followed by order creations (if any).
+`MsgBatchUpdateOrders` 允许原子性地取消和创建现货和衍生品限价单，以及新的订单取消模式。执行时，订单取消（如果有）首先发生，然后是订单创建（如果有）。
 
 ```go
 // A Cosmos-SDK MsgBatchUpdateOrders
@@ -429,20 +427,20 @@ type MsgBatchUpdateOrders struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of this msg.
-* `SubaccountId` field describes the sender's sub-account ID.
-* `SpotMarketIdsToCancelAll` field describes a list of spot market IDs for which the sender wants to cancel all open orders.
-* `DerivativeMarketIdsToCancelAll` field describes a list of derivative market IDs for which the sender wants to cancel all open orders.
-* `SpotOrdersToCancel` field describes specific spot orders the sender wants to cancel.
-* `DerivativeOrdersToCancel` field describes specific derivative orders the sender wants to cancel.
-* `SpotOrdersToCreate` field describes spot orders the sender wants to create.
-* `DerivativeOrdersToCreate` field describes derivative orders the sender wants to create.
+* `Sender` 字段描述此消息的创建者。
+* `SubaccountId` 字段描述发送者的子账户 ID。
+* `SpotMarketIdsToCancelAll` 字段描述发送者想要取消所有开放订单的现货市场 ID 列表。
+* `DerivativeMarketIdsToCancelAll` 字段描述发送者想要取消所有开放订单的衍生品市场 ID 列表。
+* `SpotOrdersToCancel` 字段描述发送者想要取消的特定现货订单。
+* `DerivativeOrdersToCancel` 字段描述发送者想要取消的特定衍生品订单。
+* `SpotOrdersToCreate` 字段描述发送者想要创建的现货订单。
+* `DerivativeOrdersToCreate` 字段描述发送者想要创建的衍生品订单。
 
 ## Msg/AuthorizeStakeGrants
 
-`MsgAuthorizeStakeGrants` is a message used to grant another address with staked BIYA balance for fee discount purposes. It can also be used to revoke/remove grants if the amount granted is set to 0.
+`MsgAuthorizeStakeGrants` 是用于向另一个地址授予质押的 BIYA 余额以用于费用折扣目的的消息。如果授权金额设置为 0，也可以用于撤销/删除授权。
 
 ```go
 type MsgAuthorizeStakeGrants struct {
@@ -451,10 +449,10 @@ type MsgAuthorizeStakeGrants struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` describes the creator of this msg.
-* `Grants` describes a list of grantees' addresses and grant amounts
+* `Sender` 描述此消息的创建者。
+* `Grants` 描述被授权人地址和授权金额列表。
 
 ## Msg/ActivateStakeGrant
 

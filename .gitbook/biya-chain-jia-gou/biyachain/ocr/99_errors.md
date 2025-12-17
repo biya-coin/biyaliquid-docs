@@ -1,30 +1,30 @@
-# Error Codes
+# 错误代码
 
-This document lists the error codes used in the module.
+本文档列出了模块中使用的错误代码。
 
 
-| Module | Error Code | description |
+| 模块 | 错误代码 | 描述 |
 |--------|------------|-------------|
-| ocr |  1 | stale report |
-| ocr |  2 | incomplete proposal |
-| ocr |  3 | repeated oracle address |
-| ocr |  4 | too many signers |
-| ocr |  5 | incorrect config |
-| ocr |  6 | config digest doesn't match |
-| ocr |  7 | wrong number of signatures |
-| ocr |  8 | incorrect signature |
-| ocr |  9 | no transmitter specified |
-| ocr |  10 | incorrect transmission data |
-| ocr |  11 | no transmissions found |
-| ocr |  12 | median value is out of bounds |
-| ocr |  13 | LINK denom doesn't match |
-| ocr |  14 | Reward Pool doesn't exist |
-| ocr |  15 | wrong number of payees and transmitters |
-| ocr |  16 | action is restricted to the module admin |
-| ocr |  17 | feed already exists |
-| ocr |  19 | feed doesnt exists |
-| ocr |  20 | action is admin-restricted |
-| ocr |  21 | insufficient reward pool |
-| ocr |  22 | payee already set |
-| ocr |  23 | action is payee-restricted |
-| ocr |  24 | feed config not found |
+| ocr |  1 | 过期报告 |
+| ocr |  2 | 不完整的提案 |
+| ocr |  3 | 重复的预言机地址 |
+| ocr |  4 | 签名者过多 |
+| ocr |  5 | 配置不正确 |
+| ocr |  6 | 配置摘要不匹配 |
+| ocr |  7 | 签名数量错误 |
+| ocr |  8 | 签名不正确 |
+| ocr |  9 | 未指定传输者 |
+| ocr |  10 | 传输数据不正确 |
+| ocr |  11 | 未找到传输 |
+| ocr |  12 | 中位数值超出范围 |
+| ocr |  13 | LINK 面额不匹配 |
+| ocr |  14 | 奖励池不存在 |
+| ocr |  15 | 收款人和传输者数量错误 |
+| ocr |  16 | 操作仅限于模块管理员 |
+| ocr |  17 | feed 已存在 |
+| ocr |  19 | feed 不存在 |
+| ocr |  20 | 操作受管理员限制 |
+| ocr |  21 | 奖励池不足 |
+| ocr |  22 | 收款人已设置 |
+| ocr |  23 | 操作受收款人限制 |
+| ocr |  24 | 未找到 feed 配置 |

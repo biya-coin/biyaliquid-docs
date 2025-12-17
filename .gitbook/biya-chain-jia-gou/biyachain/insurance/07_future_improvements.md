@@ -3,9 +3,9 @@ sidebar_position: 7
 title: Future Improvements
 ---
 
-# Future improvements
+# 未来改进
 
-## Precision Loss Edge Case Handling
+## 精度损失边界情况处理
 
-Insurance Fund share tokens currently have a decimal scale of `10^18`. There could be potential problems using this as user deposits amount could be various and in the future, share token's price could be very higher or lower.
+保险基金份额代币目前具有 `10^18` 的小数精度。使用这个可能存在潜在问题，因为用户存款金额可能各不相同，并且未来份额代币的价格可能会非常高或非常低。
 

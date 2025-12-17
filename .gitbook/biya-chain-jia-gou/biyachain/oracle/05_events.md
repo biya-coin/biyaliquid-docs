@@ -1,10 +1,10 @@
 ---
 sidebar_position: 5
-title: Events
+title: 事件
 ---
-# Events
+# 事件
 
-The oracle module emits the following events:
+oracle 模块发出以下事件：
 ## Band
 ```protobuf
 message SetBandPriceEvent {

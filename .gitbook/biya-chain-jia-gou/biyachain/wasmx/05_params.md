@@ -1,11 +1,11 @@
 ---
 sidebar_position: 5
-title: Params
+title: 参数
 ---
 
-## Params
+## 参数
 
-The subspace for the wasmx module is `wasmx`.
+wasmx 模块的子空间是 `wasmx`。
 
 ```go
 type Params struct {

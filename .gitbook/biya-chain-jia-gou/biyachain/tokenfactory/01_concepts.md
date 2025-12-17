@@ -1,23 +1,13 @@
 ---
 sidebar_position: 1
-title: Concepts
+title: 概念
 ---
 
-# Concepts
+# 概念
 
-The `tokenfactory` module allows any account to create a new token with\
-the name `factory/{creator address}/{subdenom}`. Because tokens are\
-namespaced by creator address, this allows token minting to be\
-permissionless, due to not needing to resolve name collisions. A single\
-account can create multiple denoms, by providing a unique subdenom for each\
-created denom. Once a denom is created, the original creator is given\
-"admin" privileges over the asset. This allows them to:
+`tokenfactory` 模块允许任何账户创建一个新代币，名称为 `factory/{创建者地址}/{子代币单位}`。由于代币按创建者地址进行命名空间划分，这使得代币铸造可以无需许可，因为不需要解决名称冲突。单个账户可以通过为每个创建的代币单位提供唯一的子代币单位来创建多个代币单位。一旦创建了代币单位，原始创建者就被授予对该资产的"管理员"权限。这允许他们：
 
-* Mint their denom to any account
-* Burn their denom from any account (if enabled)
-* Create a transfer of their denom between any two accounts
-* Change the admin. In the future, more admin capabilities may be added. Admins\
-  can choose to share admin privileges with other accounts using the authz\
-  module. The `ChangeAdmin` functionality, allows changing the master admin\
-  account, or even setting it to `""`, meaning no account has admin privileges\
-  of the asset.
+* 将他们的代币单位铸造到任何账户
+* 从任何账户销毁他们的代币单位（如果启用）
+* 在任何两个账户之间创建他们的代币单位的转账
+* 更改管理员。未来可能会添加更多管理员功能。管理员可以使用 authz 模块选择与其他账户共享管理员权限。`ChangeAdmin` 功能允许更改主管理员账户，甚至将其设置为 `""`，这意味着没有账户拥有该资产的管理员权限。

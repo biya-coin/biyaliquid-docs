@@ -1,15 +1,15 @@
-# `Auction`
+# 拍卖
 
-## Abstract
+## 概述
 
-The `auction` module periodically obtains a basket of tokens accumulated from trading fees from the `exchange` module and auctions the basket to the highest bidder in an open English auction for BIYA. The winner of this auction receives the basket of tokens and the winning BIYA bid amount from this auction is burned. 
+`auction`（拍卖）模块定期从 `exchange`（交易所）模块获取从交易费用中积累的代币篮子，并在公开的英式拍卖中将这些代币篮子拍卖给出价最高的 BIYA 竞标者。拍卖获胜者获得代币篮子，而获胜的 BIYA 出价金额将被销毁。
 
-## Contents
+## 目录
 
-1. [State](./01_state.md)
-2. [Messages](./02_messages.md)
-3. [End Block](./03_end_block.md)
-4. [Events](./04_events.md)
-5. [Params](./05_params.md)
+1. [状态](./01_state.md)
+2. [消息](./02_messages.md)
+3. [区块结束](./03_end_block.md)
+4. [事件](./04_events.md)
+5. [参数](./05_params.md)
 
 

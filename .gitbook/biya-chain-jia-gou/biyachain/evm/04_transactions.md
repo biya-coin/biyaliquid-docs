@@ -2,13 +2,13 @@
 order: 4
 -->
 
-# Transactions
+# 交易
 
-This section defines the `sdk.Msg` concrete types that result in the state transitions defined on the previous section.
+本节定义了 `sdk.Msg` 具体类型，这些类型导致上一节中定义的状态转换。
 
 ## `MsgEthereumTx`
 
-An EVM state transition can be achieved by using the `MsgEthereumTx`. This message encapsulates an Ethereum transaction data (`TxData`) as a `sdk.Msg`. It contains the necessary transaction data fields. Note, that the `MsgEthereumTx` implements both the [`sdk.Msg`](https://github.com/cosmos/cosmos-sdk/blob/v0.39.2/types/tx_msg.go#L7-L29) and [`sdk.Tx`](https://github.com/cosmos/cosmos-sdk/blob/v0.39.2/types/tx_msg.go#L33-L41) interfaces. Normally,  SDK messages only implement the former, while the latter is a group of messages bundled together.
+可以通过使用 `MsgEthereumTx` 实现 EVM 状态转换。此消息将以太坊交易数据（`TxData`）封装为 `sdk.Msg`。它包含必要的交易数据字段。请注意，`MsgEthereumTx` 同时实现了 [`sdk.Msg`](https://github.com/cosmos/cosmos-sdk/blob/v0.39.2/types/tx_msg.go#L7-L29) 和 [`sdk.Tx`](https://github.com/cosmos/cosmos-sdk/blob/v0.39.2/types/tx_msg.go#L33-L41) 接口。通常，SDK 消息只实现前者，而后者是一组捆绑在一起的消息。
 
 ```go
 type MsgEthereumTx struct {
@@ -25,23 +25,23 @@ type MsgEthereumTx struct {
 }
 ```
 
-This message field validation is expected to fail if:
+如果满足以下条件，此消息字段验证将失败：
 
-- `From` field is defined and the address is invalid
-- `TxData` stateless validation fails
+- `From` 字段已定义且地址无效
+- `TxData` 无状态验证失败
 
-The transaction execution is expected to fail if:
+如果满足以下条件，交易执行将失败：
 
-- Any of the custom `AnteHandler` Ethereum decorators checks fail:
-    - Minimum gas amount requirements for transaction
-    - Tx sender account doesn't exist or hasn't enough balance for fees
-    - Account sequence doesn't match the transaction `Data.AccountNonce`
-    - Message signature verification fails
-- EVM contract creation (i.e `evm.Create`) fails, or `evm.Call` fails
+- 任何自定义 `AnteHandler` 以太坊装饰器检查失败：
+    - 交易的最低 gas 数量要求
+    - 交易发送者账户不存在或没有足够的余额支付费用
+    - 账户序列与交易 `Data.AccountNonce` 不匹配
+    - 消息签名验证失败
+- EVM 合约创建（即 `evm.Create`）失败，或 `evm.Call` 失败
 
-### Conversion
+### 转换
 
-The `MsgEthreumTx` can be converted to the go-ethereum `Transaction` and `Message` types in order to create and call evm contracts.
+`MsgEthereumTx` 可以转换为 go-ethereum `Transaction` 和 `Message` 类型，以便创建和调用 evm 合约。
 
 ```go
 // AsTransaction creates an Ethereum Transaction type from the msg fields
@@ -78,9 +78,9 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 }
 ```
 
-### Signing
+### 签名
 
-In order for the signature verification to be valid, the  `TxData` must contain the `v | r | s` values from the `Signer`. Sign calculates a secp256k1 ECDSA signature and signs the transaction. It takes a keyring signer and the chainID to sign an Ethereum transaction according to EIP155 standard. This method mutates the transaction as it populates the V, R, S fields of the Transaction's Signature. The function will fail if the sender address is not defined for the msg or if the sender is not registered on the keyring.
+为了使签名验证有效，`TxData` 必须包含来自 `Signer` 的 `v | r | s` 值。Sign 计算 secp256k1 ECDSA 签名并对交易进行签名。它接受密钥环签名者和 chainID，根据 EIP155 标准对以太坊交易进行签名。此方法会改变交易，因为它填充交易签名的 V、R、S 字段。如果消息的发送者地址未定义或发送者未在密钥环上注册，此函数将失败。
 
 ```go
 // Sign calculates a secp256k1 ECDSA signature and signs the transaction. It
@@ -116,15 +116,15 @@ func (msg *MsgEthereumTx) Sign(ethSigner ethtypes.Signer, keyringSigner keyring.
 
 ## TxData
 
-The `MsgEthereumTx` supports the 3 valid Ethereum transaction data types from go-ethereum: `LegacyTx`, `AccessListTx`  and `DynamicFeeTx`. These types are defined as protobuf messages and packed into a `proto.Any` interface type in the `MsgEthereumTx` field.
+`MsgEthereumTx` 支持来自 go-ethereum 的 3 种有效以太坊交易数据类型：`LegacyTx`、`AccessListTx` 和 `DynamicFeeTx`。这些类型定义为 protobuf 消息，并打包到 `MsgEthereumTx` 字段中的 `proto.Any` 接口类型。
 
-- `LegacyTx`: [EIP-155](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md) transaction type
-- `DynamicFeeTx`: [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559) transaction type. Enabled by London hard fork block
-- `AccessListTx`: [EIP-2930](https://eips.ethereum.org/EIPS/eip-2930) transaction type. Enabled by Berlin hard fork block
+- `LegacyTx`：[EIP-155](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md) 交易类型
+- `DynamicFeeTx`：[EIP-1559](https://eips.ethereum.org/EIPS/eip-1559) 交易类型。由 London 硬分叉区块启用
+- `AccessListTx`：[EIP-2930](https://eips.ethereum.org/EIPS/eip-2930) 交易类型。由 Berlin 硬分叉区块启用
 
 ### `LegacyTx`
 
-The transaction data of regular Ethereum transactions.
+常规以太坊交易的交易数据。
 
 ```go
 type LegacyTx struct {
@@ -149,16 +149,16 @@ type LegacyTx struct {
 }
 ```
 
-This message field validation is expected to fail if:
+如果满足以下条件，此消息字段验证将失败：
 
-- `GasPrice` is invalid (`nil` , negaitve or out of int256 bound)
-- `Fee` (gasprice * gaslimit) is invalid
-- `Amount` is invalid (negaitve or out of int256 bound)
-- `To` address is invalid (non valid ethereum hex address)
+- `GasPrice` 无效（`nil`、负数或超出 int256 范围）
+- `Fee`（gasprice * gaslimit）无效
+- `Amount` 无效（负数或超出 int256 范围）
+- `To` 地址无效（非有效的以太坊十六进制地址）
 
 ### `DynamicFeeTx`
 
-The transaction data of EIP-1559 dynamic fee transactions.
+EIP-1559 动态费用交易的交易数据。
 
 ```go
 type DynamicFeeTx struct {
@@ -188,19 +188,19 @@ type DynamicFeeTx struct {
 }
 ```
 
-This message field validation is expected to fail if:
+如果满足以下条件，此消息字段验证将失败：
 
-- `GasTipCap` is invalid (`nil` , negative or overflows int256)
-- `GasFeeCap` is invalid (`nil` , negative or overflows int256)
-- `GasFeeCap` is less than `GasTipCap`
-- `Fee` (gas price * gas limit) is invalid (overflows int256)
-- `Amount` is invalid (negative or overflows int256)
-- `To` address is invalid (non-valid ethereum hex address)
-- `ChainID` is `nil`
+- `GasTipCap` 无效（`nil`、负数或溢出 int256）
+- `GasFeeCap` 无效（`nil`、负数或溢出 int256）
+- `GasFeeCap` 小于 `GasTipCap`
+- `Fee`（gas price * gas limit）无效（溢出 int256）
+- `Amount` 无效（负数或溢出 int256）
+- `To` 地址无效（非有效的以太坊十六进制地址）
+- `ChainID` 为 `nil`
 
 ### `AccessListTx`
 
-The transaction data of EIP-2930 access list transactions.
+EIP-2930 访问列表交易的交易数据。
 
 ```go
 type AccessListTx struct {
@@ -228,10 +228,10 @@ type AccessListTx struct {
 }
 ```
 
-This message field validation is expected to fail if:
+如果满足以下条件，此消息字段验证将失败：
 
-- `GasPrice` is invalid (`nil` , negative or overflows int256)
-- `Fee` (gas price * gas limit) is invalid (overflows int256)
-- `Amount` is invalid (negative or overflows int256)
-- `To` address is invalid (non-valid ethereum hex address)
-- `ChainID` is `nil`
+- `GasPrice` 无效（`nil`、负数或溢出 int256）
+- `Fee`（gas price * gas limit）无效（溢出 int256）
+- `Amount` 无效（负数或溢出 int256）
+- `To` 地址无效（非有效的以太坊十六进制地址）
+- `ChainID` 为 `nil`

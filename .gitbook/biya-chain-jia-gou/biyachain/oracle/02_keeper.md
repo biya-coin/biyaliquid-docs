@@ -5,14 +5,11 @@ title: Keepers
 
 # Keeper
 
-The oracle module currently provides three different exported keeper interfaces which can be passed to other modules\
-which need to read price feeds. Modules should use the least-permissive interface which provides the functionality they\
-require.
+oracle 模块目前提供三种不同的导出 keeper 接口，可以传递给需要读取价格源的其他模块。模块应使用提供其所需功能的最小权限接口。
 
 ## Oracle Module ViewKeeper
 
-The oracle module ViewKeeper provides the ability to obtain price data as well as cumulative price data for any\
-supported oracle type and oracle pair.
+oracle 模块 ViewKeeper 提供获取任何支持的 oracle 类型和 oracle 对的价格数据以及累积价格数据的能力。
 
 ```go
 type ViewKeeper interface {
@@ -21,11 +18,11 @@ type ViewKeeper interface {
 }
 ```
 
-Note that the `GetPrice` for Coinbase oracles returns the 5 minute TWAP price.
+请注意，Coinbase oracle 的 `GetPrice` 返回 5 分钟 TWAP 价格。
 
 ## Band
 
-The BandKeeper provides the ability to create/modify/read/delete BandPricefeed and BandRelayer.
+BandKeeper 提供创建/修改/读取/删除 BandPricefeed 和 BandRelayer 的能力。
 
 ```go
 type BandKeeper interface {
@@ -42,7 +39,7 @@ type BandKeeper interface {
 
 ## Band IBC
 
-The BandIBCKeeper provides the ability to create/modify/read/delete BandIBCOracleRequest, BandIBCPriceState, BandIBCLatestClientID and BandIBCCallDataRecord.
+BandIBCKeeper 提供创建/修改/读取/删除 BandIBCOracleRequest、BandIBCPriceState、BandIBCLatestClientID 和 BandIBCCallDataRecord 的能力。
 
 ```go
 type BandIBCKeeper interface {
@@ -65,7 +62,7 @@ type BandIBCKeeper interface {
 
 ## Coinbase
 
-The CoinbaseKeeper provides the ability to create, modify and read CoinbasePricefeed data.
+CoinbaseKeeper 提供创建、修改和读取 CoinbasePricefeed 数据的能力。
 
 ```go
 type CoinbaseKeeper interface {
@@ -77,11 +74,11 @@ type CoinbaseKeeper interface {
 }
 ```
 
-The `GetCoinbasePrice` returns the 5 minute TWAP price of the CoinbasePriceState based off the `CoinbasePriceState.Timestamp` values provided by Coinbase.
+`GetCoinbasePrice` 基于 Coinbase 提供的 `CoinbasePriceState.Timestamp` 值返回 CoinbasePriceState 的 5 分钟 TWAP 价格。
 
 ## PriceFeeder
 
-The PriceFeederKeeper provides the ability to create/modify/read/delete PriceFeedPrice and PriceFeedRelayer.
+PriceFeederKeeper 提供创建/修改/读取/删除 PriceFeedPrice 和 PriceFeedRelayer 的能力。
 
 ```go
 type PriceFeederKeeper interface {
@@ -102,7 +99,7 @@ type PriceFeederKeeper interface {
 
 ## Stork
 
-The StorkKeeper provides the ability to create/modify/read StorkPricefeed and StorkPublishers data.
+StorkKeeper 提供创建/修改/读取 StorkPricefeed 和 StorkPublishers 数据的能力。
 
 ```go
 type StorkKeeper interface {
@@ -118,4 +115,4 @@ type StorkKeeper interface {
 }
 ```
 
-The GetStorkPrice returns the price(`value`) of the StorkPriceState.
+GetStorkPrice 返回 StorkPriceState 的价格（`value`）。

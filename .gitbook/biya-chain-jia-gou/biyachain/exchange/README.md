@@ -1,29 +1,29 @@
 # Exchange
 
-## Abstract
+## 概述
 
-The `exchange` module is the heart of the Biya Chain Chain which enables fully decentralized spot and derivative exchange.\
-It is the _sine qua non_ module of the chain and integrates tightly with the `auction`, `insurance`, `oracle`, and `peggy` modules.
+`exchange` 模块是 Biya Chain 的核心模块，实现了完全去中心化的现货和衍生品交易。\
+它是链上不可或缺的模块，与 `auction`、`insurance`、`oracle` 和 `peggy` 模块紧密集成。
 
-The exchange protocol enables traders to create and trade on arbitrary spot and derivative markets.\
-The entire process of orderbook management, trade execution, order matching and settlement occurs on chain through the logic codified by the exchange module.
+交易所协议使交易者能够在任意现货和衍生品市场上创建和交易。\
+订单簿管理、交易执行、订单匹配和结算的整个过程都通过 exchange 模块编码的逻辑在链上完成。
 
-The `exchange` module enables the exchange of tokens on two types of markets:
+`exchange` 模块支持两种类型的市场进行代币交换：
 
-1. `Derivative Market`: Either a `Perpetual Swap Market` or a `Futures Market`.
-2. `Spot Market`
+1. `衍生品市场`：`永续合约市场` 或 `期货市场`。
+2. `现货市场`
 
-## Contents
+## 目录
 
-1. [Derivative Market Concepts](00_derivative_market_concepts.md)
-2. [Spot Market Concepts](01_spot_market_concepts.md)
-3. [Other Concepts](02_other_concepts.md)
-4. [State](03_state.md)
-5. [State Transitions](04_state_transitions.md)
-6. [Messages](05_messages.md)
-7. [Proposals](06_proposals.md)
-8. [Begin Block](07_begin_block.md)
-9. [End Block](08_end_block.md)
-10. [Events](09_events.md)
-11. [Params](10_params.md)
+1. [衍生品市场概念](00_derivative_market_concepts.md)
+2. [现货市场概念](01_spot_market_concepts.md)
+3. [其他概念](02_other_concepts.md)
+4. [状态](03_state.md)
+5. [状态转换](04_state_transitions.md)
+6. [消息](05_messages.md)
+7. [治理提案](06_proposals.md)
+8. [区块开始](07_begin_block.md)
+9. [区块结束](08_end_block.md)
+10. [事件](09_events.md)
+11. [参数](10_params.md)
 12. [MsgPrivilegedExecuteContract](11_msg_privileged_execute_contract.md)

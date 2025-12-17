@@ -3,114 +3,109 @@ sidebar_position: 2
 title: State Transitions
 ---
 
-# State Transitions
+# 状态转换
 
-## State Transitions
+## 状态转换
 
-This document describes the state transition operations pertaining to:
+本文档描述了与以下内容相关的状态转换操作：
 
 * Creating an insurance fund
 * Underwriting an insurance fund
 * Request a redemption from the insurance fund
 * Automatic processing of matured redemption requests
 
-### Creating insurance fund
+### 创建保险基金
 
-**Params description**`Sender` field describes the creator of an insurance fund .`Ticker`, `QuoteDenom`, `OracleBase`, `OracleQuote`, `OracleType`, `Expiry` fields describe the derivative market info\
-that the insurance fund associated to.`InitialDeposit` field describes the initial deposit amount to be put on the insurance fund.
+**参数描述**`Sender` 字段描述保险基金的创建者。`Ticker`、`QuoteDenom`、`OracleBase`、`OracleQuote`、`OracleType`、`Expiry` 字段描述保险基金关联的衍生品市场信息。`InitialDeposit` 字段描述要存入保险基金的初始存款金额。
 
-**Steps**
+**步骤**
 
-* Get `MarketId` for the insurance fund - **Note**, market could be not available yet on `exchange` and it's not an\
-  issue
-* Ensure if insurance fund associated to the `MarketId` does not exist
-* Ensure if initial deposit amount is not zero
-* Get `shareDenom` that is unique - it's incremented when share denom is requested for insurance fund creation or when\
-  underwriting insurance fund that has zero balance and non-zero total share denom supply.
-* Send coins from creator's account to insurance fund module account
-* Create insurance fund object with `DefaultRedemptionNoticePeriodDuration` and with the params provided
-* Set `Balance` of fund object to initial deposit amount
-* Mint `InsuranceFundInitialSupply` (10^18) `shareDenom` tokens to creator account
-* Save insurance fund object to store
-* Register newly created insurance fund `shareDenom` metadata inside BankKeeper
+* 获取保险基金的 `MarketId` - **注意**，市场可能尚未在 `exchange` 上可用，这不是问题
+* 确保与 `MarketId` 关联的保险基金不存在
+* 确保初始存款金额不为零
+* 获取唯一的 `shareDenom` - 当为保险基金创建请求份额面额时，或在承保余额为零且总份额面额供应量非零的保险基金时，它会递增
+* 从创建者的账户发送代币到保险基金模块账户
+* 使用 `DefaultRedemptionNoticePeriodDuration` 和提供的参数创建保险基金对象
+* 将基金对象的 `Balance` 设置为初始存款金额
+* 向创建者账户铸造 `InsuranceFundInitialSupply` (10^18) `shareDenom` 代币
+* 将保险基金对象保存到存储
+* 在 BankKeeper 中注册新创建的保险基金 `shareDenom` 元数据
 
-### Underwriting an insurance fund
+### 承保保险基金
 
-**Params description**`Sender` field describes the underwriter of an insurance fund .`MarketId` field describes the derivative market id to the insurance fund.`Deposit` field describes the deposit amount to be added on the insurance fund.
+**参数描述**`Sender` 字段描述保险基金的承保人。`MarketId` 字段描述保险基金的衍生品市场 ID。`Deposit` 字段描述要添加到保险基金的存款金额。
 
-**Steps**
+**步骤**
 
-* Ensure if insurance fund associated to the `MarketId` does exist
-* Send underwriting tokens from sender's account to module account
-* Make actions based on the status of insurance fund associated to the `MarketId`.
-  * A. when `Balance` and `ShareDenomSupply` are zero
-    1. mint `InsuranceFundInitialSupply` (10^18) to the sender.
-    2. set `Balance` to deposit amount
-    3. set `ShareDenomSupply` to `InsuranceFundInitialSupply`
-  * B. when `Balance` is zero and `ShareDenomSupply` is not zero
-    1. change `ShareDenom` of the the insurance fund to start new insurance fund from beginning.
-    2. register newly created `ShareDenom` in bank keeper
-    3. mint `InsuranceFundInitialSupply` (10^18) to the sender.
-    4. set `Balance` to deposit amount
-    5. set `ShareDenomSupply` to `InsuranceFundInitialSupply`
-  * C. when `Balance` is not zero and `ShareDenomSupply` is zero
-    1. mint `InsuranceFundInitialSupply` (10^18) to the sender.
-    2. increase `Balance` by deposit amount
-    3. set `ShareDenomSupply` to `InsuranceFundInitialSupply`
-  * D. when both `Balance` and `ShareDenomSupply` are not zero - normal case
-    1. increase `Balance` by deposit amount
-    2. mint `prev_ShareDenomSupply * deposit_amount / prev_Balance` amount of `ShareDenom` to sender
-    3. increase `ShareDenomSupply` with mint amount
-* Save insurance fund object to store
+* 确保与 `MarketId` 关联的保险基金存在
+* 从发送者的账户发送承保代币到模块账户
+* 根据与 `MarketId` 关联的保险基金状态执行操作。
+  * A. 当 `Balance` 和 `ShareDenomSupply` 为零时
+    1. 向发送者铸造 `InsuranceFundInitialSupply` (10^18)。
+    2. 将 `Balance` 设置为存款金额
+    3. 将 `ShareDenomSupply` 设置为 `InsuranceFundInitialSupply`
+  * B. 当 `Balance` 为零且 `ShareDenomSupply` 不为零时
+    1. 更改保险基金的 `ShareDenom` 以从头开始新的保险基金。
+    2. 在银行保管器中注册新创建的 `ShareDenom`
+    3. 向发送者铸造 `InsuranceFundInitialSupply` (10^18)。
+    4. 将 `Balance` 设置为存款金额
+    5. 将 `ShareDenomSupply` 设置为 `InsuranceFundInitialSupply`
+  * C. 当 `Balance` 不为零且 `ShareDenomSupply` 为零时
+    1. 向发送者铸造 `InsuranceFundInitialSupply` (10^18)。
+    2. 将 `Balance` 增加存款金额
+    3. 将 `ShareDenomSupply` 设置为 `InsuranceFundInitialSupply`
+  * D. 当 `Balance` 和 `ShareDenomSupply` 都不为零时 - 正常情况
+    1. 将 `Balance` 增加存款金额
+    2. 向发送者铸造 `prev_ShareDenomSupply * deposit_amount / prev_Balance` 数量的 `ShareDenom`
+    3. 将 `ShareDenomSupply` 增加铸造数量
+* 将保险基金对象保存到存储
 
-### Requesting a redemption from an insurance fund
+### 从保险基金请求赎回
 
-**Params description**`Sender` field describes the redemption requester of an insurance fund .`MarketId` field describes the derivative market id associated to the insurance fund.`Amount` field describes the share token amount to be redeemed.
+**参数描述**`Sender` 字段描述保险基金的赎回请求者。`MarketId` 字段描述与保险基金关联的衍生品市场 ID。`Amount` 字段描述要赎回的份额代币数量。
 
-**Steps**
+**步骤**
 
-* Ensure insurance fund associated to the `MarketId` does exist
-* Send `ShareDenom` to module account
-* Get new redemption schedule ID
-* Calculate `ClaimTime` from insurance fund's redemption notice period duration and current block time
-* Calculate key to store pending redemption (redemption schedule)
-* Create redemption schedule object with details
-* Store redemption schedule object to store
+* 确保与 `MarketId` 关联的保险基金存在
+* 将 `ShareDenom` 发送到模块账户
+* 获取新的赎回计划 ID
+* 根据保险基金的赎回通知期限和当前区块时间计算 `ClaimTime`
+* 计算存储待处理赎回（赎回计划）的键
+* 创建包含详细信息的赎回计划对象
+* 将赎回计划对象存储到存储
 
-### Insurance fund actions on liquidation events in derivative market
+### 衍生品市场清算事件中的保险基金操作
 
-**Steps**
+**步骤**
 
-* `exchange` module finds relative insurance fund from the insurance keeper.
-* if `missingFund` is positive, it withdraws the amount from the insurance fund through `WithdrawFromInsuranceFund`.
-* if `missingFund` is negative, it deposits the amount into the insurance fund through `DepositIntoInsuranceFund`.
+* `exchange` 模块从保险保管器中找到相关保险基金。
+* 如果 `missingFund` 为正数，它通过 `WithdrawFromInsuranceFund` 从保险基金中提取金额。
+* 如果 `missingFund` 为负数，它通过 `DepositIntoInsuranceFund` 将金额存入保险基金。
 
-### Automatic processing of pending redemptions
+### 自动处理待处理赎回
 
-**Steps**
+**步骤**
 
-Iterate all matured redemptions by sorted order by `ClaimTime` and perform the following actions:
+按 `ClaimTime` 排序顺序迭代所有到期的赎回，并执行以下操作：
 
-* If `ClaimTime` is after current block time, break early
-* Ensure the insurance fund exist for matured redemption schedule
-* Calculate redeem amount from share amount - `shareAmt * fund.Balance * fund.TotalShare`
-* Send calculate redeem amount from module account to redeemer account
-* Burn share tokens sent to the module account at the time of redemption schedule
-* Delete redemption schedule object
-* Reduce insurance fund's `Balance` by redeem amount
-* Store updated insurance object to store
+* 如果 `ClaimTime` 在当前区块时间之后，提前中断
+* 确保到期赎回计划存在保险基金
+* 根据份额数量计算赎回金额 - `shareAmt * fund.Balance * fund.TotalShare`
+* 从模块账户发送计算的赎回金额到赎回者账户
+* 销毁在赎回计划时发送到模块账户的份额代币
+* 删除赎回计划对象
+* 将保险基金的 `Balance` 减少赎回金额
+* 将更新的保险对象存储到存储
 
 ## Hooks
 
-Other modules may register operations to execute when a certain event has occurred within insurance fund. These events\
-can be registered to execute either right `Before` or `After` the exchange event (as per the hook name). The following\
-hooks can registered with the exchange:
+其他模块可以注册操作，以便在保险基金内发生某些事件时执行。这些事件可以注册为在交易所事件之前或之后执行（根据 hook 名称）。以下 hooks 可以向交易所注册：
 
-**Note**: Hooks are not available and exchange module calls insurance keeper function directly.
+**注意**：Hooks 不可用，交易所模块直接调用保险保管器函数。
 
-**Steps**\
-When liquidation event happen in derivative market
+**步骤**\
+当衍生品市场发生清算事件时
 
-* `exchange` module finds relative insurance fund from the insurance keeper.
-* if `missingFund` is positive, it withdraws the amount from the insurance fund through `WithdrawFromInsuranceFund`.
-* if `missingFund` is negative, it deposits the amount into the insurance fund through `DepositIntoInsuranceFund`.
+* `exchange` 模块从保险保管器中找到相关保险基金。
+* 如果 `missingFund` 为正数，它通过 `WithdrawFromInsuranceFund` 从保险基金中提取金额。
+* 如果 `missingFund` 为负数，它通过 `DepositIntoInsuranceFund` 将金额存入保险基金。

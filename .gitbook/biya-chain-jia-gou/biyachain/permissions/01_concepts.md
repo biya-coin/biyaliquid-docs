@@ -1,67 +1,67 @@
 ---
 sidebar_position: 1
-title: Concepts
+title: 概念
 ---
 
-# Concepts
+# 概念
 
-## Overview
+## 概述
 
-The `Permissions` module enables the creation of permissioned assets through an RBAC (Role-Based Access Control) system. The module serves as a primitive to launch any asset requiring varying levels of permissions such as stablecoins (issued by centralized entities), tokenized Treasuries, and other RWAs (Real World Assets).
+`Permissions` 模块通过 RBAC（基于角色的访问控制）系统实现权限资产的创建。该模块作为基础原语，用于启动任何需要不同权限级别的资产，如稳定币（由中心化实体发行）、代币化国债和其他 RWA（现实世界资产）。
 
-Supported features include restrictions on sending/receiving (freezing assets), control over access to minting and burning, pausing specific actions across all addresses, administrative actions management, and support for Wasm contract hooks for further development on top of the module.
+支持的功能包括对发送/接收的限制（冻结资产）、对铸造和销毁访问的控制、暂停所有地址的特定操作、管理操作管理，以及支持 Wasm 合约钩子以在模块之上进行进一步开发。
 
-## How the `Permissions` Module Works
+## `Permissions` 模块的工作原理
 
-### Relation to `TokenFactory` Module
+### 与 `TokenFactory` 模块的关系
 
-The `Permissions` module is tightly coupled with the `TokenFactory` module. It allows users to create restrictions on sending, receiving, minting, and burning of a specific `TokenFactory` token by creating a namespace for the token denom, in which actions are assigned to roles, and roles are assigned to addresses. In this manner, only addresses with the correct roles are permitted to carry out the corresponding actions. The module essentially builds an optional permissions layer on top of `TokenFactory` denoms.
+`Permissions` 模块与 `TokenFactory` 模块紧密耦合。它允许用户通过为代币单位创建命名空间来对特定 `TokenFactory` 代币的发送、接收、铸造和销毁创建限制，在命名空间中，操作被分配给角色，角色被分配给地址。通过这种方式，只有具有正确角色的地址才被允许执行相应的操作。该模块本质上在 `TokenFactory` 代币单位之上构建了一个可选的权限层。
 
-Since the `Permissions` module relies on the existence of a `TokenFactory` denom to function, the `TokenFactory` denom should be launched first, followed by the creation of a `Permissions` namespace.
+由于 `Permissions` 模块依赖于 `TokenFactory` 代币单位的存在才能运行，因此应首先启动 `TokenFactory` 代币单位，然后创建 `Permissions` 命名空间。
 
-* See https://docs.biyachain.network/developers/modules/biyachain/tokenfactory for documentation on the `TokenFactory` module
-* See https://docs.biyachain.network/guides/launch-a-token for a guide on launching a token with the module
-  * Note: The `TokenFactory` admin should not be changed to the null address (biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49) because the `Permissions` module requires the creator of the `Permissions` namespace to be the admin of the corresponding `TokenFactory` denom.
+* 有关 `TokenFactory` 模块的文档，请参见 https://docs.biyachain.network/developers/modules/biyachain/tokenfactory
+* 有关使用该模块启动代币的指南，请参见 https://docs.biyachain.network/guides/launch-a-token
+  * 注意：`TokenFactory` 管理员不应更改为空地址 (biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49)，因为 `Permissions` 模块要求 `Permissions` 命名空间的创建者是对应 `TokenFactory` 代币单位的管理员。
 
-Once the `TokenFactory` denom is live and a `Permissions` namespace is created for the token, checks are performed during token mint, burn, send, and receive to ensure the correct permissions are in place for the relevant action.
+一旦 `TokenFactory` 代币单位上线并为该代币创建了 `Permissions` 命名空间，就会在代币铸造、销毁、发送和接收期间执行检查，以确保相关操作具有正确的权限。
 
-### Components of a Namespace
+### 命名空间的组成部分
 
-As an implementation of an RBAC system for permissioned assets, the `Permissions` module defines several basic actions that can be assigned to roles within a namespace. A namespace serves as the container for all rules, parameters, and assigned permissions for a single asset. Note that each asset (denom) can only have one namespace.
+作为权限资产的 RBAC 系统实现，`Permissions` 模块定义了可以在命名空间内分配给角色的几个基本操作。命名空间作为单个资产的所有规则、参数和分配权限的容器。请注意，每个资产（代币单位）只能有一个命名空间。
 
-At its core, a namespace comprises:
+命名空间的核心包括：
 
-* Denom
-* Actions
-* Roles
-* Role Managers
-* Role Actors
-* Policy Statuses
-* Policy Managers
-* Wasm Contract Hook
+* 代币单位（Denom）
+* 操作（Actions）
+* 角色（Roles）
+* 角色管理器（Role Managers）
+* 角色执行者（Role Actors）
+* 策略状态（Policy Statuses）
+* 策略管理器（Policy Managers）
+* Wasm 合约钩子（Wasm Contract Hook）
 
-**Denom**
+**代币单位（Denom）**
 
-* The denomination of the `TokenFactory` asset. The denom in the namespace corresponds to the `TokenFactory` asset with the same name, of which the creator of the namespace is also the admin of the `TokenFactory` asset
+* `TokenFactory` 资产的代币单位。命名空间中的代币单位对应于同名的 `TokenFactory` 资产，命名空间的创建者也是 `TokenFactory` 资产的管理员
 
 ![image.png](/broken/files/oUOO2cLqKyG3PjTSl79u)
 
-**Actions**
+**操作（Actions）**
 
-* Actions are mapped/assigned to roles to give the role permission to execute the action
-* Actions are split into two categories, user actions and namespace management actions. The following is a list of all possible permissioned actions in a namespace:
-  * User Actions:
-    * `MINT` - Can mint to any address using the `receiver` field as long as that address has permissions for the `RECEIVE` action. If unspecified, the default address is the message sender’s address
-    * `RECEIVE` - The address is able to receive tokens
-    * `BURN` - Burn own funds
-    * `SEND` - Can send to any address with `RECEIVE` permissions
-    * `SUPER_BURN` - Burn funds from anyone’s wallet except own wallet, unless the user also has Burn permissions
-  * Namespace Management Actions:
-    * `MODIFY_POLICY_MANAGERS` - Change the policy managers and their capabilities (if they can disable or seal) within the namespace
-    * `MODIFY_CONTRACT_HOOK` - Change the Wasm contract hook
-    * `MODIFY_ROLE_PERMISSIONS` - Change the mapping of roles to permitted actions (change what each role is allowed to do)
-    * `MODIFY_ROLE_MANAGERS` - Change the managers that determine who can have a role
-* Actions are identified by a unique power of 2 integer (for internal bitmasking purposes):
+* 操作被映射/分配给角色，以授予角色执行该操作的权限
+* 操作分为两类：用户操作和命名空间管理操作。以下是命名空间中所有可能的权限操作列表：
+  * 用户操作：
+    * `MINT` - 可以使用 `receiver` 字段向任何地址铸造，只要该地址具有 `RECEIVE` 操作的权限。如果未指定，默认地址是消息发送者的地址
+    * `RECEIVE` - 该地址能够接收代币
+    * `BURN` - 销毁自己的资金
+    * `SEND` - 可以向任何具有 `RECEIVE` 权限的地址发送
+    * `SUPER_BURN` - 可以从除自己钱包外的任何人的钱包中销毁资金，除非用户也具有销毁权限
+  * 命名空间管理操作：
+    * `MODIFY_POLICY_MANAGERS` - 更改命名空间内的策略管理器及其能力（是否可以禁用或密封）
+    * `MODIFY_CONTRACT_HOOK` - 更改 Wasm 合约钩子
+    * `MODIFY_ROLE_PERMISSIONS` - 更改角色到允许操作的映射（更改每个角色允许执行的操作）
+    * `MODIFY_ROLE_MANAGERS` - 更改决定谁可以拥有角色的管理器
+* 操作由唯一的 2 的幂整数标识（用于内部位掩码）：
   * `MINT` = 1
   * `RECEIVE` = 2
   * `BURN` = 4
@@ -71,94 +71,94 @@ At its core, a namespace comprises:
   * `MODIFY_CONTRACT_HOOK` = 268435456
   * `MODIFY_ROLE_PERMISSIONS` = 536870912
   * `MODIFY_ROLE_MANAGERS` = 1073741824
-* Permissions are identified by the sum of all permitted action values in base 10
-  * E.g. permission to receive, burn, and send would be 14 (2 + 4 + 8)
+* 权限由所有允许的操作值的十进制总和标识
+  * 例如，接收、销毁和发送的权限将是 14 (2 + 4 + 8)
 
-**Roles**
+**角色（Roles）**
 
-* Roles consist of a subset of actions (permissions) for which an actor is permitted to carry out. Each role can have zero, one, or multiple actions assigned by a Role Manager
-* A role’s actions represent the permitted actions for which an address assigned the role can execute. In other words, roles give permission to perform the actions specified by the role
-* Roles are created when the namespace is launched or upon updating the namespace with new role-action mappings by a user permitted to execute the `MODIFY_ROLE_PERMISSIONS` action
-* Roles are generally namespace (admin) defined, though there are two special types of roles:
-  * `EVERYONE` Role
-    * There is a default `EVERYONE` role assigned to all addresses that do not have any other roles
-    * If no roles are assigned to an actor, then the `EVERYONE` role applies until they are assigned another role, at which point the `EVERYONE` role ceases to apply
-    * Note that this role does not have to be assigned any permissions, though **the `EVERYONE` role must be defined at creation time** (it can be defined with no actions assigned)
-    * The `EVERYONE` role is not allowed to have permissions for `MINT`, `SUPER_BURN`, or any of the namespace management actions. This means only `SEND`, `RECEIVE`, and `BURN` are permitted actions to be assigned to the `EVERYONE` role
-  * Blacklist Role
-    * Any role that has no permitted actions (including `EVERYONE`) will be considered a blacklist role. The blacklist role can be called any unique name.
-    * Blacklist roles supercede all other roles such that any address assigned a blacklist role will have all permissions revoked until the address is no longer blacklisted
-    * If the blacklist role is removed from the address, all other roles/permissions the address previously had will be reinstated
-      * In the case of `EVERYONE` having no permissions, once an address receives another non-blacklist role, the address will no longer have zero permissions/be blacklisted since `EVERYONE` only applies when there are no other roles
+* 角色由执行者被允许执行的操作（权限）子集组成。每个角色可以有零个、一个或多个由角色管理器分配的操作
+* 角色的操作表示分配给该角色的地址可以执行的允许操作。换句话说，角色授予执行角色指定的操作的权限
+* 角色在命名空间启动时创建，或由被允许执行 `MODIFY_ROLE_PERMISSIONS` 操作的用户使用新的角色-操作映射更新命名空间时创建
+* 角色通常由命名空间（管理员）定义，但有两种特殊类型的角色：
+  * `EVERYONE` 角色
+    * 有一个默认的 `EVERYONE` 角色分配给所有没有其他角色的地址
+    * 如果没有为执行者分配任何角色，则 `EVERYONE` 角色适用，直到他们被分配另一个角色，此时 `EVERYONE` 角色不再适用
+    * 请注意，此角色不必分配任何权限，但**`EVERYONE` 角色必须在创建时定义**（可以定义为不分配任何操作）
+    * `EVERYONE` 角色不允许拥有 `MINT`、`SUPER_BURN` 或任何命名空间管理操作的权限。这意味着只有 `SEND`、`RECEIVE` 和 `BURN` 是允许分配给 `EVERYONE` 角色的操作
+  * 黑名单角色
+    * 任何没有允许操作的角色（包括 `EVERYONE`）将被视为黑名单角色。黑名单角色可以称为任何唯一名称
+    * 黑名单角色优先于所有其他角色，因此分配给黑名单角色的任何地址将撤销所有权限，直到该地址不再被列入黑名单
+    * 如果从地址中移除黑名单角色，该地址之前拥有的所有其他角色/权限将被恢复
+      * 在 `EVERYONE` 没有权限的情况下，一旦地址收到另一个非黑名单角色，该地址将不再具有零权限/被列入黑名单，因为 `EVERYONE` 仅在没有任何其他角色时适用
 
-**Role Managers**
+**角色管理器（Role Managers）**
 
-* Role managers have the ability to assign roles to other addresses (role actors)
-* For each role defined within the namespace, one or more role managers are needed to manage the list of addresses for a particular role
-  * This includes roles for namespace management actions:
-    * `MODIFY_POLICY_MANAGERS` Role Managers
-    * `MODIFY_CONTRACT_HOOK` Role Managers
-    * `MODIFY_ROLE_PERMISSIONS` Roles Managers
-    * `MODIFY_ROLE_MANAGERS` Role Managers
-* The role manager can only assign roles for which they are the specific role manager of
-* An address can be a role manager of multiple roles at the same time
+* 角色管理器具有将角色分配给其他地址（角色执行者）的能力
+* 对于命名空间内定义的每个角色，需要一个或多个角色管理器来管理特定角色的地址列表
+  * 这包括命名空间管理操作的角色：
+    * `MODIFY_POLICY_MANAGERS` 角色管理器
+    * `MODIFY_CONTRACT_HOOK` 角色管理器
+    * `MODIFY_ROLE_PERMISSIONS` 角色管理器
+    * `MODIFY_ROLE_MANAGERS` 角色管理器
+* 角色管理器只能分配他们作为特定角色管理器的角色
+* 一个地址可以同时是多个角色的角色管理器
 
-**Role Actors**
+**角色执行者（Role Actors）**
 
-* Role actors, or simply actors, are addresses that have been given one or more roles by the respective role managers
-* Role actors are permitted to execute any action for which any of their roles allow
-  * For example, if role ABC had permissions to mint, send, and receive, then any role actor with role ABC would be permitted to `mint`, `send`, and `receive` the namespace asset. Suppose role XYZ had `burn` and `mint` permissions, and an actor had role ABC as well as XYZ. Then the actor would be permitted to `mint`, `send`, `receive`, and `burn` the asset.
+* 角色执行者，或简称为执行者，是由相应的角色管理器分配了一个或多个角色的地址
+* 角色执行者被允许执行其任何角色允许的任何操作
+  * 例如，如果角色 ABC 具有铸造、发送和接收的权限，那么任何具有角色 ABC 的角色执行者将被允许对命名空间资产进行 `mint`、`send` 和 `receive` 操作。假设角色 XYZ 具有 `burn` 和 `mint` 权限，并且执行者同时拥有角色 ABC 和 XYZ。那么该执行者将被允许对资产进行 `mint`、`send`、`receive` 和 `burn` 操作。
 
 ![image.png](/broken/files/LZGoRFYboeXrDepUQmYA)
 
-**Policy Statuses**
+**策略状态（Policy Statuses）**
 
-* Each action has a policy status associated with it which can be enabled/disabled and/or sealed (can be enabled or disabled without being sealed, or can be enabled or disabled and sealed). Internally, this consists of two booleans for `IsDisabled` and `IsSealed`
-  * Actions are not disabled and not sealed by default
-* The policy status determines the status of an action across the entire namespace. If an action policy is disabled, no user will be able to execute the action until it is enabled again
-* Sealing a user action policy will irreversibly set the action policy for `IsDisabled`
-  * **Note: Sealing a namespace management action (**`MODIFY_POLICY_MANAGERS`**,** `MODIFY_CONTRACT_HOOK`**,** `MODIFY_ROLE_PERMISSIONS`**,** `MODIFY_ROLE_MANAGERS`**) policy will result in the action being permanently disabled. While user actions and namespace management actions can both be sealed as enabled, the resulting behavior of the respective namespace management actions will be effectively permanently disabled, while user actions will be permanently enabled.**
+* 每个操作都有一个关联的策略状态，可以启用/禁用和/或密封（可以在不密封的情况下启用或禁用，也可以启用或禁用并密封）。在内部，这由两个布尔值 `IsDisabled` 和 `IsSealed` 组成
+  * 默认情况下，操作不会被禁用也不会被密封
+* 策略状态决定整个命名空间中操作的状态。如果操作策略被禁用，任何用户都无法执行该操作，直到它再次启用
+* 密封用户操作策略将不可逆地设置操作策略的 `IsDisabled`
+  * **注意：密封命名空间管理操作（**`MODIFY_POLICY_MANAGERS`**、**`MODIFY_CONTRACT_HOOK`**、**`MODIFY_ROLE_PERMISSIONS`**、**`MODIFY_ROLE_MANAGERS`**）策略将导致该操作被永久禁用。虽然用户操作和命名空间管理操作都可以被密封为启用状态，但相应的命名空间管理操作的最终行为将实际上被永久禁用，而用户操作将被永久启用。**
 
-**Policy Managers**
+**策略管理器（Policy Managers）**
 
-* Policy managers are in charge of setting the policy status for their approved actions.
-* When the policy managers for an action are set, they can be given permission to disable and/or seal the action policy through the `PolicyManagerCapabilities` field.
-  * Policy manager capabilities describe whether an address (the policy manager) can disable or seal an action. Another way to put it: they describe the extent to which a policy manager can alter the policy state of an action.
-  * Note that the policy manager should have permissions for at least one of the actions, since there would be no point to having a policy manager that cannot update the action policy status. If both permissions are removed, the policy manager will be removed entirely.
+* 策略管理器负责设置其批准操作的策略状态
+* 当为操作设置策略管理器时，可以通过 `PolicyManagerCapabilities` 字段授予他们禁用和/或密封操作策略的权限
+  * 策略管理器能力描述地址（策略管理器）是否可以禁用或密封操作。另一种说法是：它们描述策略管理器可以更改操作策略状态的程度
+  * 请注意，策略管理器应该至少拥有其中一个操作的权限，因为拥有无法更新操作策略状态的策略管理器没有意义。如果两个权限都被移除，策略管理器将被完全移除
 
-**Wasm Contract Hook**
+**Wasm 合约钩子（Wasm Contract Hook）**
 
-* The Wasm contract hook is useful for building extended features on top of the permissioned namespace and `TokenFactory` primitives
-* Wasm contract hooks are invoked upon an address receiving a permissioned asset. The hook can be set by any address with the role to perform the `MODIFY_CONTRACT_HOOK` action
-* Information passed to the contract includes `fromAddr`, `toAddr`, `action`, and `amount`. The action is currently passed as `Action_RECEIVE`
+* Wasm 合约钩子对于在权限命名空间和 `TokenFactory` 原语之上构建扩展功能很有用
+* Wasm 合约钩子在地址接收权限资产时被调用。钩子可以由具有执行 `MODIFY_CONTRACT_HOOK` 操作角色的任何地址设置
+* 传递给合约的信息包括 `fromAddr`、`toAddr`、`action` 和 `amount`。操作当前作为 `Action_RECEIVE` 传递
 
-### Interacting with a Namespace
+### 与命名空间交互
 
-There are four relevant messages to interact with the permissions module:
+有四个相关的消息用于与权限模块交互：
 
-* `MsgCreateNamespace` - Create the namespace with initial settings/parameters for role permissions, role managers, policy statuses, policy managers/capabilities, and/or the Wasm contract hook
-* `MsgUpdateNamespace` - Update role permissions, role managers, policy statuses, policy managers/capabilities, and/or the Wasm contract hook
-* `MsgUpdateActorRoles` - Assign or revoke roles from addresses
-* `MsgClaimVoucher` - Claim voucher for assets that failed to transfer from an Biya Chain module to the recipient (due to lack of `RECEIVE` permissions). The voucher can only be claimed by the intended recipient once the recipient address has `RECEIVE` permissions. For transfers occurring between externally owned addresses, vouchers are not created upon failed transfer due to lack of permissions; the transaction is reverted instead
+* `MsgCreateNamespace` - 创建命名空间，包含角色权限、角色管理器、策略状态、策略管理器/能力和/或 Wasm 合约钩子的初始设置/参数
+* `MsgUpdateNamespace` - 更新角色权限、角色管理器、策略状态、策略管理器/能力和/或 Wasm 合约钩子
+* `MsgUpdateActorRoles` - 向地址分配或撤销角色
+* `MsgClaimVoucher` - 为从 Biya Chain 模块转移到接收者失败的资产（由于缺乏 `RECEIVE` 权限）申领凭证。凭证只能由预期接收者在接收地址具有 `RECEIVE` 权限后申领。对于在外部拥有的地址之间发生的转账，由于缺乏权限而导致的转账失败不会创建凭证；而是回滚交易
 
-### Default Namespace Values
+### 默认命名空间值
 
-Default namespace values for role managers, policy statuses, and policy managers will be assigned during namespace creation under the following conditions:
+在以下条件下，角色管理器、策略状态和策略管理器的默认命名空间值将在命名空间创建期间分配：
 
-* If no role managers are set for any roles:
-  * The namespace creator is set as the role manager for ALL roles
-  * Note: If at least one role manager is specified for any role upon launch of the namespace, no default role managers are set, even for roles with unspecified role managers
-* If any policy statuses are not set for a given action:
-  * The policy status is set to not disabled and not sealed for the action (unless otherwise specified during creation)
-* If no policy managers/policy manager capabilities (both are represented in a single data structure) are set for any actions:
-  * The policy manager for all actions is set to the namespace creator
-  * The policy manager is given the ability to both disable/enable the action and seal the action policy status
+* 如果没有为任何角色设置角色管理器：
+  * 命名空间创建者被设置为所有角色的角色管理器
+  * 注意：如果在命名空间启动时为任何角色指定了至少一个角色管理器，则不会设置默认角色管理器，即使对于未指定角色管理器的角色也是如此
+* 如果没有为给定操作设置任何策略状态：
+  * 操作的策略状态设置为未禁用且未密封（除非在创建时另有规定）
+* 如果没有为任何操作设置策略管理器/策略管理器能力（两者都在单个数据结构中表示）：
+  * 所有操作的策略管理器设置为命名空间创建者
+  * 策略管理器被授予禁用/启用操作和密封操作策略状态的能力
 
-> **Caution: Default namespace values will not prevent a namespace from being rendered unusable during creation if incorrect permissions are set.**
+> **警告：如果设置了错误的权限，默认命名空间值不会阻止命名空间在创建时变得不可用。**
 
-* To prevent this from occurring, **namespace management roles should be mapped to namespace management actions during namespace creation, and role managers should also be set for each namespace management role** (especially roles that can modify role managers and role provisions) upon namespace creation.
-  * This will prevent cases where the namespace cannot be updated when roles are not properly mapped to permissions, role permissions/role managers cannot be updated because no address has permission to update role managers or assign roles, and no address has permission to create/provision new roles
+* 为了防止这种情况发生，**命名空间管理角色应在命名空间创建期间映射到命名空间管理操作，并且还应为每个命名空间管理角色设置角色管理器**（特别是可以修改角色管理器和角色配置的角色）在命名空间创建时
+  * 这将防止以下情况：当角色未正确映射到权限时无法更新命名空间，由于没有地址有权更新角色管理器或分配角色而无法更新角色权限/角色管理器，以及没有地址有权创建/配置新角色
 
-### Updating Namespaces with Governance
+### 通过治理更新命名空间
 
-Namespace settings can be overridden by governance, but not by default. This prevents users from arbitrarily editing namespaces they do not own through governance. To enable namespace updates through governance, the `Gov` module address should be assigned the appropriate roles/permissions.
+命名空间设置可以通过治理覆盖，但默认情况下不能。这可以防止用户通过治理任意编辑他们不拥有的命名空间。要通过治理启用命名空间更新，应为 `Gov` 模块地址分配适当的角色/权限。

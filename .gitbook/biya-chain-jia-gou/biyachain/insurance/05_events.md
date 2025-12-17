@@ -3,11 +3,11 @@ sidebar_position: 5
 title: Events
 ---
 
-# Events
+# 事件
 
-The insurance module emits the following events:
+保险模块发出以下事件：
 
-## Handlers
+## 处理器
 
 ### MsgCreateInsuranceFund
 

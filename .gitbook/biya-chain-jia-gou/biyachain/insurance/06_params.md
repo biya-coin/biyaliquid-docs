@@ -3,9 +3,9 @@ sidebar_position: 6
 title: Parameters
 ---
 
-# Parameters
+# 参数
 
-The insurance module contains the following parameter:
+保险模块包含以下参数：
 
 | Key                                       | Type          | Example               |
 | ----------------------------------------- | ------------- | --------------------- |

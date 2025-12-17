@@ -1,53 +1,53 @@
 ---
 sidebar_position: 1
-title: Concepts
+title: 概念
 ---
 
-# Concepts
+# 概念
 
-## Begin blocker execution
+## Begin blocker 执行
 
-Smart contracts can only respond to incoming messages and do not have the ability to execute actions on their own schedule. The Wasmx module allows contracts to be registered and called in the begin blockers section of each block.\
-To be eligible for this, each registered contract must respond to the sudo message called `begin_blocker` which can only be called by the chain itself and not directly by any user or other contract. This ensures that the "begin\_blocker" message can be trusted.
+智能合约只能响应传入的消息，无法按自己的计划执行操作。Wasmx 模块允许合约在每个区块的 begin blockers 部分注册和调用。\
+要符合此条件，每个注册的合约必须响应名为 `begin_blocker` 的 sudo 消息，该消息只能由链本身调用，不能由任何用户或其他合约直接调用。这确保了 "begin\_blocker" 消息可以被信任。
 
-## Registration
+## 注册
 
-Upon registering a contract, the user must declare a gas price, which is the amount they are willing to pay for contract execution, as well as a gas limit, which is the maximum amount of gas that can be consumed during the execution of the contract.
+注册合约时，用户必须声明 gas 价格（他们愿意为合约执行支付的金额）以及 gas 限制（合约执行期间可以消耗的最大 gas 量）。
 
-Currently, contract registration can only be done through a governance proposal. This proposal, if approved, will add the contract at a specific address to the list of contracts that are run during each "begin blockers" period.
+目前，合约注册只能通过治理提案完成。如果该提案获得批准，它将把特定地址的合约添加到在每个 "begin blockers" 期间运行的合约列表中。
 
-For security reasons, the proposer must specify a code\_id for the contract, which will be verified upon registration and each time the contract is executed. This is to prevent an attacker from registering a benign contract but later upgrading it to a malicious one. The proposer can request to be exempt from this check when registering the contract to avoid delays when a new version of the contract is released, but this may affect the voting results depending on the trustworthiness of the proposer.
+出于安全原因，提案者必须为合约指定一个 code\_id，该 code\_id 将在注册时和每次执行合约时进行验证。这是为了防止攻击者注册一个良性合约，但后来将其升级为恶意合约。提案者可以在注册合约时请求免除此检查，以避免在发布新版本合约时出现延迟，但这可能会根据提案者的可信度影响投票结果。
 
-The proposer can also request for the contract to be "pinned," meaning it is loaded and kept in memory, which can greatly improve the performance of the contract.
+提案者还可以请求将合约"固定"（pinned），这意味着它被加载并保存在内存中，这可以大大提高合约的性能。
 
-## Deregistration
+## 注销
 
-A contract can be deregistered through a governance proposal, which can be initiated by anyone, including the contract owner if they no longer require the contract or by any other individual if the contract is found to be malicious.
+合约可以通过治理提案注销，任何人都可以发起，包括合约所有者（如果他们不再需要合约）或任何其他人（如果发现合约是恶意的）。
 
-If contract fails to execute due to insufficient gas it will be automatically deregistered.
+如果合约因 gas 不足而无法执行，它将自动注销。
 
-When contract is deregistered, wasmx will call special `deregister{}` callback (if present) as a sudo message in the contract.
+当合约被注销时，wasmx 将在合约中作为 sudo 消息调用特殊的 `deregister{}` 回调（如果存在）。
 
-## Deactivation
+## 停用
 
-A contract can be deactivated automatically if it runs out of gas, or manually by the contract owner. When a contract is deactivated, wasmx will call a special `deactivate{}` callback (if present) as a sudo message in the contract. The contract can be reactivated by the contract owner.
+如果合约耗尽 gas，合约可以自动停用，或者由合约所有者手动停用。当合约被停用时，wasmx 将在合约中作为 sudo 消息调用特殊的 `deactivate{}` 回调（如果存在）。合约可以由合约所有者重新激活。
 
-## Fee Grant
+## 费用授权
 
-The Wasmx module allows other addresses (contracts, EOAs) to pay for the Begin blocker execution of other contracts through the [`x/feegrant`](https://docs.cosmos.network/main/modules/feegrant) module.
+Wasmx 模块允许其他地址（合约、EOA）通过 [`x/feegrant`](https://docs.cosmos.network/main/modules/feegrant) 模块为其他合约的 Begin blocker 执行付费。
 
-When a contract is being registered for the first time, users specify the `FundingMode` which indicates how the contract's execution will be funded. Three modes are supported:
+首次注册合约时，用户指定 `FundingMode`，它指示合约的执行将如何获得资金。支持三种模式：
 
-* `SelfFunded` - contract will pay for its own execution (default)
-* `GrantOnly` - contract will execute if its associated allowance covers for it (provided by the `GranterAddress` in the `ContractRegistrationRequest`)
-* `Dual` - contract will prioritize spending its allowance's funds. In case the allowance cannot cover for execution, it will use its own funds instead
+* `SelfFunded` - 合约将为自己的执行付费（默认）
+* `GrantOnly` - 如果其关联的授权额度能够覆盖执行费用，合约将执行（由 `ContractRegistrationRequest` 中的 `GranterAddress` 提供）
+* `Dual` - 合约将优先使用其授权额度的资金。如果授权额度无法覆盖执行费用，它将使用自己的资金
 
-Given there are 3 kinds of allowances provided by the `x/feegrant` module (Basic, Periodic and AllowedMsg), the wasmx module supports only Basic and Periodic. Granting an `AllowedMsgAllowance` to a contract is discouraged as any contract attempting to use this kind of allowance will error by default.
+鉴于 `x/feegrant` 模块提供了 3 种授权类型（Basic、Periodic 和 AllowedMsg），wasmx 模块仅支持 Basic 和 Periodic。不鼓励向合约授予 `AllowedMsgAllowance`，因为任何尝试使用此类授权的合约默认都会出错。
 
-## Pausing, params update
+## 暂停、参数更新
 
-The owner of a contract has the ability to deactivate or activate the contract at any time without requiring a governance vote. They can also update the parameters for contract execution, such as the gas price or gas limit, at any time.
+合约所有者可以随时停用或激活合约，无需治理投票。他们还可以随时更新合约执行的参数，例如 gas 价格或 gas 限制。
 
-## Batch methods
+## 批量方法
 
-For convenience, the Wasmx module provides batch versions of some of the previously mentioned proposals, such as batch registration and deregistration, as well as a batch version of the StoreCodeProposal. These batch versions allow multiple proposals to be processed at the same time, rather than individually.
+为了方便起见，Wasmx 模块提供了之前提到的一些提案的批量版本，例如批量注册和注销，以及 StoreCodeProposal 的批量版本。这些批量版本允许同时处理多个提案，而不是单独处理。

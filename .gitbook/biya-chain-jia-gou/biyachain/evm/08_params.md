@@ -2,44 +2,43 @@
 order: 8
 -->
 
-# Parameters
+# 参数
 
-The evm module contains the following parameters:
+evm 模块包含以下参数：
 
 ## Params
 
-| Key            | Type        | Default Value   |
+| 键            | 类型        | 默认值   |
 | -------------- | ----------- |-----------------|
 | `EVMDenom`     | string      | `"biya"`         |
 | `EnableCreate` | bool        | `true`          |
 | `EnableCall`   | bool        | `true`          |
 | `ExtraEIPs`    | []int       | TBD             |
-| `ChainConfig`  | ChainConfig | See ChainConfig |
+| `ChainConfig`  | ChainConfig | 参见 ChainConfig |
 
-## EVM denom
+## EVM 代币单位
 
-The evm denomination parameter defines the token denomination used on the EVM state transitions and gas consumption for EVM messages.
+evm 代币单位参数定义用于 EVM 状态转换和 EVM 消息 gas 消耗的代币单位。
 
-For example, on Ethereum, the `evm_denom` would be `ETH`. To maintain parity with Ethereum, Biya Chain uses Atto as its base denomination. In essence, 1 (atto) biya equals `1x10⁻¹⁸ BIYA`, aligning with Ethereum’s denomination where one wei is equal to 1x10⁻¹⁸ ETH. In terms of precision, the `BIYA` and `ETH` share the same value, *i.e* `1 BIYA = 10^18 biya` and `1 ETH = 10^18 wei`.
+例如，在以太坊上，`evm_denom` 将是 `ETH`。为了与以太坊保持一致，Biya Chain 使用 Atto 作为其基础代币单位。本质上，1（atto）biya 等于 `1x10⁻¹⁸ BIYA`，与以太坊的代币单位一致，其中 1 wei 等于 1x10⁻¹⁸ ETH。就精度而言，`BIYA` 和 `ETH` 共享相同的值，即 `1 BIYA = 10^18 biya` 和 `1 ETH = 10^18 wei`。
 
-## Enable Create
+## 启用创建
 
-The enable create parameter toggles state transitions that use the `vm.Create` function. When the parameter is disabled, it will prevent all contract creation functionality.
+启用创建参数切换使用 `vm.Create` 函数的状态转换。当参数被禁用时，它将阻止所有合约创建功能。
 
-## Enable Transfer
+## 启用转账
 
-The enable transfer toggles state transitions that use the `vm.Call` function. When the parameter is disabled, it will prevent transfers between accounts and executing a smart contract call.
+启用转账切换使用 `vm.Call` 函数的状态转换。当参数被禁用时，它将阻止账户之间的转账和执行智能合约调用。
 
-## Extra EIPs
+## 额外 EIPs
 
-The extra EIPs parameter defines the set of activateable Ethereum Improvement Proposals (**[EIPs](https://ethereum.org/en/eips/)**)
-on the Ethereum VM `Config` that apply custom jump tables.
+额外 EIP 参数定义了可在以太坊 VM `Config` 上激活的以太坊改进提案（**[EIPs](https://ethereum.org/en/eips/)**）集合，这些提案应用自定义跳转表。
 
 ::: tip
-NOTE: some of these EIPs are already enabled by the chain configuration, depending on the hard fork number.
+注意：其中一些 EIP 已经由链配置启用，具体取决于硬分叉编号。
 :::
 
-The supported activateable EIPS are:
+支持的可激活 EIP 包括：
 
 - **[EIP 1344](https://eips.ethereum.org/EIPS/eip-1344)**
 - **[EIP 1884](https://eips.ethereum.org/EIPS/eip-1884)**
@@ -49,15 +48,15 @@ The supported activateable EIPS are:
 - **[EIP 3198](https://eips.ethereum.org/EIPS/eip-3198)**
 - **[EIP 3529](https://eips.ethereum.org/EIPS/eip-3529)**
 
-## Chain Config
+## 链配置
 
-The `ChainConfig` is a protobuf wrapper type that contains the same fields as the go-ethereum `ChainConfig` parameters, but using `*sdk.Int` types instead of `*big.Int`.
+`ChainConfig` 是一个 protobuf 包装类型，包含与 go-ethereum `ChainConfig` 参数相同的字段，但使用 `*sdk.Int` 类型而不是 `*big.Int`。
 
-By default, all block configuration fields but `ConstantinopleBlock`, are enabled at genesis (height 0).
+默认情况下，除 `ConstantinopleBlock` 之外的所有区块配置字段在创世时（高度 0）启用。
 
-### ChainConfig Defaults
+### ChainConfig 默认值
 
-| Name                | Default Value                                                        |
+| 名称                | 默认值                                                        |
 | ------------------- | -------------------------------------------------------------------- |
 | HomesteadBlock      | 0                                                                    |
 | DAOForkBlock        | 0                                                                    |

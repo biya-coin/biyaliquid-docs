@@ -2,13 +2,13 @@
 order: 7
 -->
 
-# Events
+# 事件
 
-The `x/evm` module emits the Cosmos SDK events after a state execution. The EVM module emits events of the relevant transaction fields, as well as the transaction logs (ethereum events).
+`x/evm` 模块在状态执行后发出 Cosmos SDK 事件。EVM 模块发出相关交易字段的事件，以及交易日志（以太坊事件）。
 
 ## MsgEthereumTx
 
-| Type        | Attribute Key      | Attribute Value         |
+| 类型        | 属性键      | 属性值         |
 | ----------- | ------------------ | ----------------------- |
 | ethereum_tx | `"amount"`         | `{amount}`              |
 | ethereum_tx | `"recipient"`      | `{hex_address}`         |
@@ -22,10 +22,10 @@ The `x/evm` module emits the Cosmos SDK events after a state execution. The EVM 
 | message     | `"action"`         | `"ethereum"`            |
 | message     | `"module"`         | `"evm"`                 |
 
-Additionally, the EVM module emits an event during `EndBlock` for the filter query block bloom.
+此外，EVM 模块在 `EndBlock` 期间为过滤查询区块布隆发出事件。
 
 ## ABCI
 
-| Type        | Attribute Key | Attribute Value      |
+| 类型        | 属性键 | 属性值      |
 | ----------- | ------------- | -------------------- |
 | block_bloom | `"bloom"`     | `string(bloomBytes)` |

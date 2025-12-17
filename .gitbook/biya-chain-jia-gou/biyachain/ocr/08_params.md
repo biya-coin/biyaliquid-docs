@@ -1,11 +1,11 @@
 ---
 order: 8
-title: Params
+title: 参数
 ---
 
-# Parameters
+# 参数
 
-The ocr module contains the following parameters:
+ocr 模块包含以下参数：
 
 | Key                 | Type   | Example   |
 | ------------------- | ------ | --------- |

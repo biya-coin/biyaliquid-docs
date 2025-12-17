@@ -1,20 +1,20 @@
 ---
 sidebar_position: 4
-title: Messages
+title: 消息
 ---
 
-# Messages
+# 消息
 
-This is a reference document for Peggy message types. For code reference and exact arguments see the [proto definitions](https://github.com/biya-coin/biyachain-core/blob/master/proto/biyachain/peggy/v1/msgs.proto).
+这是 Peggy 消息类型的参考文档。有关代码参考和确切参数，请参见 [proto 定义](https://github.com/biya-coin/biyachain-core/blob/master/proto/biyachain/peggy/v1/msgs.proto)。
 
-## User messages
+## 用户消息
 
-These are messages sent on the Biya Chain Chain peggy module by the end user. See [workflow](02_workflow.md) for a more detailed summary of the entire deposit and withdraw process.
+这些是最终用户在 Biya Chain peggy 模块上发送的消息。有关整个存款和提取过程的更详细摘要，请参见[工作流程](02_workflow.md)。
 
 ### SendToEth
 
-Sent to Biya Chain whenever a user wishes to make a withdrawal back to Ethereum. Submitted amount is removed from the user's balance immediately.\
-The withdrawal is added to the outgoing tx pool as a `types.OutgoingTransferTx` where it will remain until it is included in a batch.
+每当用户希望提取回 Ethereum 时发送到 Biya Chain。提交的金额会立即从用户余额中扣除。\
+提取作为 `types.OutgoingTransferTx` 添加到传出交易池中，它将保留在那里，直到包含在批次中。
 
 ```go
 type MsgSendToEth struct {
@@ -28,7 +28,7 @@ type MsgSendToEth struct {
 
 ### CancelSendToEth
 
-This message allows the user to cancel a specific withdrawal that is not yet batched. User balance is refunded (`Amount` + `BridgeFee`).
+此消息允许用户取消尚未批处理的特定提取。用户余额将被退还（`Amount` + `BridgeFee`）。
 
 ```go
 type MsgCancelSendToEth struct {
@@ -40,7 +40,7 @@ type MsgCancelSendToEth struct {
 
 ### SubmitBadSignatureEvidence
 
-This call allows anyone to submit evidence that a validator has signed a valset or batch that never existed. Subject contains the batch or valset.
+此调用允许任何人提交证据，证明验证者已对从未存在的 valset 或批次进行签名。Subject 包含批次或 valset。
 
 ```go
 type MsgSubmitBadSignatureEvidence struct {
@@ -52,13 +52,13 @@ type MsgSubmitBadSignatureEvidence struct {
 
 ## Batch Creator Messages
 
-These messages are sent by the `Batch Creator` subprocess of `peggo`
+这些消息由 `peggo` 的 `Batch Creator` 子进程发送
 
 ### RequestBatch
 
-This message is sent whenever some `Batch Creator` finds pooled withdrawals that when batched would satisfy their minimum batch fee (`PEGGO_MIN_BATCH_FEE_USD`).\
-After receiving this message the `Peggy module` collects all withdrawals of the requested token denom, creates a unique token batch (`types.OutgoingTxBatch`) and places it in the `Outgoing Batch pool`.\
-Withdrawals that are batched cannot be cancelled with `MsgCancelSendToEth`.
+当某个 `Batch Creator` 发现合并的提取在批处理后可以满足其最小批次费用（`PEGGO_MIN_BATCH_FEE_USD`）时发送此消息。\
+收到此消息后，`Peggy module` 收集请求的代币 denom 的所有提取，创建唯一的代币批次（`types.OutgoingTxBatch`）并将其放置在 `Outgoing Batch pool` 中。\
+已批处理的提取不能使用 `MsgCancelSendToEth` 取消。
 
 ```go
 type MsgRequestBatch struct {
@@ -69,12 +69,12 @@ type MsgRequestBatch struct {
 
 ## Oracle Messages
 
-These messages are sent by the `Oracle` subprocess of `peggo`
+这些消息由 `peggo` 的 `Oracle` 子进程发送
 
 ### DepositClaim
 
-Sent to Biya Chain when a `SendToBiyachainEvent` is emitted from the `Peggy contract`.\
-This occurs whenever a user is making an individual deposit from Ethereum to Biya Chain.
+当 `Peggy contract` 发出 `SendToBiyachainEvent` 时发送到 Biya Chain。\
+每当用户从 Ethereum 向 Biya Chain 进行个人存款时都会发生这种情况。
 
 ```go
 type MsgDepositClaim struct {
@@ -90,8 +90,8 @@ type MsgDepositClaim struct {
 
 ### WithdrawClaim
 
-Sent to Biya Chain when a `TransactionBatchExecutedEvent` is emitted from the `Peggy contract`.\
-This occurs when a `Relayer` has successfully called `submitBatch` on the contract to complete a batch of withdrawals.
+当 `Peggy contract` 发出 `TransactionBatchExecutedEvent` 时发送到 Biya Chain。\
+当 `Relayer` 成功调用合约上的 `submitBatch` 以完成一批提取时会发生这种情况。
 
 ```go
 type MsgWithdrawClaim struct {
@@ -105,8 +105,8 @@ type MsgWithdrawClaim struct {
 
 ### ValsetUpdatedClaim
 
-Sent to Biya Chain when a `ValsetUpdatedEvent` is emitted from the `Peggy contract`.\
-This occurs when a `Relayer` has successfully called `updateValset` on the contract to update the `Validator Set` on Ethereum.
+当 `Peggy contract` 发出 `ValsetUpdatedEvent` 时发送到 Biya Chain。\
+当 `Relayer` 成功调用合约上的 `updateValset` 以更新 Ethereum 上的 `Validator Set` 时会发生这种情况。
 
 ```go
 
@@ -123,8 +123,8 @@ type MsgValsetUpdatedClaim struct {
 
 ### ERC20DeployedClaim
 
-Sent to Biya Chain when a `ERC20DeployedEvent` is emitted from the `Peggy contract`.\
-This occurs whenever the `deployERC20` method is called on the contract to issue a new token asset eligible for bridging.
+当 `Peggy contract` 发出 `ERC20DeployedEvent` 时发送到 Biya Chain。\
+每当在合约上调用 `deployERC20` 方法以发行符合桥接条件的新代币资产时都会发生这种情况。
 
 ```go
 type MsgERC20DeployedClaim struct {
@@ -141,12 +141,12 @@ type MsgERC20DeployedClaim struct {
 
 ## Signer Messages
 
-These messages are sent by the `Signer` subprocess of `peggo`
+这些消息由 `peggo` 的 `Signer` 子进程发送
 
 ### ConfirmBatch
 
-When `Signer` finds a batch that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biya Chain.\
-It's crucial that a `Validator` eventually provides their confirmation for a created batch as they will be slashed otherwise.
+当 `Signer` 发现 `Orchestrator`（`Validator`）尚未签名的批次时，它使用其 `Delegated Ethereum Key` 构造签名并将确认发送到 Biya Chain。\
+验证者最终必须为其创建的批次提供确认，否则将受到惩罚。
 
 ```go
 type MsgConfirmBatch struct {
@@ -160,8 +160,8 @@ type MsgConfirmBatch struct {
 
 ### ValsetConfirm
 
-When `Signer` finds a valset update that the `Orchestrator` (`Validator`) has not signed off, it constructs a signature with its `Delegated Ethereum Key` and sends the confirmation to Biya Chain.\
-It's crucial that a `Validator` eventually provides their confirmation for a created valset update as they will be slashed otherwise.
+当 `Signer` 发现 `Orchestrator`（`Validator`）尚未签名的 valset 更新时，它使用其 `Delegated Ethereum Key` 构造签名并将确认发送到 Biya Chain。\
+验证者最终必须为其创建的 valset 更新提供确认，否则将受到惩罚。
 
 ```go
 type MsgValsetConfirm struct {
@@ -174,16 +174,16 @@ type MsgValsetConfirm struct {
 
 ## Relayer Messages
 
-The `Relayer` does not send any message to Biya Chain, rather it constructs Ethereum transactions with Biya Chain data to update the `Peggy contract` via `submitBatch` and `updateValset` methods.
+`Relayer` 不向 Biya Chain 发送任何消息，而是使用 Biya Chain 数据构造 Ethereum 交易，通过 `submitBatch` 和 `updateValset` 方法更新 `Peggy contract`。
 
 ## Validator Messages
 
-These are messages sent directly using the validator's message key.
+这些是使用验证者的消息密钥直接发送的消息。
 
 ### SetOrchestratorAddresses
 
-Sent to Biya Chain by an `Operator` managing a `Validator` node. Before being able to start their `Orchestrator` (`peggo`) process, they must register a chosen Ethereum address to represent their `Validator` on Ethereum.\
-Optionally, an additional Biya Chain address can be provided (`Orchestrator` field) to represent that `Validator` in the bridging process (`peggo`). Defaults to `Validator`'s own address if omitted.
+由管理 `Validator` 节点的 `Operator` 发送到 Biya Chain。在能够启动其 `Orchestrator`（`peggo`）进程之前，他们必须注册一个选定的 Ethereum 地址以在 Ethereum 上代表其 `Validator`。\
+可选地，可以提供额外的 Biya Chain 地址（`Orchestrator` 字段）以在桥接过程（`peggo`）中代表该 `Validator`。如果省略，则默认为 `Validator` 自己的地址。
 
 ```go
 type MsgSetOrchestratorAddresses struct {
@@ -193,4 +193,4 @@ type MsgSetOrchestratorAddresses struct {
 }
 ```
 
-This message sets the Orchestrator's delegate keys.
+此消息设置 Orchestrator 的委托密钥。

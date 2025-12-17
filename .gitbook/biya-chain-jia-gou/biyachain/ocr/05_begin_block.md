@@ -5,9 +5,9 @@ title: Begin-Block
 
 # Begin-Block
 
-At each BeginBlock, it checks if it's time for payout interval and if it's time, it process payout for all feeds.
+在每个 BeginBlock 中，它检查是否到了支付间隔时间，如果是，则处理所有 feed 的支付。
 
-**Steps**
+**步骤**
 
-- Ensure it's the begin block of payout interval
-- While iterating all feed configs, process reward payouts
+- 确保这是支付间隔的开始区块
+- 在遍历所有 feed 配置时，处理奖励支付

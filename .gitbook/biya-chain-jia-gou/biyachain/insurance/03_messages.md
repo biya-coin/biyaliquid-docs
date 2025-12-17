@@ -3,9 +3,9 @@ sidebar_position: 3
 title: Messages
 ---
 
-# Messages
+# 消息
 
-In this section we describe the processing of the exchange messages and the corresponding updates to the state. All created/modified state objects specified by each message are defined within the [state](02_state_transitions.md) section.
+在本节中，我们描述交易所消息的处理以及相应的状态更新。每个消息指定的所有创建/修改的状态对象都在[状态转换](02_state_transitions.md)部分中定义。
 
 ## Msg/CreateInsuranceFund
 
@@ -35,20 +35,19 @@ message MsgCreateInsuranceFund {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the creator of an insurance fund .
-* `Ticker`, `QuoteDenom`, `OracleBase`, `OracleQuote`, `OracleType`, `Expiry` fields describe the derivative market info\
-  that the insurance fund corresponds to.
-* `InitialDeposit` specifies the initial deposit amount used to underwrite the insurance fund.
+* `Sender` 字段描述保险基金的创建者。
+* `Ticker`、`QuoteDenom`、`OracleBase`、`OracleQuote`、`OracleType`、`Expiry` 字段描述保险基金对应的衍生品市场信息。
+* `InitialDeposit` 指定用于承保保险基金的初始存款金额。
 
-Disclaimer: When creating an insurance fund a small portion of shares (1%) will be reserved by the fund itself (protocol owned liquidity). A value of 1 USD is recommended as first subscription.
+免责声明：创建保险基金时，一小部分份额（1%）将由基金本身保留（协议拥有的流动性）。建议首次认购价值为 1 USD。
 
-Motivation behind this feature is to avoid potential rounding issues when underwriting to a fund. For example, without having protocol owned liquidity, if the original fund creator would take out most of their shares leaving but a small amount, the value of the share token could diverge drastically from the original value. The next underwriter would then have to provide a much larger deposit despite gaining the same amount of shares.
+此功能背后的动机是避免在承保基金时出现潜在的舍入问题。例如，如果没有协议拥有的流动性，如果原始基金创建者取出大部分份额但只留下少量，份额代币的价值可能会与原始价值大幅偏离。下一个承保人将不得不提供更大的存款，尽管获得相同数量的份额。
 
 ## Msg/Underwrite
 
-`MsgUnderwrite` defines a message to underwrite an insurance fund
+`MsgUnderwrite` 定义了承保保险基金的消息。
 
 ```protobuf
 // MsgUnderwrite defines a message for depositing coins to underwrite an insurance fund
@@ -64,15 +63,15 @@ message MsgUnderwrite {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the underwriter of an insurance fund .
-* `MarketId` field describes the derivative market id to the insurance fund.
-* `Deposit` field describes the deposit amount to be added on the insurance fund.
+* `Sender` 字段描述保险基金的承保人。
+* `MarketId` 字段描述保险基金的衍生品市场 ID。
+* `Deposit` 字段描述要添加到保险基金的存款金额。
 
 ## Msg/RequestRedemption
 
-`MsgRequestRedemption` defines a message to request redemption from the insurance fund.
+`MsgRequestRedemption` 定义了从保险基金请求赎回的消息。
 
 ```protobuf
 // MsgRequestRedemption defines a message for requesting a redemption of the sender's insurance fund tokens
@@ -88,8 +87,8 @@ message MsgRequestRedemption {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-* `Sender` field describes the redemption requester of an insurance fund .
-* `MarketId` field describes the derivative market id associated to the insurance fund.
-* `Amount` field describes the share token amount to be redeemed.
+* `Sender` 字段描述保险基金的赎回请求者。
+* `MarketId` 字段描述与保险基金关联的衍生品市场 ID。
+* `Amount` 字段描述要赎回的份额代币数量。

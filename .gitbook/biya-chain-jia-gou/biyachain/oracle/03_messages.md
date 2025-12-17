@@ -1,14 +1,14 @@
 ---
 sidebar_position: 3
-title: Messages
+title: 消息
 ---
 
-# Messages
+# 消息
 
 ## MsgRelayBandRates
 
-Authorized Band relayers can relay price feed data for multiple symbols with the `MsgRelayBandRates` message.\
-The registered handler iterates over all the symbols present in the `MsgRelayBandRates` and creates/updates the`BandPriceState` for each symbol.
+授权的 Band 中继者可以使用 `MsgRelayBandRates` 消息中继多个符号的价格源数据。\
+注册的处理程序遍历 `MsgRelayBandRates` 中存在的所有符号，并为每个符号创建/更新 `BandPriceState`。
 
 ```protobuf
 message MsgRelayBandRates {
@@ -20,13 +20,13 @@ message MsgRelayBandRates {
 }
 ```
 
-This message is expected to fail if the Relayer is not an authorized Band relayer.
+如果中继者不是授权的 Band 中继者，此消息预计会失败。
 
 ## MsgRelayCoinbaseMessages
 
-Relayers of Coinbase provider can send price data using `MsgRelayCoinbaseMessages` message.
+Coinbase 提供商的中继者可以使用 `MsgRelayCoinbaseMessages` 消息发送价格数据。
 
-Each Coinbase `Messages` is authenticated by the `Signatures` provided by the Coinbase oracle address `0xfCEAdAFab14d46e20144F48824d0C09B1a03F2BC`, thus allowing anyone to submit the `MsgRelayCoinbaseMessages`.
+每个 Coinbase `Messages` 由 Coinbase oracle 地址 `0xfCEAdAFab14d46e20144F48824d0C09B1a03F2BC` 提供的 `Signatures` 进行身份验证，因此允许任何人提交 `MsgRelayCoinbaseMessages`。
 
 ```protobuf
 message MsgRelayCoinbaseMessages {
@@ -39,11 +39,11 @@ message MsgRelayCoinbaseMessages {
 }
 ```
 
-This message is expected to fail if signature verification fails or if the Timestamp submitted is not more recent than the last previously submitted Coinbase price.
+如果签名验证失败或提交的时间戳不比之前提交的最后一个 Coinbase 价格更新，此消息预计会失败。
 
 ## MsgRelayPriceFeedPrice
 
-Relayers of PriceFeed provider can send the price feed using `MsgRelayPriceFeedPrice` message.
+PriceFeed 提供商的中继者可以使用 `MsgRelayPriceFeedPrice` 消息发送价格源。
 
 ```protobuf
 // MsgRelayPriceFeedPrice defines a SDK message for setting a price through the pricefeed oracle.
@@ -63,11 +63,11 @@ message MsgRelayPriceFeedPrice {
 }
 ```
 
-This message is expected to fail if the Relayer (`Sender`) is not an authorized pricefeed relayer for the given Base Quote pair or if the price is greater than 10000000.
+如果中继者（`Sender`）不是给定基础报价对的授权价格源中继者，或者价格大于 10000000，此消息预计会失败。
 
 ## MsgRequestBandIBCRates
 
-`MsgRequestBandIBCRates` is a message to instantly broadcast a request to bandchain.
+`MsgRequestBandIBCRates` 是立即向 bandchain 广播请求的消息。
 
 ```protobuf
 // MsgRequestBandIBCRates defines a SDK message for requesting data from BandChain using IBC.
@@ -81,12 +81,12 @@ message MsgRequestBandIBCRates {
 }
 ```
 
-Anyone can broadcast this message and no specific authorization is needed.\
-The handler checks if `BandIbcEnabled` flag is true and go ahead sending a request.
+任何人都可以广播此消息，不需要特定授权。\
+处理程序检查 `BandIbcEnabled` 标志是否为 true，然后继续发送请求。
 
 ## MsgRelayPythPrices
 
-`MsgRelayPythPrices` is a message for the Pyth contract relay prices to the oracle module.
+`MsgRelayPythPrices` 是 Pyth 合约将价格中继到 oracle 模块的消息。
 
 ```protobuf
 // MsgRelayPythPrices defines a SDK message for updating Pyth prices
@@ -125,12 +125,11 @@ enum PythStatus {
 }
 ```
 
-This message is expected to fail if the Relayer (`sender`) does not equal the Pyth contract address as defined in the\
-oracle module Params.
+如果中继者（`sender`）不等于 oracle 模块 Params 中定义的 Pyth 合约地址，此消息预计会失败。
 
 ## MsgRelayStorkPrices
 
-`MsgRelayStorkPrices` is a message for the Stork contract relay prices to the oracle module.
+`MsgRelayStorkPrices` 是 Stork 合约将价格中继到 oracle 模块的消息。
 
 ```protobuf
 // MsgRelayStorkPrices defines a SDK message for relaying price message from Stork API.
@@ -159,15 +158,15 @@ message SignedPriceOfAssetPair {
 }
 ```
 
-This message is expected to fail if:
+在以下情况下，此消息预计会失败：
 
-* the Relayer (`sender`) is not an authorized oracle publisher or if `assetId` is not unique amongst the provided asset pairs
-* ECDSA signature verification fails for the `SignedPriceOfAssetPair`
-* the difference between timestamps exceeds the `MaxStorkTimestampIntervalNano` (500 milliseconds).
+* 中继者（`sender`）不是授权的 oracle 发布者，或者 `assetId` 在提供的资产对中不唯一
+* `SignedPriceOfAssetPair` 的 ECDSA 签名验证失败
+* 时间戳之间的差异超过 `MaxStorkTimestampIntervalNano`（500 毫秒）。
 
 ## MsgRelayProviderPrices
 
-Relayers of a particular Provider can send the price feed using `MsgRelayProviderPrices` message.
+特定 Provider 的中继者可以使用 `MsgRelayProviderPrices` 消息发送价格源。
 
 ```protobuf
 // MsgRelayProviderPrice defines a SDK message for setting a price through the provider oracle.
@@ -187,4 +186,4 @@ message MsgRelayProviderPrices {
 }
 ```
 
-This message is expected to fail if the Relayer (`Sender`) is not an authorized pricefeed relayer for the given Base Quote pair or if the price is greater than 10000000.
+如果中继者（`Sender`）不是给定基础报价对的授权价格源中继者，或者价格大于 10000000，此消息预计会失败。

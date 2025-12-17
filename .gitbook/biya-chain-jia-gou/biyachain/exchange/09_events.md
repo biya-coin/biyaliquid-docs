@@ -3,9 +3,9 @@ sidebar_position: 10
 title: Events
 ---
 
-# Events
+# 事件
 
-The exchange module emits the following events:
+交易所模块发出以下事件：
 
 ```proto
 message EventBatchSpotExecution {

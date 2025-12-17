@@ -1,168 +1,168 @@
 ---
 sidebar_position: 2
-title: Workflow
+title: 工作流程
 ---
 
-# Workflow
+# 工作流程
 
-## Conceptual Overview
+## 概念概述
 
-To recap, each `Operator` is responsible for maintaining 2 secure processes:
+回顾一下，每个 `Operator` 负责维护 2 个安全进程：
 
-1. A fully synced Biya Chain Chain `Validator` node (`biyachaind` process)
-2. The `Orchestrator` service (`peggo orchestrator` process) which interacts with both networks. Implicitly, an RPC endpoint to a fully synced Ethereum node is required as well (see peggo .env example)
+1. 完全同步的 Biya Chain `Validator` 节点（`biyachaind` 进程）
+2. `Orchestrator` 服务（`peggo orchestrator` 进程），它与两个网络交互。隐含地，还需要一个完全同步的 Ethereum 节点的 RPC 端点（参见 peggo .env 示例）
 
-Combined, these 2 entities accomplish 3 things:
+这两个实体结合起来完成 3 件事：
 
-* Move token assets from Ethereum to Biya Chain
-* Move token assets from Biya Chain to Ethereum
-* Keep the `Peggy.sol` contract in sync with the active `Validator Set` on Biya Chain
+* 将代币资产从 Ethereum 移动到 Biya Chain
+* 将代币资产从 Biya Chain 移动到 Ethereum
+* 保持 `Peggy.sol` 合约与 Biya Chain 上的活跃 `Validator Set` 同步
 
-It is possible to run `peggo` without ever being a `Validator`. Peggo automatically runs in "relayer mode" when configured to run with an address **not associated** with a `Validator`.\
-In this mode, only 2 things can happen:
+可以在不成为 `Validator` 的情况下运行 `peggo`。当配置为使用**未关联** `Validator` 的地址运行时，Peggo 会自动以"中继者模式"运行。\
+在此模式下，只能发生 2 件事：
 
-* new token batches can be created on Biya Chain
-* confirmed valsets/batches can be relayed to Ethereum
+* 可以在 Biya Chain 上创建新的代币批次
+* 可以将已确认的 valsets/批次中继到 Ethereum
 
-## Types of Assets
+## 资产类型
 
-### Native Ethereum assets
+### 原生 Ethereum 资产
 
-Any asset originating from Ethereum which implements the ERC-20 standard can be transferred from Ethereum to Biya Chain by calling the `sendToBiyachain` function on the [Peggy.sol](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) contract which transfers tokens from the sender's balance to the Peggy contract.
+任何源自 Ethereum 并实现 ERC-20 标准的资产都可以通过调用 [Peggy.sol](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) 合约上的 `sendToBiyachain` 函数从 Ethereum 转移到 Biya Chain，该函数将代币从发送者的余额转移到 Peggy 合约。
 
-The `Operators` all run their `peggo` processes which submit `MsgDepositClaim` messages describing the deposit they have observed. Once more than 66% of all voting power has submitted a claim for this specific deposit representative tokens are minted and issued to the Biya Chain Chain address that the sender requested.
+所有 `Operators` 都运行其 `peggo` 进程，这些进程提交描述他们观察到的存款的 `MsgDepositClaim` 消息。一旦超过 66% 的投票权为此特定存款提交了声明，就会铸造代表代币并发行到发送者请求的 Biya Chain 地址。
 
-These representative tokens have a denomination prefix of `peggy` concatenated with the ERC-20 token hex address, e.g. `peggy0xdac17f958d2ee523a2206206994597c13d831ec7`.
+这些代表代币的面额前缀为 `peggy`，后跟 ERC-20 代币的十六进制地址，例如 `peggy0xdac17f958d2ee523a2206206994597c13d831ec7`。
 
-### Native Cosmos SDK assets
+### 原生 Cosmos SDK 资产
 
-An asset native to a Cosmos SDK chain (e.g. `ATOM`) first must be represented on Ethereum before it's possible to bridge it. To do so, the [Peggy contract](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) allows anyone to create a new ERC-20 token representing a Cosmos asset by calling the `deployERC20` function.
+Cosmos SDK 链的原生资产（例如 `ATOM`）首先必须在 Ethereum 上表示，然后才能桥接。为此，[Peggy 合约](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) 允许任何人通过调用 `deployERC20` 函数创建代表 Cosmos 资产的新 ERC-20 代币。
 
-This endpoint is not permissioned, so it is up to the validators and the users of the Peggy bridge to declare any given ERC-20 token as the representation of a given asset.
+此端点不受权限限制，因此由验证者和 Peggy 桥接的用户来声明任何给定的 ERC-20 代币作为给定资产的表示。
 
-When a user on Ethereum calls `deployERC20` they pass arguments describing the desired asset. [Peggy.sol](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) uses an ERC-20 factory to deploy the actual ERC-20 contract and assigns ownership of the entire balance of the new token to the Peggy contract itself before emitting an `ERC20DeployedEvent`.
+当 Ethereum 上的用户调用 `deployERC20` 时，他们传递描述所需资产的参数。[Peggy.sol](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) 使用 ERC-20 工厂部署实际的 ERC-20 合约，并在发出 `ERC20DeployedEvent` 之前将新代币的全部余额的所有权分配给 Peggy 合约本身。
 
-The peggo orchestrators observe this event and decide if a Cosmos asset has been accurately represented (correct decimals, correct name, no pre-existing representation). If this is the case, the ERC-20 contract address is adopted and stored as the definitive representation of that Cosmos asset on Ethereum.
+peggo 编排器观察此事件并决定 Cosmos 资产是否已准确表示（正确的小数位数、正确的名称、没有预先存在的表示）。如果是这种情况，则采用 ERC-20 合约地址并将其存储为该 Cosmos 资产在 Ethereum 上的确定表示。
 
-## `Orchestrator` (Peggo) subprocesses
+## `Orchestrator` (Peggo) 子进程
 
-The `peggo orchestrator` process consists of 4 subprocesses running concurrently at exact intervals (loops). These are:
+`peggo orchestrator` 进程由 4 个以精确间隔（循环）并发运行的子进程组成。这些是：
 
-* `Signer` which signs new `Validator Set` updates and `Token Batches` with the `Operator`'s Ethereum keys and submits using [messages](04_messages.md#Ethereum-Signer-messages).
-* `Oracle` which observes Ethereum events and sends them as [claims](04_messages.md#Oracle-messages) to Biya Chain.
-* `Relayer` which submits confirmed `Validator Set` updates and `Token Batches` to the `Peggy Contract` on Ethereum
-* `Batch Creator` which observes (new) withdrawals on Biya Chain and decides which of these to batch according to their type and the configured `PEGGO_MIN_BATCH_FEE_USD` value
+* `Signer`（签名者）- 使用 `Operator` 的 Ethereum 密钥签署新的 `Validator Set` 更新和 `Token Batches`，并使用[消息](04_messages.md#Ethereum-Signer-messages)提交。
+* `Oracle`（预言机）- 观察 Ethereum 事件并将它们作为[声明](04_messages.md#Oracle-messages)发送到 Biya Chain。
+* `Relayer`（中继者）- 将已确认的 `Validator Set` 更新和 `Token Batches` 提交到 Ethereum 上的 `Peggy Contract`
+* `Batch Creator`（批次创建者）- 观察 Biya Chain 上的（新）提取，并根据其类型和配置的 `PEGGO_MIN_BATCH_FEE_USD` 值决定将哪些提取进行批次处理
 
 ### Batch Creator
 
-The purpose of the `Batch Creator` is only in creating token batches on the Biya Chain side. The relevant `Peggy module` RPC is not permissioned so anyone can create a batch.
+`Batch Creator` 的目的仅在 Biya Chain 端创建代币批次。相关的 `Peggy module` RPC 不受权限限制，因此任何人都可以创建批次。
 
-When a user wants to withdraw assets from Biya Chain to Ethereum they send a special message to Biya Chain (`MsgSendToEth`) which adds their withdrawal to `Peggy Tx Pool`.`Batch Creator` continually queries the pool for withdrawals (by token type) and issues a `MsgRequestBatch` to Biya Chain when a potential batch satisfies the configured `PEGGO_MIN_BATCH_FEE_USD` value (see .env example).
+当用户想要从 Biya Chain 提取资产到 Ethereum 时，他们向 Biya Chain 发送特殊消息（`MsgSendToEth`），这会将他们的提取添加到 `Peggy Tx Pool`。`Batch Creator` 持续查询池中的提取（按代币类型），当潜在批次满足配置的 `PEGGO_MIN_BATCH_FEE_USD` 值时，向 Biya Chain 发出 `MsgRequestBatch`（参见 .env 示例）。
 
-On the receiving end, all pooled withdrawals matching the token type in the request are moved from the `Outgoing Tx Pool` as a single batch and placed in the `Outgoing Batch Pool`.
+在接收端，所有与请求中代币类型匹配的合并提取都从 `Outgoing Tx Pool` 作为单个批次移动并放置在 `Outgoing Batch Pool` 中。
 
 ### Signer
 
-The responsibility of Signer is to provide confirmations that an `Operator (Orchestrator)` is partaking in bridge activity. Failure to provide these confirmations results in slashing penalties for the orchestrator's `Validator`.\
-In other words, this process **must be running at all times** for a `Validator` node.
+Signer 的职责是提供确认，证明 `Operator (Orchestrator)` 正在参与桥接活动。未能提供这些确认会导致编排器的 `Validator` 受到惩罚。\
+换句话说，对于 `Validator` 节点，此进程**必须始终运行**。
 
-Any payload moving in the Biya Chain->Ethereum pipeline (`Validator Set` updates/`Token Batches`) requires `Validator` signatures to be successfully relayed to Ethereum. Certain calls on `Peggy Contract` accept an array of signatures to be checked against the `Validator Set` in the contract itself.`Orchestrators` make these signatures with their `Delegate Ethereum address`: this is an Ethereum address decided by the `Operator` upon initial setup ([SetOrchestratorAddress](04_messages.md#setorchestratoraddresses)). This address then represents that validator on the Ethereum blockchain and will be added as a signing member of the multisig with a weighted voting power as close as possible to the Biya Chain Chain voting power.
+在 Biya Chain->Ethereum 管道中移动的任何有效负载（`Validator Set` 更新/`Token Batches`）都需要 `Validator` 签名才能成功中继到 Ethereum。`Peggy Contract` 上的某些调用接受一个签名数组，这些签名将与合约本身中的 `Validator Set` 进行核对。`Orchestrators` 使用其 `Delegate Ethereum address` 进行这些签名：这是 `Operator` 在初始设置时决定的 Ethereum 地址（[SetOrchestratorAddress](04_messages.md#setorchestratoraddresses)）。然后，此地址在 Ethereum 区块链上代表该验证者，并将作为多重签名的签名成员添加，其加权投票权尽可能接近 Biya Chain 投票权。
 
-Whenever `Signer` finds that there is a unconfirmed valset update (token batch) present within the `Peggy Module` it issues a `MsgConfirmValset` (`MsgConfirmBatch`) as proof that the operating `Validator` is active in bridge activity.
+每当 `Signer` 发现 `Peggy Module` 中存在未确认的 valset 更新（代币批次）时，它会发出 `MsgConfirmValset`（`MsgConfirmBatch`）作为证明，表明正在运行的 `Validator` 在桥接活动中处于活跃状态。
 
 ### Oracle
 
-Monitors the Ethereum network for new events involving the `Peggy Contract`.
+监控 Ethereum 网络以查找涉及 `Peggy Contract` 的新事件。
 
-Every event emitted by the contract has a unique event nonce. This nonce value is crucial in coordinating `Orchestrators` to properly observe contract activity and make sure Biya Chain acknowledges them via `Claims`.\
-Multiple claims of the same nonce make up an `Attestation` and when the majority (2/3) of orchestrators have observed an event its particular logic gets executed on Biya Chain.
+合约发出的每个事件都有一个唯一的事件 nonce。此 nonce 值对于协调 `Orchestrators` 正确观察合约活动并确保 Biya Chain 通过 `Claims` 确认它们至关重要。\
+相同 nonce 的多个声明组成一个 `Attestation`，当大多数（2/3）编排器观察到事件时，其特定逻辑会在 Biya Chain 上执行。
 
-If 2/3 of the validators can not agree on a single `Attestation`, the oracle is halted. This means no new events will be relayed from Ethereum until some of the validators change their votes. There is no slashing condition for this, with reasoning outlined in the [slashing spec](05_slashing.md)
+如果 2/3 的验证者无法就单个 `Attestation` 达成一致，则预言机将停止。这意味着在部分验证者更改其投票之前，不会从 Ethereum 中继新事件。这没有惩罚条件，原因在[惩罚规范](05_slashing.md)中概述
 
-There are 4 types of events emitted from Peggy.sol:
+Peggy.sol 发出 4 种类型的事件：
 
-1. `TransactionBatchExecutedEvent` - event indicating that a token batch (withdrawals) has been successfully relayed to Ethereum
-2. `ValsetUpdatedEvent` - event indicating that a `Validator Set` update has been successfully relayed to Ethereum
-3. `SendToBiyachainEvent` - event indicating that a new deposit to Biya Chain has been initiated
-4. `ERC20DeployedEvent` - event indicating a new Cosmos token has been registered on Ethereum
+1. `TransactionBatchExecutedEvent` - 表示代币批次（提取）已成功中继到 Ethereum 的事件
+2. `ValsetUpdatedEvent` - 表示 `Validator Set` 更新已成功中继到 Ethereum 的事件
+3. `SendToBiyachainEvent` - 表示已启动向 Biya Chain 的新存款的事件
+4. `ERC20DeployedEvent` - 表示新 Cosmos 代币已在 Ethereum 上注册的事件
 
-Biya Chain's `Oracle` implementation ignores the last 12 blocks on Ethereum to ensure block finality. In reality, this means latest events are observed 2-3 minutes after they occurred.
+Biya Chain 的 `Oracle` 实现忽略 Ethereum 上的最后 12 个区块以确保区块最终性。实际上，这意味着最新事件在发生 2-3 分钟后才会被观察到。
 
 ### Relayer
 
-`Relayer` bundles valset updates (or token batches) along with their confirmations into an Ethereum transaction and sends it to the `Peggy contract`.
+`Relayer` 将 valset 更新（或代币批次）及其确认打包到 Ethereum 交易中，并将其发送到 `Peggy contract`。
 
-Keep in mind that these messages cost a variable amount of money based on wildly changing Ethereum gas prices, so it's not unreasonable for a single batch to cost over a million gas.\
-A major design decision for our relayer rewards was to always issue them on the Ethereum chain. This has downsides, namely some strange behavior in the case of validator set update rewards.
+请记住，这些消息的成本会根据 Ethereum gas 价格的剧烈变化而变化，因此单个批次花费超过一百万 gas 并非不合理。\
+我们中继者奖励的一个主要设计决策是始终在 Ethereum 链上发放它们。这有缺点，即在验证者集更新奖励的情况下会出现一些奇怪的行为。
 
-But the upsides are undeniable, because the Ethereum messages pay `msg.sender` any existing bot in the Ethereum ecosystem will pick them up and try to submit them. This makes the relaying market much more competitive and less prone to cabal like behavior.
+但优点是不可否认的，因为 Ethereum 消息向 `msg.sender` 支付费用，Ethereum 生态系统中的任何现有机器人都会接收它们并尝试提交它们。这使得中继市场更具竞争力，更不容易出现小团体行为。
 
-## End-to-end Lifecycle
+## 端到端生命周期
 
-This document describes the end to end lifecycle of the Peggy bridge.
+本文档描述了 Peggy 桥接的端到端生命周期。
 
-### Peggy Smart Contract Deployment
+### Peggy 智能合约部署
 
-In order to deploy the Peggy contract, the validator set of the native chain (Biya Chain Chain) must be known. Upon deploying the Peggy contract suite (Peggy Implementation, Proxy contract, and ProxyAdmin contracts), the Peggy contract (the Proxy contract) must be initialized with the validator set.\
-Upon initialization a `ValsetUpdatedEvent` is emitted from the contract.
+为了部署 Peggy 合约，必须知道原生链（Biya Chain）的验证者集。在部署 Peggy 合约套件（Peggy Implementation、Proxy 合约和 ProxyAdmin 合约）后，必须使用验证者集初始化 Peggy 合约（Proxy 合约）。\
+初始化时，合约会发出 `ValsetUpdatedEvent`。
 
-The proxy contract is used to upgrade Peggy Implementation contract which is needed for bug fixing and potential improvements during initial phase. It is a simple wrapper or "proxy" which users interact with directly and is in charge of forwarding transactions to the Peggy implementation contract, which contains the logic. The key concept to understand is that the implementation contract can be replaced but the proxy (the access point) is never changed.
+代理合约用于升级 Peggy Implementation 合约，这在初始阶段需要用于错误修复和潜在改进。它是一个简单的包装器或"代理"，用户直接与之交互，负责将交易转发到包含逻辑的 Peggy 实现合约。需要理解的关键概念是，实现合约可以被替换，但代理（访问点）永远不会改变。
 
-The ProxyAdmin is a central admin for the Peggy proxy, which simplifies management. It controls upgradability and ownership transfers. The ProxyAdmin contract itself has a built-in expiration time which, once expired, prevents the Peggy implementation contract from being upgraded in the future.
+ProxyAdmin 是 Peggy 代理的中央管理员，简化了管理。它控制可升级性和所有权转移。ProxyAdmin 合约本身具有内置的过期时间，一旦过期，将阻止 Peggy 实现合约在未来被升级。
 
-Then the following peggy genesis params should be updated:
+然后应更新以下 peggy 创世参数：
 
-1. `bridge_ethereum_address` with Peggy proxy contract address
-2. `bridge_contract_start_height` with the height at which the Peggy proxy contract was deployed
+1. `bridge_ethereum_address` 使用 Peggy 代理合约地址
+2. `bridge_contract_start_height` 使用部署 Peggy 代理合约的高度
 
-This completes the bootstrap of the Peggy bridge and the chain can be started. Afterward, `Operators` should start their `peggo` processes and eventually observe that the initial `ValsetUpdatedEvent` is attested on Biya Chain.
+这完成了 Peggy 桥接的引导，链可以启动。之后，`Operators` 应该启动其 `peggo` 进程，并最终观察到初始 `ValsetUpdatedEvent` 在 Biya Chain 上得到证明。
 
-### **Updating Biya Chain Chain validator set on Ethereum**
+### **在 Ethereum 上更新 Biya Chain 验证者集**
 
 ![img.png](/broken/files/YYRuo8K4QkB7PA2NQuOZ)
 
-A validator set is a series of Ethereum addresses with attached normalized powers used to represent the Biya Chain validator set (Valset) in the Peggy contract on Ethereum. The Peggy contract stays in sync with the Biya Chain Chain validator set through the following mechanism:
+验证者集是一系列带有附加标准化权重的 Ethereum 地址，用于在 Ethereum 上的 Peggy 合约中表示 Biya Chain 验证者集（Valset）。Peggy 合约通过以下机制与 Biya Chain 验证者集保持同步：
 
-1. **Creating a new Valset on Biya Chain:** A new Valset is automatically created on the Biya Chain Chain when either:
-   * the cumulative difference of the current validator set powers compared to the last recorded Valset exceeds 5%
-   * a validator begins unbonding from the set
-2. **Confirming a Valset on Biya Chain:** Each `Operator` is responsible for confirming Valset updates that are created on Biya Chain. The `Signer` process sends these confirmations via `MsgConfirmValset` by having the validator's delegated Ethereum key sign over a compressed representation of the Valset data. The `Peggy module` verifies the validity of the signature and persists it to its state.
-3. **Updating the Valset on the Peggy contract:** After a 2/3+ 1 majority of validators have submitted their confirmations for a given Valset, `Relayer` submits the new Valset data to the Peggy contract by calling `updateValset`.\
-   The Peggy contract then validates the data, updates the valset checkpoint, transfers valset rewards to sender and emits a `ValsetUpdatedEvent`.
-4. **Acknowledging the `ValsetUpdatedEvent` on Biya Chain:** `Oracle` witnesses the `ValsetUpdatedEvent` on Ethereum, and sends a `MsgValsetUpdatedClaim` which informs the `Peggy module` that the Valset has been updated on Ethereum.
-5. **Pruning Valsets on Biya Chain:** Once a 2/3 majority of validators send their claim for a given `ValsetUpdateEvent`, all the previous valsets are pruned from the `Peggy module` state.
-6. **Validator Slashing:** Validators are subject to slashing after a configured window of time (`SignedValsetsWindow`) for not providing confirmations. Read more [valset slashing](05_slashing.md)
+1. **在 Biya Chain 上创建新的 Valset：** 在以下任一情况下，Biya Chain 上会自动创建新的 Valset：
+   * 当前验证者集权重与最后记录的 Valset 相比的累积差异超过 5%
+   * 验证者开始从集合中解绑
+2. **在 Biya Chain 上确认 Valset：** 每个 `Operator` 负责确认在 Biya Chain 上创建的 Valset 更新。`Signer` 进程通过让验证者的委托 Ethereum 密钥对 Valset 数据的压缩表示进行签名，通过 `MsgConfirmValset` 发送这些确认。`Peggy module` 验证签名的有效性并将其持久化到其状态。
+3. **更新 Peggy 合约上的 Valset：** 在 2/3+ 1 多数验证者提交了对给定 Valset 的确认后，`Relayer` 通过调用 `updateValset` 将新的 Valset 数据提交到 Peggy 合约。\
+   然后 Peggy 合约验证数据，更新 valset 检查点，将 valset 奖励转移给发送者，并发出 `ValsetUpdatedEvent`。
+4. **在 Biya Chain 上确认 `ValsetUpdatedEvent`：** `Oracle` 见证 Ethereum 上的 `ValsetUpdatedEvent`，并发送 `MsgValsetUpdatedClaim`，通知 `Peggy module` Valset 已在 Ethereum 上更新。
+5. **在 Biya Chain 上修剪 Valsets：** 一旦 2/3 多数验证者发送了对给定 `ValsetUpdateEvent` 的声明，所有先前的 valsets 都会从 `Peggy module` 状态中修剪。
+6. **验证者惩罚：** 验证者在配置的时间窗口（`SignedValsetsWindow`）内未提供确认后将受到惩罚。阅读更多[valset 惩罚](05_slashing.md)
 
 ***
 
-### **Transferring ERC-20 tokens from Ethereum to Biya Chain**
+### **将 ERC-20 代币从 Ethereum 转移到 Biya Chain**
 
 ![img.png](/broken/files/IkOQm1tLFSeymMPsomcp)
 
-ERC-20 tokens are transferred from Ethereum to Biya Chain through the following mechanism:
+ERC-20 代币通过以下机制从 Ethereum 转移到 Biya Chain：
 
-1. **Depositing ERC-20 tokens on the Peggy Contract:** A user initiates a transfer of ERC-20 tokens from Ethereum to Biya Chain by calling the `sendToBiyachain` function on the Peggy contract which deposits tokens on the Peggy contract and emits a `SendToBiyachainEvent`.\
-   The deposited tokens will remain locked until withdrawn at some undetermined point in the future. This event contains the amount and type of tokens, as well as a destination address on the Biya Chain Chain to receive the funds.
-2. **Confirming the deposit:** Each `Oracle` witnesses the `SendToBiyachainEvent` and sends a `MsgDepositClaim` which contains the deposit information to the Peggy module.
-3. **Minting tokens on the Biya Chain:** Once a majority of validators confirm the deposit claim, the deposit is processed.
+1. **在 Peggy 合约上存入 ERC-20 代币：** 用户通过调用 Peggy 合约上的 `sendToBiyachain` 函数启动从 Ethereum 到 Biya Chain 的 ERC-20 代币转移，该函数将代币存入 Peggy 合约并发出 `SendToBiyachainEvent`。\
+   存入的代币将保持锁定状态，直到在未来某个未确定的时间点提取。此事件包含代币的数量和类型，以及 Biya Chain 上接收资金的目标地址。
+2. **确认存款：** 每个 `Oracle` 见证 `SendToBiyachainEvent` 并发送包含存款信息的 `MsgDepositClaim` 到 Peggy 模块。
+3. **在 Biya Chain 上铸造代币：** 一旦大多数验证者确认存款声明，就会处理存款。
 
-* If the asset is Ethereum originated, the tokens are minted and transferred to the intended recipient's address on the Biya Chain Chain.
-* If the asset is Cosmos-SDK originated, the coins are unlocked and transferred to the intended recipient's address on the Biya Chain Chain.
+* 如果资产源自 Ethereum，则代币被铸造并转移到 Biya Chain 上的预期接收者地址。
+* 如果资产源自 Cosmos-SDK，则代币被解锁并转移到 Biya Chain 上的预期接收者地址。
 
 ***
 
-### **Withdrawing tokens from Biya Chain to Ethereum**
+### **从 Biya Chain 提取代币到 Ethereum**
 
 ![img.png](/broken/files/6cfRB5jvLu98zFk7AAtH)
 
-1. **Request Withdrawal from Biya Chain:** A user can initiate the transfer of assets from the Biya Chain Chain to Ethereum by sending a `MsgSendToEth` transaction to the peggy module.
-   * If the asset is Ethereum native, the represented tokens are burnt.
-   * If the asset is Cosmos SDK native, coins are locked in the module. The withdrawal is then added to `Outgoing Tx Pool`.
-2. **Batch Creation:** A `Batch Creator` observes the pool of pending withdrawals. The batch creator (or any external third party) then requests a batch of to be created for given token by sending `MsgRequestBatch` to the Biya Chain Chain. The `Peggy module` collects withdrawals matching the token type into a batch and puts it in `Outgoing Batch Pool`.
-3. **Batch Confirmation:** Upon detecting the existence of an Outgoing Batch, the `Signer` signs over the batch with its Ethereum key and submits a `MsgConfirmBatch` tx to the Peggy module.
-4. **Submit Batch to Peggy Contract:** Once a majority of validators confirm the batch, the `Relayer` calls `submitBatch` on the Peggy contract with the batch and its confirmations. The Peggy contract validates the signatures, updates the batch checkpoint, processes the batch ERC-20 withdrawals, transfers the batch fee to the tx sender and emits a `TransactionBatchExecutedEvent`.
-5. **Send Withdrawal Claim to Biya Chain:** `Oracles` witness the `TransactionBatchExecutedEvent` and send a `MsgWithdrawClaim` containing the withdrawal information to the Peggy module.
-6. **Prune Batches** Once a majority of validators submit their `MsgWithdrawClaim` , the batch is deleted along and all previous batches are cancelled on the Peggy module. Withdrawals in cancelled batches get moved back into `Outgoing Tx Pool`.
-7. **Batch Slashing:** Validators are responsible for confirming batches and are subject to slashing if they fail to do so. Read more on [batch slashing](05_slashing.md).
+1. **从 Biya Chain 请求提取：** 用户可以通过向 peggy 模块发送 `MsgSendToEth` 交易来启动从 Biya Chain 到 Ethereum 的资产转移。
+   * 如果资产是 Ethereum 原生的，则代表代币被销毁。
+   * 如果资产是 Cosmos SDK 原生的，则代币被锁定在模块中。然后提取被添加到 `Outgoing Tx Pool`。
+2. **批次创建：** `Batch Creator` 观察待处理提取池。然后批次创建者（或任何外部第三方）通过向 Biya Chain 发送 `MsgRequestBatch` 来请求为给定代币创建批次。`Peggy module` 将匹配代币类型的提取收集到批次中，并将其放入 `Outgoing Batch Pool`。
+3. **批次确认：** 检测到 Outgoing Batch 存在后，`Signer` 使用其 Ethereum 密钥对批次进行签名，并向 Peggy 模块提交 `MsgConfirmBatch` 交易。
+4. **向 Peggy 合约提交批次：** 一旦大多数验证者确认批次，`Relayer` 使用批次及其确认调用 Peggy 合约上的 `submitBatch`。Peggy 合约验证签名，更新批次检查点，处理批次 ERC-20 提取，将批次费用转移给交易发送者，并发出 `TransactionBatchExecutedEvent`。
+5. **向 Biya Chain 发送提取声明：** `Oracles` 见证 `TransactionBatchExecutedEvent` 并向 Peggy 模块发送包含提取信息的 `MsgWithdrawClaim`。
+6. **修剪批次** 一旦大多数验证者提交其 `MsgWithdrawClaim`，批次将被删除，并且所有先前的批次在 Peggy 模块上被取消。已取消批次中的提取会移回 `Outgoing Tx Pool`。
+7. **批次惩罚：** 验证者负责确认批次，如果未能这样做，将受到惩罚。阅读更多关于[批次惩罚](05_slashing.md)的内容。
 
-Note while that batching reduces individual withdrawal costs dramatically, this comes at the cost of latency and implementation complexity. If a user wishes to withdraw quickly they will have to pay a much higher fee. However this fee will be about the same as the fee every withdrawal from the bridge would require in a non-batching system.
+请注意，虽然批次处理大大降低了单个提取成本，但这以延迟和实施复杂性为代价。如果用户希望快速提取，他们将不得不支付更高的费用。但是，此费用大约与非批次系统中桥接的每次提取所需的费用相同。

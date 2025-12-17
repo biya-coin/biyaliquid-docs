@@ -5,70 +5,70 @@ title: EndBlocker
 
 # EndBlock
 
-The exchange EndBlocker runs at the end of every block in our defined order after governance and staking modules, and before the peggy, auction and insurance modules. It is particularly important that the governance module's EndBlocker runs before the exchange module's.
+交易所 EndBlocker 在每个区块结束时运行，在我们的定义顺序中，在治理和质押模块之后，在 peggy、auction 和 insurance 模块之前。特别重要的是，治理模块的 EndBlocker 在交易所模块之前运行。
 
-* Stage 0: Determine the fee discounts for all the accounts that have placed an order in a fee-discount supported market in the current block.
-* Stage 1: Process all market orders in parallel - spot market and derivative market orders
-  * Markets orders are executed against the resting orderbook at the time of the beginning of the block.
-  * Note that market orders may be invalidated in the EndBlocker due to subsequently incoming oracle updates or limit order cancels.
-* Stage 2: Persist market order execution to store
-  * Spot Markets
-    * Persist Spot market order execution data
-    * Emit relevant events
+* 阶段 0：确定在当前区块中在支持费用折扣的市场上下单的所有账户的费用折扣。
+* 阶段 1：并行处理所有市价单 - 现货市价单和衍生品市价单
+  * 市价单针对区块开始时的挂单订单簿执行。
+  * 请注意，市价单可能会在 EndBlocker 中因随后传入的预言机更新或限价单取消而失效。
+* 阶段 2：将市价单执行持久化到存储
+  * 现货市场
+    * 持久化现货市价单执行数据
+    * 发出相关事件
       * `EventBatchSpotExecution`
-  * Derivative Markets
-    * Persist Derivative market order execution data
-    * Emit relevant events
+  * 衍生品市场
+    * 持久化衍生品市价单执行数据
+    * 发出相关事件
       * `EventBatchDerivativeExecution`
       * `EventCancelDerivativeOrder`
-* Stage 3: Process all limit orders in parallel - spot and derivative limit orders that are matching
-  * Limit orders are executed in a frequent batch auction mode to ensure fair matching prices, see below for details.
-  * Note that vanilla limit orders may be invalidated in the EndBlocker due to subsequently incoming oracle updates and reduce-only limit orders may be invalidated in the EndBlocker due to subsequently incoming orders which flip a position.
-* Stage 4: Persist limit order matching execution + new limit orders to store
-  * Spot Markets
-    * Persist Spot Matching execution data
-    * Emit relevant events
+* 阶段 3：并行处理所有限价单 - 正在匹配的现货和衍生品限价单
+  * 限价单在频繁批量拍卖模式下执行，以确保公平的匹配价格，详见下文。
+  * 请注意，普通限价单可能会在 EndBlocker 中因随后传入的预言机更新而失效，仅减仓限价单可能会在 EndBlocker 中因随后传入的翻转持仓的订单而失效。
+* 阶段 4：将限价单匹配执行 + 新限价单持久化到存储
+  * 现货市场
+    * 持久化现货匹配执行数据
+    * 发出相关事件
       * `EventNewSpotOrders`
       * `EventBatchSpotExecution`
-  * Derivative Markets
-    * Persist Derivative Matching execution data
-    * Emit relevant events
+  * 衍生品市场
+    * 持久化衍生品匹配执行数据
+    * 发出相关事件
       * `EventNewDerivativeOrders`
       * `EventBatchDerivativeExecution`
       * `EventCancelDerivativeOrder`
-* Stage 5: Persist perpetual market funding info
-* Stage 6: Persist trading rewards total and account points.
-* Stage 7: Persist new fee discount data, i.e., new fees paid additions and new account tiers.
-* Stage 8: Process Spot Market Param Updates if any
-* Stage 9: Process Derivative Market Param Updates if any
-* Stage 10: Emit Deposit and Position Update Events
+* 阶段 5：持久化永续市场资金费率信息
+* 阶段 6：持久化交易奖励总额和账户积分。
+* 阶段 7：持久化新的费用折扣数据，即新的费用支付添加和新的账户层级。
+* 阶段 8：处理现货市场参数更新（如果有）
+* 阶段 9：处理衍生品市场参数更新（如果有）
+* 阶段 10：发出存款和持仓更新事件
 
-## Order Matching: Frequent Batch Auction (FBA)
+## 订单匹配：频繁批量拍卖（FBA）
 
-The goal of FBA is to prevent any [Front-Running](https://www.investopedia.com/terms/f/frontrunning.asp). This is achieved by calculating a single clearing price for all matched orders in a given block.
+FBA 的目标是防止任何[抢先交易](https://www.investopedia.com/terms/f/frontrunning.asp)。这是通过为给定区块中的所有匹配订单计算单一清算价格来实现的。
 
-1. Market orders are filled first against the resting orderbook at the time of the beginning of the block. While the resting orders are filled at their respective order prices, the market orders are all filled at a uniform clearing price with the same mechanism as limit orders. For an example for the market order matching in FBA fashion, look at the API docs [here](https://api.biyachain.exchange/#examples-market-order-matching).
-2. Likewise limit orders are filled at a uniform clearing price. New limit orders are combined with the resting orderbook and orders are matched as long as there is still negative spread. The clearing price is either
+1. 市价单首先针对区块开始时的挂单订单簿成交。虽然挂单以其各自的订单价格成交，但市价单都以统一的清算价格成交，使用与限价单相同的机制。有关 FBA 方式的市价单匹配示例，请查看 API 文档[此处](https://api.biyachain.exchange/#examples-market-order-matching)。
+2. 同样，限价单以统一的清算价格成交。新限价单与挂单订单簿合并，只要仍有负价差，订单就会匹配。清算价格是以下之一：
 
-a. the best buy/sell order in case the last matched order crosses the spread in that direction, the,\
-b. the mark price in case of derivative markets and the mark price is between the last matched orders or\
-c. the mid price.
+a. 最佳买入/卖出订单（如果最后一个匹配订单在该方向上跨越价差），\
+b. 标记价格（对于衍生品市场，且标记价格在最后匹配订单之间）或\
+c. 中间价格。
 
-For an example for the limit order matching in FBA fashion, look at the API docs [here](https://api.biyachain.exchange/#examples-limit-order-matching).
+有关 FBA 方式的限价单匹配示例，请查看 API 文档[此处](https://api.biyachain.exchange/#examples-limit-order-matching)。
 
-## Single Trade Calculations
+## 单笔交易计算
 
-* For a qualifying market compute the fee discounts:
-  * Fee discounts are applied as refunds and the fee paid contribution is recorded.
-  * Relayer fees are applied AFTER the fee discount is taken.
-* For a qualifying market compute the trade reward point contribution:
-  * Obtain the FeePaidMultiplier for maker and taker.
-  * Compute the trade reward point contribution.
-  * Trade reward points are based on the discounted trading fee.
-* Calculate fee refunds (or charges). There are several reasons why an order might get a fee refund after matching:
-  1. It's a limit order which is not matched or only partially matched which means it will become a resting limit order and switch from a taker to maker fee. The refund is `UnmatchedQuantity * (TakerFeeRate - MakerFeeRate)`. Note that for negative maker fees, we refund the `UnmatchedQuantity * TakerFeeRate` instead.
-  2. Fee discounts are applied. We refund the difference between the original fee paid and the fee paid after the discount.
-  3. The order is matched at a better price resulting in a different fee.
-     * For buy orders a better price means a lower price and thus a lower fee. We refund the fee price delta.
-     * For sell orders a better price means a higher price and thus a higher fee. We charge the fee price delta.
-  4. You can find the respective code with an example [here](https://github.com/biya-coin/biyachain-core/blob/80dbc4e9558847ff0354be5d19a4d8b0bba7da96/biyachain-chain/modules/exchange/keeper/derivative_orders_processor.go#L502). Please check the master branch for the latest chain code.
+* 对于符合条件的市场，计算费用折扣：
+  * 费用折扣作为退款应用，并记录费用支付贡献。
+  * 中继者费用在扣除费用折扣后应用。
+* 对于符合条件的市场，计算交易奖励积分贡献：
+  * 获取做市商和吃单者的 FeePaidMultiplier。
+  * 计算交易奖励积分贡献。
+  * 交易奖励积分基于折扣后的交易费用。
+* 计算费用退款（或收费）。订单在匹配后可能获得费用退款的几个原因：
+  1. 这是一个未匹配或仅部分匹配的限价单，这意味着它将成为一个挂单限价单，并从吃单费用切换到做市商费用。退款为 `UnmatchedQuantity * (TakerFeeRate - MakerFeeRate)`。请注意，对于负做市商费用，我们改为退款 `UnmatchedQuantity * TakerFeeRate`。
+  2. 应用费用折扣。我们退还原始支付的费用与折扣后支付的费用之间的差额。
+  3. 订单以更好的价格匹配，导致不同的费用。
+     * 对于买入订单，更好的价格意味着更低的价格，因此费用更低。我们退还费用价格差额。
+     * 对于卖出订单，更好的价格意味着更高的价格，因此费用更高。我们收取费用价格差额。
+  4. 您可以在[此处](https://github.com/biya-coin/biyachain-core/blob/80dbc4e9558847ff0354be5d19a4d8b0bba7da96/biyachain-chain/modules/exchange/keeper/derivative_orders_processor.go#L502)找到相应的代码和示例。请查看主分支以获取最新的链代码。

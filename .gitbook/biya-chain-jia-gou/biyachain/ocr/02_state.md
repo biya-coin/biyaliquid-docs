@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-title: State
+title: 状态
 ---
 
-# State
+# 状态
 
-Genesis state defines the initial state of the module to be used to setup the module.
+创世状态定义了模块的初始状态，用于设置模块。
 
 ```go
 // GenesisState defines the OCR module's genesis state.
@@ -33,10 +33,10 @@ type GenesisState struct {
 
 ## Params
 
-`Params` is a module-wide configuration that stores system parameters and defines overall functioning of the ocr module.\
-This module is modifiable by governance using params update proposal natively supported by `gov` module.
+`Params` 是一个模块范围的配置，存储系统参数并定义 ocr 模块的整体功能。\
+该模块可通过治理使用 `gov` 模块原生支持的参数更新提案进行修改。
 
-Struct for the `ocr` module params store.
+`ocr` 模块参数存储的结构。
 
 ```go
 type Params struct {
@@ -51,7 +51,7 @@ type Params struct {
 
 ## FeedConfig
 
-`FeedConfig` is to manage the configurations of feed and it exists one per feed.
+`FeedConfig` 用于管理 feed 的配置，每个 feed 存在一个。
 
 ```go
 type FeedConfig struct {
@@ -72,7 +72,7 @@ type FeedConfig struct {
 
 ### FeedConfigInfo
 
-`FeedConfigInfo` is storing the information that needs to be updated more often for each transmission event.
+`FeedConfigInfo` 存储每个传输事件需要更频繁更新的信息。
 
 ```go
 type FeedConfigInfo struct {
@@ -87,7 +87,7 @@ type FeedConfigInfo struct {
 
 ### Transmission
 
-`Transmission` is the unit to save transition information on the store.
+`Transmission` 是在存储中保存传输信息的单元。
 
 ```go
 // Transmission records the median answer from the transmit transaction at
@@ -101,7 +101,7 @@ type Transmission struct {
 
 ### Report
 
-`Report` is the unit to save report information on the store.
+`Report` 是在存储中保存报告信息的单元。
 
 ```go
 type Report struct {
@@ -111,7 +111,7 @@ type Report struct {
 }
 ```
 
-`ReportToSign` saves the information that needs to be signed by observers.
+`ReportToSign` 保存需要由观察者签名的信息。
 
 ```go
 type ReportToSign struct {
@@ -126,7 +126,7 @@ type ReportToSign struct {
 
 ### OnchainConfig
 
-`OnchainConfig` saves the configuration that needs to be managed on-chain for feed config.
+`OnchainConfig` 保存 feed 配置需要在链上管理的配置。
 
 ```go
 type OnchainConfig struct {
@@ -157,7 +157,7 @@ type OnchainConfig struct {
 
 ### ContractConfig
 
-`ContractConfig` saves the configuration that is related to contract to store OCR.
+`ContractConfig` 保存与存储 OCR 的合约相关的配置。
 
 ```go
 type ContractConfig struct {
@@ -180,7 +180,7 @@ type ContractConfig struct {
 
 ### FeedProperties
 
-`FeedProperties` is a unit to store the properties of feed by id.
+`FeedProperties` 是按 id 存储 feed 属性的单元。
 
 ```go
 type FeedProperties struct {
@@ -209,8 +209,8 @@ type FeedProperties struct {
 
 ### PendingPayeeship
 
-`PendingPayeeship` is a record that is stored when a person is delegating payeeship to another address.\
-When proposed payee accept this, this record is removed.
+`PendingPayeeship` 是在某人将收款权委托给另一个地址时存储的记录。\
+当提议的收款人接受此委托时，此记录将被删除。
 
 ```go
 type PendingPayeeship struct {

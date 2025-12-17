@@ -1,15 +1,15 @@
 ---
 sidebar_position: 3
-title: State
+title: 状态
 ---
 
-# State
+# 状态
 
-This doc lists all the data Peggy module reads/writes to its state as KV pairs
+本文档列出了 Peggy 模块读取/写入其状态的所有数据，以 KV 对形式列出
 
 ### Module Params
 
-Params is a module-wide configuration structure that stores parameters and defines overall functioning of the peggy module. Detailed specification for each parameter can be found in the [Parameters section](08_params.md).
+Params 是一个模块范围的配置结构，存储参数并定义 peggy 模块的整体功能。每个参数的详细规范可以在[参数部分](08_params.md)中找到。
 
 | key           | Value         | Type           | Encoding         |
 | ------------- | ------------- | -------------- | ---------------- |
@@ -19,7 +19,7 @@ Params is a module-wide configuration structure that stores parameters and defin
 
 #### Ethereum Address by Validator
 
-Stores `Delegate Ethereum address` indexed by the `Validator`'s account address
+存储按 `Validator` 账户地址索引的 `Delegate Ethereum address`
 
 | key                                   | Value            | Type             | Encoding         |
 | ------------------------------------- | ---------------- | ---------------- | ---------------- |
@@ -27,7 +27,7 @@ Stores `Delegate Ethereum address` indexed by the `Validator`'s account address
 
 #### Validator by Ethereum Address
 
-Stores `Validator` account address indexed by the `Delegate Ethereum address`
+存储按 `Delegate Ethereum address` 索引的 `Validator` 账户地址
 
 | key                                 | Value             | Type             | Encoding         |
 | ----------------------------------- | ----------------- | ---------------- | ---------------- |
@@ -35,7 +35,7 @@ Stores `Validator` account address indexed by the `Delegate Ethereum address`
 
 #### OrchestratorValidator
 
-When a validator would like to delegate their voting power to another key. The value is stored using the orchestrator address as the key
+当验证者希望将其投票权委托给另一个密钥时。使用编排器地址作为键存储值
 
 | Key                                 | Value                                        | Type     | Encoding         |
 | ----------------------------------- | -------------------------------------------- | -------- | ---------------- |
@@ -43,9 +43,9 @@ When a validator would like to delegate their voting power to another key. The v
 
 ### Valset
 
-This is the validator set of the bridge. Created automatically by `Peggy module` during EndBlocker.
+这是桥接的验证者集。由 `Peggy module` 在 EndBlocker 期间自动创建。
 
-Stored in two possible ways, first with a height and second without (unsafe). Unsafe is used for testing and export and import of state.
+以两种可能的方式存储，第一种带高度，第二种不带（不安全）。不安全的方式用于测试以及状态的导出和导入。
 
 ```go
 type Valset struct {
@@ -64,7 +64,7 @@ type Valset struct {
 
 ### SlashedValsetNonce
 
-The latest validator set slash nonce. This is used to track which validator set needs to be slashed and which already has been.
+最新的验证者集惩罚 nonce。用于跟踪哪个验证者集需要被惩罚以及哪个已经被惩罚。
 
 | Key            | Value | Type   | Encoding               |
 | -------------- | ----- | ------ | ---------------------- |
@@ -72,7 +72,7 @@ The latest validator set slash nonce. This is used to track which validator set 
 
 ### ValsetNonce
 
-Nonce of the latest validator set. Updated on each new validator set.
+最新验证者集的 Nonce。在每个新验证者集时更新。
 
 | key            | Value | Type     | Encoding               |
 | -------------- | ----- | -------- | ---------------------- |
@@ -80,7 +80,7 @@ Nonce of the latest validator set. Updated on each new validator set.
 
 ### Valset Confirmation
 
-`Singer` confirmation for a particular validator set. See [oracle messages](04_messages.md#ValsetConfirm)
+`Signer` 对特定验证者集的确认。参见[签名者消息](04_messages.md#ValsetConfirm)
 
 | Key                                         | Value                  | Type                     | Encoding         |
 | ------------------------------------------- | ---------------------- | ------------------------ | ---------------- |
@@ -88,7 +88,7 @@ Nonce of the latest validator set. Updated on each new validator set.
 
 ### Batch Confirmation
 
-`Singer` confirmation for a particular token batch. See [oracle messages](04_messages.md#ConfirmBatch)
+`Signer` 对特定代币批次的确认。参见[签名者消息](04_messages.md#ConfirmBatch)
 
 | Key                                                                 | Value                        | Type                    | Encoding         |
 | ------------------------------------------------------------------- | ---------------------------- | ----------------------- | ---------------- |
@@ -96,9 +96,9 @@ Nonce of the latest validator set. Updated on each new validator set.
 
 ### OutgoingTransferTx
 
-User withdrawals are pooled together in `Peggy Tx Pool` ready to be batched later by a `Batch Creator`.
+用户提取在 `Peggy Tx Pool` 中合并在一起，准备稍后由 `Batch Creator` 进行批次处理。
 
-Each withdrawal is indexed by a unique nonce set by the `Peggy module` when the withdrawal was received.
+每个提取由 `Peggy module` 在收到提取时设置的唯一 nonce 索引。
 
 ```go
 type OutgoingTransferTx struct {
@@ -116,7 +116,7 @@ type OutgoingTransferTx struct {
 
 ### LastTXPoolID
 
-Monotonically increasing value for each withdrawal received by Biya Chain
+Biya Chain 收到的每个提取的单调递增值
 
 | Key                                    | Value                   | Type     | Encoding           |
 | -------------------------------------- | ----------------------- | -------- | ------------------ |
@@ -124,10 +124,10 @@ Monotonically increasing value for each withdrawal received by Biya Chain
 
 ### OutgoingTxBatch
 
-`OutgoingTxBatch` represents a collection of withdrawals of the same token type. Created on every successful `MsgRequestBatch`.
+`OutgoingTxBatch` 表示相同代币类型的提取集合。在每次成功的 `MsgRequestBatch` 时创建。
 
-Stored in two possible ways, first with a height and second without (unsafe). Unsafe is used for testing and export and import of state.\
-Currently [Peggy.sol](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) is hardcoded to only accept batches with a single token type and only pay rewards in that same token type.
+以两种可能的方式存储，第一种带高度，第二种不带（不安全）。不安全的方式用于测试以及状态的导出和导入。\
+目前 [Peggy.sol](https://github.com/biya-coin/peggo/blob/master/solidity/contracts/Peggy.sol) 硬编码为仅接受单一代币类型的批次，并且仅以相同代币类型支付奖励。
 
 ```go
 type OutgoingTxBatch struct {
@@ -146,7 +146,7 @@ type OutgoingTxBatch struct {
 
 ### LastOutgoingBatchID
 
-Monotonically increasing value for each batch created on Biya Chain by some `Batch Creator`
+由某个 `Batch Creator` 在 Biya Chain 上创建的每个批次的单调递增值
 
 | Key                                   | Value              | Type     | Encoding           |
 | ------------------------------------- | ------------------ | -------- | ------------------ |
@@ -154,7 +154,7 @@ Monotonically increasing value for each batch created on Biya Chain by some `Bat
 
 ### SlashedBlockHeight
 
-Represents the latest slashed block height. There is always only a singe value stored.
+表示最新的惩罚区块高度。始终只存储单个值。
 
 | Key            | Value                                   | Type     | Encoding           |
 | -------------- | --------------------------------------- | -------- | ------------------ |
@@ -162,7 +162,7 @@ Represents the latest slashed block height. There is always only a singe value s
 
 ### LastUnbondingBlockHeight
 
-Represents the latest bloch height at which a `Validator` started unbonding from the `Validator Set`. Used to determine slashing conditions.
+表示 `Validator` 开始从 `Validator Set` 解绑的最新区块高度。用于确定惩罚条件。
 
 | Key            | Value                                                | Type     | Encoding           |
 | -------------- | ---------------------------------------------------- | -------- | ------------------ |
@@ -170,7 +170,7 @@ Represents the latest bloch height at which a `Validator` started unbonding from
 
 ### TokenContract & Denom
 
-A denom that is originally from a counter chain will be from a contract. The token contract and denom are stored in two ways. First, the denom is used as the key and the value is the token contract. Second, the contract is used as the key, the value is the denom the token contract represents.
+原本来自对应链的 denom 将来自合约。代币合约和 denom 以两种方式存储。首先，denom 用作键，值是代币合约。其次，合约用作键，值是代币合约代表的 denom。
 
 | Key                                    | Value                  | Type     | Encoding              |
 | -------------------------------------- | ---------------------- | -------- | --------------------- |
@@ -179,7 +179,7 @@ A denom that is originally from a counter chain will be from a contract. The tok
 
 ### LastObservedValset
 
-This entry represents the last observed Valset that was successfully relayed to Ethereum. Updates after an attestation of `ValsetUpdatedEvent` has been processed on Biya Chain.
+此条目表示成功中继到 Ethereum 的最后观察到的 Valset。在 Biya Chain 上处理 `ValsetUpdatedEvent` 的证明后更新。
 
 | Key            | Value                            | Type           | Encoding         |
 | -------------- | -------------------------------- | -------------- | ---------------- |
@@ -187,7 +187,7 @@ This entry represents the last observed Valset that was successfully relayed to 
 
 ### LastEventNonce
 
-The nonce of the last observed event on Ethereum. This is set when `TryAttestation()` is called. There is always only a single value held in this store.
+Ethereum 上最后观察到的事件的 nonce。在调用 `TryAttestation()` 时设置。此存储中始终只保存单个值。
 
 | Key            | Value                     | Type     | Encoding           |
 | -------------- | ------------------------- | -------- | ------------------ |
@@ -195,7 +195,7 @@ The nonce of the last observed event on Ethereum. This is set when `TryAttestati
 
 ### LastObservedEthereumHeight
 
-This block height of the last observed event on Ethereum. There will always only be a single value stored in this store.
+Ethereum 上最后观察到的事件的区块高度。此存储中始终只保存单个值。
 
 | Key            | Value                         | Type     | Encoding         |
 | -------------- | ----------------------------- | -------- | ---------------- |
@@ -203,7 +203,7 @@ This block height of the last observed event on Ethereum. There will always only
 
 ### LastEventByValidator
 
-This is the last observed event on Ethereum from a particular `Validator`. Updated every time the asssociated `Orchestrator` sends an event claim.
+这是来自特定 `Validator` 的 Ethereum 上最后观察到的事件。每次关联的 `Orchestrator` 发送事件声明时都会更新。
 
 ```go
 type LastClaimEvent struct {
@@ -218,9 +218,9 @@ type LastClaimEvent struct {
 
 ### Attestation
 
-Attestation is an aggregate of claims that eventually becomes observed by all orchestrators as more votes (claims) are coming in. Once observed the claim's particular logic gets executed.
+Attestation 是声明的聚合，随着更多投票（声明）的到来，最终被所有编排器观察到。一旦被观察到，声明的特定逻辑就会被执行。
 
-Each attestation is bound to a unique event nonce (generated by `Peggy contract`) and they must be processed in order. This is a correctness issue, if relaying out of order transaction replay attacks become possible.
+每个证明都绑定到一个唯一的事件 nonce（由 `Peggy contract` 生成），并且必须按顺序处理。这是一个正确性问题，如果乱序中继，交易重放攻击就会成为可能。
 
 ```go
 type Attestation struct {
@@ -237,8 +237,8 @@ type Attestation struct {
 
 ### PastEthSignatureCheckpoint
 
-A computed hash indicating that a validator set/token batch in fact existed on Biya Chain. This checkpoint also exists in `Peggy contract`.\
-Updated on each new valset update and token batch creation.
+一个计算出的哈希，表明验证者集/代币批次实际上存在于 Biya Chain 上。此检查点也存在于 `Peggy contract` 中。\
+在每个新的 valset 更新和代币批次创建时更新。
 
 | Key            | Value                                     | Type              | Encoding             |
 | -------------- | ----------------------------------------- | ----------------- | -------------------- |
@@ -246,7 +246,7 @@ Updated on each new valset update and token batch creation.
 
 ### EthereumBlacklist
 
-A list of known malicious Ethereum addresses that are prevented from using the bridge.
+已知恶意 Ethereum 地址列表，这些地址被阻止使用桥接。
 
 | Key                                       | Value               | Type              | Encoding               |
 | ----------------------------------------- | ------------------- | ----------------- | ---------------------- |

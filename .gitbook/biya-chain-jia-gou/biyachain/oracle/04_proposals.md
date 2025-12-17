@@ -1,13 +1,13 @@
 ---
 sidebar_position: 4
-title: Governance Proposals
+title: 治理提案
 ---
 
-# Proposals
+# 提案
 
 ## GrantBandOraclePrivilegeProposal
 
-Band Oracle privileges can be granted to Relayer accounts of Band provider through a `GrantBandOraclePrivilegeProposal`.
+可以通过 `GrantBandOraclePrivilegeProposal` 将 Band Oracle 权限授予 Band 提供商的中继者账户。
 
 ```protobuf
 // Grant Privileges
@@ -23,7 +23,7 @@ message GrantBandOraclePrivilegeProposal {
 
 ## RevokeBandOraclePrivilegeProposal
 
-Band Oracle privileges can be revoked from Relayer accounts of Band provider through a `RevokeBandOraclePrivilegeProposal`.
+可以通过 `RevokeBandOraclePrivilegeProposal` 从 Band 提供商的中继者账户撤销 Band Oracle 权限。
 
 ```protobuf
 // Revoke Privileges
@@ -39,7 +39,7 @@ message RevokeBandOraclePrivilegeProposal {
 
 ## GrantPriceFeederPrivilegeProposal
 
-Price feeder privileges for a given base quote pair can be issued to relayers through a `GrantPriceFeederPrivilegeProposal`.
+可以通过 `GrantPriceFeederPrivilegeProposal` 将给定基础报价对的价格源权限授予中继者。
 
 ```protobuf
 // Grant Privileges
@@ -57,7 +57,7 @@ message GrantPriceFeederPrivilegeProposal {
 
 ## RevokePriceFeederPrivilegeProposal
 
-Price feeder privileges can be revoked from Relayer accounts through a `RevokePriceFeederPrivilegeProposal`.
+可以通过 `RevokePriceFeederPrivilegeProposal` 从中继者账户撤销价格源权限。
 
 ```protobuf
 // Revoke Privileges
@@ -75,7 +75,7 @@ message RevokePriceFeederPrivilegeProposal {
 
 ## AuthorizeBandOracleRequestProposal
 
-This proposal is to add a band oracle request into the list. When this is accepted, biyachain chain fetches one more price info from bandchain.
+此提案用于将 band oracle 请求添加到列表中。当此提案被接受时，biyachain 链会从 bandchain 获取更多价格信息。
 
 ```protobuf
 message AuthorizeBandOracleRequestProposal {
@@ -90,9 +90,9 @@ message AuthorizeBandOracleRequestProposal {
 
 ## UpdateBandOracleRequestProposal
 
-This proposal is used for deleting a request or updating the request.\
-When `DeleteRequestId` is not zero, it deletes the request with the id and finish its execution.\
-When `DeleteRequestId` is zero, it update the request with id `UpdateOracleRequest.RequestId` to UpdateOracleRequest.
+此提案用于删除请求或更新请求。\
+当 `DeleteRequestId` 不为零时，它删除具有该 id 的请求并完成其执行。\
+当 `DeleteRequestId` 为零时，它将 id 为 `UpdateOracleRequest.RequestId` 的请求更新为 UpdateOracleRequest。
 
 ```protobuf
 message UpdateBandOracleRequestProposal {
@@ -108,8 +108,8 @@ message UpdateBandOracleRequestProposal {
 
 ## EnableBandIBCProposal
 
-This proposal is to enable IBC connection between Band chain and Biya Chain chain.\
-When the proposal is approved, it updates the BandIBCParams into newer one configured on the proposal.
+此提案用于启用 Band 链和 Biya Chain 之间的 IBC 连接。\
+当提案获得批准时，它将 BandIBCParams 更新为提案中配置的新参数。
 
 ```protobuf
 message EnableBandIBCProposal {
@@ -123,11 +123,11 @@ message EnableBandIBCProposal {
 }
 ```
 
-The details of `BandIBCParams`, can be checked at [**State**](01_state.md)
+`BandIBCParams` 的详细信息可以在 [**状态**](01_state.md) 中查看
 
 ## GrantStorkPublisherPrivilegeProposal
 
-Stork Publisher privileges can be granted from Publishers through a `GrantStorkPublisherPrivilegeProposal`.
+可以通过 `GrantStorkPublisherPrivilegeProposal` 向发布者授予 Stork Publisher 权限。
 
 ```protobuf
 // Grant Privileges
@@ -147,7 +147,7 @@ message GrantStorkPublisherPrivilegeProposal {
 
 ## RevokeStorkPublisherPrivilegeProposal
 
-Stork Publisher privileges can be revoked from Publishers through a `RevokeStorkPublisherPrivilegeProposal`.
+可以通过 `RevokeStorkPublisherPrivilegeProposal` 从发布者撤销 Stork Publisher 权限。
 
 ```protobuf
 // Revoke Privileges

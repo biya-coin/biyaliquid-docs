@@ -5,17 +5,17 @@ title: End-Block
 
 # EndBlock
 
-### Auction Settlement
+### 拍卖结算
 
-The settlement of a given auction round occurs when `blockTime ≥ EndingTimeStamp.` If a non-zero BIYA bid was placed during this period (i.e. there exists a `LastBid`), the following procedure will take place:
+当 `blockTime ≥ EndingTimeStamp` 时，给定拍卖轮次的结算发生。如果在此期间放置了非零 BIYA 出价（即存在 `LastBid`），将执行以下程序：
 
-* The winning BIYA bid amount is burned.
-* The basket of coins held by the auction module is transferred to the winning bidder.
-* `LastAuctionResult` is written to state and `EventAuctionResult` is emitted.
-* The `LastBid` is cleared.
-* The AuctionRound is incremented by 1 and the EndingTimestamp is incremented by `AuctionPeriod`.
-* The accumulated exchange fees are transferred from the `exchange` module to the `auction` module for the new upcoming auction.
+* 获胜的 BIYA 出价金额被销毁。
+* 拍卖模块持有的代币篮子转移给获胜的出价者。
+* `LastAuctionResult` 被写入状态，并发出 `EventAuctionResult` 事件。
+* `LastBid` 被清除。
+* AuctionRound 增加 1，EndingTimestamp 增加 `AuctionPeriod`。
+* 累积的交易所费用从 `exchange` 模块转移到 `auction` 模块，用于即将到来的新拍卖。
 
-If the round closed without any successful bids, the existing coin basket will be rolled over into the next auction and combined with the new accumulated fee basket.
+如果该轮次在没有成功出价的情况下结束，现有的代币篮子将滚动到下一次拍卖，并与新累积的费用篮子合并。
 
 ![img.png](/broken/files/8DUHqFLCrQlNRUQRXTbJ)

@@ -3,15 +3,15 @@ sidebar_position: 2
 title: State
 ---
 
-# State
+# 状态
 
-The `erc20` module keeps state of the following primary objects:
+`erc20` 模块维护以下主要对象的状态：
 
-## ERC20 Tokens by Bank denoms
+## 按银行代币单位查询 ERC20 代币
 
 - 0x02 + bank_denom ⇒ erc20_address
 
-## Bank Denoms by ERC20 Token
+## 按 ERC20 代币查询银行代币单位
 
 - 0x03 + erc20_address ⇒ bank_denom
 

@@ -3,11 +3,11 @@ sidebar_position: 7
 title: Governance Proposals
 ---
 
-# Governance Proposals
+# 治理提案
 
 ## Proposal/SpotMarketParamUpdate
 
-`SpotMarketParamUpdateProposal` defines an SDK message to propose an update of spot market params.
+`SpotMarketParamUpdateProposal` 定义了一个 SDK 消息，用于提议更新现货市场参数。
 
 ```go
 type SpotMarketParamUpdateProposal struct {
@@ -24,17 +24,17 @@ type SpotMarketParamUpdateProposal struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `Title` describes the title of the proposal.
-- `Description` describes the description of the proposal.
-- `MarketId` describes the id of the market to change params.
-- `MakerFeeRate` describes the target fee rate for makers.
-- `TakerFeeRate` describes the target fee rate for takers.
-- `RelayerFeeShareRate` describes the relayer fee share rate.
-- `MinPriceTickSize` defines the minimum tick size of the order's price.
-- `MinQuantityTickSize` defines the minimum tick size of the order's quantity.
-- `Status` describes the target status of the market.
+- `Title` 描述提案的标题。
+- `Description` 描述提案的描述。
+- `MarketId` 描述要更改参数的市场 ID。
+- `MakerFeeRate` 描述做市商的目标费率。
+- `TakerFeeRate` 描述吃单者的目标费率。
+- `RelayerFeeShareRate` 描述中继者费用分享率。
+- `MinPriceTickSize` 定义订单价格的最小变动单位。
+- `MinQuantityTickSize` 定义订单数量的最小变动单位。
+- `Status` 描述市场的目标状态。
 
 ## Proposal/ExchangeEnable
 
@@ -155,123 +155,123 @@ type PerpetualMarketLaunchProposal struct {
 - `MinPriceTickSize` field describes the minimum tick size of the order's price and margin.
 - `MinQuantityTickSize` field describes the minimum tick size of the order's quantity.
 
-## Expiry futures market launch proposal
+## 到期期货市场启动提案
 
 ```go
-// ExpiryFuturesMarketLaunchProposal defines an SDK message for proposing a new expiry futures market through governance
+// ExpiryFuturesMarketLaunchProposal 定义了一个 SDK 消息，用于通过治理提议新的到期期货市场
 type ExpiryFuturesMarketLaunchProposal struct {
 	Title                      string
 	Description                string
-	// Ticker for the derivative market.
+	// 衍生品市场的交易代码
 	Ticker                     string
-	// type of coin to use as the quote currency
+	// 用作报价货币的代币类型
 	QuoteDenom                 string
-	// Oracle base currency
+	// 预言机基础货币
 	OracleBase                 string
-	// Oracle quote currency
+	// 预言机报价货币
 	OracleQuote                string
-	// Scale factor for oracle prices.
+	// 预言机价格的缩放因子
 	OracleScaleFactor          uint32
-	// Oracle type
+	// 预言机类型
 	OracleType                 types1.OracleType
-	// Expiration time of the market
+	// 市场的到期时间
 	Expiry                     int64
-	// initial_margin_ratio defines the initial margin ratio for the derivative market
+	// initial_margin_ratio 定义衍生品市场的初始保证金比率
 	InitialMarginRatio         math.LegacyDec
-	// maintenance_margin_ratio defines the maintenance margin ratio for the derivative market
+	// maintenance_margin_ratio 定义衍生品市场的维持保证金比率
 	MaintenanceMarginRatio     math.LegacyDec
-	// maker_fee_rate defines the exchange trade fee for makers for the derivative market
+	// maker_fee_rate 定义衍生品市场上做市商的交易所交易费率
 	MakerFeeRate               math.LegacyDec
-	// taker_fee_rate defines the exchange trade fee for takers for the derivative market
+	// taker_fee_rate 定义衍生品市场上吃单者的交易所交易费率
 	TakerFeeRate               math.LegacyDec
-	// min_price_tick_size defines the minimum tick size of the order's price and margin
+	// min_price_tick_size 定义订单价格和保证金的最小变动单位
 	MinPriceTickSize           math.LegacyDec
-	// min_quantity_tick_size defines the minimum tick size of the order's quantity
+	// min_quantity_tick_size 定义订单数量的最小变动单位
 	MinQuantityTickSize        math.LegacyDec
-    // min_notional defines the minimum notional (in quote asset) required for orders in the market
+    // min_notional 定义市场中订单所需的最小名义价值（以报价资产计价）
     MinNotional                math.LegacyDec
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `Title` describes the title of the proposal.
-- `Description` describes the description of the proposal.
-- `Ticker` field describes the ticker for the derivative market.
-- `QuoteDenom` field describes the type of coin to use as the quote currency.
-- `OracleBase` field describes the oracle base currency.
-- `OracleQuote` field describes the oracle quote currency.
-- `OracleScaleFactor` field describes the scale factor for oracle prices.
-- `OracleType` field describes the oracle type.
-- `Expiry` field describes the expiration time of the market.
-- `MakerFeeRate` field describes the trade fee rate for makers on the derivative market.
-- `TakerFeeRate` field describes the trade fee rate for takers on the derivative market.
-- `InitialMarginRatio` field describes the initial margin ratio for the derivative market.
-- `MaintenanceMarginRatio` field describes the maintenance margin ratio for the derivative market.
-- `MinPriceTickSize` field describes the minimum tick size of the order's price and margin.
-- `MinQuantityTickSize` field describes the minimum tick size of the order's quantity.
+- `Title` 描述提案的标题。
+- `Description` 描述提案的描述。
+- `Ticker` 字段描述衍生品市场的交易代码。
+- `QuoteDenom` 字段描述用作报价货币的代币类型。
+- `OracleBase` 字段描述预言机基础货币。
+- `OracleQuote` 字段描述预言机报价货币。
+- `OracleScaleFactor` 字段描述预言机价格的缩放因子。
+- `OracleType` 字段描述预言机类型。
+- `Expiry` 字段描述市场的到期时间。
+- `MakerFeeRate` 字段描述衍生品市场上做市商的交易费率。
+- `TakerFeeRate` 字段描述衍生品市场上吃单者的交易费率。
+- `InitialMarginRatio` 字段描述衍生品市场的初始保证金比率。
+- `MaintenanceMarginRatio` 字段描述衍生品市场的维持保证金比率。
+- `MinPriceTickSize` 字段描述订单价格和保证金的最小变动单位。
+- `MinQuantityTickSize` 字段描述订单数量的最小变动单位。
 
-## Binary options market launch proposal
+## 二元期权市场启动提案
 
 ```go
 type BinaryOptionsMarketLaunchProposal struct {
 	Title       string
 	Description string
-	// Ticker for the derivative contract.
+	// 衍生品合约的交易代码
 	Ticker string
-	// Oracle symbol
+	// 预言机符号
 	OracleSymbol string
-	// Oracle Provider
+	// 预言机提供者
 	OracleProvider string
-	// Oracle type
+	// 预言机类型
 	OracleType types1.OracleType
-	// Scale factor for oracle prices.
+	// 预言机价格的缩放因子
 	OracleScaleFactor uint32
-	// expiration timestamp
+	// 到期时间戳
 	ExpirationTimestamp int64
-	// expiration timestamp
+	// 结算时间戳
 	SettlementTimestamp int64
-	// admin of the market
+	// 市场管理员
 	Admin string
-	// Address of the quote currency denomination for the binary options contract
+	// 二元期权合约的报价货币面额地址
 	QuoteDenom string
-	// maker_fee_rate defines the maker fee rate of a binary options market
+	// maker_fee_rate 定义二元期权市场的做市商费率
 	MakerFeeRate math.LegacyDec
-	// taker_fee_rate defines the taker fee rate of a derivative market
+	// taker_fee_rate 定义衍生品市场的吃单者费率
 	TakerFeeRate math.LegacyDec
-	// min_price_tick_size defines the minimum tick size that the price and margin required for orders in the market
+	// min_price_tick_size 定义市场中订单所需价格和保证金的最小变动单位
 	MinPriceTickSize math.LegacyDec
-	// min_quantity_tick_size defines the minimum tick size of the quantity required for orders in the market
+	// min_quantity_tick_size 定义市场中订单所需数量的最小变动单位
 	MinQuantityTickSize math.LegacyDec
 }
 ```
 
-## Binary options market param update
+## 二元期权市场参数更新
 
 ```go
 type BinaryOptionsMarketParamUpdateProposal struct {
 	Title       string
 	Description string
 	MarketId    string
-	// maker_fee_rate defines the exchange trade fee for makers for the derivative market
+	// maker_fee_rate 定义衍生品市场上做市商的交易所交易费率
 	MakerFeeRate *math.LegacyDec
-	// taker_fee_rate defines the exchange trade fee for takers for the derivative market
+	// taker_fee_rate 定义衍生品市场上吃单者的交易所交易费率
 	TakerFeeRate *math.LegacyDec
-	// relayer_fee_share_rate defines the relayer fee share rate for the derivative market
+	// relayer_fee_share_rate 定义衍生品市场的中继者费用分享率
 	RelayerFeeShareRate *math.LegacyDec
-	// min_price_tick_size defines the minimum tick size of the order's price and margin
+	// min_price_tick_size 定义订单价格和保证金的最小变动单位
 	MinPriceTickSize *math.LegacyDec
-	// min_quantity_tick_size defines the minimum tick size of the order's quantity
+	// min_quantity_tick_size 定义订单数量的最小变动单位
 	MinQuantityTickSize *math.LegacyDec
-    // min_notional defines the minimum notional for orders
+    // min_notional 定义订单的最小名义价值
     MinNotional *math.LegacyDec
-	// expiration timestamp
+	// 到期时间戳
 	ExpirationTimestamp int64
-	// expiration timestamp
+	// 结算时间戳
 	SettlementTimestamp int64
-	// new price at which market will be settled
+	// 市场将以此价格结算的新价格
 	SettlementPrice *math.LegacyDec
-	// admin of the market
+	// 市场管理员
 	Admin        string
 	Status       MarketStatus
 	OracleParams *ProviderOracleParams
@@ -282,13 +282,13 @@ type BinaryOptionsMarketParamUpdateProposal struct {
 
 ```go
 type OracleParams struct {
-    // Oracle base currency
+    // 预言机基础货币
     OracleBase        string
-    // Oracle quote currency
+    // 预言机报价货币
     OracleQuote       string
-    // Scale factor for oracle prices.
+    // 预言机价格的缩放因子
     OracleScaleFactor uint32
-    // Oracle type
+    // 预言机类型
     OracleType        types1.OracleType
 }
 
@@ -311,20 +311,20 @@ type DerivativeMarketParamUpdateProposal struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `Title` describes the title of the proposal.
-- `Description` describes the description of the proposal.
-- `MarketId` describes the id of the market to change params.
-- `InitialMarginRatio` describes the target initial margin ratio.
-- `MaintenanceMarginRatio` describes the target maintenance margin ratio.
-- `MakerFeeRate` describes the target fee rate for makers.
-- `TakerFeeRate` describes the target fee rate for takers.
-- `RelayerFeeShareRate` describes the relayer fee share rate.
-- `MinPriceTickSize` defines the minimum tick size of the order's price.
-- `MinQuantityTickSize` defines the minimum tick size of the order's quantity.
-- `Status` describes the target status of the market.
-- `OracleParams` describes the new oracle parameters.
+- `Title` 描述提案的标题。
+- `Description` 描述提案的描述。
+- `MarketId` 描述要更改参数的市场 ID。
+- `InitialMarginRatio` 描述目标初始保证金比率。
+- `MaintenanceMarginRatio` 描述目标维持保证金比率。
+- `MakerFeeRate` 描述做市商的目标费率。
+- `TakerFeeRate` 描述吃单者的目标费率。
+- `RelayerFeeShareRate` 描述中继者费用分享率。
+- `MinPriceTickSize` 定义订单价格的最小变动单位。
+- `MinQuantityTickSize` 定义订单数量的最小变动单位。
+- `Status` 描述市场的目标状态。
+- `OracleParams` 描述新的预言机参数。
 
 ## Proposal/TradingRewardCampaignLaunch
 

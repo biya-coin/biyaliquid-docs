@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-title: State
+title: 状态
 ---
 
-# State
+# 状态
 
-## Namespaces
+## 命名空间
 
 ```go
 // Namespace defines a permissions namespace
@@ -20,7 +20,7 @@ type Namespace struct {
 }
 ```
 
-## Roles
+## 角色
 
 ```go
 // Role defines a set of permitted actions with a name and unique ID
@@ -31,9 +31,9 @@ type Role struct {
 }
 ```
 
-- As previously mentioned, Permissions is the sum of all permitted [Action](https://www.notion.so/Action-13e7a004ab7580ef8c16cebd37096d91?pvs=21) values
+- 如前所述，权限是所有允许的[操作](https://www.notion.so/Action-13e7a004ab7580ef8c16cebd37096d91?pvs=21)值的总和
 
-## ActorRoles
+## 角色执行者
 
 ```go
 // AddressRoles defines roles for an actor
@@ -43,7 +43,7 @@ type ActorRoles struct {
 }
 ```
 
-## RoleManagers
+## 角色管理器
 
 ```go
 // RoleManager defines roles that a manager address can give to actors
@@ -53,7 +53,7 @@ type RoleManager struct {
 }
 ```
 
-## PolicyStatus
+## 策略状态
 
 ```go
 // PolicyStatus defines whether an action is disabled or enabled and if the policy is sealed
@@ -64,7 +64,7 @@ type PolicyStatus struct {
 }
 ```
 
-## PolicyManagerCapability
+## 策略管理器能力
 
 ```go
 // PolicyManagerCapability defines if the policy manager of an action can disable or seal the action policy
@@ -76,7 +76,7 @@ type PolicyManagerCapability struct {
 }
 ```
 
-## Action
+## 操作
 
 ```go
 // each Action enum value should be a power of two

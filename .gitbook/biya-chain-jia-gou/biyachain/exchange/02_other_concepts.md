@@ -3,33 +3,36 @@ sidebar_position: 3
 title: Other Concepts
 ---
 
-# Other Concepts
+# 其他概念
 
-## Concurrency-Friendly Market Order Clearing Price Algorithm
+## 并发友好的市价单清算价格算法
 
-We apply the [split-apply-combine](https://stackoverflow.com/tags/split-apply-combine/info) paradigm to leverage\
-concurrency for efficient data processing.
+我们应用[拆分-应用-合并](https://stackoverflow.com/tags/split-apply-combine/info)范式来利用\
+并发进行高效的数据处理。
 
-1. Match all matchable orders (see order matching for details) concurrently in all markets.
+1. 在所有市场中并发匹配所有可匹配的订单（有关订单匹配的详细信息，请参见订单匹配）。
 
-* The intermediate result is a clearing price and a list of matched orders with their fill quantities.
-* The final result is a temporary cache of all new events and all changes to positions, orders, subaccount deposits,\
-  trading reward points and fees paid.
+* 中间结果是清算价格和匹配订单列表及其成交数量。
+* 最终结果是所有新事件的临时缓存以及对持仓、订单、子账户存款、\
+  交易奖励积分和已支付费用的所有更改。
 
-2. Wait for execution on all markets and persist all data.
+2. 等待所有市场的执行并持久化所有数据。
 
-Note: beyond just executing settlement, the design must also take into account market data dissemination requirements\
-for off-chain consumption.
+注意：除了执行结算之外，设计还必须考虑链下消费的市场数据传播要求。
 
-## Atomic Market Order Execution
+## 原子市价单执行
 
-A common request from new applications built on Cosmwasm is for the ability to be notified upon the execution of an order. In the regular order execution flow, this would not be possible, since the Frequent Batch Auctions (FBA) are executed inside the EndBlocker. To circumvent the FBA, the new type of atomic market orders is introduced. For the privilege of executing such an atomic market order instantly, an additional trading fee is imposed. To calculate the fee of an atomic market order, the market's taker fee is multiplied by the market types's `AtomicMarketOrderFeeMultiplier`.
+基于 Cosmwasm 构建的新应用程序的一个常见需求是能够在订单执行时收到通知。\
+在常规订单执行流程中，这是不可能的，因为频繁批量拍卖（FBA）在 EndBlocker 内部执行。\
+为了绕过 FBA，引入了新型原子市价单。为了立即执行此类原子市价单的特权，\
+需要支付额外的交易费用。要计算原子市价单的费用，市场的吃单费用乘以市场类型的 `AtomicMarketOrderFeeMultiplier`。
 
 * `SpotAtomicMarketOrderFeeMultiplier`
 * `DerivativeAtomicMarketOrderFeeMultiplier`
 * `BinaryOptionsAtomicMarketOrderFeeMultiplier`
 
-These multipliers are defined the global exchange parameters. In addition, the exchange parameters also define the `AtomicMarketOrderAccessLevel` which specifies the minimum access level required to execute an atomic market order.
+这些乘数在全局交易所参数中定义。此外，交易所参数还定义 `AtomicMarketOrderAccessLevel`，\
+它指定执行原子市价单所需的最低访问级别。
 
 ```golang
 const (
@@ -40,34 +43,46 @@ const (
 )
 ```
 
-## Trading Rewards
+## 交易奖励
 
-Governance approves a **TradingRewardCampaignLaunchProposal** which specifies:
+治理批准 **TradingRewardCampaignLaunchProposal**，它指定：
 
-* The first campaign's starting timestamp
-* The **TradingRewardCampaignInfo** which specifies
-  * The campaign duration in seconds
-  * The accepted trading fee quote currency denoms
-  * The optional market-specific **boost** info
-  * The disqualified marketIDs for markets in which trades will not earn rewards
-* The **CampaignRewardPools** which specifies the maximum epoch rewards that constitute the trading rewards pool for each successive campaign
+* 第一个活动的开始时间戳
+* **TradingRewardCampaignInfo**，它指定
+  * 活动持续时间（秒）
+  * 接受的交易费用报价货币 denoms
+  * 可选的特定市场**提升**信息
+  * 不符合条件的市场 ID，在这些市场中的交易不会获得奖励
+* **CampaignRewardPools**，它指定构成每个连续活动的交易奖励池的最大周期奖励
 
-During a given campaign, the exchange will record each trader's cumulative trading reward points obtained from trading volume (with boosts applied, if applicable) from all eligible markets, i.e., markets with a matching quote currency that are not in the disqualified list.
+在给定活动期间，交易所将记录每个交易者从所有符合条件的市场（即具有匹配报价货币且不在不符合条件列表中的市场）\
+的交易量（如果适用，应用提升）获得的累计交易奖励积分。
 
-At the end of each campaign, i.e., after the `campaign starting timestamp + campaign duration` has elapsed, each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch.
+在每个活动结束时，即在 `活动开始时间戳 + 活动持续时间` 过去之后，\
+每个交易者将根据他们在该活动周期中的交易奖励积分，按比例获得交易奖励池的百分比。
 
-Campaigns will not auto-rollover. If there are no additional campaigns defined inside **CampaignRewardPools**, the trading reward campaigns will finish.
+活动不会自动滚动。如果 **CampaignRewardPools** 中没有定义其他活动，交易奖励活动将结束。
 
-## Fee Discounts
+## 费用折扣
 
-Governance approves a **FeeDiscountProposal** which defines a fee discount **schedule** which specifies fee discount **tiers** which each specify the maker and taker discounts rates a trader will receive if they satisfy the specified minimum BIYA staked amount AND have had at least the specified trading volume (based on the specified **quote denoms**) over the specified time period (`bucket count * bucket duration seconds`, which should equal 30 days). The schedule also specifies a list of disqualified marketIDs for markets whose trading volume will not count towards the volume contribution.
+治理批准 **FeeDiscountProposal**，它定义费用折扣**计划**，该计划指定费用折扣**层级**，\
+每个层级指定如果交易者满足指定的最低 BIYA 质押数量并且在指定时间段内（`桶数量 * 桶持续时间秒`，\
+应等于 30 天）至少具有指定的交易量（基于指定的**报价 denoms**），交易者将获得的做市商和吃单折扣率。\
+该计划还指定不符合条件的市场 ID 列表，这些市场的交易量不会计入交易量贡献。
 
-* Spot markets where the base and quote are both in the accepted quote currencies list will not be rewarded (e.g. the USDC/USDT spot market).
-* Maker fills in markets with negative maker fees will NOT give the trader any fee discounts.
-* If the fee discount proposal was passed less than 30 days ago, i.e. `BucketCount * BucketDuration` hasn't passed yet since the creation of the proposal, the fee volume requirement is ignored so we don't unfairly penalize market makers who onboard immediately.
+* 基础资产和报价资产都在接受的报价货币列表中的现货市场将不会获得奖励（例如 USDC/USDT 现货市场）。
+* 具有负做市商费用的市场中的做市商成交不会给交易者任何费用折扣。
+* 如果费用折扣提案在不到 30 天前通过，即自提案创建以来 `BucketCount * BucketDuration` 尚未过去，\
+  则忽略费用交易量要求，这样我们就不会不公平地惩罚立即上线的做市商。
 
-Internally the trading volumes are stored in buckets, typically 30 buckets each lasting 24 hours. When a bucket is older than 30 days, it gets removed. Additionally for performance reasons there is a cache for retrieving the fee discount tier for an account. This cache is updated every 24 hours.
+内部交易量存储在桶中，通常 30 个桶，每个持续 24 小时。当桶超过 30 天时，它会被删除。\
+此外，出于性能原因，有一个用于检索账户费用折扣层级的缓存。此缓存每 24 小时更新一次。
 
-### Stake Delegations/Grants
+### 质押委托/授权
 
-Staked BIYA requirements for fee discount tiers can be met through grants from other addresses that have staked their BIYA. The total staked BIYA value used for fee discount calculations is `OwnStake + StakeGrantedFromGranter - TotalStakeGrantedToOthers`. Note that although several grants can be made to a single address, **only one grant can be activated** for use at a single time. However, a single address can have multiple grants made to other addresses at the same time. Note that only BIYA staked with 25 validators is used to calculate `OwnStake` for stake grant purposes. To ensure all staked BIYA can be utilized for grants, stake with 25 or fewer validators. Granted stake cannot be re granted.
+费用折扣层级的质押 BIYA 要求可以通过已质押其 BIYA 的其他地址的授权来满足。\
+用于费用折扣计算的质押 BIYA 总值为 `OwnStake + StakeGrantedFromGranter - TotalStakeGrantedToOthers`。\
+请注意，虽然可以向单个地址进行多次授权，但**一次只能激活一个授权**。\
+但是，单个地址可以同时向其他地址进行多次授权。\
+请注意，只有与 25 个验证者质押的 BIYA 用于计算 `OwnStake` 以用于质押授权目的。\
+为确保所有质押的 BIYA 都可以用于授权，请与 25 个或更少的验证者质押。已授权的质押不能重新授权。

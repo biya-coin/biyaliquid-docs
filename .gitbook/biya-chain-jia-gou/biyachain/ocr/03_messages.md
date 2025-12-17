@@ -1,15 +1,15 @@
 ---
 sidebar_position: 3
-title: Messages
+title: 消息
 ---
 
-# Messages
+# 消息
 
-In this section we describe the processing of the ocr messages and the corresponding updates to the state.
+在本节中，我们描述 ocr 消息的处理以及相应的状态更新。
 
 ## Msg/CreateFeed
 
-`MsgCreateFeed` is a message to create feed config and it is restricted message that is executable by module admin.
+`MsgCreateFeed` 是创建 feed 配置的消息，它是受限消息，只能由模块管理员执行。
 
 ```protobuf
 message MsgCreateFeed {
@@ -20,19 +20,19 @@ message MsgCreateFeed {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Ensure `Sender` is module admin
-- Ensure `msg.Config.OnchainConfig.LinkDenom` is module param's `LinkDenom`
-- Set `OnchainConfig.ChainId` from `ctx.ChainID`
-- Ensure `FeedConfig` with same `FeedId` does not exist
-- Set latest `EpochAndRound` to `(0, 0)`
-- Set feed config for `feedId`
-- Set feed trasmissions count and observations count to 1
+- 确保 `Sender` 是模块管理员
+- 确保 `msg.Config.OnchainConfig.LinkDenom` 是模块参数的 `LinkDenom`
+- 从 `ctx.ChainID` 设置 `OnchainConfig.ChainId`
+- 确保不存在相同 `FeedId` 的 `FeedConfig`
+- 将最新的 `EpochAndRound` 设置为 `(0, 0)`
+- 为 `feedId` 设置 feed 配置
+- 将 feed 传输计数和观察计数设置为 1
 
 ## Msg/UpdateFeed
 
-`MsgCreateFeed` is a message to update feed config and it is restricted message that is executable by feed admin or feed billing admin.
+`MsgUpdateFeed` 是更新 feed 配置的消息，它是受限消息，只能由 feed 管理员或 feed 计费管理员执行。
 
 ```protobuf
 message MsgUpdateFeed {
@@ -64,19 +64,19 @@ message MsgUpdateFeed {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Get previous feed config by `feedId` and ensure it exists
-- Ensure `Sender` is feed admin or feed billing admin
-- Ensure billing admin is not changing Signers, Transmitters and feed admin
-- Process rewards payout for previous feed config
-- Delete previous feed transmission and observation counts
-- Set latest `EpochAndRound` to `(0, 0)`
-- Update signers, transmitters, `LinkPerObservation`, `LinkPerTransmission`, `LinkDenom`, `FeedAdmin`, `BillingAdmin` if set.
+- 通过 `feedId` 获取之前的 feed 配置并确保其存在
+- 确保 `Sender` 是 feed 管理员或 feed 计费管理员
+- 确保计费管理员不更改 Signers、Transmitters 和 feed 管理员
+- 处理之前 feed 配置的奖励支付
+- 删除之前的 feed 传输和观察计数
+- 将最新的 `EpochAndRound` 设置为 `(0, 0)`
+- 如果设置了，则更新 signers、transmitters、`LinkPerObservation`、`LinkPerTransmission`、`LinkDenom`、`FeedAdmin`、`BillingAdmin`。
 
 ## Msg/Transmit
 
-`MsgTransmit` is a message to transmit a report for specific feed. When broadcasting the message, there should be enough amount of signatures from observers to be accepted.
+`MsgTransmit` 是传输特定 feed 报告的消息。广播消息时，应该有足够数量的观察者签名才能被接受。
 
 ```protobuf
 message MsgTransmit {
@@ -94,21 +94,21 @@ message MsgTransmit {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Get epoch and round for `feedId`
-- Ensure that the report is not staled one by checking `msg.Epoch` and `msg.Round`
-- Get feed config and config info from `feedId`
-- Check msg.ConfigDigest equals to feed config info's latest config digest
-- Check if transmitter is valid transmitter configured in `feedConfig`
-- Save transmitter report
-- Emit event for trasmission
-- Validate signatures and the number of signatures
-- Increment feed observation and transmission counts
+- 获取 `feedId` 的纪元和轮次
+- 通过检查 `msg.Epoch` 和 `msg.Round` 确保报告不是过期的
+- 从 `feedId` 获取 feed 配置和配置信息
+- 检查 msg.ConfigDigest 是否等于 feed 配置信息的最新配置摘要
+- 检查传输者是否是 `feedConfig` 中配置的有效传输者
+- 保存传输者报告
+- 发出传输事件
+- 验证签名和签名数量
+- 增加 feed 观察和传输计数
 
 ## Msg/FundFeedRewardPool
 
-`MsgFundFeedRewardPool` is a message to add funds to feed reward pool to be given to transmitters and observers.
+`MsgFundFeedRewardPool` 是向 feed 奖励池添加资金的消息，用于支付给传输者和观察者。
 
 ```protobuf
 message MsgFundFeedRewardPool {
@@ -121,18 +121,18 @@ message MsgFundFeedRewardPool {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Get previous reward pool amount from `feedId`
-- If previous amount is empty, initiate the pool amount with zero integer
-- Ensure previous amount denom is not different from deposit denom if exist
-- Send coins from account to the module account (`ocr` module)
-- Update reward pool amount with `amount` field addition
-- Call `AfterFundFeedRewardPool` hook if hooks is set
+- 从 `feedId` 获取之前的奖励池金额
+- 如果之前的金额为空，则用零整数初始化池金额
+- 如果存在，确保之前的金额面额与存款面额不同
+- 将代币从账户发送到模块账户（`ocr` 模块）
+- 通过添加 `amount` 字段更新奖励池金额
+- 如果设置了钩子，则调用 `AfterFundFeedRewardPool` 钩子
 
 ## Msg/WithdrawFeedRewardPool
 
-`MsgFundFeedRewardPool` is a message to withdraw funds from feed reward pool and is restricted to feed admin or billing admin.
+`MsgWithdrawFeedRewardPool` 是从 feed 奖励池提取资金的消息，仅限于 feed 管理员或计费管理员。
 
 ```protobuf
 message MsgWithdrawFeedRewardPool {
@@ -145,16 +145,16 @@ message MsgWithdrawFeedRewardPool {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Get feed config from `feedId`
-- Ensure `msg.Sender` is `feedAdmin` or `billingAdmin`
-- Process reward for the feed
-- Withdraw specified amount `msg.Amount` from module account
+- 从 `feedId` 获取 feed 配置
+- 确保 `msg.Sender` 是 `feedAdmin` 或 `billingAdmin`
+- 处理 feed 的奖励
+- 从模块账户提取指定金额 `msg.Amount`
 
 ## Msg/SetPayees
 
-`MsgSetPayees` is a message to set payee for transmitters - it is restricted to feed admin. Once it's set, it should be changed only by payee.
+`MsgSetPayees` 是为传输者设置收款人的消息——它仅限于 feed 管理员。一旦设置，只能由收款人更改。
 
 ```protobuf
 message MsgSetPayees {
@@ -170,17 +170,17 @@ message MsgSetPayees {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Get feed config from `feedId` and ensure that feed config exists
-- Ensure `msg.Sender` is feed admin
-- Iterating `msg.Transmitters`,
-- 1. Ensure payee is set already for the transmitter
-- 2. Set payee for the transmitter
+- 从 `feedId` 获取 feed 配置并确保 feed 配置存在
+- 确保 `msg.Sender` 是 feed 管理员
+- 遍历 `msg.Transmitters`，
+- 1. 确保已为传输者设置收款人
+- 2. 为传输者设置收款人
 
 ## Msg/TransferPayeeship
 
-`MsgTransferPayeeship` is a message to transfer payeeship for a specific transmitter of feed. After execution, pending payeeship object is created.
+`MsgTransferPayeeship` 是转移 feed 特定传输者收款权的消息。执行后，将创建待处理的收款权对象。
 
 ```protobuf
 message MsgTransferPayeeship {
@@ -196,16 +196,16 @@ message MsgTransferPayeeship {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Get feed config from `feedId` and ensure that feed config exists
-- Ensure msg.Sender is current payee
-- Check previous pending payeeship transfer record and ensure previous payeeship transfer does not conflict
-- Set payeeship transfer record
+- 从 `feedId` 获取 feed 配置并确保 feed 配置存在
+- 确保 msg.Sender 是当前收款人
+- 检查之前的待处理收款权转移记录，确保之前的收款权转移不冲突
+- 设置收款权转移记录
 
 ## Msg/AcceptPayeeship
 
-`MsgTransferPayeeship` is a message to accept payeeship for a specific transmitter of feed.
+`MsgAcceptPayeeship` 是接受 feed 特定传输者收款权的消息。
 
 ```protobuf
 message MsgAcceptPayeeship {
@@ -219,9 +219,9 @@ message MsgAcceptPayeeship {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Get feed config from `feedId` and ensure that feed config exists
-- Get pending payeeship transfer record for `msg.Transmitter` and `feedId`
-- Reset payee for `feedId` and `transmitter`
-- Delete pending payeeship transfer for `transmitter` of `feedId`
+- 从 `feedId` 获取 feed 配置并确保 feed 配置存在
+- 获取 `msg.Transmitter` 和 `feedId` 的待处理收款权转移记录
+- 重置 `feedId` 和 `transmitter` 的收款人
+- 删除 `feedId` 的 `transmitter` 的待处理收款权转移

@@ -3,9 +3,9 @@ sidebar_position: 4
 title: State
 ---
 
-# State
+# 状态
 
-Genesis state defines the initial state of the module to be used to setup the module.
+Genesis 状态定义了模块的初始状态，用于设置模块。
 
 ```go
 // GenesisState defines the exchange module's genesis state.
@@ -59,12 +59,12 @@ type GenesisState struct {
 }
 ```
 
-## Params
+## 参数
 
-`Params` is a module-wide configuration that stores system parameters and defines overall functioning of the exchange module.\
-This configuration is modifiable by governance using params update proposal natively supported by `gov` module.
+`Params` 是模块范围的配置，存储系统参数并定义 exchange 模块的整体功能。\
+此配置可通过治理使用 `gov` 模块原生支持的参数更新提案进行修改。
 
-It defines default fee objects to be used for spot and derivative markets and funding parameters for derivative markets and instant listing fees.
+它定义了用于现货和衍生品市场的默认费用对象，以及衍生品市场的资金费率参数和即时上币费用。
 
 Protobuf interface for the `exchange` module params store.
 
@@ -105,11 +105,11 @@ type Params struct {
 }
 ```
 
-## Balance
+## 余额
 
-`Balance` is to manage balances of accounts. The module is storing the whole balance in the module account, while the balance of each account is managed just as a record.
+`Balance` 用于管理账户余额。模块将整个余额存储在模块账户中，而每个账户的余额仅作为记录进行管理。
 
-The `Balance` object is stored by `subaccount_id` and `denom`.
+`Balance` 对象通过 `subaccount_id` 和 `denom` 存储。
 
 ```go
 message Balance {
@@ -132,7 +132,7 @@ type SubaccountDeposit {
 
 ## SubaccountNonce
 
-`SubaccountNonce` is used to express unique order hashes.
+`SubaccountNonce` 用于表示唯一的订单哈希。
 
 ```go
 type SubaccountNonce struct {
@@ -141,9 +141,9 @@ type SubaccountNonce struct {
 }
 ```
 
-## Order
+## 订单
 
-There are a number of structures used to store the orders into the store.
+有多个结构用于将订单存储到存储中。
 
 ```go
 type OrderInfo struct {
@@ -184,8 +184,8 @@ type MarketOrderIndicator struct {
 
 ## SpotMarket
 
-`SpotMarket` is the structure to store all the required information and state for a spot market.\
-Spot markets are stored by hash of the market to query the market efficiently.
+`SpotMarket` 是存储现货市场所有必需信息和状态的结构。\
+现货市场通过市场的哈希值存储，以便高效查询市场。
 
 ```go
 // An object describing trade pair of two assets.
@@ -215,8 +215,8 @@ type SpotMarket struct {
 
 ## SpotOrderBook
 
-`SpotOrderBook` is a structure to store spot limit orders for a specific market.\
-Two objects are created, one for buy orders and one for sell orders.
+`SpotOrderBook` 是存储特定市场的现货限价单的结构。\
+创建两个对象，一个用于买单，一个用于卖单。
 
 ```go
 // Spot Exchange Limit Orderbook
@@ -261,8 +261,8 @@ type SpotMarketOrder struct {
 
 ## DerivativeMarket
 
-`DerivativeMarket` is the structure to store all the required information and state for a derivative market.\
-Derivative markets are stored by hash of the market to query the market efficiently.
+`DerivativeMarket` 是存储衍生品市场所有必需信息和状态的结构。\
+衍生品市场通过市场的哈希值存储，以便高效查询市场。
 
 ```go
 // An object describing a derivative market in the Biya Chain Futures Protocol.
@@ -304,8 +304,8 @@ type DerivativeMarket struct {
 
 ## DerivativeOrderBook
 
-`DerivativeOrderBook` is a structure to store derivative limit orders for a specific market.\
-Two objects are created, one for buy orders and one for sell orders.
+`DerivativeOrderBook` 是存储特定市场的衍生品限价单的结构。\
+创建两个对象，一个用于买单，一个用于卖单。
 
 ```go
 // Spot Exchange Limit Orderbook
@@ -364,9 +364,9 @@ type DerivativeMarketOrderCancel struct {
 
 ## DerivativePosition
 
-`DerivativePosition` is a structure to store derivative positions for a subaccount on a specific market.
+`DerivativePosition` 是存储子账户在特定市场上的衍生品持仓的结构。
 
-**Note:** Derivative orders represent intent while positions represent possession.
+**注意：** 衍生品订单表示意图，而持仓表示拥有。
 
 ```go
 type Position struct {
@@ -398,8 +398,8 @@ type SubaccountPosition struct {
 
 ## ExpiryFuturesMarketInfo
 
-`ExpiryFuturesMarketInfo` is a structure to keep the information of expiry futures market.\
-It is stored by the id of the market.
+`ExpiryFuturesMarketInfo` 是保存到期期货市场信息的结构。\
+它通过市场的 ID 存储。
 
 ```go
 type ExpiryFuturesMarketInfo struct {
@@ -418,7 +418,7 @@ type ExpiryFuturesMarketInfo struct {
 
 ## PerpetualMarketInfo
 
-`PerpetualMarketInfo` is a structure to keep the information of perpetual market.
+`PerpetualMarketInfo` 是用于保存永续市场信息的结构。
 
 ```go
 type PerpetualMarketInfo struct {
@@ -437,7 +437,7 @@ type PerpetualMarketInfo struct {
 
 ## PerpetualMarketFunding
 
-`PerpetualMarketFunding` is a structure to manage perpetual market fundings info.
+`PerpetualMarketFunding` 是用于管理永续市场资金费率信息的结构。
 
 ```go
 type PerpetualMarketFunding struct {
@@ -453,7 +453,7 @@ type PerpetualMarketFunding struct {
 
 ### CampaignRewardPool
 
-`CampaignRewardPool` is a structure to be used for getting the upcoming trading reward pools.
+`CampaignRewardPool` 是用于获取即将到来的交易奖励池的结构。
 
 ```go
 type CampaignRewardPool struct {
@@ -465,7 +465,7 @@ type CampaignRewardPool struct {
 
 ### TradingRewardCampaignInfo
 
-`TradingRewardCampaignInfo` is a structure to be used for getting the trading reward campaign info.
+`TradingRewardCampaignInfo` 是用于获取交易奖励活动信息的结构。
 
 ```go
 type TradingRewardCampaignInfo struct {
@@ -494,7 +494,7 @@ type PointsMultiplier struct {
 
 ## FeeDiscountProposal
 
-`FeeDiscountProposal` is a structure to be used for proposing a new fee discount schedule and durations.
+`FeeDiscountProposal` 是用于提议新的费用折扣计划和持续时间的结构。
 
 ```go
 type FeeDiscountSchedule struct {
@@ -520,7 +520,7 @@ type FeeDiscountTierInfo struct {
 
 ## DerivativeMarketSettlementInfo
 
-`DerivativeMarketSettlementInfo` is a structure to be used for the scheduled markets for settlement.
+`DerivativeMarketSettlementInfo` 是用于计划结算市场的结构。
 
 ```go
 type DerivativeMarketSettlementInfo struct {
@@ -535,7 +535,7 @@ type DerivativeMarketSettlementInfo struct {
 
 ## TradeLog
 
-Trade logs are emitted in events to track the trading history.
+交易日志在事件中发出，用于跟踪交易历史。
 
 ```go
 type TradeLog struct {
@@ -558,7 +558,7 @@ type DerivativeTradeLog struct {
 
 ## Enums
 
-Enums are used to describe the order types, execution types and market status.
+枚举用于描述订单类型、执行类型和市场状态。
 
 ```protobuf
 enum OrderType {
@@ -595,7 +595,7 @@ enum ExecutionType {
 
 ## GrantAuthorization
 
-`GrantAuthorization` is used to track the grantee's address and amount of the granted stake that has been authorized by the granter for trading fee discounts.
+`GrantAuthorization` 用于跟踪被授权人的地址和授权人授权的质押金额，用于交易费用折扣。
 
 ```protobuf
 type GrantAuthorization struct {
@@ -607,7 +607,7 @@ type GrantAuthorization struct {
 
 ## ActiveGrant
 
-`ActiveGrant` is used to track the granter's address and amount of the granted stake (for trading fee discounts) in the grant that has been activated by the grantee.
+`ActiveGrant` 用于跟踪授权人的地址和授权中已被被授权人激活的质押金额（用于交易费用折扣）。
 
 ```protobuf
 type ActiveGrant struct {
@@ -619,7 +619,7 @@ type ActiveGrant struct {
 
 ## EffectiveGrant
 
-`EffectiveGrant` is used to track the total amount of stake a granter has authorized in stake grants for trading fee discounts.
+`EffectiveGrant` 用于跟踪授权人在质押授权中为交易费用折扣授权的质押总额。
 
 ```protobuf
 type EffectiveGrant struct {

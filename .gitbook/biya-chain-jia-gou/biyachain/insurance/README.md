@@ -1,14 +1,14 @@
 # `Insurance`
 
-## Abstract
+## 概述
 
-This paper specifies the insurance module of the Biya Chain Chain. 
+本文档规定了 Biya Chain 的保险模块。
 
-This module provides insurance funds for derivative markets in the `exchange` module of the Biya Chain Chain to use in order to support higher leverage trading. On a high level, insurance funds for each derivative market are funded by a permissionless group of underwriters who each own a proportional claim (represented through insurance fund share tokens) over the underlying assets in the insurance fund.
+该模块为 Biya Chain 的 `exchange` 模块中的衍生品市场提供保险基金，以支持更高杠杆的交易。从高层次来看，每个衍生品市场的保险基金由一组无需许可的承保人提供资金，每个承保人拥有保险基金中基础资产的按比例索赔权（通过保险基金份额代币表示）。
 
-Each insurance fund grows when positions in its corresponding derivative market are liquidated with positive equity, as half of the positive equity is sent to the insurance fund upon liquidation. When a position with negative equity is liquidated (i.e. the position has surpassed bankruptcy), the insurance fund is utilized to cover the missing equity. 
+当相应衍生品市场中的持仓以正权益清算时，每个保险基金都会增长，因为清算时正权益的一半会发送到保险基金。当负权益的持仓被清算时（即持仓已超过破产），保险基金被用来弥补缺失的权益。
 
-## Contents
+## 目录
 
 1. [State](01_state.md)
 2. [State Transitions](02_state_transitions.md)

@@ -1,13 +1,13 @@
 ---
 sidebar_position: 4
-title: Governance Proposals
+title: 治理提案
 ---
 
-# Governance Proposals
+# 治理提案
 
 ## SetConfigProposal
 
-`SetConfigProposal` is a proposal to set feed config by governance.
+`SetConfigProposal` 是通过治理设置 feed 配置的提案。
 
 ```protobuf
 message SetConfigProposal {
@@ -20,17 +20,17 @@ message SetConfigProposal {
 }
 ```
 
-**Steps**
+**步骤**
 
-- Validate basics for the proposal
-- Ensure module's `LinkDenom` is same as proposal's `LinkDenom`
-- set `p.Config.OnchainConfig.ChainId` from `ctx.ChainID`
-- Set feed config for `feedId`
-- Set feed transmissions and observations count for `Config.Transmitters`
+- 验证提案的基本信息
+- 确保模块的 `LinkDenom` 与提案的 `LinkDenom` 相同
+- 从 `ctx.ChainID` 设置 `p.Config.OnchainConfig.ChainId`
+- 为 `feedId` 设置 feed 配置
+- 为 `Config.Transmitters` 设置 feed 传输和观察计数
 
 ## SetBatchConfigProposal
 
-`SetBatchConfigProposal` is a proposal to set multiple feed configs at once by governance.
+`SetBatchConfigProposal` 是通过治理一次性设置多个 feed 配置的提案。
 
 ```protobuf
 message SetBatchConfigProposal {

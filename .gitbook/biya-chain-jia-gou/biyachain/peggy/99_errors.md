@@ -1,22 +1,22 @@
-# Error Codes
+# 错误代码
 
-This document lists the error codes used in the module.
+本文档列出了模块中使用的错误代码。
 
 
-| Module | Error Code | description |
+| 模块 | 错误代码 | 描述 |
 |--------|------------|-------------|
-| peggy |  1 | internal |
-| peggy |  2 | duplicate |
-| peggy |  3 | invalid |
-| peggy |  4 | timeout |
-| peggy |  5 | unknown |
-| peggy |  6 | empty |
-| peggy |  7 | outdated |
-| peggy |  8 | unsupported |
-| peggy |  9 | non contiguous event nonce |
-| peggy |  10 | no unbatched txs found |
-| peggy |  11 | can not set orchestrator addresses more than once |
-| peggy |  12 | supply cannot exceed max ERC20 value |
-| peggy |  13 | invalid ethereum sender on claim |
-| peggy |  14 | invalid ethereum destination |
-| peggy |  15 | missing previous claim for validator |
+| peggy |  1 | 内部错误 |
+| peggy |  2 | 重复 |
+| peggy |  3 | 无效 |
+| peggy |  4 | 超时 |
+| peggy |  5 | 未知 |
+| peggy |  6 | 为空 |
+| peggy |  7 | 过时 |
+| peggy |  8 | 不支持 |
+| peggy |  9 | 事件 nonce 不连续 |
+| peggy |  10 | 未找到未批处理的交易 |
+| peggy |  11 | 不能多次设置编排器地址 |
+| peggy |  12 | 供应量不能超过最大 ERC20 值 |
+| peggy |  13 | 声明上的 ethereum 发送者无效 |
+| peggy |  14 | 无效的 ethereum 目标地址 |
+| peggy |  15 | 验证者缺少先前的声明 |

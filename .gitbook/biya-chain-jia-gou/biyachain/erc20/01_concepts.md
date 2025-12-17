@@ -3,9 +3,9 @@ sidebar_position: 1
 title: Concepts
 ---
 
-# Concepts
+# 概念
 
-The `ERC20` module is designed to introduce existing bank denoms (such as IBC-bridged tokens, USDC, tokenfactory, and peggy) into the Biya Chain EVM. It achieves this by maintaining an association between token pairs in its storage. When creating a new token pair for an existing bank denom, the module uploads a fresh ERC20 contract that utilizes our bank precompile. This precompile then accesses the module's storage to locate the mapping between the newly created ERC20 address and the existing bank denom. We require this separate module for several reasons:
+`ERC20` 模块旨在将现有的银行代币单位（如 IBC 桥接代币、USDC、tokenfactory 和 peggy）引入 Biya Chain EVM。它通过在存储中维护代币对之间的关联来实现这一点。当为现有的银行代币单位创建新的代币对时，模块会上传一个新的 ERC20 合约，该合约使用我们的银行预编译合约。然后，此预编译合约访问模块的存储，以定位新创建的 ERC20 地址与现有银行代币单位之间的映射。我们需要这个独立模块的原因如下：
 
-1. storage: store mapping between bank denom ↔ erc20 address
-2. new Msg type: allow users to create new token pairs in the mappings, which is done by issuing a chain Msg
+1. 存储：存储银行代币单位 ↔ erc20 地址之间的映射
+2. 新的消息类型：允许用户在映射中创建新的代币对，这是通过发出链消息来完成的

@@ -1,12 +1,12 @@
 ---
 sidebar_position: 1
-title: State
+title: 状态
 ---
 
-# State
+# 状态
 
 ## Params
-The oracle module parameters. 
+oracle 模块参数。 
 ```protobuf
 message Params {
   option (gogoproto.equal) = true;
@@ -18,7 +18,7 @@ message Params {
 
 ## PriceState
 
-PriceState is common type to manage cumulative price and latest price along with timestamp for all oracle types.
+PriceState 是用于管理所有 oracle 类型的累积价格和最新价格以及时间戳的通用类型。
 
 ```protobuf
 message PriceState {
@@ -30,19 +30,19 @@ message PriceState {
 }
 ```
 
-where
+其中
 
-- `Price` represents the normalized decimal price
-- `CumulativePrice` represents the cumulative price for a given oracle price feed since the start of the oracle price feed's creation.
-- `Timestamp` represents the time at which the blocktime at which the price state was relayed.
+- `Price` 表示标准化的十进制价格
+- `CumulativePrice` 表示自 oracle 价格源创建开始以来给定 oracle 价格源的累积价格。
+- `Timestamp` 表示中继价格状态的区块时间。
 
-Note that the `CumulativePrice` value follows the convention set by the [Uniswap V2 Oracle](https://uniswap.org/docs/v2/core-concepts/oracles/) and is used to allows modules to calculate Time-Weighted Average Price (TWAP) between 2 arbitrary block time intervals (t1, t2).
+请注意，`CumulativePrice` 值遵循 [Uniswap V2 Oracle](https://uniswap.org/docs/v2/core-concepts/oracles/) 设定的约定，用于允许模块计算两个任意区块时间间隔（t1，t2）之间的时间加权平均价格（TWAP）。
 
 $\mathrm{TWAP = \frac{CumulativePrice_2 - CumulativePrice_1}{Timestamp_2 - Timestamp_1}}$
 
 ## Band
 
-Band price data for a given symbol are represented and stored as follows:
+给定符号的 Band 价格数据表示和存储如下：
 
 - BandPriceState: `0x01 | []byte(symbol) -> ProtocolBuffer(BandPriceState)`
 
@@ -56,25 +56,25 @@ message BandPriceState {
 }
 ```
 
-Note that the `Rate` is the raw USD rate for the `Symbol` obtained from the Band chain which has is scaled by 1e9 (e.g. a price of 1.42 is 1420000000) while the PriceState has the normalized decimal price (e.g. 1.42).
+请注意，`Rate` 是从 Band 链获得的 `Symbol` 的原始 USD 汇率，已按 1e9 缩放（例如，价格为 1.42 则为 1420000000），而 PriceState 具有标准化的十进制价格（例如 1.42）。
 
-Band relayers are stored by their address as follows.
+Band 中继者按其地址存储如下。
 
 - BandRelayer: `0x02 | RelayerAddr -> []byte{}`
 
 ## Band IBC
 
-This section describes all the state management to maintain the price by connecting to Band chain via IBC.
+本节描述通过 IBC 连接到 Band 链以维护价格的所有状态管理。
 
-- LatestClientID is maintained to manage unique clientID for band IBC packets. It is increased by 1 when sending price request packet into bandchain.
+- LatestClientID 用于管理 band IBC 数据包的唯一 clientID。向 bandchain 发送价格请求数据包时，它增加 1。
 
 * LatestClientID: `0x32 -> Formated(LatestClientID)`
 
-- LatestRequestID is maintained to manage unique `BandIBCOracleRequests`. Incremented by 1 when creating a new `BandIBCOracleRequest`.
+- LatestRequestID 用于管理唯一的 `BandIBCOracleRequests`。创建新的 `BandIBCOracleRequest` 时增加 1。
 
 * LatestRequestID: `0x36 -> Formated(LatestRequestID)`
 
-- Band IBC price data for a given symbol is stored as follows:
+- 给定符号的 Band IBC 价格数据存储如下：
 
 * BandPriceState: `0x31 | []byte(symbol) -> ProtocolBuffer(BandPriceState)`
 
@@ -88,7 +88,7 @@ message BandPriceState {
 }
 ```
 
-- BandIBCCallDataRecord is stored as follows when sending price request packet into bandchain:
+- 向 bandchain 发送价格请求数据包时，BandIBCCallDataRecord 存储如下：
 
 * CalldataRecord: `0x33 | []byte(ClientId) -> ProtocolBuffer(CalldataRecord)`
 
@@ -99,7 +99,7 @@ message CalldataRecord {
 }
 ```
 
-- BandIBCOracleRequest is stored as follows when the governance configure oracle requests to send:
+- 当治理配置要发送的 oracle 请求时，BandIBCOracleRequest 存储如下：
 
 * BandOracleRequest: `0x34 | []byte(RequestId) -> ProtocolBuffer(BandOracleRequest)`
 
@@ -133,11 +133,11 @@ message BandOracleRequest {
 }
 ```
 
-- BandIBCParams is stored as follows and configured by governance:
+- BandIBCParams 存储如下，由治理配置：
 
 * BandIBCParams: `0x35 -> ProtocolBuffer(BandIBCParams)`
 
-`BandIBCParams` contains the information for IBC connection with band chain.
+`BandIBCParams` 包含与 band 链的 IBC 连接信息。
 
 ```protobuf
 message BandIBCParams {
@@ -154,15 +154,15 @@ message BandIBCParams {
 }
 ```
 
-Note:
+注意：
 
-1. `BandIbcEnabled` describes the status of band ibc connection
-2. `IbcSourceChannel`, `IbcVersion`, `IbcPortId` are common parameters required for IBC connection.
-3. `IbcRequestInterval` describes the automatic price fetch request interval that is automatically triggered on biyachain chain on beginblocker.
+1. `BandIbcEnabled` 描述 band ibc 连接的状态
+2. `IbcSourceChannel`、`IbcVersion`、`IbcPortId` 是 IBC 连接所需的通用参数。
+3. `IbcRequestInterval` 描述在 beginblocker 上在 biyachain 链上自动触发的自动价格获取请求间隔。
 
 ## Coinbase
 
-Coinbase price data for a given symbol ("key") are represented and stored as follows:
+给定符号（"key"）的 Coinbase 价格数据表示和存储如下：
 
 - CoinbasePriceState: `0x21 | []byte(key) -> CoinbasePriceState`
 
@@ -181,13 +181,13 @@ message CoinbasePriceState {
 }
 ```
 
-More details about the Coinbase price oracle can be found in the [Coinbase API docs](https://docs.pro.coinbase.com/#oracle) as well as this explanatory [blog post](https://blog.coinbase.com/introducing-the-coinbase-price-oracle-6d1ee22c7068).
+有关 Coinbase 价格预言机的更多详细信息，可以在 [Coinbase API 文档](https://docs.pro.coinbase.com/#oracle) 以及这篇解释性[博客文章](https://blog.coinbase.com/introducing-the-coinbase-price-oracle-6d1ee22c7068)中找到。
 
-Note that the `Value` is the raw USD price data obtained from Coinbase which has is scaled by 1e6 (e.g. a price of 1.42 is 1420000) while the PriceState has the normalized decimal price (e.g. 1.42).
+请注意，`Value` 是从 Coinbase 获得的原始 USD 价格数据，已按 1e6 缩放（例如，价格为 1.42 则为 1420000），而 PriceState 具有标准化的十进制价格（例如 1.42）。
 
 ## Pricefeed
 
-Pricefeed price data for a given base quote pair are represented and stored as follows:
+给定基础报价对的 Pricefeed 价格数据表示和存储如下：
 
 - PriceFeedInfo: `0x11 + Keccak256Hash(base + quote) -> PriceFeedInfo`
 
@@ -212,7 +212,7 @@ message PriceFeedState {
 - PriceFeedRelayer: `0x13 + Keccak256Hash(base + quote) + relayerAddr -> relayerAddr`
 
 ## Provider 
-Provider price feeds are represented and stored as follows:
+Provider 价格源表示和存储如下：
 
 - ProviderInfo: `0x61 + provider + @@@ -> ProviderInfo`
 ```protobuf
@@ -234,7 +234,7 @@ message ProviderPriceState {
 
 ## Pyth
 
-Pyth prices are represented and stored as follows:
+Pyth 价格表示和存储如下：
 - PythPriceState: `0x71 + priceID -> PythPriceState`
 ```protobuf
 message PythPriceState {
@@ -249,7 +249,7 @@ message PythPriceState {
 
 ## Stork
 
-Stork prices are represented and stored as follows:
+Stork 价格表示和存储如下：
 - StorkPriceState: `0x81 + symbol -> PythPriceState`
 ```protobuf
 message StorkPriceState {

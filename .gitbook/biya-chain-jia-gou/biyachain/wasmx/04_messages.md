@@ -1,14 +1,14 @@
 ---
 sidebar_position: 4
-title: Messages
+title: 消息
 ---
 
-# Messages
+# 消息
 
 ## MsgUpdateContract
 
-Updates registered contract execution params (gas price, limit). Can also define a new admin account.\
-Can be called only by admin (if defined) or contract itself.
+更新已注册合约的执行参数（gas 价格、限制）。也可以定义新的管理员账户。\
+只能由管理员（如果已定义）或合约本身调用。
 
 ```go
 
@@ -27,7 +27,7 @@ type MsgUpdateContract struct {
 
 ## MsgDeactivateContract
 
-Deactivates a registered contract (it will no longer be executed in begin blocker)
+停用已注册的合约（它将不再在 begin blocker 中执行）
 
 ```go
 
@@ -40,7 +40,7 @@ type MsgDeactivateContract struct {
 
 ## MsgActivateContract
 
-Reactivates a registered contract (it will be executed in begin blocker from now on again)
+重新激活已注册的合约（从现在开始它将再次在 begin blocker 中执行）
 
 ```go
 
@@ -53,7 +53,7 @@ type MsgActivateContract struct {
 
 ## MsgExecuteContract
 
-Invokes a function defined within the smart contract. Function and parameters are encoded in `ExecuteMsg`, which is a JSON message encoded in Base64.
+调用智能合约内定义的函数。函数和参数编码在 `ExecuteMsg` 中，这是一个 Base64 编码的 JSON 消息。
 
 ```go
 type MsgExecuteContract struct {
@@ -66,7 +66,7 @@ type MsgExecuteContract struct {
 
 ## MsgMigrateContract
 
-Can be issued by the owner of a migratable smart contract to reset its code ID to another one. `MigrateMsg` is a JSON message encoded in Base64.
+可由可迁移智能合约的所有者发出，以将其代码 ID 重置为另一个。`MigrateMsg` 是一个 Base64 编码的 JSON 消息。
 
 ```go
 type MsgMigrateContract struct {
@@ -79,7 +79,7 @@ type MsgMigrateContract struct {
 
 ## MsgUpdateContractOwner
 
-Can be issued by the smart contract's owner to transfer ownership.
+可由智能合约的所有者发出以转移所有权。
 
 ```go
 type MsgUpdateContractOwner struct {

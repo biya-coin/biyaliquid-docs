@@ -1,13 +1,13 @@
 ---
 sidebar_position: 4
-title: Events
+title: 事件
 ---
 
-# Events
+# 事件
 
-The tokenfactory module emits the following events:
+tokenfactory 模块发出以下事件：
 
-An EventCreateTFDenom is emitted upon MsgCreateDenom execution, which creates a new token factory denom.
+执行 MsgCreateDenom 时会发出 EventCreateTFDenom 事件，该事件创建一个新的代币工厂代币单位。
 
 ```protobuf 
 message EventCreateTFDenom {
@@ -16,7 +16,7 @@ message EventCreateTFDenom {
 }
 ```
 
-An EventMintTFDenom is emitted upon MsgMint execution, which mints a new token factory denom for a recipient.
+执行 MsgMint 时会发出 EventMintTFDenom 事件，该事件为接收者铸造新的代币工厂代币单位。
 
 ```protobuf
 message EventMintTFDenom {
@@ -25,7 +25,7 @@ message EventMintTFDenom {
 }
 ```
 
-An EventBurnDenom is emitted upon MsgBurn execution, which burns a specified amount for any denom for a user.
+执行 MsgBurn 时会发出 EventBurnDenom 事件，该事件为用户销毁任何代币单位的指定数量。
 
 ```protobuf
 message EventBurnDenom {
@@ -34,7 +34,7 @@ message EventBurnDenom {
 }
 ``` 
 
-An EventChangeTFAdmin is emitted upon MsgChangeAdmin execution, which changes the admin address for a new token factory denom.
+执行 MsgChangeAdmin 时会发出 EventChangeTFAdmin 事件，该事件更改新代币工厂代币单位的管理员地址。
 
 ```protobuf
 message EventChangeTFAdmin {
@@ -44,7 +44,7 @@ message EventChangeTFAdmin {
 
 ``` 
 
-An EventSetTFDenomMetadata is emitted upon MsgSetDenomMetadata execution, which sets the token factory denom metadata for a given token factory denom.
+执行 MsgSetDenomMetadata 时会发出 EventSetTFDenomMetadata 事件，该事件为给定的代币工厂代币单位设置代币工厂代币单位元数据。
 
 ```protobuf
 message EventSetTFDenomMetadata {

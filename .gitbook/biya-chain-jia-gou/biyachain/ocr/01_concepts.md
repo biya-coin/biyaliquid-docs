@@ -1,60 +1,60 @@
 ---
 sidebar_position: 1
-title: Concepts
+title: 概念
 ---
 
-# Concepts
+# 概念
 
-The `ocr` module is to store chainlink's OCR information into on-chain by verified members.
+`ocr` 模块用于将由已验证成员提供的 Chainlink OCR 信息存储到链上。
 
-Off-chain reporting consists of N nodes (oracles), gathering data from external sources. Reports are being exchanged in a p2p fashion between oracles to get signatures of approval. A subset of nodes (transmitters) is identified by the `ocr` module on-chain, they must submit the reports to module, the first transmitter who hits the chain gets an extra reward to cover gas costs. Other transmitters are not. All oracles participating in the round are getting paid. `ocr` module stores median value from the reports.
+链下报告由 N 个节点（预言机）组成，从外部数据源收集数据。报告在预言机之间以点对点（p2p）方式交换以获得批准签名。链上 `ocr` 模块识别出一个节点子集（传输者），它们必须将报告提交到模块，第一个到达链上的传输者会获得额外奖励以覆盖 gas 成本。其他传输者则不会获得。参与该轮次的所有预言机都会获得报酬。`ocr` 模块存储报告的中位数值。
 
-## OCR Terminology
+## OCR 术语
 
-The protocol periodically sends **oracle reports** to the OCR module. The reporting protocol is comprised of three components: **pacemaker**, **report generation** and **transmission**. 
+协议定期向 OCR 模块发送**预言机报告**。报告协议由三个组件组成：**节奏器（pacemaker）**、**报告生成**和**传输**。
 
-**Pacemaker**
+**节奏器（Pacemaker）**
 
-The pacemaker drives the report generation process which is structured in **epochs**. Each epoch has a designatd leader who the pacemaker then tasks with starting the report generation protocol. If the leader does not produce a valid report in time, the pacemaker also aborts the current report generation and starts a new epoch. 
+节奏器驱动报告生成过程，该过程以**纪元（epochs）**结构组织。每个纪元都有一个指定的领导者，节奏器会指派该领导者启动报告生成协议。如果领导者没有及时生成有效报告，节奏器也会中止当前的报告生成并开始新的纪元。
 
-**Report Generation**
+**报告生成**
 
-For a given epoch, the report generation protocol enters into **rounds** where **observations** are gathered and (given conditions are met such as heartbeat and deviation) a signed oracle **report** is generated. The rounds are controlled by a leader node who controls the frequency of rounds, gathers the observations and generates the report. 
+对于给定的纪元，报告生成协议进入**轮次（rounds）**，在此收集**观察值（observations）**，并在满足条件（如心跳和偏差）时生成签名的预言机**报告**。轮次由领导者节点控制，该节点控制轮次频率、收集观察值并生成报告。
 
-**Transmission**
+**传输**
 
-The transmission protocol then transmits the generated report to the OCR module.
+传输协议然后将生成的报告传输到 OCR 模块。
 
-## Off-chain OCR integration
+## 链下 OCR 集成
 
-- Provide means to communicate with Biya Chain using sdk-go
-- Read data from the module, such as a list of approved oracles
-- Submit reports as Msgs (Implement `ContractTransmitter`)
-- Implement `OffchainConfigDigester`
-- Implement `OnchainKeyring` for producing signatures that will work on the target chain module
-- Implement `ContractConfigTracker` for tracking changes of the chain module config (gov approved)
+- 提供使用 sdk-go 与 Biya Chain 通信的方法
+- 从模块读取数据，例如已批准的预言机列表
+- 以消息（Msgs）形式提交报告（实现 `ContractTransmitter`）
+- 实现 `OffchainConfigDigester`
+- 实现 `OnchainKeyring` 以生成可在目标链模块上工作的签名
+- 实现 `ContractConfigTracker` 以跟踪链模块配置的更改（治理批准）
 
-Notes:
+注意事项：
 
-- Reports are timestamped in Epoch-Round fashion
-- `ocr` module verifies the signatures of oracles on the report
-- `ocr` module records oracles who contributed to a report, for the payout
-- `ocr` module stores the median of the observations
-- `ocr` module provides extra reward for the first submitter of a Msg
+- 报告以纪元-轮次（Epoch-Round）方式标记时间戳
+- `ocr` 模块验证报告上预言机的签名
+- `ocr` 模块记录对报告做出贡献的预言机，用于支付
+- `ocr` 模块存储观察值的中位数
+- `ocr` 模块为消息的第一个提交者提供额外奖励
 
-### Integration Overview
+### 集成概述
 
-Chainlink has several [price data feeds](https://data.chain.link/ethereum/mainnet/stablecoins) including:
+Chainlink 有多个[价格数据源](https://data.chain.link/ethereum/mainnet/stablecoins)，包括：
 
-- 80 Crypto/USD pairs (e.g. ETH/USD, BTC/USD)
-- 17 Stablecoin pairs (e.g. USDT/USD, USDC/USD)
-- 73 ETH pairs (e.g. LINK/ETH)
-- 17 Forex pairs (e.g. GBP/USD, CNY/USD)
+- 80 个加密货币/USD 交易对（例如 ETH/USD、BTC/USD）
+- 17 个稳定币交易对（例如 USDT/USD、USDC/USD）
+- 73 个 ETH 交易对（例如 LINK/ETH）
+- 17 个外汇交易对（例如 GBP/USD、CNY/USD）
 
-A derivative market on Biya Chain specifies the following oracle parameters:
+Biya Chain 上的衍生品市场指定以下预言机参数：
 
-- An oracleBase (e.g. BTC)
-- An oracleQuote (e.g. USDT)
-- An oracleType (e.g. Chainlink)
+- oracleBase（例如 BTC）
+- oracleQuote（例如 USDT）
+- oracleType（例如 Chainlink）
 
-Thus for a BTC/USDT derivative market on Biya Chain, the oracleBase would be BTC/USD, the oracleQuote would be USDT/USD and the oracleType would be Chainlink. The price for the market would then be obtained by dividing the BTC/USD price with the USDT/USD price, leaving the BTC/USDT price.
+因此，对于 Biya Chain 上的 BTC/USDT 衍生品市场，oracleBase 将是 BTC/USD，oracleQuote 将是 USDT/USD，oracleType 将是 Chainlink。然后通过将 BTC/USD 价格除以 USDT/USD 价格来获得市场价格，得到 BTC/USDT 价格。

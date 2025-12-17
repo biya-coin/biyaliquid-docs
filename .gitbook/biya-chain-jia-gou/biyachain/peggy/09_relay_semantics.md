@@ -1,53 +1,53 @@
 ---
 sidebar_position: 9
-title: Relay Semantics
+title: 中继语义
 ---
 
-# Relay Semantics
+# 中继语义
 
-This document is designed to assist developers in implementing alternate Peggy relayers. The two major components of the Orchestrator which interact with Ethereum. The Peggy bridge has been designed for increased efficiency, not for ease of use. This means there are many implicit requirements of these external binaries which this document does it's best to make explicit.
+本文档旨在帮助开发人员实现替代的 Peggy 中继者。与 Ethereum 交互的 Orchestrator 的两个主要组件。Peggy 桥接的设计是为了提高效率，而不是为了易于使用。这意味着这些外部二进制文件有许多隐式要求，本文档尽力使其明确。
 
-The Peggy `orchestrator` combines three distinct roles that need to be performed by external binaries in the Peggy bridge. This document highlights the requirements of the `relayer` which is one of those roles included in the `orchestrator`.
+Peggy `orchestrator` 结合了 Peggy 桥接中需要由外部二进制文件执行的三个不同角色。本文档重点介绍 `relayer` 的要求，这是 `orchestrator` 中包含的角色之一。
 
-## Semantics for Validator set update relaying
+## 验证者集更新中继的语义
 
-### Sorting and Ordering of the Validator set and signatures
+### 验证者集和签名的排序和顺序
 
-When updating the validator set in the Peggy contract you must provide a copy of the old validator set. This _MUST_ only be taken from the last ValsetUpdated event on the Ethereum chain.
+在更新 Peggy 合约中的验证者集时，您必须提供旧验证者集的副本。这_必须_只能从 Ethereum 链上的最后一个 ValsetUpdated 事件中获取。
 
-Providing the old validator set is part of a storage optimization, instead of storing the entire validator set in Ethereum storage it is instead provided by each caller and stored in the much cheaper Ethereum event queue. No sorting of any kind is performed in the Peggy contract, meaning the list of validators and their new signatures must be submitted in exactly the same order as the last call.
+提供旧验证者集是存储优化的一部分，不是将整个验证者集存储在 Ethereum 存储中，而是由每个调用者提供并存储在更便宜的 Ethereum 事件队列中。Peggy 合约中不执行任何类型的排序，这意味着验证者列表及其新签名必须按照与上次调用完全相同的顺序提交。
 
-For the purpose of normal operation this requirement can be shortened to 'sort the validators by descending power, and by Eth address bytes where power is equal'. Since the peggy module produces the validator sets they should always come in order. It is not possible for the relayer to change this order since it is part of the signature. But a change in this sorting method on the Peggy module side would halt valset updates and essentially decouple the bridge unless your implementation is smart enough to take a look at the last submitted order rather than blindly following sorting.
+为了正常操作的目的，此要求可以简化为"按降序权重排序验证者，在权重相等时按 Eth 地址字节排序"。由于 peggy 模块生成验证者集，它们应该始终按顺序出现。中继者无法更改此顺序，因为它是签名的一部分。但是 Peggy 模块端此排序方法的更改将停止 valset 更新并基本上解耦桥接，除非您的实现足够智能，可以查看最后提交的顺序而不是盲目遵循排序。
 
-### Deciding what Validator set to relay
+### 决定中继哪个验证者集
 
-The Biya Chain Chain simply produces a stream of validator sets, it does not make any judgement on how they are relayed. It's up to the relayer implementation to determine how to optimize the gas costs of this relaying operation.
+Biya Chain 简单地产生验证者集流，它不对它们如何中继做出任何判断。由中继者实现来确定如何优化此中继操作的 gas 成本。
 
-For example lets say we had validator sets `A, B, C, and D` each is created when there is a 5% power difference between the last Peggy validator set snapshot in the store and the currently active validator set.
+例如，假设我们有验证者集 `A、B、C 和 D`，当存储中最后一个 Peggy 验证者集快照与当前活跃验证者集之间存在 5% 权重差异时，每个都会创建。
 
-5% is an arbitrary constant. The specific value chosen here is a tradeoff made by the chain between how up to date the Ethereum validator set is and the cost to keep it updated. The higher this value is the lower the portion of the voting validator set is needed to highjack the bridge in the worst case. If we made a new validator set update every block 66% would need to collude, the 5% change threshold means 61% of the total voting power colluding in a given validator set may be able to steal the funds in the bridge.
+5% 是一个任意常数。这里选择的具体值是链在 Ethereum 验证者集的更新程度和保持更新的成本之间做出的权衡。此值越高，在最坏情况下劫持桥接所需的投票验证者集部分就越低。如果我们每个区块都进行新的验证者集更新，则需要 66% 串通，5% 的变化阈值意味着在给定验证者集中串通的 61% 的总投票权可能能够窃取桥接中的资金。
 
 ```
 A -> B -> C -> D
      5%  10%   15%
 ```
 
-The relayer should iterate over the event history for the Peggy Ethereum contract, it will determine that validator set A is currently in the Peggy bridge. It can choose to either relay validator sets B, C and then D or simply submit validator set D. Provided all validators have signed D it has more than 66% voting power and can pass on it's own. Without paying potentially several hundred dollars more in Ethereum to relay the intermediate sets.
+中继者应该遍历 Peggy Ethereum 合约的事件历史，它将确定验证者集 A 目前在 Peggy 桥接中。它可以选择中继验证者集 B、C 然后 D，或者简单地提交验证者集 D。假设所有验证者都已签署 D，它拥有超过 66% 的投票权，可以自行通过。无需支付可能数百美元的 Ethereum 费用来中继中间集。
 
-Performing this check locally somehow, before submitting transactions, is essential to a cost effective relayer implementation. You can either use a local Ethereum signing implementation and sum the powers and signatures yourself, or you can simply use the `eth_call()` Ethereum RPC to simulate the call on your Ethereum node.
+在提交交易之前，以某种方式在本地执行此检查对于成本有效的中继者实现至关重要。您可以使用本地 Ethereum 签名实现并自己汇总权重和签名，或者您可以简单地使用 `eth_call()` Ethereum RPC 在您的 Ethereum 节点上模拟调用。
 
-Note that `eth_call()` often has funny gotchas. All calls fail on Geth based implementations if you don't have any Ethereum to pay for gas, while on Parity based implementations your gas inputs are mostly ignored and an accurate gas usage is returned.
+请注意，`eth_call()` 经常有有趣的陷阱。如果您没有任何 Ethereum 来支付 gas，所有调用在基于 Geth 的实现上都会失败，而在基于 Parity 的实现上，您的 gas 输入大多被忽略，并返回准确的 gas 使用量。
 
-## Semantics for transaction batch relaying
+## 交易批次中继的语义
 
-In order to submit a transaction batch you also need to submit the last set of validators and their staking powers. This is to facilitate the same storage optimization mentioned there.
+为了提交交易批次，您还需要提交最后一组验证者及其质押权重。这是为了促进那里提到的相同存储优化。
 
-### Deciding what batch to relay
+### 决定中继哪个批次
 
-Making a decision about which batch to relay is very different from deciding which validator set to relay. Batch relaying is primarily motivated by fees, not by a desire to maintain the integrity of the bridge. So the decision mostly comes down to fee computation, this is further complicated by the concept of 'batch requests'. Which is an unpermissioned transaction that requests the Peggy module generate a new batch for a specific token type.
+决定中继哪个批次与决定中继哪个验证者集非常不同。批次中继主要由费用驱动，而不是为了维护桥接的完整性。因此，决定主要归结为费用计算，这进一步被"批次请求"的概念复杂化。这是一个无权限的交易，请求 Peggy 模块为特定代币类型生成新批次。
 
-Batch requests are designed to allow the user to withdraw their tokens from the send to Ethereum tx pool at any time up until a relayer shows interest in actually relaying them. While transactions are in the pool there's no risk of a double spend if the user is allowed to withdraw them by sending a MsgCancelSendToEth. Once the transaction enters a batch due to a 'request batch' that is no longer the case and the users funds must remain locked until the Oracle informs the Peggy module that the batch containing the users tokens has become somehow invalid to submit or has been executed on Ethereum.
+批次请求旨在允许用户在任何时候从发送到 Ethereum 交易池中提取其代币，直到中继者表现出实际中继它们的兴趣。当交易在池中时，如果允许用户通过发送 MsgCancelSendToEth 来提取它们，则没有双重支付的风险。一旦交易由于"请求批次"而进入批次，情况就不再如此，用户的资金必须保持锁定，直到 Oracle 通知 Peggy 模块包含用户代币的批次已变得无效无法提交或已在 Ethereum 上执行。
 
-A relayer uses the query endpoint `BatchFees` to iterate over the send to Eth tx pool for each token type, the relayer can then observe the price for the ERC-20 tokens being relayed on a dex and compute the gas cost of executing the batch (via `eth_call()`) as well as the gas cost of liquidating the earnings on a dex if desired. Once a relayer determines that a batch is good and profitable it can send a `MsgRequestBatch` and the batch will be created for the relayer to relay.
+中继者使用查询端点 `BatchFees` 遍历每个代币类型的发送到 Eth 交易池，然后中继者可以观察在 dex 上中继的 ERC-20 代币的价格，并计算执行批次的 gas 成本（通过 `eth_call()`）以及如果需要，在 dex 上清算收益的 gas 成本。一旦中继者确定批次良好且有利可图，它可以发送 `MsgRequestBatch`，批次将为中继者创建以进行中继。
 
-There are also existing batches, which the relayer should also judge for profitability and make an attempt at relaying using much the same method.
+还有现有的批次，中继者还应该判断其盈利能力，并使用大致相同的方法尝试中继。

@@ -2,16 +2,15 @@
 sidebar_position: 3
 ---
 
-# Messages
+# 消息
 
-In this section we describe the processing of the tokenfactory messages and the corresponding updates to the state.
+在本节中，我们描述 tokenfactory 消息的处理以及相应的状态更新。
 
-## Messages
+## 消息
 
 ### CreateDenom
 
-Creates a denom of `factory/{creator address}/{subdenom}` given the denom creator\
-address, subdenom and associated metadata (name, symbol, decimals). Subdenoms can contain `[a-zA-Z0-9./]`.`allow_admin_burn` can be set to true to allow the admin to burn tokens from other addresses.
+根据代币单位创建者地址、子代币单位和相关元数据（名称、符号、小数位数）创建 `factory/{创建者地址}/{子代币单位}` 的代币单位。子代币单位可以包含 `[a-zA-Z0-9./]`。`allow_admin_burn` 可以设置为 true 以允许管理员从其他地址销毁代币。
 
 ```protobuf
 message MsgCreateDenom {
@@ -25,21 +24,17 @@ message MsgCreateDenom {
   bool allow_admin_burn = 6 [ (gogoproto.moretags) = "yaml:\"allow_admin_burn\"" ];}
 ```
 
-**State Modifications:**
+**状态修改：**
 
-* Fund community pool with the denom creation fee from the creator address, set\
-  in `Params`.
-* Set `DenomMetaData` via bank keeper.
-* Set `AuthorityMetadata` for the given denom to store the admin for the created\
-  denom `factory/{creator address}/{subdenom}`. Admin is automatically set as the\
-  Msg sender.
-* Add denom to the `CreatorPrefixStore`, where a state of denoms created per\
-  creator is kept.
+* 使用创建者地址的代币单位创建费用向社区池注资，费用在 `Params` 中设置。
+* 通过 bank keeper 设置 `DenomMetaData`。
+* 为给定的代币单位设置 `AuthorityMetadata`，以存储创建的代币单位 `factory/{创建者地址}/{子代币单位}` 的管理员。管理员自动设置为消息发送者。
+* 将代币单位添加到 `CreatorPrefixStore`，其中保存每个创建者创建的代币单位状态。
 
 ### Mint
 
-Minting of a specific denom is only allowed for the current admin.\
-Note, the current admin is defaulted to the creator of the denom.
+特定代币单位的铸造仅允许当前管理员执行。\
+注意，当前管理员默认为代币单位的创建者。
 
 ```protobuf
 message MsgMint {
@@ -51,17 +46,17 @@ message MsgMint {
 }
 ```
 
-**State Modifications:**
+**状态修改：**
 
-* Safety check the following
-  * Check that the denom minting is created via `tokenfactory` module
-  * Check that the sender of the message is the admin of the denom
-* Mint designated amount of tokens for the denom via `bank` module
+* 安全检查以下内容
+  * 检查代币单位是否通过 `tokenfactory` 模块创建
+  * 检查消息发送者是否为代币单位的管理员
+* 通过 `bank` 模块为代币单位铸造指定数量的代币
 
 ### Burn
 
-Burning of a specific denom is only allowed for the current admin.\
-Note, the current admin is defaulted to the creator of the denom.
+特定代币单位的销毁仅允许当前管理员执行。\
+注意，当前管理员默认为代币单位的创建者。
 
 ```protobuf
 message MsgBurn {
@@ -73,16 +68,16 @@ message MsgBurn {
 }
 ```
 
-**State Modifications:**
+**状态修改：**
 
-* Safety check the following
-  * Check that the denom minting is created via `tokenfactory` module
-  * Check that the sender of the message is the admin of the denom
-* Burn designated amount of tokens for the denom via `bank` module
+* 安全检查以下内容
+  * 检查代币单位是否通过 `tokenfactory` 模块创建
+  * 检查消息发送者是否为代币单位的管理员
+* 通过 `bank` 模块为代币单位销毁指定数量的代币
 
 ### ChangeAdmin
 
-Change the admin of a denom. Note, this is only allowed to be called by the current admin of the denom. After the admin address is set to zero address, token holders can still execute `MsgBurn` for tokens they possess.
+更改代币单位的管理员。注意，这仅允许由代币单位的当前管理员调用。将管理员地址设置为零地址后，代币持有者仍可以对他们拥有的代币执行 `MsgBurn`。
 
 ```protobuf
 message MsgChangeAdmin {
@@ -94,9 +89,8 @@ message MsgChangeAdmin {
 
 ### SetDenomMetadata
 
-Setting of metadata for a specific denom is only allowed for the admin of the denom.\
-It allows the overwriting of the denom metadata in the bank module. The admin can also disable the admin burn\
-capability, if enabled.
+特定代币单位的元数据设置仅允许代币单位的管理员执行。\
+它允许覆盖 bank 模块中的代币单位元数据。如果已启用，管理员还可以禁用管理员销毁功能。
 
 ```protobuf
 message MsgSetDenomMetadata {
@@ -117,46 +111,45 @@ message MsgSetDenomMetadata {
 }
 ```
 
-**State Modifications:**
+**状态修改：**
 
-* Check that sender of the message is the admin of denom
-* Modify `AuthorityMetadata` state entry to change the admin of the denom and to potentially disable admin burn capability.
+* 检查消息发送者是否为代币单位的管理员
+* 修改 `AuthorityMetadata` 状态条目以更改代币单位的管理员，并可能禁用管理员销毁功能。
 
-## Expectations from the chain
+## 对链的期望
 
-The chain's bech32 prefix for addresses can be at most 16 characters long.
+链的地址 bech32 前缀最多可以是 16 个字符。
 
-This comes from denoms having a 128 byte maximum length, enforced from the SDK,\
-and us setting longest\_subdenom to be 44 bytes.
+这是因为代币单位具有 128 字节的最大长度（由 SDK 强制执行），\
+并且我们将最长子代币单位设置为 44 字节。
 
-A token factory token's denom is: `factory/{creator address}/{subdenom}`
+代币工厂代币的代币单位是：`factory/{创建者地址}/{子代币单位}`
 
-Splitting up into sub-components, this has:
+拆分为子组件，这包括：
 
 * `len(factory) = 7`
 * `2 * len("/") = 2`
 * `len(longest_subdenom)`
-* `len(creator_address) = len(bech32(longest_addr_length, chain_addr_prefix))`.
+* `len(creator_address) = len(bech32(longest_addr_length, chain_addr_prefix))`
 
-Longest addr length at the moment is `32 bytes`. Due to SDK error correction\
-settings, this means `len(bech32(32, chain_addr_prefix)) = len(chain_addr_prefix) + 1 + 58`.\
-Adding this all, we have a total length constraint of `128 = 7 + 2 + len(longest_subdenom) + len(longest_chain_addr_prefix) + 1 + 58`.\
-Therefore `len(longest_subdenom) + len(longest_chain_addr_prefix) = 128 - (7 + 2 + 1 + 58) = 60`.
+目前最长的地址长度是 `32 字节`。由于 SDK 纠错设置，\
+这意味着 `len(bech32(32, chain_addr_prefix)) = len(chain_addr_prefix) + 1 + 58`。\
+将所有内容相加，我们得到总长度约束 `128 = 7 + 2 + len(longest_subdenom) + len(longest_chain_addr_prefix) + 1 + 58`。\
+因此 `len(longest_subdenom) + len(longest_chain_addr_prefix) = 128 - (7 + 2 + 1 + 58) = 60`。
 
-The choice between how we standardized the split these 60 bytes between maxes\
-from longest\_subdenom and longest\_chain\_addr\_prefix is somewhat arbitrary.\
-Considerations going into this:
+我们如何在最长子代币单位和最长链地址前缀的最大值之间标准化分配这 60 字节的选择有些随意。\
+考虑因素包括：
 
-* Per [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#bech32)\
-  the technically longest HRP for a 32 byte address ('data field') is 31 bytes.\
-  (Comes from encode(data) = 59 bytes, and max length = 90 bytes)
-* subdenom should be at least 32 bytes so hashes can go into it
-* longer subdenoms are very helpful for creating human readable denoms
-* chain addresses should prefer being smaller. The longest HRP in cosmos to date is 11 bytes. (`persistence`)
+* 根据 [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#bech32)\
+  对于 32 字节地址（'数据字段'），技术上最长的 HRP 是 31 字节。\
+  （来自 encode(data) = 59 字节，最大长度 = 90 字节）
+* 子代币单位应至少为 32 字节，以便可以放入哈希值
+* 更长的子代币单位对于创建人类可读的代币单位非常有帮助
+* 链地址应该更小。迄今为止 cosmos 中最长的 HRP 是 11 字节。（`persistence`）
 
-For explicitness, its currently set to `len(longest_subdenom) = 44` and `len(longest_chain_addr_prefix) = 16`.
+为了明确起见，目前设置为 `len(longest_subdenom) = 44` 和 `len(longest_chain_addr_prefix) = 16`。
 
-Please note, if the SDK increases the maximum length of a denom from 128 bytes,\
-these caps should increase.
+请注意，如果 SDK 将代币单位的最大长度从 128 字节增加，\
+这些上限应该增加。
 
-So please don't make code rely on these max lengths for parsing.
+因此，请不要让代码依赖这些最大长度进行解析。

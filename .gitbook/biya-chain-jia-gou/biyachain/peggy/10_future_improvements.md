@@ -1,22 +1,22 @@
 ---
 sidebar_position: 10
-title: Future Improvements
+title: 未来改进
 ---
 
-# Future Improvements
+# 未来改进
 
-### Native Ethereum Signing
+### 原生 Ethereum 签名
 
-Validators run a required `Eth Signer` in the peggo orchestrator because we can not yet insert this sort of simple signature logic into Cosmos SDK based chains without significant modification to Tendermint. This may be possible in the future with [modifications to Tendermint](https://github.com/tendermint/tendermint/issues/6066).
+验证者在 peggo 编排器中运行必需的 `Eth Signer`，因为我们还不能在不显著修改 Tendermint 的情况下将这种简单的签名逻辑插入到基于 Cosmos SDK 的链中。未来可能通过[修改 Tendermint](https://github.com/tendermint/tendermint/issues/6066) 实现这一点。
 
-It should be noted that both [PEGGYSLASH-02](./05_slashing.md) and [PEGGYSLASH-03](./05_slashing.md) could be eliminated with no loss of security if it where possible to perform the Ethereum signatures inside the consensus code. This is a pretty limited feature addition to Tendermint that would make Peggy far less prone to slashing.
+应该注意的是，如果可以在共识代码内执行 Ethereum 签名，那么 [PEGGYSLASH-02](./05_slashing.md) 和 [PEGGYSLASH-03](./05_slashing.md) 都可以在不损失安全性的情况下消除。这是对 Tendermint 的一个相当有限的功能补充，将使 Peggy 更不容易受到惩罚。
 
-### Improved Validator Incentives
+### 改进验证者激励
 
-Currently validators in Peggy have only one carrot - the extra activity brought to the chain by a functioning bridge.
+目前 Peggy 中的验证者只有一个胡萝卜——由正常运行的桥接为链带来的额外活动。
 
-There are on the other hand a lot of negative incentives (sticks) that the validators must watch out for. These are outlined in the [slashing spec](./05_slashing.md).
+另一方面，有很多负面激励（大棒）是验证者必须注意的。这些在[惩罚规范](./05_slashing.md)中概述。
 
-One negative incentive that is not covered under slashing is the cost of submitting oracle submissions and signatures. Currently these operations are not incentivized, but still cost the validators fees to submit. This isn't a severe issue considering the relatively cheap transaction fees on the Biya Chain Chain currently, but of course is an important factor to consider as transaction fees rise. 
+一个不在惩罚范围内的负面激励是提交预言机提交和签名的成本。目前这些操作没有激励，但仍然需要验证者支付费用来提交。考虑到目前 Biya Chain 上相对便宜的交易费用，这不是一个严重的问题，但随着交易费用的上涨，这当然是一个需要考虑的重要因素。
 
-Some positive incentives for correctly participating in the operation of the bridge should be under consideration. In addition to eliminating the fees for mandatory submissions.
+应该考虑为正确参与桥接操作提供一些正面激励。除了消除强制性提交的费用。

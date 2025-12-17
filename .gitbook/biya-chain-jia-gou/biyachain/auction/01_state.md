@@ -3,26 +3,26 @@ sidebar_position: 1
 title: State  
 ---
 
-# State
+# 状态
 
-## Params
+## 参数
 
-Params is a module-wide configuration structure that stores system parameters and defines overall functioning of the auction module.
+Params 是一个模块范围的配置结构，用于存储系统参数并定义拍卖模块的整体功能。
 
 - Params: `Paramsspace("auction") -> legacy_amino(params)`
 
 ```go
 type Params struct {
-	// auction_period_duration defines the auction period duration
+	// auction_period_duration 定义拍卖周期持续时间
 	AuctionPeriod int64 
-	// min_next_bid_increment_rate defines the minimum increment rate for new bids
+	// min_next_bid_increment_rate 定义新出价的最小递增率
 	MinNextBidIncrementRate math.LegacyDec
 }
 ```
 
 ### **LastBid**
 
-Keeps track of the current highest bid
+跟踪当前最高出价
 
 * LastBid: `0x01 -> ProtocolBuffer(Bid)`
 
@@ -35,19 +35,19 @@ type Bid struct {
 
 ### **AuctionRound**
 
-The current auction round. 
+当前拍卖轮次。
 
 * AuctionRound: `0x03 -> BigEndian(AuctionRound)`
 
 ### **EndingTimeStamp**
 
-This value is compared against current block time to decide an auction round settlement. When the exported chain is imported again, the EndingTimeStamp will be updated to the next value in future.
+此值与当前区块时间进行比较，以决定拍卖轮次的结算。当导出的链再次导入时，EndingTimeStamp 将更新为未来的下一个值。
 
 * `EndingTimeStamp`: `0x04 -> BigEndian(EndingTimestamp)`
 
 ### **LastAuctionResult**
 
-Keeps track of the last auction result.
+跟踪最后一次拍卖的结果。
 
 * LastAuctionResult: `0x05 -> ProtocolBuffer(LastAuctionResult)`
 

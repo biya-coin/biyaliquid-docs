@@ -3,12 +3,12 @@ sidebar_position: 5
 title: Parameters
 ---
 
-# Parameters
+# 参数
 
-The auction module contains the following parameters:
+拍卖模块包含以下参数：
 
-| Key               | Type             | Example           |
+| 键               | 类型             | 示例           |
 |-------------------|------------------|-------------------|
-| AuctionPeriod | int64       | 604800           |
-| MinNextBidIncrementRate | math.LegacyDec       | "0.0025"           |
+| AuctionPeriod（拍卖周期） | int64       | 604800           |
+| MinNextBidIncrementRate（最小出价递增率） | math.LegacyDec       | "0.0025"           |
 

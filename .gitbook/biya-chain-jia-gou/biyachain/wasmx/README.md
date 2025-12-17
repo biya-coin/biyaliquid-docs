@@ -1,17 +1,17 @@
 # WasmX
 
-## Abstract
+## 摘要
 
-The `wasmx` module handles integration of [CosmWasm](https://cosmwasm.com) smart contracts with Biya Chain Chain.\
-Its main function is to provide a method for contracts to be executed in the begin blocker section of each block.\
-A contract may be automatically deactivated if it runs out of gas but can be reactivated by the contract owner.
+`wasmx` 模块处理 [CosmWasm](https://cosmwasm.com) 智能合约与 Biya Chain 链的集成。\
+它的主要功能是提供一种方法，使合约可以在每个区块的 begin blocker 部分执行。\
+如果合约耗尽 gas，可能会自动停用，但可以由合约所有者重新激活。
 
-It also includes helper methods for managing contracts, such as a batch code storage proposal. These functions allow for seamless integration of CosmWasm contracts with the Biya Chain Chain and provide useful tools for managing and maintaining those contracts.
+它还包括用于管理合约的辅助方法，例如批量代码存储提案。这些功能允许 CosmWasm 合约与 Biya Chain 链无缝集成，并提供用于管理和维护这些合约的有用工具。
 
-## Contents
+## 目录
 
-1. [Concepts](01_concepts.md)
-2. [Data](02_data.md)
-3. [State](03_proposals.md)
-4. [Messages](04_messages.md)
-5. [Params](05_params.md)
+1. [概念](01_concepts.md)
+2. [数据](02_data.md)
+3. [治理提案](03_proposals.md)
+4. [消息](04_messages.md)
+5. [参数](05_params.md)

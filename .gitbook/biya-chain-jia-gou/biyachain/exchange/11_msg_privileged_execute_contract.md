@@ -5,7 +5,7 @@ title: MsgPrivilegedExecuteContract
 
 # MsgPrivilegedExecuteContract
 
-MsgPrivilegedExecuteContract defines a method for executing a Cosmwasm contract from the exchange module with privileged capabilities.
+MsgPrivilegedExecuteContract 定义了一种从交易所模块执行 Cosmwasm 合约的方法，具有特权功能。
 
 ```go
 type MsgPrivilegedExecuteContract struct {
@@ -20,16 +20,16 @@ type MsgPrivilegedExecuteContract struct {
 
 ```
 
-**Fields description**
+**字段描述**
 
-- `Sender` describes the creator of this msg.
-- `Funds` defines the user's bank coins used to fund the execution (e.g. 100biya).
-- `ContractAddress` defines the contract address to execute.
-- `Data` defines the call data used when executing the contract, see further details below.
+- `Sender` 描述此消息的创建者。
+- `Funds` 定义用于资助执行的用户银行代币（例如 100biya）。
+- `ContractAddress` 定义要执行的合约地址。
+- `Data` 定义执行合约时使用的调用数据，详见下文。
 
-**Contract Interface**
+**合约接口**
 
-If you want to enable privileged actions on your contract, you must implement the following execute method:
+如果您想在合约上启用特权操作，必须实现以下执行方法：
 
 ```rust
 BiyachainExec {
@@ -43,7 +43,7 @@ BiyachainExec {
 - The `name` field is the name of the privileged action. You can define these to be whatever you want.
 - The `args` field is the arguments of the privileged action. You can define these to be whatever you want.
 
-A complete definition of the Data string in Golang is:
+Golang 中 Data 字符串的完整定义是：
 
 ```go
 type ExecutionData struct {
@@ -53,7 +53,7 @@ type ExecutionData struct {
 }
 ```
 
-A user can then call the privileged action by sending a `MsgPrivilegedExecuteContract` with the following data:
+然后，用户可以通过发送带有以下数据的 `MsgPrivilegedExecuteContract` 来调用特权操作：
 
 ```json
 {
@@ -70,9 +70,9 @@ A user can then call the privileged action by sending a `MsgPrivilegedExecuteCon
 }
 ```
 
-**Supported Privileged Actions**
+**支持的特权操作**
 
-There are currently two supported privileged actions:
+目前支持两种特权操作：
 
 ```go
 type PrivilegedAction struct {
@@ -81,7 +81,7 @@ type PrivilegedAction struct {
 }
 ```
 
-These privileged actions must be set inside the Cosmwasm response data field, e.g.:
+这些特权操作必须设置在 Cosmwasm 响应数据字段中，例如：
 
 ```rust
 let privileged_action = PrivilegedAction {
@@ -93,9 +93,9 @@ response = response.set_data(to_binary(&privileged_action)?);
 
 **PositionTransfer**
 
-The position transfer allows a contract to transfer a derivative position from its own subaccount to a user's subaccount. The position may not be liquidable. Solely the receiver pays a taker trading fee deducted from his balances.
+持仓转移允许合约将衍生品持仓从其自己的子账户转移到用户的子账户。持仓可能不可清算。只有接收方支付从其余额中扣除的吃单交易费用。
 
-Currently only transfers from the contract's subaccount to a user's subaccount are supported.
+目前仅支持从合约的子账户转移到用户的子账户。
 
 ```go
 type PositionTransfer struct {
@@ -108,7 +108,7 @@ type PositionTransfer struct {
 
 **SyntheticTrade**
 
-The synthetic trade allows a contract to execute a synthetic trade on behalf of a user for derivative markets. This is not touching the orderbook and is purely a synthetic trade. Taker trading fees still apply. The subaccount ids must be set to the contract's subaccount id and the user's subaccount id.
+合成交易允许合约代表用户为衍生品市场执行合成交易。这不触及订单簿，纯粹是合成交易。吃单交易费用仍然适用。子账户 ID 必须设置为合约的子账户 ID 和用户的子账户 ID。
 
 ```go
 type SyntheticTradeAction struct {

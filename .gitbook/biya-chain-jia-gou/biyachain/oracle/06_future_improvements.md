@@ -1,10 +1,10 @@
 ---
 sidebar_position: 6
-title: Future Improvements
+title: 未来改进
 ---
 
-# Future Improvements
+# 未来改进
 
-Extend support for other oracle providers including Chainlink, Razor, DIA, API3, UMA, Pyth as well as Band oracle data through IBC.  
+扩展对其他 oracle 提供商的支持，包括 Chainlink、Razor、DIA、API3、UMA、Pyth 以及通过 IBC 的 Band oracle 数据。
 
-Of the following above, development is ongoing to integrate Band and Pyth oracle data through IBC, as well as Chainlink oracle data through the OCR (off-chain reporting) mechanism.
+在上述内容中，正在开发通过 IBC 集成 Band 和 Pyth oracle 数据，以及通过 OCR（链下报告）机制集成 Chainlink oracle 数据。

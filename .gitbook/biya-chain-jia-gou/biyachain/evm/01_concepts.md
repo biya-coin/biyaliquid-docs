@@ -2,110 +2,110 @@
 order: 1
 -->
 
-# Concepts
+# 概念
 
 ## EVM
 
-The Ethereum Virtual Machine (EVM) is a computation engine which can be thought of as one single entity maintained by thousands of connected computers (nodes) running an Ethereum client. As a virtual machine ([VM](https://en.wikipedia.org/wiki/Virtual_machine)), the EVM is responisble for computing changes to the state deterministically regardless of its environment (hardware and OS). This means that every node has to get the exact same result given an identical starting state and transaction (tx).
+以太坊虚拟机（EVM）是一个计算引擎，可以被视为由数千台运行以太坊客户端的连接计算机（节点）维护的单一实体。作为虚拟机（[VM](https://en.wikipedia.org/wiki/Virtual_machine)），EVM 负责确定性地计算状态变化，无论其环境（硬件和操作系统）如何。这意味着每个节点在给定相同的起始状态和交易（tx）时必须得到完全相同的结果。
 
-The EVM is considered to be the part of the Ethereum protocol that handles the deployment and execution of [smart contracts](https://ethereum.org/en/developers/docs/smart-contracts/). To make a clear distinction:
+EVM 被认为是以太坊协议中处理[智能合约](https://ethereum.org/en/developers/docs/smart-contracts/)部署和执行的部分。为了明确区分：
 
-* The Ethereum protocol describes a blockchain, in which all Ethereum accounts and smart contracts live. It has only one canonical state (a data structure, which keeps all accounts) at any given block in the chain.
-* The EVM, however, is the [state machine](https://en.wikipedia.org/wiki/Finite-state_machine) that defines the rules for computing a new valid state from block to block. It is an isolated runtime, which means that code running inside the EVM has no access to network, filesystem, or other processes (not external APIs).
+* 以太坊协议描述了一个区块链，其中所有以太坊账户和智能合约都存在于其中。它在链中的任何给定区块只有一个规范状态（一个数据结构，保存所有账户）。
+* 然而，EVM 是定义从区块到区块计算新有效状态规则的[状态机](https://en.wikipedia.org/wiki/Finite-state_machine)。它是一个隔离的运行时，这意味着在 EVM 内部运行的代码无法访问网络、文件系统或其他进程（不是外部 API）。
 
-The `x/evm` module implements the EVM as a Cosmos SDK module. It allows users to interact with the EVM by submitting Ethereum txs and executing their containing messages on the given state to evoke a state transition.
+`x/evm` 模块将 EVM 实现为 Cosmos SDK 模块。它允许用户通过提交以太坊交易并在给定状态上执行其包含的消息来与 EVM 交互，以引发状态转换。
 
-### State
+### 状态
 
-The Ethereum state is a data structure, implemented as a [Merkle Patricia Trie](https://en.wikipedia.org/wiki/Merkle_tree), that keeps all accounts on the chain. The EVM makes changes to this data structure resulting in a new state with a different State Root. Ethereum can therefore be seen as a state chain that transitions from one state to another by executing transations in a block using the EVM. A new block of txs can be described through its Block header (parent hash, block number, time stamp, nonce, receipts,...).
+以太坊状态是一个数据结构，实现为 [Merkle Patricia Trie](https://en.wikipedia.org/wiki/Merkle_tree)，保存链上的所有账户。EVM 对此数据结构进行更改，产生具有不同状态根的新状态。因此，以太坊可以被视为一个状态链，通过使用 EVM 在区块中执行交易，从一个状态转换到另一个状态。一个新的交易区块可以通过其区块头（父哈希、区块号、时间戳、随机数、收据等）来描述。
 
-### Accounts
+### 账户
 
-There are two types of accounts that can be stored in state at a given address:
+在给定地址的状态中可以存储两种类型的账户：
 
-* **Externally Owned Account (EOA)**: Has nonce (tx counter) and balance
-* **Smart Contract**: Has nonce, balance, (immutable) code hash, storage root (another Merkle Patricia Trie)
+* **外部拥有账户（EOA）**：具有 nonce（交易计数器）和余额
+* **智能合约**：具有 nonce、余额、（不可变的）代码哈希、存储根（另一个 Merkle Patricia Trie）
 
-Smart contracts are just like regular accounts on the blockchain, which additionally store executable code in an Ethereum-specific binary format, known as **EVM bytecode**. They are typically written in an Ethereum high level language such as Solidity which is compiled down to EVM bytecode and deployed on the blockchain, by submitting a tx using an Ethereum client.
+智能合约就像区块链上的常规账户一样，另外还以以太坊特定的二进制格式存储可执行代码，称为 **EVM 字节码**。它们通常用以太坊高级语言（如 Solidity）编写，编译为 EVM 字节码，并通过使用以太坊客户端提交交易部署在区块链上。
 
-### Architecture
+### 架构
 
-The EVM operates as a stack-based machine. It's main architecture components consist of:
+EVM 作为基于堆栈的机器运行。它的主要架构组件包括：
 
-* Virtual ROM: contract code is pulled into this read only memory when processing txs
-* Machine state (volatile): changes as the EVM runs and is wiped clean after processing each tx
-  * Program counter (PC)
-  * Gas: keeps track of how much gas is used
-  * Stack and Memory: compute state changes
-* Access to account storage (persistent)
+* 虚拟 ROM：处理交易时将合约代码拉入此只读内存
+* 机器状态（易失性）：随着 EVM 运行而改变，在处理每个交易后被清除
+  * 程序计数器（PC）
+  * Gas：跟踪使用了多少 gas
+  * 堆栈和内存：计算状态变化
+* 访问账户存储（持久性）
 
-### State Transitions with Smart Contracts
+### 使用智能合约的状态转换
 
-Typically smart contracts expose a public ABI, which is a list of supported ways a user can interact with a contract. To interact with a contract and invoke a state transition, a user will submit a tx carrying any amount of gas and a data payload formatted according to the ABI, specifying the type of interaction and any additional parameters. When the tx is received, the EVM executes the smart contracts's EVM bytecode using the tx payload.
+通常智能合约公开一个公共 ABI，这是用户可以与合约交互的支持方式列表。要与合约交互并引发状态转换，用户将提交一个携带任意数量 gas 的交易和一个根据 ABI 格式化的数据负载，指定交互类型和任何附加参数。当收到交易时，EVM 使用交易负载执行智能合约的 EVM 字节码。
 
-### Executing EVM bytecode
+### 执行 EVM 字节码
 
-A contract's EVM bytecode consists of basic operations (add, multiply, store, etc...), called **Opcodes**. Each Opcode execution requires gas that needs to be payed with the tx. The EVM is therefore considered quasi-turing complete, as it allows any arbitrary computation, but the amount of computations during a contract execution is limited to the amount of gas provided in the tx. Each Opcode's [**gas cost**](https://www.evm.codes/) reflects the cost of running these operations on actual computer hardware (e.g. `ADD = 3gas` and `SSTORE = 100gas`). To calculate the gas consumption of a tx, the gas cost is multiplied by the **gas price**, which can change depending on the demand of the network at the time. If the network is under heavy load, you might have to pay a highter gas price to get your tx executed. If the gas limit is hit (out of gas execption) no changes to the Ethereum state are applied, except that the sender's nonce increments and their balance goes down to pay for wasting the EVM's time.
+合约的 EVM 字节码由基本操作（加法、乘法、存储等）组成，称为 **操作码**。每个操作码执行都需要 gas，需要用交易支付。因此，EVM 被认为是准图灵完备的，因为它允许任意计算，但合约执行期间的计算量限制为交易中提供的 gas 数量。每个操作码的 [**gas 成本**](https://www.evm.codes/) 反映了在实际计算机硬件上运行这些操作的成本（例如 `ADD = 3gas` 和 `SSTORE = 100gas`）。要计算交易的 gas 消耗，gas 成本乘以 **gas 价格**，这可能会根据当时网络的需求而变化。如果网络负载很重，您可能需要支付更高的 gas 价格才能执行交易。如果达到 gas 限制（gas 耗尽异常），则不会应用对以太坊状态的任何更改，除了发送者的 nonce 增加和余额减少以支付浪费 EVM 时间的费用。
 
-Smart contracts can also call other smart contracts. Each call to a new contract creates a new instance of the EVM (including a new stack and memory). Each call passes the sandbox state to the next EVM. If the gas runs out, all state changes are discareded. Otherwise they are kept.
+智能合约也可以调用其他智能合约。每次调用新合约都会创建 EVM 的新实例（包括新的堆栈和内存）。每次调用都将沙箱状态传递给下一个 EVM。如果 gas 耗尽，所有状态更改都会被丢弃。否则它们会被保留。
 
-For further reading, please refer to:
+进一步阅读，请参考：
 
 * [EVM](https://eth.wiki/concepts/evm/evm)
-* [EVM Architecture](https://cypherpunks-core.github.io/ethereumbook/13evm.html#evm_architecture)
-* [What is Ethereum](https://ethdocs.org/en/latest/introduction/what-is-ethereum.html#what-is-ethereum)
-* [Opcodes](https://www.ethervm.io/)
+* [EVM 架构](https://cypherpunks-core.github.io/ethereumbook/13evm.html#evm_architecture)
+* [什么是以太坊](https://ethdocs.org/en/latest/introduction/what-is-ethereum.html#what-is-ethereum)
+* [操作码](https://www.ethervm.io/)
 
-## Ethermint as Geth implementation
+## Ethermint 作为 Geth 实现
 
-Ethermint is an implementation of the [Etherum protocal in Golang](https://geth.ethereum.org/docs/getting-started) (Geth) as a Cosmos SDK module. Geth includes an implementation of the EVM to compute state transitions. Have a look at the [go-etheruem source code](https://github.com/ethereum/go-ethereum/blob/master/core/vm/instructions.go) to see how the EVM opcodes are implemented. Just as Geth can be run as an Ethereum node, Ethermint can be run as a node to compute state transitions with the EVM. Ethermint supports Geth's standard [Ethereum JSON-RPC APIs](https://ethereum.org/en/developers/docs/apis/json-rpc/) in order to be Web3 and EVM compatible.
+Ethermint 是[以太坊协议的 Golang 实现](https://geth.ethereum.org/docs/getting-started)（Geth）作为 Cosmos SDK 模块的实现。Geth 包括 EVM 的实现来计算状态转换。查看 [go-ethereum 源代码](https://github.com/ethereum/go-ethereum/blob/master/core/vm/instructions.go) 以了解 EVM 操作码是如何实现的。就像 Geth 可以作为以太坊节点运行一样，Ethermint 可以作为节点运行，使用 EVM 计算状态转换。Ethermint 支持 Geth 的标准 [以太坊 JSON-RPC API](https://ethereum.org/en/developers/docs/apis/json-rpc/)，以便与 Web3 和 EVM 兼容。
 
 ### JSON-RPC
 
-JSON-RPC is a stateless, lightweight remote procedure call (RPC) protocol. Primarily this specification defines several data structures and the rules around their processing. It is transport agnostic in that the concepts can be used within the same process, over sockets, over HTTP, or in many various message passing environments. It uses JSON (RFC 4627) as a data format.
+JSON-RPC 是一种无状态、轻量级的远程过程调用（RPC）协议。主要此规范定义了几个数据结构及其处理规则。它在传输方面是不可知的，因为概念可以在同一进程内、通过套接字、通过 HTTP 或在许多各种消息传递环境中使用。它使用 JSON（RFC 4627）作为数据格式。
 
-#### JSON-RPC Example: `eth_call`
+#### JSON-RPC 示例：`eth_call`
 
-The JSON-RPC method [`eth_call`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_call) allows you to execute messages against contracts. Usually, you need to send a transaction to a Geth node to include it in the mempool, then nodes gossip between each other and eventually the transaction is included in a block and gets executed. `eth_call` however lets you send data to a contract and see what happens without commiting a transaction.
+JSON-RPC 方法 [`eth_call`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_call) 允许您对合约执行消息。通常，您需要向 Geth 节点发送交易以将其包含在内存池中，然后节点之间相互传播，最终交易被包含在区块中并被执行。但是 `eth_call` 允许您向合约发送数据并查看会发生什么，而无需提交交易。
 
-In the Geth implementation, calling the endpoint roughly goes through the following steps:
+在 Geth 实现中，调用端点大致经过以下步骤：
 
-1. The `eth_call` request is transformed to call the `func (s *PublicBlockchainAPI) Call()` function using the `eth` namespace
-2. [`Call()`](https://github.com/ethereum/go-ethereum/blob/master/internal/ethapi/api.go#L982) is given the transaction arguments, the block to call against and optional overides that modify the state to call against. It then calls `DoCall()`
-3. [`DoCall()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/internal/ethapi/api.go#L891) transforms the arguments into a `ethtypes.message`, instantiates an EVM and applies the message with `core.ApplyMessage`
-4. [`ApplyMessage()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/state_transition.go#L180) calls the state transition `TransitionDb()`
-5. [`TransitionDb()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/state_transition.go#L275) either `Create()`s a new contract or `Call()`s a contract
-6. [`evm.Call()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/evm.go#L168) runs the interpreter `evm.interpreter.Run()` to execute the message. If the execution fails, the state is reverted to a snapshot taken before the execution and gas is consumed.
-7. [`Run()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/interpreter.go#L116) performs a loop to execute the opcodes.
+1. `eth_call` 请求被转换为使用 `eth` 命名空间调用 `func (s *PublicBlockchainAPI) Call()` 函数
+2. [`Call()`](https://github.com/ethereum/go-ethereum/blob/master/internal/ethapi/api.go#L982) 被给定交易参数、要调用的区块以及修改状态的可选覆盖。然后它调用 `DoCall()`
+3. [`DoCall()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/internal/ethapi/api.go#L891) 将参数转换为 `ethtypes.message`，实例化 EVM 并使用 `core.ApplyMessage` 应用消息
+4. [`ApplyMessage()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/state_transition.go#L180) 调用状态转换 `TransitionDb()`
+5. [`TransitionDb()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/state_transition.go#L275) 要么 `Create()` 新合约，要么 `Call()` 合约
+6. [`evm.Call()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/evm.go#L168) 运行解释器 `evm.interpreter.Run()` 来执行消息。如果执行失败，状态会恢复到执行前拍摄的快照，并消耗 gas。
+7. [`Run()`](https://github.com/ethereum/go-ethereum/blob/d575a2d3bc76dfbdefdd68b6cffff115542faf75/core/vm/interpreter.go#L116) 执行循环来执行操作码。
 
-The Biya Chain implementation is similar and makes use of the gRPC query client which is included in the Cosmos SDK:
+Biya Chain 的实现类似，并使用 Cosmos SDK 中包含的 gRPC 查询客户端：
 
-1. `eth_call` request is transformed to call the `func (e *PublicAPI) Call` function using the `eth` namespace
-2. [`Call()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L639) calls `doCall()`
-3. [`doCall()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L656) transforms the arguments into a `EthCallRequest` and calls `EthCall()` using the query client of the evm module.
-4. [`EthCall()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/main/x/evm/keeper/grpc_query.go#L212) transforms the arguments into a `ethtypes.message` and calls `ApplyMessageWithConfig()
-5. [`ApplyMessageWithConfig()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/d5598932a7f06158b7a5e3aa031bbc94eaaae32c/x/evm/keeper/state_transition.go#L341) instantiates an EVM and either `Create()`s a new contract or `Call()`s a contract using the Geth implementation.
+1. `eth_call` 请求被转换为使用 `eth` 命名空间调用 `func (e *PublicAPI) Call` 函数
+2. [`Call()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L639) 调用 `doCall()`
+3. [`doCall()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/main/rpc/namespaces/ethereum/eth/api.go#L656) 将参数转换为 `EthCallRequest` 并使用 evm 模块的查询客户端调用 `EthCall()`。
+4. [`EthCall()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/main/x/evm/keeper/grpc_query.go#L212) 将参数转换为 `ethtypes.message` 并调用 `ApplyMessageWithConfig()`
+5. [`ApplyMessageWithConfig()`](https://github.com/biya-coin/biyachain-core/biyachain-chain/blob/d5598932a7f06158b7a5e3aa031bbc94eaaae32c/x/evm/keeper/state_transition.go#L341) 实例化 EVM 并使用 Geth 实现 `Create()` 新合约或 `Call()` 合约。
 
 ### StateDB
 
-The `StateDB` interface from [go-ethereum](https://github.com/ethereum/go-ethereum/blob/master/core/vm/interface.go) represents an EVM database for full state querying. EVM state transitions are enabled by this interface, which in the `x/evm` module is implemented by the `Keeper`. The implementation of this interface is what makes Ethermint EVM compatible.
+来自 [go-ethereum](https://github.com/ethereum/go-ethereum/blob/master/core/vm/interface.go) 的 `StateDB` 接口表示用于完整状态查询的 EVM 数据库。EVM 状态转换通过此接口启用，在 `x/evm` 模块中由 `Keeper` 实现。此接口的实现使 Ethermint 与 EVM 兼容。
 
-## Consensus Engine
+## 共识引擎
 
-The application using the `x/evm` module interacts with the Tendermint Core Consensus Engine over an Application Blockchain Interface (ABCI). Together, the application and Tendermint Core form the programs that run a complete blockchain and combine business logic with decentralized data storage.
+使用 `x/evm` 模块的应用程序通过应用程序区块链接口（ABCI）与 Tendermint Core 共识引擎交互。应用程序和 Tendermint Core 一起形成运行完整区块链的程序，并将业务逻辑与去中心化数据存储相结合。
 
-Ethereum transactions that are submitted to the `x/evm` module take part in a this consensus process before being executed and changing the application state. We encourage to understand the basics of the [Tendermint consensus engine](https://docs.tendermint.com/master/introduction/what-is-tendermint.html#intro-to-abci) in order to understand state transitions in detail.
+提交给 `x/evm` 模块的以太坊交易在执行并更改应用程序状态之前参与此共识过程。我们鼓励理解 [Tendermint 共识引擎](https://docs.tendermint.com/master/introduction/what-is-tendermint.html#intro-to-abci) 的基础知识，以便详细了解状态转换。
 
-## Transaction Logs
+## 交易日志
 
-On every `x/evm` transaction, the result contains the Ethereum `Log`s from the state machine execution that are used by the JSON-RPC Web3 server for filter querying and for processing the EVM Hooks.
+在每个 `x/evm` 交易上，结果包含来自状态机执行的以太坊 `Log`，这些日志由 JSON-RPC Web3 服务器用于过滤查询和处理 EVM 钩子。
 
-The tx logs are stored in the transient store during tx execution and then emitted through cosmos events after the transaction has been processed. They can be queried via gRPC and JSON-RPC.
+交易日志在交易执行期间存储在临时存储中，然后在交易处理完成后通过 cosmos 事件发出。它们可以通过 gRPC 和 JSON-RPC 查询。
 
-## Block Bloom
+## 区块布隆过滤器
 
-Bloom is the bloom filter value in bytes for each block that can be used for filter queries. The block bloom value is stored in the transient store and then emitted through a cosmos event during `EndBlock` processing. They can be queried via gRPC and JSON-RPC.
+布隆是每个区块的布隆过滤器值（以字节为单位），可用于过滤查询。区块布隆值存储在临时存储中，然后在 `EndBlock` 处理期间通过 cosmos 事件发出。它们可以通过 gRPC 和 JSON-RPC 查询。
 
 ::: tip
-👉 **Note**: Since they are not stored on state, Transaction Logs and Block Blooms are not persisted after upgrades. A user must use an archival node after upgrades in order to obtain legacy chain events.
+👉 **注意**：由于它们不存储在状态上，交易日志和区块布隆在升级后不会持久化。用户必须在升级后使用归档节点才能获取旧链事件。
 :::

@@ -1,13 +1,13 @@
 ---
 sidebar_position: 2
-title: Data
+title: 数据
 ---
 
-## Data
+## 数据
 
 ### RegisteredContract
 
-Data stored about each contract
+存储的关于每个合约的数据
 
 ```go
 type RegisteredContract struct {

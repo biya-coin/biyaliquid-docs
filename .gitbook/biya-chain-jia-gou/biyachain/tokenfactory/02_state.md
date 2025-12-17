@@ -1,17 +1,17 @@
 ---
 sidebar_position: 2
-title: State
+title: 状态
 ---
 
-# State
+# 状态
 
-The tokenfactory module keeps state of the following primary objects:
+tokenfactory 模块保持以下主要对象的状态：
 
-## Denom Authority Metadata
+## 代币单位权限元数据
 
 * 0x02 + | + denom + | + 0x01 ⇒ `DenomAuthorityMetadata`
 
-## Denom Creators
+## 代币单位创建者
 
 * 0x03 + | + creator + | denom ⇒ denom
 
@@ -29,7 +29,7 @@ message DenomAuthorityMetadata {
 }
 ```
 
-Genesis state defines the initial state of the module to be used to setup the module.
+创世状态定义了模块的初始状态，用于设置模块。
 
 ```protobuf
 // GenesisState defines the tokenfactory module's genesis state.
@@ -57,12 +57,12 @@ message GenesisDenom {
 }
 ```
 
-## Params
+## 参数
 
-`Params` is a module-wide configuration that stores system parameters and defines overall functioning of the tokenfactory module.\
-This module is modifiable by governance using params update proposal natively supported by `gov` module.
+`Params` 是模块范围的配置，存储系统参数并定义 tokenfactory 模块的整体功能。\
+此模块可通过治理使用 `gov` 模块原生支持的参数更新提案进行修改。
 
-Struct for the `ocr` module params store.
+`ocr` 模块参数存储的结构。
 
 ```protobuf
 // Params defines the parameters for the tokenfactory module.

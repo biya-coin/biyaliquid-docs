@@ -1,13 +1,13 @@
 ---
 sidebar_position: 3
-title: Governance Proposals
+title: 治理提案
 ---
 
-## Governance Proposals
+## 治理提案
 
 ### ContractRegistrationRequest
 
-`ContractRegistrationRequest` is a base message for registering new contracts (shouldn't be used directly but as a part of proposal)
+`ContractRegistrationRequest` 是注册新合约的基础消息（不应直接使用，而应作为提案的一部分）
 
 ```go
 type ContractRegistrationRequest struct {
@@ -23,18 +23,18 @@ type ContractRegistrationRequest struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `ContractAddress` - unique Identifier for contract instance to be registered.
-- `GasLimit` -  Maximum gas to be used for the smart contract execution.
-- `GasPrice` - Gas price to be used for the smart contract execution.
-- `PinContract` - should contract be pinned.
-- `AllowUpdating`-  defines wether contract owner can migrate it without need to register again (if false only current code_id will be allowed to be executed)
-- `CodeId` -  code_id of the contract being registered - will be verified on execution to allow last minute change (after votes were cast)
-- `AdminAddress` - optional address of admin account (that  will be allowed to pause or update contract params)
-- `GranterAddress` - address of an account which granted funds for execution. Must be set if `FundMode` is other than `SelfFunded` (see below for an explanation) 
+- `ContractAddress` - 要注册的合约实例的唯一标识符。
+- `GasLimit` - 智能合约执行要使用的最大 gas。
+- `GasPrice` - 智能合约执行要使用的 gas 价格。
+- `PinContract` - 合约是否应该被固定。
+- `AllowUpdating` - 定义合约所有者是否可以在不需要重新注册的情况下迁移它（如果为 false，则只允许执行当前的 code_id）
+- `CodeId` - 正在注册的合约的 code_id - 将在执行时进行验证，以允许最后一刻的更改（在投票后）
+- `AdminAddress` - 管理员账户的可选地址（将被允许暂停或更新合约参数）
+- `GranterAddress` - 为执行提供资金的账户地址。如果 `FundMode` 不是 `SelfFunded`，则必须设置（见下面的说明）
 
-`FundingMode` indicates how the contract will fund its own execution. 
+`FundingMode` 指示合约将如何为其自己的执行提供资金。
 
 ```go
 enum FundingMode {
@@ -45,13 +45,13 @@ enum FundingMode {
 }
 ```
 
-- `SelfFunded` - contract will use its own funds to execute.
-- `GrantOnly` - contract wil only use funds provided by the grant.
-- `Dual` - contract will first deplete grant's funds before using its own.
+- `SelfFunded` - 合约将使用自己的资金执行。
+- `GrantOnly` - 合约将仅使用授权提供的资金。
+- `Dual` - 合约将首先耗尽授权的资金，然后再使用自己的资金。
 
 ### ContractRegistrationRequestProposal
 
-`ContractRegistrationRequestProposal` defines an SDK message to register a single contract in wasmx contract registry.
+`ContractRegistrationRequestProposal` 定义了一个 SDK 消息，用于在 wasmx 合约注册表中注册单个合约。
 
 ```go
 type ContractRegistrationRequestProposal struct {
@@ -61,18 +61,18 @@ type ContractRegistrationRequestProposal struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `Title` describes the title of the proposal.
-- `Description` describes the description of the proposal.
-- `ContractRegistrationRequest` contains contract registration request (as described above)
+- `Title` - 描述提案的标题。
+- `Description` - 描述提案的描述。
+- `ContractRegistrationRequest` - 包含合约注册请求（如上所述）
 
 
 
 
 ### BatchContractRegistrationRequestProposal
 
-`BatchContractRegistrationRequestProposal` defines an SDK message to register a batch of contracts in wasmx contract registry.
+`BatchContractRegistrationRequestProposal` 定义了一个 SDK 消息，用于在 wasmx 合约注册表中注册一批合约。
 
 ```go
 type BatchContractRegistrationRequestProposal struct {
@@ -82,16 +82,16 @@ type BatchContractRegistrationRequestProposal struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `Title` describes the title of the proposal.
-- `Description` describes the description of the proposal.
-- `ContractRegistrationRequests` contains a list of contracts registration requests (as described above)
+- `Title` - 描述提案的标题。
+- `Description` - 描述提案的描述。
+- `ContractRegistrationRequests` - 包含合约注册请求列表（如上所述）
 
 
 ### BatchStoreCodeProposal
 
-`BatchStoreCodeProposal` defines an SDK message to store a batch of contracts in wasm.
+`BatchStoreCodeProposal` 定义了一个 SDK 消息，用于在 wasm 中存储一批合约。
 
 ```go
 type BatchStoreCodeProposal struct {
@@ -101,16 +101,16 @@ type BatchStoreCodeProposal struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `Title` describes the title of the proposal.
-- `Description` describes the description of the proposal.
-- `Proposals` contains a list of store code proposals (as defined by Cosmos wasm module)
+- `Title` - 描述提案的标题。
+- `Description` - 描述提案的描述。
+- `Proposals` - 包含存储代码提案列表（由 Cosmos wasm 模块定义）
 
 
 ### BatchContractDeregistrationProposal
 
-`BatchContractDeregistrationProposal` defines an SDK message to deregister a batch of contracts in wasm.
+`BatchContractDeregistrationProposal` 定义了一个 SDK 消息，用于在 wasm 中注销一批合约。
 
 ```go
 type BatchContractDeregistrationProposal struct {
@@ -120,11 +120,11 @@ type BatchContractDeregistrationProposal struct {
 }
 ```
 
-**Fields description**
+**字段描述**
 
-- `Title` describes the title of the proposal.
-- `Description` describes the description of the proposal.
-- `Contracts` contains a list of  addresses of contracts to be deregistered
+- `Title` - 描述提案的标题。
+- `Description` - 描述提案的描述。
+- `Contracts` - 包含要注销的合约地址列表
 
 
 

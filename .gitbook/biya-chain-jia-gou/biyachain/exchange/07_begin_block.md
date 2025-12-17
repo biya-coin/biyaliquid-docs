@@ -5,59 +5,59 @@ title: BeginBlocker
 
 # BeginBlock
 
-The exchange BeginBlocker runs at the start of every block in our defined order as the last module.
+交易所 BeginBlocker 在每个区块开始时运行，在我们的定义顺序中作为最后一个模块。
 
-### 1. Process Hourly Fundings
+### 1. 处理每小时资金费率
 
-1. Check the first to receive funding payments market. If the first market is not yet due to receive fundings (funding timestamp not reached), skip all fundings.
-2. Otherwise go through each market one by one:
-   1. Skip market if funding timestamp is not yet reached.
-   2. Compute funding as `twap + hourlyInterestRate` where $$twap = \frac{cumulativePrice}{timeInterval * 24}$$ with _timeInterval = lastTimestamp - startingTimestamp_. The `cumulativePrice` is previously calculated with every trade as the time weighted difference between VWAP and mark price: $${\frac{VWAP - markPrice}{markPrice} * timeElapsed}$$ .
-   3. Cap funding if required to the maximum defined by `HourlyFundingRateCap`.
-   4. Set next funding timestamp.
-   5. Emit `EventPerpetualMarketFundingUpdate`.
+1. 检查第一个接收资金费率支付的市场。如果第一个市场尚未到期接收资金费率（资金费率时间戳未到达），则跳过所有资金费率。
+2. 否则逐个遍历每个市场：
+   1. 如果资金费率时间戳尚未到达，则跳过市场。
+   2. 计算资金费率为 `twap + hourlyInterestRate`，其中 $$twap = \frac{cumulativePrice}{timeInterval * 24}$$，其中 _timeInterval = lastTimestamp - startingTimestamp_。`cumulativePrice` 之前通过每笔交易计算，作为 VWAP 和标记价格之间的时间加权差：$${\frac{VWAP - markPrice}{markPrice} * timeElapsed}$$。
+   3. 如果需要，将资金费率限制为 `HourlyFundingRateCap` 定义的最大值。
+   4. 设置下一个资金费率时间戳。
+   5. 发出 `EventPerpetualMarketFundingUpdate`。
 
-### 2. Process Markets Scheduled to Settle
+### 2. 处理计划结算的市场
 
-For each market in the list of markets to settle:
+对于要结算的市场列表中的每个市场：
 
-1. Settle market with zero closing fee and current mark price.
-   1. Run socialized loss. This will calculate the total amount of funds missing in all of the market and then reduce the payout proportionally for each profitable position. For example a market with a total amount of 100 USDT missing funds and 10 profitable positions with identical quantity would result in a payout reduction of 10 USDT for each of the positions.
-   2. All positions are forcibly closed.
-2. Delete from storage.
+1. 以零平仓费用和当前标记价格结算市场。
+   1. 运行社会化损失。这将计算市场中所有缺失资金的总金额，然后按比例减少每个盈利持仓的支付。例如，一个市场总共缺失 100 USDT 资金，有 10 个数量相同的盈利持仓，每个持仓的支付将减少 10 USDT。
+   2. 所有持仓被强制平仓。
+2. 从存储中删除。
 
-### 3. Process Matured Expiry Future Markets
+### 3. 处理到期的到期期货市场
 
-For each time expiry market, iterate through starting with first to expire:
+对于每个时间到期市场，从最先到期的开始迭代：
 
-1. If market is premature, stop iteration.
-2. If market is disabled, delete market from storage and go to next market.
-3. Get cumulative price for the market from oracle.
-4. If market is starting maturation, store `startingCumulativePrice` for market.
-5. If market is matured, calculate the settlement price as $\mathrm{twap = (currentCumulativePrice - startingCumulativePrice) / twapWindow}$ and add to list of markets to be settled.
-6. Settle all matured markets with defined closing fee and settlement price. The procedure is identical to the previous process of settling (see above). Note that the socialized loss is an optional step. In the regular case a market will not require any socialized loss.
-7. Delete any settled markets from storage.
+1. 如果市场尚未到期，停止迭代。
+2. 如果市场已禁用，从存储中删除市场并转到下一个市场。
+3. 从预言机获取市场的累计价格。
+4. 如果市场开始到期，为市场存储 `startingCumulativePrice`。
+5. 如果市场已到期，计算结算价格为 $\mathrm{twap = (currentCumulativePrice - startingCumulativePrice) / twapWindow}$ 并添加到要结算的市场列表。
+6. 使用定义的平仓费用和结算价格结算所有到期的市场。程序与之前的结算过程相同（见上文）。请注意，社会化损失是可选的步骤。在正常情况下，市场不需要任何社会化损失。
+7. 从存储中删除任何已结算的市场。
 
-### 4. Process Trading Rewards
+### 4. 处理交易奖励
 
-1. Check if the current trading rewards campaign is finished.
-2. If the campaign is finished, distribute reward tokens to eligible traders.
-   1. Compute the available reward for each reward denom as `min(campaignRewardTokens, communityPoolRewardTokens)`
-   2. Get the trader rewards based on the trading share from the respective trader calculated as `accountPoints * totalReward / totalTradingRewards`.
-   3. Send reward tokens from community pool to trader.
-   4. Reset total and all account trading reward points.
-   5. Delete the current campaign ending timestamp.
-3. If a new campaign is launched, set the next current campaign ending timestamp as `CurrentCampaignStartTimestamp + CampaignDurationSeconds`.
-4. If no current campaign is ongoing and no new campaigns are launched, delete campaign info, market qualifications and market multipliers from storage.
+1. 检查当前交易奖励活动是否已完成。
+2. 如果活动已完成，向符合条件的交易者分发奖励代币。
+   1. 将每个奖励 denom 的可用奖励计算为 `min(campaignRewardTokens, communityPoolRewardTokens)`
+   2. 根据各自交易者的交易份额获取交易者奖励，计算为 `accountPoints * totalReward / totalTradingRewards`。
+   3. 从社区池向交易者发送奖励代币。
+   4. 重置总额和所有账户交易奖励积分。
+   5. 删除当前活动结束时间戳。
+3. 如果启动了新活动，将下一个当前活动结束时间戳设置为 `CurrentCampaignStartTimestamp + CampaignDurationSeconds`。
+4. 如果没有正在进行的当前活动且没有启动新活动，则从存储中删除活动信息、市场资格和市场乘数。
 
-### 5. Process Fee Discount Buckets
+### 5. 处理费用折扣桶
 
-* If the oldest bucket's end timestamp is older than the `block.timestamp - bucketCount * bucketDuration`:
-  * Prune the oldest bucket
-  * Iterate over all `bucketStartTimestamp + account → FeesPaidAmount`:
-    * Subtract the `FeesPaidAmount` from each account's `totalPastBucketFeesPaidAmount`
-    * Delete the account's `account → {tier, TTL timestamp}`. Note that this technically isn't necessary for correctness since we check the TTL timestamps in the Endblocker but is a state pruning strategy.
-  * Update the `CurrBucketStartTimestamp ← CurrBucketStartTimestamp + BucketDuration`.
+* 如果最旧的桶的结束时间戳早于 `block.timestamp - bucketCount * bucketDuration`：
+  * 修剪最旧的桶
+  * 遍历所有 `bucketStartTimestamp + account → FeesPaidAmount`：
+    * 从每个账户的 `totalPastBucketFeesPaidAmount` 中减去 `FeesPaidAmount`
+    * 删除账户的 `account → {tier, TTL timestamp}`。请注意，这在技术上对于正确性不是必需的，因为我们在 Endblocker 中检查 TTL 时间戳，但这是一个状态修剪策略。
+  * 更新 `CurrBucketStartTimestamp ← CurrBucketStartTimestamp + BucketDuration`。
 
 ```
 bucket count 5 and with 100 sec duration

@@ -3,9 +3,9 @@ sidebar_position: 4
 title: Events
 ---
 
-# Events
+# 事件
 
-The erc20 module emits the following events:
+erc20 模块发出以下事件：
 
 ```protobuf 
 message EventCreateTokenPair {

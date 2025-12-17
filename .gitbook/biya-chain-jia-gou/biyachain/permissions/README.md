@@ -1,15 +1,15 @@
-# Permissions
+# 权限管理
 
-## Abstract
+## 摘要
 
-Bringing real world permissioned assets (e.g. tokenized treasury yield products) on-chain require certain levels of control over asset actions/properties such as transfers, holders (whitelists), and more.
+将现实世界的权限资产（例如代币化的国库收益产品）上链需要对资产操作/属性进行一定程度的控制，如转账、持有者（白名单）等。
 
-The `permissions` module allows managing certain prefixed actions and roles for real world assets and permissioned denoms created within a namespace on the chain-level. It provides a flexible and extensible way to define and enforce permissions and roles and serves as the entry point through which real world assets can be natively issued and managed on Biya Chain.
+`permissions` 模块允许在链级别为命名空间内创建的现实世界资产和权限代币单位管理某些前缀操作和角色。它提供了一种灵活且可扩展的方式来定义和执行权限和角色，并作为现实世界资产可以在 Biya Chain 上原生发行和管理的入口点。
 
-## Contents
+## 目录
 
-1. [Concepts](01_concepts.md)
-2. [State](02_state.md)
-3. [State Transitions](03_state_transitions.md)
-4. [How to Launch Permissioned Assets](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/biyachain/permissions/04_launch_permissioned_asset.md)
-5. [Error Codes](99_errors.md)
+1. [概念](01_concepts.md)
+2. [状态](02_state.md)
+3. [状态转换](03_state_transitions.md)
+4. [如何启动权限资产](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/biyachain/permissions/04_launch_permissioned_asset.md)
+5. [错误代码](99_errors.md)

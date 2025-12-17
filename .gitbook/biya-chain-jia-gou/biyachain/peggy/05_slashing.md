@@ -1,23 +1,21 @@
 ---
 sidebar_position: 5
-title: Slashing
+title: 惩罚
 ---
 
-# Slashing
+# 惩罚
 
-### Security Concerns
+### 安全考虑
 
-The **Validator Set** is the actual set of keys with stake behind them, which are slashed for double-signs or other\
-misbehavior. We typically consider the security of a chain to be the security of a _Validator Set_. This varies on\
-each chain, but is our gold standard. Even IBC offers no more security than the minimum of both involved Validator Sets.
+**Validator Set**（验证者集）是具有背后权益的实际密钥集，它们会因双重签名或其他不当行为而受到惩罚。我们通常认为链的安全性就是 _Validator Set_ 的安全性。这在每条链上都不同，但这是我们的黄金标准。即使 IBC 提供的安全性也不会超过两个相关 Validator Set 的最小值。
 
-The **Eth bridge relayer** is a binary run alongside the main `biyachaind` daemon by the validator set. It exists purely as a matter of code organization and is in charge of signing Ethereum transactions, as well as observing events on Ethereum and bringing them into the Biya Chain Chain state. It signs transactions bound for Ethereum with an Ethereum key, and signs over events coming from Ethereum with an Biya Chain Chain account key. We can add slashing conditions to any mis-signed message by any _Eth Signer_ run by the _Validator Set_ and be able to provide the same security as the _Validator Set_, just a different module detecting evidence of malice and deciding how much to slash. If we can prove a transaction signed by any _Eth Signer_ of the _Validator Set_ was illegal or malicious, then we can slash on the Biya Chain Chain side and potentially provide 100% of the security of the _Validator Set_. Note that this also has access to the 3 week unbonding period to allow evidence to slash even if they immediately unbond.
+**Eth bridge relayer**（Eth 桥接中继者）是由验证者集与主 `biyachaind` 守护进程一起运行的二进制文件。它纯粹作为代码组织的问题而存在，负责签署 Ethereum 交易，以及观察 Ethereum 上的事件并将它们带入 Biya Chain 状态。它使用 Ethereum 密钥签署发往 Ethereum 的交易，并使用 Biya Chain 账户密钥签署来自 Ethereum 的事件。我们可以为由 _Validator Set_ 运行的任何 _Eth Signer_ 的任何错误签名消息添加惩罚条件，并能够提供与 _Validator Set_ 相同的安全性，只是由不同的模块检测恶意证据并决定惩罚多少。如果我们能够证明由 _Validator Set_ 的任何 _Eth Signer_ 签署的交易是非法的或恶意的，那么我们可以在 Biya Chain 端进行惩罚，并可能提供 _Validator Set_ 100% 的安全性。请注意，这还可以访问 3 周的解绑期，以允许证据进行惩罚，即使它们立即解绑。
 
-Below are various slashing conditions we use in Peggy.
+以下是我们在 Peggy 中使用的各种惩罚条件。
 
-## PEGGYSLASH-01: Signing fake validator set or tx batch evidence
+## PEGGYSLASH-01: 签署虚假验证者集或交易批次证据
 
-This slashing condition is intended to stop validators from signing over a validator set and nonce that has never existed on the Biya Chain Chain. It works via an evidence mechanism, where anyone can submit a message containing the signature of a validator over a fake validator set. This is intended to produce the effect that if a cartel of validators is formed with the intention of submitting a fake validator set, one defector can cause them all to be slashed.
+此惩罚条件旨在阻止验证者对从未在 Biya Chain 上存在的验证者集和 nonce 进行签名。它通过证据机制工作，任何人都可以提交包含验证者对虚假验证者集签名的消息。这旨在产生这样的效果：如果形成验证者卡特尔以提交虚假验证者集，一个叛逃者可以导致他们全部受到惩罚。
 
 ```go
 // This call allows anyone to submit evidence that a
@@ -30,64 +28,64 @@ type MsgSubmitBadSignatureEvidence struct {
 }
 ```
 
-**Implementation considerations:**
+**实施考虑：**
 
-The trickiest part of this slashing condition is determining that a validator set has never existed on Biya Chain. To save space, we will need to clean up old validator sets. We could keep a mapping of validator set hash to true in the KV store, and use that to check if a validator set has ever existed. This is more efficient than storing the whole validator set, but its growth is still unbounded. It might be possible to use other cryptographic methods to cut down on the size of this mapping. It might be OK to prune very old entries from this mapping, but any pruning reduces the deterrence of this slashing condition.
+此惩罚条件最棘手的部分是确定验证者集从未在 Biya Chain 上存在。为了节省空间，我们需要清理旧的验证者集。我们可以在 KV 存储中保留验证者集哈希到 true 的映射，并使用它来检查验证者集是否曾经存在。这比存储整个验证者集更高效，但其增长仍然是无界的。可能可以使用其他加密方法来减少此映射的大小。从此映射中修剪非常旧的条目可能是可以的，但任何修剪都会降低此惩罚条件的威慑力。
 
-The implemented version of this slashing condition stores a map of hashes for all past events, this is smaller than storing entire batches or validator sets and doesn't have to be accessed as frequently. A possible but not currently implemented efficiency optimization would be to remove hashes from this list after a given period. But this would require storing more metadata about each hash.
+此惩罚条件的实施版本存储所有过去事件的哈希映射，这比存储整个批次或验证者集更小，并且不需要频繁访问。一个可能但目前未实施的效率优化是在给定时间段后从此列表中删除哈希。但这需要存储有关每个哈希的更多元数据。
 
-Currently automatic evidence submission is not implemented in the relayer. By the time a signature is visible on Ethereum it's already too late for slashing to prevent bridge highjacking or theft of funds. Furthermore since 66% of the validator set is required to perform this action anyways that same controlling majority could simply refuse the evidence. The most common case envisioned for this slashing condition is to break up a cabal of validators trying to take over the bridge by making it more difficult for them to trust one another and actually coordinate such a theft.
+目前中继者中未实施自动证据提交。当签名在 Ethereum 上可见时，惩罚已经太晚，无法防止桥接劫持或资金盗窃。此外，由于无论如何都需要验证者集的 66% 来执行此操作，相同的控制多数可以简单地拒绝证据。此惩罚条件最常见的设想情况是打破试图接管桥接的验证者卡特尔，通过使他们更难相互信任并实际协调此类盗窃。
 
-The theft would involve exchanging of slashable Ethereum signatures and open up the possibility of a manual submission of this message by any defector in the group.
+盗窃将涉及交换可惩罚的 Ethereum 签名，并为组内任何叛逃者手动提交此消息开辟可能性。
 
-Currently this is implemented as an ever growing array of hashes in state.
+目前这被实现为状态中不断增长的哈希数组。
 
-## PEGGYSLASH-02: Failure to sign tx batch
+## PEGGYSLASH-02: 未能签署交易批次
 
-This slashing condition is triggered when a validator does not sign a transaction batch within `SignedBatchesWindow` upon it's creation by the Peggy module. This prevents two bad scenarios-
+当验证者在 Peggy 模块创建交易批次后的 `SignedBatchesWindow` 内未签署交易批次时，会触发此惩罚条件。这可以防止两种不良情况：
 
-1. A validator simply does not bother to keep the correct binaries running on their system,
-2. A cartel of >1/3 validators unbond and then refuse to sign updates, preventing any batches from getting enough signatures to be submitted to the Peggy Ethereum contract.
+1. 验证者根本懒得在其系统上保持正确的二进制文件运行，
+2. 超过 1/3 的验证者卡特尔解绑然后拒绝签署更新，阻止任何批次获得足够的签名以提交到 Peggy Ethereum 合约。
 
-## PEGGYSLASH-03: Failure to sign validator set update
+## PEGGYSLASH-03: 未能签署验证者集更新
 
-This slashing condition is triggered when a validator does not sign a validator set update which is produced by the Peggy module. This prevents two bad scenarios-
+当验证者未签署由 Peggy 模块生成的验证者集更新时，会触发此惩罚条件。这可以防止两种不良情况：
 
-1. A validator simply does not bother to keep the correct binaries running on their system,
-2. A cartel of >1/3 validators unbond and then refuse to sign updates, preventing any validator set updates from getting enough signatures to be submitted to the Peggy Ethereum contract. If they prevent validator set updates for longer than the Biya Chain Chain unbonding period, they can no longer be punished for submitting fake validator set updates and tx batches (PEGGYSLASH-01 and PEGGYSLASH-03).
+1. 验证者根本懒得在其系统上保持正确的二进制文件运行，
+2. 超过 1/3 的验证者卡特尔解绑然后拒绝签署更新，阻止任何验证者集更新获得足够的签名以提交到 Peggy Ethereum 合约。如果他们阻止验证者集更新的时间超过 Biya Chain 解绑期，他们将不再因提交虚假验证者集更新和交易批次而受到惩罚（PEGGYSLASH-01 和 PEGGYSLASH-03）。
 
-To deal with scenario 2, PEGGYSLASH-03 will also need to slash validators who are no longer validating, but are still in the unbonding period for up to `UnbondSlashingValsetsWindow` blocks. This means that when a validator leaves the validator set, they will need to keep running their equipment for at least `UnbondSlashingValsetsWindow` blocks. This is unusual for the Biya Chain Chain, and may not be accepted by the validators.
+为了处理情况 2，PEGGYSLASH-03 还需要惩罚那些不再验证但仍处于解绑期的验证者，最多 `UnbondSlashingValsetsWindow` 个区块。这意味着当验证者离开验证者集时，他们需要保持其设备运行至少 `UnbondSlashingValsetsWindow` 个区块。这对 Biya Chain 来说是不寻常的，可能不会被验证者接受。
 
-The current value of `UnbondSlashingValsetsWindow` is 25,000 blocks, or about 12-14 hours. We have determined this to be a safe value based on the following logic. So long as every validator leaving the validator set signs at least one validator set update that they are not contained in then it is guaranteed to be possible for a relayer to produce a chain of validator set updates to transform the current state on the chain into the present state.
+`UnbondSlashingValsetsWindow` 的当前值是 25,000 个区块，大约 12-14 小时。我们根据以下逻辑确定这是一个安全值。只要每个离开验证者集的验证者至少签署一个不包含他们的验证者集更新，那么保证中继者可以产生一系列验证者集更新，将链上的当前状态转换为当前状态。
 
-It should be noted that both PEGGYSLASH-02 and PEGGYSLASH-03 could be eliminated with no loss of security if it where possible to perform the Ethereum signatures inside the consensus code. This is a pretty limited feature addition to Tendermint that would make Peggy far less prone to slashing.
+应该注意的是，如果可以在共识代码内执行 Ethereum 签名，那么 PEGGYSLASH-02 和 PEGGYSLASH-03 都可以在不损失安全性的情况下消除。这是对 Tendermint 的一个相当有限的功能补充，将使 Peggy 更不容易受到惩罚。
 
-## PEGGYSLASH-04: Submitting incorrect Eth oracle claim (Disabled for now)
+## PEGGYSLASH-04: 提交错误的 Eth oracle 声明（目前禁用）
 
-The Ethereum oracle code (currently mostly contained in attestation.go), is a key part of Peggy. It allows the Peggy module to have knowledge of events that have occurred on Ethereum, such as deposits and executed batches. PEGGYSLASH-03 is intended to punish validators who submit a claim for an event that never happened on Ethereum.
+Ethereum oracle 代码（目前主要包含在 attestation.go 中）是 Peggy 的关键部分。它允许 Peggy 模块了解 Ethereum 上发生的事件，例如存款和已执行的批次。PEGGYSLASH-04 旨在惩罚那些为从未在 Ethereum 上发生的事件提交声明的验证者。
 
-**Implementation considerations**
+**实施考虑**
 
-The only way we know whether an event has happened on Ethereum is through the Ethereum event oracle itself. So to implement this slashing condition, we slash validators who have submitted claims for a different event at the same nonce as an event that was observed by >2/3s of validators.
+我们了解事件是否在 Ethereum 上发生的唯一方法是通过 Ethereum 事件 oracle 本身。因此，为了实施此惩罚条件，我们惩罚那些在相同 nonce 下提交了与超过 2/3 验证者观察到的事件不同事件的声明的验证者。
 
-Although well-intentioned, this slashing condition is likely not advisable for most applications of Peggy. This is because it ties the functioning of the Biya Chain Chain which it is installed on to the correct functioning of the Ethereum chain. If there is a serious fork of the Ethereum chain, different validators behaving honestly may see different events at the same event nonce and be slashed through no fault of their own. Widespread unfair slashing would be very disruptive to the social structure of the Biya Chain Chain.
+尽管意图良好，但此惩罚条件可能不建议用于 Peggy 的大多数应用。这是因为它将安装它的 Biya Chain 的功能与 Ethereum 链的正确功能联系在一起。如果 Ethereum 链发生严重分叉，诚实行事的不同验证者可能在相同的事件 nonce 下看到不同的事件，并在没有自己过错的情况下受到惩罚。广泛的不公平惩罚将对 Biya Chain 的社会结构造成严重破坏。
 
-Maybe PEGGYSLASH-04 is not necessary at all:
+也许 PEGGYSLASH-04 根本不需要：
 
-The real utility of this slashing condition is to make it so that, if >2/3 of the validators form a cartel to all submit a fake event at a certain nonce, some number of them can defect from the cartel and submit the real event at that nonce. If there are enough defecting cartel members that the real event becomes observed, then the remaining cartel members will be slashed by this condition. However, this would require >1/2 of the cartel members to defect in most conditions.
+此惩罚条件的真正效用是，如果超过 2/3 的验证者形成卡特尔以在某个 nonce 下全部提交虚假事件，其中一些可以叛离卡特尔并在该 nonce 下提交真实事件。如果有足够的叛离卡特尔成员使真实事件被观察到，那么剩余的卡特尔成员将受到此条件的惩罚。然而，这在大多数情况下需要超过 1/2 的卡特尔成员叛离。
 
-If not enough of the cartel defects, then neither event will be observed, and the Ethereum oracle will just halt. This is a much more likely scenario than one in which PEGGYSLASH-04 is actually triggered.
+如果卡特尔叛离者不够，那么两个事件都不会被观察到，Ethereum oracle 将停止。这比 PEGGYSLASH-04 实际触发的情况更可能发生。
 
-Also, PEGGYSLASH-04 will be triggered against the honest validators in the case of a successful cartel. This could act to make it easier for a forming cartel to threaten validators who do not want to join.
+此外，在成功卡特尔的情况下，PEGGYSLASH-04 将针对诚实验证者触发。这可能使形成的卡特尔更容易威胁不想加入的验证者。
 
-## PEGGYSLASH-05: Failure to submit Eth oracle claims (Disabled for now)
+## PEGGYSLASH-05: 未能提交 Eth oracle 声明（目前禁用）
 
-This is similar to PEGGYSLASH-04, but it is triggered against validators who do not submit an oracle claim that has been observed. In contrast to PEGGYSLASH-04, PEGGYSLASH-05 is intended to punish validators who stop participating in the oracle completely.
+这与 PEGGYSLASH-04 类似，但它针对不提交已观察到的 oracle 声明的验证者触发。与 PEGGYSLASH-04 相比，PEGGYSLASH-05 旨在惩罚那些完全停止参与 oracle 的验证者。
 
-**Implementation considerations**
+**实施考虑**
 
-Unfortunately, PEGGYSLASH-05 has the same downsides as PEGGYSLASH-04 in that it ties the correct operation of the Biya Chain Chain to the Ethereum chain. Also, it likely does not incentivize much in the way of correct behavior. To avoid triggering PEGGYSLASH-05, a validator simply needs to copy claims which are close to becoming observed. This copying of claims could be prevented by a commit-reveal scheme, but it would still be easy for a "lazy validator" to simply use a public Ethereum full node or block explorer, with similar effects on security. Therefore, the real usefulness of PEGGYSLASH-05 is likely minimal
+不幸的是，PEGGYSLASH-05 与 PEGGYSLASH-04 有相同的缺点，因为它将 Biya Chain 的正确操作与 Ethereum 链联系在一起。此外，它可能不会激励太多正确行为。为了避免触发 PEGGYSLASH-05，验证者只需要复制接近被观察到的声明。这种声明复制可以通过提交-揭示方案来防止，但对于"懒惰的验证者"来说，简单地使用公共 Ethereum 全节点或区块浏览器仍然很容易，对安全性有类似的影响。因此，PEGGYSLASH-05 的真正用处可能很小。
 
-PEGGYSLASH-05 also introduces significant risks. Mostly around forks on the Ethereum chain. For example recently OpenEthereum failed to properly handle the Berlin hardfork, the resulting node 'failure' was totally undetectable to automated tools. It didn't crash so there was no restart to perform, blocks where still being produced although extremely slowly. If this had occurred while Peggy was running with PEGGYSLASH-05 active it would have caused those validators to be removed from the set. Possibly resulting in a very chaotic moment for the chain as dozens of validators where removed for little to no fault of their own.
+PEGGYSLASH-05 还引入了重大风险。主要是围绕 Ethereum 链上的分叉。例如，最近 OpenEthereum 未能正确处理 Berlin 硬分叉，由此产生的节点"故障"对自动化工具完全无法检测。它没有崩溃，所以没有重启要执行，区块仍在产生，尽管非常缓慢。如果这发生在 Peggy 运行且 PEGGYSLASH-05 激活时，它将导致那些验证者从集合中移除。可能对链造成非常混乱的时刻，因为数十个验证者因很少或没有自己的过错而被移除。
 
-Without PEGGYSLASH-04 and PEGGYSLASH-05, the Ethereum event oracle only continues to function if >2/3 of the validators voluntarily submit correct claims. Although the arguments against PEGGYSLASH-04 and PEGGYSLASH-05 are convincing, we must decide whether we are comfortable with this fact. Alternatively we must be comfortable with the Biya Chain Chain potentially halting entirely due to Ethereum generated factors.
+没有 PEGGYSLASH-04 和 PEGGYSLASH-05，Ethereum 事件 oracle 只有在超过 2/3 的验证者自愿提交正确声明时才会继续运行。尽管反对 PEGGYSLASH-04 和 PEGGYSLASH-05 的论据令人信服，但我们必须决定是否对此事实感到满意。或者，我们必须对 Biya Chain 可能因 Ethereum 生成的因素而完全停止感到满意。
