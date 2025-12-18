@@ -1,50 +1,45 @@
 # Lanes
 
-Biya Chain integrates the [Block SDK](https://github.com/biya-coin/block-sdk). Our solution leverages a multi‑lane mempool that separates transactions into four distinct lanes:
+Biya Chain 集成了 [Block SDK](https://github.com/biya-coin/block-sdk)。我们的解决方案利用多通道内存池，将交易分为四个不同的通道：
 
-* **Oracle Lane** – for transactions that contain oracle messages.
-* **Governance Lane** – for any transaction sent by an admin of the exchange module.
-* **Exchange Lane** – for transactions that contain only exchange messages.
-* **Default Lane** – for all other transactions.
+* **Oracle 通道** – 用于包含预言机消息的交易。
+* **治理通道** – 用于交易所模块管理员发送的任何交易。
+* **交易所通道** – 用于仅包含交易所消息的交易。
+* **默认通道** – 用于所有其他交易。
 
-## Key Features
+## 核心特性
 
-### 1. Multi‑Lane Mempool
+### 1. 多通道内存池
 
-* **Priority Ordering:**\
-  The lanes are ordered by priority: the Oracle Lane has the highest priority, followed by the Governance Lane, then the Exchange Lane, and finally the Default Lane. This ordering is critical when building and verifying block proposals.
-* **Dedicated Lane Logic:**\
-  Each lane uses its own match handler. We have the following lanes in order of priority:
-  1. The **Oracle Lane** checks that the transaction contains an oracle message.
-  2. The **Governance Lane** checks that the first signer is an admin of the exchange module.
-  3. The **Exchange Lane** verifies that all messages belong to the exchange module and orders transactions using custom fee/priority logic.
-  4. The **Default Lane** accepts any transaction not matching the other lanes.
+* **优先级排序：**\
+  通道按优先级排序：Oracle 通道优先级最高，其次是治理通道，然后是交易所通道，最后是默认通道。在构建和验证区块提案时，此排序至关重要。
+* **专用通道逻辑：**\
+  每个通道使用自己的匹配处理器。我们按优先级顺序有以下通道：
+  1. **Oracle 通道** 检查交易是否包含预言机消息。
+  2. **治理通道** 检查第一个签名者是否是交易所模块的管理员。
+  3. **交易所通道** 验证所有消息是否属于交易所模块，并使用自定义费用/优先级逻辑对交易进行排序。
+  4. **默认通道** 接受不匹配其他通道的任何交易。
 
-### 2. Routing Transactions Based on Priority
+### 2. 基于优先级的路由交易
 
-A key enhancement in our integration is the custom logic for routing transactions based on priority.
+我们集成的关键增强是基于优先级的自定义交易路由逻辑。
 
-* **If a transaction from the same signer already exists in a lane with lower priority:**\
-  The match handler returns `false`, meaning the new transaction is not captured by the current (higher‑priority) lane. Instead, it falls through to be processed by the lower‑priority lane.
-* **Otherwise:**\
-  The new transaction is accepted in the current lane.
+* **如果来自同一签名者的交易已存在于优先级较低的通道中：**\
+  匹配处理器返回 `false`，这意味着新交易不会被当前（更高优先级）通道捕获。相反，它会被传递到优先级较低的通道进行处理。
+* **否则：**\
+  新交易被当前通道接受。
 
-This mechanism prevents account sequence mismatches. **As a user, you need to be aware that prior lower‑priority transactions may be processed first, even if you submit a new transaction with higher priority. Further, they might cause delays in processing your new transaction.**
+此机制可防止账户序列不匹配。**作为用户，您需要意识到，即使您提交了具有更高优先级的新交易，之前的低优先级交易也可能首先被处理。此外，它们可能会导致您的新交易处理延迟。**
 
-### 3. Exchange Lane Priority
+### 3. 交易所通道优先级
 
-The Exchange Lane uses custom priority logic to order transactions based on fee discounts, account tiers, and special handling for liquidation messages. Key points include:
+交易所通道使用自定义优先级逻辑，根据费用折扣、账户层级以及对清算消息的特殊处理来对交易进行排序。关键点包括：
 
-* **Custom Tx Priority Calculation:**\
-  The Exchange Lane extracts the transaction’s priority by considering the account’s fee discount tier and, if applicable, whether the transaction contains only liquidation messages. Liquidation messages are assigned highest priority.
-* **Account Tier and Fee Discount:**\
-  For regular exchange transactions, the lane computes the highest account tier (from the transaction’s signer data) as a measure of priority. Higher tiers result in higher priority.
+* **自定义交易优先级计算：**\
+  交易所通道通过考虑账户的费用折扣层级以及（如果适用）交易是否仅包含清算消息来提取交易的优先级。清算消息被分配最高优先级。
+* **账户层级和费用折扣：**\
+  对于常规交易所交易，通道计算最高账户层级（来自交易的签名者数据）作为优先级度量。更高的层级导致更高的优先级。
 
-### 4. Oracle and Governance Lane Max Gas Limit
+### 4. Oracle 和治理通道最大 Gas 限制
 
-Transactions that exceed the max gas limit of the Oracle and Governance Lanes\
-are rejected in the `matching` stage (when a tx is inserted in the mempool). If\
-we didn't do this in the matching stage, a big transaction could make it into the\
-lane, and be rejected later in the `prepare` stage (in PrepareProposal). The\
-transaction would remain in the mempool indefinitely, thereby blocking the sender\
-account from submitting any other transactions.
+超过 Oracle 和治理通道最大 gas 限制的交易在 `matching` 阶段（当交易插入内存池时）被拒绝。如果我们在匹配阶段不这样做，大交易可能会进入通道，并在稍后的 `prepare` 阶段（在 PrepareProposal 中）被拒绝。该交易将无限期地保留在内存池中，从而阻止发送者账户提交任何其他交易。

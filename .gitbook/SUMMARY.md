@@ -30,7 +30,7 @@
   * [交易 Gas 和费用](users/transaction-fees.md)
   * [桥接](users/bridges/README.md)
     * [Ethereum 桥接](users/bridges/ethereum.md)
-* [开发者指南](developers/README.md)
+* [开发指南](developers/README.md)
   * [快速开始](developers/kuai-su-kai-shi/README.md)
     * [网络信息](developers/kuai-su-kai-shi/network-information.md)
     * [转换地址](developers/kuai-su-kai-shi/convert-addresses.md)

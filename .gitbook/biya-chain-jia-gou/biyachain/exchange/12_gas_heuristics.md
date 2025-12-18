@@ -1,11 +1,9 @@
 ---
 sidebar_position: 13
-title: Gas Heuristics
+title: Gas 启发式
 ---
 
-This doc contains suggested `gasWanted` values for specific Exchange messages. Values were obtained heuristically 
-by observing gas consumption during MsgServer execution for a transaction containing a single Msg type. Conceptually, 
-for any transaction the following formula applies:
+本文档包含针对特定交易所消息的建议 `gasWanted` 值。这些值是通过启发式方法获得的，即观察包含单个消息类型的交易在 MsgServer 执行期间的 gas 消耗。从概念上讲，对于任何交易，以下公式适用：
 
 ```
     tx_gas = ante_gas + msg_gas (+ msg2_gas ...)
@@ -17,15 +15,15 @@ for any transaction the following formula applies:
 
 > **注意**：假设交易包含单个消息。
 
-| Message Type                                    | Gas Wanted                   |
+| 消息类型                                          | Gas Wanted                   |
 |-------------------------------------------------|------------------------------|
-| MsgCreateDerivativeLimitOrder                   | 240,000 (post-only: 260,000) |
+| MsgCreateDerivativeLimitOrder                   | 240,000 (仅挂单: 260,000)     |
 | MsgCreateDerivativeMarketOrder                  | 235,000                      |
 | MsgCancelDerivativeOrder                        | 190,000                      |
-| MsgCreateSpotLimitOrder                         | 220,000 (post-only: 240,000) |
+| MsgCreateSpotLimitOrder                         | 220,000 (仅挂单: 240,000)     |
 | MsgCreateSpotMarketOrder                        | 170,000                      |
 | MsgCancelSpotOrder                              | 185,000                      |
-| MsgCreateBinaryOptionsLimitOrder                | 240,000 (post-only: 260,000) |
+| MsgCreateBinaryOptionsLimitOrder                | 240,000 (仅挂单: 260,000)     |
 | MsgCreateBinaryOptionsMarketOrder               | 225,000                      |
 | MsgCancelBinaryOptionsOrder                     | 190,000                      |
 | MsgDeposit                                      | 158,000                      |
@@ -35,15 +33,15 @@ for any transaction the following formula applies:
 | MsgIncreasePositionMarginGas                    | 171,000                      |
 | MsgDecreasePositionMarginGas                    | 180,000                      |
 
-如果相关订单也是 GTB（Good-Till-Block）订单，则应在上面的值基础上增加等于上述值 10% 的 gas 量。
+如果相关订单也是 GTB（Good-Till-Block，有效至区块）订单，则应在上面的值基础上增加等于上述值 10% 的 gas 量。
 
 **批量消息类型**
 
-批量消息类型的 gas 根据消息本身的内容而变化。此外，`ante_gas` 随订单数量扩展（明显增加约 3000 gas，包含在此公式中）。：
+批量消息类型的 gas 根据消息本身的内容而变化。此外，`ante_gas` 随订单数量扩展（明显增加约 3000 gas，包含在此公式中）：
 
-`N` - 是订单数量
+`N` - 订单数量
 
-- `MsgBatchCreateSpotLimitOrders`:           `tx_gas = 120_000 + N x 103_000` (e.g. for 3 orders you get `329_000`)
+- `MsgBatchCreateSpotLimitOrders`:           `tx_gas = 120_000 + N x 103_000`（例如，3 个订单需要 `329_000`）
 - `MsgBatchCancelSpotOrders`:                `tx_gas = 120_000 + N x 68_000`
 - `MsgBatchCreateDerivativeLimitOrders`:     `tx_gas = 120_000 + N x 123_000` 
 - `MsgBatchCancelDerivativeOrders`:          `tx_gas = 120_000 + N x 73_000` 
@@ -55,7 +53,7 @@ for any transaction the following formula applies:
 type MsgBatchUpdateOrders struct {
 	Sender string
 	
-	SubaccountId                      string             // used only with cancel-all ((M - number of markets, N number of orders in a market) 
+	SubaccountId                      string             // 仅用于全部取消（M - 市场数量，N - 市场中的订单数量）
 	SpotMarketIdsToCancelAll          []string           // M x N x 65_000 
 	DerivativeMarketIdsToCancelAll    []string           // M x N x 70_000
 	BinaryOptionsMarketIdsToCancelAll []string           // M x N x 70_000
@@ -63,25 +61,25 @@ type MsgBatchUpdateOrders struct {
 	SpotOrdersToCancel                []*OrderData       // N x 65_000 + N x 3000
 	DerivativeOrdersToCancel          []*OrderData       // N x 70_000 + N x 3000
     BinaryOptionsOrdersToCancel       []*OrderData       // N x 70_000 + N x 3000
-    SpotOrdersToCreate                []*SpotOrder       // N x 100_000 (120_000 if post-only) + N x 3000
-    DerivativeOrdersToCreate          []*DerivativeOrder // N x 120_000 (140_000 if post-only) + N x 3000
-	BinaryOptionsOrdersToCreate       []*DerivativeOrder // N x 120_000 (140_000 if post-only) + N x 3000
+    SpotOrdersToCreate                []*SpotOrder       // N x 100_000（仅挂单为 120_000）+ N x 3000
+    DerivativeOrdersToCreate          []*DerivativeOrder // N x 120_000（仅挂单为 140_000）+ N x 3000
+	BinaryOptionsOrdersToCreate       []*DerivativeOrder // N x 120_000（仅挂单为 140_000）+ N x 3000
 }
 ```
 
-For example, let's suppose you want to:
+例如，假设您想要：
 
-- cancel 3 spot orders in market A
-- create 2 derivative orders in market B
-- create 1 binary-options post-only order in market C
-- cancel all orders in spot markets X and Y (2 orders in X and 2 orders in Y)
+- 在市场 A 中取消 3 个现货订单
+- 在市场 B 中创建 2 个衍生品订单
+- 在市场 C 中创建 1 个二元期权仅挂单订单
+- 取消现货市场 X 和 Y 中的所有订单（X 中 2 个订单，Y 中 2 个订单）
 
-The resulting gas would be computed as such:
+生成的 gas 计算如下：
 ```
-    total_gas = 3 x 100_000 + 3 x 3000  // cancel 3x spot
-                + 2 x 120_000 + 2 x 3000 // create 2x derv
-                + 140_000 // create 1x post-only bo
-                + 4 x 65_000 // cancel-all 4x spot orders
+    total_gas = 3 x 100_000 + 3 x 3000  // 取消 3 个现货订单
+                + 2 x 120_000 + 2 x 3000 // 创建 2 个衍生品订单
+                + 140_000 // 创建 1 个仅挂单二元期权订单
+                + 4 x 65_000 // 全部取消 4 个现货订单
 ```
 
-which ends up being `955_000` gas. 
+最终结果为 `955_000` gas。 

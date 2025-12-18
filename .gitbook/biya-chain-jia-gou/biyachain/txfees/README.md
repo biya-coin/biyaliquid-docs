@@ -1,180 +1,180 @@
 # Txfees
 
-The txfees module for Biya Chain provides the required functionality to support fee market as per EIP-1559.
+Biya Chain 的 txfees 模块提供了支持 EIP-1559 费用市场所需的功能。
 
-EIP-1559 introduces a "base fee" that automatically adjusts based on network congestion. When network activity increases, the base fee increases, and when activity decreases, the base fee decreases. This creates a more predictable and efficient fee market compared to a simple first-price auction model.
+EIP-1559 引入了根据网络拥堵情况自动调整的"基础费用"。当网络活动增加时，基础费用增加；当活动减少时，基础费用减少。与简单的首价拍卖模型相比，这创建了一个更可预测和高效的费用市场。
 
-For more details, see the official EIP-1559 specification: https://eips.ethereum.org/EIPS/eip-1559
+更多详情，请参阅官方 EIP-1559 规范：https://eips.ethereum.org/EIPS/eip-1559
 
-## Module Parameters
+## 模块参数
 
-The txfees module's parameters control both transaction acceptance rules and the EIP-1559 fee market behavior. These parameters can be updated through governance.
+txfees 模块的参数控制交易接受规则和 EIP-1559 费用市场行为。这些参数可以通过治理进行更新。
 
-### Transaction Control Parameters
+### 交易控制参数
 
-These parameters define the basic transaction validation rules that are always enforced, regardless of whether the EIP-1559 fee market is enabled (`Mempool1559Enabled`). They provide the first line of defense against network spam by setting hard limits on transaction characteristics and implementing a two-tiered fee system for high-gas transactions.
+这些参数定义了始终强制执行的基本交易验证规则，无论是否启用 EIP-1559 费用市场（`Mempool1559Enabled`）。它们通过设置交易特征的硬限制并为高 gas 交易实施双层费用系统，提供第一道防网络垃圾邮件的防线。
 
-When `Mempool1559Enabled` is false, these are the only parameters used for transaction validation. When true, these checks are performed before the EIP-1559 fee market rules are applied.
+当 `Mempool1559Enabled` 为 false 时，这些是用于交易验证的唯一参数。当为 true 时，在执行 EIP-1559 费用市场规则之前执行这些检查。
 
 #### MaxGasWantedPerTx
-- Type: `uint64`
-- Default: `30,000,000`
-- Description: Maximum gas allowed per transaction. Transactions with gas limit higher than this will be rejected from the mempool.
+- 类型：`uint64`
+- 默认值：`30,000,000`
+- 描述：每笔交易允许的最大 gas。gas 限制高于此值的交易将被内存池拒绝。
 
 #### HighGasTxThreshold
-- Type: `uint64`
-- Default: `2,500,000`
-- Description: Gas threshold above which a transaction is considered "high gas". When a transaction's gas exceeds this threshold, it must pay at least `MinGasPriceForHighGasTx` as the gas price.
+- 类型：`uint64`
+- 默认值：`2,500,000`
+- 描述：超过此阈值时，交易被视为"高 gas"交易。当交易的 gas 超过此阈值时，必须至少支付 `MinGasPriceForHighGasTx` 作为 gas 价格。
 
 #### MinGasPriceForHighGasTx
-- Type: `sdk.Dec`
-- Default: `0`
-- Description: Minimum gas price required for high gas transactions. Transactions above the `HighGasTxThreshold` must have at least this gas price to be accepted into the mempool.
+- 类型：`sdk.Dec`
+- 默认值：`0`
+- 描述：高 gas 交易所需的最低 gas 价格。超过 `HighGasTxThreshold` 的交易必须至少具有此 gas 价格才能被接受进入内存池。
 
-### Fee Market Parameters
+### 费用市场参数
 
-These parameters control the dynamic EIP-1559 fee market behavior and are only active when `Mempool1559Enabled` is true. They determine how the base fee adjusts in response to network congestion, set the bounds for fee adjustments, and define the target block utilization.
+这些参数控制动态 EIP-1559 费用市场行为，仅在 `Mempool1559Enabled` 为 true 时激活。它们确定基础费用如何响应网络拥堵进行调整，设置费用调整的界限，并定义目标区块利用率。
 
-When `Mempool1559Enabled` is false, these parameters (except `MinGasPrice`) are not used, and transactions only need to meet the basic transaction control requirements. When true, transactions must additionally satisfy the EIP-1559 fee market rules, including providing a gas price ≥ current base fee.
+当 `Mempool1559Enabled` 为 false 时，这些参数（除了 `MinGasPrice`）不会被使用，交易只需要满足基本交易控制要求。当为 true 时，交易还必须满足 EIP-1559 费用市场规则，包括提供 gas 价格 ≥ 当前基础费用。
 
-Note: `MinGasPrice` is always enforced as the minimum gas price, regardless of whether EIP-1559 is enabled.
+注意：`MinGasPrice` 始终作为最低 gas 价格强制执行，无论是否启用 EIP-1559。
 
 #### Mempool1559Enabled
-- Type: `bool`
-- Default: `false`
-- Description: Enables EIP-1559 style adaptive fee market in the mempool. When enabled, the base fee automatically adjusts based on network congestion.
+- 类型：`bool`
+- 默认值：`false`
+- 描述：在内存池中启用 EIP-1559 风格的自适应费用市场。启用后，基础费用会根据网络拥堵情况自动调整。
 
 #### MinGasPrice
-- Type: `sdk.Dec`
-- Default: `160,000,000` (BIYA)
-- Description: The minimum allowed base fee. The base fee cannot drop below this value, providing a price floor for transaction fees.
+- 类型：`sdk.Dec`
+- 默认值：`160,000,000` (BIYA)
+- 描述：允许的最低基础费用。基础费用不能低于此值，为交易费用提供价格下限。
 
 #### DefaultBaseFeeMultiplier
-- Type: `sdk.Dec`
-- Default: `1.5`
-- Description: Multiplier applied to `MinGasPrice` to calculate the default base fee. The default base fee (`MinGasPrice` * `DefaultBaseFeeMultiplier`) is used when resetting the fee market every reset interval.
+- 类型：`sdk.Dec`
+- 默认值：`1.5`
+- 描述：应用于 `MinGasPrice` 以计算默认基础费用的乘数。默认基础费用（`MinGasPrice` * `DefaultBaseFeeMultiplier`）在每个重置间隔重置费用市场时使用。
 
 #### MaxBaseFeeMultiplier
-- Type: `sdk.Dec`
-- Default: `1000`
-- Description: Maximum multiplier applied to `MinGasPrice` to calculate the maximum allowed base fee. This prevents fees from becoming excessively high.
+- 类型：`sdk.Dec`
+- 默认值：`1000`
+- 描述：应用于 `MinGasPrice` 以计算允许的最大基础费用的最大乘数。这可以防止费用变得过高。
 
 #### ResetInterval
-- Type: `int64`
-- Default: `36,000` (blocks, approximately 8 hours)
-- Description: The interval at which the base fee is reset to the default base fee. This prevents long-term fee drift and ensures periodic resets to a known baseline.
+- 类型：`int64`
+- 默认值：`36,000`（区块数，约 8 小时）
+- 描述：基础费用重置为默认基础费用的间隔。这可以防止长期费用漂移，并确保定期重置到已知基线。
 
 #### MaxBlockChangeRate
-- Type: `sdk.Dec`
-- Default: `0.1` (10%)
-- Description: The maximum rate at which the base fee can change per block. This limits fee volatility between blocks.
-- Calculation: The base fee adjustment uses the following formula:
+- 类型：`sdk.Dec`
+- 默认值：`0.1` (10%)
+- 描述：每个区块基础费用可以改变的最大速率。这限制了区块之间的费用波动性。
+- 计算：基础费用调整使用以下公式：
   ```
   baseFeeMultiplier = 1 + (gasUsed - targetGas) / targetGas * maxChangeRate
   newBaseFee = currentBaseFee * baseFeeMultiplier
   ```
-  Where:
-  - `gasUsed` is the total gas consumed in the block
-  - `targetGas` is determined by `TargetBlockSpacePercentRate` * block gas limit
-  - `maxChangeRate` is 0.1 (10%)
-- Impact: 
-  - When block is full (gasUsed = block gas limit): Base fee increases by ~6%
-  - When block is empty (gasUsed = 0): Base fee decreases by 10%
-  - When gasUsed = targetGas: No change in base fee
-  - The asymmetric change rates (6% up vs 10% down) help fees recover more quickly after congestion
-- Transaction Processing:
-  - In CheckTx: New transactions must provide a gas price ≥ current base fee to be accepted
-  - In RecheckTx: 
-    - For low base fees (≤ 4x MinGasPrice): Transactions with gas price < current base fee / 2 are removed
-    - For high base fees (> 4x MinGasPrice): Transactions with gas price < current base fee / 2.3 are removed
-  - This dual-threshold approach helps maintain network stability during normal operation while allowing faster recovery during congestion
+  其中：
+  - `gasUsed` 是区块中消耗的总 gas
+  - `targetGas` 由 `TargetBlockSpacePercentRate` * 区块 gas 限制确定
+  - `maxChangeRate` 是 0.1 (10%)
+- 影响：
+  - 当区块已满（gasUsed = 区块 gas 限制）时：基础费用增加约 6%
+  - 当区块为空（gasUsed = 0）时：基础费用减少 10%
+  - 当 gasUsed = targetGas 时：基础费用不变
+  - 不对称的变化速率（6% 上升 vs 10% 下降）有助于费用在拥堵后更快恢复
+- 交易处理：
+  - 在 CheckTx 中：新交易必须提供 gas 价格 ≥ 当前基础费用才能被接受
+  - 在 RecheckTx 中：
+    - 对于低基础费用（≤ 4x MinGasPrice）：gas 价格 < 当前基础费用 / 2 的交易被移除
+    - 对于高基础费用（> 4x MinGasPrice）：gas 价格 < 当前基础费用 / 2.3 的交易被移除
+  - 这种双阈值方法有助于在正常操作期间保持网络稳定性，同时在拥堵期间允许更快恢复
 
 #### TargetBlockSpacePercentRate
-- Type: `sdk.Dec`
-- Default: `0.625` (62.5%)
-- Description: Target percentage of the block gas limit that should be used. When actual usage exceeds this target, the base fee increases. When usage is below target, the base fee decreases.
+- 类型：`sdk.Dec`
+- 默认值：`0.625` (62.5%)
+- 描述：应该使用的区块 gas 限制的目标百分比。当实际使用超过此目标时，基础费用增加。当使用低于目标时，基础费用减少。
 
-### Fee Recheck Parameters
+### 费用重新检查参数
 
-These parameters control the mempool transaction eviction mechanism and are only relevant when `Mempool1559Enabled` is true. They determine when existing transactions should be removed from the mempool as the base fee changes, implementing a dual-threshold approach that balances network stability with congestion recovery.
+这些参数控制内存池交易驱逐机制，仅在 `Mempool1559Enabled` 为 true 时相关。它们确定何时应从内存池中移除现有交易，因为基础费用会发生变化，实施双阈值方法，平衡网络稳定性和拥堵恢复。
 
-When `Mempool1559Enabled` is false, transactions in the mempool are not rechecked against changing base fees. When true, these parameters work in conjunction with the Fee Market Parameters to maintain mempool health by ensuring transactions remain economically viable as network conditions change.
+当 `Mempool1559Enabled` 为 false 时，内存池中的交易不会根据变化的基础费用重新检查。当为 true 时，这些参数与费用市场参数协同工作，通过确保交易在网络条件变化时保持经济可行性来维护内存池健康。
 
-The recheck mechanism uses different thresholds for low and high base fee scenarios:
-- In low base fee conditions: Focuses on network stability with more conservative eviction rules
-- In high base fee conditions: Prioritizes quick recovery from congestion with more aggressive eviction
+重新检查机制对低基础费用和高基础费用场景使用不同的阈值：
+- 在低基础费用条件下：专注于网络稳定性，采用更保守的驱逐规则
+- 在高基础费用条件下：优先考虑从拥堵中快速恢复，采用更激进的驱逐
 
 #### RecheckFeeLowBaseFee
-- Type: `sdk.Dec`
-- Default: `3.0`
-- Description: When the base fee is low (≤ 4x MinGasPrice), transactions must have fees at least 1/3 of the current base fee to remain in the mempool. This more conservative multiplier at lower fee levels helps maintain network stability by preventing too rapid eviction of transactions. If spam transactions are detected, it takes approximately 19 blocks from when the base fee exceeds the spam cost until those transactions are evicted from the mempool.
+- 类型：`sdk.Dec`
+- 默认值：`3.0`
+- 描述：当基础费用较低（≤ 4x MinGasPrice）时，交易必须至少具有当前基础费用的 1/3 才能保留在内存池中。在较低费用水平下，这种更保守的乘数有助于通过防止交易过快驱逐来保持网络稳定性。如果检测到垃圾邮件交易，从基础费用超过垃圾邮件成本到这些交易从内存池中驱逐大约需要 19 个区块。
 
 #### RecheckFeeHighBaseFee
-- Type: `sdk.Dec`
-- Default: `2.3`
-- Description: When the base fee is high (> 4x MinGasPrice), transactions must have fees at least 1/2.3 of the current base fee to remain in the mempool.
+- 类型：`sdk.Dec`
+- 默认值：`2.3`
+- 描述：当基础费用较高（> 4x MinGasPrice）时，交易必须至少具有当前基础费用的 1/2.3 才能保留在内存池中。
 
 #### RecheckFeeBaseFeeThresholdMultiplier
-- Type: `sdk.Dec`
-- Default: `4.0`
-- Description: Multiplier applied to `MinGasPrice` to determine the threshold between high and low base fee regimes for recheck purposes. The threshold is `MinGasPrice` * `RecheckFeeBaseFeeThresholdMultiplier`.
+- 类型：`sdk.Dec`
+- 默认值：`4.0`
+- 描述：应用于 `MinGasPrice` 以确定用于重新检查目的的高基础费用和低基础费用制度之间阈值的乘数。阈值是 `MinGasPrice` * `RecheckFeeBaseFeeThresholdMultiplier`。
 
-## Modifying Module Parameters
+## 修改模块参数
 
-The txfees module parameters can be modified through governance proposals. This ensures that any changes to these critical parameters are approved by the community. Here's how to modify these parameters:
+txfees 模块参数可以通过治理提案进行修改。这确保了这些关键参数的更改得到社区的批准。以下是修改这些参数的方法：
 
-### Through Governance Proposal
+### 通过治理提案
 
-Parameters can be updated using a `MsgUpdateParams` transaction wrapped in a governance proposal. The proposal must be submitted by the governance module account.
+可以使用包装在治理提案中的 `MsgUpdateParams` 交易来更新参数。提案必须由治理模块账户提交。
 
-Example of updating multiple parameters:
+更新多个参数的示例：
 ```json
 {
-  "title": "Update Txfees Parameters",
-  "description": "Adjust fee market parameters to improve network performance during congestion",
+  "title": "更新 Txfees 参数",
+  "description": "调整费用市场参数以改善拥堵期间的网络性能",
   "messages": [
     {
       "@type": "/biyachain.txfees.v1beta1.MsgUpdateParams",
-      "authority": "biya10d07y265gmmuvt4z0w9aw880jnsr700jvss730",  // gov module account
+      "authority": "biya10d07y265gmmuvt4z0w9aw880jnsr700jvss730",  // 治理模块账户
       "params": {
-        "max_gas_wanted_per_tx": "100000000",             // Increase max gas per tx to 100M
-        "min_gas_price": "200000000",                     // Increase min gas price to 200M BIYA
-        "default_base_fee_multiplier": "2.0",             // Increase default multiplier to 2.0
-        "max_block_change_rate": "0.15",                  // Increase max change rate to 15%
-        "target_block_space_percent_rate": "0.75",        // Increase target utilization to 75%
-        "recheck_fee_low_base_fee": "3.5",               // Increase low base fee recheck threshold
-        // ... other parameters remain unchanged ...
+        "max_gas_wanted_per_tx": "100000000",             // 将每笔交易的最大 gas 增加到 100M
+        "min_gas_price": "200000000",                     // 将最低 gas 价格增加到 200M BIYA
+        "default_base_fee_multiplier": "2.0",             // 将默认乘数增加到 2.0
+        "max_block_change_rate": "0.15",                  // 将最大变化率增加到 15%
+        "target_block_space_percent_rate": "0.75",        // 将目标利用率增加到 75%
+        "recheck_fee_low_base_fee": "3.5",               // 增加低基础费用重新检查阈值
+        // ... 其他参数保持不变 ...
       }
     }
   ],
-  "deposit": "1000000000000000000biya"  // Example deposit
+  "deposit": "1000000000000000000biya"  // 示例存款
 }
 ```
 
-### Parameter Validation
+### 参数验证
 
-When updating parameters:
-1. All parameters must be provided in the update message (unchanged parameters should keep their current values)
-2. Parameters are validated before being applied:
-   - Numeric values must be positive
-   - Multipliers and rates must be valid decimals
-   - Thresholds must maintain logical relationships (e.g., `MinGasPrice` ≤ default base fee ≤ max base fee)
+更新参数时：
+1. 必须在更新消息中提供所有参数（未更改的参数应保持其当前值）
+2. 在应用之前验证参数：
+   - 数值必须为正数
+   - 乘数和速率必须是有效的小数
+   - 阈值必须保持逻辑关系（例如，`MinGasPrice` ≤ 默认基础费用 ≤ 最大基础费用）
 
-### Query Current Parameters
+### 查询当前参数
 
-You can query current parameter values using the gRPC endpoint:
+您可以使用 gRPC 端点查询当前参数值：
 ```bash
 /biyachain/txfees/v1beta1/params
 ```
 
-You can also query the current EIP-1559 base fee using the CLI:
+您也可以使用 CLI 查询当前 EIP-1559 基础费用：
 ```bash
 biyachaind query txfees base-fee
 ```
 
-### Query Current Base Fee
+### 查询当前基础费用
 
-The current EIP-1559 base fee can be queried through multiple interfaces:
+可以通过多个接口查询当前 EIP-1559 基础费用：
 
 #### CLI
 ```bash
@@ -182,14 +182,14 @@ biyachaind query txfees base-fee
 ```
 
 #### gRPC
-The base fee can be queried using the `GetEipBaseFee` RPC method:
+可以使用 `GetEipBaseFee` RPC 方法查询基础费用：
 
 ```protobuf
-// Request
+// 请求
 message QueryEipBaseFeeRequest {
 }
 
-// Response
+// 响应
 message QueryEipBaseFeeResponse {
   EipBaseFee base_fee = 1;
 }
@@ -199,20 +199,20 @@ message EipBaseFee {
 }
 ```
 
-Example using `grpcurl`:
+使用 `grpcurl` 的示例：
 ```bash
 grpcurl -plaintext localhost:9090 biyachain.txfees.v1beta1.Query/GetEipBaseFee
 
-# Osmosis-like path for compatibility with IBC relayers and wallets
+# 与 IBC 中继器和钱包兼容的 Osmosis 风格路径
 grpcurl -plaintext localhost:9090 osmosis.txfees.v1beta1.Query/GetEipBaseFee
 ```
 
 
 
-Service Definition:
+服务定义：
 ```protobuf
 service Query {
-  // Returns the current fee market EIP base fee
+  // 返回当前费用市场 EIP 基础费用
   rpc GetEipBaseFee(QueryEipBaseFeeRequest) returns (QueryEipBaseFeeResponse) {
     option (google.api.http).get = "/biyachain/txfees/v1beta1/cur_eip_base_fee";
   }
@@ -224,8 +224,8 @@ service Query {
 curl -X GET "http://localhost:1317/biyachain/txfees/v1beta1/cur_eip_base_fee"
 ```
 
-#### Response Format
-The response will contain the current base fee in BIYA units. Example:
+#### 响应格式
+响应将包含以 BIYA 为单位的当前基础费用。示例：
 ```json
 {
   "base_fee": {
@@ -234,4 +234,4 @@ The response will contain the current base fee in BIYA units. Example:
 }
 ```
 
-Note: The base fee is returned as a decimal string. When `Mempool1559Enabled` is false, this will return the `MinGasPrice` value.
+注意：基础费用以十进制字符串形式返回。当 `Mempool1559Enabled` 为 false 时，这将返回 `MinGasPrice` 值。
