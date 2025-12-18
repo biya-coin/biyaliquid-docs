@@ -8,23 +8,13 @@ sidebar_position: 1
 
 crisis 模块在区块链不变量被破坏的情况下停止区块链。不变量可以在应用初始化过程中向应用注册。
 
-## 目录
-
-* [状态](crisis.md#state)
-* [消息](crisis.md#messages)
-* [事件](crisis.md#events)
-* [参数](crisis.md#parameters)
-* [客户端](crisis.md#client)
-  * [CLI](crisis.md#cli)
-
 ## 状态
 
 ### ConstantFee
 
 由于验证不变量的预期 gas 成本较高（可能超过最大允许的区块 gas 限制），因此使用固定费用而不是标准 gas 消耗方法。固定费用旨在大于使用标准 gas 消耗方法运行不变量的预期 gas 成本。
 
-ConstantFee 参数存储在模块参数状态中，前缀为 `0x01`，\
-可以通过治理或具有权限的地址进行更新。
+ConstantFee 参数存储在模块参数状态中，前缀为 `0x01`，可以通过治理或具有权限的地址进行更新。
 
 * Params: `mint/params -> legacy_amino(sdk.Coin)`
 

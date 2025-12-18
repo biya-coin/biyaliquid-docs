@@ -4,23 +4,6 @@ sidebar_position: 1
 
 # Mint
 
-## 目录
-
-* [状态](mint.md#state)
-  * [Minter](mint.md#minter)
-  * [参数](mint.md#params)
-* [Begin-Block](mint.md#begin-block)
-  * [NextInflationRate](mint.md#nextinflationrate)
-  * [NextAnnualProvisions](mint.md#nextannualprovisions)
-  * [BlockProvision](mint.md#blockprovision)
-* [参数](mint.md#parameters)
-* [事件](mint.md#events)
-  * [BeginBlocker](mint.md#beginblocker)
-* [客户端](mint.md#client)
-  * [CLI](mint.md#cli)
-  * [gRPC](mint.md#grpc)
-  * [REST](mint.md#rest)
-
 ## 概念
 
 ### 铸造机制

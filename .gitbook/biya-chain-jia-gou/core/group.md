@@ -10,52 +10,6 @@ sidebar_position: 1
 
 该模块允许创建和管理链上多重签名账户，并支持基于可配置决策策略的消息执行投票。
 
-## 目录
-
-* [概念](group.md#concepts)
-  * [组](group.md#group)
-  * [组策略](group.md#group-policy)
-  * [决策策略](group.md#decision-policy)
-  * [提案](group.md#proposal)
-  * [修剪](group.md#pruning)
-* [状态](group.md#state)
-  * [组表](group.md#group-table)
-  * [组成员表](group.md#group-member-table)
-  * [组策略表](group.md#group-policy-table)
-  * [提案表](group.md#proposal-table)
-  * [投票表](group.md#vote-table)
-* [消息服务](group.md#msg-service)
-  * [Msg/CreateGroup](group.md#msgcreategroup)
-  * [Msg/UpdateGroupMembers](group.md#msgupdategroupmembers)
-  * [Msg/UpdateGroupAdmin](group.md#msgupdategroupadmin)
-  * [Msg/UpdateGroupMetadata](group.md#msgupdategroupmetadata)
-  * [Msg/CreateGroupPolicy](group.md#msgcreategrouppolicy)
-  * [Msg/CreateGroupWithPolicy](group.md#msgcreategroupwithpolicy)
-  * [Msg/UpdateGroupPolicyAdmin](group.md#msgupdategrouppolicyadmin)
-  * [Msg/UpdateGroupPolicyDecisionPolicy](group.md#msgupdategrouppolicydecisionpolicy)
-  * [Msg/UpdateGroupPolicyMetadata](group.md#msgupdategrouppolicymetadata)
-  * [Msg/SubmitProposal](group.md#msgsubmitproposal)
-  * [Msg/WithdrawProposal](group.md#msgwithdrawproposal)
-  * [Msg/Vote](group.md#msgvote)
-  * [Msg/Exec](group.md#msgexec)
-  * [Msg/LeaveGroup](group.md#msgleavegroup)
-* [事件](group.md#events)
-  * [EventCreateGroup](group.md#eventcreategroup)
-  * [EventUpdateGroup](group.md#eventupdategroup)
-  * [EventCreateGroupPolicy](group.md#eventcreategrouppolicy)
-  * [EventUpdateGroupPolicy](group.md#eventupdategrouppolicy)
-  * [EventCreateProposal](group.md#eventcreateproposal)
-  * [EventWithdrawProposal](group.md#eventwithdrawproposal)
-  * [EventVote](group.md#eventvote)
-  * [EventExec](group.md#eventexec)
-  * [EventLeaveGroup](group.md#eventleavegroup)
-  * [EventProposalPruned](group.md#eventproposalpruned)
-* [客户端](group.md#client)
-  * [CLI](group.md#cli)
-  * [gRPC](group.md#grpc)
-  * [REST](group.md#rest)
-* [元数据](group.md#metadata)
-
 ## 概念
 
 ### 组
@@ -349,8 +303,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.p
 
 ### Msg/SubmitProposal
 
-可以使用 `MsgSubmitProposal` 创建新提案，它具有组策略账户地址、提案者地址列表、如果提案被接受要执行的消息列表以及一些可选的元数据。\
-可以提供可选的 `Exec` 值以在提案创建后立即尝试执行提案。在这种情况下，提案者的签名被视为"是"投票。
+可以使用 `MsgSubmitProposal` 创建新提案，它具有组策略账户地址、提案者地址列表、如果提案被接受要执行的消息列表以及一些可选的元数据。可以提供可选的 `Exec` 值以在提案创建后立即尝试执行提案。在这种情况下，提案者的签名被视为"是"投票。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L281-L315
@@ -376,8 +329,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.p
 
 ### Msg/Vote
 
-可以使用 `MsgVote` 创建新投票，给定提案 id、投票者地址、选择（是、否、否决或弃权）以及一些可选的元数据。\
-可以提供可选的 `Exec` 值以在投票后立即尝试执行提案。
+可以使用 `MsgVote` 创建新投票，给定提案 id、投票者地址、选择（是、否、否决或弃权）以及一些可选的元数据。可以提供可选的 `Exec` 值以在投票后立即尝试执行提案。
 
 ```go
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/group/v1/tx.proto#L338-L358
@@ -906,8 +858,7 @@ simd tx group --help
 
 #### create-group
 
-The `create-group` command allows users to create a group which is an aggregation of member accounts with associated weights and\
-an administrator account.
+The `create-group` command allows users to create a group which is an aggregation of member accounts with associated weights and an administrator account.
 
 ```bash
 simd tx group create-group [admin] [metadata] [members-json-file]
@@ -2030,8 +1981,7 @@ Example Output:
 ```
 
 :::note\
-`authors` 字段是一个字符串数组，这是为了允许在元数据中列出多个作者。\
-在 v0.46 中，`authors` 字段是一个逗号分隔的字符串。鼓励前端支持两种格式以保持向后兼容性。\
+`authors` 字段是一个字符串数组，这是为了允许在元数据中列出多个作者。在 v0.46 中，`authors` 字段是一个逗号分隔的字符串。鼓励前端支持两种格式以保持向后兼容性。
 :::
 
 ### 投票

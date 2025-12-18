@@ -4,24 +4,9 @@ sidebar_position: 1
 
 # NFT
 
-## 目录
-
 ## 摘要
 
 `x/nft` 是 Cosmos SDK 模块的实现，根据 [ADR 43](https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-043-nft-module.md)，它允许您创建 NFT 分类、创建 NFT、转移 NFT、更新 NFT，并通过集成该模块支持各种查询。它完全兼容 ERC721 规范。
-
-* [概念](nft.md#concepts)
-  * [类别](nft.md#class)
-  * [NFT](nft.md#nft)
-* [状态](nft.md#state)
-  * [类别](nft.md#class-1)
-  * [NFT](nft.md#nft-1)
-  * [NFTOfClassByOwner](nft.md#nftofclassbyowner)
-  * [所有者](nft.md#owner)
-  * [总供应量](nft.md#totalsupply)
-* [消息](nft.md#messages)
-  * [MsgSend](nft.md#msgsend)
-* [事件](nft.md#events)
 
 ## 概念
 
@@ -70,8 +55,7 @@ TotalSupply 负责跟踪某个类别下所有 NFT 的数量。在更改的类别
 在本节中，我们描述 NFT 模块的消息处理。
 
 :::warning\
-`ClassID` 和 `NftID` 的验证留给应用开发者。\
-SDK 不提供对这些字段的任何验证。\
+`ClassID` 和 `NftID` 的验证留给应用开发者。SDK 不提供对这些字段的任何验证。
 :::
 
 ### MsgSend

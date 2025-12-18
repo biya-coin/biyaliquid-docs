@@ -10,21 +10,11 @@ sidebar_position: 1
 
 该模块并不规定治理如何决定进行升级，而只是提供安全协调升级的机制。如果没有软件升级支持，升级运行中的链是有风险的，因为所有验证者都需要在流程中的完全相同点暂停其状态机。如果操作不当，可能会出现难以恢复的状态不一致。
 
-* [Concepts](upgrade.md#concepts)
-* [State](upgrade.md#state)
-* [Events](upgrade.md#events)
-* [Client](upgrade.md#client)
-  * [CLI](upgrade.md#cli)
-  * [REST](upgrade.md#rest)
-  * [gRPC](upgrade.md#grpc)
-* [Resources](upgrade.md#resources)
-
 ## Concepts
 
 ### Plan
 
-`x/upgrade` 模块定义了一个 `Plan` 类型，用于安排实时升级的发生。`Plan` 可以在特定的区块高度进行调度。\
-一旦（冻结的）发布候选版本以及相应的升级 `Handler`（见下文）达成一致，就会创建一个 `Plan`，其中 `Plan` 的 `Name` 对应于一个特定的 `Handler`。通常，`Plan` 通过治理提案流程创建，如果投票通过，将被调度。`Plan` 的 `Info` 可能包含有关升级的各种元数据，通常是特定于应用程序的升级信息，要包含在链上，例如验证者可以自动升级到的 git commit。
+`x/upgrade` 模块定义了一个 `Plan` 类型，用于安排实时升级的发生。`Plan` 可以在特定的区块高度进行调度。一旦（冻结的）发布候选版本以及相应的升级 `Handler`（见下文）达成一致，就会创建一个 `Plan`，其中 `Plan` 的 `Name` 对应于一个特定的 `Handler`。通常，`Plan` 通过治理提案流程创建，如果投票通过，将被调度。`Plan` 的 `Info` 可能包含有关升级的各种元数据，通常是特定于应用程序的升级信息，要包含在链上，例如验证者可以自动升级到的 git commit。
 
 ```go
 type Plan struct {
@@ -62,8 +52,7 @@ func UpgradeStoreLoader (upgradeHeight int64, storeUpgrades *store.StoreUpgrades
 
 ### Proposal
 
-通常，`Plan` 通过治理通过包含 `MsgSoftwareUpgrade` 消息的提案提出并提交。\
-此提案遵循标准治理流程。如果提案通过，针对特定 `Handler` 的 `Plan` 将被持久化并调度。可以通过在新提案中更新 `Plan.Height` 来延迟或加快升级。
+通常，`Plan` 通过治理通过包含 `MsgSoftwareUpgrade` 消息的提案提出并提交。此提案遵循标准治理流程。如果提案通过，针对特定 `Handler` 的 `Plan` 将被持久化并调度。可以通过在新提案中更新 `Plan.Height` 来延迟或加快升级。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/upgrade/v1beta1/tx.proto#L29-L41
@@ -71,8 +60,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/upgrade/v1bet
 
 #### Cancelling Upgrade Proposals
 
-升级提案可以被取消。存在一个启用治理的 `MsgCancelUpgrade` 消息类型，可以嵌入到提案中，进行投票，如果通过，将删除计划的升级 `Plan`。\
-当然，这要求在升级本身之前很久就知道升级是一个坏主意，以便有时间进行投票。
+升级提案可以被取消。存在一个启用治理的 `MsgCancelUpgrade` 消息类型，可以嵌入到提案中，进行投票，如果通过，将删除计划的升级 `Plan`。当然，这要求在升级本身之前很久就知道升级是一个坏主意，以便有时间进行投票。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/upgrade/v1beta1/tx.proto#L48-L57
@@ -84,8 +72,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/upgrade/v1bet
 
 ## State
 
-`x/upgrade` 模块的内部状态相对最小且简单。\
-状态包含当前活动的升级 `Plan`（如果存在），通过键 `0x0`，以及如果 `Plan` 被标记为"完成"，通过键 `0x1`。状态包含应用程序中所有应用模块的共识版本。版本存储为大端 `uint64`，可以通过前缀 `0x2` 后跟类型为 `string` 的相应模块名称来访问。状态维护一个 `Protocol Version`，可以通过键 `0x3` 访问。
+`x/upgrade` 模块的内部状态相对最小且简单。状态包含当前活动的升级 `Plan`（如果存在），通过键 `0x0`，以及如果 `Plan` 被标记为"完成"，通过键 `0x1`。状态包含应用程序中所有应用模块的共识版本。版本存储为大端 `uint64`，可以通过前缀 `0x2` 后跟类型为 `string` 的相应模块名称来访问。状态维护一个 `Protocol Version`，可以通过键 `0x3` 访问。
 
 * Plan: `0x0 -> Plan`
 * Done: `0x1 | byte(plan name) -> BigEndian(Block Height)`
@@ -120,8 +107,7 @@ simd query upgrade --help
 simd query upgrade applied [upgrade-name] [flags]
 ```
 
-如果升级名称先前在链上执行过，这将返回应用它的区块的区块头。\
-这有助于客户端确定哪个二进制文件在给定区块范围内有效，以及更多上下文来理解过去的迁移。
+如果升级名称先前在链上执行过，这将返回应用它的区块的区块头。这有助于客户端确定哪个二进制文件在给定区块范围内有效，以及更多上下文来理解过去的迁移。
 
 Example:
 

@@ -10,24 +10,6 @@ sidebar_position: 1
 
 此模块允许账户授予费用授权并使用其账户的费用。被授权者可以执行任何交易，无需维持足够的费用。
 
-## 目录
-
-* [概念](feegrant.md#concepts)
-* [状态](feegrant.md#state)
-  * [费用授权](feegrant.md#feeallowance)
-  * [费用授权队列](feegrant.md#feeallowancequeue)
-* [消息](feegrant.md#messages)
-  * [Msg/GrantAllowance](feegrant.md#msggrantallowance)
-  * [Msg/RevokeAllowance](feegrant.md#msgrevokeallowance)
-* [事件](feegrant.md#events)
-* [消息服务器](feegrant.md#msg-server)
-  * [MsgGrantAllowance](feegrant.md#msggrantallowance-1)
-  * [MsgRevokeAllowance](feegrant.md#msgrevokeallowance-1)
-  * [执行费用授权](feegrant.md#exec-fee-allowance)
-* [客户端](feegrant.md#client)
-  * [CLI](feegrant.md#cli)
-  * [gRPC](feegrant.md#grpc)
-
 ## 概念
 
 ### 授权授予

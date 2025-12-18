@@ -17,40 +17,6 @@ sidebar_position: 1
 
 该模块在 Cosmos Hub（也称为 [gaia](https://github.com/cosmos/gaia)）上使用。未来可能添加的功能在[未来改进](gov.md#future-improvements)中描述。
 
-## 目录
-
-以下规范使用 _ATOM_ 作为原生质押代币。该模块可以通过将 _ATOM_ 替换为链的原生质押代币来适配任何权益证明区块链。
-
-* [概念](gov.md#concepts)
-  * [提案提交](gov.md#proposal-submission)
-  * [押金](gov.md#deposit)
-  * [投票](gov.md#vote)
-  * [软件升级](gov.md#software-upgrade)
-* [状态](gov.md#state)
-  * [提案](gov.md#proposals)
-  * [参数和基础类型](gov.md#parameters-and-base-types)
-  * [押金](gov.md#deposit-1)
-  * [ValidatorGovInfo](gov.md#validatorgovinfo)
-  * [存储](gov.md#stores)
-  * [提案处理队列](gov.md#proposal-processing-queue)
-  * [遗留提案](gov.md#legacy-proposal)
-* [消息](gov.md#messages)
-  * [提案提交](gov.md#proposal-submission-1)
-  * [押金](gov.md#deposit-2)
-  * [投票](gov.md#vote-1)
-* [事件](gov.md#events)
-  * [EndBlocker](gov.md#endblocker)
-  * [处理器](gov.md#handlers)
-* [参数](gov.md#parameters)
-* [客户端](gov.md#client)
-  * [CLI](gov.md#cli)
-  * [gRPC](gov.md#grpc)
-  * [REST](gov.md#rest)
-* [元数据](gov.md#metadata)
-  * [提案](gov.md#proposal-3)
-  * [投票](gov.md#vote-5)
-* [未来改进](gov.md#future-improvements)
-
 ## 概念
 
 _免责声明：这是正在进行的工作。机制可能会发生变化。_
@@ -316,9 +282,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/gov.pr
 
 ## 存储
 
-:::note\
-存储是多存储中的 KVStore。查找存储的键是列表中的第一个参数\
-:::
+:::note存储是多存储中的 KVStore。查找存储的键是列表中的第一个参数:::
 
 我们将使用一个 KVStore `Governance` 来存储四个映射：
 
@@ -401,9 +365,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/gov/v1/gov.pr
 
 ### 遗留提案
 
-:::warning\
-遗留提案已弃用。通过授予治理模块执行消息的权利来使用新的提案流程。\
-:::
+:::warning遗留提案已弃用。通过授予治理模块执行消息的权利来使用新的提案流程。:::
 
 遗留提案是治理提案的旧实现。与可以包含任何消息的提案相反，遗留提案允许提交一组预定义的提案。这些提案由其类型定义，并由在 gov v1beta1 路由器中注册的处理器处理。
 
@@ -916,9 +878,7 @@ simd tx gov deposit 1 10000000stake --from cosmos1..
 
 **draft-proposal**
 
-`draft-proposal` 命令允许用户起草任何类型的提案。\
-该命令返回一个 `draft_proposal.json`，在完成后由 `submit-proposal` 使用。\
-`draft_metadata.json` 旨在上传到 [IPFS](gov.md#metadata)。
+`draft-proposal` 命令允许用户起草任何类型的提案。该命令返回一个 `draft_proposal.json`，在完成后由 `submit-proposal` 使用。`draft_metadata.json` 旨在上传到 [IPFS](gov.md#metadata)。
 
 ```bash
 simd tx gov draft-proposal
@@ -926,8 +886,7 @@ simd tx gov draft-proposal
 
 **submit-proposal**
 
-`submit-proposal` 命令允许用户提交治理提案以及一些消息和元数据。\
-消息、元数据和押金在 JSON 文件中定义。
+`submit-proposal` 命令允许用户提交治理提案以及一些消息和元数据。消息、元数据和押金在 JSON 文件中定义。
 
 ```bash
 simd tx gov submit-proposal [path-to-proposal-json] [flags]
@@ -2396,8 +2355,7 @@ gov 模块有两个元数据位置，用户可以在其中提供有关他们正�
 ```
 
 :::note\
-`authors` 字段是一个字符串数组，这是为了允许在元数据中列出多个作者。\
-在 v0.46 中，`authors` 字段是一个逗号分隔的字符串。鼓励前端支持两种格式以保持向后兼容性。\
+`authors` 字段是一个字符串数组，这是为了允许在元数据中列出多个作者。在 v0.46 中，`authors` 字段是一个逗号分隔的字符串。鼓励前端支持两种格式以保持向后兼容性。\
 :::
 
 ### 投票

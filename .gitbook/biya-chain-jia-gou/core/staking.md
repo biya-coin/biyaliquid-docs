@@ -12,48 +12,6 @@ sidebar_position: 1
 
 该模块用于 Cosmos Hub，这是 Cosmos 网络中的第一个 Hub。
 
-## Contents
-
-* [State](staking.md#state)
-  * [Pool](staking.md#pool)
-  * [LastTotalPower](staking.md#lasttotalpower)
-  * [ValidatorUpdates](staking.md#validatorupdates)
-  * [UnbondingID](staking.md#unbondingid)
-  * [Params](staking.md#params)
-  * [Validator](staking.md#validator)
-  * [Delegation](staking.md#delegation)
-  * [UnbondingDelegation](staking.md#unbondingdelegation)
-  * [Redelegation](staking.md#redelegation)
-  * [Queues](staking.md#queues)
-  * [HistoricalInfo](staking.md#historicalinfo)
-* [State Transitions](staking.md#state-transitions)
-  * [Validators](staking.md#validators)
-  * [Delegations](staking.md#delegations)
-  * [Slashing](staking.md#slashing)
-  * [How Shares are calculated](staking.md#how-shares-are-calculated)
-* [Messages](staking.md#messages)
-  * [MsgCreateValidator](staking.md#msgcreatevalidator)
-  * [MsgEditValidator](staking.md#msgeditvalidator)
-  * [MsgDelegate](staking.md#msgdelegate)
-  * [MsgUndelegate](staking.md#msgundelegate)
-  * [MsgCancelUnbondingDelegation](staking.md#msgcancelunbondingdelegation)
-  * [MsgBeginRedelegate](staking.md#msgbeginredelegate)
-  * [MsgUpdateParams](staking.md#msgupdateparams)
-* [Begin-Block](staking.md#begin-block)
-  * [Historical Info Tracking](staking.md#historical-info-tracking)
-* [End-Block](staking.md#end-block)
-  * [Validator Set Changes](staking.md#validator-set-changes)
-  * [Queues](staking.md#queues-1)
-* [Hooks](staking.md#hooks)
-* [Events](staking.md#events)
-  * [EndBlocker](staking.md#endblocker)
-  * [Msg's](staking.md#msgs)
-* [Parameters](staking.md#parameters)
-* [Client](staking.md#client)
-  * [CLI](staking.md#cli)
-  * [gRPC](staking.md#grpc)
-  * [REST](staking.md#rest)
-
 ## State
 
 ### Pool
@@ -62,15 +20,13 @@ Pool 用于跟踪绑定和非绑定代币的供应量（绑定面额）。
 
 ### LastTotalPower
 
-LastTotalPower 跟踪在上一个结束区块期间记录的绑定代币总量。\
-前缀为 "Last" 的存储条目必须保持不变，直到 EndBlock。
+LastTotalPower 跟踪在上一个结束区块期间记录的绑定代币总量。前缀为 "Last" 的存储条目必须保持不变，直到 EndBlock。
 
 * LastTotalPower: `0x12 -> ProtocolBuffer(math.Int)`
 
 ### ValidatorUpdates
 
-ValidatorUpdates 包含在每个区块结束时返回给 ABCI 的验证者更新。\
-值在每个区块中被覆盖。
+ValidatorUpdates 包含在每个区块结束时返回给 ABCI 的验证者更新。值在每个区块中被覆盖。
 
 * ValidatorUpdates `0x61 -> []abci.ValidatorUpdate`
 
@@ -82,8 +38,7 @@ UnbondingID 存储最新解绑操作的 ID。它能够为解绑操作创建唯�
 
 ### Params
 
-staking 模块将其参数存储在状态中，前缀为 `0x51`，\
-可以通过治理或具有权限的地址进行更新。
+staking 模块将其参数存储在状态中，前缀为 `0x51`，可以通过治理或具有权限的地址进行更新。
 
 * Params: `0x51 | ProtocolBuffer(Params)`
 
@@ -96,18 +51,14 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 验证者可以具有三种状态之一
 
 * `Unbonded`：验证者不在活跃集合中。他们不能签署区块，也不会获得奖励。他们可以接收委托。
-* `Bonded`：一旦验证者收到足够的绑定代币，他们会在 [`EndBlock`](staking.md#validator-set-changes) 期间自动加入活跃集合，其状态更新为 `Bonded`。\
-  他们正在签署区块并接收奖励。他们可以接收进一步的委托。\
-  他们可能因不当行为而被削减。解绑委托给此验证者的委托者必须等待 UnbondingTime 的持续时间（链特定参数），在此期间，如果源验证者的违规行为发生在代币绑定期间，他们仍然可能因源验证者的违规行为而被削减。
+* `Bonded`：一旦验证者收到足够的绑定代币，他们会在 [`EndBlock`](staking.md#validator-set-changes) 期间自动加入活跃集合，其状态更新为 `Bonded`。  他们正在签署区块并接收奖励。他们可以接收进一步的委托。他们可能因不当行为而被削减。解绑委托给此验证者的委托者必须等待 UnbondingTime 的持续时间（链特定参数），在此期间，如果源验证者的违规行为发生在代币绑定期间，他们仍然可能因源验证者的违规行为而被削减。
 * `Unbonding`：当验证者离开活跃集合时，无论是自愿还是由于削减、监禁或标记为墓碑，所有委托的解绑都会开始。然后所有委托必须等待 UnbondingTime，然后才能将其代币从 `BondedPool` 转移到其账户。
 
 :::warning\
 标记为墓碑是永久性的，一旦被标记为墓碑，验证者的共识密钥就不能在发生标记的链中重复使用。\
 :::
 
-验证者对象应该主要通过 `OperatorAddr`（验证者操作员的 SDK 验证者地址）存储和访问。\
-每个验证者对象维护两个额外的索引，以满足削减和验证者集合更新所需的查找。还维护第三个特殊索引\
-（`LastValidatorPower`），但它在每个区块中保持恒定，与前两个在区块内镜像验证者记录的索引不同。
+验证者对象应该主要通过 `OperatorAddr`（验证者操作员的 SDK 验证者地址）存储和访问。每个验证者对象维护两个额外的索引，以满足削减和验证者集合更新所需的查找。还维护第三个特殊索引（`LastValidatorPower`），但它在每个区块中保持恒定，与前两个在区块内镜像验证者记录的索引不同。
 
 * Validators: `0x21 | OperatorAddrLen (1 byte) | OperatorAddr -> ProtocolBuffer(validator)`
 * ValidatorsByConsAddr: `0x22 | ConsAddrLen (1 byte) | ConsAddr -> OperatorAddr`
@@ -115,16 +66,13 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 * LastValidatorsPower: `0x11 | OperatorAddrLen (1 byte) | OperatorAddr -> ProtocolBuffer(ConsensusPower)`
 * ValidatorsByUnbondingID: `0x38 | UnbondingID -> 0x21 | OperatorAddrLen (1 byte) | OperatorAddr`
 
-`Validators` 是主索引 - 它确保每个操作员只能有一个关联的验证者，该验证者的公钥将来可能会更改。\
-委托者可以参考验证者的不可变操作员，而不必担心更改的公钥。
+`Validators` 是主索引 - 它确保每个操作员只能有一个关联的验证者，该验证者的公钥将来可能会更改。委托者可以参考验证者的不可变操作员，而不必担心更改的公钥。
 
 `ValidatorsByUnbondingID` 是一个额外的索引，可以通过与其当前解绑对应的解绑 ID 来查找验证者。
 
-`ValidatorByConsAddr` 是一个额外的索引，用于查找削减。\
-当 CometBFT 报告证据时，它提供验证者地址，因此需要此映射来查找操作员。请注意，`ConsAddr` 对应于可以从验证者的 `ConsPubKey` 派生的地址。
+`ValidatorByConsAddr` 是一个额外的索引，用于查找削减。当 CometBFT 报告证据时，它提供验证者地址，因此需要此映射来查找操作员。请注意，`ConsAddr` 对应于可以从验证者的 `ConsPubKey` 派生的地址。
 
-`ValidatorsByPower` 是一个额外的索引，提供潜在验证者的排序列表，以快速确定当前活跃集合。\
-这里 ConsensusPower 默认为 validator.Tokens/10^6。请注意，`Jailed` 为 true 的所有验证者都不会存储在此索引中。
+`ValidatorsByPower` 是一个额外的索引，提供潜在验证者的排序列表，以快速确定当前活跃集合。这里 ConsensusPower 默认为 validator.Tokens/10^6。请注意，`Jailed` 为 true 的所有验证者都不会存储在此索引中。
 
 `LastValidatorsPower` 是一个特殊索引，提供上一个区块的绑定验证者的历史列表。此索引在区块期间保持恒定，但在 [`EndBlock`](staking.md#end-block) 中发生的验证者集合更新过程中更新。
 
@@ -160,8 +108,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 `Tokens per Share = validator.Tokens() / validatorShares()`
 
-这些 `Shares` 只是一个会计机制。它们不是可替代资产。这种机制的原因是为了简化围绕削减的会计。不是迭代削减每个委托条目的代币，而是可以削减验证者的总绑定代币，\
-有效地降低每个已发行委托者份额的价值。
+这些 `Shares` 只是一个会计机制。它们不是可替代资产。这种机制的原因是为了简化围绕削减的会计。不是迭代削减每个委托条目的代币，而是可以削减验证者的总绑定代币，有效地降低每个已发行委托者份额的价值。
 
 ### UnbondingDelegation
 
@@ -185,8 +132,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### Redelegation
 
-`Delegation` 的绑定代币价值可以立即从源验证者重新委托到不同的验证者（目标验证者）。但是当\
-发生这种情况时，必须在 `Redelegation` 对象中跟踪它们，如果它们的代币对源验证者犯下的拜占庭故障做出了贡献，它们的份额可能会被削减。
+`Delegation` 的绑定代币价值可以立即从源验证者重新委托到不同的验证者（目标验证者）。但是当发生这种情况时，必须在 `Redelegation` 对象中跟踪它们，如果它们的代币对源验证者犯下的拜占庭故障做出了贡献，它们的份额可能会被削减。
 
 `Redelegation` 在存储中索引为：
 
@@ -201,8 +147,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 `RedelegationsByDst` 用于基于 `ValidatorDstAddr` 的削减
 
-这里的第一个映射用于查询，以查找给定委托者的所有重新委托。第二个映射用于基于 `ValidatorSrcAddr` 的削减，\
-而第三个映射用于基于 `ValidatorDstAddr` 的削减。
+这里的第一个映射用于查询，以查找给定委托者的所有重新委托。第二个映射用于基于 `ValidatorSrcAddr` 的削减，而第三个映射用于基于 `ValidatorDstAddr` 的削减。
 
 `RedelegationByUnbondingId` 是一个额外的索引，可以通过包含的重新委托条目的解绑 ID 来查找重新委托。
 
@@ -217,8 +162,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### Queues
 
-所有队列对象都按时间戳排序。任何队列中使用的时间首先转换为 UTC，四舍五入到最近的纳秒，然后排序。使用的可排序时间格式\
-是对 RFC3339Nano 的轻微修改，使用格式字符串 `"2006-01-02T15:04:05.000000000"`。值得注意的是，此格式：
+所有队列对象都按时间戳排序。任何队列中使用的时间首先转换为 UTC，四舍五入到最近的纳秒，然后排序。使用的可排序时间格式是对 RFC3339Nano 的轻微修改，使用格式字符串 `"2006-01-02T15:04:05.000000000"`。值得注意的是，此格式：
 
 * 右填充所有零
 * 删除时区信息（我们已经使用 UTC）
@@ -261,18 +205,15 @@ HistoricalInfo 对象在每个区块存储和修剪，以便 staking keeper 持�
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/staking.proto#L17-L24
 ```
 
-在每个 BeginBlock，staking keeper 将在 `HistoricalInfo` 对象中持久化当前 Header 和提交当前区块的验证者。验证者按其地址排序，以确保它们处于确定性顺序。\
-最旧的 HistoricalEntries 将被修剪，以确保只存在参数定义数量的历史条目。
+在每个 BeginBlock，staking keeper 将在 `HistoricalInfo` 对象中持久化当前 Header 和提交当前区块的验证者。验证者按其地址排序，以确保它们处于确定性顺序。最旧的 HistoricalEntries 将被修剪，以确保只存在参数定义数量的历史条目。
 
 ## State Transitions
 
 ### Validators
 
-验证者中的状态转换在每个 [`EndBlock`](staking.md#validator-set-changes) 上执行，\
-以检查活跃 `ValidatorSet` 的变化。
+验证者中的状态转换在每个 [`EndBlock`](staking.md#validator-set-changes) 上执行，以检查活跃 `ValidatorSet` 的变化。
 
-验证者可以是 `Unbonded`、`Unbonding` 或 `Bonded`。`Unbonded`\
-和 `Unbonding` 统称为 `Not Bonded`。验证者可以在所有状态之间直接移动，除了从 `Bonded` 到 `Unbonded`。
+验证者可以是 `Unbonded`、`Unbonding` 或 `Bonded`。`Unbonded`和 `Unbonding` 统称为 `Not Bonded`。验证者可以在所有状态之间直接移动，除了从 `Bonded` 到 `Unbonded`。
 
 #### Not bonded to Bonded
 
@@ -305,8 +246,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 #### Jail/Unjail
 
-当验证者被监禁时，它实际上从 CometBFT 集合中移除。\
-这个过程也可以逆转。发生以下操作：
+当验证者被监禁时，它实际上从 CometBFT 集合中移除。这个过程也可以逆转。发生以下操作：
 
 * 设置 `Validator.Jailed` 并更新对象
 * 如果被监禁，从 `ValidatorByPowerIndex` 删除记录
@@ -366,10 +306,8 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 * 从源验证者执行 `unbond` 委托以检索解绑份额的代币价值
 * 使用解绑的代币，将它们 `Delegate` 到目标验证者
-* 如果 `sourceValidator.Status` 是 `Bonded`，而 `destinationValidator` 不是，\
-  将新委托的代币从 `BondedPool` 转移到 `NotBondedPool` `ModuleAccount`
-* 否则，如果 `sourceValidator.Status` 不是 `Bonded`，而 `destinationValidator`\
-  是 `Bonded`，将新委托的代币从 `NotBondedPool` 转移到 `BondedPool` `ModuleAccount`
+* 如果 `sourceValidator.Status` 是 `Bonded`，而 `destinationValidator` 不是，  将新委托的代币从 `BondedPool` 转移到 `NotBondedPool` `ModuleAccount`
+* 否则，如果 `sourceValidator.Status` 不是 `Bonded`，而 `destinationValidator`  是 `Bonded`，将新委托的代币从 `NotBondedPool` 转移到 `BondedPool` `ModuleAccount`
 * 在相关 `Redelegation` 的新条目中记录代币数量
 
 从重新委托开始到完成，委托者处于"伪解绑"状态，仍然可能因在重新委托开始之前发生的违规行为而被削减。
@@ -386,44 +324,30 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 当验证者被削减时，会发生以下情况：
 
-* 总 `slashAmount` 计算为 `slashFactor`（链参数）\* `TokensFromConsensusPower`，\
-  违规时绑定到验证者的代币总数。
-* 每个解绑委托和伪解绑重新委托，如果违规发生在解绑或重新委托从验证者开始之前，\
-  则按 `initialBalance` 的 `slashFactor` 百分比削减。
+* 总 `slashAmount` 计算为 `slashFactor`（链参数）\* `TokensFromConsensusPower`，违规时绑定到验证者的代币总数。
+* 每个解绑委托和伪解绑重新委托，如果违规发生在解绑或重新委托从验证者开始之前，则按 `initialBalance` 的 `slashFactor` 百分比削减。
 * 从重新委托和解绑委托中削减的每个金额从总削减金额中减去。
 * 然后根据验证者的状态，从验证者在 `BondedPool` 或 `NonBondedPool` 中的代币中削减 `remaingSlashAmount`。这减少了代币的总供应量。
 
-对于需要提交证据的违规行为（例如双重签名）导致的削减，削减发生在包含证据的区块，而不是违规发生的区块。\
-换句话说，验证者不会追溯削减，只有在被抓住时才会削减。
+对于需要提交证据的违规行为（例如双重签名）导致的削减，削减发生在包含证据的区块，而不是违规发生的区块。换句话说，验证者不会追溯削减，只有在被抓住时才会削减。
 
 #### Slash Unbonding Delegation
 
-当验证者被削减时，那些在违规时间之后开始解绑的验证者解绑委托也会被削减。验证者的每个解绑委托中的每个条目\
-按 `slashFactor` 削减。削减的金额从委托的 `InitialBalance` 计算，并设置上限以防止负余额。已完成（或成熟）的解绑不会被削减。
+当验证者被削减时，那些在违规时间之后开始解绑的验证者解绑委托也会被削减。验证者的每个解绑委托中的每个条目按 `slashFactor` 削减。削减的金额从委托的 `InitialBalance` 计算，并设置上限以防止负余额。已完成（或成熟）的解绑不会被削减。
 
 #### Slash Redelegation
 
-当验证者被削减时，所有在违规之后开始的验证者重新委托也会被削减。重新委托按 `slashFactor` 削减。\
-在违规之前开始的重新委托不会被削减。\
-削减的金额从委托的 `InitialBalance` 计算，并设置上限以防止负余额。\
-成熟的重新委托（已完成伪解绑）不会被削减。
+当验证者被削减时，所有在违规之后开始的验证者重新委托也会被削减。重新委托按 `slashFactor` 削减。在违规之前开始的重新委托不会被削减。削减的金额从委托的 `InitialBalance` 计算，并设置上限以防止负余额。成熟的重新委托（已完成伪解绑）不会被削减。
 
 ### How Shares are calculated
 
-在任何给定时间点，每个验证者都有一定数量的代币 `T`，并发行了一定数量的份额 `S`。\
-每个委托者 `i` 持有一定数量的份额 `S_i`。\
-代币数量是委托给验证者的所有代币的总和，加上奖励，减去削减。
+在任何给定时间点，每个验证者都有一定数量的代币 `T`，并发行了一定数量的份额 `S`。每个委托者 `i` 持有一定数量的份额 `S_i`。代币数量是委托给验证者的所有代币的总和，加上奖励，减去削减。
 
-委托者有权获得与其份额比例成比例的底层代币部分。\
-因此，委托者 `i` 有权获得验证者代币的 `T * S_i / S`。
+委托者有权获得与其份额比例成比例的底层代币部分。因此，委托者 `i` 有权获得验证者代币的 `T * S_i / S`。
 
-当委托者将新代币委托给验证者时，他们会获得与其贡献成比例的份额。\
-因此，当委托者 `j` 委托 `T_j` 代币时，他们获得 `S_j = S * T_j / T` 份额。\
-代币总数现在是 `T + T_j`，份额总数是 `S + S_j`。`j` 的份额比例与其贡献的总代币比例相同：`(S + S_j) / S = (T + T_j) / T`。
+当委托者将新代币委托给验证者时，他们会获得与其贡献成比例的份额。因此，当委托者 `j` 委托 `T_j` 代币时，他们获得 `S_j = S * T_j / T` 份额。代币总数现在是 `T + T_j`，份额总数是 `S + S_j`。`j` 的份额比例与其贡献的总代币比例相同：`(S + S_j) / S = (T + T_j) / T`。
 
-特殊情况是初始委托，当 `T = 0` 和 `S = 0` 时，`T_j / T` 未定义。\
-对于初始委托，委托 `T_j` 代币的委托者 `j` 获得 `S_j = T_j` 份额。\
-因此，没有收到任何奖励且没有被削减的验证者将有 `T = S`。
+特殊情况是初始委托，当 `T = 0` 和 `S = 0` 时，`T_j / T` 未定义。对于初始委托，委托 `T_j` 代币的委托者 `j` 获得 `S_j = T_j` 份额。因此，没有收到任何奖励且没有被削减的验证者将有 `T = S`。
 
 ## Messages
 
@@ -431,8 +355,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### MsgCreateValidator
 
-使用 `MsgCreateValidator` 消息创建验证者。\
-验证者必须通过操作员的初始委托创建。
+使用 `MsgCreateValidator` 消息创建验证者。验证者必须通过操作员的初始委托创建。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L20-L21
@@ -453,8 +376,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
   * 初始 `MaxChangeRate` 要么为负数要么 > `MaxRate`
 * 描述字段太大
 
-此消息创建并存储适当索引处的 `Validator` 对象。\
-此外，使用初始代币委托代币 `Delegation` 进行自委托。验证者始终以未绑定状态开始，但可能在第一个结束区块中被绑定。
+此消息创建并存储适当索引处的 `Validator` 对象。此外，使用初始代币委托代币 `Delegation` 进行自委托。验证者始终以未绑定状态开始，但可能在第一个结束区块中被绑定。
 
 ### MsgEditValidator
 
@@ -497,11 +419,9 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 * 汇率无效，意味着验证者没有代币（由于削减）但存在未偿还份额
 * 委托金额小于允许的最小委托
 
-如果提供的地址的现有 `Delegation` 对象尚不存在，\
-则作为此消息的一部分创建它，否则更新现有 `Delegation` 以包含新收到的份额。
+如果提供的地址的现有 `Delegation` 对象尚不存在，则作为此消息的一部分创建它，否则更新现有 `Delegation` 以包含新收到的份额。
 
-委托者以当前汇率接收新铸造的份额。\
-汇率是验证者中现有份额数除以当前委托的代币数。
+委托者以当前汇率接收新铸造的份额。汇率是验证者中现有份额数除以当前委托的代币数。
 
 验证者在 `ValidatorByPower` 索引中更新，委托在 `Validators` 索引中的验证者对象中跟踪。
 
@@ -575,8 +495,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### MsgBeginRedelegate
 
-重新委托命令允许委托者立即切换验证者。一旦\
-解绑期过去，重新委托会在 EndBlocker 中自动完成。
+重新委托命令允许委托者立即切换验证者。一旦解绑期过去，重新委托会在 EndBlocker 中自动完成。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L30-L32
@@ -617,8 +536,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### MsgUpdateParams
 
-`MsgUpdateParams` 更新 staking 模块参数。\
-参数通过治理提案更新，其中签名者是 gov 模块账户地址。
+`MsgUpdateParams` 更新 staking 模块参数。参数通过治理提案更新，其中签名者是 gov 模块账户地址。
 
 ```protobuf
 https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1beta1/tx.proto#L182-L195
@@ -636,9 +554,7 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 如果 `HistoricalEntries` 参数为 0，则 `BeginBlock` 执行空操作。
 
-否则，最新的历史信息存储在键 `historicalInfoKey|height` 下，而任何早于 `height - HistoricalEntries` 的条目将被删除。\
-在大多数情况下，这导致每个区块修剪单个条目。\
-但是，如果参数 `HistoricalEntries` 已更改为较低值，则存储中将有多个条目必须被修剪。
+否则，最新的历史信息存储在键 `historicalInfoKey|height` 下，而任何早于 `height - HistoricalEntries` 的条目将被删除。在大多数情况下，这导致每个区块修剪单个条目。但是，如果参数 `HistoricalEntries` 已更改为较低值，则存储中将有多个条目必须被修剪。
 
 ## End-Block
 
@@ -646,44 +562,28 @@ https://github.com/cosmos/cosmos-sdk/blob/v0.47.0-rc1/proto/cosmos/staking/v1bet
 
 ### Validator Set Changes
 
-staking 验证者集合在此过程中通过在每个区块结束时运行的状态转换更新。\
-作为此过程的一部分，任何更新的验证者也会返回给 CometBFT，以包含在 CometBFT 验证者集合中，\
-该集合负责在共识层验证 CometBFT 消息。操作如下：
+staking 验证者集合在此过程中通过在每个区块结束时运行的状态转换更新。作为此过程的一部分，任何更新的验证者也会返回给 CometBFT，以包含在 CometBFT 验证者集合中，该集合负责在共识层验证 CometBFT 消息。操作如下：
 
 * 新验证者集合取自从 `ValidatorsByPower` 索引检索的前 `params.MaxValidators` 数量的验证者
 * 将先前的验证者集合与新验证者集合进行比较：
   * 缺失的验证者开始解绑，其 `Tokens` 从 `BondedPool` 转移到 `NotBondedPool` `ModuleAccount`
   * 新验证者立即绑定，其 `Tokens` 从 `NotBondedPool` 转移到 `BondedPool` `ModuleAccount`
 
-在所有情况下，任何离开或进入绑定验证者集合或更改余额并保持在绑定验证者集合内的验证者都会产生更新\
-消息，报告其新的共识权力，该消息被传递回 CometBFT。
+在所有情况下，任何离开或进入绑定验证者集合或更改余额并保持在绑定验证者集合内的验证者都会产生更新消息，报告其新的共识权力，该消息被传递回 CometBFT。
 
-`LastTotalPower` 和 `LastValidatorsPower` 保存来自上一个区块结束的总权力和验证者权力的状态，\
-用于检查 `ValidatorsByPower` 和总新权力中发生的变化，这在 `EndBlock` 期间计算。
+`LastTotalPower` 和 `LastValidatorsPower` 保存来自上一个区块结束的总权力和验证者权力的状态，用于检查 `ValidatorsByPower` 和总新权力中发生的变化，这在 `EndBlock` 期间计算。
 
 ### Queues
 
-在 staking 中，某些状态转换不是瞬时的，而是在一段时间内发生（通常是解绑期）。当这些\
-transitions are mature certain operations must take place in order to complete\
-the state operation. This is achieved through the use of queues which are\
-checked/processed at the end of each block.
+在 staking 中，某些状态转换不是瞬时的，而是在一段时间内发生（通常是解绑期）。当这些transitions are mature certain operations must take place in order to complete the state operation. This is achieved through the use of queues which are checked/processed at the end of each block.
 
 #### Unbonding Validators
 
-When a validator is kicked out of the bonded validator set (either through\
-被监禁，或没有足够的绑定代币）它开始解绑过程，\
-其所有委托也开始解绑（同时仍委托给此验证者）。此时验证者被称为\
-"解绑验证者"，在解绑期过去后，它将成熟成为"未绑定验证者"。
+When a validator is kicked out of the bonded validator set (either through被监禁，或没有足够的绑定代币）它开始解绑过程，其所有委托也开始解绑（同时仍委托给此验证者）。此时验证者被称为"解绑验证者"，在解绑期过去后，它将成熟成为"未绑定验证者"。
 
-每个区块都要检查验证者队列中是否有成熟的解绑验证者\
-（即完成时间 <= 当前时间且完成高度 <= 当前区块高度）。\
-此时，任何没有剩余委托的成熟验证者都会从状态中删除。对于所有其他仍有剩余委托的成熟解绑\
-验证者，`validator.Status` 从 `types.Unbonding` 切换到 `types.Unbonded`。
+每个区块都要检查验证者队列中是否有成熟的解绑验证者（即完成时间 <= 当前时间且完成高度 <= 当前区块高度）。此时，任何没有剩余委托的成熟验证者都会从状态中删除。对于所有其他仍有剩余委托的成熟解绑验证者，`validator.Status` 从 `types.Unbonding` 切换到 `types.Unbonded`。
 
-解绑操作可以通过外部模块通过 `PutUnbondingOnHold(unbondingId)` 方法暂停。\
-因此，暂停的解绑操作（例如，解绑委托）即使达到成熟也无法完成。\
-对于具有 `unbondingId` 的解绑操作最终完成（在达到成熟后），\
-每次调用 `PutUnbondingOnHold(unbondingId)` 必须与调用 `UnbondingCanComplete(unbondingId)` 匹配。
+解绑操作可以通过外部模块通过 `PutUnbondingOnHold(unbondingId)` 方法暂停。因此，暂停的解绑操作（例如，解绑委托）即使达到成熟也无法完成。对于具有 `unbondingId` 的解绑操作最终完成（在达到成熟后），每次调用 `PutUnbondingOnHold(unbondingId)` 必须与调用 `UnbondingCanComplete(unbondingId)` 匹配。
 
 #### Unbonding Delegations
 
@@ -702,9 +602,7 @@ When a validator is kicked out of the bonded validator set (either through\
 
 ## Hooks
 
-其他模块可以注册操作，以便在 staking 中发生某些事件时执行。\
-这些事件可以注册为在 staking 事件之前或之后执行（根据钩子名称）。\
-以下钩子可以在 staking 中注册：
+其他模块可以注册操作，以便在 staking 中发生某些事件时执行。这些事件可以注册为在 staking 事件之前或之后执行（根据钩子名称）。以下钩子可以在 staking 中注册：
 
 * `AfterValidatorCreated(Context, ValAddress) error`
   * 在创建验证者时调用
