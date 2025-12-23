@@ -1,10 +1,10 @@
 # Bank
 
-Example code snippets to query the chain for bank module related data.
+查询链上 bank 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch bank module params
+### 获取 bank 模块参数
 
 <pre class="language-ts"><code class="lang-ts"><strong>import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
 </strong>import { getNetworkEndpoints, Network } from '@biya-coin/networks'
@@ -17,7 +17,7 @@ const moduleParams = await chainGrpcBankApi.fetchModuleParams()
 console.log(moduleParams)
 </code></pre>
 
-### Fetching biyachain address's balances
+### 获取 biyachain 地址的余额
 
 ```ts
 import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
@@ -33,7 +33,7 @@ const balances = await chainGrpcBankApi.fetchBalances(biyachainAddress)
 console.log(balances)
 ```
 
-### Fetching cosmos address' balances per base denom
+### 按基础面值获取 cosmos 地址的余额
 
 ```ts
 import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
@@ -42,7 +42,7 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainGrpcBankApi = new ChainGrpcBankApi(endpoints.grpc)
 
-const biyachainAddress = 'biya1' /* example is using Cosmos Hub */
+const biyachainAddress = 'biya1' /* 示例使用 Cosmos Hub */
 const denom = 'biya'
 
 const balance = await chainGrpcBankApi.fetchBalance({
@@ -53,7 +53,7 @@ const balance = await chainGrpcBankApi.fetchBalance({
 console.log(balance)
 ```
 
-### Fetching total supply on chain
+### 获取链上总供应量
 
 ```ts
 import { PaginationOption, ChainGrpcBankApi } from '@biya-coin/sdk-ts'
@@ -65,15 +65,15 @@ const chainGrpcBankApi = new ChainGrpcBankApi(endpoints.grpc)
 const pagination = {...} as PaginationOption
 
 const totalSupply = await chainGrpcBankApi.fetchTotalSupply(
-  pagination /* optional pagination parameter */
+  pagination /* 可选的分页参数 */
 )
 
 console.log(totalSupply)
 ```
 
-## Using HTTP REST
+## 使用 HTTP REST
 
-### Fetching address's balances
+### 获取地址的余额
 
 ```ts
 import { ChainRestBankApi } from '@biya-coin/sdk-ts'
@@ -89,7 +89,7 @@ const balances = await chainGrpcBankApi.fetchBalances(biyachainAddress)
 console.log(balances)
 ```
 
-### Fetching cosmos address' balances per base denom
+### 按基础面值获取 cosmos 地址的余额
 
 ```ts
 import { ChainRestBankApi } from '@biya-coin/sdk-ts'
@@ -98,7 +98,7 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const chainRestBankApi = new ChainRestBankApi(endpoints.rest)
 
-const cosmosAddress = 'cosmos...' /* example is using Cosmos Hub */
+const cosmosAddress = 'cosmos...' /* 示例使用 Cosmos Hub */
 const denom = 'uatom'
 
 const balance = await chainRestBankApi.fetchBalance(cosmosAddress, denom)

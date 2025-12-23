@@ -1,10 +1,10 @@
 # Auth
 
-Example code snippets to query the auth module on the chain.
+查询链上 auth 模块的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters such as max memo characters or tsx signature limit
+### 获取参数，如最大备注字符数或交易签名限制
 
 ```ts
 import { ChainGrpcAuthApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcAuthApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch ccount details associated with an biyachain address such as the account's address, sequence, or pub\_key
+### 获取与 biyachain 地址关联的账户详情，如账户地址、序列号或公钥
 
 ```ts
 import { ChainGrpcAuthApi } from '@biya-coin/sdk-ts'
@@ -35,7 +35,7 @@ const accountDetailsResponse = await chainGrpcAuthApi.fetchAccount(
 console.log(accountDetailsResponse)
 ```
 
-### Fetch list of accounts on chain
+### 获取链上账户列表
 
 ```ts
 import { PaginationOption, ChainGrpcAuthApi } from '@biya-coin/sdk-ts'
@@ -46,14 +46,14 @@ const chainGrpcAuthApi = new ChainGrpcAuthApi(endpoints.grpc)
 const biyachainAddress = 'biya...'
 const pagination = {...} as PaginationOption
 
-const accounts = await chainGrpcAuthApi.fetchAccounts(/* optional pagination params*/)
+const accounts = await chainGrpcAuthApi.fetchAccounts(/* 可选的分页参数*/)
 
 console.log(accounts)
 ```
 
-## Using HTTP REST
+## 使用 HTTP REST
 
-### Fetch account details associated with an biyachain address such as the account's address, sequence, or pub\_key
+### 获取与 biyachain 地址关联的账户详情，如账户地址、序列号或公钥
 
 ```ts
 import { ChainRestAuthApi } from '@biya-coin/sdk-ts'
@@ -70,7 +70,7 @@ const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
 console.log(accountDetailsResponse)
 ```
 
-#### Fetch cosmos address from an biyachain address
+#### 从 biyachain 地址获取 cosmos 地址
 
 ```ts
 import { ChainRestAuthApi } from '@biya-coin/sdk-ts'

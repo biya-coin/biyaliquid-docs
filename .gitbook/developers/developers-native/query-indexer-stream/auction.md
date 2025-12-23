@@ -1,10 +1,10 @@
-# Auction
+# 拍卖
 
-Example code snippets to stream from the indexer for auction module related data.
+从索引器流式传输拍卖模块相关数据的示例代码片段。
 
-## Using gRPC Stream
+## 使用 gRPC 流
 
-### Stream auction bids
+### 流式传输拍卖出价
 
 ```ts
 import { IndexerGrpcAuctionStream } from '@biya-coin/sdk-ts'

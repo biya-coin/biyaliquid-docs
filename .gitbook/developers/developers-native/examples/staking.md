@@ -1,14 +1,14 @@
 # Staking
 
-The module enables Cosmos SDK-based blockchain to support an advanced Proof-of-Stake (PoS) system. In this system, holders of the native staking token of the chain can become validators and can delegate tokens to validators, ultimately determining the effective validator set for the system.
+该模块使基于 Cosmos SDK 的区块链能够支持先进的权益证明（PoS）系统。在此系统中，链的原生质押代币的持有者可以成为验证者，并可以将代币委托给验证者，最终确定系统的有效验证者集。
 
-## Messages
+## 消息
 
-Let's explore (and provide examples) the Messages that the Staking module exports and we can use to interact with the Biya Chain chain.
+让我们探索（并提供示例）Staking 模块导出的消息，我们可以使用这些消息与 Biya Chain 链交互。
 
 ### MsgBeginRedelegate
 
-This Message is used to Redelegate staked BIYA from one validator to another.
+此消息用于将质押的 BIYA 从一个验证者重新委托到另一个验证者。
 
 ```ts
 import {
@@ -47,7 +47,7 @@ console.log(txHash);
 
 ### MsgDelegate
 
-This Message is used to Delegate BIYA to a validator.
+此消息用于将 BIYA 委托给验证者。
 
 ```ts
 import { Network } from "@biya-coin/networks";
@@ -81,7 +81,7 @@ console.log(txHash);
 
 ### MsgCancelUnbondingDelegation
 
-This message is used to cancel unbonding from a validator, reset the bonding period, and delegate back to the previous validator.
+此消息用于取消从验证者的解绑，重置绑定期，并重新委托回之前的验证者。
 
 ```ts
 import {
@@ -96,7 +96,7 @@ const delegatorAddress = "biya1...";
 const privateKey = "0x...";
 const amount = toChainFormat(5).toFixed();
 const validatorAddress = "biya1...";
-const creationHeight = "123456"; // the height at which the unbonding was initiated
+const creationHeight = "123456"; // 启动解绑的高度
 
 const msg = MsgCancelUnbondingDelegation.fromJSON({
   delegatorAddress,

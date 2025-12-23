@@ -1,16 +1,16 @@
 # Bank
 
-The bank module is responsible for handling multi-asset coin transfers between accounts and tracking special-case pseudo-transfers which must work differently with particular kinds of accounts (notably delegating/undelegating for vesting accounts). It exposes several interfaces with varying capabilities for secure interaction with other modules which must alter user balances.
+bank 模块负责处理账户之间的多资产代币转账，并跟踪必须与特定类型账户（特别是归属账户的委托/取消委托）不同工作的特殊情况伪转账。它公开了几个具有不同功能的接口，用于与必须更改用户余额的其他模块进行安全交互。
 
-In addition, the bank module tracks and provides query support for the total supply of all assets used in the application.
+此外，bank 模块跟踪并提供应用程序中使用的所有资产总供应量的查询支持。
 
-## Messages
+## 消息
 
-Let's explore (and provide examples) the messages that the Bank module exports and we can use to interact with the Biya Chain chain.
+让我们探索（并提供示例）Bank 模块导出的消息，我们可以使用这些消息与 Biya Chain 链交互。
 
 ### MsgSend
 
-This message is used to send coins from one address to another. Any TokenFactory token and Peggy token can be used here. To transfer CW20 tokens, see the `MsgExecuteContract` section in [wasm module examples](../../developers-native/examples/wasm.md#msgexecutecontract-transfer).
+此消息用于将代币从一个地址发送到另一个地址。这里可以使用任何 TokenFactory 代币和 Peggy 代币。要转移 CW20 代币，请参阅 [wasm 模块示例](../../developers-native/examples/wasm.md#msgexecutecontract-transfer)中的 `MsgExecuteContract` 部分。
 
 ```ts
 import { MsgSend, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
@@ -41,7 +41,7 @@ console.log(txHash);
 
 ### MsgMultiSend
 
-This message is used to send to multiple recipients from multiple senders.
+此消息用于从多个发送者发送到多个接收者。
 
 ```typescript
 import { Network } from "@biya-coin/networks";
@@ -53,10 +53,10 @@ const biyachainAddress = "biya1...";
 const denom = "biya";
 const decimals = 18;
 const records = [
-  /** add records here */
+  /** 在此添加记录 */
 ] as {
   address: string;
-  amount: string /* in a human readable number */;
+  amount: string /* 以人类可读的数字表示 */;
 }[];
 const totalToSend = records.reduce((acc, record) => {
   return acc.plus(toChainFormat(record.amount, decimals));

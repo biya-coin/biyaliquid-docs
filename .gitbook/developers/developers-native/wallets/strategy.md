@@ -1,52 +1,52 @@
-# Wallet Strategy
+# 钱包策略
 
-The main purpose of the `@biya-coin/wallet-strategy` is to offer developers a way to have different wallet implementations on Biya Chain. All of these wallets implementations are exposing the same `ConcreteStrategy` interface which means that users can just use these methods without the need to know the underlying implementation for specific wallets as they are abstracted away.
+`@biya-coin/wallet-strategy` 的主要目的是为开发者提供一种在 Biya Chain 上使用不同钱包实现的方法。所有这些钱包实现都公开相同的 `ConcreteStrategy` 接口，这意味着用户可以直接使用这些方法，而无需了解特定钱包的底层实现，因为它们被抽象掉了。
 
-To start, you have to make an instance of the `WalletStrategy` class which gives you the ability to use different wallets out of the box. You can switch the current wallet that is used by using the `setWallet` method on the `walletStrategy` instance.
+首先，您必须创建 `WalletStrategy` 类的实例，这使您能够开箱即用地使用不同的钱包。您可以通过在 `walletStrategy` 实例上使用 `setWallet` 方法来切换当前使用的钱包。
 
-Let's have a look at the methods that `WalletStrategy` strategy exposes and what they mean:
+让我们看看 `WalletStrategy` 策略公开的方法及其含义：
 
-**Both Ethereum and Cosmos native wallets:**
+**以太坊和 Cosmos 原生钱包都支持：**
 
-- `getAddresses` gets the addresses from the connected wallet strategy. This method returns the Ethereum addresses for Ethereum native wallets (strategies) and Biya Chain addresses for Cosmos native wallets (strategies).
-- `signTransaction` signs a transaction using the corresponding wallet type method (`signCosmosTransaction` for Cosmos native wallets, `signEip712TypedData` for Ethereum native wallets)
-- `sendTransaction` signs a transaction using the corresponding wallet type method (needs a `sentryEndpoint` passed to the options if we wanna use it on Ethereum native wallets - explanation can be found below)
-- `getWalletDeviceType` returns the wallet connection type (mobile, browser, hardware),
+- `getAddresses` 从连接的钱包策略获取地址。此方法为以太坊原生钱包（策略）返回以太坊地址，为 Cosmos 原生钱包（策略）返回 Biya Chain 地址。
+- `signTransaction` 使用相应的钱包类型方法签署交易（对于 Cosmos 原生钱包使用 `signCosmosTransaction`，对于以太坊原生钱包使用 `signEip712TypedData`）
+- `sendTransaction` 使用相应的钱包类型方法签署交易（如果我们想在以太坊原生钱包上使用它，需要将 `sentryEndpoint` 传递给选项 - 下面可以找到解释）
+- `getWalletDeviceType` 返回钱包连接类型（移动端、浏览器、硬件），
 
-**Cosmos native wallets:**
+**Cosmos 原生钱包：**
 
-- `signCosmosTransaction` signs an Biya Chain transaction using the connected wallet strategy,
-- `getPublicKey` get the public key for the Cosmos native wallet strategies,
+- `signCosmosTransaction` 使用连接的钱包策略签署 Biya Chain 交易，
+- `getPublicKey` 获取 Cosmos 原生钱包策略的公钥，
 
-**Ethereum native wallets:**
+**以太坊原生钱包：**
 
-- `getEthereumChainId` get the chain id for the Ethereum native wallet strategies,
-- `signEip712TypedData` signs an EIP712 typed data using the connected wallet strategy,
-- `sendEvmTransaction` sends an Ethereum Web3 transaction using the connected wallet strategy,
-- `signEvmTransaction` signs an Ethereum Web3 transaction using the connected wallet strategy,
-- `getEvmTransactionReceipt` get the transaction receipt for Ethereum native transactions for the wallet strategy,
+- `getEthereumChainId` 获取以太坊原生钱包策略的链 ID，
+- `signEip712TypedData` 使用连接的钱包策略签署 EIP712 类型数据，
+- `sendEvmTransaction` 使用连接的钱包策略发送以太坊 Web3 交易，
+- `signEvmTransaction` 使用连接的钱包策略签署以太坊 Web3 交易，
+- `getEvmTransactionReceipt` 获取钱包策略的以太坊原生交易的交易收据，
 
-### Arguments
+### 参数
 
-The arguments passed to the WalletStrategy have the following interface:
+传递给 WalletStrategy 的参数具有以下接口：
 
 ```ts
 export interface WalletStrategyEvmOptions {
-  rpcUrl: string; // rpc url needed **ONLY** the Ethereum native methods on the strategies
-  evmChainId: EvmChainId; // needed if you are signing EIP712 typed data using the Wallet Strategies
+  rpcUrl: string; // rpc url **仅**在策略上的以太坊原生方法需要
+  evmChainId: EvmChainId; // 如果您使用钱包策略签署 EIP712 类型数据，则需要
 }
 
 export interface EthereumWalletStrategyArgs {
-  chainId: ChainId; // the Biya Chain chain id
-  evmOptions?: WalletStrategyEvmOptions; // optional, needed only if you are using Ethereum native wallets
-  disabledWallets?: Wallet[]; // optional, needed if you wanna disable some wallets for being instantiated
-  wallet?: Wallet; // optional, the initial wallet selected (defaults to Metamask if `evmOptions` are passed and Keplr if they are not)
+  chainId: ChainId; // Biya Chain 链 ID
+  evmOptions?: WalletStrategyEvmOptions; // 可选，仅在使用以太坊原生钱包时需要
+  disabledWallets?: Wallet[]; // 可选，如果您想禁用某些钱包被实例化，则需要
+  wallet?: Wallet; // 可选，选择的初始钱包（如果传递了 `evmOptions` 则默认为 Metamask，如果没有则默认为 Keplr）
 }
 ```
 
-_Note:_ When we wanna use the `sendTransaction` on Ethereum native wallets alongside the other options (chainId and address) we also need to pass a gRPC endpoint to a sentry to broadcast the transaction. This is needed because from Ethereum native wallets, we don't have access to a `broadcastTx` method as we have on Keplr or Leap to broadcast the transaction using the wallet's abstraction so we have to broadcast it on the client side directly to the chain.
+_注意：_ 当我们想在以太坊原生钱包上使用 `sendTransaction` 以及其他选项（chainId 和 address）时，我们还需要将 gRPC 端点传递给 sentry 以广播交易。这是必需的，因为从以太坊原生钱包，我们无法访问 `broadcastTx` 方法，就像我们在 Keplr 或 Leap 上那样使用钱包的抽象来广播交易，所以我们必须在客户端直接向链广播它。
 
-### Example usage
+### 示例用法
 
 ```ts
 import { TxRaw } from '@biya-coin/sdk-ts'
@@ -54,8 +54,8 @@ import { Web3Exception } from '@biya-coin/exceptions'
 import { ChainId, EvmChainId } from '@biya-coin/ts-types'
 import { WalletStrategy } from '@biya-coin/wallet-strategy'
 
-const chainId = ChainId.Testnet // The Biya Chain Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm // The Biya Chain Evm Testnet Chain ID
+const chainId = ChainId.Testnet // Biya Chain 测试网链 ID
+const evmChainId = EvmChainId.TestnetEvm // Biya Chain Evm 测试网链 ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`
 
@@ -67,18 +67,18 @@ export const walletStrategy = new WalletStrategy({
   },
 })
 
-// Get wallet's addresses
+// 获取钱包的地址
 export const getAddresses = async (): Promise<string[]> => {
   const addresses = await walletStrategy.getAddresses()
 
   if (addresses.length === 0) {
-    throw new Web3Exception(new Error('There are no addresses linked in this wallet.'))
+    throw new Web3Exception(new Error('此钱包中没有链接的地址。'))
   }
 
   return addresses
 }
 
-// Sign an Biya Chain transaction
+// 签署 Biya Chain 交易
 export const signTransaction = async (tx: TxRaw): Promise<string[]> => {
   const response = await walletStrategy.signCosmosTransaction(
     /*transaction:*/ { txRaw: tx, accountNumber: /* */, chainId: 'biyachain-1' },
@@ -88,11 +88,11 @@ export const signTransaction = async (tx: TxRaw): Promise<string[]> => {
   return response
 }
 
-// Send an Biya Chain transaction
+// 发送 Biya Chain 交易
 export const sendTransaction = async (tx: TxRaw): Promise<string[]> => {
   const response = await walletStrategy.sendTransaction(
     tx,
-    // `sentryEndpoint` needed if Ethereum wallets are used
+    // 如果使用以太坊钱包，则需要 `sentryEndpoint`
     {address: 'biya1...', chainId: 'biyachain-1', sentryEndpoint: 'https://grpc.biyachain.network' }
   )
 

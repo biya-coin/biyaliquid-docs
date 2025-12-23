@@ -1,10 +1,10 @@
 # Exchange
 
-Example code snippets to query the exchange module on the chain.
+查询链上 exchange 模块的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters such as the default spot and derivatives fees/trading rewards
+### 获取参数，如默认现货和衍生品费用/交易奖励
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcExchangeApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch the fee discount schedules
+### 获取费用折扣计划
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -33,7 +33,7 @@ const feeDiscountSchedule =
 console.log(feeDiscountSchedule)
 ```
 
-### Fetch the fee discounts associated with an biyachain address
+### 获取与 biyachain 地址关联的费用折扣
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -50,7 +50,7 @@ const feeDiscountAccountInfo =
 console.log(feeDiscountAccountInfo)
 ```
 
-### Fetch the details regarding the trading reward campaign, such as the total reward points
+### 获取有关交易奖励活动的详情，如总奖励积分
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -65,7 +65,7 @@ const tradingRewardsCampaign =
 console.log(tradingRewardsCampaign)
 ```
 
-### Fetch the trading rewards points for an biyachain address
+### 获取 biyachain 地址的交易奖励积分
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -83,7 +83,7 @@ const tradeRewardsPoints = await chainGrpcExchangeApi.fetchTradeRewardsPoints(
 console.log(tradeRewardsPoints)
 ```
 
-### Fetch the pending trading rewards points for biyachain addresses
+### 获取 biyachain 地址的待处理交易奖励积分
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -100,7 +100,7 @@ const pendingTradeRewardsPoints =
 console.log(pendingTradeRewardsPoints)
 ```
 
-#### Fetch the current positions, such as subaccountId, marketId, and position
+#### 获取当前持仓，如 subaccountId、marketId 和持仓
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'
@@ -114,7 +114,7 @@ const positions = await chainGrpcExchangeApi.fetchPositions(biyachainAddresses)
 console.log(positions)
 ```
 
-### Fetch the subaccount trade nonce
+### 获取子账户交易随机数
 
 ```ts
 import { ChainGrpcExchangeApi } from '@biya-coin/sdk-ts'

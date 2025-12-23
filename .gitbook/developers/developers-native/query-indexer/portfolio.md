@@ -1,10 +1,10 @@
 # Portfolio
 
-Example code snippets to query the indexer for portfolio module related data.
+查询索引器中 portfolio 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch portfolio based on biyachain address, such as bank balances and subaccount balances
+### 根据 biyachain 地址获取投资组合，如银行余额和子账户余额
 
 <pre class="language-ts"><code class="lang-ts"><strong>import { IndexerGrpcAccountPortfolioApi } from '@biya-coin/sdk-ts'
 </strong>import { getNetworkEndpoints, Network } from '@biya-coin/networks'

@@ -1,57 +1,57 @@
-# Ethereum Ledger Transaction
+# 以太坊 Ledger 交易
 
-## Signing Transactions on Biya Chain using Ledger
+## 使用 Ledger 在 Biya Chain 上签署交易
 
-The goal of this document is to explain how to use Ledger to sign transactions on Biya Chain and broadcast them to the chain. The implementation differs from the default approach that Cosmos SDK native chains have because Biya Chain defines its custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys.
+本文档的目标是解释如何使用 Ledger 在 Biya Chain 上签署交易并将其广播到链。该实现与 Cosmos SDK 原生链的默认方法不同，因为 Biya Chain 定义了自己的自定义账户类型，该类型使用以太坊的 ECDSA secp256k1 曲线作为密钥。
 
-## Implementation
+## 实现
 
-To understand how we should do the implementation, let’s go through some concepts so it's easier to understand the approach we are going to take.
+要了解我们应该如何进行实现，让我们先了解一些概念，这样更容易理解我们将要采取的方法。
 
-### Background
+### 背景
 
-A derivation path is a piece of data that tells a Hierarchical Deterministic (HD) wallet how to derive a specific key within a tree of keys. Derivation paths are used as a standard and were introduced with HD wallets as a part of BIP32. A Hierarchical Deterministic Wallet is a term used to describe a wallet that uses a seed to derive many public and private keys.
+派生路径是一段数据，它告诉分层确定性（HD）钱包如何在密钥树中派生特定密钥。派生路径被用作标准，并作为 BIP32 的一部分与 HD 钱包一起引入。分层确定性钱包是用于描述使用种子派生许多公钥和私钥的钱包的术语。
 
-This is what a derivation path looks like
+派生路径看起来像这样
 
 `m/purpose'/coin_type'/account'/change/address_index`
 
-Each of the parts in the sequence plays a part and each changes what the private key, public key, and address would be. We are not going to deep dive into the exact details about what every part of the HD path means, instead, we are just going to briefly explain the `coin_type`. Each blockchain has a number that represents it i.e the `coin_type`. Bitcoin is `0`, Ethereum is `60`, Cosmos is `118`.
+序列中的每个部分都起作用，每个部分都会改变私钥、公钥和地址。我们不会深入探讨 HD 路径每个部分的确切细节，相反，我们只是简要解释 `coin_type`。每个区块链都有一个代表它的数字，即 `coin_type`。比特币是 `0`，以太坊是 `60`，Cosmos 是 `118`。
 
-### Biya Chain specific context
+### Biya Chain 特定上下文
 
-Biya Chain uses the same `coin_type` as Ethereum, i.e `60`. This means for Ledger to be used to sign transactions on Biya Chain, **we have to use the Ethereum app on Ledger**.
+Biya Chain 使用与以太坊相同的 `coin_type`，即 `60`。这意味着要使用 Ledger 在 Biya Chain 上签署交易，**我们必须使用 Ledger 上的以太坊应用**。
 
-Ledger is limited to having one installed application for one `coin_type`. As we have to use the Ethereum app to sign transactions on Biya Chain, we have to explore available options to us to get a valid signature. One of the available options is the `EIP712` procedure for hashing and signing typed structured data. Ledger exposes the `signEIP712HashedMessage` which we are going to use.
+Ledger 限制为一个 `coin_type` 只能安装一个应用程序。由于我们必须使用以太坊应用在 Biya Chain 上签署交易，我们必须探索可用的选项来获得有效的签名。可用选项之一是用于散列和签署类型化结构数据的 `EIP712` 过程。Ledger 公开了我们将要使用的 `signEIP712HashedMessage`。
 
-Once we sign the `EIP712` typed data, we are going to pack the transaction using the normal Cosmos-SDK approach of packing and broadcasting the transaction. There are some minor differences, one of them being using the `SIGN_MODE_LEGACY_AMINO_JSON` mode and appending a `Web3Exension` to the Cosmos transaction and we are going to explain them in this document.
+一旦我们签署了 `EIP712` 类型数据，我们将使用正常的 Cosmos-SDK 方法打包和广播交易。有一些细微的差异，其中之一是使用 `SIGN_MODE_LEGACY_AMINO_JSON` 模式并将 `Web3Extension` 附加到 Cosmos 交易，我们将在本文档中解释它们。
 
-### EIP712 Typed Data
+### EIP712 类型数据
 
-EIP 712 is a standard for hashing and signing of typed structured data. For every EIP712 typed data, each of the values the user passes (that need to be signed) has a type representative which explains the exact type of that particular value. In addition to the value the user wants to sign and its type (the `PrimaryType` of the EIP712 typedData), every EIP712 typed data should contain an `EIP712Domain` which provides context about the source of the transaction.
+EIP 712 是用于散列和签署类型化结构数据的标准。对于每个 EIP712 类型数据，用户传递的每个值（需要签署）都有一个类型代表，它解释了该特定值的确切类型。除了用户想要签署的值及其类型（EIP712 typedData 的 `PrimaryType`）之外，每个 EIP712 类型数据都应包含一个 `EIP712Domain`，它提供有关交易来源的上下文。
 
-## Transaction Flow
+## 交易流程
 
-The implementation itself consists of a few steps, namely:
+实现本身包括几个步骤，即：
 
-1. Preparing the transaction to be signed using the Ethereum app on Ledger,
-2. Preparing and signing the transaction on Ledger,
-3. Preparing the transaction to be broadcasted,
-4. Broadcast the transaction.
+1. 准备要使用 Ledger 上的以太坊应用签署的交易，
+2. 在 Ledger 上准备和签署交易，
+3. 准备要广播的交易，
+4. 广播交易。
 
-We are going deep dive into each step and elaborate on the actions we need to take to get the transaction signed and broadcasted to the chain.
+我们将深入研究每个步骤，并详细说明我们需要采取的行动来签署交易并将其广播到链。
 
-### Preparing the transaction (for signing)
+### 准备交易（用于签名）
 
-As we’ve said above, the transaction needs to be signed using the Ethereum app on Ledger. This means that the user has to be prompted to switch (or open) the Ethereum app on Ledger once they reach the signing stage.
+如上所述，交易需要使用 Ledger 上的以太坊应用签署。这意味着一旦用户到达签名阶段，就必须提示用户切换（或打开）Ledger 上的以太坊应用。
 
-We know that each Cosmos transaction consists of messages which signify the instructions the user wants to execute on the chain. If we want to send funds from one address to another, we are going to pack the `MsgSend` message into a transaction and broadcast it to the chain.
+我们知道每个 Cosmos 交易都由消息组成，这些消息表示用户想要在链上执行的指令。如果我们想从一个地址向另一个地址发送资金，我们将把 `MsgSend` 消息打包到交易中并将其广播到链。
 
-Knowing this, the Biya Chain team made [abstraction](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/MsgBase.ts) of these Messages to simplify the way they are packed into a transaction. Each of these Messages accepts a specific set of parameters that are needed to instantiate the message. Once this is done, the abstraction exposes a couple of convenient methods which we can use based on the signing/broadcasting method we chose to use. As an example, the Message exposes the `toDirectSign` method which returns the type and the proto representation of the message which can be then used to pack the transaction using the default Cosmos approach, sign it using a privateKey and broadcast it to the chain.
+了解这一点后，Biya Chain 团队对这些消息进行了[抽象](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/MsgBase.ts)，以简化它们打包到交易中的方式。这些消息中的每一个都接受实例化消息所需的特定参数集。完成此操作后，抽象会公开几个方便的方法，我们可以根据选择使用的签名/广播方法使用这些方法。例如，消息公开了 `toDirectSign` 方法，该方法返回消息的类型和 proto 表示，然后可以使用默认的 Cosmos 方法打包交易，使用 privateKey 签署并将其广播到链。
 
-What is of importance for us for this particular implementation are the `toEip712Types` and `toEip712` methods. Calling the first one on an instance of the Message gives out the types of the Message for the EIP712 typed data and the second one gives the values of the Message for the EIP712 data. When we combine these two methods we can generate valid EIP712 typed data which can be passed down to the signing process.
+对于这个特定的实现，对我们来说重要的是 `toEip712Types` 和 `toEip712` 方法。在消息实例上调用第一个方法会给出 EIP712 类型数据的消息类型，第二个方法会给出 EIP712 数据的消息值。当我们结合这两种方法时，我们可以生成有效的 EIP712 类型数据，可以传递给签名过程。
 
-So, let’s see a quick code snippet of the usage of these methods and how we can generate EIP712 typedData from a message:
+那么，让我们看一个快速的代码片段，了解这些方法的使用以及我们如何从消息生成 EIP712 typedData：
 
 ```ts
 import {
@@ -63,7 +63,7 @@ import { EvmChainId } from "@biya-coin/ts-types";
 import { toChainFormat } from "@biya-coin/utils";
 import { MsgSend, getDefaultStdFee } from "@biya-coin/sdk-ts";
 
-/** More details on these two interfaces later on */
+/** 稍后将详细介绍这两个接口 */
 const txArgs: Eip712ConvertTxArgs = {
   accountNumber: accountDetails.accountNumber.toString(),
   sequence: accountDetails.sequence.toString(),
@@ -84,7 +84,7 @@ const msg = MsgSend.fromJSON({
   dstBiyachainAddress: biyachainAddress,
 });
 
-/** The EIP712 TypedData that can be used for signing **/
+/** 可用于签名的 EIP712 类型数据 **/
 const eip712TypedData = getEip712TypedDataV2({
   msgs: msg,
   tx: txArgs,
@@ -95,9 +95,9 @@ const eip712TypedData = getEip712TypedDataV2({
 return eip712TypedData;
 ```
 
-### Preparing the signing process on Ledger
+### 在 Ledger 上准备签名过程
 
-Now that we have the `eip712TypedData` we need to sign it using Ledger. First, we need to get the Ledger’s transport depending on the support that the user has on the browser and use the `@ledgerhq/hw-app-eth` to make a Ledger instance with the transport that’ll use the Ethereum app on the Ledger device for executing the user’s actions (confirming transactions). After we get the `eip712TypedData` from Step 1, we can use the `signEIP712HashedMessage` on the `EthereumApp` to sign this typedData and return the signature.
+现在我们有了 `eip712TypedData`，我们需要使用 Ledger 签署它。首先，我们需要根据用户在浏览器上的支持获取 Ledger 的传输，并使用 `@ledgerhq/hw-app-eth` 创建一个 Ledger 实例，该实例将使用 Ledger 设备上的以太坊应用来执行用户的操作（确认交易）。从步骤 1 获得 `eip712TypedData` 后，我们可以在 `EthereumApp` 上使用 `signEIP712HashedMessage` 来签署此 typedData 并返回签名。
 
 ```ts
 import { TypedDataUtils } from 'eth-sig-util'
@@ -115,11 +115,11 @@ const messageHash = (message: any) =>
     true,
   )
 
-const transport = /* Get the transport from Ledger */
+const transport = /* 从 Ledger 获取传输 */
 const ledger = new EthereumApp(transport)
-const derivationPath = /* Get the derivation path for the address */
+const derivationPath = /* 获取地址的派生路径 */
 
-/* eip712TypedData from Step 1 */
+/* 来自步骤 1 的 eip712TypedData */
 const object = JSON.parse(eip712TypedData)
 
 const result = await ledger.signEIP712HashedMessage(
@@ -133,9 +133,9 @@ const signature = combined.startsWith('0x') ? combined : `0x${combined}`
 return signature;
 ```
 
-### Preparing the transaction to be broadcasted
+### 准备要广播的交易
 
-Now that we have the signature, we can prepare the transaction using the default cosmos approach.
+现在我们有了签名，我们可以使用默认的 cosmos 方法准备交易。
 
 ```ts
 import {
@@ -154,12 +154,12 @@ import {
   DEFAULT_BLOCK_TIMEOUT_HEIGHT,
 } from "@biya-coin/utils";
 
-const msg: MsgSend; /* from Step 1 */
+const msg: MsgSend; /* 来自步骤 1 */
 
 const chainId = ChainId.Mainnet;
 const evmChainId = EvmChainId.Mainnet;
 
-/** Account Details **/
+/** 账户详情 **/
 const chainRestAuthApi = new ChainRestAuthApi(lcdEndpoint);
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
   biyachainAddress
@@ -167,7 +167,7 @@ const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
 const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 const accountDetails = baseAccount.toAccountDetails();
 
-/** Block Details */
+/** 区块详情 */
 const chainRestTendermintApi = new ChainRestTendermintApi(lcdEndpoint);
 const latestBlock = await chainRestTendermintApi.fetchLatestBlock();
 const latestHeight = latestBlock.header.height;
@@ -191,20 +191,20 @@ const web3Extension = createWeb3Extension({
 });
 const txRawEip712 = createTxRawEIP712(txRaw, web3Extension);
 
-/** Append Signatures */
+/** 附加签名 */
 const signatureBuff = Buffer.from(signature.replace("0x", ""), "hex");
 txRawEip712.signatures = [signatureBuff];
 
 return txRawEip712;
 ```
 
-### Broadcasting the transaction
+### 广播交易
 
-Now that we have the transaction packed into `TxRaw` we can broadcast it to the node using the default cosmos approach.
+现在我们已经将交易打包到 `TxRaw` 中，我们可以使用默认的 cosmos 方法将其广播到节点。
 
-## Codebase
+## 代码库
 
-Let’s see an example codebase containing all of the steps above
+让我们看一个包含上述所有步骤的示例代码库
 
 ```ts
 import {
@@ -241,11 +241,11 @@ const messageHash = (message: any) =>
   )
 
 const signTransaction = async (eip712TypedData: any) => {
-  const transport = /* Get the transport from Ledger */
+  const transport = /* 从 Ledger 获取传输 */
   const ledger = new EthereumApp(transport)
-  const derivationPath = /* Get the derivation path for the address */
+  const derivationPath = /* 获取地址的派生路径 */
 
-  /* eip712TypedData from Step 1 */
+  /* 来自步骤 1 的 eip712TypedData */
   const result = await ledger.signEIP712HashedMessage(
     derivationPath,
     bufferToHex(domainHash(eip712TypedData)),
@@ -306,7 +306,7 @@ const msg = MsgSend.fromJSON({
   dstBiyachainAddress: biyachainAddress,
 });
 
-/** The EIP712 TypedData that can be used for signing **/
+/** 可用于签名的 EIP712 类型数据 **/
 const eip712TypedData = getEip712TypedDataV2({
   msgs: msg,
   tx: txArgs,
@@ -314,10 +314,10 @@ const eip712TypedData = getEip712TypedDataV2({
   fee: txFeeArgs
 })
 
-/** Signing on Ethereum */
+/** 在以太坊上签名 */
 const signature = await signTransaction(eip712TypedData)
 
-/** Preparing the transaction for client broadcasting */
+/** 准备用于客户端广播的交易 */
 const { txRaw } = createTransaction({
   message: msg,
   memo: '',
@@ -334,16 +334,16 @@ const web3Extension = createWeb3Extension({
 })
 const txRawEip712 = createTxRawEIP712(txRaw, web3Extension)
 
-/** Append Signatures */
+/** 附加签名 */
 const signatureBuff = Buffer.from(signature.replace('0x', ''), 'hex')
 txRawEip712.signatures = [signatureBuff]
 
-/** Broadcast the transaction **/
+/** 广播交易 **/
 const txRestApi = new TxRestApi(lcdEndpoint)
 const response = await txRestApi.broadcast(txRawEip712)
 
 if (response.code !== 0) {
-  throw new Error(`Transaction failed: ${response.rawLog}`)
+  throw new Error(`交易失败: ${response.rawLog}`)
 }
 
 return response.txhash

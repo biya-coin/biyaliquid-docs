@@ -1,52 +1,52 @@
-# Web3 Gateway Transaction
+# Web3 Gateway 交易
 
-_Pre-requisite reading #1:_ [Transaction Lifecycle](https://docs.cosmos.network/main/basics/tx-lifecycle)
+_前置阅读 #1：_ [交易生命周期](https://docs.cosmos.network/main/basics/tx-lifecycle)
 
-_Pre-requisite reading #2:_ Transactions on Biya Chain
+_前置阅读 #2：_ Biya Chain 上的交易
 
-The Web3Gateway microservice exposes an API to the end user with the main purpose of providing fee delegation for transactions that happen on Biya Chain. This allows users to enjoy a gasless environment while interacting with Biya Chain as the gas is paid for by the runner of the Web3Gateway service.
+Web3Gateway 微服务向最终用户公开 API，其主要目的是为 Biya Chain 上发生的交易提供费用委托。这允许用户在与 Biya Chain 交互时享受无 gas 环境，因为 gas 由 Web3Gateway 服务的运行者支付。
 
-Alongside fee delegation support, Web3Gateway allows developers to convert Messages to EIP712 typed data. After converting the Message the EIP712 data, it can be signed by any Ethereum native wallet and then broadcasted to Biya Chain.
+除了费用委托支持外，Web3Gateway 还允许开发者将消息转换为 EIP712 类型数据。将消息转换为 EIP712 数据后，它可以由任何以太坊原生钱包签名，然后广播到 Biya Chain。
 
-## Fee Delegation
+## 费用委托
 
-As said before, fee delegation allows users to interact with Biya Chain (submit transactions) without having to pay for gas. As a part of the _Transaction Lifecycle_ of every Cosmos-SDK powered chain, we have `AnteHandler`'s, which, among other things perform a signature verification, gas calculation, and fee deduction.
+如前所述，费用委托允许用户与 Biya Chain 交互（提交交易）而无需支付 gas。作为每个由 Cosmos-SDK 驱动的链的_交易生命周期_的一部分，我们有 `AnteHandler`，它除其他事项外执行签名验证、gas 计算和费用扣除。
 
-There are a couple of things that we need to know:
+我们需要知道几件事：
 
-* Transactions can have multiple signers (i.e we can include multiple signatures within a transaction),
-* Gas Fee for the transaction is deducted from the `authInfo.fee.feePayer` value and the signature that gets verified against the `feePayer` is the first signature within the signatures list of the Transaction ([reference](https://github.com/cosmos/cosmos-sdk/blob/e2d6cbdeb55555893ffde3f2ae0ed6db7179fd0d/x/auth/ante/fee.go#L15-L24)),
-* The rest of the signatures are being verified against the actual sender of the transaction.
+* 交易可以有多个签名者（即我们可以在交易中包含多个签名），
+* 交易的 Gas 费用从 `authInfo.fee.feePayer` 值中扣除，针对 `feePayer` 验证的签名是交易签名列表中的第一个签名（[参考](https://github.com/cosmos/cosmos-sdk/blob/e2d6cbdeb55555893ffde3f2ae0ed6db7179fd0d/x/auth/ante/fee.go#L15-L24)），
+* 其余签名针对交易的实际发送者进行验证。
 
-Knowing this, to achieve fee delegation, we have to sign the transaction using the private key of the Web3Gateway microservice, including the address of that `privateKey` as a `feePayer`, sign this transaction using the privateKey that we want to interact with Biya Chain from, and broadcast that transaction.
+了解这一点后，要实现费用委托，我们必须使用 Web3Gateway 微服务的私钥签署交易，将该 `privateKey` 的地址作为 `feePayer` 包含在内，使用我们想要与 Biya Chain 交互的 privateKey 签署此交易，然后广播该交易。
 
 ## Web3Gateway API
 
-Everyone can run the Web3Gateway microservice and provide fee delegation services to their users. An example usage can be developers who build exchange dApps on top of Biya Chain run this microservice to offer a gasless trading environment to their traders.
+每个人都可以运行 Web3Gateway 微服务并向其用户提供费用委托服务。一个示例用例可以是在 Biya Chain 上构建交易所 dApp 的开发者运行此微服务，为其交易者提供无 gas 的交易环境。
 
-This microservice exposes an API containing two core methods:
+此微服务公开一个包含两个核心方法的 API：
 
-* `PrepareTx`(and `PrepareCosmosTx`)
-* `BroadcastTx` (and `BroadcastCosmosTx`)
+* `PrepareTx`（和 `PrepareCosmosTx`）
+* `BroadcastTx`（和 `BroadcastCosmosTx`）
 
 ## PrepareTx
 
-The `PrepareTx` method accepts a Message(s) including context for the transaction the user wants to execute (`chainId`, `signerAddress`, `timeoutHeight`, etc), and returns an EIP712 typed data of the particular message, including its signature within the EIP712 typed data. We can use this EIP712 typed data to sign it using any Ethereum native wallet and get the signature for users who want to interact with Biya Chain.
+`PrepareTx` 方法接受消息，包括用户想要执行的交易的上下文（`chainId`、`signerAddress`、`timeoutHeight` 等），并返回特定消息的 EIP712 类型数据，包括 EIP712 类型数据中的签名。我们可以使用此 EIP712 类型数据使用任何以太坊原生钱包签名，并为想要与 Biya Chain 交互的用户获取签名。
 
-The EIP712 typed data is generated from the proto definition of the Message we pass to the `PrepareTx` method.
+EIP712 类型数据是从我们传递给 `PrepareTx` 方法的消息的 proto 定义生成的。
 
 ## BroadcastTx
 
-The `BroadcastTx` method is responsible for broadcasting the transaction to the node. Alongside the full response of the `PrepareTx` API call, we pass in the signature of the EIP712 typed data. Then, the `BroadcastTx` packs the Message into a native Cosmos transaction, prepares the transaction (including its context) and broadcasts it to Biya Chain. As a result, the transaction hash is being returned to the user.
+`BroadcastTx` 方法负责将交易广播到节点。除了 `PrepareTx` API 调用的完整响应外，我们还传入 EIP712 类型数据的签名。然后，`BroadcastTx` 将消息打包到原生 Cosmos 交易中，准备交易（包括其上下文）并将其广播到 Biya Chain。结果，交易哈希被返回给用户。
 
 ## Prepare/BroadcastCosmosTx
 
-The above methods are used when we use **Ethereum Native wallets** to sign and broadcast transactions as we sign an EIP712 transaction representation.
+当我们使用**以太坊原生钱包**签署和广播交易时，使用上述方法，因为我们签署的是 EIP712 交易表示。
 
-If we want support fee delegation on Cosmos native wallets using the Web3Gateway, we can omit the PrepareCosmosTx call (or call it if we need the Web3Gateway signer's `publicKey`), prepare the transaction on the client side, sign it using a Cosmos wallet, and broadcast it using the `BroadcastCosmosTx` method.
+如果我们想使用 Web3Gateway 在 Cosmos 原生钱包上支持费用委托，我们可以省略 PrepareCosmosTx 调用（或者如果我们需要 Web3Gateway 签名者的 `publicKey`，则调用它），在客户端准备交易，使用 Cosmos 钱包签名，然后使用 `BroadcastCosmosTx` 方法广播。
 
-The way this works is we add the `publicKey` of the `Web3Gateway`'s signer to the `authInfo` object in the `TxRaw` and then sign the transaction using the `privateKey` on the API side when we broadcast
+其工作方式是我们将 `Web3Gateway` 签名者的 `publicKey` 添加到 `TxRaw` 中的 `authInfo` 对象，然后在广播时使用 API 端的 `privateKey` 签署交易
 
 {% hint style="info" %}
-The difference with the previous EIP712 approach is that we need to sign the transaction using the `Web3Gateway`'s signer in advance i.e when we generate the EIP712 -> meaning that we need to use `PrepareTx` and can't generate the transaction on the client side.).
+与之前的 EIP712 方法的区别在于，我们需要提前使用 `Web3Gateway` 的签名者签署交易，即当我们生成 EIP712 时 -> 这意味着我们需要使用 `PrepareTx`，不能在客户端生成交易。
 {% endhint %}

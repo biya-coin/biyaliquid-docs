@@ -1,12 +1,12 @@
 # Fee Grant
 
-The `feegrant` module allows accounts (granters) to grant fee allowances to other accounts (grantees). This allows the grantee to use the granter's funds to pay for transaction fees.
+`feegrant` 模块允许账户（授予者）向其他账户（被授予者）授予费用津贴。这允许被授予者使用授予者的资金支付交易费用。
 
-## Messages
+## 消息
 
 ### MsgGrantAllowance
 
-A fee allowance grant is created using the `MsgGrantAllowance` message. If there is already a grant for the (granter, grantee) pair, then the new grant will overwrite the previous one.
+使用 `MsgGrantAllowance` 消息创建费用津贴授权。如果已经存在（授予者，被授予者）对的授权，则新授权将覆盖之前的授权。
 
 ```ts
 import { MsgGrantAllowance, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
@@ -47,7 +47,7 @@ console.log(txHash)
 ```
 
 ### MsgRevokeAllowance
-A grant can be removed using the MsgRevokeAllowance message. The grantee will no longer be able to use the granter's funds to pay for transaction fees.
+可以使用 MsgRevokeAllowance 消息删除授权。被授予者将不再能够使用授予者的资金支付交易费用。
 
 ```ts
 import { MsgRevokeAllowance, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'

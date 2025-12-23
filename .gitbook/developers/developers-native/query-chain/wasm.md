@@ -1,10 +1,10 @@
 # Wasm
 
-Example code snippets to query the wasm module on chain
+查询链上 wasm 模块的示例代码片段
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch contacts' account balance Note that pagination parameters can be passed to obtain additional accounts.
+### 获取合约的账户余额 注意可以传递分页参数以获取其他账户。
 
 ```ts
 import { ChainGrpcWasmApi, PaginationOption } from '@biya-coin/sdk-ts'
@@ -18,13 +18,13 @@ const pagination = {...} as PaginationOption
 
 const contractAccountsBalance = await chainGrpcWasmApi.fetchContractAccountsBalance({
     contractAddress,
-    pagination /* optional pagination options */
+    pagination /* 可选的分页选项 */
 })
 
 console.log(contractAccountsBalance)
 ```
 
-### Fetch info related to a contract
+### 获取与合约相关的信息
 
 ```ts
 import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
@@ -40,7 +40,7 @@ const contractInfo = await chainGrpcWasmApi.fetchContractInfo(contractAddress)
 console.log(contractInfo)
 ```
 
-### Fetch contract history
+### 获取合约历史
 
 ```ts
 import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
@@ -58,7 +58,7 @@ const contractHistory = await chainGrpcWasmApi.fetchContractHistory(
 console.log(contractHistory)
 ```
 
-### Fetch the state of a smart contract
+### 获取智能合约的状态
 
 ```ts
 import { ChainGrpcWasmApi, toBase64 } from '@biya-coin/sdk-ts'
@@ -73,13 +73,13 @@ const queryFromObject = toBase64({ get_coin: {} })
 
 const contractState = await chainGrpcWasmApi.fetchSmartContractState({
   contractAddress,
-  query /* optional string query - HAS to be in base64 or use queryFromObject */,
+  query /* 可选的字符串查询 - 必须是 base64 格式或使用 queryFromObject */,
 })
 
 console.log(contractState)
 ```
 
-### Fetch the raw state of a smart contract
+### 获取智能合约的原始状态
 
 ```ts
 import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
@@ -94,13 +94,13 @@ const queryFromObject = toBase64({ get_coin: {} })
 
 const rawContractState = await chainGrpcWasmApi.fetchRawContractState({
   contractAddress,
-  query /* optional string query - HAS to be in base64 or use queryFromObject */,
+  query /* 可选的字符串查询 - 必须是 base64 格式或使用 queryFromObject */,
 })
 
 console.log(rawContractState)
 ```
 
-### Fetch the codes associated with a contract
+### 获取与合约关联的代码
 
 ```ts
 import { PaginationOption, ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
@@ -113,13 +113,13 @@ const pagination = {...} as PaginationOption
 
 
 const rawContractState = await chainGrpcWasmApi.fetchRawContractState(
-pagination /* optional pagination options */
+pagination /* 可选的分页选项 */
 )
 
 console.log(rawContractState)
 ```
 
-### Fetch info associated with a contract code
+### 获取与合约代码关联的信息
 
 ```ts
 import { ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
@@ -135,7 +135,7 @@ const codeDetails = await chainGrpcWasmApi.fetchContractCode(codeId)
 console.log(codeDetails)
 ```
 
-### Fetch the contracts associated with a code
+### 获取与代码关联的合约
 
 ```ts
 import { PaginationOption, ChainGrpcWasmApi } from '@biya-coin/sdk-ts'
@@ -149,7 +149,7 @@ const pagination = {...} as PaginationOption
 
 const contracts = await chainGrpcWasmApi.fetchContractCodeContracts({
   codeId,
-  pagination /* optional pagination options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(contracts)

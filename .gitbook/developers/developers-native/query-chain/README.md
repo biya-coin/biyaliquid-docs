@@ -1,23 +1,23 @@
-# Querying the Chain
+# 查询链
 
-## Topics
+## 主题
 
-| Topic                                | Description                                    |
+| 主题                                | 描述                                    |
 | ------------------------------------ | ---------------------------------------------- |
-| [Auction](auction.md)                | Querying data from the auction module          |
-| [Auth](auth.md)                      | Querying data from the auth module             |
-| [Bank](bank.md)                      | Query data from the bank module                |
-| [Distribution](distribution.md)      | Query data related to delegating to validators |
-| [Exchange](exchange.md)              | Query data from the exchange module            |
-| [Gov](governance.md)                 | Query data from the governance module          |
-| [IBC](ibc.md)                        | Query data related to IBC                      |
-| [Insurance Fund](insurance-funds.md) | Query data related to insurance funds          |
-| [Mint](mint.md)                      | Query data from the mint module                |
-| [Oracl](oracle.md)                   | Query data related to the oracle api           |
-| [Peggy](peggy.md)                    | Query ethereum data using the peggy api        |
-| [Permissions](permissions.md)        | Query data from the permissions module         |
-| [Staking](staking.md)                | Query data from the staking module             |
-| [Wasm](wasm.md)                      | Query data from the wasm module                |
-| [WasmX](wasmx.md)                    | Query data from the wasmX module               |
-| [Tendermint](tendermint.md)          | Query data related to the tendermint api       |
-| [Token Factory](token-factory.md)    | Query data from the token factory module       |
+| [Auction](auction.md)                | 从 auction 模块查询数据          |
+| [Auth](auth.md)                      | 从 auth 模块查询数据             |
+| [Bank](bank.md)                      | 从 bank 模块查询数据                |
+| [Distribution](distribution.md)      | 查询与委托给验证者相关的数据 |
+| [Exchange](exchange.md)              | 从 exchange 模块查询数据            |
+| [Gov](governance.md)                 | 从 governance 模块查询数据          |
+| [IBC](ibc.md)                        | 查询与 IBC 相关的数据                      |
+| [Insurance Fund](insurance-funds.md) | 查询与保险基金相关的数据          |
+| [Mint](mint.md)                      | 从 mint 模块查询数据                |
+| [Oracl](oracle.md)                   | 查询与 oracle api 相关的数据           |
+| [Peggy](peggy.md)                    | 使用 peggy api 查询以太坊数据        |
+| [Permissions](permissions.md)        | 从 permissions 模块查询数据         |
+| [Staking](staking.md)                | 从 staking 模块查询数据             |
+| [Wasm](wasm.md)                      | 从 wasm 模块查询数据                |
+| [WasmX](wasmx.md)                    | 从 wasmX 模块查询数据               |
+| [Tendermint](tendermint.md)          | 查询与 tendermint api 相关的数据       |
+| [Token Factory](token-factory.md)    | 从 token factory 模块查询数据       |

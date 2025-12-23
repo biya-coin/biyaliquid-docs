@@ -1,10 +1,10 @@
 # Insurance Funds
 
-Example code snippets to query data related to the insurance fund on chain.
+查询链上保险基金相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch default redemption notice period duration
+### 获取默认赎回通知期限
 
 ```ts
 import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcInsuranceFundApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch insurance funds and associated metadata
+### 获取保险基金和相关元数据
 
 ```ts
 import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
@@ -32,7 +32,7 @@ const insuranceFunds = await chainGrpcInsuranceFundApi.fetchInsuranceFunds()
 console.log(insuranceFunds)
 ```
 
-### Fetch insurance fund and associated metadata based on the market ID
+### 根据市场 ID 获取保险基金和相关元数据
 
 ```ts
 import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
@@ -49,7 +49,7 @@ const insuranceFund = await chainGrpcInsuranceFundApi.fetchInsuranceFund(
 console.log(insuranceFund)
 ```
 
-### Fetch estimated redemptions for a given biyachain address for a market
+### 获取给定 biyachain 地址在市场中的估计赎回
 
 ```ts
 import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
@@ -70,7 +70,7 @@ const estimatedRedemptions =
 console.log(estimatedRedemptions)
 ```
 
-### Fetch pending redemptions for a given biyachain address for a market
+### 获取给定 biyachain 地址在市场中的待处理赎回
 
 ```ts
 import { ChainGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'

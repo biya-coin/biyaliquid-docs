@@ -1,10 +1,10 @@
 # Permissions
 
-Example code snippets to query data related to the permissions module on chain.
+查询链上 permissions 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch all namespaces
+### 获取所有命名空间
 
 ```ts
 import { ChainGrpcPermissionsApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const allNamespaces = await chainGrpcPermissionsApi.fetchAllNamespaces()
 console.log(allNamespaces)
 ```
 
-### Fetch a namespace based on the denom
+### 根据面值获取命名空间
 
 ```ts
 import { ChainGrpcPermissionsApi } from '@biya-coin/sdk-ts'
@@ -38,7 +38,7 @@ const namespace = await chainGrpcPermissionsApi.fetchNamespaceByDenom({
 console.log(namespace)
 ```
 
-### Fetch all roles that are associated to an address based on the denom
+### 根据面值获取与地址关联的所有角色
 
 ```ts
 import { ChainGrpcPermissionsApi } from '@biya-coin/sdk-ts'
@@ -58,7 +58,7 @@ const addressRoles = await chainGrpcPermissionsApi.fetchAddressRoles({
 console.log(addressRoles)
 ```
 
-### Fetch all addresses that are associated to a given role for a denom
+### 获取面值的给定角色关联的所有地址
 
 ```ts
 import { ChainGrpcPermissionsApi } from '@biya-coin/sdk-ts'
@@ -79,7 +79,7 @@ const addressesByRole = await chainGrpcPermissionsApi.fetchAddressesByRole({
 console.log(addressesByRole)
 ```
 
-### Fetch vouchers for a given biyachain address
+### 获取给定 biyachain 地址的凭证
 
 ```ts
 import { ChainGrpcPermissionsApi } from '@biya-coin/sdk-ts'

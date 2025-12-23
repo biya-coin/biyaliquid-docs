@@ -1,10 +1,10 @@
 # Insurance Funds
 
-Example code snippets to query the indexer for insurance fund module related data.
+查询索引器中 insurance fund 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch redemptions for an biyachain address
+### 获取 biyachain 地址的赎回
 
 ```ts
 import { IndexerGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'
@@ -24,7 +24,7 @@ const redemptions = await indexerGrpcInsuranceFundApi.fetchRedemptions({
 console.log(redemptions)
 ```
 
-### Fetch insurance funds
+### 获取保险基金
 
 ```ts
 import { IndexerGrpcInsuranceFundApi } from '@biya-coin/sdk-ts'

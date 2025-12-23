@@ -1,10 +1,10 @@
 # Auction
 
-Example code snippets to query the auction module on the chain.
+查询链上 auction 模块的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch module params such as the auction period
+### 获取模块参数，如拍卖周期
 
 ```ts
 import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcAuctionApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch the state of the current auction, such as the latest round
+### 获取当前拍卖的状态，如最新轮次
 
 ```ts
 import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'
@@ -32,7 +32,7 @@ const latestAuctionModuleState = await auctionApi.fetchModuleState()
 console.log(latestAuctionModuleState)
 ```
 
-### Fetch the current auction basket and get info such as the highest bidder and amount
+### 获取当前拍卖篮子并获取信息，如最高出价者和金额
 
 ```ts
 import { ChainGrpcBankApi } from '@biya-coin/sdk-ts'

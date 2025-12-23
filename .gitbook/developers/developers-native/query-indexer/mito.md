@@ -1,14 +1,14 @@
 # Mito
 
-Example code snippets to query the indexer for the Mito vault module related data.
+查询索引器中 Mito vault 模块相关数据的示例代码片段。
 
 {% hint style="info" %}
-Mito Documentation has been moved here visit[ Mito's Docs](https://docs.mito.fi/).
+Mito 文档已移至此处，请访问 [Mito's Docs](https://docs.mito.fi/)。
 {% endhint %}
 
-## (Outdated) Using gRPC
+## (已过时) 使用 gRPC
 
-### Fetch a vault based off it's contract address, such as the vault's tvl or profits
+### 根据合约地址获取金库，如金库的 tvl 或利润
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
@@ -17,8 +17,8 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
-const contractAddress = '0x...' /* optional param */
-const slug = 'derivative-vault' /* optional param */
+const contractAddress = '0x...' /* 可选参数 */
+const slug = 'derivative-vault' /* 可选参数 */
 
 const vault = await indexerGrpcNinjaApi.fetchVault({
   contractAddress,
@@ -28,7 +28,7 @@ const vault = await indexerGrpcNinjaApi.fetchVault({
 console.log(vault)
 ```
 
-### Fetch vaults and associated details
+### 获取金库和相关详情
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
@@ -42,7 +42,7 @@ const vault = await indexerGrpcNinjaApi.fetchVaults()
 console.log(vault)
 ```
 
-### Fetch the lp token price chart for a vault based on the vault address
+### 根据金库地址获取 lp 代币价格图表
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
@@ -52,8 +52,8 @@ const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
 const vaultAddress = 'biya...'
-const from = 50 /* optional pagination params */
-const to = 150 /* optional pagination params */
+const from = 50 /* 可选分页参数 */
+const to = 150 /* 可选分页参数 */
 
 const lpTokenPriceChart = await indexerGrpcNinjaApi.fetchLpTokenPriceChart({
   vaultAddress,
@@ -64,7 +64,7 @@ const lpTokenPriceChart = await indexerGrpcNinjaApi.fetchLpTokenPriceChart({
 console.log(lpTokenPriceChart)
 ```
 
-### Fetch the tvl token chart for a vault based on the vault address
+### 根据金库地址获取 tvl 代币图表
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
@@ -74,8 +74,8 @@ const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcNinjaApi = new IndexerGrpcNinjaApi(endpoints.ninjaApi)
 
 const vaultAddress = 'biya...'
-const from = 50 /* optional pagination params */
-const to = 150 /* optional pagination params */
+const from = 50 /* 可选分页参数 */
+const to = 150 /* 可选分页参数 */
 
 const tvlChart = await indexerGrpcNinjaApi.fetchTVLChartRequest({
   vaultAddress,
@@ -86,7 +86,7 @@ const tvlChart = await indexerGrpcNinjaApi.fetchTVLChartRequest({
 console.log(tvlChart)
 ```
 
-### Fetch the vaults associated with a holder of its lp tokens
+### 获取与 lp 代币持有者关联的金库
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
@@ -104,7 +104,7 @@ const vaults = await indexerGrpcNinjaApi.fetchVaultsByHolderAddress({
 console.log(vaults)
 ```
 
-### Fetch the lp token holders from the vault address
+### 从金库地址获取 lp 代币持有者
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
@@ -122,7 +122,7 @@ const holders = await indexerGrpcNinjaApi.fetchLPHolders({
 console.log(holders)
 ```
 
-### Fetch the lp holder's portfolio
+### 获取 lp 持有者的投资组合
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'
@@ -138,7 +138,7 @@ const portfolio = await indexerGrpcNinjaApi.fetchHolderPortfolio(holderAddress)
 console.log(portfolio)
 ```
 
-### Fetch the leaderboard to see Pnl rankings
+### 获取排行榜以查看盈亏排名
 
 ```ts
 import { IndexerGrpcNinjaApi } from '@biya-coin/sdk-ts'

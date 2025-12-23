@@ -1,10 +1,10 @@
 # WasmX
 
-Example code snippets to query the wasmX module on chain
+查询链上 wasmX 模块的示例代码片段
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters related to the wasmX module
+### 获取与 wasmX 模块相关的参数
 
 ```ts
 import { ChainGrpcWasmXApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcWasmXApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch the wasmX module state
+### 获取 wasmX 模块状态
 
 ```ts
 import { ChainGrpcWasmXApi } from '@biya-coin/sdk-ts'

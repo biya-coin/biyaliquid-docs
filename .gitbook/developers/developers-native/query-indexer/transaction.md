@@ -1,10 +1,10 @@
 # Web3 Gateway Transactions
 
-Example code snippets to query the indexer for transaction module related data. Used only when interacting with the [Web3Gateway](../transactions/web3-gateway.md)
+查询索引器中 transaction 模块相关数据的示例代码片段。仅在与 [Web3Gateway](../transactions/web3-gateway.md) 交互时使用
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch response for preparing a transaction
+### 获取准备交易的响应
 
 ```ts
 import { Msgs, IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
@@ -14,7 +14,7 @@ import { EvmChainId } from '@biya-coin/ts-types'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const address = '0x...' // ethereum address
+const address = '0x...' // 以太坊地址
 const chainId = EvmChainId.Sepolia
 const message = { ... } as Msgs
 const memo = '...'
@@ -29,7 +29,7 @@ const prepareTxResponse = await indexerGrpcTransactionApi.prepareTxRequest({
 console.log(prepareTxResponse)
 ```
 
-### Fetch response for preparing a cosmos transaction
+### 获取准备 cosmos 交易的响应
 
 ```ts
 import { IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
@@ -49,11 +49,11 @@ const prepareCosmosTxResponse = await indexerGrpcTransactionApi.prepareCosmosTxR
 console.log(prepareCosmosTxResponse)
 ```
 
-### Fetch response for broadcasting transactions using the Web3Gateway
+### 获取使用 Web3Gateway 广播交易的响应
 
-Use `MsgBroadcasterWithPk` to broadcast transactions within a node/CLI environment, which can be found in `@biya-coin/sdk-ts`.
+在 node/CLI 环境中使用 `MsgBroadcasterWithPk` 广播交易，可在 `@biya-coin/sdk-ts` 中找到。
 
-Use `@biya-coin/wallet-core`'s `MsgBroadcaster` class for more details on broadcasting a transactions in a browser environment.
+在浏览器环境中使用 `@biya-coin/wallet-core` 的 `MsgBroadcaster` 类获取有关广播交易的更多详细信息。
 
 ```ts
 import { ChainId, EvmChainId } from '@biya-coin/ts-types'
@@ -64,8 +64,8 @@ import { Msgs, IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const chainId = ChainId.Testnet // The Biya Chain Testnet Chain ID
-const evmChainId = EvmChainId.TestnetEvm // The Biya Chain Evm Testnet Chain ID
+const chainId = ChainId.Testnet // Biya Chain 测试网链 ID
+const evmChainId = EvmChainId.TestnetEvm // Biya Chain Evm 测试网链 ID
 
 export const alchemyRpcEndpoint = `https://eth-goerli.alchemyapi.io/v2/${process.env.APP_ALCHEMY_SEPOLIA_KEY}`
 
@@ -79,14 +79,14 @@ const walletStrategy = new WalletStrategy({
   },
 })
 
-const address = '0x...' // ethereum address
+const address = '0x...' // 以太坊地址
 const message = { ... } as Msgs
 const memo = '...'
-const response = { ... } // response from  prepareTxRequest
+const response = { ... } // 来自 prepareTxRequest 的响应
 const signature = await walletStrategy.signEip712TypedData(
       response.getData(),
       address,
-    ) /* see biyachain-ts/wallet-ts implementation of WalletStrategy. Essentially, you use the signEip712TypedData method of the wallet, if the wallet supports signing ethereum transactions */
+    ) /* 参见 biyachain-ts/wallet-ts 中 WalletStrategy 的实现。本质上，如果钱包支持签署以太坊交易，则使用钱包的 signEip712TypedData 方法 */
 
 const broadcastTxResponse = await indexerGrpcTransactionApi.broadcastTxRequest({
   signature,
@@ -98,7 +98,7 @@ const broadcastTxResponse = await indexerGrpcTransactionApi.broadcastTxRequest({
 console.log(broadcastTxResponse)
 ```
 
-### Fetch response for broadcasting a cosmos transactions.
+### 获取广播 cosmos 交易的响应
 
 ```ts
 import { IndexerGrpcTransactionApi } from '@biya-coin/sdk-ts'
@@ -108,7 +108,7 @@ import { TxRaw } from '@biya-coin/chain-api'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcTransactionApi = new IndexerGrpcTransactionApi(endpoints.indexer)
 
-const address = 'biya...' // ethereum address
+const address = 'biya...' // 以太坊地址
 const signature = '...' // base64
 const txRaw = { ... } as TxRaw
 const pubKey = {
@@ -126,7 +126,7 @@ const broadcastCosmosTxResponse = await indexerGrpcTransactionApi.broadcastCosmo
 console.log(broadcastCosmosTxResponse)
 ```
 
-### Fetch Web3Gateway Fee Payer
+### 获取 Web3Gateway 费用支付者
 
 ```ts
 import { IndexerGrpcTransactionApi } from "@biya-coin/sdk-ts";

@@ -1,10 +1,10 @@
 # Leaderboard
 
-Example code snippets to query the indexer for leaderboard module related data.
+查询索引器中 leaderboard 模块相关数据的示例代码片段。
 
-## Using HTTP REST
+## 使用 HTTP REST
 
-### Fetch leaderboard
+### 获取排行榜
 
 ```ts
 import { IndexerRestLeaderboardChronosApi } from '@biya-coin/sdk-ts'

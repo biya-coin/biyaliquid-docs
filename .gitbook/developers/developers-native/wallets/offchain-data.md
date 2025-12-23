@@ -1,33 +1,33 @@
-# Offchain (Arbitrary) Data
+# 链外（任意）数据
 
-On this page, we'll provide an example of how to sign and verify arbitrary data as per the [ADR-036](https://docs.cosmos.network/main/build/architecture/adr-036-arbitrary-signature) specification on Cosmos.
+在本页面上，我们将提供一个示例，说明如何根据 Cosmos 上的 [ADR-036](https://docs.cosmos.network/main/build/architecture/adr-036-arbitrary-signature) 规范签署和验证任意数据。
 
 {% hint style="info" %}
-You can use the `generateArbitrarySignDoc` function from `@biya-coin/sdk-ts` to generate ADR-36 compatible `signDoc`. You can then use it to sign/verify using a browser wallet or in a CLI environment. Make sure you are using the latest package versions.
+您可以使用 `@biya-coin/sdk-ts` 中的 `generateArbitrarySignDoc` 函数生成与 ADR-36 兼容的 `signDoc`。然后，您可以使用它在浏览器钱包或 CLI 环境中进行签名/验证。确保您使用的是最新的软件包版本。
 {% endhint %}
 
-#### Sign and verify using a browser wallet like Keplr
+#### 使用浏览器钱包（如 Keplr）签署和验证
 
 ```typescript
 
 (async () => {
-  const message = "Offline Sign Message Example";
+  const message = "离线签名消息示例";
   const signer = 'biya1...'
   const chainId = 'biyachain-1'
   
-  // Sign Arbitrary Data
+  // 签署任意数据
   const signature = await window.keplr.signArbitrary(chainId, signer, message)
   
-  // Verify Arbitrary Data
+  // 验证任意数据
   const result = await window.keplr.verifyArbitrary(chainId, signer, message, signature)
   
   if (result) {
-    console.log("Signature is valid");
+    console.log("签名有效");
   }
 })();
 ```
 
-#### Sign and verify using PrivateKey in a CLI environment
+#### 在 CLI 环境中使用 PrivateKey 签署和验证
 
 ```typescript
 import { config } from "dotenv";
@@ -40,7 +40,7 @@ config();
   const biyachainAddress = privateKey.toBech32();
   const publicKey = privateKey.toPublicKey();
   
-  const message = "Offline Sign Message Example";
+  const message = "离线签名消息示例";
   const { signDocBuff } = generateArbitrarySignDoc(message, biyachainAddress);
 
   const signature = await privateKey.sign(signDocBuff);
@@ -53,7 +53,7 @@ config();
       publicKey: publicKey.toHex(),
     })
   ) {
-    console.log("Signature is valid");
+    console.log("签名有效");
   }
 })();
 

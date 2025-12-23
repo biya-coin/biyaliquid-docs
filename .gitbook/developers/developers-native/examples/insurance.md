@@ -1,14 +1,14 @@
 # Insurance
 
-This module provides insurance funds for derivative markets in the exchange module of the Biya Chain Chain to use in order to support higher leverage trading. On a high level, insurance funds for each derivative market are funded by a permissionless group of underwriters who each own a proportional claim (represented through insurance fund share tokens) over the underlying assets in the insurance fund.
+此模块为 Biya Chain 链的交易所模块中的衍生品市场提供保险基金，以支持更高杠杆的交易。在高层次上，每个衍生品市场的保险基金由一个无需许可的承保人组成，每个承保人对保险基金中的基础资产拥有比例索赔权（通过保险基金份额代币表示）。
 
-## Messages
+## 消息
 
-Let's explore (and provide examples) the Messages that the Insurance module exports and we can use to interact with the Biya Chain chain.
+让我们探索（并提供示例）Insurance 模块导出的消息，我们可以使用这些消息与 Biya Chain 链交互。
 
 ### MsgCreateInsuranceFund
 
-This Message is used to create an Insurance Fund
+此消息用于创建保险基金
 
 ```ts
 import {
@@ -34,7 +34,7 @@ const msg = MsgCreateInsuranceFund.fromJSON({
   biyachainAddress,
   deposit: {
     denom: fund.quoteDenom,
-    amount: amount.toWei(6 /* 6 because USDT has 6 decimals */).toFixed(),
+    amount: amount.toWei(6 /* 6 因为 USDT 有 6 位小数 */).toFixed(),
   },
 });
 
@@ -50,7 +50,7 @@ console.log(txHash);
 
 ### MsgRequestRedemption
 
-This Message is used to request redemption.
+此消息用于请求赎回。
 
 ```ts
 import {
@@ -63,7 +63,7 @@ import { Network } from "@biya-coin/networks";
 const marketId = "0x....";
 const privateKey = "0x...";
 const biyachainAddress = "biya1...";
-const denom = "share1"; // the insurance fund denom (share{id})
+const denom = "share1"; // 保险基金面值 (share{id})
 const amount = toChainFormat(5).toFixed();
 
 const msg = MsgRequestRedemption.fromJSON({
@@ -87,7 +87,7 @@ console.log(txHash);
 
 ### MsgUnderwrite
 
-This Message is used to underwrite to an insurance fund.
+此消息用于向保险基金承保。
 
 ```ts
 import { Network } from "@biya-coin/networks";

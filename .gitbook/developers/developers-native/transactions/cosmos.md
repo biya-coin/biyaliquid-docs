@@ -1,16 +1,16 @@
-# Cosmos Transactions
+# Cosmos 交易
 
-Every transaction on Biya Chain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Biya Chain 上的每个交易都遵循相同的流程。该流程包括三个步骤：准备、签署和广播交易。让我们分别深入研究每个步骤并详细解释过程（包括示例），以便我们可以理解整个交易流程。
 
-## Preparing a transaction
+## 准备交易
 
-First of, we need to prepare the transaction for signing.
+首先，我们需要准备交易以进行签名。
 
-At this point you **can't** use some online abstractions that provide a quick way to prepare the transaction for you based on the provided Message and the signer (ex. using the `@cosmjs/stargate` package). The reason why is that these packages don't support Biya Chain's publicKey typeUrl, so we have to do the preparation of the address on the client side.
+此时，您**不能**使用某些在线抽象，这些抽象基于提供的消息和签名者为您提供快速准备交易的方法（例如使用 `@cosmjs/stargate` 包）。原因是这些包不支持 Biya Chain 的 publicKey typeUrl，因此我们必须在客户端进行地址准备。
 
-To resolve this, we have provided functions which can prepare the `txRaw` transaction within out `@biya-coin/sdk-ts` package. `txRaw` is the transaction interface used in Cosmos that contains details about the transaction and the signer itself.
+为了解决这个问题，我们在 `@biya-coin/sdk-ts` 包中提供了可以准备 `txRaw` 交易的函数。`txRaw` 是 Cosmos 中使用的交易接口，包含有关交易和签名者本身的详细信息。
 
-Getting a private key from cosmos wallets is usually done by taking the current key for the chainId and accessing the pubKey from there (ex: `const key = await window.keplr.getKey(chainId)` => `const pubKey = key.publicKey`).
+从 cosmos 钱包获取私钥通常是通过获取 chainId 的当前密钥并从那里访问 pubKey 来完成的（例如：`const key = await window.keplr.getKey(chainId)` => `const pubKey = key.publicKey`）。
 
 ```ts
 import {
@@ -33,14 +33,14 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
     amount: toChainFormat(0.01).toFixed(),
   };
 
-  /** Account Details **/
+  /** 账户详情 **/
   const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
     biyachainAddress
   );
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 
-  /** Block Details */
+  /** 区块详情 */
   const chainRestTendermintApi = new ChainRestTendermintApi(restEndpoint);
   const latestBlock = await chainRestTendermintApi.fetchLatestBlock();
   const latestHeight = latestBlock.header.height;
@@ -48,17 +48,17 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
     DEFAULT_BLOCK_TIMEOUT_HEIGHT
   );
 
-  /** Preparing the transaction */
+  /** 准备交易 */
   const msg = MsgSend.fromJSON({
     amount,
     srcBiyachainAddress: biyachainAddress,
     dstBiyachainAddress: biyachainAddress,
   });
 
-  /** Get the PubKey of the Signer from the Wallet/Private Key */
+  /** 从钱包/私钥获取签名者的公钥 */
   const pubKey = await getPubKey();
 
-  /** Prepare the Transaction **/
+  /** 准备交易 **/
   const { txRaw, signDoc } = createTransaction({
     pubKey,
     chainId,
@@ -71,9 +71,9 @@ import { getStdFee, DEFAULT_BLOCK_TIMEOUT_HEIGHT } from "@biya-coin/utils";
 })();
 ```
 
-## Signing a transaction
+## 签署交易
 
-Once we have prepared the transaction, we proceed to signing. Once you get the `txRaw` transaction from the previous step use any Cosmos native wallet to sign (ex: Keplr),
+一旦我们准备好交易，我们就开始签署。从上一步获得 `txRaw` 交易后，使用任何 Cosmos 原生钱包进行签名（例如：Keplr），
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
@@ -91,17 +91,17 @@ const getKeplr = async (chainId: string) => {
 
 const { offlineSigner } = await getKeplr(ChainId.Mainnet)
 
-/* Sign the Transaction */
+/* 签署交易 */
 const address = 'biya1...'
-const signDoc = /* From the previous step */
+const signDoc = /* 从上一步获取 */
 const directSignResponse = await offlineSigner.signDirect(address, signDoc as SignDoc)
 ```
 
-You can also use our `@biya-coin/wallet-strategy` package to get out-of-the-box wallet provides that will give you abstracted methods that you can use to sign transactions. Refer to the documentation of the package, its straightforward to setup and use. **This is the recommended way as you have access to more than one wallet to use in your dApp. The `WalletStrategy` provides more than just signing transaction abstractions.**
+您还可以使用我们的 `@biya-coin/wallet-strategy` 包来获得开箱即用的钱包提供程序，这将为您提供可用于签署交易的抽象方法。请参阅该包的文档，设置和使用非常简单。**这是推荐的方法，因为您可以在 dApp 中访问多个钱包。`WalletStrategy` 提供的不仅仅是签署交易的抽象。**
 
-## Broadcasting a transaction
+## 广播交易
 
-Once we have the signature ready, we need to broadcast the transaction to the Biya Chain chain itself. After getting the signature from the second step, we need to include it in the signed transaction and broadcast it to the chain.
+一旦我们准备好签名，我们需要将交易广播到 Biya Chain 链本身。从第二步获得签名后，我们需要将其包含在已签名的交易中并将其广播到链。
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
@@ -115,18 +115,17 @@ import {
 import { TransactionException } from '@biya-coin/exceptions'
 
 /**
- * IMPORTANT NOTE:
- * If we use Keplr/Leap wallets
- * after signing the transaction we get a `directSignResponse`,
- * and instead of adding the signature to the `txRaw` we create
- * using the `createTransaction` function we need to append the
- * signature from the `directSignResponse` to the transaction that
- * got actually signed (i.e `directSignResponse.signed`) and
- * the reason why is that the user can make some changes on the original
- * transaction (i.e change gas limit or gas prices) and the transaction
- * that get's signed and the one that gets broadcasted are not the same.
+ * 重要提示：
+ * 如果我们使用 Keplr/Leap 钱包
+ * 在签署交易后，我们会得到一个 `directSignResponse`，
+ * 而不是将签名添加到我们使用 `createTransaction` 函数创建的 `txRaw` 中
+ * 我们需要将 `directSignResponse` 中的签名附加到
+ * 实际签署的交易（即 `directSignResponse.signed`）
+ * 原因是用户可以对原始交易进行一些更改
+ * （即更改 gas 限制或 gas 价格），签署的交易和
+ * 广播的交易不相同。
  */
-const directSignResponse = /* From the second step above */;
+const directSignResponse = /* 从上面的第二步获取 */;
 const txRaw = getTxRawFromTxRawOrDirectSignResponse(directSignResponse)
 
 const broadcastTx = async (chainId: String, txRaw: TxRaw) => {
@@ -145,7 +144,7 @@ const broadcastTx = async (chainId: String, txRaw: TxRaw) => {
 
   if (!result || result.length === 0) {
     throw new TransactionException(
-      new Error('Transaction failed to be broadcasted'),
+      new Error('交易广播失败'),
       { contextModule: 'Keplr' },
     )
   }
@@ -156,21 +155,21 @@ const broadcastTx = async (chainId: String, txRaw: TxRaw) => {
 const txHash = await broadcastTx(ChainId.Mainnet, txRaw)
 
 /**
- * Once we get the txHash, because we use the Sync mode we
- * are not sure that the transaction is included in the block,
- * it can happen that it's still in the mempool so we need to query
- * the chain to see when the transaction will be included
+ * 一旦我们获得 txHash，因为我们使用同步模式
+ * 我们不确定交易是否包含在区块中，
+ * 它可能仍在内存池中，所以我们需要查询
+ * 链以查看交易何时被包含
  */
 const restEndpoint = 'https://sentry.lcd.biyachain.network' /* getNetworkEndpoints(Network.MainnetSentry).rest */
 const txRestApi = new TxRestApi(restEndpoint)
 
- /** This will poll querying the transaction and await for it's inclusion in the block */
+ /** 这将轮询查询交易并等待其包含在区块中 */
 const response = await txRestApi.fetchTxPoll(txHash)
 ```
 
-## Example (Prepare + Sign + Broadcast)
+## 示例（准备 + 签署 + 广播）
 
-Let's have a look at the whole flow (using Keplr as a signing wallet)
+让我们看看整个流程（使用 Keplr 作为签名钱包）
 
 ```ts
 import {
@@ -211,7 +210,7 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
 
   if (!result || result.length === 0) {
     throw new TransactionException(
-      new Error("Transaction failed to be broadcasted"),
+      new Error("交易广播失败"),
       { contextModule: "Keplr" }
     );
   }
@@ -231,14 +230,14 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
     amount: toChainFormat(0.01).toFixed(),
   };
 
-  /** Account Details **/
+  /** 账户详情 **/
   const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
     biyachainAddress
   );
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 
-  /** Block Details */
+  /** 区块详情 */
   const chainRestTendermintApi = new ChainRestTendermintApi(restEndpoint);
   const latestBlock = await chainRestTendermintApi.fetchLatestBlock();
   const latestHeight = latestBlock.header.height;
@@ -246,14 +245,14 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
     DEFAULT_BLOCK_TIMEOUT_HEIGHT
   );
 
-  /** Preparing the transaction */
+  /** 准备交易 */
   const msg = MsgSend.fromJSON({
     amount,
     srcBiyachainAddress: biyachainAddress,
     dstBiyachainAddress: biyachainAddress,
   });
 
-  /** Prepare the Transaction **/
+  /** 准备交易 **/
   const { signDoc } = createTransaction({
     pubKey,
     chainId,
@@ -276,6 +275,6 @@ const broadcastTx = async (chainId: string, txRaw: TxRaw) => {
 })();
 ```
 
-## Example with WalletStrategy (Prepare + Sign + Broadcast)
+## 使用 WalletStrategy 的示例（准备 + 签署 + 广播）
 
-Example can be found [here](https://github.com/biya-coin/biyachain-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L301-L365).
+示例可以在[这里](https://github.com/biya-coin/biyachain-ts/blob/862e7c30d96120947b056abffbd01b4f378984a1/packages/wallet-ts/src/broadcaster/MsgBroadcaster.ts#L301-L365)找到。

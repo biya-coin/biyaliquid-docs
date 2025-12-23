@@ -1,18 +1,18 @@
-# Querying the Indexer
+# 查询索引器
 
-## Topics
+## 主题
 
-| Topic                                                         | Description                                      |
+| 主题                                                         | 描述                                      |
 | ------------------------------------------------------------- | ------------------------------------------------ |
-| [Account](account.md)                                         | Querying data from the account module            |
-| [Auction](auction.md)                                         | Querying data from the auction module            |
-| [Derivatives](derivatives.md)                                 | Query data from the derivatives module           |
-| [Explorer](explorer.md)                                       | Query data related to the explorer module        |
-| [Leaderboard](leaderboard.md)                                 | Query data related to the leaderboard module     |
-| [Insurance Fund](insurance-funds.md)                          | Query data from the insurance fund module        |
-| [Markets](markets.md)                                         | Query data for both spot and derivatives markets |
-| [Mito](mito.md)                                               | Query data from the ninja vaults module          |
-| [Oracle](oracle.md)                                           | Query data related to the oracle                 |
-| [Portfolio](portfolio.md)                                     | Query data related to the portfolio module       |
-| [Spot](spot.md)                                               | Query data from the spot module                  |
-| [Transaction](transaction.md)                                 | Query data related to the transaction module     |
+| [Account](account.md)                                         | 从 account 模块查询数据            |
+| [Auction](auction.md)                                         | 从 auction 模块查询数据            |
+| [Derivatives](derivatives.md)                                 | 从 derivatives 模块查询数据           |
+| [Explorer](explorer.md)                                       | 查询与 explorer 模块相关的数据        |
+| [Leaderboard](leaderboard.md)                                 | 查询与 leaderboard 模块相关的数据     |
+| [Insurance Fund](insurance-funds.md)                          | 从 insurance fund 模块查询数据        |
+| [Markets](markets.md)                                         | 查询现货和衍生品市场数据 |
+| [Mito](mito.md)                                               | 从 ninja vaults 模块查询数据          |
+| [Oracle](oracle.md)                                           | 查询与 oracle 相关的数据                 |
+| [Portfolio](portfolio.md)                                     | 查询与 portfolio 模块相关的数据       |
+| [Spot](spot.md)                                               | 从 spot 模块查询数据                  |
+| [Transaction](transaction.md)                                 | 查询与 transaction 模块相关的数据     |

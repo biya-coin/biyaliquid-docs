@@ -1,25 +1,25 @@
-# Wallets
+# 钱包
 
-Biya Chain defines its own custom `Account` type that uses Ethereum's ECDSA secp256k1 curve for keys. In simple words said, it means that Biya Chain's Account is native (compatible) with Ethereum accounts. This allows users to use Ethereum native wallets to interact with Biya Chain.
+Biya Chain 定义了自己的自定义 `Account` 类型，该类型使用以太坊的 ECDSA secp256k1 曲线作为密钥。简单来说，这意味着 Biya Chain 的账户与以太坊账户原生（兼容）。这允许用户使用以太坊原生钱包与 Biya Chain 交互。
 
-Biya Chain is built on top of the CosmosSDK. This means that (with some modifications, since Cosmos uses different curve for keys) users can also use Cosmos native wallets to interact with Biya Chain.
+Biya Chain 建立在 CosmosSDK 之上。这意味着（经过一些修改，因为 Cosmos 使用不同的密钥曲线）用户也可以使用 Cosmos 原生钱包与 Biya Chain 交互。
 
-## Technical Explanation
+## 技术说明
 
-Let's briefly explain how the accounts (wallets) work on Biya Chain and in crypto in general.
+让我们简要解释一下账户（钱包）在 Biya Chain 和加密货币中的工作原理。
 
-* Everything starts from a **SeedPhase** (or mnemonic). A **SeedPhrase** is a list of 12 or 24 common words in a particular order.
-* From the **SeedPhase** you can have an **infinite** number of **PrivateKeys** derived using indexing (the first private key starts at index 0). This is why you can add multiple accounts on Metamask, Keplr, or any other popular wallet without generating a new **SeedPhase** _(the derivation itself is a bit complicated for this brief explanation so we are going to omit it for now)._
-* After a **PrivateKey** has been derived from your **seed phase**, you can use this **PrivateKey** to derive your **PublicKey**. **One PrivateKey always corresponds to one PublicKey!**
-* Once you have your P**ublicKey** you can derive your **PublicAddress**. These public addresses can be derived using different derivation schemes and representations (_base64_, _hex_, _bech32_, etc).
+* 一切都从**助记词**（或种子短语）开始。**助记词**是按特定顺序排列的 12 或 24 个常用单词的列表。
+* 从**助记词**中，您可以使用索引派生**无限**数量的**私钥**（第一个私钥从索引 0 开始）。这就是为什么您可以在 Metamask、Keplr 或任何其他流行钱包上添加多个账户，而无需生成新的**助记词** _（派生本身对于这个简短的解释来说有点复杂，所以我们现在将省略它）。_
+* 从您的**助记词**派生出**私钥**后，您可以使用此**私钥**派生您的**公钥**。**一个私钥始终对应一个公钥！**
+* 一旦您有了**公钥**，您就可以派生您的**公共地址**。这些公共地址可以使用不同的派生方案和表示形式（_base64_、_hex_、_bech32_ 等）派生。
 
-With the explanation above, we can understand that once you have your **PublicKey** you can derive both your Ethereum address (represented in a hex format, `0x...`) and your Biya Chain address (represented in a bech32 format, `biya1...`).
+通过上面的解释，我们可以理解，一旦您有了**公钥**，您就可以派生您的以太坊地址（以十六进制格式表示，`0x...`）和您的 Biya Chain 地址（以 bech32 格式表示，`biya1...`）。
 
-## Topics
+## 主题
 
-| Topic                                                   | Description                                                     |
+| 主题                                                   | 描述                                                     |
 | ------------------------------------------------------- | --------------------------------------------------------------- |
-| [Accounts on Biya Chain](accounts.md)             | Accounts/Wallets definition on Biya Chain                        |
-| [Wallet Connections](connections.md)             | Connecting directly using Metamask or Keplr                     |
-| [Wallet Strategy](strategy.md)            | Using the WalletStrategy to connect using different wallets     |
-| [Offchain (Arbitrary) Data](offchain-data.md) | Signing and verifying data offchain using the ADR-036 by Cosmos |
+| [Biya Chain 上的账户](accounts.md)             | Biya Chain 上的账户/钱包定义                        |
+| [钱包连接](connections.md)             | 直接使用 Metamask 或 Keplr 连接                     |
+| [钱包策略](strategy.md)            | 使用 WalletStrategy 连接不同的钱包     |
+| [链外（任意）数据](offchain-data.md) | 使用 Cosmos 的 ADR-036 在链外签名和验证数据 |

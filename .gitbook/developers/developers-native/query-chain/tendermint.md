@@ -1,10 +1,10 @@
 # Tendermint
 
-Example code snippets to query for chain node related data.
+查询链节点相关数据的示例代码片段。
 
-## Using HTTP REST
+## 使用 HTTP REST
 
-### Fetch the latest block info
+### 获取最新区块信息
 
 ```ts
 import { ChainRestTendermintApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const latestBlock = await chainRestTendermintApi.fetchLatestBlock()
 console.log(latestBlock)
 ```
 
-### Fetch chain node info
+### 获取链节点信息
 
 ```ts
 import { ChainRestTendermintApi } from '@biya-coin/sdk-ts'

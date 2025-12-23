@@ -1,10 +1,10 @@
-# Account
+# 账户
 
-Example code snippets to stream from the indexer for subaccount related data.
+从索引器流式传输子账户相关数据的示例代码片段。
 
-## Using gRPC stream
+## 使用 gRPC 流
 
-### Stream subaccount balance
+### 流式传输子账户余额
 
 ```ts
 import { IndexerGrpcAccountStream } from '@biya-coin/sdk-ts'

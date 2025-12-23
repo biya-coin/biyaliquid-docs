@@ -1,16 +1,16 @@
 # Exchange
 
-The `exchange` module is the heart of the Biya Chain Chain which enables fully decentralized spot and derivative exchange. It is the sine qua non module of the chain and integrates tightly with the `auction`, `insurance`, `oracle`, and `peggy` modules.
+`exchange` 模块是 Biya Chain 链的核心，它实现了完全去中心化的现货和衍生品交易所。它是链的必不可少的模块，与 `auction`、`insurance`、`oracle` 和 `peggy` 模块紧密集成。
 
-The exchange protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process of orderbook management, trade execution, order matching and settlement occurs on chain through the logic codified by the exchange module.
+交易所协议使交易者能够创建和交易任意现货和衍生品市场。订单簿管理、交易执行、订单匹配和结算的整个过程都通过交易所模块编码的逻辑在链上进行。
 
-## Messages
+## 消息
 
-Let's explore (and provide examples) the Messages that the Exchange module exports and we can use to interact with the Biya Chain chain.
+让我们探索（并提供示例）Exchange 模块导出的消息,我们可以使用这些消息与 Biya Chain 链交互。
 
 ### MsgDeposit
 
-This Message is used to send coins from the Bank module to a wallet's subaccount
+此消息用于将代币从 Bank 模块发送到钱包的子账户
 
 ```ts
 import { Network } from "@biya-coin/networks";
@@ -52,7 +52,7 @@ console.log(txHash);
 
 ### MsgWithdraw
 
-This Message is used to send coins from the wallet's subaccount back to the users Bank funds
+此消息用于将代币从钱包的子账户发送回用户的 Bank 资金
 
 ```ts
 import {
@@ -94,7 +94,7 @@ console.log(txHash);
 
 ### MsgCreateSpotLimitOrder
 
-This Message is used to create a spot limit order
+此消息用于创建现货限价订单
 
 ```ts
 import {
@@ -116,12 +116,12 @@ const market = {
   marketId: "0x...",
   baseDecimals: 18,
   quoteDecimals: 6,
-  minPriceTickSize: "" /* fetched from the chain */,
-  minQuantityTickSize: "" /* fetched from the chain */,
+  minPriceTickSize: "" /* 从链上获取 */,
+  minQuantityTickSize: "" /* 从链上获取 */,
   priceTensMultiplier:
-    "" /** can be fetched from getSpotMarketTensMultiplier */,
+    "" /** 可以从 getSpotMarketTensMultiplier 获取 */,
   quantityTensMultiplier:
-    "" /** can be fetched from getSpotMarketTensMultiplier */,
+    "" /** 可以从 getSpotMarketTensMultiplier 获取 */,
 };
 
 const order = {
@@ -137,7 +137,7 @@ const subaccountId = ethereumAddress + suffix;
 const msg = MsgCreateSpotLimitOrder.fromJSON({
   subaccountId,
   biyachainAddress,
-  orderType: 1 /* Buy */,
+  orderType: 1 /* 买入 */,
   price: spotPriceToChainPriceToFixed({
     value: order.price,
     tensMultiplier: market.priceTensMultiplier,
@@ -165,7 +165,7 @@ console.log(txHash);
 
 ### MsgCreateSpotMarketOrder
 
-This Message is used to create a spot market order
+此消息用于创建现货市价订单
 
 ```ts
 import {
@@ -187,12 +187,12 @@ const market = {
   marketId: "0x...",
   baseDecimals: 18,
   quoteDecimals: 6,
-  minPriceTickSize: "" /* fetched from the chain */,
-  minQuantityTickSize: "" /* fetched from the chain */,
+  minPriceTickSize: "" /* 从链上获取 */,
+  minQuantityTickSize: "" /* 从链上获取 */,
   priceTensMultiplier:
-    "" /** can be fetched from getSpotMarketTensMultiplier */,
+    "" /** 可以从 getSpotMarketTensMultiplier 获取 */,
   quantityTensMultiplier:
-    "" /** can be fetched from getSpotMarketTensMultiplier */,
+    "" /** 可以从 getSpotMarketTensMultiplier 获取 */,
 };
 const order = {
   price: 10,
@@ -207,7 +207,7 @@ const subaccountId = ethereumAddress + suffix;
 const msg = MsgCreateSpotMarketOrder.fromJSON({
   subaccountId,
   biyachainAddress,
-  orderType: 1 /* Buy */,
+  orderType: 1 /* 买入 */,
   price: spotPriceToChainPriceToFixed({
     value: order.price,
     tensMultiplier: market.priceTensMultiplier,
@@ -235,7 +235,7 @@ console.log(txHash);
 
 ### MsgCreateDerivativeLimitOrder
 
-This Message is used to create a derivative limit order
+此消息用于创建衍生品限价订单
 
 ```ts
 import {
@@ -258,10 +258,10 @@ const market = {
   marketId: '0x...',
   baseDecimals: 18,
   quoteDecimals: 6,
-  minPriceTickSize: '', /* fetched from the chain */
-  minQuantityTickSize: '', /* fetched from the chain */
-  priceTensMultiplier: '', /** can be fetched from getDerivativeMarketTensMultiplier */
-  quantityTensMultiplier: '', /** can be fetched from getDerivativeMarketTensMultiplier */
+  minPriceTickSize: '', /* 从链上获取 */
+  minQuantityTickSize: '', /* 从链上获取 */
+  priceTensMultiplier: '', /** 可以从 getDerivativeMarketTensMultiplier 获取 */
+  quantityTensMultiplier: '', /** 可以从 getDerivativeMarketTensMultiplier 获取 */
 }
 const order = {
   price: 10,
@@ -275,7 +275,7 @@ const suffix = '0'.repeat(23) + subaccountIndex
 const subaccountId = ethereumAddress + suffix
 
 const msg = MsgCreateDerivativeLimitOrder.fromJSON(
-  orderType: 1 /* Buy */,
+  orderType: 1 /* 买入 */,
   triggerPrice: '0',
   biyachainAddress,
   price: derivativePriceToChainPriceToFixed({
@@ -304,7 +304,7 @@ console.log(txHash)
 
 ### MsgCreateDerivativeMarketOrder
 
-This Message is used to create a derivative market order
+此消息用于创建衍生品市价订单
 
 ```ts
 import {
@@ -327,10 +327,10 @@ const market = {
   marketId: '0x...',
   baseDecimals: 18,
   quoteDecimals: 6,
-  minPriceTickSize: '', /* fetched from the chain */
-  minQuantityTickSize: '', /* fetched from the chain */
-  priceTensMultiplier: '', /** can be fetched from getDerivativeMarketTensMultiplier */
-  quantityTensMultiplier: '', /** can be fetched from getDerivativeMarketTensMultiplier */
+  minPriceTickSize: '', /* 从链上获取 */
+  minQuantityTickSize: '', /* 从链上获取 */
+  priceTensMultiplier: '', /** 可以从 getDerivativeMarketTensMultiplier 获取 */
+  quantityTensMultiplier: '', /** 可以从 getDerivativeMarketTensMultiplier 获取 */
 }
 const order = {
   price: 10,
@@ -344,7 +344,7 @@ const suffix = '0'.repeat(23) + subaccountIndex
 const subaccountId = ethereumAddress + suffix
 
 const msg = MsgCreateDerivativeMarketOrder.fromJSON(
-  orderType: 1 /* Buy */,
+  orderType: 1 /* 买入 */,
   triggerPrice: '0',
   biyachainAddress,
   price: derivativePriceToChainPriceToFixed({
@@ -378,7 +378,7 @@ console.log(txHash)
 
 ### MsgBatchUpdateOrders
 
-This Message is used to batch update orders on the chain
+此消息用于在链上批量更新订单
 
 ```ts
 import {
@@ -401,12 +401,12 @@ const derivativeMarket = {
   marketId: "0x...",
   baseDecimals: 18,
   quoteDecimals: 6,
-  minPriceTickSize: "" /* fetched from the chain */,
-  minQuantityTickSize: "" /* fetched from the chain */,
+  minPriceTickSize: "" /* 从链上获取 */,
+  minQuantityTickSize: "" /* 从链上获取 */,
   priceTensMultiplier:
-    "" /** can be fetched from getDerivativeMarketTensMultiplier */,
+    "" /** 可以从 getDerivativeMarketTensMultiplier 获取 */,
   quantityTensMultiplier:
-    "" /** can be fetched from getDerivativeMarketTensMultiplier */,
+    "" /** 可以从 getDerivativeMarketTensMultiplier 获取 */,
 };
 const derivativeOrder = {
   price: 10,
@@ -417,12 +417,12 @@ const spotMarket = {
   marketId: "0x...",
   baseDecimals: 18,
   quoteDecimals: 6,
-  minPriceTickSize: "" /* fetched from the chain */,
-  minQuantityTickSize: "" /* fetched from the chain */,
+  minPriceTickSize: "" /* 从链上获取 */,
+  minQuantityTickSize: "" /* 从链上获取 */,
   priceTensMultiplier:
-    "" /** can be fetched from getDerivativeMarketTensMultiplier */,
+    "" /** 可以从 getDerivativeMarketTensMultiplier 获取 */,
   quantityTensMultiplier:
-    "" /** can be fetched from getDerivativeMarketTensMultiplier */,
+    "" /** 可以从 getDerivativeMarketTensMultiplier 获取 */,
 };
 const spotOrder = {
   price: 10,
@@ -443,14 +443,14 @@ const msg = MsgBatchUpdateOrders.fromJSON({
       orderType: derivativeOrder.orderType as GrpcOrderType,
       price: derivativePriceToChainPriceToFixed({
         value: derivativeOrder.price,
-        quoteDecimals: 6 /* USDT has 6 decimals */,
+        quoteDecimals: 6 /* USDT 有 6 位小数 */,
       }),
       quantity: derivativeQuantityToChainQuantityToFixed({
         value: derivativeOrder.quantity,
       }),
       margin: derivativeMarginToChainMarginToFixed({
         value: margin,
-        quoteDecimals: 6 /* USDT has 6 decimals */,
+        quoteDecimals: 6 /* USDT 有 6 位小数 */,
       }),
       marketId: derivativeMarket.marketId,
       feeRecipient: biyachainAddress,
@@ -461,12 +461,12 @@ const msg = MsgBatchUpdateOrders.fromJSON({
       orderType: spotOrder.orderType as GrpcOrderType,
       price: spotPriceToChainPriceToFixed({
         value: spotOrder.price,
-        baseDecimals: 18 /* BIYA has 18 decimals */,
-        quoteDecimals: 6 /* USDT has 6 decimals */,
+        baseDecimals: 18 /* BIYA 有 18 位小数 */,
+        quoteDecimals: 6 /* USDT 有 6 位小数 */,
       }),
       quantity: spotQuantityToChainQuantityToFixed({
         value: spotOrder.quantity,
-        baseDecimals: 18 /* BIYA has 18 decimals */,
+        baseDecimals: 18 /* BIYA 有 18 位小数 */,
       }),
       marketId: spotMarket.marketId,
       feeRecipient: biyachainAddress,
@@ -486,7 +486,7 @@ console.log(txHash);
 
 ### MsgBatchCancelSpotOrders
 
-This Message is used to batch cancel spot orders on the chain
+此消息用于在链上批量取消现货订单
 
 ```ts
 import {
@@ -533,7 +533,7 @@ const txHash = await new MsgBroadcasterWithPk({
 console.log(txHash);
 ```
 
-This Message is used to batch cancel spot orders on the chain
+此消息用于在链上批量取消现货订单
 
 ### MsgBatchCancelDerivativeOrders
 
@@ -584,7 +584,7 @@ console.log(txHash);
 
 ### MsgRewardsOptOut
 
-This Message is used to opt out of the Trade & Earn program.
+此消息用于退出交易赚取计划。
 
 ```ts
 import { MsgRewardsOptOut, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
@@ -607,20 +607,20 @@ console.log(txHash);
 
 ### MsgExternalTransfer
 
-This message is used to transfer balance from one subaccount to another subaccount.
+此消息用于将余额从一个子账户转移到另一个子账户。
 
-Note:
+注意：
 
-- You cannot transfer from your default subaccountId since that balance is now associated with your Biya Chain address in the bank module. Therefore, in order for `MsgExternalTransfer` to work, you will need to transfer from a non-default subaccountId.
+- 您不能从默认的 subaccountId 转账，因为该余额现在与 bank 模块中的 Biya Chain 地址相关联。因此，为了使 `MsgExternalTransfer` 工作，您需要从非默认的 subaccountId 转账。
 
-How to find the subaccountId that you will be transferring from:
+如何找到您将要转账的 subaccountId：
 
-- you can query your existing subaccountIds via the [account portfolio api](../query-indexer/portfolio.md).
+- 您可以通过[账户投资组合 api](../query-indexer/portfolio.md) 查询您现有的 subaccountIds。
 
-How to use funds that are currently associated with your Biya Chain Address in bank module:
+如何使用当前与 bank 模块中 Biya Chain 地址关联的资金：
 
-- If you have existing non-default subaccounts, you'll want to do a [MsgDeposit](exchange.md#MsgDeposit) to one of your existing non-default subaccountIds and use that subaccountId as the `srcSubaccountId` below.
-- If you don't have existing non-default subaccounts, you can do a [MsgDeposit](exchange.md#MsgDeposit) to a new default subaccountId, which would be done via importing `getSubaccountId` from `sdk-ts` and setting the `subaccountId` field in [MsgDeposit](exchange.md#MsgDeposit) to `getSubaccountId(biyachainAddress, 1)`.
+- 如果您有现有的非默认子账户，您需要对您现有的非默认 subaccountIds 之一执行 [MsgDeposit](exchange.md#MsgDeposit)，并使用该 subaccountId 作为下面的 `srcSubaccountId`。
+- 如果您没有现有的非默认子账户，您可以对新的默认 subaccountId 执行 [MsgDeposit](exchange.md#MsgDeposit)，这将通过从 `sdk-ts` 导入 `getSubaccountId` 并将 [MsgDeposit](exchange.md#MsgDeposit) 中的 `subaccountId` 字段设置为 `getSubaccountId(biyachainAddress, 1)` 来完成。
 
 ```ts
 import {
@@ -640,13 +640,13 @@ const BIYA_TOKEN_SYMBOL = "BIYA";
 const tokenMeta = denomClient.getTokenMetaDataBySymbol(BIYA_TOKEN_SYMBOL);
 const tokenDenom = `biya`;
 
-/* format amount to add to the burn auction pool */
+/* 格式化要添加到销毁拍卖池的金额 */
 const amount = {
   denom: tokenDenom,
   amount: toChainFormat(1, tokenMeta.decimals).toFixed(),
 };
 
-/* create message in proto format */
+/* 以 proto 格式创建消息 */
 const msg = MsgExternalTransfer.fromJSON({
   amount,
   dstSubaccountId,
@@ -656,7 +656,7 @@ const msg = MsgExternalTransfer.fromJSON({
 
 const privateKey = "0x...";
 
-/* broadcast transaction */
+/* 广播交易 */
 const txHash = await new MsgBroadcasterWithPk({
   network: Network.Testnet,
   privateKey,

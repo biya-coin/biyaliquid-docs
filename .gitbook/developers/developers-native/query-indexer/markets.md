@@ -1,10 +1,10 @@
 # Markets
 
-Example code snippets to query the indexer for all markets data
+查询索引器中所有市场数据的示例代码片段
 
-## Using HTTP REST
+## 使用 HTTP REST
 
-### Fetch markets History
+### 获取市场历史
 
 ```ts
 import { IndexerRestMarketChronosApi } from '@biya-coin/sdk-ts'
@@ -24,7 +24,7 @@ const SelectList = {
 // const countback = MARKETS_HISTORY_CHART_SEVEN_DAYS
 
 const marketIds = ['0x']
-const countback = 154 // in unit of hours
+const countback = 154 // 以小时为单位
 const resolution = SelectList.Day
 
 const marketsHistory = await indexerRestMarketChronosApi.fetchMarketsHistory({

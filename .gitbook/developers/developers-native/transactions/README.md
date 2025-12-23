@@ -1,44 +1,44 @@
-# Transactions
+# 交易
 
-_Pre-requisite reading:_ [Cosmos SDK Transactions](https://docs.cosmos.network/main/learn/advanced/transactions)
+_前置阅读：_ [Cosmos SDK 交易](https://docs.cosmos.network/main/learn/advanced/transactions)
 
-State changes on Biya Chain can be done through transactions. Users create transactions, sign them and broadcast them to Biya Chain.
+Biya Chain 上的状态更改可以通过交易完成。用户创建交易，签署交易并将其广播到 Biya Chain。
 
-When broadcasted and only after every validation is successfully passed (these validations include signature validation, parameters validations, etc) the transaction is included within a block which is approved by the network through a consensus process.
+当广播后，只有在每个验证都成功通过（这些验证包括签名验证、参数验证等）后，交易才会被包含在通过共识过程由网络批准的区块中。
 
-### Messages
+### 消息
 
-Messages are the instructions included in transactions to specify the state change the user want to do. Every transaction has to have at least one message. Messages are module-specific objects that trigger state transitions within the scope of the module they belong to. We can pack multiple messages within the same transaction.
+消息是交易中包含的指令，用于指定用户想要执行的状态更改。每个交易必须至少有一条消息。消息是特定于模块的对象，在它们所属的模块范围内触发状态转换。我们可以在同一个交易中打包多条消息。
 
-There is an abstraction class (_MsgBase_) that we export from the `@biya-coin/sdk-ts` and every message extends the `MsgBase` interface, which has couple of mapping functionalities:
+有一个抽象类（_MsgBase_），我们从 `@biya-coin/sdk-ts` 导出，每条消息都扩展 `MsgBase` 接口，该接口具有几个映射功能：
 
-* `toData` -> Converts the Message to a simple Object representation,
-* `toProto` -> Returns a proto representation of the Message,
-* `toDirectSign` -> Converts the Message to a proto representation,
-* `toAmino` -> Converts the Message to a amino representation + type,
-* `toWeb3` -> alternative for `toAmino`, with the difference of the Message path type,
-* `toEip712Types` -> Generates the EIP712 types for the Message,
-* `toEip712` -> Generates the Message EIP712 value
-* `toJSON` -> Converts the message to a JSON representation,
+* `toData` -> 将消息转换为简单的对象表示，
+* `toProto` -> 返回消息的 proto 表示，
+* `toDirectSign` -> 将消息转换为 proto 表示，
+* `toAmino` -> 将消息转换为 amino 表示 + 类型，
+* `toWeb3` -> `toAmino` 的替代方案，区别在于消息路径类型，
+* `toEip712Types` -> 为消息生成 EIP712 类型，
+* `toEip712` -> 生成消息 EIP712 值
+* `toJSON` -> 将消息转换为 JSON 表示，
 
-### Transaction Context
+### 交易上下文
 
-Besides Message(s), every transaction has context. These details include `fees`, `accountDetails`, `memo`, `signatures`, etc.
+除了消息之外，每个交易都有上下文。这些详细信息包括 `fees`、`accountDetails`、`memo`、`signatures` 等。
 
-### Transaction Flow
+### 交易流程
 
-Every transaction we want to broadcast to Biya Chain has the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction.
+我们想要广播到 Biya Chain 的每个交易都有相同的流程。该流程包括三个步骤：准备、签署和广播交易。
 
 
 
-### Topics
+### 主题
 
-| Topic                                             | Description                                                |
+| 主题                                             | 描述                                                |
 | ------------------------------------------------- | ---------------------------------------------------------- |
-| [Using the Ethereum approach](ethereum.md)        | Prepare/Sign EIP712 typed data then broadcast              |
-| [Using the Cosmos approach](cosmos.md) | Prepare/Sign/Broadcast Cosmos transactions                 |
-| [Using a Private Key](private-key.md)             | Prepare/Sign/Broadcast Cosmos transaction with private key |
-| [Web3Gateway Microservice](web3-gateway.md)       | A microservice for supporting fee Delegation               |
-| [Msg Broadcaster](msgbroadcaster.md)              | Abstraction for broadcasting messages                      |
+| [使用以太坊方法](ethereum.md)        | 准备/签署 EIP712 类型数据然后广播              |
+| [使用 Cosmos 方法](cosmos.md) | 准备/签署/广播 Cosmos 交易                 |
+| [使用私钥](private-key.md)             | 使用私钥准备/签署/广播 Cosmos 交易 |
+| [Web3Gateway 微服务](web3-gateway.md)       | 支持费用委托的微服务               |
+| [Msg Broadcaster](msgbroadcaster.md)              | 广播消息的抽象                      |
 
-**The messages that are available (and examples) can be found in Core Modules section of the Wiki.**
+**可用的消息（和示例）可以在 Wiki 的核心模块部分找到。**

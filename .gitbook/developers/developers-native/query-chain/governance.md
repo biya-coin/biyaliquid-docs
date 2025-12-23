@@ -1,10 +1,10 @@
 # Governance
 
-Example code snippets to query the governance module on the chain.
+查询链上 governance 模块的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters such as the voting period, max depositing period, or tallying details
+### 获取参数，如投票期、最大存款期或计票详情
 
 ```ts
 import { ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcGovApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch proposals based on the status
+### 根据状态获取提案
 
 ```ts
 import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -33,13 +33,13 @@ const pagination = {...} as PaginationOption
 
 const proposals = await chainGrpcGovApi.fetchProposals({
   status,
-  pagination /* optional pagination params */
+  pagination /* 可选的分页参数 */
 })
 
 console.log(proposals)
 ```
 
-### Fetch proposal details based on a proposal's id
+### 根据提案 ID 获取提案详情
 
 ```ts
 import { ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -55,7 +55,7 @@ const proposalDetails = await chainGrpcGovApi.fetchProposal(proposalId)
 console.log(proposalDetails)
 ```
 
-### Fetch proposal deposits based on a proposal's id.
+### 根据提案 ID 获取提案存款
 
 ```ts
 import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -69,13 +69,13 @@ const pagination = {...} as PaginationOption
 
 const proposalDeposits = await chainGrpcGovApi.fetchProposalDeposits({
   proposalId,
-  pagination /* optiona pagination parameter */
+  pagination /* 可选的分页参数 */
 })
 
 console.log(proposalDeposits)
 ```
 
-### Fetch proposal details based on a proposal's id
+### 根据提案 ID 获取提案详情
 
 ```ts
 import { ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -91,7 +91,7 @@ const proposalDetails = await chainGrpcGovApi.fetchProposal(proposalId)
 console.log(proposalDetails)
 ```
 
-### Fetch proposal deposits based on a proposal's id
+### 根据提案 ID 获取提案存款
 
 ```ts
 import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -105,13 +105,13 @@ const pagination = {...} as PaginationOption
 
 const proposalDeposits = await chainGrpcGovApi.fetchProposalDeposits({
   proposalId,
-  pagination /* optional pagination param */
+  pagination /* 可选的分页参数 */
 })
 
 console.log(proposalDeposits)
 ```
 
-### Fetch proposal votes based on a proposal's id
+### 根据提案 ID 获取提案投票
 
 ```ts
 import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -124,13 +124,13 @@ const proposalId = 123
 
 const proposalVotes = await chainGrpcGovApi.fetchProposalVotes({
   proposalId,
-  pagination: /* optional pagination Options */
+  pagination: /* 可选的分页选项 */
 })
 
 console.log(proposalVotes)
 ```
 
-### Fetch proposal tally based on a proposal's id
+### 根据提案 ID 获取提案计票
 
 ```ts
 import { PaginationOption, ChainGrpcGovApi } from '@biya-coin/sdk-ts'
@@ -144,7 +144,7 @@ const pagination = {...} as PaginationOption
 
 const proposalTally = await chainGrpcGovApi.fetchProposalTally({
   proposalId,
-  pagination /* optional pagination Options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(proposalTally)

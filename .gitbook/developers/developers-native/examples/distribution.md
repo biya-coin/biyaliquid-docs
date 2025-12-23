@@ -1,12 +1,12 @@
 # Distribution
 
-The `distribution` module is extended from the cosmos sdk [distribution module](https://github.com/biya-coin/cosmos-sdk/tree/master/x/distribution), where delegator can withdraw their staking rewards from the validator.
+`distribution` 模块是从 cosmos sdk [distribution 模块](https://github.com/biya-coin/cosmos-sdk/tree/master/x/distribution)扩展而来的，委托人可以从验证者那里提取他们的质押奖励。
 
 Distribution -> MsgWithdrawValidatorCommission
 
 ## MsgWithdrawDelegatorReward
 
-This message is used to withdraw all available delegator staking rewards from the validator.
+此消息用于从验证者那里提取所有可用的委托人质押奖励。
 
 ```ts
 import {
@@ -18,7 +18,7 @@ import {  Network } from "@biya-coin/networks";
 const biyachainAddress = "biya1...";
 const validatorAddress = "biya1...";
 
-/* create message in proto format */
+/* 以 proto 格式创建消息 */
 const msg = MsgWithdrawDelegatorReward.fromJSON({
   validatorAddress,
   delegatorAddress: biyachainAddress,
@@ -26,7 +26,7 @@ const msg = MsgWithdrawDelegatorReward.fromJSON({
 
 const privateKey = "0x...";
 
-/* broadcast transaction */
+/* 广播交易 */
 const txHash = await new MsgBroadcasterWithPk({
   privateKey,
   network: Network.Mainnet
@@ -39,7 +39,7 @@ console.log(txHash);
 
 ## MsgWithdrawValidatorCommission
 
-This message is used by the validator to withdraw the commission earned.
+此消息由验证者用于提取赚取的佣金。
 
 ```ts
 import {
@@ -51,14 +51,14 @@ import { Network } from "@biya-coin/networks";
 const biyachainAddress = "biya1...";
 const validatorAddress = "biya1...";
 
-/* create message in proto format */
+/* 以 proto 格式创建消息 */
 const msg = MsgWithdrawValidatorCommission.fromJSON({
   validatorAddress,
 });
 
 const privateKey = "0x...";
 
-/* broadcast transaction */
+/* 广播交易 */
 const txHash = await new MsgBroadcasterWithPk({
   privateKey,
   network: Network.Testnet

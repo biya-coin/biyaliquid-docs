@@ -1,10 +1,10 @@
 # Oracle
 
-Example code snippets to query the indexer for oracle module related data.
+查询索引器中 oracle 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch list of oracles
+### 获取预言机列表
 
 ```ts
 import { IndexerGrpcOracleApi } from '@biya-coin/sdk-ts'
@@ -18,9 +18,9 @@ const oracleList = await indexerGrpcOracleApi.fetchOracleList()
 console.log(oracleList)
 ```
 
-### Fetch price from the oracle
+### 从预言机获取价格
 
-Base and Quote oracle symbols are always fetched from the market itself. They can be in a different representation than plain symbols (i.e hashes for `pyth` oracle).
+Base 和 Quote 预言机符号始终从市场本身获取。它们可能与普通符号的表示形式不同（例如，`pyth` 预言机的哈希值）。
 
 ```ts
 import {
@@ -35,8 +35,8 @@ const indexerGrpcOracleApi = new IndexerGrpcOracleApi(endpoints.indexer)
 
 const market = markets.find((market) => market.ticker === 'BIYA/USDT PERP')
 
-// These values are a part of the market object
-// fetched from the chain i.e `oracle_base` and `oracle_quote`
+// 这些值是从链上获取的市场对象的一部分
+// 即 `oracle_base` 和 `oracle_quote`
 const baseSymbol = market.oracle_base
 const quoteSymbol = market.oracle_quote
 const oracleType = market.oracle_type

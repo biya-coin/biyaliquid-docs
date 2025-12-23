@@ -1,10 +1,10 @@
 # Staking
 
-Example code snippets to query the chain's staking module
+查询链上 staking 模块的示例代码片段
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters related to the staking module such as the unbonding time or bond denom
+### 获取与 staking 模块相关的参数，如解绑时间或绑定面值
 
 ```ts
 import { ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcStakingApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch unbonded and bonded tokens for a pool
+### 获取池的未绑定和已绑定代币
 
 ```ts
 import { ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -32,7 +32,7 @@ const pool = await chainGrpcStakingApi.fetchPool()
 console.log(pool)
 ```
 
-### Fetch validators and associated metadata
+### 获取验证者和相关元数据
 
 ```ts
 import { ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -46,7 +46,7 @@ const validators = await chainGrpcStakingApi.fetchValidators()
 console.log(validators)
 ```
 
-### Fetch validator and associated metadata from a validator address
+### 从验证者地址获取验证者和相关元数据
 
 ```ts
 import { ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -62,7 +62,7 @@ const validator = await chainGrpcStakingApi.fetchValidator(validatorAddress)
 console.log(validator)
 ```
 
-### Fetch delegations associated with a validator
+### 获取与验证者关联的委托
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -76,13 +76,13 @@ const pagination = {...} as PaginationOption
 
 const delegations = await chainGrpcStakingApi.fetchValidatorDelegationsNoThrow({
   validatorAddress,
-  pagination /* optional pagination options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(delegations)
 ```
 
-### Fetch unbonding delegations associated with a validator
+### 获取与验证者关联的解绑委托
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -96,13 +96,13 @@ const pagination = {...} as PaginationOption
 
 const unbondingDelegations = await chainGrpcStakingApi.fetchValidatorUnbondingDelegationsNoThrow({
   validatorAddress,
-  pagination /* optional pagination options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(unbondingDelegations)
 ```
 
-### Fetch delegations associated with an biyachain address for a specific validator
+### 获取 biyachain 地址对特定验证者的委托
 
 ```ts
 import { ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -122,7 +122,7 @@ const delegation = await chainGrpcStakingApi.fetchDelegation({
 console.log(delegation)
 ```
 
-### Fetch delegations for an biyachain address
+### 获取 biyachain 地址的委托
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -136,13 +136,13 @@ const pagination = {...} as PaginationOption
 
 const delegations = await chainGrpcStakingApi.fetchDelegationsNoThrow({
   biyachainAddress,
-  pagination /* optional pagination options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(delegations)
 ```
 
-### Fetch delegators for a validator
+### 获取验证者的委托人
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -156,13 +156,13 @@ const pagination = {...} as PaginationOption
 
 const delegators = await chainGrpcStakingApi.fetchDelegatorsNoThrow({
   validatorAddress,
-  pagination /* optional pagination options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(delegators)
 ```
 
-### Fetch unbonding delegations for an biyachain address
+### 获取 biyachain 地址的解绑委托
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -176,13 +176,13 @@ const pagination = {...} as PaginationOption
 
 const unbondingDelegations = await chainGrpcStakingApi.fetchUnbondingDelegationsNoThrow({
   biyachainAddress,
-  pagination /* optional pagination options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(unbondingDelegations)
 ```
 
-### Fetch redelegations for an biyachain address
+### 获取 biyachain 地址的重新委托
 
 ```ts
 import { PaginationOption, ChainGrpcStakingApi } from '@biya-coin/sdk-ts'
@@ -196,7 +196,7 @@ const pagination = {...} as PaginationOption
 
 const unbondingDelegations = await chainGrpcStakingApi.fetchReDelegationsNoThrow({
   biyachainAddress,
-  pagination /* optional pagination options */
+  pagination /* 可选的分页选项 */
 })
 
 console.log(unbondingDelegations)

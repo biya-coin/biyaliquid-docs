@@ -1,10 +1,10 @@
-# Querying Ethereum with GraphQL
+# 使用 GraphQL 查询以太坊
 
-Example code snippets to query data from Ethereum.
+从以太坊查询数据的示例代码片段。
 
-## Using GraphQL
+## 使用 GraphQL
 
-### Fetch user's deposits on Ethereum chain
+### 获取用户在以太坊链上的存款
 
 ```ts
 import { ApolloConsumer } from '@biya-coin/sdk-ts'
@@ -25,7 +25,7 @@ const userDeposits = apolloConsumer.fetchUserDeposits(ethereumAddress)
 console.log(userDeposits)
 ```
 
-### Fetch user's deposits on Ethereum chain at a specific time
+### 获取用户在特定时间在以太坊链上的存款
 
 ```ts
 import { ApolloConsumer } from '@biya-coin/sdk-ts'

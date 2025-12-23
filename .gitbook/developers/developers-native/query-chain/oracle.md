@@ -1,10 +1,10 @@
 # Oracle
 
-Example code snippets to query the chain via the oracle api.
+通过 oracle api 查询链的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters related to the oracle
+### 获取与 oracle 相关的参数
 
 ```ts
 import { ChainGrpcOracleApi } from '@biya-coin/sdk-ts'

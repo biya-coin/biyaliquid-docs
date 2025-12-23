@@ -1,10 +1,10 @@
-# Oracle
+# 预言机
 
-Example code snippets to query the indexer for oracle module related data.
+从索引器查询预言机模块相关数据的示例代码片段。
 
-## Using gRPC Stream
+## 使用 gRPC 流
 
-### Stream oracle prices
+### 流式传输预言机价格
 
 ```ts
 import { IndexerGrpcOracleStream } from '@biya-coin/sdk-ts'
@@ -28,7 +28,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream oracle prices by market
+### 按市场流式传输预言机价格
 
 ```ts
 import { IndexerGrpcOracleStream } from '@biya-coin/sdk-ts'

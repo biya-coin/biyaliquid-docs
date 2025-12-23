@@ -1,10 +1,10 @@
 # Distribution
 
-Example code snippets to query data related to delegating to validators from the chain.
+从链上查询与委托给验证者相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters such as the base and bonus proposer reward
+### 获取参数，如基础和奖励提议者奖励
 
 ```ts
 import { ChainGrpcDistributionApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcDistributionApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch the amount and denom of rewards for a delegator delagating to a specific validator
+### 获取委托人从特定验证者获得的奖励金额和面值
 
 ```ts
 import { ChainGrpcDistributionApi } from '@biya-coin/sdk-ts'
@@ -39,7 +39,7 @@ const delegatorRewardsFromValidator =
 console.log(delegatorRewardsFromValidator)
 ```
 
-### Fetch the amount and denom of all rewards for a delegator
+### 获取委托人所有奖励的金额和面值
 
 ```ts
 import { ChainGrpcDistributionApi } from '@biya-coin/sdk-ts'

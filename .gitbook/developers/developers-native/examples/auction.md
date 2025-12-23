@@ -1,10 +1,10 @@
 # Auction
 
-The `auction` module is heart of the `buy-back-and-burn` on chain mechanism, where 60% of the weekly trading fees are collected and auctioned off to the highest BIYA bidder where the submitted BIYA of the highest bidder are burned in the process.
+`auction` 模块是链上`回购和销毁`机制的核心，每周收集 60% 的交易费用并拍卖给出价最高的 BIYA 竞标者，出价最高的竞标者提交的 BIYA 将在此过程中被销毁。
 
 ## MsgBid
 
-This message is used to submit a bid on the [auction](https://hub.biyachain.network/auction/) held weekly to allow members to use BIYA to bid for the basket of trading fees (60%) collected by Biya Chain that week.
+此消息用于对每周举行的[拍卖](https://hub.biyachain.network/auction/)提交出价，允许成员使用 BIYA 竞标该周 Biya Chain 收集的交易费用篮子（60%）。
 
 ```ts
 import {
@@ -20,7 +20,7 @@ const endpointsForNetwork = getNetworkEndpoints(Network.Mainnet)
 const auctionApi = new ChainGrpcAuctionApi(endpointsForNetwork.grpc)
 
 const biyachainAddress = 'biya1...'
-/* format amount for bid, note that bid amount has to be higher than the current highest bid */
+/* 格式化出价金额，注意出价金额必须高于当前最高出价 */
 const amount = {
   denom: 'biya',
   amount: toChainForma(1).toFixed(),
@@ -29,7 +29,7 @@ const amount = {
 const latestAuctionModuleState = await auctionApi.fetchModuleState()
 const latestRound = latestAuctionModuleState.auctionRound
 
-/* create message in proto format */
+/* 以 proto 格式创建消息 */
 const msg = MsgBid.fromJSON({
   amount,
   biyachainAddress,
@@ -38,7 +38,7 @@ const msg = MsgBid.fromJSON({
 
 const privateKey = '0x...'
 
-/* broadcast transaction */
+/* 广播交易 */
 const txHash = await new MsgBroadcasterWithPk({
   network: Network.Mainnet,
   privateKey,
@@ -49,26 +49,26 @@ const txHash = await new MsgBroadcasterWithPk({
 console.log(txHash)
 ```
 
-## Burn Auction Deposit via MsgExternalTransfer
+## 通过 MsgExternalTransfer 销毁拍卖存款
 
-If you would like to grow the burn auction's pool size, you can directly send funds to the Auction subaccount.
+如果您想增加销毁拍卖的池规模，您可以直接将资金发送到拍卖子账户。
 
-Notes:
+注意事项：
 
-- You will need to send funds to the pool's subaccount `0x1111111111111111111111111111111111111111111111111111111111111111`.
-- Be aware that any funds you send will be reflected in the next auction, not the current one.
-- You cannot transfer from your default subaccountId since that balance is now associated with your Biya Chain address in the bank module. Therefore, in order for `MsgExternalTransfer` to work, you will need to transfer from a non-default subaccountId.
+- 您需要将资金发送到池的子账户 `0x1111111111111111111111111111111111111111111111111111111111111111`。
+- 请注意，您发送的任何资金都将反映在下一次拍卖中，而不是当前拍卖中。
+- 您不能从默认的 subaccountId 转账，因为该余额现在与 bank 模块中的 Biya Chain 地址相关联。因此，为了使 `MsgExternalTransfer` 工作，您需要从非默认的 subaccountId 转账。
 
-How to find the subaccountId that you will be transferring from:
+如何找到您将要转账的 subaccountId：
 
-- you can query your existing subaccountIds via the [account portfolio api](../query-indexer/portfolio.md).
+- 您可以通过[账户投资组合 api](../query-indexer/portfolio.md) 查询您现有的 subaccountIds。
 
-How to use funds that are currently associated with your Biya Chain Address in bank module:
+如何使用当前与 bank 模块中 Biya Chain 地址关联的资金：
 
-- If you have existing non-default subaccounts, you'll want to do a[ MsgDeposit ](exchange.md#msgdeposit)to one of your existing non-default subaccountIds and use that subaccountId as the `srcSubaccountId` below.
-- If you don't have existing non-default subaccounts, you can do a [MsgDeposit](exchange.md#msgdeposit) to a new default subaccountId, which would be done via importing `getSubaccountId` from `sdk-ts` and setting the `subaccountId` field in [MsgDeposit](exchange.md#msgdeposit) to `getSubaccountId(biyachainAddress, 1)`.
+- 如果您有现有的非默认子账户，您需要执行 [MsgDeposit](exchange.md#msgdeposit) 到您现有的非默认 subaccountIds 之一，并使用该 subaccountId 作为下面的 `srcSubaccountId`。
+- 如果您没有现有的非默认子账户，您可以对新的默认 subaccountId 执行 [MsgDeposit](exchange.md#msgdeposit)，这将通过从 `sdk-ts` 导入 `getSubaccountId` 并将 [MsgDeposit](exchange.md#msgdeposit) 中的 `subaccountId` 字段设置为 `getSubaccountId(biyachainAddress, 1)` 来完成。
 
-For more info, check out the [burn auction pool docs](https://docs.biyachain.network/developers/modules/biyachain/auction).
+有关更多信息，请查看[销毁拍卖池文档](https://docs.biyachain.network/developers/modules/biyachain/auction)。
 
 ```ts
 import {
@@ -88,13 +88,13 @@ const USDT_TOKEN_SYMBOL = 'USDT'
 const tokenMeta = denomClient.getTokenMetaDataBySymbol(USDT_TOKEN_SYMBOL)
 const tokenDenom = `peggy${tokenMeta.erc20.address}`
 
-/* format amount to add to the burn auction pool */
+/* 格式化要添加到销毁拍卖池的金额 */
 const amount = {
   denom: tokenDenom,
   amount: toChainFormat(1, tokenMeta.decimals).toFixed(),
 }
 
-/* create message in proto format */
+/* 以 proto 格式创建消息 */
 const msg = MsgExternalTransfer.fromJSON({
   amount,
   srcSubaccountId,
@@ -104,7 +104,7 @@ const msg = MsgExternalTransfer.fromJSON({
 
 const privateKey = '0x...'
 
-/* broadcast transaction */
+/* 广播交易 */
 const txHash = await new MsgBroadcasterWithPk({
   network: Network.Mainnet,
   privateKey,

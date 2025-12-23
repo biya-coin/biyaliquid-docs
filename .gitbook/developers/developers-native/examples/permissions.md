@@ -1,14 +1,14 @@
 # Permissions
 
-The Permissions Module facilitates the management of namespaces, roles, and permissions within the Biya Chain ecosystem. This documentation outlines the key message types and their usage for interacting with permissions-related data.
+Permissions 模块促进了 Biya Chain 生态系统中命名空间、角色和权限的管理。本文档概述了关键消息类型及其用于与权限相关数据交互的用法。
 
-## Messages
+## 消息
 
-Let's explore (and provide examples) the Messages that the Permissions module exports and we can use to interact with the Biya Chain chain.
+让我们探索（并提供示例）Permissions 模块导出的消息，我们可以使用这些消息与 Biya Chain 链交互。
 
 ### `MsgClaimVoucher`
 
-This message is used to claim a voucher tied to a specific address within a namespace.
+此消息用于领取与命名空间内特定地址绑定的凭证。
 
 ```ts
 import {
@@ -39,7 +39,7 @@ console.log(txHash);
 
 ### `MsgCreateNamespace`
 
-This message is used to creates a new namespace with permissions and roles.
+此消息用于创建具有权限和角色的新命名空间。
 
 ```ts
 import {
@@ -92,7 +92,7 @@ console.log(txHash);
 
 ### `MsgDeleteNamespace`
 
-This message is used to delete an existing namespace.
+此消息用于删除现有命名空间。
 
 ```ts
 import {
@@ -123,7 +123,7 @@ console.log(txHash);
 
 ### `MsgRevokeNamespaceRoles`
 
-This message is used to revoke roles from specified addresses in a namespace.
+此消息用于撤销命名空间中指定地址的角色。
 
 ```ts
 import {
@@ -159,7 +159,7 @@ console.log(txHash);
 
 ### `MsgUpdateNamespace`
 
-This message is used to update namespace properties like mints, sends, and burns.
+此消息用于更新命名空间属性，如铸造、发送和销毁。
 
 ```ts
 import {
@@ -206,7 +206,7 @@ console.log(txHash);
 
 ### `MsgUpdateNamespaceRoles`
 
-This message is used to modify the roles and permissions for addresses in a namespace.
+此消息用于修改命名空间中地址的角色和权限。
 
 ```ts
 import {

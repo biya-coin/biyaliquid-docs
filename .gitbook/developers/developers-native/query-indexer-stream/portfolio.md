@@ -1,10 +1,10 @@
-# Portfolio
+# 投资组合
 
-Example code snippets to stream from the indexer for portfolio module related data.
+从索引器流式传输投资组合模块相关数据的示例代码片段。
 
-## Using gRPC Stream
+## 使用 gRPC 流
 
-### Stream an account's portfolio
+### 流式传输账户的投资组合
 
 ```ts
 import { IndexerGrpcAccountPortfolioStream } from '@biya-coin/sdk-ts'

@@ -1,10 +1,10 @@
 # Explorer
 
-Example code snippets to query the indexer for explorer module related data.
+查询索引器中 explorer 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch transaction by hash
+### 通过哈希获取交易
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -20,7 +20,7 @@ const transaction = await indexerGrpcExplorerApi.fetchTxByHash(txsHash)
 console.log(transaction)
 ```
 
-### Fetch an account transaction by address
+### 通过地址获取账户交易
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -38,7 +38,7 @@ const account = await indexerGrpcExplorerApi.fetchAccountTx({
 console.log(account)
 ```
 
-### Fetch a validator by address
+### 通过地址获取验证者
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -54,7 +54,7 @@ const validator = await indexerGrpcExplorerApi.fetchValidator(validatorAddress)
 console.log(validator)
 ```
 
-### Fetch a validator's uptime by address
+### 通过地址获取验证者正常运行时间
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -72,7 +72,7 @@ const validatorUptime = await indexerGrpcExplorerApi.fetchValidatorUptime(
 console.log(validatorUptime)
 ```
 
-### Fetch a validator's uptime by address
+### 通过地址获取验证者正常运行时间
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -90,7 +90,7 @@ const validatorUptime = await indexerGrpcExplorerApi.fetchValidatorUptime(
 console.log(validatorUptime)
 ```
 
-### Fetch Peggy deposit transactions from Ethereum
+### 从以太坊获取 Peggy 存款交易
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -99,10 +99,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const sender = '0x...' /* optional parameter */
-const receiver = 'biya...' /* optional parameter */
-const limit = 100 /* optional pagination parameter */
-const skip = 20 /* optional pagination parameter */
+const sender = '0x...' /* 可选参数 */
+const receiver = 'biya...' /* 可选参数 */
+const limit = 100 /* 可选分页参数 */
+const skip = 20 /* 可选分页参数 */
 
 const peggyDeposits = await indexerGrpcExplorerApi.fetchPeggyDepositTxs({
   sender,
@@ -114,7 +114,7 @@ const peggyDeposits = await indexerGrpcExplorerApi.fetchPeggyDepositTxs({
 console.log(peggyDeposits)
 ```
 
-### Fetch Peggy withdrawal transactions to Ethereum
+### 获取到以太坊的 Peggy 提款交易
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -123,10 +123,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const receiver = '0x...' /* optional parameter */
-const sender = 'biya...' /* optional parameter */
-const limit = 100 /* optional pagination parameter */
-const skip = 20 /* optional pagination parameter */
+const receiver = '0x...' /* 可选参数 */
+const sender = 'biya...' /* 可选参数 */
+const limit = 100 /* 可选分页参数 */
+const skip = 20 /* 可选分页参数 */
 
 const peggyWithdrawals = await indexerGrpcExplorerApi.fetchPeggyWithdrawalTxs({
   sender,
@@ -138,7 +138,7 @@ const peggyWithdrawals = await indexerGrpcExplorerApi.fetchPeggyWithdrawalTxs({
 console.log(peggyWithdrawals)
 ```
 
-### Fetch blocks
+### 获取区块
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -147,8 +147,8 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const after = 30 /* optional pagination parameter */
-const limit = 100 /* optional pagination parameter */
+const after = 30 /* 可选分页参数 */
+const limit = 100 /* 可选分页参数 */
 
 const blocks = await indexerGrpcExplorerApi.fetchBlocks({
   after,
@@ -158,7 +158,7 @@ const blocks = await indexerGrpcExplorerApi.fetchBlocks({
 console.log(blocks)
 ```
 
-### Fetch block by height
+### 通过高度获取区块
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -173,7 +173,7 @@ const block = await indexerGrpcExplorerApi.fetchBlock(height)
 console.log(block)
 ```
 
-### Fetch transactions
+### 获取交易
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -182,8 +182,8 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcExplorerApi = new IndexerGrpcExplorerApi(endpoints.explorer)
 
-const after = 20 /* optional pagination parameter */
-const limit = 100 /* optional pagination parameter */
+const after = 20 /* 可选分页参数 */
+const limit = 100 /* 可选分页参数 */
 
 const transactions = await indexerGrpcExplorerApi.fetchTxs({
   after,
@@ -193,7 +193,7 @@ const transactions = await indexerGrpcExplorerApi.fetchTxs({
 console.log(transactions)
 ```
 
-### Fetch IBC transfer transactions
+### 获取 IBC 转账交易
 
 ```ts
 import { IndexerGrpcExplorerApi } from '@biya-coin/sdk-ts'
@@ -213,9 +213,9 @@ const ibcTransactions = await indexerGrpcExplorerApi.fetchIBCTransferTxs({
 console.log(ibcTransactions)
 ```
 
-## Using HTTP REST
+## 使用 HTTP REST
 
-### Fetch a block and details
+### 获取区块和详情
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -233,7 +233,7 @@ const block = await indexerRestExplorerApi.fetchBlock(blockHashHeight)
 console.log(block)
 ```
 
-### Fetch blocks and details
+### 获取区块和详情
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -244,8 +244,8 @@ const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const before = 200 /* optional pagination param */
-const limit = 100 /* optional pagination param */
+const before = 200 /* 可选分页参数 */
+const limit = 100 /* 可选分页参数 */
 
 const blocks = await indexerRestExplorerApi.fetchBlocks({
   before,
@@ -255,7 +255,7 @@ const blocks = await indexerRestExplorerApi.fetchBlocks({
 console.log(blocks)
 ```
 
-### Fetch blocks with transaction details
+### 获取带有交易详情的区块
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -266,8 +266,8 @@ const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const before = 200 /* optional pagination param */
-const limit = 100 /* optional pagination param */
+const before = 200 /* 可选分页参数 */
+const limit = 100 /* 可选分页参数 */
 
 const blocks = await indexerRestExplorerApi.fetchBlocksWithTx({
   before,
@@ -277,7 +277,7 @@ const blocks = await indexerRestExplorerApi.fetchBlocksWithTx({
 console.log(blocks)
 ```
 
-### Fetch transactions
+### 获取交易
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -288,10 +288,10 @@ const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const after = 200 /* optional pagination param */
-const limit = 100 /* optional pagination param */
-const fromNumber = 1 /* optional param */
-const toNumber = 100 /* optional param */
+const after = 200 /* 可选分页参数 */
+const limit = 100 /* 可选分页参数 */
+const fromNumber = 1 /* 可选参数 */
+const toNumber = 100 /* 可选参数 */
 
 const transactions = await indexerRestExplorerApi.fetchTransactions({
   after,
@@ -303,7 +303,7 @@ const transactions = await indexerRestExplorerApi.fetchTransactions({
 console.log(transactions)
 ```
 
-### Fetch transactions for an address
+### 获取地址的交易
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -315,10 +315,10 @@ const indexerRestExplorerApi = new IndexerRestExplorerApi(
 )
 
 const account = 'biya...'
-const after = 200 /* optional pagination param */
-const limit = 100 /* optional pagination param */
-const fromNumber = 1 /* optional param */
-const toNumber = 100 /* optional param */
+const after = 200 /* 可选分页参数 */
+const limit = 100 /* 可选分页参数 */
+const fromNumber = 1 /* 可选参数 */
+const toNumber = 100 /* 可选参数 */
 
 const accountTransactions =
   await indexerRestExplorerApi.fetchAccountTransactions({
@@ -335,7 +335,7 @@ const accountTransactions =
 console.log(accountTransactions)
 ```
 
-### Fetch transaction using transaction hash
+### 使用交易哈希获取交易
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -353,7 +353,7 @@ const transaction = await indexerRestExplorerApi.fetchTransaction(txsHash)
 console.log(transaction)
 ```
 
-### Fetch validators
+### 获取验证者
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -369,7 +369,7 @@ const validators = await indexerRestExplorerApi.fetchValidators()
 console.log(validators)
 ```
 
-### Fetch validator uptime
+### 获取验证者正常运行时间
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -389,7 +389,7 @@ const validatorUptime = await indexerRestExplorerApi.fetchValidatorUptime(
 console.log(validatorUptime)
 ```
 
-### Fetch a contract by contract address
+### 通过合约地址获取合约
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -407,7 +407,7 @@ const contract = await indexerRestExplorerApi.fetchContract(contractAddress)
 console.log(contract)
 ```
 
-### Fetch contracts
+### 获取合约
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -418,8 +418,8 @@ const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const limit = 100 /* optional pagination param */
-const skip = 50 /* optional pagination param */
+const limit = 100 /* 可选分页参数 */
+const skip = 50 /* 可选分页参数 */
 
 const contracts = await indexerRestExplorerApi.fetchContracts({
   limit,
@@ -429,7 +429,7 @@ const contracts = await indexerRestExplorerApi.fetchContracts({
 console.log(contracts)
 ```
 
-### Fetch contract transactions
+### 获取合约交易
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -441,8 +441,8 @@ const indexerRestExplorerApi = new IndexerRestExplorerApi(
 )
 
 const contractAddress = 'biya...'
-const limit = 100 /* optional pagination param */
-const skip = 50 /* optional pagination param */
+const limit = 100 /* 可选分页参数 */
+const skip = 50 /* 可选分页参数 */
 
 const transactions = await indexerRestExplorerApi.fetchContractTransactions({
   contractAddress,
@@ -455,7 +455,7 @@ const transactions = await indexerRestExplorerApi.fetchContractTransactions({
 console.log(transactions)
 ```
 
-### Fetch cosmwasm code details
+### 获取 cosmwasm 代码详情
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -473,7 +473,7 @@ const codeDetails = await indexerRestExplorerApi.fetchWasmCode(codeId)
 console.log(codeDetails)
 ```
 
-### Fetch wasm codes and details
+### 获取 wasm 代码和详情
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'
@@ -484,9 +484,9 @@ const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${endpoints.explorer}/api/explorer/v1`,
 )
 
-const limit = 100 /* optional pagination param */
-const fromNumber = 50 /* optional pagination param */
-const toNumber = 150 /* optional pagination param */
+const limit = 100 /* 可选分页参数 */
+const fromNumber = 50 /* 可选分页参数 */
+const toNumber = 150 /* 可选分页参数 */
 
 const codes = await indexerRestExplorerApi.fetchWasmCodes({
   limit,
@@ -497,7 +497,7 @@ const codes = await indexerRestExplorerApi.fetchWasmCodes({
 console.log(codes)
 ```
 
-### Fetch cw20 balances
+### 获取 cw20 余额
 
 ```ts
 import { IndexerRestExplorerApi } from '@biya-coin/sdk-ts'

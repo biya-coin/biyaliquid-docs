@@ -1,21 +1,21 @@
 # Peggy
 
-The `peggy` module is the heart of the biyachain <> ethereum bridge, where deposited funds will be locked on the ethereum [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code) and minted on the Biya Chain chain. Similarly withdrawal funds will be burned on the biyachain chain and unlocked on the ethereum peggy contract.
+`peggy` 模块是 biyachain <> 以太坊桥的核心，存入的资金将被锁定在以太坊 [peggy 合约](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code)上并在 Biya Chain 链上铸造。同样，提取资金将在 biyachain 链上销毁并在以太坊 peggy 合约上解锁。
 
-## Messages
+## 消息
 
 ### MsgSendToEth
 
-This message is used to withdraw funds from the Biya Chain Chain via the [peggy contract](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code), in the process funds will be burned on the biyachain chain and distributed to the ethereum address from the peggy contract.
+此消息用于通过 [peggy 合约](https://etherscan.io/address/0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3#code)从 Biya Chain 链提取资金，在此过程中，资金将在 biyachain 链上销毁，并从 peggy 合约分发到以太坊地址。
 
-Note that a $10 USD bridge fee will be charged for this transaction to cover for the ethereum gas fee on top of the standard BIYA transaction fee.
+请注意，此交易将收取 10 美元的桥接费用，以支付以太坊 gas 费用，这是在标准 BIYA 交易费用之上的。
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
 import { toBigNumber, toChainFormat } from '@biya-coin/utils'
 import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 import { TokenPrice, MsgSendToEth, TokenStaticFactory, MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'
-// refer to https://github.com/biya-coin/biyachain-lists
+// 参考 https://github.com/biya-coin/biyachain-lists
 import { tokens } from '../data/tokens.json'
 
 export const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[])
@@ -34,7 +34,7 @@ const tokenMeta = tokenStaticFactory.toToken(tokenSymbol)
 
 const amount = 1
 const biyachainAddress = 'biya1...'
-const destinationAddress = '0x...' // ethereum address
+const destinationAddress = '0x...' // 以太坊地址
 const tokenDenom = `peggy${tokenMeta.erc20.address}`
 
 if (!tokenMeta) {

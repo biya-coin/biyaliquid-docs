@@ -1,10 +1,10 @@
 # Auction
 
-Example code snippets to query the indexer for auction module related data.
+查询索引器中 auction 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch auction based off the round
+### 根据轮次获取拍卖
 
 ```ts
 import { IndexerGrpcAuctionApi } from '@biya-coin/sdk-ts'
@@ -20,7 +20,7 @@ const auction = await indexerGrpcAuctionApi.fetchAuction(round)
 console.log(auction)
 ```
 
-### Fetch auctions
+### 获取拍卖列表
 
 ```ts
 import { IndexerGrpcAuctionApi } from '@biya-coin/sdk-ts'

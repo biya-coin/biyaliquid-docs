@@ -1,10 +1,10 @@
 # Mint
 
-Example code snippets to query the mint module on the chain.
+查询链上 mint 模块的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters related to the mint module
+### 获取与 mint 模块相关的参数
 
 ```ts
 import { ChainGrpcMintApi } from '@biya-coin/sdk-ts'
@@ -18,7 +18,7 @@ const moduleParams = await chainGrpcMintApi.fetchModuleParams()
 console.log(moduleParams)
 ```
 
-### Fetch inflation
+### 获取通胀率
 
 ```ts
 import { ChainGrpcMintApi } from '@biya-coin/sdk-ts'
@@ -32,7 +32,7 @@ const inflation = await chainGrpcMintApi.fetchInflation()
 console.log(inflation)
 ```
 
-### Fetch the annual provisions
+### 获取年度供应量
 
 ```ts
 import { ChainGrpcMintApi } from '@biya-coin/sdk-ts'

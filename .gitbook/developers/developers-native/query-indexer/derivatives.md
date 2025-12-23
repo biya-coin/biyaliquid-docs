@@ -1,10 +1,10 @@
 # Derivatives
 
-Example code snippets to query the indexer for derivative module related data.
+查询索引器中衍生品模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch markets
+### 获取市场
 
 ```ts
 import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -20,7 +20,7 @@ const markets = await indexerGrpcDerivativesApi.fetchMarkets()
 console.log(markets)
 ```
 
-### Fetch market based on a market id
+### 根据市场 ID 获取市场
 
 ```ts
 import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -38,7 +38,7 @@ const market = await indexerGrpcDerivativesApi.fetchMarket(marketId)
 console.log(market)
 ```
 
-### Fetch binary options markets
+### 获取二元期权市场
 
 ```ts
 import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -55,7 +55,7 @@ const binaryOptionsMarket =
 console.log(binaryOptionsMarket)
 ```
 
-### Fetch binary options market based on market id
+### 根据市场 ID 获取二元期权市场
 
 ```ts
 import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -74,7 +74,7 @@ const binaryOptionsMarket =
 console.log(binaryOptionsMarket)
 ```
 
-### Fetch a market's orderbook based on market id
+### 根据市场 ID 获取市场订单簿
 
 ```ts
 import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -92,7 +92,7 @@ const orderbook = await indexerGrpcDerivativesApi.fetchOrderbook(marketId)
 console.log(orderbook)
 ```
 
-### Fetch a market's orders
+### 获取市场订单
 
 ```ts
 import { PaginationOption, IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -102,10 +102,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketId = '0x...' /* optional param */
-const orderSide = OrderSide.Buy /* optional param */
-const subaccountId = '0x...' /* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketId = '0x...' /* 可选参数 */
+const orderSide = OrderSide.Buy /* 可选参数 */
+const subaccountId = '0x...' /* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const orders = await indexerGrpcDerivativesApi.fetchOrders({
   marketId,
@@ -117,7 +117,7 @@ const orders = await indexerGrpcDerivativesApi.fetchOrders({
 console.log(orders)
 ```
 
-### Fetch a market's order history
+### 获取市场订单历史
 
 ```ts
 import {
@@ -132,12 +132,12 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketIds = ['0x...'] /* optional param */
-const executionTypes = [TradeExecutionType.Market] /* optional param */
-const orderTypes = OrderSide.StopBuy /* optional param */
-const direction = TradeDirection.Buy /* optional param */
-const subaccountId = '0x...' /* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketIds = ['0x...'] /* 可选参数 */
+const executionTypes = [TradeExecutionType.Market] /* 可选参数 */
+const orderTypes = OrderSide.StopBuy /* 可选参数 */
+const direction = TradeDirection.Buy /* 可选参数 */
+const subaccountId = '0x...' /* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const orderHistory = await indexerGrpcDerivativesApi.fetchOrderHistory({
   marketIds,
@@ -151,7 +151,7 @@ const orderHistory = await indexerGrpcDerivativesApi.fetchOrderHistory({
 console.log(orderHistory)
 ```
 
-### Fetch a market's positions
+### 获取市场持仓
 
 ```ts
 import {
@@ -164,10 +164,10 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketIds = ['0x...'] /* optional param */
-const direction = TradeDirection.Buy /* optional param */
-const subaccountId = '0x...' /* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketIds = ['0x...'] /* 可选参数 */
+const direction = TradeDirection.Buy /* 可选参数 */
+const subaccountId = '0x...' /* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const positions = await indexerGrpcDerivativesApi.fetchPositions({
   marketIds,
@@ -179,7 +179,7 @@ const positions = await indexerGrpcDerivativesApi.fetchPositions({
 console.log(positions)
 ```
 
-### Fetch a market's trades
+### 获取市场交易
 
 ```ts
 import {
@@ -193,11 +193,11 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketId = '0x...' /* optional param */
-const executionTypes = [TradeExecutionType.Market] /* optional param */
-const direction = TradeDirection.Buy /* optional param */
-const subaccountId = '0x...'/* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketId = '0x...' /* 可选参数 */
+const executionTypes = [TradeExecutionType.Market] /* 可选参数 */
+const direction = TradeDirection.Buy /* 可选参数 */
+const subaccountId = '0x...'/* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const trades = await indexerGrpcDerivativesApi.fetchTrades({
   marketId,
@@ -210,7 +210,7 @@ const trades = await indexerGrpcDerivativesApi.fetchTrades({
 console.log(trades)
 ```
 
-### Fetch funding payments for a market
+### 获取市场资金支付
 
 ```ts
 import {
@@ -222,8 +222,8 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketIds = ['0x...'] /* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketIds = ['0x...'] /* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const fundingPayments = await indexerGrpcDerivativesApi.fetchFundingPayments({
   marketIds,
@@ -233,7 +233,7 @@ const fundingPayments = await indexerGrpcDerivativesApi.fetchFundingPayments({
 console.log(fundingPayments)
 ```
 
-### Fetch funding rates for a market
+### 获取市场资金费率
 
 ```ts
 import {
@@ -245,8 +245,8 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketId = '0x...' /* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketId = '0x...' /* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const fundingRates = await indexerGrpcDerivativesApi.fetchFundingRates({
   marketId,
@@ -256,7 +256,7 @@ const fundingRates = await indexerGrpcDerivativesApi.fetchFundingRates({
 console.log(fundingRates)
 ```
 
-### Fetch subaccount orders
+### 获取子账户订单
 
 ```ts
 import {
@@ -268,9 +268,9 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketId = '0x...' /* optional param */
-const subaccountId = '0x...' /* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketId = '0x...' /* 可选参数 */
+const subaccountId = '0x...' /* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const subaccountOrders = await indexerGrpcDerivativesApi.fetchSubaccountOrdersList({
   marketId,
@@ -281,7 +281,7 @@ const subaccountOrders = await indexerGrpcDerivativesApi.fetchSubaccountOrdersLi
 console.log(subaccountOrders)
 ```
 
-### Fetch subaccount trades
+### 获取子账户交易
 
 ```ts
 import {
@@ -295,11 +295,11 @@ import { getNetworkEndpoints, Network } from '@biya-coin/networks'
 const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
 
-const marketId = '0x...' /* optional param */
-const subaccountId = '0x...' /* optional param */
-const executionType = TradeExecutionType.LimitFill /* optional param */
-const direction = TradeDirection.Sell /* optional param */
-const pagination = {...} as PaginationOption /* optional param */
+const marketId = '0x...' /* 可选参数 */
+const subaccountId = '0x...' /* 可选参数 */
+const executionType = TradeExecutionType.LimitFill /* 可选参数 */
+const direction = TradeDirection.Sell /* 可选参数 */
+const pagination = {...} as PaginationOption /* 可选参数 */
 
 const subaccountTrades = await indexerGrpcDerivativesApi.fetchSubaccountTradesList({
   marketId,
@@ -312,7 +312,7 @@ const subaccountTrades = await indexerGrpcDerivativesApi.fetchSubaccountTradesLi
 console.log(subaccountTrades)
 ```
 
-### Fetch orderbooks for multiple markets
+### 获取多个市场的订单簿
 
 ```ts
 import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -330,7 +330,7 @@ const orderbooks = await indexerGrpcDerivativesApi.fetchOrderbooksV2(marketIds)
 console.log(orderbooks)
 ```
 
-### Fetch orderbook for a market
+### 获取市场的订单簿
 
 ```ts
 import { IndexerGrpcDerivativesApi } from '@biya-coin/sdk-ts'
@@ -348,9 +348,9 @@ const orderbook = await indexerGrpcDerivativesApi.fetchOrderbookV2(marketId)
 console.log(orderbook)
 ```
 
-## Using HTTP REST
+## 使用 HTTP REST
 
-### Fetch market summary, such as a history of prices and 24 hr volume
+### 获取市场摘要，如价格历史和 24 小时交易量
 
 ```ts
 import { IndexerRestDerivativesChronosApi } from '@biya-coin/sdk-ts'
@@ -370,7 +370,7 @@ const marketSummary = await indexerRestDerivativesChronosApi.fetchMarketSummary(
 console.log(marketSummary)
 ```
 
-### Fetch all markets' summaries, such as a history of prices and 24 hr volume
+### 获取所有市场摘要，如价格历史和 24 小时交易量
 
 ```ts
 import { IndexerRestDerivativesChronosApi } from '@biya-coin/sdk-ts'

@@ -1,10 +1,10 @@
-# Explorer
+# 浏览器
 
-Example code snippets to stream from the indexer for explorer module related data.
+从索引器流式传输浏览器模块相关数据的示例代码片段。
 
-## Using gRPC Stream
+## 使用 gRPC 流
 
-### Stream blocks
+### 流式传输区块
 
 ```ts
 import { IndexerGrpcExplorerStream } from '@biya-coin/sdk-ts'
@@ -30,7 +30,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream blocks with transactions
+### 流式传输包含交易的区块
 
 ```ts
 import { IndexerGrpcExplorerStream } from '@biya-coin/sdk-ts'
@@ -56,7 +56,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream transactions
+### 流式传输交易
 
 ```ts
 import { IndexerGrpcExplorerStream } from '@biya-coin/sdk-ts'

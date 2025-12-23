@@ -1,12 +1,12 @@
-# Private Key Transaction
+# 私钥交易
 
-In this document, we are going to show you how to use a PrivateKey to sign transactions on Biya Chain.
+在本文档中，我们将向您展示如何使用私钥在 Biya Chain 上签署交易。
 
-Every transaction on Biya Chain follows the same flow. The flow consists of three steps: preparing, signing and broadcasting the transaction. Let's dive into each step separately and explain the process in-depth (including examples) so we can understand the whole transaction flow.
+Biya Chain 上的每个交易都遵循相同的流程。该流程包括三个步骤：准备、签署和广播交易。让我们分别深入研究每个步骤并详细解释过程（包括示例），以便我们可以理解整个交易流程。
 
-## Preparing a transaction
+## 准备交易
 
-First of, we need to prepare the transaction for signing.
+首先，我们需要准备交易以进行签名。
 
 ```ts
 import {
@@ -39,7 +39,7 @@ const amount = {
   amount: toChainFormat(0.01).toFixed(),
 };
 
-/** Account Details **/
+/** 账户详情 **/
 const chainRestAuthApi = new ChainRestAuthApi(restEndpoint);
 const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
   biyachainAddress
@@ -47,7 +47,7 @@ const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
 const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse);
 const accountDetails = baseAccount.toAccountDetails();
 
-/** Block Details */
+/** 区块详情 */
 const chainRestTendermintApi = new ChainRestTendermintApi(restEndpoint);
 const latestBlock = await chainRestTendermintApi.fetchLatestBlock();
 const latestHeight = latestBlock.header.height;
@@ -55,14 +55,14 @@ const timeoutHeight = toBigNumber(latestHeight).plus(
   DEFAULT_BLOCK_TIMEOUT_HEIGHT
 );
 
-/** Preparing the transaction */
+/** 准备交易 */
 const msg = MsgSend.fromJSON({
   amount,
   srcBiyachainAddress: biyachainAddress,
   dstBiyachainAddress: biyachainAddress,
 });
 
-/** Prepare the Transaction **/
+/** 准备交易 **/
 const { txRaw, signBytes } = createTransaction({
   pubKey,
   chainId,
@@ -74,68 +74,68 @@ const { txRaw, signBytes } = createTransaction({
 });
 ```
 
-## Signing a transaction
+## 签署交易
 
-Once we have prepared the transaction, we proceed to signing. Once you get the `txRaw` transaction from the previous step use any Cosmos native wallet to sign (ex: Keplr),
+一旦我们准备好交易，我们就开始签署。从上一步获得 `txRaw` 交易后，使用任何 Cosmos 原生钱包进行签名（例如：Keplr），
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
 
-/* Sign the Transaction */
+/* 签署交易 */
 const privateKeyHash = ''
 const privateKey = PrivateKey.fromHex(privateKeyHash);
-const signBytes = /* From the previous step */
+const signBytes = /* 从上一步获取 */
 
-/** Sign transaction */
+/** 签署交易 */
 const signature = await privateKey.sign(Buffer.from(signBytes));
 ```
 
-## Broadcasting a transaction
+## 广播交易
 
-Once we have the signature ready, we need to broadcast the transaction to the Biya Chain chain itself. After getting the signature from the second step, we need to include that signature in the signed transaction and broadcast it to the chain.
+一旦我们准备好签名，我们需要将交易广播到 Biya Chain 链本身。从第二步获得签名后，我们需要将该签名包含在已签名的交易中并将其广播到链。
 
 ```ts
 import { ChainId } from '@biya-coin/ts-types'
 import { TxRestClient } from '@biya-coin/sdk-ts'
 import { Network, getNetworkInfo } from '@biya-coin/networks'
 
-/** Append Signatures */
+/** 附加签名 */
 const network = getNetworkInfo(Network.Testnet);
-const txRaw = /* from the first step */
-const signature = /* from the second step */
+const txRaw = /* 从第一步获取 */
+const signature = /* 从第二步获取 */
 txRaw.signatures = [signature];
 
-/** Calculate hash of the transaction */
-console.log(`Transaction Hash: ${TxClient.hash(txRaw)}`);
+/** 计算交易哈希 */
+console.log(`交易哈希: ${TxClient.hash(txRaw)}`);
 
 const txService = new TxGrpcClient(network.grpc);
 
-/** Simulate transaction */
+/** 模拟交易 */
 const simulationResponse = await txService.simulate(txRaw);
 
 console.log(
-  `Transaction simulation response: ${JSON.stringify(
+  `交易模拟响应: ${JSON.stringify(
     simulationResponse.gasInfo
   )}`
 );
 
-/** Broadcast transaction */
+/** 广播交易 */
 const txResponse = await txService.broadcast(txRaw);
 
 console.log(txResponse);
 
 if (txResponse.code !== 0) {
-  console.log(`Transaction failed: ${txResponse.rawLog}`);
+  console.log(`交易失败: ${txResponse.rawLog}`);
 } else {
   console.log(
-    `Broadcasted transaction hash: ${JSON.stringify(txResponse.txHash)}`
+    `已广播的交易哈希: ${JSON.stringify(txResponse.txHash)}`
   );
 }
 ```
 
-## Example (Prepare + Sign + Broadcast)
+## 示例（准备 + 签署 + 广播）
 
-Let's have a look at the whole flow (using Keplr as a signing wallet)
+让我们看看整个流程（使用 Keplr 作为签名钱包）
 
 ```ts
 import { getNetworkInfo, Network } from "@biya-coin/networks";
@@ -149,7 +149,7 @@ import {
 import { MsgSend } from "@biya-coin/sdk-ts";
 import { toChainFormat, getDefaultStdFee } from "@biya-coin/utils";
 
-/** MsgSend Example */
+/** MsgSend 示例 */
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
   const privateKeyHash =
@@ -158,12 +158,12 @@ import { toChainFormat, getDefaultStdFee } from "@biya-coin/utils";
   const biyachainAddress = privateKey.toBech32();
   const publicKey = privateKey.toPublicKey().toBase64();
 
-  /** Account Details **/
+  /** 账户详情 **/
   const accountDetails = await new ChainRestAuthApi(network.rest).fetchAccount(
     biyachainAddress
   );
 
-  /** Prepare the Message */
+  /** 准备消息 */
   const amount = {
     denom: "biya",
     amount: toChainFormat(0.01).toFixed(),
@@ -175,7 +175,7 @@ import { toChainFormat, getDefaultStdFee } from "@biya-coin/utils";
     dstBiyachainAddress: biyachainAddress,
   });
 
-  /** Prepare the Transaction **/
+  /** 准备交易 **/
   const { signBytes, txRaw } = createTransaction({
     message: msg,
     memo: "",
@@ -189,43 +189,43 @@ import { toChainFormat, getDefaultStdFee } from "@biya-coin/utils";
     chainId: network.chainId,
   });
 
-  /** Sign transaction */
+  /** 签署交易 */
   const signature = await privateKey.sign(Buffer.from(signBytes));
 
-  /** Append Signatures */
+  /** 附加签名 */
   txRaw.signatures = [signature];
 
-  /** Calculate hash of the transaction */
-  console.log(`Transaction Hash: ${TxClient.hash(txRaw)}`);
+  /** 计算交易哈希 */
+  console.log(`交易哈希: ${TxClient.hash(txRaw)}`);
 
   const txService = new TxGrpcClient(network.grpc);
 
-  /** Simulate transaction */
+  /** 模拟交易 */
   const simulationResponse = await txService.simulate(txRaw);
   console.log(
-    `Transaction simulation response: ${JSON.stringify(
+    `交易模拟响应: ${JSON.stringify(
       simulationResponse.gasInfo
     )}`
   );
 
-  /** Broadcast transaction */
+  /** 广播交易 */
   const txResponse = await txService.broadcast(txRaw);
 
   if (txResponse.code !== 0) {
-    console.log(`Transaction failed: ${txResponse.rawLog}`);
+    console.log(`交易失败: ${txResponse.rawLog}`);
   } else {
     console.log(
-      `Broadcasted transaction hash: ${JSON.stringify(txResponse.txHash)}`
+      `已广播的交易哈希: ${JSON.stringify(txResponse.txHash)}`
     );
   }
 })();
 ```
 
-## Example with MsgBroadcasterWithPk
+## 使用 MsgBroadcasterWithPk 的示例
 
-You can use the `MsgBroadcasterWithPk` class from the `@biya-coin/sdk-ts` package which abstracts away most of the logic written above into a single class.
+您可以使用 `@biya-coin/sdk-ts` 包中的 `MsgBroadcasterWithPk` 类，它将上面编写的大部分逻辑抽象为一个类。
 
-**This abstraction allows you to sign transactions in a Node/CLI environment.**
+**此抽象允许您在 Node/CLI 环境中签署交易。**
 
 ```ts
 import { Network } from "@biya-coin/networks";

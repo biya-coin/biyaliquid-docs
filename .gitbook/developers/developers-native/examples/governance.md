@@ -1,16 +1,16 @@
 # Governance
 
-Biya Chain is a community-run blockchain and users who have staked BIYA are able to participate in governance as it relates to the blockchain. Proposals can be submitted to make revisions to Biya Chain programs, tech upgrades, or any other Biya Chain related changes that impact the entire Biya Chain ecosystem.
+Biya Chain 是一个社区运营的区块链，质押了 BIYA 的用户能够参与与区块链相关的治理。可以提交提案以修订 Biya Chain 程序、技术升级或影响整个 Biya Chain 生态系统的任何其他 Biya Chain 相关更改。
 
-For every proposal you create, we require you to deposit at least 1 BIYA. This is to ensure that you are an active participant of the Biya Chain community and you are eligible to make proposals and govern the protocol moving forward. For the proposal to pass to the voting stage, it must have 500 BIYA deposited. You can deposit the 500 BIYA yourself or collaborate with the community to deposit them collectively.
+对于您创建的每个提案，我们要求您至少存入 1 BIYA。这是为了确保您是 Biya Chain 社区的积极参与者，并且有资格提出提案并管理协议的未来发展。要使提案进入投票阶段，必须存入 500 BIYA。您可以自己存入 500 BIYA，也可以与社区合作集体存入。
 
-## Messages
+## 消息
 
-Let's explore (and provide examples) the messages that the Governance module exports and we can use to interact with the Biya Chain chain. For example, you can use these messages to propose new spot, perpetual, or futures markets.
+让我们探索（并提供示例）Governance 模块导出的消息，我们可以使用这些消息与 Biya Chain 链交互。例如，您可以使用这些消息提议新的现货、永续或期货市场。
 
 ### MsgGovDeposit
 
-This message can be used to deposit towards an existing proposal.
+此消息可用于向现有提案存款。
 
 ```ts
 import {
@@ -35,7 +35,7 @@ const message = MsgGovDeposit.fromJSON({
   depositor: biyachainAddress
 })
 
-/* broadcast transaction */
+/* 广播交易 */
 const txHash = await new MsgBroadcasterWithPk({
   privateKey,
   network: Network.Testnet
@@ -46,7 +46,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgVote
 
-After the proposal is properly funded, voting can commence. You can vote "Yes", "No", "Abstain", or "No with Veto".
+提案获得适当资金后，投票即可开始。您可以投"赞成"、"反对"、"弃权"或"否决"。
 
 ```ts
 import { MsgVote, MsgBroadcasterWithPk } from "@biya-coin/sdk-ts";
@@ -74,7 +74,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgSubmitTextProposal
 
-Propose any action on Biya Chain. TextProposal defines a standard text proposal whose changes need to be manually updated in case of approval.
+在 Biya Chain 上提议任何操作。TextProposal 定义了一个标准文本提案，其更改需要在批准的情况下手动更新。
 
 ```ts
 import {
@@ -90,8 +90,8 @@ const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const message = MsgSubmitTextProposal.fromJSON({
-  title: "Title of Proposal",
-  description: "Description of Proposal",
+  title: "提案标题",
+  description: "提案描述",
   proposer: biyachainAddress,
   deposit: {
     denom,
@@ -109,7 +109,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgSubmitProposalSpotMarketLaunch
 
-This message allows you to propose a new spot market. Ensure that the ticker is accurate and provide the base asset denom followed by the quote asset denom. Base denom refers to the asset you would like to trade and quote denom refers to the asset by which your base asset is denominated. For instance, in the BIYA/USDT market you would buy or sell BIYA using USDT.
+此消息允许您提议新的现货市场。确保代码准确，并提供基础资产面值，然后是报价资产面值。基础面值是指您想要交易的资产，报价面值是指您的基础资产以其计价的资产。例如，在 BIYA/USDT 市场中，您将使用 USDT 买卖 BIYA。
 
 ```ts
 import {
@@ -119,7 +119,7 @@ import {
 } from "@biya-coin/sdk-ts";
 import { toChainFormat, toHumanReadable } from "@biya-coin/utils";
 import { getNetworkEndpoints, Network } from "@biya-coin/networks";
-// refer to https://github.com/biya-coin/biyachain-lists
+// 参考 https://github.com/biya-coin/biyachain-lists
 import { tokens } from "../data/tokens.json";
 
 const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[]);
@@ -130,13 +130,13 @@ const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const market = {
-  baseDenom: "biya", // for example
+  baseDenom: "biya", // 例如
   quoteDenom: "peggy0x...",
   makerFeeRate: "0.001",
   takerFeeRate: "0.002",
-  title: "BIYA/USDT Spot Market Launch",
+  title: "BIYA/USDT 现货市场启动",
   description:
-    "This proposal will launch the BIYA/USDT Spot Market with maker and taker fees 0.001% and 0.002% respectively",
+    "此提案将启动 BIYA/USDT 现货市场，做市商和接受者费用分别为 0.001% 和 0.002%",
   ticker: "BIYA/USDT",
   minPriceTickSize: "0.001",
   minQuantityTickSize: "0.001",
@@ -181,7 +181,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgSubmitProposalPerpetualMarketLaunch
 
-This message allows you to propose a new perpetual market. perpetual futures contracts, or perps, are derivative futures contracts that allow users to buy or sell the value of an underlying base asset without actually owning it. This is the message you can use to create a perp market for a specified token pair.
+此消息允许您提议新的永续市场。永续期货合约（或 perps）是衍生期货合约，允许用户买卖基础资产的价值而无需实际拥有它。这是您可以用来为指定代币对创建永续市场的消息。
 
 ```ts
 import {
@@ -191,7 +191,7 @@ import {
 } from "@biya-coin/sdk-ts";
 import { toChainFormat } from "@biya-coin/utils";
 import { getNetworkEndpoints, Network } from "@biya-coin/networks";
-// refer to https://github.com/biya-coin/biyachain-lists
+// 参考 https://github.com/biya-coin/biyachain-lists
 import { tokens } from "../data/tokens.json";
 
 const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[]);
@@ -202,9 +202,9 @@ const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const market = {
-  title: "BIYA/USDT Perpetual Market Launch",
+  title: "BIYA/USDT 永续市场启动",
   description:
-    "This proposal will launch the BIYA/USDT Spot Market with maker and taker fees 0.001% and 0.002% respectively",
+    "此提案将启动 BIYA/USDT 现货市场，做市商和接受者费用分别为 0.001% 和 0.002%",
   ticker: "BIYA/USDT PERP",
   quoteDenom: "peggy0x...",
   oracleBase: "BIYA",
@@ -252,7 +252,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgSubmitProposalExpiryFuturesMarketLaunch
 
-An expiry futures contract is an agreement between two counterparties to buy and sell a specific amount of an underlying base asset at a specific future price, which is set to expire at a specified date in the future. This is the message you can use to create a futures market for a specified token pair.
+到期期货合约是两个交易对手之间的协议，以特定的未来价格买卖特定数量的基础资产，该价格将在未来的指定日期到期。这是您可以用来为指定代币对创建期货市场的消息。
 
 ```ts
 import {
@@ -262,7 +262,7 @@ import {
 } from "@biya-coin/sdk-ts";
 import { toChainFormat } from "@biya-coin/utils";
 import { getNetworkEndpoints, Network } from "@biya-coin/networks";
-// refer to https://github.com/biya-coin/biyachain-lists
+// 参考 https://github.com/biya-coin/biyachain-lists
 import { tokens } from "../data/tokens.json";
 
 const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[]);
@@ -273,14 +273,14 @@ const privateKey = "0x...";
 const amount = toChainFormat(1).toFixed();
 
 const market = {
-  title: "BIYA/USDT Futures Market Launch",
+  title: "BIYA/USDT 期货市场启动",
   description:
-    "This proposal will launch the BIYA/USDT Spot Market with maker and taker fees 0.001% and 0.002% respectively",
+    "此提案将启动 BIYA/USDT 现货市场，做市商和接受者费用分别为 0.001% 和 0.002%",
   ticker: "BIYA/USDT 24-MAR-2023",
   quoteDenom: "peggy0x...",
   oracleBase: "BIYA",
   oracleQuote: "USDT",
-  expiry: 1000000, // when the market will expire, in ms
+  expiry: 1000000, // 市场到期时间，以毫秒为单位
   oracleScaleFactor: 6,
   oracleType: 10, // BAND IBC
   initialMarginRatio: "0.05",
@@ -325,7 +325,7 @@ const txHash = await new MsgBroadcasterWithPk({
 
 ### MsgSubmitProposalSpotMarketParamUpdate
 
-This message can be used to update the params of a spot market.
+此消息可用于更新现货市场的参数。
 
 ```ts
 import {
@@ -342,13 +342,13 @@ const biyachainAddress = "biya...";
 const amount = toChainFormat(1).toFixed();
 
 const market = {
-  title: "BIYA/USDT Spot Market Launch",
+  title: "BIYA/USDT 现货市场启动",
   description:
-    "This proposal will launch the BIYA/USDT Spot Market with maker and taker fees 0.001% and 0.002% respectively",
+    "此提案将启动 BIYA/USDT 现货市场，做市商和接受者费用分别为 0.001% 和 0.002%",
   marketId: "0x...",
   makerFeeRate: "0.02",
   takerFeeRate: "0.03",
-  relayerFeeShareRate: "0.4", // 40%, the percent of tsx fees that go to the relayers
+  relayerFeeShareRate: "0.4", // 40%，交易费用中分配给中继者的百分比
   minPriceTickSize: "0.002",
   minQuantityTickSize: "0.002",
   status: MarketStatusMap.Active,

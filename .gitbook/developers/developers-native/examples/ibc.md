@@ -1,14 +1,14 @@
 # IBC
 
-## Messages
+## 消息
 
 ## MsgTransfer
 
-This message is used to send coins from the sender's Bank module on Biya Chain to the receiver's Bank module on another Cosmos chain through IBC, which is Cosmos's Inter-Blockchain Communication Protocol. Note that Biya Chain only supports mainnet transfers across IBC for most networks.
+此消息用于通过 IBC（Cosmos 的区块链间通信协议）将代币从发送者在 Biya Chain 上的 Bank 模块发送到接收者在另一个 Cosmos 链上的 Bank 模块。请注意，对于大多数网络，Biya Chain 仅支持通过 IBC 进行主网转账。
 
-Application to application communication in IBC is conducted over channels, which route between an application module on one chain, and the corresponding application module on another one. More info on IBC channels can be found at https://tutorials.cosmos.network/academy/3-ibc/3-channels.html. A list of canonical channel Ids for mainnet transfers to and from Biya Chain can be found [here](https://github.com/biya-coin/biyachain-ts/blob/master/deprecated/token-metadata/src/ibc/canonicalChannelsToChainMap.ts). Also noteworthy is that the application module on each chain has a portId to designate the type of module on each end. For example, `transfer` is the portId designating the transfer of ICS-20 tokens between bank modules.
+IBC 中的应用程序到应用程序通信通过通道进行，这些通道在一条链上的应用程序模块与另一条链上的相应应用程序模块之间路由。有关 IBC 通道的更多信息，请访问 https://tutorials.cosmos.network/academy/3-ibc/3-channels.html。可以在[此处](https://github.com/biya-coin/biyachain-ts/blob/master/deprecated/token-metadata/src/ibc/canonicalChannelsToChainMap.ts)找到用于与 Biya Chain 之间进行主网转账的规范通道 ID 列表。还值得注意的是，每条链上的应用程序模块都有一个 portId 来指定每端的模块类型。例如，`transfer` 是指定 bank 模块之间 ICS-20 代币转移的 portId。
 
-In this example, we will transfer ATOM from Biya Chain to CosmosHub
+在此示例中，我们将 ATOM 从 Biya Chain 转移到 CosmosHub
 
 ```ts
 import {
@@ -39,14 +39,14 @@ const biyachainChainId = CosmosChainId["Biya Chain"];
 const endpointsForNetwork = getNetworkEndpoints(Network.Mainnet);
 const bankService = new ChainGrpcBankApi(endpointsForNetwork.grpc);
 
-// fetch ibc assets in bank module and format to token
+// 获取 bank 模块中的 ibc 资产并格式化为代币
 const { supply } = await bankService.fetchTotalSupply();
 const uiSupply = UiBankTransformer.supplyToUiSupply(supply);
 const ibcSupplyWithToken = (await tokenService.getIbcSupplyWithToken(
   uiSupply.ibcBankSupply
 )) as IbcToken[];
 
-/* get metadata for canonical denoms available for transfer between chains */
+/* 获取可在链之间转移的规范面值的元数据 */
 const cosmosHubBaseDenom = "uatom";
 const tokenMeta = cosmosChainTokenMetaMap[destinationChainId];
 const atomToken = (
@@ -55,7 +55,7 @@ const atomToken = (
     : tokenMeta
 ) as Token;
 
-/* find the ibd denom hash for the canonical denom */
+/* 查找规范面值的 ibd 面值哈希 */
 const biyachainToCosmosHubChannelId = "channel-1";
 const atomDenomFromSupply = ibcSupplyWithToken.find(
   ({ channelId, baseDenom }) =>
@@ -63,7 +63,7 @@ const atomDenomFromSupply = ibcSupplyWithToken.find(
 ) as IbcToken;
 const canonicalDenomHash = atomDenomFromSupply.denom;
 
-/* format amount for transfer */
+/* 格式化转账金额 */
 const amount = {
   denom: canonicalDenomHash,
   amount: toChainFormat(0.001, atomDenomFromSupply.decimals).toFixed(),
@@ -74,20 +74,20 @@ const destinationAddress = "cosmos...";
 const port = "transfer";
 const timeoutTimestamp = makeTimeoutTimestampInNs();
 
-/* get the latestBlock from the origin chain */
+/* 从源链获取最新区块 */
 const tendermintRestApi = new ChainRestTendermintApi(endpointsForNetwork.rest);
 
-/* Block details from the origin chain */
+/* 来自源链的区块详情 */
 const latestBlock = await tendermintRestApi.fetchLatestBlock();
 const latestHeight = latestBlock.header.height;
 const timeoutHeight = toBigNumber(latestHeight).plus(
-  30 // default block timeout height
+  30 // 默认区块超时高度
 );
 
-/* create message in proto format */
+/* 以 proto 格式创建消息 */
 const msg = MsgTransfer.fromJSON({
   port,
-  memo: `IBC transfer from ${biyachainChainId} to ${destinationChainId}`,
+  memo: `从 ${biyachainChainId} 到 ${destinationChainId} 的 IBC 转账`,
   sender: biyachainAddress,
   receiver: destinationAddress,
   channelId: biyachainToCosmosHubChannelId,
@@ -101,7 +101,7 @@ const msg = MsgTransfer.fromJSON({
 
 const privateKey = "0x...";
 
-/* broadcast transaction */
+/* 广播交易 */
 const txHash = await new MsgBroadcasterWithPk({
   privateKey,
   network: Network.Mainnet,

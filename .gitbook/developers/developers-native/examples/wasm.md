@@ -1,16 +1,16 @@
 # Wasm
 
-The `wasm` module is the heart of interacting with the wasm smart contracts deployed on the biyachain chain, here you can find a list of [smart contracts](https://biyascan.com/smart-contracts/) that are deployed on the Biya Chain chain.
+`wasm` 模块是与部署在 biyachain 链上的 wasm 智能合约交互的核心，在这里您可以找到部署在 Biya Chain 链上的[智能合约](https://biyascan.com/smart-contracts/)列表。
 
 {% hint style="info" %}
-`MsgUpdateCode` and `MsgStoreCode` are not supported by Ethereum (ex: Metamask) wallets.
+以太坊（例如：Metamask）钱包不支持 `MsgUpdateCode` 和 `MsgStoreCode`。
 {% endhint %}
 
-## Messages
+## 消息
 
 ### MsgExecuteContract (Transfer)
 
-This message is used to execute contract function, below we will use the [CW20 spec](https://github.com/CosmWasm/cw-plus/blob/main/packages/cw20/README.md) transfer message as an example.
+此消息用于执行合约函数，下面我们将使用 [CW20 规范](https://github.com/CosmWasm/cw-plus/blob/main/packages/cw20/README.md)转账消息作为示例。
 
 ```ts
 import { Network } from '@biya-coin/networks'
@@ -42,11 +42,11 @@ const txHash = await new MsgBroadcasterWithPk({
 console.log(txHash)
 ```
 
-### MsgExecuteContract (funds example)
+### MsgExecuteContract (funds 示例)
 
-In some scenarios, depending on the smart contract's function we have to transfer tokens to the smart contract, following cosmwasm convention, we use the funds field to transfer tokens to the smart contract from the user's bank module.
+在某些情况下，根据智能合约的功能，我们必须将代币转移到智能合约，遵循 cosmwasm 约定，我们使用 funds 字段将代币从用户的 bank 模块转移到智能合约。
 
-Below is an example of how we can send the `MsgExecuteContract` using an `test` contract function.
+以下是如何使用 `test` 合约函数发送 `MsgExecuteContract` 的示例。
 
 ```ts
 import { Network } from '@biya-coin/networks'
@@ -82,11 +82,11 @@ console.log(txHash)
 
 ### MsgExecuteContractCompat
 
-There are some compatibility issues parsing the `funds` array and `msgs` object in the previous example with EIP712. Since `MsgExecuteContract` can't be properly converted to EIP712 and then signed by Ethereum wallets, we introduced `MsgExecuteContractCompat` which is fully compatible with EIP712.
+在前面的示例中，使用 EIP712 解析 `funds` 数组和 `msgs` 对象存在一些兼容性问题。由于 `MsgExecuteContract` 无法正确转换为 EIP712 然后由以太坊钱包签名，我们引入了 `MsgExecuteContractCompat`，它与 EIP712 完全兼容。
 
-_**Note:**_ _`MsgExecuteContract` and `MsgExecuteContractCompat` underlying messages are the same. `MsgExecuteContractCompat` is just EIP712 compatible._
+_**注意：**_ _`MsgExecuteContract` 和 `MsgExecuteContractCompat` 底层消息相同。`MsgExecuteContractCompat` 只是与 EIP712 兼容。_
 
-Below is an example of how we can send the `MsgExecuteContractCompact` using an `test` contract function.
+以下是如何使用 `test` 合约函数发送 `MsgExecuteContractCompact` 的示例。
 
 ```ts
 import {

@@ -1,10 +1,10 @@
 # IBC
 
-Example code snippets to query the chain for IBC related data.
+查询链上 IBC 相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch denom trace from the IBC hash
+### 从 IBC 哈希获取面值追踪
 
 ```ts
 import { ChainGrpcIbcApi } from '@biya-coin/sdk-ts'
@@ -19,7 +19,7 @@ const denomTrace = await chainGrpcIbcApi.fetchDenomTrace(hash)
 console.log(denomTrace)
 ```
 
-### Fetch list of denom traces
+### 获取面值追踪列表
 
 ```ts
 import { ChainGrpcIbcApi } from '@biya-coin/sdk-ts'

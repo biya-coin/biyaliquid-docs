@@ -1,25 +1,25 @@
-# Ledger through Keplr Wallet Transaction
+# 通过 Keplr 钱包使用 Ledger 交易
 
-On this page, we are going to have a look at the implementation for Biya Chain when your users are using a Ledger device through the Keplr wallet.
+在本页面上，我们将了解当您的用户通过 Keplr 钱包使用 Ledger 设备时 Biya Chain 的实现。
 
-As explained before, Biya Chain uses a different derivation curve from the rest of the Cosmos chains which means that the users have to use the Ethereum app (for now) to interact with Biya Chain.
+如前所述，Biya Chain 使用与其他 Cosmos 链不同的派生曲线，这意味着用户必须使用以太坊应用（目前）与 Biya Chain 交互。
 
-The easiest way all of the edge cases covered and a full out-of-the-box solution for all of the supported wallets on Biya Chain I suggest you have a look at the [MsgBroadcaster + WalletStrategy ](./msgbroadcaster.md#msgbroadcaster-+-wallet-strategy)abstraction. If you want to do your own implementation, let's go through the code example together.
+覆盖所有边缘情况并为 Biya Chain 上所有支持的钱包提供完整的开箱即用解决方案的最简单方法是，我建议您查看 [MsgBroadcaster + WalletStrategy](./msgbroadcaster.md#msgbroadcaster-+-wallet-strategy) 抽象。如果您想进行自己的实现，让我们一起看看代码示例。
 
-## Overview
+## 概述
 
-Keplr exposes a `experimentalSignEIP712CosmosTx_v0` method which can be utilized to sign EIP712 typed data (automatically generated on the Keplr side by passing a Cosmos StdSignDoc to the method above) and allow EVM-compatible chains to get proper signatures when we have Ledger devices connected through Keplr.
+Keplr 公开了一个 `experimentalSignEIP712CosmosTx_v0` 方法，可用于签署 EIP712 类型数据（通过将 Cosmos StdSignDoc 传递给上述方法在 Keplr 端自动生成），并允许 EVM 兼容链在通过 Keplr 连接 Ledger 设备时获得正确的签名。
 
-Here is the function's signature:
+以下是函数的签名：
 
 ```typescript
 /**
- * Sign the sign doc with ethermint's EIP-712 format.
- * The difference from signEthereum(..., EthSignType.EIP712) is that this api returns a new sign doc changed by the user's fee setting and the signature for that sign doc.
- * Encoding tx to EIP-712 format should be done on the side using this api.
- * Not compatible with cosmjs.
- * The returned signature is (r | s | v) format which used in ethereum.
- * v should be 27 or 28 which is used in the ethereum mainnet regardless of chain.
+ * 使用 ethermint 的 EIP-712 格式签署签名文档。
+ * 与 signEthereum(..., EthSignType.EIP712) 的区别在于，此 api 返回由用户的费用设置更改的新签名文档以及该签名文档的签名。
+ * 将 tx 编码为 EIP-712 格式应该在使用此 api 的一侧完成。
+ * 与 cosmjs 不兼容。
+ * 返回的签名是以太坊中使用的 (r | s | v) 格式。
+ * v 应该是 27 或 28，无论链如何，都在以太坊主网中使用。
  * @param chainId
  * @param signer
  * @param eip712
@@ -38,11 +38,11 @@ experimentalSignEIP712CosmosTx_v0(chainId: string, signer: string, eip712: {
 
 ```
 
-What we need to do now is generate the `eip712` and the `signDoc`, pass them to this function and Keplr will ask the user to sign the transaction using the Ethereum app on their Ledger device.
+我们现在需要做的是生成 `eip712` 和 `signDoc`，将它们传递给此函数，Keplr 将要求用户使用其 Ledger 设备上的以太坊应用签署交易。
 
-## Example Implementation
+## 示例实现
 
-Based on the overview above, let's now showcase a full example of how to implement signing transactions on Biya Chain using Ledger + Keplr. Keep in mind that the example below takes into consideration that you are using the [Msgs](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/msgs.ts#L60) interface exported from the `@biya-coin/sdk-ts` package.
+基于上述概述，现在让我们展示如何使用 Ledger + Keplr 在 Biya Chain 上实现签署交易的完整示例。请记住，下面的示例考虑到您正在使用从 `@biya-coin/sdk-ts` 包导出的 [Msgs](https://github.com/biya-coin/biyachain-ts/blob/master/packages/sdk-ts/src/core/modules/msgs.ts#L60) 接口。
 
 ````typescript
 import {
@@ -63,9 +63,9 @@ import { GeneralException, TransactionException } from '@biya-coin/exceptions'
 import { toBigNumber, getStdFee } from '@biya-coin/utils'
 
 export interface Options {
-  evmChainId: EvmChainId /* Evm chain id */
-  chainId: ChainId; /* Biya Chain chain id */
-  endpoints: NetworkEndpoints /* can be fetched from @biya-coin/networks based on the Network */
+  evmChainId: EvmChainId /* Evm 链 id */
+  chainId: ChainId; /* Biya Chain 链 id */
+  endpoints: NetworkEndpoints /* 可以根据网络从 @biya-coin/networks 获取 */
 }
 
 export interface Transaction {
@@ -73,16 +73,16 @@ export interface Transaction {
   biyachainAddress?: string
   msgs: Msgs | Msgs[]
 
-  // In case we manually want to set gas options
+  // 如果我们想手动设置 gas 选项
   gas?: {
     gasPrice?: string
-    gas?: number /** gas limit */
+    gas?: number /** gas 限制 */
     feePayer?: string
     granter?: string
   }
 }
 
-/** Converting EIP712 tx details to Cosmos Std Sign Doc */
+/** 将 EIP712 交易详情转换为 Cosmos Std Sign Doc */
 export const createEip712StdSignDoc = ({
   memo,
   chainId,
@@ -112,10 +112,10 @@ export const createEip712StdSignDoc = ({
 ```
 
 /**
- * We use this method only when we want to broadcast a transaction using Ledger on Keplr for Biya Chain
+ * 我们仅在想要使用 Keplr 上的 Ledger 为 Biya Chain 广播交易时使用此方法
  *
- * Note: Gas estimation not available
- * @param tx the transaction that needs to be broadcasted
+ * 注意：Gas 估算不可用
+ * @param tx 需要广播的交易
  */
 export const experimentalBroadcastKeplrWithLedger = async (
   tx: Transaction,
@@ -126,18 +126,18 @@ export const experimentalBroadcastKeplrWithLedger = async (
   const DEFAULT_BLOCK_TIMEOUT_HEIGHT = 60
 
   /**
-   * You choose to perform a check if
-   * the user is indeed connected with Ledger + Keplr
+   * 您可以选择执行检查
+   * 用户是否确实使用 Ledger + Keplr 连接
    */
-  if (/* your condition here */) {
+  if (/* 您的条件在这里 */) {
     throw new GeneralException(
         new Error(
-          'This method can only be used when Keplr is connected with Ledger',
+          '此方法只能在 Keplr 与 Ledger 连接时使用',
         ),
       )
   }
 
-  /** Account Details * */
+  /** 账户详情 * */
   const chainRestAuthApi = new ChainRestAuthApi(endpoints.rest)
   const accountDetailsResponse = await chainRestAuthApi.fetchAccount(
     tx.biyachainAddress,
@@ -145,7 +145,7 @@ export const experimentalBroadcastKeplrWithLedger = async (
   const baseAccount = BaseAccount.fromRestApi(accountDetailsResponse)
   const accountDetails = baseAccount.toAccountDetails()
 
-  /** Block Details */
+  /** 区块详情 */
   const chainRestTendermintApi = new ChainRestTendermintApi(endpoints.rest)
   const latestBlock = await chainRestTendermintApi.fetchLatestBlock()
   const latestHeight = latestBlock.header.height
@@ -157,7 +157,7 @@ export const experimentalBroadcastKeplrWithLedger = async (
   const pubKey = Buffer.from(key.pubKey).toString('base64')
   const gas = (tx.gas?.gas || getGasPriceBasedOnMessage(msgs)).toString()
 
-  /** EIP712 for signing on Ethereum wallets */
+  /** 用于在以太坊钱包上签名的 EIP712 */
   const eip712TypedData = getEip712TypedData({
     msgs,
     fee: getStdFee({ ...tx.gas, gas }),
@@ -186,9 +186,8 @@ export const experimentalBroadcastKeplrWithLedger = async (
   )
 
   /**
-   * Create TxRaw from the signed tx that we
-   * get as a response in case the user changed the fee/memo
-   * on the Keplr popup
+   * 从我们作为响应获得的已签名交易创建 TxRaw
+   * 以防用户在 Keplr 弹出窗口上更改了费用/备注
    */
   const { txRaw } = createTransaction({
     pubKey,
@@ -205,20 +204,20 @@ export const experimentalBroadcastKeplrWithLedger = async (
     chainId,
   })
 
-  /** Preparing the transaction for client broadcasting */
+  /** 准备用于客户端广播的交易 */
   const web3Extension = createWeb3Extension({
     evmChainId,
   })
   const txRawEip712 = createTxRawEIP712(txRaw, web3Extension)
 
-  /** Append Signatures */
+  /** 附加签名 */
   const signatureBuff = Buffer.from(
     aminoSignResponse.signature.signature,
     'base64',
   )
   txRawEip712.signatures = [signatureBuff]
 
-  /** Broadcast the transaction */
+  /** 广播交易 */
   const response = await new TxGrpcApi(endpoints.grpc).broadcast(txRawEip712)
 
   if (response.code !== 0) {

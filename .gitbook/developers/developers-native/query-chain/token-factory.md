@@ -1,10 +1,10 @@
 # Token Factory
 
-Example code snippets to query the chain for token factory module related data.
+查询链上 token factory 模块相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch all denoms created by _creator_
+### 获取由 _创建者_ 创建的所有面值
 
 <pre class="language-ts"><code class="lang-ts"><strong>import { ChainGrpcTokenFactoryApi } from '@biya-coin/sdk-ts'
 </strong>import { getNetworkEndpoints, Network } from '@biya-coin/networks'
@@ -18,7 +18,7 @@ const denoms = await chainGrpcTokenFactoryApi.fetchDenomsFromCreator(creator)
 console.log(denoms)
 </code></pre>
 
-### Fetch denom authority metadata (i.e fetch admin of a token)
+### 获取面值权限元数据（即获取代币的管理员）
 
 ```ts
 import { ChainGrpcTokenFactoryApi } from '@biya-coin/sdk-ts'

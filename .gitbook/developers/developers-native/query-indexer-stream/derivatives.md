@@ -1,10 +1,10 @@
-# Derivatives
+# 衍生品
 
-Example code snippets to query the indexer for derivative module related data.
+从索引器查询衍生品模块相关数据的示例代码片段。
 
-## Using gRPC Stream
+## 使用 gRPC 流
 
-### Stream derivatives orderbook
+### 流式传输衍生品订单簿
 
 ```ts
 import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
@@ -33,7 +33,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream derivative orders
+### 流式传输衍生品订单
 
 ```ts
 import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
@@ -67,7 +67,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream derivative order history
+### 流式传输衍生品订单历史
 
 ```ts
 import {
@@ -109,7 +109,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream derivative trades
+### 流式传输衍生品交易
 
 ```ts
 import {
@@ -145,7 +145,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream derivative positions
+### 流式传输衍生品持仓
 
 ```ts
 import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
@@ -176,7 +176,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream markets
+### 流式传输市场
 
 ```ts
 import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'
@@ -205,7 +205,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream orderbook updates
+### 流式传输订单簿更新
 
 ```ts
 import { IndexerGrpcDerivativesStream } from '@biya-coin/sdk-ts'

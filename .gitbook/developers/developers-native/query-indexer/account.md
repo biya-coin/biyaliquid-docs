@@ -1,12 +1,12 @@
 # Account
 
-Example code snippets to query the indexer for subaccount related data.
+查询索引器中子账户相关数据的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch user's portfolio details
+### 获取用户的投资组合详情
 
-This includes available balance, unrealized Pnl, and portfolio value. Note: **deprecated** -> use [Portfolio](../query-indexer/portfolio.md#using-grpc) instead
+这包括可用余额、未实现盈亏和投资组合价值。注意：**已弃用** -> 请改用 [Portfolio](../query-indexer/portfolio.md#using-grpc)
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -22,7 +22,7 @@ const portfolio = await indexerGrpcAccountApi.fetchPortfolio(biyachainAddress)
 console.log(portfolio)
 ```
 
-### Fetch user's trading rewards per epoch
+### 获取用户每个 epoch 的交易奖励
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -32,7 +32,7 @@ const endpoints = getNetworkEndpoints(Network.Testnet)
 const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
 const biyachainAddress = 'biya...'
-const epoch = -1 // current epoch
+const epoch = -1 // 当前 epoch
 
 const tradingRewards = await indexerGrpcAccountApi.fetchRewards({
   address: biyachainAddress,
@@ -42,7 +42,7 @@ const tradingRewards = await indexerGrpcAccountApi.fetchRewards({
 console.log(tradingRewards)
 ```
 
-### Fetch subaccounts associated with an biyachain address
+### 获取与 biyachain 地址关联的子账户
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -60,7 +60,7 @@ const subaccountsList = await indexerGrpcAccountApi.fetchSubaccountsList(
 console.log(subaccountsList)
 ```
 
-### Fetch balance of a subaccount for a specific denom
+### 获取子账户特定面值的余额
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -80,7 +80,7 @@ const subaccountBalance = await indexerGrpcAccountApi.fetchSubaccountBalance(
 console.log(subaccountBalance)
 ```
 
-### Fetch of balances for a subaccount
+### 获取子账户的余额列表
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -97,7 +97,7 @@ const subaccountBalanceList =
 console.log(subaccountBalanceList)
 ```
 
-### Fetch subacount history
+### 获取子账户历史
 
 ```ts
 import { PaginationOption, IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -113,13 +113,13 @@ const pagination = {...} as PaginationOption
 const subaccountHistory = await indexerGrpcAccountApi.fetchSubaccountHistory({
   subaccountId,
   denom,
-  pagination /* optional param */
+  pagination /* 可选参数 */
 })
 
 console.log(subaccountHistory)
 ```
 
-### Fetch a summary of a subaccount's orders
+### 获取子账户订单摘要
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'
@@ -141,7 +141,7 @@ const orderSummary = await indexerGrpcAccountApi.fetchSubaccountOrderSummary({
 console.log(orderSummary)
 ```
 
-### Fetch states of spot or (and) derivatives orders
+### 获取现货或（和）衍生品订单状态
 
 ```ts
 import { IndexerGrpcAccountApi } from '@biya-coin/sdk-ts'

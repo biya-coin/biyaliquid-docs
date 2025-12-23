@@ -1,10 +1,10 @@
-# Spot
+# 现货
 
-Example code snippets to stream from the indexer for spot market module related data.
+从索引器流式传输现货市场模块相关数据的示例代码片段。
 
-## Using gRPC Stream
+## 使用 gRPC 流
 
-### Stream the spot orderbook
+### 流式传输现货订单簿
 
 ```ts
 import { IndexerGrpcSpotStream } from '@biya-coin/sdk-ts'
@@ -31,7 +31,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream spot orders
+### 流式传输现货订单
 
 ```ts
 import { IndexerGrpcSpotsStream } from '@biya-coin/sdk-ts'
@@ -63,7 +63,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream spot order history
+### 流式传输现货订单历史
 
 ```ts
 import {
@@ -103,7 +103,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream spot trades
+### 流式传输现货交易
 
 ```ts
 import {
@@ -139,7 +139,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream markets
+### 流式传输市场
 
 ```ts
 import { IndexerGrpcSpotStream } from '@biya-coin/sdk-ts'
@@ -166,7 +166,7 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-### Stream orderbook updates
+### 流式传输订单簿更新
 
 ```ts
 import { IndexerGrpcSpotStream } from '@biya-coin/sdk-ts'

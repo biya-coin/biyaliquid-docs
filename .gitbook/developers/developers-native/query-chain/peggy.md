@@ -1,10 +1,10 @@
 # Peggy
 
-Example code snippets to query the chain via the peggy api.
+通过 peggy api 查询链的示例代码片段。
 
-## Using gRPC
+## 使用 gRPC
 
-### Fetch parameters related to peggy
+### 获取与 peggy 相关的参数
 
 ```ts
 import { ChainGrpcPeggyApi } from '@biya-coin/sdk-ts'

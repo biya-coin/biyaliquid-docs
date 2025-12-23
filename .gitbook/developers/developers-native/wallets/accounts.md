@@ -1,10 +1,10 @@
-# Accounts
+# 账户
 
-Biya Chain defines its own custom Account type that uses Ethereum's ECDSA secp256k1 curve for keys. This satisfies the [EIP84](https://github.com/ethereum/EIPs/issues/84) for full [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) paths. The root HD path for Biya Chain-based accounts is `m/44'/60'/0'/0.`
+Biya Chain 定义了自己的自定义账户类型，该类型使用以太坊的 ECDSA secp256k1 曲线作为密钥。这满足了完整 [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) 路径的 [EIP84](https://github.com/ethereum/EIPs/issues/84)。基于 Biya Chain 的账户的根 HD 路径是 `m/44'/60'/0'/0.`
 
-### Address conversion
+### 地址转换
 
-You can easily convert between an Biya Chain address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
+您可以使用 `@biya-coin/sdk-ts` 包中的实用函数轻松在 Biya Chain 地址和以太坊地址之间进行转换：
 
 ```ts
 import { getBiyachainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
@@ -12,15 +12,15 @@ import { getBiyachainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
 const biyachainAddress = 'biya1...'
 const ethereumAddress = '0x..'
 
-console.log('Biya Chain address from Ethereum address => ', getBiyachainAddress(ethereumAddress))
-console.log('Ethereum address from Biya Chain address => ', getEthereumAddress(biyachainAddress))
+console.log('从以太坊地址获取 Biya Chain 地址 => ', getBiyachainAddress(ethereumAddress))
+console.log('从 Biya Chain 地址获取以太坊地址 => ', getEthereumAddress(biyachainAddress))
 ```
 
-### Deriving wallets
+### 派生钱包
 
-**Using Biya Chain utility classes**
+**使用 Biya Chain 实用类**
 
-* Example code snippet on how to derive Biya Chain Account from a private key and/or a mnemonic phrase:
+* 从私钥和/或助记词派生 Biya Chain 账户的示例代码片段：
 
 ```ts
 import { PrivateKey } from '@biya-coin/sdk-ts'
@@ -30,11 +30,11 @@ const privateKey = "afdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4
 const privateKeyFromMnemonic = PrivateKey.fromMnemonic(mnemonic)
 const privateKeyFromHex = PrivateKey.fromPrivateKey(privateKey)
 
-const address = privateKeyFromMnemonic.toAddress() /* or privateKeyFromHex.toAddress() */
+const address = privateKeyFromMnemonic.toAddress() /* 或 privateKeyFromHex.toAddress() */
 console.log({ biyachainAddress: address.toBech32(), ethereumAddress: address.toHex() })
 ```
 
-* Example code snipped on how to derive a public address from a public key:
+* 从公钥派生公共地址的示例代码片段：
 
 ```ts
 import { PublicKey } from '@biya-coin/sdk-ts'
@@ -45,7 +45,7 @@ const publicKey = PublicKey.fromBase64(pubKey)
 console.log(publicKey.toAddress().toBech32())
 ```
 
-* Example code snipped on how to derive an address from a private key:
+* 从私钥派生地址的示例代码片段：
 
 ```ts
 import { PublicKey } from '@biya-coin/sdk-ts'
@@ -57,9 +57,9 @@ const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 console.log(publicKey.toBase64())
 ```
 
-**Without using Biya Chain utility classes**
+**不使用 Biya Chain 实用类**
 
-* Example code snippet on how to derive Biya Chain Account from a private key and/or a mnemonic phrase:
+* 从私钥和/或助记词派生 Biya Chain 账户的示例代码片段：
 
 ```ts
 import { Wallet } from 'ethers'
@@ -69,7 +69,7 @@ const mnemonic = "indoor dish desk flag debris potato excuse depart ticket judge
 const privateKey = "afdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890"
 const defaultDerivationPath = "m/44'/60'/0'/0/0"
 const defaultBech32Prefix = 'biya'
-const isPrivateKey: boolean = true /* just for the example */
+const isPrivateKey: boolean = true /* 仅用于示例 */
 
 const wallet = isPrivateKey ? Wallet.fromMnemonic(mnemonic, defaultDerivationPath) : new Wallet(privateKey)
 const ethereumAddress = wallet.address
@@ -77,7 +77,7 @@ const addressBuffer = EthereumUtilsAddress.fromString(ethereumAddress.toString()
 const biyachainAddress = bech32.encode(defaultBech32Prefix, bech32.toWords(addressBuffer))
 ```
 
-* Example code snipped on how to derive a public key from a private key:
+* 从私钥派生公钥的示例代码片段：
 
 ```ts
 import secp256k1 from 'secp256k1'
@@ -94,11 +94,11 @@ const publicKey = Buffer.concat([buf1, buf2, buf3]).toString('base64')
 const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 ```
 
-#### Convert Cosmos address to Biya Chain Address
+#### 将 Cosmos 地址转换为 Biya Chain 地址
 
-As Biya Chain has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biya Chain one.
+由于 Biya Chain 的派生路径与默认的 Cosmos 路径不同，您需要账户的 `publicKey` 才能将 Cosmos `publicAddress` 转换为 Biya Chain 地址。
 
-Here is an example of how to do it
+以下是如何执行此操作的示例
 
 ```typescript
 import { config } from "dotenv";
@@ -115,7 +115,7 @@ config();
   const account = await chainApi.fetchCosmosAccount(cosmosAddress);
 
   if (!account.pub_key?.key) {
-    console.log("No public key found");
+    console.log("未找到公钥");
     return;
   }
 

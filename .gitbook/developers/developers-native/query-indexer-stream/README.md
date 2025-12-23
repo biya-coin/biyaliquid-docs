@@ -1,13 +1,13 @@
-# Streaming the Indexer
+# 索引器流式传输
 
-## Topics
+## 主题
 
-| Topic              | Description                               |
+| 主题               | 描述                                      |
 | ------------------ | ----------------------------------------- |
-| Account Module     | Streaming data from the account module    |
-| Auction Module     | Streaming data from the auction module    |
-| Derivatives Module | Stream data from the derivatives module   |
-| Explorer Module    | Stream data from the explorer module      |
-| Oracle Module      | Stream data from the oracle               |
-| Portfolio Module   | Stream data from the portfolio module     |
-| Spot Module        | Stream data from the spot module          |
+| Account 模块       | 从账户模块流式传输数据                    |
+| Auction 模块       | 从拍卖模块流式传输数据                    |
+| Derivatives 模块   | 从衍生品模块流式传输数据                  |
+| Explorer 模块      | 从浏览器模块流式传输数据                  |
+| Oracle 模块        | 从预言机流式传输数据                      |
+| Portfolio 模块     | 从投资组合模块流式传输数据                |
+| Spot 模块          | 从现货模块流式传输数据                    |
