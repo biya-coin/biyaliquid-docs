@@ -1,29 +1,29 @@
-# Verify a smart contract using Foundry
+# 使用 Foundry 验证智能合约
 
-## Prerequisites
+## 前置条件
 
-You should already have a Foundry project set up, and have deployed your smart contract successfully.
-See the [deploy a smart contract using Foundry](./deploy-foundry.md) tutorial for how to do so.
+您应该已经设置了 Foundry 项目，并成功部署了智能合约。
+请参阅[使用 Foundry 部署智能合约](./deploy-foundry.md)教程了解如何操作。
 
-## What is smart contract verification?
+## 什么是智能合约验证？
 
-The process of verification does not have any effect on the smart contract itself, or any other state of the network.
+验证过程对智能合约本身或网络的任何其他状态没有任何影响。
 
-Instead, it is a standardised process through which network explorers are provided with the original source code of the smart contract deployed at a particular address. The network explorer **independently compiles** that source code, and verifies that the resultant bytecode is indeed a **match** with the bytecode present from the smart contract's deployment transaction.
+相反，这是一个标准化过程，通过该过程向网络浏览器提供部署在特定地址的智能合约的原始源代码。网络浏览器**独立编译**该源代码，并验证生成的字节码确实与智能合约部署交易中的字节码**匹配**。
 
-If verification passes (there is a match), the block explorer "unlocks" an enhanced mode within for that particular smart contract's page.
-More smart contract details are now displayed, including:
-* Full source code (Solidity)
-* ABI (JSON)
-* Transactions and events are shown with higher detail (parsed using ABI)
+如果验证通过（有匹配），区块浏览器会为该特定智能合约的页面"解锁"增强模式。
+现在显示更多智能合约详细信息，包括：
+* 完整源代码（Solidity）
+* ABI（JSON）
+* 交易和事件以更高的详细程度显示（使用 ABI 解析）
 
-Additionally, if the user connects their wallet, they can invoke functions within the network explorer itself to query the smart contract, and even send transactions to update its state.
+此外，如果用户连接他们的钱包，他们可以在网络浏览器本身内调用函数来查询智能合约，甚至发送交易来更新其状态。
 
 <!-- TODO consider moving this section to FAQs -->
 
-## Run the verification command
+## 运行验证命令
 
-Enter the following command:
+输入以下命令：
 
 ```shell
 forge verify-contract \
@@ -34,9 +34,9 @@ forge verify-contract \
   src/Counter.sol:Counter
 ```
 
-Replace `${SC_ADDRESS}` with the address at which you deployed your smart contract.
+将 `${SC_ADDRESS}` 替换为您部署智能合约的地址。
 
-For example, if the smart contract address is `0x213bA803265386C10CE04a2cAa0f31FF3440b9cF`, the command is:
+例如，如果智能合约地址是 `0x213bA803265386C10CE04a2cAa0f31FF3440b9cF`，命令是：
 
 ```shell
 forge verify-contract \
@@ -47,9 +47,9 @@ forge verify-contract \
   src/Counter.sol:Counter
 ```
 
-## Check the verification outcome
+## 检查验证结果
 
-You should see output similar to this in the terminal:
+您应该在终端中看到类似以下的输出：
 
 ```text
 Start verifying contract `0x213bA803265386C10CE04a2cAa0f31FF3440b9cF` deployed on 1439
@@ -60,19 +60,19 @@ Submitted contract for verification:
         URL: https://testnet.blockscout-api.biyachain.network/address/0x213ba803265386c10ce04a2caa0f31ff3440b9cf
 ```
 
-The more interesting outcome is visiting the network explorer.
-Visit the network explorer URL from the verification output.
-Then select the "Contract" tab.
-Then select the "Code" sub-tab.
-Previously, there was only "ByteCode" available,
-and now "Code", "Compiler", and "ABI" are also available.
+更有趣的结果是访问网络浏览器。
+从验证输出中访问网络浏览器 URL。
+然后选择"Contract"选项卡。
+然后选择"Code"子选项卡。
+以前，只有"ByteCode"可用，
+现在"Code"、"Compiler"和"ABI"也可用了。
 
-Still within the "Contract" tab,
-select the "Read/Write contract" sub-tab.
-Previously, this did not exist,
-but now you can interact with every smart contract function directly from the block explorer.
+仍然在"Contract"选项卡中，
+选择"Read/Write contract"子选项卡。
+以前，这不存在，
+但现在您可以直接从区块浏览器与每个智能合约函数交互。
 
-## Next steps
+## 下一步
 
-Now that you have deployed and verified your smart contract, you are ready to interact with that smart contract!
-Check out the [interact with a smart contract using Foundry](./interact-foundry.md) tutorial next.
+现在您已经部署并验证了智能合约，您已准备好与该智能合约交互！
+接下来查看[使用 Foundry 与智能合约交互](./interact-foundry.md)教程。

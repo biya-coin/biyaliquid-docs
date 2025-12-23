@@ -1,17 +1,17 @@
 ---
-description: Connect your wallet with MetaMask or WalletConnect
+description: 使用 MetaMask 或 WalletConnect 连接您的钱包
 ---
 
-# Your First EVM dApp
+# 您的第一个 EVM dApp
 
-dApps are front end applications that interact with a blockchain,
-typically with smart contracts.
+dApp 是与区块链交互的前端应用程序，
+通常与智能合约交互。
 
-Do check out [your first EVM smart contract](../smart-contracts/README.md) first!
+请先查看[您的第一个 EVM 智能合约](../smart-contracts/README.md)！
 
-These guides show you how to connect uisng different EVM wallets and libraries.
+这些指南将向您展示如何使用不同的 EVM 钱包和库进行连接。
 
-## Guides
+## 指南
 
-* [Connect with MetaMask](./connect-with-metamask.md)
-* [Connect with WalletConnect](./connect-with-walletconnect.md)
+* [使用 MetaMask 连接](./connect-with-metamask.md)
+* [使用 WalletConnect 连接](./connect-with-walletconnect.md)

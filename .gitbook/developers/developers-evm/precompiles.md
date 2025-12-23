@@ -1,80 +1,80 @@
-# Precompiles
+# 预编译合约
 
-### What are Precompiles on Biya Chain?
+### Biya Chain 上的预编译合约是什么？
 
-On Biya Chain, precompiles are special, highly-optimized smart contracts embedded directly into our EVM (Ethereum Virtual Machine) layer at the protocol level. Unlike standard Solidity smart contracts that are deployed by users, precompiles are part of the chain's core logic. They are written in Go instead of Solidity and are exposed to the EVM with fixed addresses, making them callable from your Solidity smart contracts just like any other smart contract.
+在 Biya Chain 上，预编译合约是直接嵌入到我们的 EVM（以太坊虚拟机）层协议级别的特殊的、高度优化的智能合约。与用户部署的标准 Solidity 智能合约不同，预编译合约是链核心逻辑的一部分。它们使用 Go 而不是 Solidity 编写，并以固定地址暴露给 EVM，使它们可以像任何其他智能合约一样从您的 Solidity 智能合约中调用。
 
-Think of them as native functions of the Biya Chain chain that have been given an Ethereum-style interface.
+可以将它们视为 Biya Chain 链的原生函数，这些函数被赋予了以太坊风格的接口。
 
-### Why are they necessary? (Bridging EVM & Native Modules)
+### 为什么它们是必要的？（桥接 EVM 和原生模块）
 
-The Biya Chain EVM doesn't operate in a silo. It's deeply integrated with Biya Chain's powerful native Cosmos SDK modules, such as the Bank module (for token management), the Exchange module (for the on-chain order book), the Staking module, and more.
+Biya Chain EVM 不是孤立运行的。它与 Biya Chain 强大的原生 Cosmos SDK 模块深度集成，例如 Bank 模块（用于代币管理）、Exchange 模块（用于链上订单簿）、Staking 模块等。
 
-Precompiles serve as the crucial **bridge** between the EVM world (where your Solidity contracts live) and these native Biya Chain functionalities. Without precompiles, your EVM smart contracts would be isolated, unable to tap into the rich features and liquidity of the broader Biya Chain ecosystem.
+预编译合约充当 EVM 世界（您的 Solidity 合约所在的地方）和这些原生 Biya Chain 功能之间的关键**桥梁**。如果没有预编译合约，您的 EVM 智能合约将被隔离，无法利用更广泛的 Biya Chain 生态系统的丰富功能和流动性。
 
-For example, our [MultiVM Token Standard (MTS)](./multivm-token-standard.md) model, which ensures unified token balances across native and EVM environments, is heavily reliant on the **Bank Precompile**.
+例如，我们的[多虚拟机代币标准（MTS）](./multivm-token-standard.md)模型确保原生和 EVM 环境中的统一代币余额，它在很大程度上依赖于 **Bank 预编译合约**。
 
-### Benefits for Developers
+### 对开发者的好处
 
-* **Access to Native Features:** Directly interact with Biya Chain's unique modules like the on-chain order book, native staking, governance, and the bank module for MTS.
-* **Enhanced Performance:** Operations executed via precompiles can be significantly faster and more gas-efficient than trying to replicate complex native logic purely in Solidity, as they run as optimized native code.
-* **Seamless Interoperability:** Build truly integrated applications that leverage the strengths of both the EVM and Biya Chain's Cosmos-native capabilities.
-* **Simplified Development:** Interact with complex native functionalities through familiar Solidity interfaces, abstracting away much of the underlying Cosmos complexity.
+* **访问原生功能：** 直接与 Biya Chain 的独特模块交互，如链上订单簿、原生质押、治理和用于 MTS 的 bank 模块。
+* **增强性能：** 通过预编译合约执行的操作可以比尝试纯粹在 Solidity 中复制复杂的原生逻辑要快得多且更节省 gas，因为它们作为优化的原生代码运行。
+* **无缝互操作性：** 构建真正集成的应用程序，利用 EVM 和 Biya Chain 的 Cosmos 原生功能的优势。
+* **简化开发：** 通过熟悉的 Solidity 接口与复杂的原生功能交互，抽象掉大部分底层 Cosmos 复杂性。
 
-A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Biya Chain’s Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts). Key contracts include:
+[Biya Chain 的 Solidity 合约仓库](https://github.com/biya-coin/solidity-contracts)提供了一系列由 Bank 预编译合约支持的 ERC-20 实现，以及预编译合约接口和抽象合约。关键合约包括：
 
-* [**Bank.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/Bank.sol) – precompile interface
-* [**BankERC20.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/BankERC20.sol) – abstract ERC20 implementation backed by the Bank precompile
-* [**FixedSupplyBankERC20.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/FixedSupplyBankERC20.sol) – decentralized ERC20 with fixed supply (no owner, no minting or burning)
-* [**MintBurnBankERC20.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/MintBurnBankERC20.sol) – ERC20 with an owner authorized to mint and burn tokens
+* [**Bank.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/Bank.sol) – 预编译合约接口
+* [**BankERC20.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/BankERC20.sol) – 由 Bank 预编译合约支持的抽象 ERC20 实现
+* [**FixedSupplyBankERC20.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/FixedSupplyBankERC20.sol) – 固定供应的去中心化 ERC20（无所有者，无铸造或销毁）
+* [**MintBurnBankERC20.sol**](https://github.com/biya-coin/solidity-contracts/blob/master/src/MintBurnBankERC20.sol) – 具有授权铸造和销毁代币的所有者的 ERC20
 
-These implementations are based on OpenZeppelin’s ERC20 contracts. Developers can freely create custom ERC20 contracts utilizing the Bank precompile.
+这些实现基于 OpenZeppelin 的 ERC20 合约。开发者可以自由创建利用 Bank 预编译合约的自定义 ERC20 合约。
 
-### Demos to get you started
+### 帮助您入门的演示
 
-We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Biya Chain EVM using the most common Ethereum development framework — **Foundry**.
+我们准备了一些演示，展示如何使用 Bank、Exchange 和 Staking 预编译合约构建合约。这些示例还演示了如何使用最常见的以太坊开发框架 **Foundry** 与 Biya Chain EVM 交互。
 
-By leveraging Foundry's `cast` tool, you can easily deploy contracts and interact with the Biya Chain chain directly from your terminal. This enables builders to quickly experiment, test, and deploy powerful applications that tap into Biya Chain's native modules.
+通过利用 Foundry 的 `cast` 工具，您可以直接从终端轻松部署合约并与 Biya Chain 链交互。这使构建者能够快速实验、测试和部署利用 Biya Chain 原生模块的强大应用程序。
 
-Explore the demos below to see:
+浏览下面的演示以查看：
 
-- How to write Solidity contracts that call precompiles for token management, trading, and staking.
-- How to use Foundry scripts and `cast` commands to deploy and interact with these contracts on Biya Chain EVM.
-- Best practices for bridging EVM logic with Biya Chain's native features.
+- 如何编写调用预编译合约进行代币管理、交易和质押的 Solidity 合约。
+- 如何使用 Foundry 脚本和 `cast` 命令在 Biya Chain EVM 上部署和与这些合约交互。
+- 桥接 EVM 逻辑与 Biya Chain 原生功能的最佳实践。
 
-Jumpstart your development by cloning the [Biya Chain Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts/tree/master/demos) and following the step-by-step guides in each demo directory.
+通过克隆 [Biya Chain Solidity 合约仓库](https://github.com/biya-coin/solidity-contracts/tree/master/demos)并按照每个演示目录中的分步指南来快速启动您的开发。
 
-* [Bank Precompile Demo](https://github.com/biya-coin/solidity-contracts/tree/master/demos/erc20)
-* [Exchange Precompile Demo](https://github.com/biya-coin/solidity-contracts/tree/master/demos/exchange)
-* [Staking Precompile Demo](https://github.com/biya-coin/solidity-contracts/tree/master/demos/staking)
+* [Bank 预编译合约演示](https://github.com/biya-coin/solidity-contracts/tree/master/demos/erc20)
+* [Exchange 预编译合约演示](https://github.com/biya-coin/solidity-contracts/tree/master/demos/exchange)
+* [Staking 预编译合约演示](https://github.com/biya-coin/solidity-contracts/tree/master/demos/staking)
 
-### Precompile Addresses
+### 预编译合约地址
 
-| Name                               | Purpose                       | EVM address |
-| ---------------------------------- | ----------------------------- | ----------- |
-| [Bank](bank-precompile.md)         | Token Management              | `0x64`      |
-| [Exchange](exchange-precompile.md) | On-chain Order Book           | `0x65`      |
-| Staking                            | Native staking token on-chain | `0x66`      |
+| 名称                               | 用途                       | EVM 地址    |
+| ---------------------------------- | -------------------------- | ----------- |
+| [Bank](bank-precompile.md)         | 代币管理                   | `0x64`      |
+| [Exchange](exchange-precompile.md) | 链上订单簿                 | `0x65`      |
+| Staking                            | 链上原生质押代币           | `0x66`      |
 
-## The non-contract address error
+## 非合约地址错误
 
-When using Foundry, and you "fork" the Biya Chain Mainnet or Biya Chain Testnet locally,
-and execute your smart contracts in that environment,
-you may see an error similar to the following:
+当使用 Foundry 时，如果您在本地"分叉"Biya Chain 主网或 Biya Chain 测试网，
+并在该环境中执行您的智能合约，
+您可能会看到类似以下的错误：
 
 ```text
 [Revert] call to non-contract address 0x0000000000000000000000000000000000000064
 ```
 
-This occurs becuase Foundry is *simulating* Biya Chain locally,
-rather than actually running on Biya Chain.
-It is therefore running a *generic EVM* simulation,
-and not one that is specific to Biya Chain.
-The difference lies in Biya Chain's native functionality not being present,
-and therefore it being unaware of the precompiles.
+这是因为 Foundry 在本地*模拟* Biya Chain，
+而不是实际在 Biya Chain 上运行。
+因此它运行的是*通用 EVM* 模拟，
+而不是特定于 Biya Chain 的模拟。
+区别在于 Biya Chain 的原生功能不存在，
+因此它不知道预编译合约。
 
-The fix for this is simple:
-Use a version of Foundry that has been patched to include Biya Chain's precompiles:
-[github.com/biya-coin/foundry/releases](https://github.com/biya-coin/foundry/releases).
+解决方法很简单：
+使用已打补丁以包含 Biya Chain 预编译合约的 Foundry 版本：
+[github.com/biya-coin/foundry/releases](https://github.com/biya-coin/foundry/releases)。
 
-These include pre-built binaries for x86_64 Linux and macOS ARM64.
+这些版本包括 x86_64 Linux 和 macOS ARM64 的预构建二进制文件。

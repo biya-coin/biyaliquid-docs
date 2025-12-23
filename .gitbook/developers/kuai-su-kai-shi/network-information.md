@@ -1,36 +1,36 @@
 ---
-description: Essential information about the Biya Chain network
+description: 关于 Biya Chain 网络的基本信息
 ---
 
-# Network Information
+# 网络信息
 
-## Biya Chain Testnet Details
+## Biya Chain 测试网详情
 
 * Chain ID: `biyachain-888`
-* Node: `https://testnet.sentry.tm.biyachain.network:443`
+* 节点: `https://testnet.sentry.tm.biyachain.network:443`
 
 {% hint style="info" %}
-Note that the Biya Chain Chain ID for EVM is `1439`.
-However, it natively uses a chain ID of `biyachain-888`.
-While the chain IDs are different, they map to the **same** network.
+请注意，Biya Chain 的 EVM Chain ID 是 `1439`。
+但是，它原生使用的 chain ID 是 `biyachain-888`。
+虽然 chain ID 不同，但它们映射到**同一个**网络。
 
-See [EVM network information](../developers-evm/network-information.md) for more details.
+更多详情请参见 [EVM 网络信息](../developers-evm/network-information.md)。
 {% endhint %}
 
-## Biya Chain Devnet Details
+## Biya Chain 开发网详情
 
 * Chain ID: `biyachain-777`
-* Node: `https://devnet.sentry.tm.biyachain.network:443`
+* 节点: `https://devnet.sentry.tm.biyachain.network:443`
 
-## Biya Chain Mainnet Details
+## Biya Chain 主网详情
 
 * Chain ID: `biyachain-1`
-* Node: `https://sentry.tm.biyachain.network:443`
+* 节点: `https://sentry.tm.biyachain.network:443`
 
 {% hint style="info" %}
-Note that the Biya Chain Chain ID for EVM is `1776`.
-However, it natively uses a chain ID of `biyachain-1`.
-While the chain IDs are different, they map to the **same** network.
+请注意，Biya Chain 的 EVM Chain ID 是 `1776`。
+但是，它原生使用的 chain ID 是 `biyachain-1`。
+虽然 chain ID 不同，但它们映射到**同一个**网络。
 
-See [EVM network information](../developers-evm/network-information.md) for more details.
+更多详情请参见 [EVM 网络信息](../developers-evm/network-information.md)。
 {% endhint %}

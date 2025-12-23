@@ -1,20 +1,20 @@
-# Interact with a smart contract using Foundry
+# 使用 Foundry 与智能合约交互
 
-## Prerequisites
+## 前置条件
 
-You should already have a Foundry project set up, and have deployed your smart contract successfully.
-See the [deploy a smart contract using Foundry](./deploy-foundry.md) tutorial for how to do so.
+您应该已经设置了 Foundry 项目，并成功部署了智能合约。
+请参阅[使用 Foundry 部署智能合约](./deploy-foundry.md)教程了解如何操作。
 
-Optionally, but strongly recommended: You should also have successfully verified your smart contract.
-See the [verify a smart contract using Foundry](./verify-foundry.md) tutorial for how to do so.
+可选但强烈建议：您还应该已成功验证了智能合约。
+请参阅[使用 Foundry 验证智能合约](./verify-foundry.md)教程了解如何操作。
 
-## Invoke function - query
+## 调用函数 - 查询
 
-Queries are read-only operations.
-So smart contract state **is not updated**.
-As *no state change* is needed, no wallets, signatures, or transaction fees (gas) are required.
+查询是只读操作。
+因此智能合约状态**不会更新**。
+由于*不需要状态更改*，因此不需要钱包、签名或交易费用（gas）。
 
-Use the following command to query the `value()` function:
+使用以下命令查询 `value()` 函数：
 
 ```shell
 cast call \
@@ -23,9 +23,9 @@ cast call \
   "value()"
 ```
 
-Replace `${SC_ADDRESS}` with the address at which you deployed your smart contract.
+将 `${SC_ADDRESS}` 替换为您部署智能合约的地址。
 
-For example, if the smart contract address is `0x213ba803265386c10ce04a2caa0f31ff3440b9cf`, the command is:
+例如，如果智能合约地址是 `0x213ba803265386c10ce04a2caa0f31ff3440b9cf`，命令是：
 
 ```shell
 cast call \
@@ -34,24 +34,24 @@ cast call \
   "value()"
 ```
 
-This should output the following.
+这应该输出以下内容。
 
 ```text
 0x0000000000000000000000000000000000000000000000000000000000000000
 ```
 
 {% hint style="info" %}
-Note that `0x0000000000000000000000000000000000000000000000000000000000000000` means `0`.
-It is the raw representation in hexadecimal for Solidity's `uint256` (the return type of the `value()` function in the smart contract).
+请注意，`0x0000000000000000000000000000000000000000000000000000000000000000` 表示 `0`。
+这是 Solidity 的 `uint256`（智能合约中 `value()` 函数的返回类型）的十六进制原始表示。
 {% endhint %}
 
-## Invoke function - transaction
+## 调用函数 - 交易
 
-Transactions are write operations.
-So smart contract **state is updated**.
-As *state change* can occur, the transaction must be signed by a wallet, and transaction fees (gas) need to be paid.
+交易是写操作。
+因此智能合约**状态会更新**。
+由于*可能发生状态更改*，交易必须由钱包签名，并且需要支付交易费用（gas）。
 
-Use the following command to transact the `increment(num)` function.
+使用以下命令交易 `increment(num)` 函数。
 
 ```shell
 cast send \
@@ -66,13 +66,13 @@ cast send \
 ```
 
 {% hint style="info" %}
-Note that gas price is stated in *wei*.
-1 wei = 10^-18 BIYA.
+请注意，gas 价格以 *wei* 为单位。
+1 wei = 10^-18 BIYA。
 {% endhint %}
 
-Replace `${SC_ADDRESS}` with the address at which you deployed your smart contract.
+将 `${SC_ADDRESS}` 替换为您部署智能合约的地址。
 
-For example, if the smart contract address is `0x213ba803265386c10ce04a2caa0f31ff3440b9cf`, the command is:
+例如，如果智能合约地址是 `0x213ba803265386c10ce04a2caa0f31ff3440b9cf`，命令是：
 
 ```shell
 cast send \
@@ -86,7 +86,7 @@ cast send \
   1
 ```
 
-If successful, this should produce a result similar to the following:
+如果成功，这应该产生类似以下的结果：
 
 ```text
 Enter keystore password:
@@ -109,8 +109,8 @@ blobGasUsed
 to                   0x213bA803265386C10CE04a2cAa0f31FF3440b9cF
 ```
 
-After updating the state, you can query the new state.
-The result will reflect the state change.
+更新状态后，您可以查询新状态。
+结果将反映状态更改。
 
 ```shell
 cast call \
@@ -119,16 +119,16 @@ cast call \
   "value()"
 ```
 
-This time the result should be `0x0000000000000000000000000000000000000000000000000000000000000001` because `0 + 1 = 1`.
+这次结果应该是 `0x0000000000000000000000000000000000000000000000000000000000000001`，因为 `0 + 1 = 1`。
 
 ```js
 0x0000000000000000000000000000000000000000000000000000000000000001
 ```
 
-## Next steps
+## 下一步
 
-Congratulations, you have completed this entire guide for developing EVM smart contracts on Biya Chain using Foundry!
+恭喜，您已经完成了使用 Foundry 在 Biya Chain 上开发 EVM 智能合约的整个指南！
 
-Smart contracts do not provide a user experience for non-technical users.
-To cater to them, you will need to build a decentralised application.
-To do so, check out the [your first dApp](../dapps/README.md) guides!
+智能合约不为非技术用户提供用户体验。
+为了满足他们的需求，您需要构建一个去中心化应用程序。
+要做到这一点，请查看[您的第一个 dApp](../dapps/README.md) 指南！

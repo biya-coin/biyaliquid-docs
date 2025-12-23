@@ -1,22 +1,22 @@
-# Connect with WalletConnect
+# 使用 WalletConnect 连接
 
-WalletConnect is an open-source, chain-agnostic protocol that securely links wallets and Web3 applications. It uses a bridge server to relay encrypted messages, allowing users to connect by scanning a QR code or via deep-linking, without exposing private keys.
+WalletConnect 是一个开源的、链无关的协议，可以安全地连接钱包和 Web3 应用程序。它使用桥接服务器中继加密消息，允许用户通过扫描二维码或深度链接进行连接，而不会暴露私钥。
 
-### Integration Steps for WalletConnect
+### WalletConnect 集成步骤
 
-#### Prerequisites
+#### 前置条件
 
-Register at [WalletConnect Cloud](https://cloud.walletconnect.com) and obtain the **project ID**.
+在 [WalletConnect Cloud](https://cloud.walletconnect.com) 注册并获取 **项目 ID**。
 
 ***
 
-#### Install Dependency
+#### 安装依赖
 
 ```bash
 npm install ethers wagmi viem @walletconnect/ethereum-provider
 ```
 
-Set up Biya Chain EVM network configuration
+设置 Biya Chain EVM 网络配置
 
 ```javascript
 // lib/biyachainChain.ts
@@ -39,7 +39,7 @@ export const biyachainEvm = defineChain({
 })
 ```
 
-Set up Wagmi + WalletConnect
+设置 Wagmi + WalletConnect
 
 ```javascript
  // lib/wagmi.ts
@@ -51,7 +51,7 @@ export const wagmiConfig = createConfig({
   chains: [biyachainEvm],
   connectors: [
     walletConnect({
-      projectId: 'your-walletconnect-project-id', // From WalletConnect Cloud
+      projectId: 'your-walletconnect-project-id', // 来自 WalletConnect Cloud
       showQrModal: true,
     }),
   ],
@@ -62,7 +62,7 @@ export const wagmiConfig = createConfig({
 
 ```
 
-Integrate into your project
+集成到您的项目中
 
 ```javascript
 'use client'
@@ -82,14 +82,14 @@ function WalletConnector() {
   return (
     <div style={{ textAlign: 'center', marginTop: '100px' }}>
       {isConnected ? (
-        <p>Connected to {address}</p>
+        <p>已连接到 {address}</p>
       ) : (
         <button
           onClick={() => wcConnector && connect({ connector: wcConnector })}
           disabled={isPending || !wcConnector}
           style={{ padding: '12px 24px', fontSize: '16px' }}
         >
-          Connect Wallet (WalletConnect)
+          连接钱包 (WalletConnect)
         </button>
       )}
     </div>
@@ -110,7 +110,7 @@ export default function Home() {
 
 ***
 
-More Info
+更多信息
 
-* WalletConnect docs: [https://docs.walletconnect.com](https://docs.walletconnect.com)
-* WalletConnect official examples: [https://github.com/WalletConnect/web-examples](https://github.com/WalletConnect/web-examples)
+* WalletConnect 文档: [https://docs.walletconnect.com](https://docs.walletconnect.com)
+* WalletConnect 官方示例: [https://github.com/WalletConnect/web-examples](https://github.com/WalletConnect/web-examples)

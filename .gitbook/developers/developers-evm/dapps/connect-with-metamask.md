@@ -1,22 +1,22 @@
-# Connect with MetaMask
+# 使用 MetaMask 连接
 
-## Connect MetaMask to Biya Chain EVM Testnet
+## 将 MetaMask 连接到 Biya Chain EVM 测试网
 
-MetaMask is a browser wallet extension that lets you connect to any EVM-compatible network, including **Biya Chain EVM**.
+MetaMask 是一个浏览器钱包扩展，可让您连接到任何 EVM 兼容网络，包括 **Biya Chain EVM**。
 
-### How to Install MetaMask
+### 如何安装 MetaMask
 
-Install the official MetaMask extension from the [MetaMask download page](https://metamask.io/download).
+从 [MetaMask 下载页面](https://metamask.io/download) 安装官方 MetaMask 扩展。
 
-### Add Biya Chain EVM Testnet to MetaMask
+### 将 Biya Chain EVM 测试网添加到 MetaMask
 
-1. Click the **MetaMask icon** in your browser and unlock your wallet.
-2. Click the **network selector** at the top (the default is _"Ethereum Mainnet"_).
-3. Select **“Add Network”** or **“Add a network manually”** to open the custom network form.
+1. 点击浏览器中的 **MetaMask 图标**并解锁您的钱包。
+2. 点击顶部的**网络选择器**（默认为 _"Ethereum Mainnet"_）。
+3. 选择 **"Add Network"** 或 **"Add a network manually"** 打开自定义网络表单。
 
-#### Biya Chain EVM Testnet Parameters
+#### Biya Chain EVM 测试网参数
 
-Fill in the following details:
+填写以下详细信息：
 
 ```json
 Network Name: Biya Chain EVM Testnet
@@ -26,43 +26,43 @@ Currency Symbol: BIYA
 Block Explorer URL: https://testnet.blockscout.biyachain.network/blocks
 ```
 
-> _Note: Block Explorer URL is optional, powered by BlockScout._
+> _注意：Block Explorer URL 是可选的，由 BlockScout 提供支持。_
 
-### Switch to Biya Chain EVM Testnet
+### 切换到 Biya Chain EVM 测试网
 
-Once the network is added, use the network selector to switch to **Biya Chain EVM Testnet**.
+添加网络后，使用网络选择器切换到 **Biya Chain EVM Testnet**。
 
-### Fund Your Wallet (Optional)
+### 为您的钱包充值（可选）
 
-Need Testnet BIYA? Visit the [Biya Chain Testnet faucet](https://testnet.faucet.biyachain.network).
+需要测试网 BIYA？访问 [Biya Chain 测试网水龙头](https://testnet.faucet.biyachain.network)。
 
-Funds will appear once included in a Testnet block.
-
-***
-
-### You're All Set!
-
-MetaMask is now connected to the **Biya Chain EVM Testnet**. You can:
-
-* Deploy smart contracts using tools like **Foundry**, **Hardhat**, or **Remix**.
-* Interact with Testnet dApps and contracts.
-* Inspect transactions via the Blockscout explorer.
-
-> **Tip:** Always double-check RPC URLs and Chain IDs - accuracy is crucial to avoid misconfiguration.
+资金将在包含在测试网区块中后出现。
 
 ***
 
-### Connect MetaMask via `ethers.js`
+### 一切就绪！
 
-You can also connect MetaMask programmatically using [`ethers`](https://docs.ethers.org/).
+MetaMask 现在已连接到 **Biya Chain EVM 测试网**。您可以：
 
-#### Sample Code
+* 使用 **Foundry**、**Hardhat** 或 **Remix** 等工具部署智能合约。
+* 与测试网 dApp 和合约交互。
+* 通过 Blockscout 浏览器检查交易。
+
+> **提示：** 始终仔细检查 RPC URL 和 Chain ID - 准确性对于避免配置错误至关重要。
+
+***
+
+### 通过 `ethers.js` 连接 MetaMask
+
+您还可以使用 [`ethers`](https://docs.ethers.org/) 以编程方式连接 MetaMask。
+
+#### 示例代码
 
 ```ts
 import { ethers } from 'ethers';
 
 export const biyachain_EVM_PARAMS = {
-  chainId: '0x59f', // 1439 in hexadecimal
+  chainId: '0x59f', // 1439 的十六进制
   chainName: 'Biya Chain EVM',
   rpcUrls: ['https://k8s.testnet.json-rpc.biyachain.network/'],
   nativeCurrency: {
@@ -75,7 +75,7 @@ export const biyachain_EVM_PARAMS = {
 
 export async function connectMetaMask() {
   if (typeof window.ethereum === 'undefined') {
-    alert('MetaMask not installed!');
+    alert('MetaMask 未安装！');
     return;
   }
 
@@ -91,19 +91,19 @@ export async function connectMetaMask() {
     const signer = provider.getSigner();
     const address = await signer.getAddress();
 
-    console.log('Connected address:', address);
+    console.log('已连接地址:', address);
     return { provider, signer, address };
   } catch (err) {
-    console.error('MetaMask connection failed:', err);
+    console.error('MetaMask 连接失败:', err);
   }
 }
 ```
 
-### Using `ethers.js` to interact with your smart contract
+### 使用 `ethers.js` 与您的智能合约交互
 
-Sample code
+示例代码
 
-[counter contract](/broken/pages/8hmIqtuEuzYmXK7me3oI) ABI:
+[counter 合约](/broken/pages/8hmIqtuEuzYmXK7me3oI) ABI:
 
 ```tsx
 // abi/counterAbi.ts
@@ -197,19 +197,19 @@ Sample code
 
 ```javascript
 import { ethers } from 'ethers'
-import { biyachain_EVM_PARAMS } from './config' // From separate file
+import { biyachain_EVM_PARAMS } from './config' // 从单独的文件导入
 import { counterAbi } from './abi/counterAbi'
 
-// Replace with your deployed contract address
+// 替换为您部署的合约地址
 const contractAddress = '0xYourContractAddressHere'
 
 async function connectAndInteract() {
   if (!window.ethereum) {
-    alert('MetaMask is not installed!')
+    alert('MetaMask 未安装！')
     return
   }
 
-  // Request Biya Chain EVM Network be added to MetaMask
+  // 请求将 Biya Chain EVM 网络添加到 MetaMask
   await window.ethereum.request({
     method: 'wallet_addEthereumChain',
     params: [
@@ -227,25 +227,25 @@ async function connectAndInteract() {
   await provider.send('eth_requestAccounts', [])
   const signer = provider.getSigner()
   const userAddress = await signer.getAddress()
-  console.log('Connected as:', userAddress)
+  console.log('已连接为:', userAddress)
 
-  // Contract instance
+  // 合约实例
   const contract = new ethers.Contract(contractAddress, counterAbi, signer)
 
-  // Send transaction to increment
+  // 发送交易以递增
   const tx = await contract.increment()
-  console.log('Transaction sent:', tx.hash)
+  console.log('交易已发送:', tx.hash)
 
   const receipt = await tx.wait()
-  console.log('Transaction mined in block:', receipt.blockNumber)
+  console.log('交易已在区块中打包:', receipt.blockNumber)
 }
 
 connectAndInteract().catch(console.error)
 ```
 
-### Using `viem` to interact with your smart contract
+### 使用 `viem` 与您的智能合约交互
 
-Sample code
+示例代码
 
 ```javascript
 import { createWalletClient, custom, defineChain, formatEther } from 'viem'
@@ -253,12 +253,12 @@ import { biyachain_EVM_PARAMS } from './config'
 import { counterAbi } from './abi/counterAbi'
 import { createPublicClient, http } from 'viem'
 
-// Replace with your deployed contract address
+// 替换为您部署的合约地址
 const contractAddress = '0xYourContractAddressHere'
 
 async function connectAndInteract() {
   if (typeof window === 'undefined' || typeof window.ethereum === 'undefined') {
-    alert('MetaMask is not installed!')
+    alert('MetaMask 未安装！')
     return
   }
 
@@ -267,16 +267,16 @@ async function connectAndInteract() {
     transport: custom(window.ethereum),
   })
 
-  // Create a PublicClient for reading contract state
+  // 创建 PublicClient 用于读取合约状态
   const publicClient = createPublicClient({
     chain: biyachainEvm,
     transport: http(),
   })
 
   const [account] = await client.requestAddresses()
-  console.log('Connected account:', account)
+  console.log('已连接账户:', account)
 
-  // Send transaction to increment using wallet client
+  // 使用钱包客户端发送交易以递增
   const hash = await client.writeContract({
     address: contractAddress,
     abi: counterAbi,
@@ -284,7 +284,7 @@ async function connectAndInteract() {
     account,
   })
 
-  console.log('Transaction sent with hash:', hash)
+  console.log('交易已发送，哈希:', hash)
 }
 
 connectAndInteract().catch(console.error)

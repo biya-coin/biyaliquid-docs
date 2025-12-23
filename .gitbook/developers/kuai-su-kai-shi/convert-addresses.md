@@ -1,14 +1,14 @@
 # 转换地址
 
-Within this document, we'll outline some examples on how to convert addresses between different formats and derivation paths.
+在本文档中，我们将概述一些如何在不同格式和派生路径之间转换地址的示例。
 
-### Convert Hex <> Bech32 address
+### 转换 Hex <> Bech32 地址
 
-As we've mentioned in the [wallet](../../users/wallet/ "mention") section, Biya Chain addresses are compatible with Ethereum addresses. You can convert between the two formats easily.
+正如我们在[钱包](../../users/wallet/ "mention")部分提到的，Biya Chain 地址与 Ethereum 地址兼容。您可以轻松地在两种格式之间进行转换。
 
-### Using TypeScript
+### 使用 TypeScript
 
-You can easily convert between an Biya Chain address and Ethereum address by using our utility functions in the `@biya-coin/sdk-ts` package:
+您可以使用 `@biya-coin/sdk-ts` 包中的实用函数轻松地在 Biya Chain 地址和 Ethereum 地址之间进行转换：
 
 ```typescript
 import { getBiyachainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
@@ -16,15 +16,15 @@ import { getBiyachainAddress, getEthereumAddress } from '@biya-coin/sdk-ts'
 const biyachainAddress = 'biya1...'
 const ethereumAddress = '0x..'
 
-console.log('Biya Chain address from Ethereum address => ', getBiyachainAddress(ethereumAddress))
-console.log('Ethereum address from Biya Chain address => ', getEthereumAddress(biyachainAddress))
+console.log('从 Ethereum 地址获取 Biya Chain 地址 => ', getBiyachainAddress(ethereumAddress))
+console.log('从 Biya Chain 地址获取 Ethereum 地址 => ', getEthereumAddress(biyachainAddress))
 ```
 
-### **Convert Cosmos address to Biya Chain Address**
+### **将 Cosmos 地址转换为 Biya Chain 地址**
 
-As Biya Chain has a different derivation path than the default Cosmos one, you need the `publicKey` of the account to convert a Cosmos `publicAddress` to Biya Chain one.
+由于 Biya Chain 的派生路径与默认的 Cosmos 派生路径不同，您需要账户的 `publicKey` 才能将 Cosmos `publicAddress` 转换为 Biya Chain 地址。
 
-### Using TypeScript
+### 使用 TypeScript
 
 ```typescript
 import { config } from "dotenv";
@@ -41,7 +41,7 @@ config();
   const account = await chainApi.fetchCosmosAccount(cosmosAddress);
 
   if (!account.pub_key?.key) {
-    console.log("No public key found");
+    console.log("未找到公钥");
     return;
   }
 
@@ -55,5 +55,5 @@ config();
 ```
 
 {% hint style="info" %}
-More examples can be found in [wallet accounts](../../users/wallet/accounts.md).
+更多示例可以在[钱包账户](../../users/wallet/accounts.md)中找到。
 {% endhint %}

@@ -1,25 +1,25 @@
 # Bank 预编译合约
 
-The Bank Precompile is a system smart contract residing at the fixed address `0x0000000000000000000000000000000000000064`.
+Bank 预编译合约是一个驻留在固定地址 `0x0000000000000000000000000000000000000064` 的系统智能合约。
 
-It offers EVM developers a gas-efficient and native pathway to interact directly with the Biya Chain's **bank module** (`x/bank`). This effectively bringing ERC-20 tokens on-chain. Any ERC-20 contract using the Bank precompile will be represented as `erc20:0x...` denom on-chain. Technically, this means that tokens reside only on-chain, with the EVM providing a view to the chain state rather than maintaining a separate copy. Unlike traditional bridging, where two token versions require user actions to switch, the Bank precompile offers real-time, dual-environment reflection for any transfer using either the on-chain bank denom or the ERC-20 `transfer()` method.
+它为 EVM 开发者提供了一个节省 gas 且原生的途径，可以直接与 Biya Chain 的 **bank 模块**（`x/bank`）交互。这有效地将 ERC-20 代币带到链上。任何使用 Bank 预编译合约的 ERC-20 合约都将在链上表示为 `erc20:0x...` 面额。从技术上讲，这意味着代币仅驻留在链上，EVM 提供对链状态的视图，而不是维护单独的副本。与传统桥接不同，传统桥接中两个代币版本需要用户操作才能切换，Bank 预编译合约为使用链上 bank 面额或 ERC-20 `transfer()` 方法的任何转账提供实时的双环境反映。
 
-A range of ERC-20 implementations backed by the Bank precompile, alongside precompile interfaces and abstract contracts, are available at [Biya Chain’s Solidity Contracts Repository](https://github.com/biya-coin/solidity-contracts). Key contracts include:
+[Biya Chain 的 Solidity 合约仓库](https://github.com/biya-coin/solidity-contracts)提供了一系列由 Bank 预编译合约支持的 ERC-20 实现，以及预编译合约接口和抽象合约。关键合约包括：
 
-* **Bank.sol** – precompile interface
-* **BankERC20.sol** – abstract ERC20 implementation backed by the Bank precompile
-* **FixedSupplyBankERC20.sol** – decentralized ERC20 with fixed supply (no owner, no minting or burning)
-* **MintBurnBankERC20.sol** – ERC20 with an owner authorized to mint and burn tokens
+* **Bank.sol** – 预编译合约接口
+* **BankERC20.sol** – 由 Bank 预编译合约支持的抽象 ERC20 实现
+* **FixedSupplyBankERC20.sol** – 固定供应的去中心化 ERC20（无所有者，无铸造或销毁）
+* **MintBurnBankERC20.sol** – 具有授权铸造和销毁代币的所有者的 ERC20
 
-These implementations are based on OpenZeppelin’s ERC20 contracts. Developers can freely create custom ERC20 contracts utilizing the Bank precompile.
+这些实现基于 OpenZeppelin 的 ERC20 合约。开发者可以自由创建利用 Bank 预编译合约的自定义 ERC20 合约。
 
-## ERC20 Contract Deployment
+## ERC20 合约部署
 
-**ℹ️ Note:**
+**ℹ️ 注意：**
 
-To prevent denom spam, deploying an ERC20 contract via the ERC20 module is a **payable operation** and requires a deployment fee of **1 BIYA**. Make sure your ERC20 contract deployment transaction includes this amount, or the operation will be rejected.
+为了防止面额垃圾邮件，通过 ERC20 模块部署 ERC20 合约是一个**付费操作**，需要支付 **1 BIYA** 的部署费用。确保您的 ERC20 合约部署交易包含此金额，否则操作将被拒绝。
 
-## Bank Precompile Interface
+## Bank 预编译合约接口
 
 <pre class="language-solidity" data-full-width="false"><code class="lang-solidity"><strong>interface IBankModule {
 </strong>    function mint(address,uint256) external payable returns (bool);
@@ -32,12 +32,12 @@ To prevent denom spam, deploying an ERC20 contract via the ERC20 module is a **p
 }
 </code></pre>
 
-## Example
+## 示例
 
-[Wrapped BIYA (wBIYA)](../../developers-evm/wrapped-biya.md#is-wbiya-the-same-as-weth) makes use of the Bank EVM precompile in order to implement the [MultiVM Token Standard (MTS)](multivm-token-standard.md).
+[Wrapped BIYA (wBIYA)](../../developers-evm/wrapped-biya.md#is-wbiya-the-same-as-weth) 使用 Bank EVM 预编译合约来实现[多虚拟机代币标准（MTS）](multivm-token-standard.md)。
 
-## Start building
+## 开始构建
 
-We've prepared a handful of demos that show how to build contracts using the Bank, Exchange, and Staking precompiles. These examples also demonstrate how to interact with the Biya Chain EVM using the most common Ethereum development framework—**Foundry**.
+我们准备了一些演示，展示如何使用 Bank、Exchange 和 Staking 预编译合约构建合约。这些示例还演示了如何使用最常见的以太坊开发框架 **Foundry** 与 Biya Chain EVM 交互。
 
-See the bank precompile demo [here](https://github.com/biya-coin/solidity-contracts/tree/master/demos/erc20) and follow the corresponding README.
+在[这里](https://github.com/biya-coin/solidity-contracts/tree/master/demos/erc20)查看 bank 预编译合约演示并遵循相应的 README。

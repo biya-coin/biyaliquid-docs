@@ -1,20 +1,20 @@
-# Test a smart contract using Foundry
+# 使用 Foundry 测试智能合约
 
-## Prerequisites
+## 前置条件
 
-You should already have a Foundry project set up, and have compiled your smart contract successfully.
-See the [set up Foundry and compile a smart contract](./compile-foundry.md) tutorial for how to do so.
+您应该已经设置了 Foundry 项目，并成功编译了智能合约。
+请参阅[设置 Foundry 并编译智能合约](./compile-foundry.md)教程了解如何操作。
 
-## Edit the test specifications
+## 编辑测试规范
 
-As the smart contract we are testing is minimal, so are the test cases that it needs.
+由于我们要测试的智能合约很简单，所以它需要的测试用例也很简单。
 
-Before testing, we need to deploy the smart contract.
-This happens in the `setUp` block.
-This is because smart contracts cannot execute in isolation, they must be within the EVM to execute.
-In Foundry, by default, the tests will execute in an emulated in-memory EVM instance, which is transient, so the deployment is perfunctory.
+在测试之前，我们需要部署智能合约。
+这发生在 `setUp` 块中。
+这是因为智能合约不能独立执行，它们必须在 EVM 中执行。
+在 Foundry 中，默认情况下，测试将在模拟的内存 EVM 实例中执行，该实例是临时的，因此部署是形式上的。
 
-Open the file: `test/Counter.t.sol`
+打开文件：`test/Counter.t.sol`
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -48,23 +48,23 @@ contract CounterTest is Test {
 
 ```
 
-We see that there are 3 test cases:
+我们看到有 3 个测试用例：
 
-- Check the initial `value()`.
-- Invoke `increment(num)` and then check that the `value()` has updated.
-- Invoke `increment(num)` again, and then check that the `value()` has updated again.
+- 检查初始 `value()`。
+- 调用 `increment(num)` 然后检查 `value()` 是否已更新。
+- 再次调用 `increment(num)`，然后检查 `value()` 是否再次更新。
 
-## Execute tests against the smart contract
+## 对智能合约执行测试
 
-The following command runs the tests we just looked at.
+以下命令运行我们刚才查看的测试。
 
 ```shell
 forge test
 ```
 
-## Check the test output
+## 检查测试输出
 
-If all the tests work as planned, you should see some output similar to the following:
+如果所有测试都按计划工作，您应该看到类似以下的输出：
 
 ```text
 Ran 3 tests for test/Counter.t.sol:CounterTest
@@ -76,8 +76,7 @@ Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 5.35ms (3.16ms CPU 
 Ran 1 test suite in 171.04ms (5.35ms CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
 ```
 
-## Next steps
+## 下一步
 
-Now that you have tested your smart contract, you are ready to deploy that smart contract!
-Check out the [deploy a smart contract using Foundry](./deploy-foundry.md) tutorial next.
-
+现在您已经测试了智能合约，您已准备好部署该智能合约！
+接下来查看[使用 Foundry 部署智能合约](./deploy-foundry.md)教程。

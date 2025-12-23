@@ -1,82 +1,82 @@
-# Set up Foundry and compile a smart contract
+# 设置 Foundry 并编译智能合约
 
-## Prerequisites
+## 前置条件
 
-Ensure that you have Foundry installed, by running the following command:
+确保您已安装 Foundry，运行以下命令：
 
 ```shell
 forge --version
 ```
 
-Note that the version used in this tutorial was `1.2.3-stable`. Be sure to use this version or later when following along.
+请注意，本教程中使用的版本是 `1.2.3-stable`。在学习时请确保使用此版本或更高版本。
 
-If you do not have foundry yet, run the following command to install it:
+如果您还没有 foundry，请运行以下命令进行安装：
 
 ```shell
 curl -L https://foundry.paradigm.xyz | bash
 ```
 
 {% hint style="info" %}
-There are other options for how to install Foundry.
-See the [the Foundry installation docs](https://getfoundry.sh/introduction/installation).
+还有其他安装 Foundry 的选项。
+请参阅 [Foundry 安装文档](https://getfoundry.sh/introduction/installation)。
 {% endhint %}
 
-You will need a wallet, and an account that has been funded with some Testnet BIYA.
+您需要一个钱包，以及一个已充值了一些测试网 BIYA 的账户。
 
 {% hint style="info" %}
-You can request EVM testnet funds from the [Biya Chain Testnet faucet](https://testnet.faucet.biyachain.network/).
+您可以从 [Biya Chain 测试网水龙头](https://testnet.faucet.biyachain.network/) 请求 EVM 测试网资金。
 {% endhint %}
 
-After creating your account, be sure to copy your private key somewhere accessible, as you will need it to complete this tutorial.
+创建账户后，请务必将您的私钥复制到可访问的地方，因为您需要它来完成本教程。
 
 {% hint style="info" %}
-Note that private keys should be handled with caution.
-The instructions here should be considered sufficient for local development and Testnet.
-However, these are **not** secure enough for private keys used on Mainnet.
-Please ensure that you follow best practices for key security on Mainnet, and do not re-use the same keys/ accounts between Mainnet and other networks.
+请注意，私钥应谨慎处理。
+此处的说明应被视为足以用于本地开发和测试网。
+但是，这些对于主网上使用的私钥来说**不够**安全。
+请确保在主网上遵循密钥安全的最佳实践，并且不要在主网和其他网络之间重复使用相同的密钥/账户。
 {% endhint %}
 
-## Set up a new Foundry project
+## 设置新的 Foundry 项目
 
-Use git to clone the demo repo, which already has the project completely set up for you.
+使用 git 克隆演示仓库，该仓库已经为您完全设置好了项目。
 
 ```shell
 git clone https://github.com/biyachain-dev/foundry-biya
 cd foundry-biya
 ```
 
-Install the `forge-std` library, which provides utility functions used in this project.
+安装 `forge-std` 库，它提供了本项目中使用的实用函数。
 
 ```shell
 forge install foundry-rs/forge-std
 ```
 
-## Orientation
+## 项目结构
 
-Open the repo in your code editor/ IDE, and take a look at the directory structure.
+在代码编辑器/IDE 中打开仓库，并查看目录结构。
 
 ```text
 foundry-biya/
   src/
-    Counter.sol --> smart contract Solidity code
+    Counter.sol --> 智能合约 Solidity 代码
   test/
-    Counter.t.sol --> test cases
-  foundry.toml --> configuration
+    Counter.t.sol --> 测试用例
+  foundry.toml --> 配置文件
 ```
 
-The `foundry.toml` file is already pre-configured to connect to the Biya Chain EVM Testnet.
-All you need to do before proceeding is to provide it with a private key of your Biya Chain Testnet account.
+`foundry.toml` 文件已经预先配置为连接到 Biya Chain EVM 测试网。
+在继续之前，您只需要为其提供 Biya Chain 测试网账户的私钥。
 
-Enter the following command to import a private key, and save it against an account named `biyaTest`:
+输入以下命令导入私钥，并将其保存到名为 `biyaTest` 的账户：
 
 ```shell
 cast wallet import biyaTest --interactive
 ```
 
-This will prompt you for the private key, and also a password that you need to enter each time you wish to use this account.
-Use the private key of the account which you have just created and funded earlier (e.g. via the Biya Chain Testnet faucet).
-Note that when you type or paste text for the private key and password, nothing is shown in the terminal.
-The output should look similar to this:
+这将提示您输入私钥，以及每次使用此账户时需要输入的密码。
+使用您刚刚创建并充值的账户的私钥（例如，通过 Biya Chain 测试网水龙头）。
+请注意，当您为私钥和密码输入或粘贴文本时，终端中不会显示任何内容。
+输出应类似于：
 
 ```text
 Enter private key:
@@ -85,19 +85,19 @@ Enter password:
 ```
 
 {% hint style="info" %}
-This saves an encrypted version of the private key in `~/.foundry/keystores`,
-and in subsequent commands can be accessed using the `--account` CLI flag.
+这会将私钥的加密版本保存在 `~/.foundry/keystores` 中，
+在后续命令中可以使用 `--account` CLI 标志访问。
 {% endhint %}
 
-## Edit the smart contract
+## 编辑智能合约
 
-The smart contract that is included in this demo is very basic. It:
+此演示中包含的智能合约非常基础。它：
 
-- Stores one `value` which is a number.
-- Exposes a `value()` query method.
-- Exposes an `increment(num)` transaction method.
+- 存储一个 `value`，这是一个数字。
+- 公开一个 `value()` 查询方法。
+- 公开一个 `increment(num)` 交易方法。
 
-Open the file: `src/Counter.sol`
+打开文件：`src/Counter.sol`
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -113,19 +113,19 @@ contract Counter {
 
 ```
 
-## Compile the smart contract
+## 编译智能合约
 
-Run the following command:
+运行以下命令：
 
 ```shell
 forge build
 ```
 
-Foundry will automatically download and run the version of the Solidity compiler (`solc`) that was configured in the `foundry.toml` file.
+Foundry 将自动下载并运行在 `foundry.toml` 文件中配置的 Solidity 编译器 (`solc`) 版本。
 
-## Check the compilation output
+## 检查编译输出
 
-After the compiler completes, you should see additional directories in the project directory:
+编译器完成后，您应该在项目目录中看到额外的目录：
 
 ```text
 foundry-biya/
@@ -135,14 +135,14 @@ foundry-biya/
     build-info/
       ...
     Counter.sol/
-        Counter.json --> open this file
+        Counter.json --> 打开此文件
 ```
 
-Open the `Counter.json` file (`out/Counter.sol/Counter.json`).
-In it, you should see the compiler outputs, including the `abi` and `bytecode` fields.
-These artifacts are used in all later steps (test, deploy, verify, and interact).
+打开 `Counter.json` 文件 (`out/Counter.sol/Counter.json`)。
+在其中，您应该看到编译器输出，包括 `abi` 和 `bytecode` 字段。
+这些构件将在后续所有步骤（测试、部署、验证和交互）中使用。
 
-## Next steps
+## 下一步
 
-Now that you have set up a Foundry project and compiled a smart contract, you are ready to test that smart contract!
-Check out the [test a smart contract using Foundry](./test-foundry.md) tutorial next.
+现在您已经设置了 Foundry 项目并编译了智能合约，您已准备好测试该智能合约！
+接下来查看[使用 Foundry 测试智能合约](./test-foundry.md)教程。

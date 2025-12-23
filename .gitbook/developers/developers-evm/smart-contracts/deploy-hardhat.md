@@ -1,20 +1,20 @@
-# Deploy a smart contract using Hardhat
+# 使用 Hardhat 部署智能合约
 
-## Prerequisites
+## 前置条件
 
-You should already have a Hardhat project set up, and have compiled your smart contract successfully.
-See the [set up Hardhat and compile a smart contract](./compile-hardhat.md) tutorial for how to do so.
+您应该已经设置了 Hardhat 项目，并成功编译了智能合约。
+请参阅[设置 Hardhat 并编译智能合约](./compile-hardhat.md)教程了解如何操作。
 
-Optionally, but strongly recommended: You should also have tested your smart contract successfully.
-See the [test a smart contract using Hardhat](./test-hardhat.md) tutorial for how to do so.
+可选但强烈建议：您还应该已成功测试了智能合约。
+请参阅[使用 Hardhat 测试智能合约](./test-hardhat.md)教程了解如何操作。
 
-## Edit the deployment script
+## 编辑部署脚本
 
-In order for the smart contract that you have compiled on your computer to exist on the Biya Chain Testnet, it needs to be deployed onto the network.
+为了让您在计算机上编译的智能合约存在于 Biya Chain 测试网上，需要将其部署到网络上。
 
-To do so, we will make use of a script that uses an `ethers` instance that is pre-configured by Hardhat using the values specified in `hardhat.config.js`.
+为此，我们将使用一个脚本，该脚本使用 Hardhat 预先配置的 `ethers` 实例，使用 `hardhat.config.js` 中指定的值。
 
-Open the file:  `script/deploy.js`
+打开文件：`script/deploy.js`
 
 ```js
 async function main() {
@@ -30,27 +30,27 @@ async function main() {
 }
 ```
 
-Recall that after compiling the smart contracts, we looked at `artifacts/contracts/Counter.sol/Counter.json`? In this script, `ethers.getContractFactory('Counter')` retrieves that file, and extracts ABI and EVM bytecode from it.
-The following lines use that information to construct a deployment transaction and submit it to the network.
-If successful, the address at which your smart contract was deployed will be output, for example:
+回想一下，在编译智能合约后，我们查看了 `artifacts/contracts/Counter.sol/Counter.json`？在此脚本中，`ethers.getContractFactory('Counter')` 检索该文件，并从中提取 ABI 和 EVM 字节码。
+接下来的几行使用该信息构造部署交易并将其提交到网络。
+如果成功，将输出智能合约部署的地址，例如：
 [`0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b`](https://testnet.blockscout.biyachain.network/address/0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b)
 
-Note that on other EVM networks, transactions (including deployment transactions), do not need to specify a gas price and a gas limit. Currently, however, this is necessary on Biya Chain.
+请注意，在其他 EVM 网络上，交易（包括部署交易）不需要指定 gas 价格和 gas 限制。但是，目前在 Biya Chain 上这是必需的。
 
-## Run the deployment script
+## 运行部署脚本
 
-Run the following command to deploy the smart contract:
+运行以下命令部署智能合约：
 
 ```shell
 npx hardhat run script/deploy.js --network biya_testnet
 ```
 
-Copy the deployed address, visit [`https://testnet.blockscout.biyachain.network`](https://testnet.blockscout.biyachain.network/), and paste the address in the search field.
-You'll visit the smart contract page in the block explorer for the smart contract that you have just deployed.
+复制部署的地址，访问 [`https://testnet.blockscout.biyachain.network`](https://testnet.blockscout.biyachain.network/)，并在搜索字段中粘贴地址。
+您将访问刚刚部署的智能合约在区块浏览器中的页面。
 
-If you click on the "Contract" tab, you should see the EVM bytecode for that contract, and it will match the EVM bytecode found in your artifacts directory after compilation.
+如果您点击"Contract"选项卡，您应该看到该合约的 EVM 字节码，它将与编译后的构件目录中找到的 EVM 字节码匹配。
 
-## Next steps
+## 下一步
 
-Now that you have deployed your smart contract, you are ready to verify that smart contract!
-Check out the [verify a smart contract using Hardhat](./verify-hardhat.md) tutorial next.
+现在您已经部署了智能合约，您已准备好验证该智能合约！
+接下来查看[使用 Hardhat 验证智能合约](./verify-hardhat.md)教程。

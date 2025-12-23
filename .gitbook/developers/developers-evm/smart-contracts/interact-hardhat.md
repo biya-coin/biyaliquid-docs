@@ -1,34 +1,34 @@
-# Interact with a smart contract using Hardhat
+# 使用 Hardhat 与智能合约交互
 
-## Prerequisites
+## 前置条件
 
-You should already have a Hardhat project set up, and have deployed your smart contract successfully.
-See the [deploy a smart contract using Hardhat](./deploy-hardhat.md) tutorial for how to do so.
+您应该已经设置了 Hardhat 项目，并成功部署了智能合约。
+请参阅[使用 Hardhat 部署智能合约](./deploy-hardhat.md)教程了解如何操作。
 
-Optionally, but strongly recommended: You should also have successfully verified your smart contract.
-See the [verify a smart contract using Hardhat](./verify-hardhat.md) tutorial for how to do so.
+可选但强烈建议：您还应该已成功验证了智能合约。
+请参阅[使用 Hardhat 验证智能合约](./verify-hardhat.md)教程了解如何操作。
 
-## Start the Hardhat console
+## 启动 Hardhat 控制台
 
-Use the following command to start an interactive Javascript REPL.
+使用以下命令启动交互式 Javascript REPL。
 
 ```shell
 npx hardhat console --network biya_testnet
 ```
 
-Now the shell will be a NodeJs REPL instead of your regular shell (bash, zsh, et cetera).
-In this REPL, we will create an instance of the `Counter` smart contract.
-To do so, use `ethers.getContractFactory(...)` and `contract.attach('0x...');`.
-For example, if the smart contract was deployed to `0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b`, the commands should look like this:
+现在 shell 将是 NodeJs REPL，而不是您常规的 shell（bash、zsh 等）。
+在这个 REPL 中，我们将创建 `Counter` 智能合约的实例。
+为此，使用 `ethers.getContractFactory(...)` 和 `contract.attach('0x...');`。
+例如，如果智能合约部署到 `0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b`，命令应如下所示：
 
 ```js
 const Counter = await ethers.getContractFactory('Counter');
 const counter = await Counter.attach('0x98798cc92651B1876e9Cc91EcBcfe64cac720a1b');
 ```
 
-Note that in this REPL, you will see `> ` as the shell prompt.
-The results of each prompt are output without this prefix.
-The contents of your terminal will therefore look similar to this:
+请注意，在此 REPL 中，您将看到 `> ` 作为 shell 提示符。
+每个提示符的结果输出时不带此前缀。
+因此，您的终端内容将类似于：
 
 ```js
 > const Counter = await ethers.getContractFactory('Counter');
@@ -37,80 +37,80 @@ undefined
 undefined
 ```
 
-Now you can interact with the smart contract using `counter`.
+现在您可以使用 `counter` 与智能合约交互。
 
-## Invoke function - query
+## 调用函数 - 查询
 
-Queries are read-only operations.
-So smart contract state **is not updated**.
-As *no state change* is needed, no wallets, signatures, or transaction fees (gas) are required.
+查询是只读操作。
+因此智能合约状态**不会更新**。
+由于*不需要状态更改*，因此不需要钱包、签名或交易费用（gas）。
 
-Use the following command to query the `value()` function.
+使用以下命令查询 `value()` 函数。
 
 ```js
 await counter.value();
 ```
 
-This should output the following.
+这应该输出以下内容。
 
 ```js
 0n
 ```
 
 {% hint style="info" %}
-Note that `0n` means `0`, the `n` suffix indicates that it is
-a [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
-and not a [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
+请注意，`0n` 表示 `0`，`n` 后缀表示它是
+[`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+而不是 [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)。
 
-This is because Solidity's `uint256` (the return type of the `value()` function in the smart contract),
-is not possible to be represented with `Number`,
-as the largest possible integer value for that is `2^53 - 1`.
-Thus `BigInt` needs to be used instead.
+这是因为 Solidity 的 `uint256`（智能合约中 `value()` 函数的返回类型），
+无法用 `Number` 表示，
+因为该类型的最大可能整数值是 `2^53 - 1`。
+因此需要使用 `BigInt`。
 {% endhint %}
 
-## Invoke function - transaction
+## 调用函数 - 交易
 
-Transactions are write operations.
-So smart contract **state is updated**.
-As *state change* can occur, the transaction must be signed by a wallet, and transaction fees (gas) need to be paid.
+交易是写操作。
+因此智能合约**状态会更新**。
+由于*可能发生状态更改*，交易必须由钱包签名，并且需要支付交易费用（gas）。
 
-Use the following command to transact the `increment(num)` function.
+使用以下命令交易 `increment(num)` 函数。
 
 ```js
 await counter.increment(1, { gasPrice: 160e6, gasLimit: 2e6 });
 ```
 {% hint style="info" %}
-Note that gas price is stated in *wei*.
-1 wei = 10^-18 BIYA.
+请注意，gas 价格以 *wei* 为单位。
+1 wei = 10^-18 BIYA。
 {% endhint %}
 
-If successful, this should produce a result similar to the following:
+如果成功，这应该产生类似以下的结果：
 
 ```js
 ContractTransactionResponse { ...
 ```
 
-After updating the state, you can query the new state.
-The result will reflect the state change.
+更新状态后，您可以查询新状态。
+结果将反映状态更改。
 
 ```js
 await counter.value();
 ```
 
-This time the result should be `1n` because `0 + 1 = 1`.
+这次结果应该是 `1n`，因为 `0 + 1 = 1`。
 
 ```js
 1n
 ```
 
-## Stop the Hardhat console
+## 停止 Hardhat 控制台
 
-Press `Ctrl+C` twice in a row, or enter the `.exit` command.
+连续按两次 `Ctrl+C`，或输入 `.exit` 命令。
 
-## Next steps
+## 下一步
 
-Congratulations, you have completed this entire guide for developing EVM smart contracts on Biya Chain using Hardhat!
+恭喜，您已经完成了使用 Hardhat 在 Biya Chain 上开发 EVM 智能合约的整个指南！
 
-Smart contracts do not provide a user experience for non-technical users.
-To cater to them, you will need to build a decentralised application.
-To do so, check out the [your first dApp](../dapps/README.md) guides!
+智能合约不为非技术用户提供用户体验。
+为了满足他们的需求，您需要构建一个去中心化应用程序。
+要做到这一点，请查看[您的第一个 dApp](../dapps/README.md) 指南！
