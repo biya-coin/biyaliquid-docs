@@ -396,26 +396,6 @@ type SubaccountPosition struct {
 }
 ```
 
-## ExpiryFuturesMarketInfo
-
-`ExpiryFuturesMarketInfo` 是保存到期期货市场信息的结构。\
-它通过市场的 ID 存储。
-
-```go
-type ExpiryFuturesMarketInfo struct {
-	// market ID.
-	MarketId string
-	// expiration_timestamp defines the expiration time for a time expiry futures market.
-	ExpirationTimestamp int64
-	// expiration_twap_start_timestamp defines the start time of the TWAP calculation window
-	TwapStartTimestamp int64
-	// expiration_twap_start_price_cumulative defines the cumulative price for the start of the TWAP window
-	ExpirationTwapStartPriceCumulative math.LegacyDec
-	// settlement_price defines the settlement price for a time expiry futures market.
-	SettlementPrice math.LegacyDec
-}
-```
-
 ## PerpetualMarketInfo
 
 `PerpetualMarketInfo` 是用于保存永续市场信息的结构。

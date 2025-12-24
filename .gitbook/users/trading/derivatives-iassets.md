@@ -8,9 +8,9 @@ iAssets 是一类新的现实世界资产（RWA）衍生品，以完全链上、
 * 基于头寸的风险敞口
 * 跨市场可组合性（例如，将 iAssets 与其他链上衍生品和 DeFi 策略结合）
 
-iAssets 不需要预融资或包装标的资产。相反，它们纯粹作为合成衍生品存在，由 Biya Chain 的链上永续期货引擎和去中心化预言机基础设施提供支持。有关 iAssets 的更多信息可以在[白皮书](https://biyachain.com/iAssets_Paper.pdf)中找到。
+iAssets 不需要预融资或包装标的资产。相反，它们纯粹作为合成衍生品存在，由 Biya Chain 的去中心化预言机基础设施提供支持。有关 iAssets 的更多信息可以在[白皮书](https://biyachain.com/iAssets_Paper.pdf)中找到。
 
-iAssets 的交易方式与其他 Biya Chain 永续期货合约相同：
+iAssets 的交易方式：
 
 * 保证金以 USDT（或其他支持的稳定币）存入
 * 可使用杠杆（因市场而异，但股票通常为 25 倍，大宗商品为 50 倍，外汇为 100 倍）

@@ -92,19 +92,6 @@ title: State Transitions
 - 使用 `msg` 对象上的必需参数启动永续市场，如果失败则回滚
 - 最后将即时上币费发送到社区支出池
 
-## 即时到期期货市场启动
-
-即时到期期货市场启动操作由 `MsgInstantExpiryFuturesMarketLaunch` 执行，该消息包含 `Sender`、`Ticker`、`QuoteDenom`、`OracleBase`、`OracleQuote`、`OracleScaleFactor`、`OracleType`、`Expiry`、`MakerFeeRate`、`TakerFeeRate`、`InitialMarginRatio`、`MaintenanceMarginRatio`、`MinPriceTickSize` 和 `MinQuantityTickSize` 字段。
-
-**步骤**
-
-- 从 `msg.Ticker`、`msg.QuoteDenom`、`msg.OracleBase`、`msg.OracleQuote`、`msg.OracleType` 和 `msg.Expiry` 计算 `marketID`
-- 检查是否存在相同市场启动提案（通过 `marketID`），如果已存在则回滚
-- 从 `msg.Sender` 发送即时上币费（params.DerivativeMarketInstantListingFee）到 `exchange` 模块账户
-- 使用 `msg` 对象上的必需参数启动到期期货市场，如果失败则回滚
-- 触发 `EventExpiryFuturesMarketUpdate` 事件，包含市场信息
-- 最后将即时上币费发送到社区支出池
-
 ## 现货限价单创建
 
 现货限价单创建由 `MsgCreateSpotLimitOrder` 执行，该消息包含 `Sender` 和 `Order`。
@@ -368,22 +355,6 @@ title: State Transitions
 - 验证 `marketID` 的保险基金存在
 - 从 `exchange` 模块参数计算 `defaultFundingInterval`、`nextFundingTimestamp`、`relayerFeeShareRate`
 - 执行 `SetDerivativeMarketWithInfo` 将市场信息设置到存储中，包含 `market`、`marketInfo` 和 `funding` 对象
-
-## 到期期货市场启动提案
-
-到期期货市场启动由 `ExpiryFuturesMarketLaunchProposal` 处理，该提案包含 `Title`、`Description`、`Ticker`、`QuoteDenom`、`OracleBase`、`OracleQuote`、`OracleScaleFactor`、`OracleType`、`Expiry`、`MakerFeeRate`、`TakerFeeRate`、`InitialMarginRatio`、`MaintenanceMarginRatio`、`MinPriceTickSize` 和 `MinQuantityTickSize` 字段。
-
-**步骤**
-
-- 对提案进行 `ValidateBasic`
-- 验证 `quoteDenom`
-- 从 `p.Ticker`、`p.QuoteDenom`、`p.OracleBase`、`p.OracleQuote`、`p.OracleType` 和 `p.Expiry` 计算 `marketID`
-- 验证 `marketID` 的活跃或非活跃到期期货市场不存在
-- 如果到期时间已超过 `ctx.BlockTime()`，则回滚
-- 尝试通过 `oracleBase`、`oracleQuote`、`oracleScaleFactor`、`oracleType` 获取衍生品市场价格以检查价格预言机
-- 验证 `marketID` 的保险基金存在
-- 根据交易所模块参数计算 RelayerFeeShareRate。**注意：** 对于 BIYA 货币，中继者分享率设置为 100%
-- 执行 `SetDerivativeMarketWithInfo` 将市场信息设置到存储中，包含 `market`、`marketInfo` 对象 **注意：** TwapStartTimestamp 设置为 `expiry - thirtyMinutesInSeconds`。
 
 ## 现货市场参数更新提案
 

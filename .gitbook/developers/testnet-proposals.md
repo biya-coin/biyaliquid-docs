@@ -2,11 +2,6 @@
 
 假设您想在 `testnet` 上提交提案。由于提案的投票时间很短，我们建议降低提案的存款，以免提案直接进入投票阶段。基本上，它应该略低于 `min_deposit` 值。
 
-提交提案后，您应该联系团队：
-
-1. 加入 [Biya Chain Discord 服务器](https://discord.gg/biyachain)并找到相关频道。
-2. 加入 [Biya Chain 开发者 Telegram 频道](https://t.me/+8Y_0HOFLhnRlZDU9)。
-
 以下是 `GrantProviderPrivilegeProposal` 的示例
 
 ```bash

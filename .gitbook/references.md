@@ -56,13 +56,6 @@ description: Important references and links for the Biya Chain Ecosystem
 | [swap-contract](https://github.com/biya-coin/swap-contract)                                  | 开源原子代币交换合约,展示两种不同代币之间的即时交换                                   |
 | [test-tube](https://github.com/biya-coin/test-tube)                                          | 用于为 CosmWasm 智能合约构建测试环境的通用库                                                        |
 
-### 开发者支持
-
-在 Discord 或 Telegram 上寻找开发者支持
-
-1. 加入 [Biya Chain Discord 服务器](https://discord.gg/biyachain) 并找到相关频道
-2. 加入 [Biya Chain 开发者 Telegram 频道](https://t.me/+qorn-J06fzA0YTZl)
-
 ### 公共端点
 
 有关公共端点列表,请访问 [public-endpoints.md](operations/public-endpoints.md "mention")

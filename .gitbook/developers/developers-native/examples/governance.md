@@ -6,7 +6,7 @@ Biya Chain 是一个社区运营的区块链，质押了 BIYA 的用户能够参
 
 ## 消息
 
-让我们探索（并提供示例）Governance 模块导出的消息，我们可以使用这些消息与 Biya Chain 链交互。例如，您可以使用这些消息提议新的现货、永续或期货市场。
+让我们探索（并提供示例）Governance 模块导出的消息，我们可以使用这些消息与 Biya Chain 链交互。例如，您可以使用这些消息提议新的现货、永续市场。
 
 ### MsgGovDeposit
 
@@ -234,79 +234,6 @@ const marketWithTickSizes = {
 };
 
 const message = MsgSubmitProposalPerpetualMarketLaunch.fromJSON({
-  market: marketWithTickSizes,
-  proposer: biyachainAddress,
-  deposit: {
-    denom,
-    amount,
-  },
-});
-
-const txHash = await new MsgBroadcasterWithPk({
-  privateKey,
-  network: Network.Testnet,
-}).broadcast({
-  msgs: message,
-});
-```
-
-### MsgSubmitProposalExpiryFuturesMarketLaunch
-
-到期期货合约是两个交易对手之间的协议，以特定的未来价格买卖特定数量的基础资产，该价格将在未来的指定日期到期。这是您可以用来为指定代币对创建期货市场的消息。
-
-```ts
-import {
-  TokenStaticFactory,
-  MsgBroadcasterWithPk,
-  MsgSubmitProposalExpiryFuturesMarketLaunch,
-} from "@biya-coin/sdk-ts";
-import { toChainFormat } from "@biya-coin/utils";
-import { getNetworkEndpoints, Network } from "@biya-coin/networks";
-// 参考 https://github.com/biya-coin/biyachain-lists
-import { tokens } from "../data/tokens.json";
-
-const tokenStaticFactory = new TokenStaticFactory(tokens as TokenStatic[]);
-
-const denom = "biya";
-const biyachainAddress = "biya...";
-const privateKey = "0x...";
-const amount = toChainFormat(1).toFixed();
-
-const market = {
-  title: "BIYA/USDT 期货市场启动",
-  description:
-    "此提案将启动 BIYA/USDT 现货市场，做市商和接受者费用分别为 0.001% 和 0.002%",
-  ticker: "BIYA/USDT 24-MAR-2023",
-  quoteDenom: "peggy0x...",
-  oracleBase: "BIYA",
-  oracleQuote: "USDT",
-  expiry: 1000000, // 市场到期时间，以毫秒为单位
-  oracleScaleFactor: 6,
-  oracleType: 10, // BAND IBC
-  initialMarginRatio: "0.05",
-  maintenanceMarginRatio: "0.02",
-  makerFeeRate: "0.01",
-  takerFeeRate: "0.02",
-  minPriceTickSize: "0.01",
-  minQuantityTickSize: "0.01",
-};
-
-const quoteDenom = await tokenStaticFactory.toToken(market.quoteDenom);
-
-const marketWithDecimals = {
-  ...market,
-  quoteTokenDecimals: quoteDenom ? quoteDenom.decimals : 6,
-};
-
-const marketWithTickSizes = {
-  ...market,
-  minPriceTickSize: toChainFormat(
-    marketWithDecimals.minPriceTickSize,
-    marketWithDecimals.quoteTokenDecimals
-  ).toFixed(),
-};
-
-const message = MsgSubmitProposalExpiryFuturesMarketLaunch.fromJSON({
   market: marketWithTickSizes,
   proposer: biyachainAddress,
   deposit: {

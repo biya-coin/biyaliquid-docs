@@ -4,7 +4,7 @@
 前提阅读 [Biya Chain 预言机模块](../../developers-native/biyachain/oracle/)
 {% endhint %}
 
-本节的目标是为用户提供有关如何在 Biya Chain 上启动和维护预言机提供商的指南。这些预言机可用于各种目的，如永续市场、到期期货市场、[二元期权市场](../../developers-native/biyachain/exchange/02_binary_options_markets.md)等。
+本节的目标是为用户提供有关如何在 Biya Chain 上启动和维护预言机提供商的指南。这些预言机可用于各种目的，如永续市场、[二元期权市场](../../developers-native/biyachain/exchange/02_binary_options_markets.md)等。
 
 首先，什么是预言机提供商？它是一种预言机**类型**，允许外部方将价格源中继到 Biya Chain 链。这些外部方称为提供商。提供商标识每个外部方，链上提供的所有价格源都存储在该特定提供商下。这允许在 Biya Chain 上创建自定义价格源，可以为在 Biya Chain 上启动的创意和高级市场提供支持。
 
