@@ -1,14 +1,14 @@
-# Mainnet Deployment
+# 主网部署
 
-This guide will get you started with the governance process of deploying and instantiating CosmWasm smart contracts on Biya Chain Mainnet.
+本指南将帮助您开始在 Biya Chain 主网上部署和实例化 CosmWasm 智能合约的治理流程。
 
-### Submit a Code Upload Proposal
+### 提交代码上传提案
 
-In this section, you will learn how to submit a smart contract code proposal and vote for it.
+在本节中,您将学习如何提交智能合约代码提案并为其投票。
 
-Biya Chain network participants can propose smart contracts deployments and vote in governance to enable them. The `wasmd` authorization settings are by on-chain governance, which means deployment of a contract is completely determined by governance. Because of this, a governance proposal is the first step to uploading contracts to Biya Chain mainnet.
+Biya Chain 网络参与者可以提议智能合约部署并在治理中投票以启用它们。`wasmd` 授权设置由链上治理决定,这意味着合约的部署完全由治理决定。因此,治理提案是将合约上传到 Biya Chain 主网的第一步。
 
-Sample usage of `biyachaind` to start a governance proposal to upload code to the chain:
+使用 `biyachaind` 启动治理提案以将代码上传到链的示例用法:
 
 ```bash
 biyachaind tx wasm submit-proposal wasm-store artifacts/cw_controller.wasm
@@ -26,18 +26,18 @@ biyachaind tx wasm submit-proposal wasm-store artifacts/cw_controller.wasm
 --output json
 ```
 
-The command `biyachaind tx gov submit-proposal wasm-store` submits a wasm binary proposal. The code will be deployed if the proposal is approved by governance.
+命令 `biyachaind tx gov submit-proposal wasm-store` 提交 wasm 二进制提案。如果提案获得治理批准,代码将被部署。
 
-Let’s go through two key flags `instantiate-everybody` and `instantiate-only-address`, which set instantiation permissions of the uploaded code. By default, everyone can instantiate the contract.
+让我们看看两个关键标志 `instantiate-everybody` 和 `instantiate-only-address`,它们设置上传代码的实例化权限。默认情况下,每个人都可以实例化合约。
 
 ```bash
 --instantiate-everybody boolean # Everybody can instantiate a contract from the code, optional
 --instantiate-only-address string # Only this address can instantiate a contract instance from the code
 ```
 
-### Contract Instantiation (No Governance)
+### 合约实例化(无需治理)
 
-In most cases, you don’t need to push another governance proposal to instantiate. Simply instantiate with `biyachaind tx wasm instantiate`. You only need a governance proposal to _upload_ a contract. You don’t need to go through governance to instantiate unless if the contract has the `--instantiate-everybody` flag to set to `false`, and `--instantiate-only-address` flag set to the governance module. The default value for `--instantiate-everybody` is `true`, and in this case you can permissionlessly instantiate via `biyachaind tx wasm instantiate`.
+在大多数情况下,您不需要推送另一个治理提案来实例化。只需使用 `biyachaind tx wasm instantiate` 实例化即可。您只需要治理提案来_上传_合约。除非合约的 `--instantiate-everybody` 标志设置为 `false`,并且 `--instantiate-only-address` 标志设置为治理模块,否则您不需要通过治理来实例化。`--instantiate-everybody` 的默认值为 `true`,在这种情况下,您可以通过 `biyachaind tx wasm instantiate` 无需许可地实例化。
 
 ```bash
 biyachaind tx wasm instantiate [code_id_int64] [json_encoded_init_args] --label [text] --admin [address,optional] --amount [coins,optional]  [flags]
@@ -77,7 +77,7 @@ Flags:
   -y, --yes                      Skip tx broadcasting prompt confirmation
 ```
 
-An example `biyachaind tx wasm instantiate` can look something like this:
+一个 `biyachaind tx wasm instantiate` 的示例可能如下所示:
 
 ```bash
 biyachaind tx wasm instantiate \
@@ -93,9 +93,9 @@ biyachaind tx wasm instantiate \
 --node=https://sentry.tm.biyachain.network:443 \
 ```
 
-### Contract Instantiation (Governance)
+### 合约实例化(治理)
 
-As mentioned above, contract instantiation permissions on mainnet depend on the flags used when uploading the code. By default, it is set to permissionless, as we can verify on the genesis `wasmd` Biya Chain setup:
+如上所述,主网上的合约实例化权限取决于上传代码时使用的标志。默认情况下,它设置为无需许可,正如我们可以在创世 `wasmd` Biya Chain 设置中验证的那样:
 
 ```json
 "wasm": {
@@ -113,13 +113,13 @@ As mentioned above, contract instantiation permissions on mainnet depend on the 
         }
 ```
 
-However, if the `--instantiate-everybody` flag is set to `false`, then the contract instantiation must go through governance.
+但是,如果 `--instantiate-everybody` 标志设置为 `false`,则合约实例化必须通过治理。
 
 {% hint style="info" %}
-The Biya Chain testnet is permissionless by default in order to allow developers to easily deploy contracts.
+Biya Chain 测试网默认为无需许可,以允许开发者轻松部署合约。
 {% endhint %}
 
-#### Contract Instantiation Proposal
+#### 合约实例化提案
 
 ```bash
  biyachaind tx gov submit-proposal instantiate-contract [code_id_int64] [json_encoded_init_args] --label [text] --title [text] --description [text] --run-as [address] --admin [address,optional] --amount [coins,optional] [flags]
@@ -161,10 +161,10 @@ Flags:
   -y, --yes                      Skip tx broadcasting prompt confirmation
 ```
 
-### Contract Migration
+### 合约迁移
 
-Migration is the process through which a given smart contract's code can be swapped out or 'upgraded'.
+迁移是可以交换或"升级"给定智能合约代码的过程。
 
-When instantiating a contract, there is an optional admin field that you can set. If it is left empty, the contract is immutable. If the admin is set (to an external account or governance contract), that account can trigger a migration. The admin can also reassign the admin role, or even make the contract fully immutable if desired. However, keep in mind that when migrating from an old contract to a new contract, the new contract needs to be aware of how the state was previously encoded.
+在实例化合约时,有一个可选的管理员字段可以设置。如果留空,合约是不可变的。如果设置了管理员(设置为外部账户或治理合约),该账户可以触发迁移。管理员还可以重新分配管理员角色,或者如果需要,甚至可以使合约完全不可变。但是,请记住,当从旧合约迁移到新合约时,新合约需要了解状态之前是如何编码的。
 
-A more detailed description of the technical aspects of migration can be found in the [CosmWasm migration documentation](https://docs.cosmwasm.com/docs/smart-contracts/migration).
+有关迁移技术方面的更详细描述,请参阅 [CosmWasm 迁移文档](https://docs.cosmwasm.com/docs/smart-contracts/migration)。

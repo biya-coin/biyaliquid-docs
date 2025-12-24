@@ -1,21 +1,21 @@
-# Local Development
+# 本地开发
 
-This guide will get you started deploying `cw20` smart contracts on a local Biya Chain network running on your computer.
+本指南将帮助您开始在计算机上运行的本地 Biya Chain 网络上部署 `cw20` 智能合约。
 
-We'll use the `cw20-base` contract from [CosmWasm's collection of specifications and contracts](https://github.com/CosmWasm/cw-plus) designed for production use on real networks. `cw20-base` is a basic implementation of a `cw20` compatible contract that can be imported in any custom contract you want to build on. It contains a straightforward but complete implementation of the cw20 spec along with all extensions. `cw20-base` can be deployed as-is or imported by other contracts.
+我们将使用来自 [CosmWasm 的规范和合约集合](https://github.com/CosmWasm/cw-plus) 的 `cw20-base` 合约,该合约专为在真实网络上的生产使用而设计。`cw20-base` 是 `cw20` 兼容合约的基本实现,可以导入到您想要构建的任何自定义合约中。它包含 cw20 规范的直接但完整的实现以及所有扩展。`cw20-base` 可以按原样部署或由其他合约导入。
 
-### Prerequisites
+### 先决条件
 
-Install Go, Rust, and other Cosmwasm dependencies by following the instructions:
+按照以下说明安装 Go、Rust 和其他 Cosmwasm 依赖项:
 
 1. [Go](https://docs.cosmwasm.com/docs/getting-started/installation#go)
 2. [Rust](https://docs.cosmwasm.com/docs/getting-started/installation#rust)
 
-Before starting, make sure you have [`rustup`](https://rustup.rs/) along with recent versions of `rustc` and `cargo` installed. Currently, we are testing on Rust v1.58.1+.
+在开始之前,请确保已安装 [`rustup`](https://rustup.rs/) 以及最新版本的 `rustc` 和 `cargo`。目前,我们在 Rust v1.58.1+ 上进行测试。
 
-You also need to have the `wasm32-unknown-unknown` target installed as well as the `cargo-generate` Rust crate.
+您还需要安装 `wasm32-unknown-unknown` 目标以及 `cargo-generate` Rust crate。
 
-You can check versions via the following commands:
+您可以通过以下命令检查版本:
 
 ```bash
 rustc --version
@@ -29,13 +29,13 @@ cargo install cargo-generate
 
 ### biyachaind
 
-Make sure you have `biyachaind` installed locally. You can follow the [install-biyachaind.md](../developers/biyachaind/install.md "mention")guide to get `biyachaind` and other prerequisites running locally.
+确保您已在本地安装 `biyachaind`。您可以按照 [install-biyachaind.md](../developers/biyachaind/install.md "mention") 指南在本地运行 `biyachaind` 和其他先决条件。
 
-Once you have `biyachaind` installed, you should also [start a local chain instance.](..//developers/biyachaind/install.md#start-biyachaind)
+安装 `biyachaind` 后,您还应该 [启动本地链实例](..//developers/biyachaind/install.md#start-biyachaind)。
 
-### Compile CosmWasm Contracts
+### 编译 CosmWasm 合约
 
-In this step, we will get all CW production template contracts and compile them using the [CosmWasm Rust Optimizer](https://github.com/CosmWasm/rust-optimizer) Docker image for compiling multiple contracts (called `workspace-optimizer`)—see [here](https://hub.docker.com/r/cosmwasm/workspace-optimizer/tags) (x86) or [here](https://hub.docker.com/r/cosmwasm/workspace-optimizer-arm64/tags) (ARM) for latest versions. This process may take a bit of time and CPU power.
+在此步骤中,我们将获取所有 CW 生产模板合约,并使用 [CosmWasm Rust Optimizer](https://github.com/CosmWasm/rust-optimizer) Docker 镜像编译它们,该镜像用于编译多个合约(称为 `workspace-optimizer`)——请参阅 [这里](https://hub.docker.com/r/cosmwasm/workspace-optimizer/tags) (x86) 或 [这里](https://hub.docker.com/r/cosmwasm/workspace-optimizer-arm64/tags) (ARM) 获取最新版本。此过程可能需要一些时间和 CPU 资源。
 
 ```bash
 git clone https://github.com/CosmWasm/cw-plus
@@ -60,9 +60,9 @@ docker run --rm -v "$(pwd)":/code \
 cosmwasm/workspace-optimizer-arm64:0.12.12
 ```
 
-The docker script builds and optimizes all the CW contracts in the repo, with the compiled contracts located under the `artifacts` directory. Now we can deploy the `cw20_base.wasm` contract (`cw20_base-aarch64.wasm` if compiled on an ARM device).
+docker 脚本构建并优化仓库中的所有 CW 合约,编译的合约位于 `artifacts` 目录下。现在我们可以部署 `cw20_base.wasm` 合约(如果在 ARM 设备上编译,则为 `cw20_base-aarch64.wasm`)。
 
-### Upload the CosmWasm Contract to the Chain
+### 将 CosmWasm 合约上传到链
 
 ```bash
 # inside the CosmWasm/cw-plus repo 
@@ -87,7 +87,7 @@ tx: null
 txhash: 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
 ```
 
-Then query the transaction by the `txhash` to verify the contract was indeed deployed.
+然后通过 `txhash` 查询交易以验证合约确实已部署。
 
 ```bash
 biyachaind query tx 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
@@ -252,7 +252,7 @@ tx:
 txhash: 4CFB63A47570C4CFBE8E669273B26BEF6EAFF922C07480CA42180C52219CE784
 ```
 
-Inspecting the output more closely, we can see the `code_id` of 1 for the contract
+更仔细地检查输出,我们可以看到合约的 `code_id` 为 1
 
 ```bash
 logs:
@@ -285,11 +285,11 @@ logs:
   msg_index: 0
 ```
 
-We’ve uploaded the contract code, but we still need to instantiate the contract.
+我们已经上传了合约代码,但我们仍然需要实例化合约。
 
-### Instantiate the Contract
+### 实例化合约
 
-Before instantiating the contract, let's take a look at the CW-20 contract function signature for `instantiate`.
+在实例化合约之前,让我们看一下 CW-20 合约的 `instantiate` 函数签名。
 
 ```rust
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -301,7 +301,7 @@ pub fn instantiate(
 ) -> Result<Response, ContractError> {
 ```
 
-Notably, it contains the `InstantiateMsg` parameter which contains the token name, symbol, decimals, and other details.
+值得注意的是,它包含 `InstantiateMsg` 参数,其中包含代币名称、符号、小数位数和其他详细信息。
 
 ```rust
 #[derive(Serialize, Deserialize, JsonSchema, Debug, Clone, PartialEq)]
@@ -315,13 +315,13 @@ pub struct InstantiateMsg {
 }
 ```
 
-The first step of instantiating the contract is to select an address to supply with our initial CW20 token allocation. In our case, we can just use the genesis address since we have the keys already set up, but feel free to generate new addresses and keys.
+实例化合约的第一步是选择一个地址来提供我们的初始 CW20 代币分配。在我们的例子中,我们可以只使用创世地址,因为我们已经设置了密钥,但您可以随意生成新的地址和密钥。
 
 {% hint style="warning" %}
-Make sure you have the private keys for the address you choose—you won't be able to test token transfers from the address otherwise. In addition, the chosen address must be a valid address on the chain (the address must have received funds at some point in the past) and must have balances to pay for gas when executing the contract.
+确保您拥有所选地址的私钥——否则您将无法测试从该地址转移代币。此外,所选地址必须是链上的有效地址(该地址必须在过去某个时间点收到过资金),并且必须有余额来支付执行合约时的 gas 费用。
 {% endhint %}
 
-To find the genesis address, run:
+要找到创世地址,请运行:
 
 ```bash
 yes 12345678 | biyachaind keys show genesis
@@ -337,7 +337,7 @@ yes 12345678 | biyachaind keys show genesis
   mnemonic: ""
 ```
 
-Run the CLI command with `code_id` `1` along with the JSON encoded initialization arguments (with your selected address) and a label (a human-readable name for this contract in lists) to instantiate the contract:
+使用 `code_id` `1` 以及 JSON 编码的初始化参数(使用您选择的地址)和标签(列表中此合约的人类可读名称)运行 CLI 命令以实例化合约:
 
 ```bash
 CODE_ID=1
@@ -345,9 +345,9 @@ INIT='{"name":"Albcoin","symbol":"ALB","decimals":6,"initial_balances":[{"addres
 yes 12345678 | biyachaind tx wasm instantiate $CODE_ID $INIT --label="Albcoin Token" --from=genesis --chain-id="biyachain-1" --yes --gas-prices=500000000biya --gas=20000000 --no-admin
 ```
 
-Now the address of the instantiated contract can be obtained on `http://localhost:10337/swagger/#/Query/ContractsByCode`
+现在可以在 `http://localhost:10337/swagger/#/Query/ContractsByCode` 上获取实例化合约的地址
 
-And the contract info metadata can be obtained on `http://localhost:10337/swagger/#/Query/ContractInfo` or by CLI query
+并且可以在 `http://localhost:10337/swagger/#/Query/ContractInfo` 上或通过 CLI 查询获取合约信息元数据
 
 ```bash
 CONTRACT=$(biyachaind query wasm list-contract-by-code $CODE_ID --output json | jq -r '.contracts[-1]')
@@ -371,9 +371,9 @@ contract_info:
   label: Albcoin Token
 ```
 
-### Querying the contract
+### 查询合约
 
-The entire contract state can be queried with:
+可以使用以下命令查询整个合约状态:
 
 ```bash
 biyachaind query wasm contract-state all $CONTRACT
@@ -396,7 +396,7 @@ pagination:
   total: "0"
 ```
 
-The individual user’s token balance can also be queried with:
+也可以使用以下命令查询单个用户的代币余额:
 
 ```bash
 BALANCE_QUERY='{"balance": {"address": "biya10cfy5e6qt2zy55q2w2ux2vuq862zcyf4fmfpj3"}}'
@@ -409,14 +409,14 @@ biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 {"data":{"balance":"69420"}}
 ```
 
-### Transferring Tokens
+### 转移代币
 
 ```bash
 TRANSFER='{"transfer":{"recipient":"biya1dzqd00lfd4y4qy2pxa0dsdwzfnmsu27hgttswz","amount":"420"}}'
 yes 12345678 | biyachaind tx wasm execute $CONTRACT "$TRANSFER" --from genesis --chain-id="biyachain-1" --yes --gas-prices=500000000biya --gas=20000000
 ```
 
-Then confirm the balance transfer occurred successfully with:
+然后使用以下命令确认余额转移成功:
 
 ```bash
 # first address balance query
@@ -430,7 +430,7 @@ biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 {"data":{"balance":"69000"}}
 ```
 
-And confirm the recipient received the funds:
+并确认接收者收到了资金:
 
 ```bash
 # recipient's address balance query
@@ -444,14 +444,14 @@ biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 {"data":{"balance":"420"}}
 ```
 
-## Testnet Development
+## 测试网开发
 
-Here are the main differences between a `local` and `testnet` development/deployment
+以下是 `local` 和 `testnet` 开发/部署之间的主要区别
 
-* You can use our [Biya Chain Testnet Faucet](https://testnet.faucet.biyachain.network) to get testnet funds to your address,
-* You can use the [Biya Chain Testnet Explorer](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/) to query your transactions and get more details,
-* When you are using `biyachaind` you have to specify the `testnet` rpc using the `node` flag `--node=https://testnet.sentry.tm.biyachain.network:443`
-* Instead of using `biyachain-1` as a `chainId` you should use `biyachain-888` i.e the `chain-id` flag should now be `--chain-id="biyachain-888"`
-* You can use the [Biya Chain Testnet Explorer](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/) to find information about the `codeId` of the uploaded smart contracts OR find your instantiated smart contract
+* 您可以使用我们的 [Biya Chain 测试网水龙头](https://testnet.faucet.biyachain.network) 将测试网资金发送到您的地址,
+* 您可以使用 [Biya Chain 测试网浏览器](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/) 查询您的交易并获取更多详细信息,
+* 当您使用 `biyachaind` 时,您必须使用 `node` 标志 `--node=https://testnet.sentry.tm.biyachain.network:443` 指定 `testnet` rpc
+* 不要使用 `biyachain-1` 作为 `chainId`,您应该使用 `biyachain-888`,即 `chain-id` 标志现在应该是 `--chain-id="biyachain-888"`
+* 您可以使用 [Biya Chain 测试网浏览器](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/) 查找有关已上传智能合约的 `codeId` 的信息或查找您实例化的智能合约
 
-You can read more on the `biyachaind` and how to use it to query/send transactions against `testnet` [using-biyachaind.md](../developers/biyachaind/use.md "mention").
+您可以阅读更多关于 `biyachaind` 以及如何使用它对 `testnet` 进行查询/发送交易的信息 [using-biyachaind.md](../developers/biyachaind/use.md "mention")。

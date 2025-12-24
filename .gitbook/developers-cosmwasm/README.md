@@ -2,8 +2,8 @@
 icon: comet
 ---
 
-# Cosmwasm Developers
+# Cosmwasm 开发者
 
-CosmWasm is a novel smart contracting platform built for the Cosmos ecosystem. You can learn more about CosmWasm from [the CosmWasm docs](https://cosmwasm.cosmos.network/), or see the [CosmWasm Book](https://book.cosmwasm.com/index.html) for a guide on creating CosmWasm smart contracts.
+CosmWasm 是为 Cosmos 生态系统构建的新型智能合约平台。您可以从 [CosmWasm 文档](https://cosmwasm.cosmos.network/) 了解更多关于 CosmWasm 的信息,或查看 [CosmWasm Book](https://book.cosmwasm.com/index.html) 获取创建 CosmWasm 智能合约的指南。
 
-**Start your builder journey on Biya Chain using Cosmwasm here**: [Your First CosmWasm Smart Contracts](./smart-contracts/your-first-smart-contract.md "mention")
+**在此开始您的 Biya Chain Cosmwasm 构建之旅**: [您的第一个 CosmWasm 智能合约](./smart-contracts/your-first-smart-contract.md "mention")

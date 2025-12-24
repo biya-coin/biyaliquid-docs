@@ -1,20 +1,20 @@
-# Configuring React
+# 配置 React
 
-## React - Library for building user interfaces
+## React - 用于构建用户界面的库
 
-React is currently one of the most popular UI Frameworks. We are going to help you configure React + the Vite builder with the `@biya-coin` packages and some polyfills since you'll need them to interact with Crypto wallets.
+React 目前是最流行的 UI 框架之一。我们将帮助您使用 `@biya-coin` 包和一些 polyfills 配置 React + Vite 构建器，因为您需要它们来与加密钱包交互。
 
-### 1. Installing React
+### 1. 安装 React
 
-Follow the Getting Started guide at [Vite Docs](https://vitejs.dev/guide/) and setup your application.
+按照 [Vite 文档](https://vitejs.dev/guide/)中的入门指南设置您的应用程序。
 
 ```bash
 $ npm create vite@latest
 ```
 
-### 2. Installing @biya-coin packages
+### 2. 安装 @biya-coin 包
 
-You can install the @biya-coin packages using yarn.
+您可以使用 yarn 安装 @biya-coin 包。
 
 ```bash
 $ yarn add @biya-coin/sdk-ts @biya-coin/networks @biya-coin/ts-types @biya-coin/utils
@@ -23,16 +23,16 @@ $ yarn add @biya-coin/sdk-ts @biya-coin/networks @biya-coin/ts-types @biya-coin/
 $ yarn add @biya-coin/wallet-strategy
 ```
 
-These are the most commonly used packages from the `biyachain-ts` monorepo.
+这些是 `biyachain-ts` monorepo 中最常用的包。
 
-### 3. Configuring Vite and adding polyfills
+### 3. 配置 Vite 并添加 polyfills
 
-First, add the needed polyfill packages and buffer
+首先，添加所需的 polyfill 包和 buffer
 
 {% hint style="info" %}
-One of the main dependencies for any crypto-related decentralized application is `Buffer`. To make sure we add `Buffer` To our project, we can install it as a dependency and then make a import it to the global/window object.
+任何与加密相关的去中心化应用程序的主要依赖项之一是 `Buffer`。为了确保我们将 `Buffer` 添加到项目中，我们可以将其作为依赖项安装，然后将其导入到全局/window 对象。
 
-Example `vite.config.ts` is shared below.
+示例 `vite.config.ts` 如下所示。
 {% endhint %}
 
 ```bash
@@ -41,7 +41,7 @@ $ yarn add -D @bangjelkoski/vite-plugin-node-polyfills
 $ yarn add buffer
 ```
 
-Finally, make sure to import the `buffer` in your `main.tsx` on top of the file
+最后，确保在文件顶部的 `main.tsx` 中导入 `buffer`
 
 ```typescript
 import { Buffer } from "buffer";
@@ -51,9 +51,9 @@ if (!window.Buffer) {
 }
 ```
 
-### 4. Using a state management
+### 4. 使用状态管理
 
-React has a lot of different state managers, pick the one you are going to use and install it. You can use the build in `Context API` for state management without the need to install a third-party solution. The preferred third-party state managers are `Redux` and `Zustand`.
+React 有许多不同的状态管理器，选择您要使用的并安装它。您可以使用内置的 `Context API` 进行状态管理，而无需安装第三方解决方案。首选的第三方状态管理器是 `Redux` 和 `Zustand`。
 
 ```bash
 $ yarn add zustand
@@ -61,11 +61,11 @@ $ yarn add zustand
 
 ### 5. vite.config.ts
 
-The last step is to configure Vite to use the `node-polyfills` that we installed earlier.
+最后一步是配置 Vite 以使用我们之前安装的 `node-polyfills`。
 
-Open up `vite.config.ts` and add `node-polyfills` inside the `plugins` array.
+打开 `vite.config.ts` 并在 `plugins` 数组中添加 `node-polyfills`。
 
-Your config should look like this:
+您的配置应如下所示：
 
 ```ts
 import { defineConfig } from "vite";
@@ -90,6 +90,6 @@ export default defineConfig({
 });
 ```
 
-### 8. Booting our app
+### 8. 启动我们的应用
 
-Finally, you can start your app locally using `yarn dev` or build for production using `yarn build` which you can deploy to any static page hosting like Netlify, Vercel, etc.
+最后，您可以使用 `yarn dev` 在本地启动应用，或使用 `yarn build` 构建生产版本，您可以将其部署到任何静态页面托管服务，如 Netlify、Vercel 等。

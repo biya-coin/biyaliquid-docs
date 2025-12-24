@@ -1,10 +1,10 @@
-# Biya Chain Name Service
+# Biya Chain 名称服务
 
-Within this section, we will look at how to query the Biya Chain name service contracts.
+在本节中，我们将了解如何查询 Biya Chain 名称服务合约。
 
-## Abstraction Service (deprecated)
+## 抽象服务（已弃用）
 
-~~You can use our `BiyaNameService` abstraction to query the smart contracts with a single method call. Below this example, you can also find the raw implementation on how to query the smart contracts in case you need more flexibility.~~
+~~您可以使用我们的 `BiyaNameService` 抽象通过单个方法调用来查询智能合约。在此示例下方，您还可以找到如何查询智能合约的原始实现，以防您需要更多灵活性。~~
 
 <pre class="language-typescript"><code class="lang-typescript">import { getNetworkEndpoints, Network } from '@biya-coin/network'
 import { BiyaNameService } from '@biya-coin/sdk-ui-ts'
@@ -19,13 +19,13 @@ const addressForName = await biyaNameService.fetchBiyaAddress(name)
 const nameFromAddress = await biyaNameService.fetchBiyaName(addressForName)
 </code></pre>
 
-## Raw Smart Contract Querying
+## 原始智能合约查询
 
-Example code snippets to resolve .biya domain name.
+解析 .biya 域名的示例代码片段。
 
-## Domain Resolution
+## 域名解析
 
-* Get resolver address
+* 获取解析器地址
 
 ```ts
 import {
@@ -63,7 +63,7 @@ const resolverAddress =
 console.log(resolverAddress)
 ```
 
-* Get address for .biya domain name.
+* 获取 .biya 域名的地址。
 
 ```ts
 import {
@@ -108,9 +108,9 @@ if (!biyachainAddress) {
 console.log(biyachainAddress)
 ```
 
-## Reverse Resolution
+## 反向解析
 
-* Get the primary name for biyachain address.
+* 获取 biyachain 地址的主要名称。
 
 ```ts
 import {

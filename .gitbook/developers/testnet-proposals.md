@@ -1,13 +1,13 @@
-# Testnet Proposals
+# 测试网提案
 
-Let's say that you want to submit a proposal on `testnet`. Because there is a short period of voting time for the proposals, we recommend lowering the deposit on the proposal to not make the proposal go into voting stage directly. Basically, it should be slightly less than `min_deposit` value.
+假设您想在 `testnet` 上提交提案。由于提案的投票时间很短，我们建议降低提案的存款，以免提案直接进入投票阶段。基本上，它应该略低于 `min_deposit` 值。
 
-Once you submit the proposal, you should reach out to the team:
+提交提案后，您应该联系团队：
 
-1. Join the [Biya Chain Discord server](https://discord.gg/biyachain) and find the relevant channel.
-2. Join the [Biya Chain Developer Telegram channel](https://t.me/+8Y_0HOFLhnRlZDU9).
+1. 加入 [Biya Chain Discord 服务器](https://discord.gg/biyachain)并找到相关频道。
+2. 加入 [Biya Chain 开发者 Telegram 频道](https://t.me/+8Y_0HOFLhnRlZDU9)。
 
-Here is an example for the `GrantProviderPrivilegeProposal`
+以下是 `GrantProviderPrivilegeProposal` 的示例
 
 ```bash
 biyachaind tx oracle grant-provider-privilege-proposal YOUR_PROVIDER \

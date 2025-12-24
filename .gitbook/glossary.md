@@ -1,249 +1,248 @@
 ---
 description: >-
-  Pocket size cheat sheet for Biya Chain. Use this glossary to learn about terms
-  specific to Biya Chain.
+  Biya Chain 的词汇表。使用本词汇表了解 Biya Chain 特定的术语。
 ---
 
-# Glossary
+# 词汇表
 
-### Active set
+### 活跃集 (Active set)
 
-The validators that participate in consensus and receive rewards.
+参与共识并获得奖励的验证者。
 
-### Airdrops
+### 空投 (Airdrops)
 
-Additional rewards given to delegators through certain validators that are separate from staking rewards. Airdrops are generally given by applications in the Biya Chain ecosystem to increase visibility.
+通过某些验证者给予委托人的额外奖励,与质押奖励分开。空投通常由 Biya Chain 生态系统中的应用程序提供,以提高知名度。
 
-### Arbitrage
+### 套利 (Arbitrage)
 
-A process by which users seek to capitalize on a price difference across markets. Arbitrageurs typically purchase assets in one market and sell them in another market for a higher price.
+用户试图利用市场间价格差异获利的过程。套利者通常在一个市场购买资产,然后在另一个市场以更高的价格出售。
 
-### Blockchain
+### 区块链 (Blockchain)
 
-An unchangeable ledger of transactions copied among a network of independent computer systems.
+在独立计算机系统网络中复制的不可更改的交易账本。
 
-### Blocks
+### 区块 (Blocks)
 
-Groups of information stored on a blockchain. Each block contains transactions that are grouped, verified, and signed by validators.
+存储在区块链上的信息组。每个区块包含由验证者分组、验证和签名的交易。
 
-### Bonded validator
+### 已绑定验证者 (Bonded validator)
 
-A validator in the active set participating in consensus. Bonded validators are able to earn rewards.
+参与共识的活跃集中的验证者。已绑定的验证者能够获得奖励。
 
-### Bonding
+### 绑定 (Bonding)
 
-When a user delegates or bonds BIYA to a validator to receive staking rewards. Validators never have ownership of a delegator's BIYA, even when bonded. Delegating, bonding, and staking generally refer to the same process.
+当用户将 BIYA 委托或绑定给验证者以获得质押奖励时。即使在绑定时,验证者也永远不会拥有委托人的 BIYA 的所有权。委托、绑定和质押通常指同一过程。
 
-### Burn
+### 销毁 (Burn)
 
-The permanent destruction of assets. Biya Chain burns BIYA after each burn auction.
+资产的永久销毁。Biya Chain 在每次销毁拍卖后销毁 BIYA。
 
-### Burn Auction
+### 销毁拍卖 (Burn Auction)
 
-A weekly event in which community members can use BIYA to bid for 60% of all exchange fees collected by Biya Chain. The BIYA used by the winning bidder will be burnt.
+每周一次的活动,社区成员可以使用 BIYA 竞标 Biya Chain 收集的所有交易手续费的 60%。中标者使用的 BIYA 将被销毁。
 
-### Commission
+### 佣金 (Commission)
 
-The percentage of staking rewards a validator keeps before distributing the rest of the rewards to delegators. A validator’s income relies solely on this commission. Validators set their own commission rates.
+验证者在将其余奖励分配给委托人之前保留的质押奖励百分比。验证者的收入完全依赖于此佣金。验证者设置自己的佣金率。
 
-### Community pool
+### 社区池 (Community pool)
 
-A special fund designated for funding community projects. Any community member can create a governance proposal to spend the tokens in the community pool. If the proposal passes, the funds are spent as specified in the proposal.
+为资助社区项目而指定的特殊基金。任何社区成员都可以创建治理提案来使用社区池中的代币。如果提案通过,资金将按照提案中指定的方式使用。
 
-### Consensus
+### 共识 (Consensus)
 
-A system used by validators or miners to agree that each block of transactions in a blockchain is correct. Biya Chain uses the Tendermint consensus framework. Validators earn rewards for participating in consensus. Visit the [Tendermint official documentation site](https://docs.tendermint.com/) for more information.
+验证者或矿工用来同意区块链中每个交易区块都是正确的系统。Biya Chain 使用 Tendermint 共识框架。验证者因参与共识而获得奖励。访问 [Tendermint 官方文档网站](https://docs.tendermint.com/) 了解更多信息。
 
 ### Cosmos-SDK
 
-The open-source framework the Biya Chain blockchain is built on. For more information, check out the [Cosmos SDK Documentation](https://docs.cosmos.network/).
+Biya Chain 区块链构建的开源框架。有关更多信息,请查看 [Cosmos SDK 文档](https://docs.cosmos.network/)。
 
 ### CosmWasm
 
-The library utilized by Biya Chain to power on-chain smart contracts. For more information, check out the CosmWasm Documentation.
+Biya Chain 用于支持链上智能合约的库。有关更多信息,请查看 CosmWasm 文档。
 
 ### dApp
 
-Decentralized application. An application built on a decentralized platform.
+去中心化应用程序。在去中心化平台上构建的应用程序。
 
 ### DDoS
 
-Distributed denial of service attack. When an attacker floods a network with traffic or requests in order to disrupt service.
+分布式拒绝服务攻击。当攻击者用流量或请求淹没网络以中断服务时。
 
 ### DeFi
 
-Decentralized finance. A movement away from traditional finance and toward systems that do not require financial intermediaries.
+去中心化金融。从传统金融转向不需要金融中介的系统的运动。
 
-### Delegate
+### 委托 (Delegate)
 
-When users or delegators add their BIYA to a validator's stake in exchange for rewards. Delegated BIYA is bonded to a validator. Validators never have ownership of a delegator's BIYA. Delegating, bonding, and staking generally refer to the same process.
+当用户或委托人将其 BIYA 添加到验证者的质押中以换取奖励时。委托的 BIYA 绑定到验证者。验证者永远不会拥有委托人的 BIYA 的所有权。委托、绑定和质押通常指同一过程。
 
-### Delegator
+### 委托人 (Delegator)
 
-A user who delegates, bonds, or stakes BIYA to a validator to earn rewards. Delegating, bonding, and staking generally refer to the same process.
+将 BIYA 委托、绑定或质押给验证者以获得奖励的用户。委托、绑定和质押通常指同一过程。
 
-### Devnet
+### 开发网 (Devnet)
 
-Development network. A network that operates independently of the mainnet, allowing users to test new features or products without disrupting the primary network.
+开发网络。独立于主网运行的网络,允许用户测试新功能或产品而不会中断主网络。
 
-### Frequent Batch Auction (FBA)
+### 频繁批量拍卖 (Frequent Batch Auction, FBA)
 
-The model used by Biya Chain for on-chain order matching. This model uses capital more efficiently compared to Continuous Double Auction (CDA), which is utilized by most of the Centralized exchanges offering crypto derivatives and traditional financial markets. The Frequent Batch Auction model also eliminates front-running possibilities.
+Biya Chain 用于链上订单匹配的模型。与大多数提供加密衍生品和传统金融市场的中心化交易所使用的连续双向拍卖 (CDA) 相比,该模型更有效地使用资本。频繁批量拍卖模型还消除了抢先交易的可能性。
 
-### Full node
+### 全节点 (Full node)
 
-A computer connected to the \[Biya Chain mainnet that can validate transactions and interact with Biya Chain. All active validators run full nodes.
+连接到 Biya Chain 主网的计算机,可以验证交易并与 Biya Chain 交互。所有活跃的验证者都运行全节点。
 
-### Gas Fees
+### Gas 费用 (Gas Fees)
 
-Compute fees added on to all transactions to avoid spamming. Validators set minimum gas prices and reject transactions that have implied gas prices below this threshold.
+添加到所有交易中的计算费用,以避免垃圾邮件。验证者设置最低 gas 价格,并拒绝隐含 gas 价格低于此阈值的交易。
 
-### Governance
+### 治理 (Governance)
 
-Governance is the democratic process that allows users and validators to make changes to Biya Chain. Community members submit, vote, and implement proposals. One staked BIYA is equal to one vote.
+治理是允许用户和验证者对 Biya Chain 进行更改的民主过程。社区成员提交、投票和实施提案。一个质押的 BIYA 等于一票。
 
-### Governance proposal
+### 治理提案 (Governance proposal)
 
-A written submission for a change or addition to the Biya Chain protocol. Topics of proposals can vary from community pool spending, software changes, parameter changes, or any change pertaining to Biya Chain.
+对 Biya Chain 协议进行更改或添加的书面提交。提案的主题可以从社区池支出、软件更改、参数更改或任何与 Biya Chain 相关的更改。
 
 ### IBC
 
-Inter-Blockchain Communication. The technology that enables different blockchains to interact with each other. IBC allows for assets to be traded and transacted across different blockchains.
+跨链通信 (Inter-Blockchain Communication)。使不同区块链能够相互交互的技术。IBC 允许在不同区块链之间交易和处理资产。
 
 ### BIYA
 
-The native token of Biya Chain.
+Biya Chain 的原生代币。
 
 ### biyachaind
 
-The command-line interface for interacting with an Biya Chain node.
+与 Biya Chain 节点交互的命令行界面。
 
-For more information on biyachaind, see `biyachaind` guides.
+有关 biyachaind 的更多信息,请参阅 `biyachaind` 指南。
 
-### Biya Chain core
+### Biya Chain 核心 (Biya Chain core)
 
-The official source code for Biya Chain.
+Biya Chain 的官方源代码。
 
-For more information on the Biya Chain core, see Biya Chain core modules.
+有关 Biya Chain 核心的更多信息,请参阅 Biya Chain 核心模块。
 
 ### Biya Chain Hub
 
-Inejctive's platform for wallets, governance, staking and BIYA burn auctions.
+Biya Chain 的钱包、治理、质押和 BIYA 销毁拍卖平台。
 
-To learn about the features of Biya Chain Hub, visit the Biya Chain Hub guide.
+要了解 Biya Chain Hub 的功能,请访问 Biya Chain Hub 指南。
 
-### Inactive set
+### 非活跃集 (Inactive set)
 
-Validators that are not in the active set. These validators do not participate in consensus and do not earn rewards.
+不在活跃集中的验证者。这些验证者不参与共识,也不获得奖励。
 
-### Jailed
+### 监禁 (Jailed)
 
-Validators who misbehave are jailed or excluded from the active set for a period of time.
+行为不当的验证者会被监禁或在一段时间内从活跃集中排除。
 
-### Maximum Extractable Value (MEV)
+### 最大可提取价值 (Maximum Extractable Value, MEV)
 
-The maximum value that can be extracted from block production in excess of the standard block reward and gas fees by including, excluding, and changing the order of transactions in a block.
+通过包含、排除和更改区块中交易的顺序,可以从区块生产中提取的超过标准区块奖励和 gas 费用的最大价值。
 
-Biya Chain is MEV-resistant.
+Biya Chain 具有 MEV 抗性。
 
-### Module
+### 模块 (Module)
 
-A section of the Biya Chain core that represents a particular function of Biya Chain. Visit the Biya Chain core module specifications for more information.
+Biya Chain 核心的一部分,代表 Biya Chain 的特定功能。访问 Biya Chain 核心模块规范了解更多信息。
 
-### Oracle
+### 预言机 (Oracle)
 
-A 3rd party service enabling Biya Chain to access external, real-world data. Typically, this is the price feed.
+使 Biya Chain 能够访问外部真实世界数据的第三方服务。通常,这是价格源。
 
-### Pools
+### 池 (Pools)
 
-Groups of tokens. Supply pools represent the total supply of tokens in a market.
+代币组。供应池代表市场中代币的总供应量。
 
-### Proof of Stake
+### 权益证明 (Proof of Stake)
 
-A validation method utilized by blockchains in which validators are chosen to propose blocks according to the number of coins they hold.
+区块链使用的验证方法,其中根据验证者持有的代币数量选择验证者来提议区块。
 
-### Quorum
+### 法定人数 (Quorum)
 
-The minimum amount of votes needed to make an election viable. 33% of all staked BIYA must vote to meet quorum. If quorum is not met before the voting period ends, the proposal fails, and the proposer's deposit is burned.
+使选举可行所需的最低投票数。所有质押的 BIYA 的 33% 必须投票才能达到法定人数。如果在投票期结束前未达到法定人数,提案将失败,提案者的押金将被销毁。
 
-### Redelegate
+### 重新委托 (Redelegate)
 
-When a delegator wants to transfer their bonded BIYA to a different validator. Redelegating BIYA is instant and does not require a 21-day unbonding period.
+当委托人想要将其绑定的 BIYA 转移到不同的验证者时。重新委托 BIYA 是即时的,不需要 21 天的解绑期。
 
-### Rewards
+### 奖励 (Rewards)
 
-Revenue generated from fees given to validators and disbursed to delegators.
+从给予验证者的费用中产生并分配给委托人的收入。
 
-### Self-delegation
+### 自我委托 (Self-delegation)
 
-The amount of BIYA a validator bonds to themselves. Also referred to as self-bond.
+验证者绑定给自己的 BIYA 数量。也称为自我绑定。
 
-### Slashing
+### 惩罚 (Slashing)
 
-Punishment for validators that misbehave. Validators lose part of their stake when they get slashed.
+对行为不当的验证者的惩罚。验证者在被惩罚时会失去部分质押。
 
-### Slippage
+### 滑点 (Slippage)
 
-The difference in an asset’s price between the start and end of a transaction.
+资产价格在交易开始和结束之间的差异。
 
-### Stake
+### 质押 (Stake)
 
-The amount of BIYA bonded to a validator.
+绑定到验证者的 BIYA 数量。
 
-### Staking
+### 质押 (Staking)
 
-When a user delegates or bonds their BIYA to an active validator to receive rewards. Bonded BIYA adds to a validator's stake. Validators provide their stakes as collateral to participate in the consensus process. Validators with larger stakes are chosen to participate more often. Validators receive staking rewards for their participation. A validator's stake can be slashed if the validator misbehaves. Validators never have ownership of a delegator's BIYA, even when staking.
+当用户将其 BIYA 委托或绑定给活跃验证者以获得奖励时。绑定的 BIYA 增加到验证者的质押中。验证者提供其质押作为抵押品以参与共识过程。质押较大的验证者被选中参与的频率更高。验证者因其参与而获得质押奖励。如果验证者行为不当,验证者的质押可能会被惩罚。即使在质押时,验证者也永远不会拥有委托人的 BIYA 的所有权。
 
-For more information on staking, visit the concepts page.
+有关质押的更多信息,请访问概念页面。
 
-### Tendermint consensus
+### Tendermint 共识 (Tendermint consensus)
 
-The consensus framework used by Biya Chain. First, a validator proposes a new block. Other validators vote on the block in two rounds. If a block receives a two-thirds majority or greater of yes votes in both rounds, it gets added to the blockchain. Validators get rewarded with the block's transaction fees. Proposers get rewarded extra. Each validator is chosen to propose based on their weight. Check out the [Tendermint official documentation](https://docs.tendermint.com/) for more information.
+Biya Chain 使用的共识框架。首先,验证者提议一个新区块。其他验证者在两轮中对区块进行投票。如果一个区块在两轮中都获得三分之二多数或更多的赞成票,它就会被添加到区块链中。验证者获得区块的交易费用作为奖励。提议者获得额外奖励。每个验证者根据其权重被选中提议。查看 [Tendermint 官方文档](https://docs.tendermint.com/) 了解更多信息。
 
-### Mainnet
+### 主网 (Mainnet)
 
-Biya Chain's blockchain network where all transactions take place.
+Biya Chain 的区块链网络,所有交易都在此进行。
 
-### Testnet
+### 测试网 (Testnet)
 
-A version of the mainnet used for testing. The testnet does not use real assets. You can use the testnet to get familiar with transactions and the overall network.
+用于测试的主网版本。测试网不使用真实资产。您可以使用测试网熟悉交易和整个网络。
 
-### Total stake
+### 总质押 (Total stake)
 
-The total amount of BIYA bonded to a delegator, including self-bonded BIYA.
+绑定到委托人的 BIYA 总量,包括自我绑定的 BIYA。
 
-### Unbonded validator
+### 未绑定验证者 (Unbonded validator)
 
-A validator that is not in the active set and does not participate in consensus or receive rewards. Some unbonded validators may be jailed.
+不在活跃集中且不参与共识或获得奖励的验证者。一些未绑定的验证者可能被监禁。
 
-### Unbonding validator
+### 解绑中验证者 (Unbonding validator)
 
-A validator transitioning from the active set to the inactive set. An unbonding validator does not participate in consensus or earn rewards. The unbonding process takes 21 days.
+从活跃集过渡到非活跃集的验证者。解绑中的验证者不参与共识或获得奖励。解绑过程需要 21 天。
 
-### Unbonded BIYA
+### 未绑定的 BIYA (Unbonded BIYA)
 
-BIYA that can be freely traded and is not staked to a validator.
+可以自由交易且未质押给验证者的 BIYA。
 
-### Unbonding
+### 解绑 (Unbonding)
 
-When a delegator decides to undelegate their BIYA from a validator. This process takes 21 days. No rewards accrue during this period. This action cannot be stopped once executed.
+当委托人决定从验证者处取消委托其 BIYA 时。此过程需要 21 天。在此期间不会累积奖励。一旦执行,此操作无法停止。
 
-### Unbonding BIYA
+### 解绑中的 BIYA (Unbonding BIYA)
 
-BIYA that is transitioning from bonded to unbonded. BIYA that is unbonding cannot be traded freely. The unbonding process takes 21 days. No rewards accrue during this period. This action cannot be stopped once executed.
+从绑定过渡到未绑定的 BIYA。解绑中的 BIYA 无法自由交易。解绑过程需要 21 天。在此期间不会累积奖励。一旦执行,此操作无法停止。
 
-### Undelegate
+### 取消委托 (Undelegate)
 
-When a delegator no longer wants to have their BIYA bonded to a validator. This process takes 21 days. No rewards accrue during this period. This action cannot be stopped once executed.
+当委托人不再希望将其 BIYA 绑定到验证者时。此过程需要 21 天。在此期间不会累积奖励。一旦执行,此操作无法停止。
 
-### Uptime
+### 正常运行时间 (Uptime)
 
-The amount of time a validator is active in a given timeframe. Validators with low up time may be slashed.
+验证者在给定时间范围内处于活动状态的时间量。正常运行时间较低的验证者可能会被惩罚。
 
-### Validator
+### 验证者 (Validator)
 
-An Biya Chain blockchain miner that is responsible for verifying transactions on the blockchain. Validators run programs called full nodes that allow them to participate in consensus, verify blocks, participate in governance, and receive rewards. Only the active set of validators can participate in consensus.
+负责验证区块链上交易的 Biya Chain 区块链矿工。验证者运行称为全节点的程序,允许他们参与共识、验证区块、参与治理并获得奖励。只有活跃集中的验证者才能参与共识。
 
-### Weight
+### 权重 (Weight)
 
-The measure of a validator's total stake. Validators with higher weights get selected more often to propose blocks. A validator's weight is also a measure of their voting power in governance.
+验证者总质押的度量。权重较高的验证者被选中提议区块的频率更高。验证者的权重也是他们在治理中投票权的度量。

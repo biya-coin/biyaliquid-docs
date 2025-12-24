@@ -1,12 +1,12 @@
 # NeptuneService
 
-`NeptuneService` is a straightforward tool that interacts with the Neptune CosmWasm smart contracts on Biya Chain. It allows you to fetch asset prices, calculate exchange ratios, create deposit and withdraw messages, and retrieve lending rates.
+`NeptuneService` 是一个直接与 Biya Chain 上的 Neptune CosmWasm 智能合约交互的工具。它允许您获取资产价格、计算兑换比率、创建存款和提款消息以及检索借贷利率。
 
-Below are examples of how to use each method in the `NeptuneService` class.
+以下是如何使用 `NeptuneService` 类中每个方法的示例。
 
-## Initialize NeptuneService
+## 初始化 NeptuneService
 
-Before using the service, create an instance of `NeptuneService`.
+在使用该服务之前，创建 `NeptuneService` 的实例。
 
 ```ts
 import { NeptuneService } from '@biya-coin/sdk-ts'
@@ -16,9 +16,9 @@ import { Network } from '@biya-coin/networks'
 const neptuneService = new NeptuneService(Network.MainnetSentry)
 ```
 
-## Fetch Prices
+## 获取价格
 
-- Get the prices of specific assets from the Neptune Price Oracle contract. Use native_token for bank denoms and token with contract_addr for CW20 tokens.
+- 从 Neptune 价格预言机合约获取特定资产的价格。对 bank denoms 使用 native_token，对 CW20 代币使用带有 contract_addr 的 token。
 
 ```ts
 const assets = [
@@ -39,9 +39,9 @@ const prices = await neptuneService.fetchPrices(assets)
 console.log(prices)
 ```
 
-## Fetch Redemption Ratio
+## 获取赎回比率
 
-- Calculate the redemption ratio between nUSDT (CW20 token) and USDT (bank token).
+- 计算 nUSDT（CW20 代币）和 USDT（bank 代币）之间的赎回比率。
 
 ```ts
 const cw20Asset = {
@@ -64,9 +64,9 @@ const redemptionRatio = await neptuneService.fetchRedemptionRatio({
 console.log(`Redemption Ratio: ${redemptionRatio}`)
 ```
 
-## Convert CW20 nUSDT to Bank USDT
+## 将 CW20 nUSDT 转换为 Bank USDT
 
-- Calculate the amount in bank USDT from a given amount of CW20 nUSDT using the redemption ratio.
+- 使用赎回比率从给定的 CW20 nUSDT 金额计算 bank USDT 金额。
 
 ```ts
 const amountCW20 = 1000 // Amount in nUSDT
@@ -80,9 +80,9 @@ const bankAmount = neptuneService.calculateBankAmount(
 console.log(`Bank USDT Amount: ${bankAmount}`)
 ```
 
-## Convert Bank USDT to CW20 nUSDT
+## 将 Bank USDT 转换为 CW20 nUSDT
 
-- Calculate the amount in CW20 nUSDT from a given amount of bank USDT using the redemption ratio.
+- 使用赎回比率从给定的 bank USDT 金额计算 CW20 nUSDT 金额。
 
 ```ts
 const amountBank = 950 // Amount in USDT
@@ -96,9 +96,9 @@ const cw20Amount = neptuneService.calculateCw20Amount(
 console.log(`CW20 nUSDT Amount: ${cw20Amount}`)
 ```
 
-## Fetch Lending Rates
+## 获取借贷利率
 
-- Retrieve lending rates for the different lending markets in neptune's lending market smart contract
+- 检索 neptune 借贷市场智能合约中不同借贷市场的借贷利率
 
 ```ts
 const lendingRates = await neptuneService.getLendingRates({
@@ -108,9 +108,9 @@ const lendingRates = await neptuneService.getLendingRates({
 console.log(lendingRates)
 ```
 
-## Fetch Lending Rate by Denomination
+## 按面额获取借贷利率
 
-- Get the lending rate for USDT for example
+- 例如，获取 USDT 的借贷利率
 
 ```ts
 const denom = 'peggy0xdAC17F958D2ee523a2206206994597C13D831ec7' // USDT denom
@@ -124,9 +124,9 @@ if (lendingRate) {
 }
 ```
 
-## Calculate Annual Percentage Yield (APY)
+## 计算年化收益率（APY）
 
-- Convert the annual percentage rate (APR) to the continuously compounded annual percentage yield (APY). Make sure to use the lending rate retried from neptuneService.getLendingRateByDenom to use as the apr.
+- 将年化利率（APR）转换为连续复利的年化收益率（APY）。确保使用从 neptuneService.getLendingRateByDenom 检索的借贷利率作为 apr。
 
 ```ts
 const apr = 0.1 // 10% APR
@@ -136,9 +136,9 @@ const apy = neptuneService.calculateAPY(apr)
 console.log(`APY (continuously compounded): ${(apy * 100).toFixed(2)}%`)
 ```
 
-## Create and Broadcast a Deposit Message
+## 创建并广播存款消息
 
-- Create a message to deposit USDT into the Neptune USDT lending market and broadcast it to the network.
+- 创建一条消息将 USDT 存入 Neptune USDT 借贷市场并将其广播到网络。
 
 ```ts
 import {
@@ -172,9 +172,9 @@ const txHash = await new MsgBroadcasterWithPk({
 console.log(txHash)
 ```
 
-## Create and Broadcast a Withdraw Message
+## 创建并广播提款消息
 
-- Create a message to withdraw USDT from the Neptune USDT lending market and broadcast it to the network
+- 创建一条消息从 Neptune USDT 借贷市场提取 USDT 并将其广播到网络
 
 ```ts
 import {

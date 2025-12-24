@@ -1,27 +1,27 @@
-# CW20 to Bank & Market Order in One Transaction
+# 在一笔交易中将 CW20 转换为 Bank 并下市价单
 
-This example helps you create messages to convert CW20 tokens to bank tokens on the Biya Chain blockchain. This is particularly useful when you have CW20 tokens and need to convert them to their bank equivalents to perform operations like placing market orders. Note that this flow only works for cw20 tokens and their corresponding [factory tokens](../../developers/concepts/).
+此示例帮助您创建消息，将 Biya Chain 区块链上的 CW20 代币转换为 bank 代币。当您拥有 CW20 代币并需要将其转换为等效的 bank 代币以执行诸如下市价单之类的操作时，这特别有用。请注意，此流程仅适用于 cw20 代币及其对应的[工厂代币](../../developers/concepts/)。
 
-This guide will walk you through:
+本指南将引导您完成：
 
-* Obtaining the user's CW20 token balance.
-* Creating a message to convert CW20 tokens to bank tokens using ConvertCw20ToBankService
-* Executing a market order using the converted bank balance and existing bank balance
+* 获取用户的 CW20 代币余额。
+* 使用 ConvertCw20ToBankService 创建将 CW20 代币转换为 bank 代币的消息
+* 使用转换后的 bank 余额和现有 bank 余额执行市价单
 
-## Get User's CW20 Balance
+## 获取用户的 CW20 余额
 
-You can perform this using [explorer indexer queries](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/query-indexer/explorer.md#fetch-cw20-balances).
+您可以使用[浏览器索引器查询](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/query-indexer/explorer.md#fetch-cw20-balances)执行此操作。
 
-* Find the cw20 address and balance from the result set that you want to convert to a bank factory token
+* 从结果集中找到您想要转换为 bank 工厂代币的 cw20 地址和余额
 
-## Create CW20 to Bank Conversion Message
+## 创建 CW20 到 Bank 的转换消息
 
-* create the `convertMsg` using the steps detailed [here](../../developers/concepts/token-factory.md#example-on-how-to-convert-cw20-to-a-factory-denom) in order to convert your CW20 token to a bank factory token. No need to submit the tsx yet.
+* 使用[此处](../../developers/concepts/token-factory.md#example-on-how-to-convert-cw20-to-a-factory-denom)详细说明的步骤创建 `convertMsg`，以便将您的 CW20 代币转换为 bank 工厂代币。暂时无需提交交易。
 
-## Create a `MsgCreateSpotMarketOrder` message
+## 创建 `MsgCreateSpotMarketOrder` 消息
 
-* Create the `msg` using the steps detailed in [MsgCreateSpotMarketOrder](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/examples/exchange.md#msgcreatespotmarketorder). No need to submit the tsx yet.
-* Note that the buy order you create will have access to your converted cw20 balance + existing bank balance. Example:
+* 使用 [MsgCreateSpotMarketOrder](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/developers-native/examples/exchange.md#msgcreatespotmarketorder) 中详细说明的步骤创建 `msg`。暂时无需提交交易。
+* 请注意，您创建的买单将可以访问您转换后的 cw20 余额 + 现有的 bank 余额。示例：
 
 ```ts
 const order = {
@@ -30,11 +30,11 @@ const order = {
 }
 ```
 
-* If you had 5 Cw20 tokens and 5 bank tokens at a price of $1 each, then the order above will go through because we will convert the cw20 to bank before the chain executes this market order. This will be more clear in the next step.
+* 如果您有 5 个 Cw20 代币和 5 个 bank 代币，每个价格为 $1，那么上面的订单将会通过，因为我们将在链执行此市价单之前将 cw20 转换为 bank。这将在下一步中更加清楚。
 
-## Place a Market Order Using Converted CW20 Balance and your existing bank balance
+## 使用转换后的 CW20 余额和您现有的 bank 余额下市价单
 
-Now that you have both messages formatted, you can convert your cw20 tokens to bank factory tokens and then place a market order using the combined balance, all in one transaction
+现在您已经格式化了两条消息，您可以将 cw20 代币转换为 bank 工厂代币，然后使用组合余额下市价单，所有这些都在一笔交易中完成
 
 ```ts
 import { MsgBroadcasterWithPk } from '@biya-coin/sdk-ts'

@@ -1,33 +1,33 @@
-# Whitelisting deployment address
+# 部署地址白名单
 
-Contract upload on Biya Chain mainnet requires governance approval. You can read through the guide to do so in the [mainnet-deployment.md](./mainnet-deployment-guide.md "mention") guide.
+在 Biya Chain 主网上上传合约需要治理批准。您可以在 [mainnet-deployment.md](./mainnet-deployment-guide.md "mention") 指南中阅读相关指南。
 
-This structure has been put in place for multiple reasons:
+此结构的设置有多个原因:
 
-1. Historically, the community has discovered vulnerabilities in CosmWasm whereby certain contracts could cause a chain halt. Thus, requiring approval will be inherently more secure until the language matures and stabilizes over time.
-2. Governance prevents unaudited and bogus contracts from being deployed into the network, ensuring that hacks and scams will occur at a lesser degree.
-3. This results in a more curated experience for ecosystem users, since the blockchain does not fill up with unwanted transactions and contracts.
+1. 从历史上看,社区发现了 CosmWasm 中的漏洞,某些合约可能导致链停止。因此,在语言成熟并随着时间的推移而稳定之前,要求批准将本质上更加安全。
+2. 治理防止未经审计和虚假的合约部署到网络中,确保黑客攻击和诈骗发生的程度较低。
+3. 这为生态系统用户提供了更精心策划的体验,因为区块链不会充满不需要的交易和合约。
 
-This governance process is time-consuming for validators and the community. Biya Chain builders additionally face a 4-day wait to roll out features, affecting developer experience and user growth.
+这个治理过程对验证者和社区来说很耗时。Biya Chain 构建者还面临 4 天的等待时间来推出功能,影响开发者体验和用户增长。
 
-As of the Altaris chain upgrade, it is now possible to request whitelisting your address for contract uploads.
+自 Altaris 链升级以来,现在可以请求将您的地址列入合约上传白名单。
 
-## Submission Guidelines
+## 提交指南
 
-To be considered for a whitelist approval, it is strongly recommended to include all the following information in the governance proposal. Validators are recommended to contact the Foundation in Discord to verify the information submitted for each proposal before voting.
+要被考虑批准白名单,强烈建议在治理提案中包含以下所有信息。建议验证者在投票前在 Discord 中联系基金会以验证为每个提案提交的信息。
 
-1. Are the identities of the team members known to the community?
-2. Has the team completed KYC/KYB with the Biya Chain Foundation?
-3. How long has the protocol been live on Biya Chain mainnet?
-4. Has the team developed applications in other ecosystems? (provide the details)
+1. 团队成员的身份是否为社区所知?
+2. 团队是否已完成 Biya Chain 基金会的 KYC/KYB?
+3. 协议在 Biya Chain 主网上运行了多长时间?
+4. 团队是否在其他生态系统中开发过应用程序?(提供详细信息)
 
-## Voting Guidelines
+## 投票指南
 
-Users that meet these criteria will have a greater chance at receiving whitelist permissions:
+满足这些标准的用户将有更大的机会获得白名单权限:
 
-1. The project has completed Biya Chain Foundation KYC/KYB and the team members' identities are known to the community. _Exception: Anonymous developers with proven credibility and successful apps in other ecosystems._
-2. The project has been live on mainnet for at least 1 month and has achieved significant TVL/usage.
+1. 项目已完成 Biya Chain 基金会 KYC/KYB,团队成员的身份为社区所知。_例外:在其他生态系统中具有经过验证的信誉和成功应用程序的匿名开发者。_
+2. 项目已在主网上运行至少 1 个月,并已实现显著的 TVL/使用量。
 
-## Operational Guidelines
+## 操作指南
 
-It is strongly recommended to use a multisig or Ledger wallet for the whitelisted uploads.
+强烈建议使用多签或 Ledger 钱包进行白名单上传。

@@ -1,26 +1,26 @@
-# CW20 Adapter
+# CW20 适配器
 
-In this document, we'll explain the CW20 Adapter Contract that allows exchanging CW-20 tokens for Biya Chain issued native tokens (using the TokenFactory module) and vice versa. For the CW-20 Adapter GitHub repository, see [here](https://github.com/biya-coin/cw20-adapter/tree/master/contracts/cw20-adapter).
+在本文档中,我们将解释 CW20 适配器合约,该合约允许将 CW-20 代币交换为 Biya Chain 发行的原生代币(使用 TokenFactory 模块),反之亦然。有关 CW-20 适配器 GitHub 仓库,请参阅 [这里](https://github.com/biya-coin/cw20-adapter/tree/master/contracts/cw20-adapter)。
 
-## Background
+## 背景
 
-CW-20 is a specification for fungible tokens in CosmWasm, loosely based on ERC-20 specification. It allows creating and handling of arbitrary fungible tokens within CosmWasm, specifying methods for creating, minting and burning and transferring those tokens between accounts. The adapter contract will ensure that only authorized source CW-20 contracts can mint tokens (to avoid creating “counterfeit” tokens).
+CW-20 是 CosmWasm 中可替代代币的规范,大致基于 ERC-20 规范。它允许在 CosmWasm 中创建和处理任意可替代代币,指定在账户之间创建、铸造、销毁和转移这些代币的方法。适配器合约将确保只有授权的源 CW-20 合约才能铸造代币(以避免创建"伪造"代币)。
 
-While the CW-20 standard is relatively mature and complete, the tokens exist purely within the CosmWasm context and are entirely managed by the issuing contract (including keeping track of account balances). That means that they cannot interact directly with Biya Chain's native modules (for example, it’s not possible to trade them via the Biya Chain exchange module, or to transfer without involving issuing contracts).
+虽然 CW-20 标准相对成熟和完整,但代币纯粹存在于 CosmWasm 上下文中,完全由发行合约管理(包括跟踪账户余额)。这意味着它们无法直接与 Biya Chain 的原生模块交互(例如,无法通过 Biya Chain 交易所模块交易它们,或者在不涉及发行合约的情况下转移)。
 
-Considering the above, it’s necessary to provide a solution that would work as a bridge between CW20 and the Biya Chain bank module.
+考虑到上述情况,有必要提供一个解决方案,作为 CW20 和 Biya Chain 银行模块之间的桥梁。
 
-The workflow of the contract is
+合约的工作流程是:
 
-* Register a new CW-20 token
-* Exchange amount of X CW-20 tokens for Y TokenFactory tokens (original CW-20 tokens will be held by the contract)
-* Exchange Y TF tokens back for X CW-20 tokens (CW-20 tokens are released and TokenFactory tokens are burned)
+* 注册新的 CW-20 代币
+* 将 X 数量的 CW-20 代币交换为 Y 数量的 TokenFactory 代币(原始 CW-20 代币将由合约持有)
+* 将 Y 数量的 TF 代币交换回 X 数量的 CW-20 代币(CW-20 代币被释放,TokenFactory 代币被销毁)
 
-### Messages
+### 消息
 
 #### `RegisterCw20Contract { addr: Addr }`
 
-Registers a new CW-20 contract (`addr`) that will be handled by the adapter and creates a new TokenFactory token in format `factory/{adapter_contract}/{cw20_contract}`.
+注册一个新的 CW-20 合约(`addr`),该合约将由适配器处理,并以 `factory/{adapter_contract}/{cw20_contract}` 格式创建一个新的 TokenFactory 代币。
 
 ```rust
 ExecuteMsg::RegisterCw20Contract { addr } => execute_register::handle_register_msg(deps, env, info, addr)
@@ -60,10 +60,10 @@ pub fn handle_register_msg(
 
 #### `Receive { sender: String, amount: Uint128, msg: Binary }`
 
-Implementation of the Receiver CW-20 interface.
+实现接收者 CW-20 接口。
 
 {% hint style="danger" %}
-Must be called by the CW-20 contract only.
+必须仅由 CW-20 合约调用。
 {% endhint %}
 
 ```rust
@@ -97,11 +97,11 @@ pub fn handle_on_received_cw20_funds_msg(
 
 #### `RedeemAndTransfer { recipient: Option<String> }`
 
-Redeem attached TokenFactory tokens and transfer CW-20 tokens to the recipient. If the recipient is not provided, they will be sent to the message sender.
+赎回附加的 TokenFactory 代币并将 CW-20 代币转移给接收者。如果未提供接收者,它们将发送给消息发送者。
 
 #### `RedeemAndSend { recipient: String, submessage: Binary }`
 
-Redeem attached TokenFactory tokens and send CW-20 tokens to the recipient contract. Caller may provide optional submessage.
+赎回附加的 TokenFactory 代币并将 CW-20 代币发送到接收者合约。调用者可以提供可选的子消息。
 
 ```rust
 ExecuteMsg::RedeemAndTransfer { recipient } => execute_redeem::handle_redeem_msg(deps, env, info, recipient, None)
@@ -164,7 +164,7 @@ pub fn handle_redeem_msg(
 
 #### `UpdateMetadata { addr : Addr}`
 
-Will query the CW-20 address (if registered) for metadata and will call setMetadata in the bank module (using TokenFactory access method).
+将查询 CW-20 地址(如果已注册)的元数据,并将在银行模块中调用 setMetadata(使用 TokenFactory 访问方法)。
 
 ```rust
 ExecuteMsg::UpdateMetadata { addr } => execute_metadata::handle_update_metadata(deps, env, addr)
@@ -186,16 +186,16 @@ pub fn handle_update_metadata(
     Ok(Response::new().add_message(set_metadata_message))
 }
 
-Queries
+查询
 RegisteredContracts {}
-Return a list of registered CW-20 contracts.
+返回已注册的 CW-20 合约列表。
 
 QueryMsg::RegisteredContracts {} => to_binary(&query::registered_contracts(deps)?)
 
 pub fn registered_contracts(deps: Deps<BiyachainQueryWrapper>) -> StdResult<Vec<Addr>> {}
 
 NewDenomFee {}
-Returns a fee required to register a new tokenFactory denom.
+返回注册新 tokenFactory 面额所需的费用。
 
 QueryMsg::NewDenomFee {} => to_binary(&query::new_denom_fee(deps)?)
 

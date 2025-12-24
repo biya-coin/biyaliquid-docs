@@ -1,22 +1,22 @@
 # Webpack 示例
 
-The [example](https://github.com/biya-coin/biyachain-ts-webpack-example) is based on the [Cosmos transaction handling section](../developers-native/transactions/cosmos.md).
+该[示例](https://github.com/biya-coin/biyachain-ts-webpack-example)基于 [Cosmos 交易处理部分](../developers-native/transactions/cosmos.md)。
 
-## Running the example
+## 运行示例
 
-Clone the project repo:
+克隆项目仓库：
 
 ```
 git clone https://github.com/biya-coin/biyachain-ts-webpack-example.git
 ```
 
-Ensure you have npm installed and install dependencies:
+确保已安装 npm 并安装依赖项：
 
 ```
 cd biyachain-ts-webpack-example && npm install
 ```
 
-Run the example:
+运行示例：
 
 ```
 npm start
@@ -26,10 +26,10 @@ npm start
 ....
 ```
 
-Go to the http://localhost:8080/ in your browser. If you have a Kelr wallet set up and connected to the Biya Chain testnet, you should see "Confirm Transaction" pop up window.
+在浏览器中访问 http://localhost:8080/。如果您已设置 Keplr 钱包并连接到 Biya Chain 测试网，您应该会看到"确认交易"弹出窗口。
 
-## How does it work?
+## 它是如何工作的？
 
-Transaction logic is in the `src/sendTx.tx`, which is loaded by `src/index.html` Webpack is used to put eveything together and serve on the local server endpoint.
+交易逻辑在 `src/sendTx.tx` 中，由 `src/index.html` 加载。Webpack 用于将所有内容整合在一起并在本地服务器端点上提供服务。
 
-The `webpack.config.js` file configures Webpack to bundle a TypeScript application starting from `./src/sendTx.ts`, using `ts-loader` to transpile TypeScript files, and includes rules to handle `.js` and `.json` files appropriately. It resolves browser-compatible versions of Node.js core modules using the `fallback` option, enabling modules like `buffer`, `crypto`, and `stream` in the browser environment. The configuration utilizes `HtmlWebpackPlugin` to generate an HTML file based on `src/index.html`, and `ProvidePlugin` to automatically load `Buffer` and `process` variables globally. The bundled output is named `bundle.js` and placed in the `dist` directory, and the `devServer` is set up to serve content from `./dist` for development purposes.
+`webpack.config.js` 文件配置 Webpack 从 `./src/sendTx.ts` 开始打包 TypeScript 应用程序，使用 `ts-loader` 转译 TypeScript 文件，并包含适当处理 `.js` 和 `.json` 文件的规则。它使用 `fallback` 选项解析 Node.js 核心模块的浏览器兼容版本，在浏览器环境中启用 `buffer`、`crypto` 和 `stream` 等模块。该配置利用 `HtmlWebpackPlugin` 基于 `src/index.html` 生成 HTML 文件，并使用 `ProvidePlugin` 自动全局加载 `Buffer` 和 `process` 变量。打包输出命名为 `bundle.js` 并放置在 `dist` 目录中，`devServer` 设置为从 `./dist` 提供内容以用于开发目的。

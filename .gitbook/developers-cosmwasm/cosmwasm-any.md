@@ -1,10 +1,10 @@
-# Using Biya Chain Modules and Queries in CosmWasm
+# 在 CosmWasm 中使用 Biya Chain 模块和查询
 
-This guide provides a comprehensive overview of how to interact with Biya Chain's modules and queries in CosmWasm using `Any` messages and queries. The older [biyachain-cosmwasm](https://github.com/biya-coin/cw-biyachain/tree/dev/packages/biyachain-cosmwasm) package, which relied on JSON-encoded messages, is no longer maintained and may become outdated. This guide focuses on the recommended approach using protobuf-encoded `Any` messages and queries, which is more efficient and aligned with modern CosmWasm standards.
+本指南全面概述了如何使用 `Any` 消息和查询在 CosmWasm 中与 Biya Chain 的模块和查询进行交互。较旧的 [biyachain-cosmwasm](https://github.com/biya-coin/cw-biyachain/tree/dev/packages/biyachain-cosmwasm) 包依赖于 JSON 编码的消息,不再维护并可能过时。本指南重点介绍使用 protobuf 编码的 `Any` 消息和查询的推荐方法,这种方法更高效且与现代 CosmWasm 标准保持一致。
 
-## What are `Any` Messages in CosmWasm?
+## CosmWasm 中的 `Any` 消息是什么?
 
-In CosmWasm, `Any` messages are part of the `CosmosMsg` enum, allowing you to send messages wrapped in a protobuf `Any` type supported by the chain. They replace the deprecated `Stargate` messages (still available under the `stargate` feature flag) with improved naming and syntax. `Any` messages are feature-gated with `cosmwasm_2_0`, meaning they require a chain running CosmWasm 2.0 which is supported by Biya Chain. Here’s a snippet of the `CosmosMsg` definition:
+在 CosmWasm 中,`Any` 消息是 `CosmosMsg` 枚举的一部分,允许您发送包装在链支持的 protobuf `Any` 类型中的消息。它们以改进的命名和语法替代了已弃用的 `Stargate` 消息(仍可在 `stargate` 功能标志下使用)。`Any` 消息由 `cosmwasm_2_0` 功能门控,这意味着它们需要运行 CosmWasm 2.0 的链,而 Biya Chain 支持此版本。以下是 `CosmosMsg` 定义的片段:
 
 ```rust
 pub enum CosmosMsg<T = Empty> {
@@ -20,17 +20,17 @@ pub struct AnyMsg {
 }
 ```
 
-The `type_url` specifies the protobuf message type, and `value` contains the serialized message data.
+`type_url` 指定 protobuf 消息类型,`value` 包含序列化的消息数据。
 
-## Why Use This Method?
+## 为什么使用这种方法?
 
-The `biyachain-cosmwasm` package used JSON-based messages, which are less efficient and may not remain compatible with future updates. The new `Any` message approach uses protobuf encoding, offering better performance, type safety, and compatibility with CosmWasm 2.0+. This is now the recommended method for interacting with Biya Chain's modules and queries.
+`biyachain-cosmwasm` 包使用基于 JSON 的消息,效率较低且可能与未来更新不兼容。新的 `Any` 消息方法使用 protobuf 编码,提供更好的性能、类型安全性以及与 CosmWasm 2.0+ 的兼容性。这现在是与 Biya Chain 模块和查询交互的推荐方法。
 
-## Sending Messages
+## 发送消息
 
-To send messages, you create a protobuf message, encode it, and wrap it in an `Any` message. Below is an example of creating a spot market order on Biya Chain's exchange module.
+要发送消息,您需要创建一个 protobuf 消息,对其进行编码,然后将其包装在 `Any` 消息中。以下是在 Biya Chain 交易所模块上创建现货市场订单的示例。
 
-### Example: Creating a Spot Market Order
+### 示例:创建现货市场订单
 
 ```rust
 use cosmwasm_std::{AnyMsg, CosmosMsg, StdResult};
@@ -89,20 +89,20 @@ fn create_spot_market_order(
 }
 ```
 
-**Steps:**
+**步骤:**
 
-1. Construct the `MsgCreateSpotMarketOrder` protobuf message with order details.
-2. Encode it into bytes using `prost::Message::encode`.
-3. Wrap it in an `AnyMsg` with the correct `type_url`.
-4. Return it as a `CosmosMsg::Any`.
+1. 使用订单详细信息构造 `MsgCreateSpotMarketOrder` protobuf 消息。
+2. 使用 `prost::Message::encode` 将其编码为字节。
+3. 使用正确的 `type_url` 将其包装在 `AnyMsg` 中。
+4. 将其作为 `CosmosMsg::Any` 返回。
 
-This approach can be adapted for other modules (e.g., auction, tokenfactory) by using the appropriate protobuf message and `type_url`.
+通过使用适当的 protobuf 消息和 `type_url`,此方法可以适用于其他模块(例如 auction、tokenfactory)。
 
-## Performing Queries
+## 执行查询
 
-Queries are performed using `QuerierWrapper` with `BiyachainQueryWrapper`. You can use pre-built queriers from `biyachain_std` or send raw queries. Below are examples covering different modules.
+查询使用 `QuerierWrapper` 和 `BiyachainQueryWrapper` 执行。您可以使用 `biyachain_std` 中的预构建查询器或发送原始查询。以下是涵盖不同模块的示例。
 
-### Example: Querying a Spot Market (Exchange Module)
+### 示例:查询现货市场(交易所模块)
 
 ```rust
 use cosmwasm_std::{to_json_binary, Binary, Deps, StdResult};
@@ -115,13 +115,13 @@ pub fn handle_query_spot_market(deps: Deps<BiyachainQueryWrapper>, market_id: &s
 }
 ```
 
-**Steps:**
+**步骤:**
 
-1. Create an `ExchangeQuerier` from `deps.querier`.
-2. Call `spot_market` with the `market_id`.
-3. Serialize the response to JSON and return it as a `Binary`.
+1. 从 `deps.querier` 创建一个 `ExchangeQuerier`。
+2. 使用 `market_id` 调用 `spot_market`。
+3. 将响应序列化为 JSON 并将其作为 `Binary` 返回。
 
-### Example: Querying Bank Parameters (Bank Module)
+### 示例:查询银行参数(银行模块)
 
 ```rust
 use cosmwasm_std::{to_json_binary, Binary, Deps, StdResult};
@@ -134,17 +134,17 @@ pub fn handle_query_bank_params(deps: Deps<BiyachainQueryWrapper>) -> StdResult<
 }
 ```
 
-**Steps:**
+**步骤:**
 
-1. Create a `BankQuerier` from `deps.querier`.
-2. Call `params` to fetch bank module parameters.
-3. Serialize and return the result.
+1. 从 `deps.querier` 创建一个 `BankQuerier`。
+2. 调用 `params` 以获取银行模块参数。
+3. 序列化并返回结果。
 
-## Working with Other Modules
+## 使用其他模块
 
-The same principles apply to other Biya Chain modules like auction, insurance, oracle, permissions, and tokenfactory, as well as the Cosmos native modules. For example:
+相同的原则适用于其他 Biya Chain 模块,如 auction、insurance、oracle、permissions 和 tokenfactory,以及 Cosmos 原生模块。例如:
 
-- **Auction Module**: Use `AuctionQuerier` for queries or encode `MsgBid` as an `Any` message.
-- **Tokenfactory Module**: Encode `MsgCreateDenom` or use `TokenFactoryQuerier`.
+- **Auction 模块**: 使用 `AuctionQuerier` 进行查询或将 `MsgBid` 编码为 `Any` 消息。
+- **Tokenfactory 模块**: 编码 `MsgCreateDenom` 或使用 `TokenFactoryQuerier`。
 
-Refer to [biyachain_std](https://github.com/biya-coin/biyachain-rust/tree/dev/packages/biyachain-std) for specific message types and queriers.
+有关特定消息类型和查询器,请参阅 [biyachain_std](https://github.com/biya-coin/biyachain-rust/tree/dev/packages/biyachain-std)。
