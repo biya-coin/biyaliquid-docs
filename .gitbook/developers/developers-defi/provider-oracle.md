@@ -1,21 +1,21 @@
 # 提供商预言机
 
 {% hint style="info" %}
-Prerequisite reading [Biya Chain Oracle Module](../../developers-native/biyachain/oracle/)
+前提阅读 [Biya Chain 预言机模块](../../developers-native/biyachain/oracle/)
 {% endhint %}
 
-The goal of this section is to provide users a guide on how to launch and maintain an oracle provider on Biya Chain. These oracles can be used for various purposes, like Perpetual Markets, Expiry Futures Markets, [Binary Options markets](../../developers-native/biyachain/exchange/02_binary_options_markets.md), etc.
+本节的目标是为用户提供有关如何在 Biya Chain 上启动和维护预言机提供商的指南。这些预言机可用于各种目的，如永续市场、到期期货市场、[二元期权市场](../../developers-native/biyachain/exchange/02_binary_options_markets.md)等。
 
-First, what is an oracle provider? It's an oracle **TYPE** that allows external parties to relay price feeds to the Biya Chain chain. These external parties are called providers. A provider identifies each external party, and all the price feeds provided on the chain are stored under that particular provider. This allows custom price feeds to be created on Biya Chain, which can power creative and advanced markets being launched on Biya Chain.
+首先，什么是预言机提供商？它是一种预言机**类型**，允许外部方将价格源中继到 Biya Chain 链。这些外部方称为提供商。提供商标识每个外部方，链上提供的所有价格源都存储在该特定提供商下。这允许在 Biya Chain 上创建自定义价格源，可以为在 Biya Chain 上启动的创意和高级市场提供支持。
 
-The first thing developers need to do is register their provider under the Oracle Provider type. You can do that by submitting a `GrantProviderPrivilegeProposal` governance proposal. Once the proposal passes, your provider will be registered, and you can relay price feeds. You can do it in a CLI environment using `biyachaind` (`grant-provider-privilege-proposal [providerName] [relayers] --title [title] --description [desc] [flags]`) or using any of our SDKs to create the message and broadcast it to the chain.
+开发者需要做的第一件事是在预言机提供商类型下注册他们的提供商。您可以通过提交 `GrantProviderPrivilegeProposal` 治理提案来实现。一旦提案通过，您的提供商将被注册，您就可以中继价格源。您可以在 CLI 环境中使用 `biyachaind`（`grant-provider-privilege-proposal [providerName] [relayers] --title [title] --description [desc] [flags]`）或使用我们的任何 SDK 创建消息并将其广播到链上。
 
 {% hint style="info" %}
-You can see an example on how to submit this proposal in the Oracle Module Proposals Section
+您可以在预言机模块提案部分看到如何提交此提案的示例
 {% endhint %}
 
-_Note: the `relayers` of the `GrantProviderPrivilegeProposal` are addresses that will be whitelisted to submit the price feeds to Biya Chain._
+_注意：`GrantProviderPrivilegeProposal` 的 `relayers` 是将被列入白名单以向 Biya Chain 提交价格源的地址。_
 
-Once the proposal passes, the `relayers` can use the `MsgRelayProviderPrices` to submit prices for a base/quote pair within their provider namespace of the Oracle Provider Type oracle on Biya Chain. You can do it in a CLI environment using `biyachaind` (`relay-provider-prices [providerName] [symbol:prices] [flags]`) or using any of our SDKs to create the message and broadcast it to the chain.
+提案通过后，`relayers` 可以使用 `MsgRelayProviderPrices` 在 Biya Chain 上的预言机提供商类型预言机的提供商命名空间内为基础/报价对提交价格。您可以在 CLI 环境中使用 `biyachaind`（`relay-provider-prices [providerName] [symbol:prices] [flags]`）或使用我们的任何 SDK 创建消息并将其广播到链上。
 
-Finally, you can use these price feeds to create your Derivative Markets.
+最后，您可以使用这些价格源创建您的衍生品市场。

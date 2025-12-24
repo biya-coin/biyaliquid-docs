@@ -1,22 +1,22 @@
 # 代币元数据
 
-Assets on Biya Chain are represented as denoms. Denoms (and the amounts) are not human readable and this is why we need to have a way to "attach" token metadata information for a particular denom.
+Biya Chain 上的资产表示为 denoms。Denoms（和数量）不是人类可读的，这就是为什么我们需要有一种方法为特定 denom "附加"代币元数据信息。
 
-Let's recap the types of denoms we have in the Getting Started section:
+让我们回顾一下入门部分中的 denoms 类型：
 
-* **Native denoms** - there is only one denom of this type, the `biya` denom which represented the native coin of Biya Chain,
-* **Peggy denoms** - these denoms represent assets bridged over from Ethereum to Biya Chain using the Peggy bridge. They have the following format `peggy{ERC20_CONTRACT_ADDRESS}`
-* **IBC denoms** - these denoms represent assets bridged over from other Cosmos chains through IBC. They have the following format `ibc/{hash}`.
-* **Insurance Fund Denoms** - these denoms represent token shares of the insurance funds created on Biya Chain. The have the following format `share{id}`
-* **Factory Denoms** - these denoms represent a CW20 token from Cosmwasm on the Biya Chain native bank module. They have the following format `factory/{CW20_ADAPTER_CONTRACT}/{CW20_CONTRACT_ADDRESS}` where the `CW20_ADAPTER_CONTRACT` is the adapter contract address that converts CW20 and the native Bank module.
+* **原生 denoms** - 这种类型只有一个 denom，即 `biya` denom，它代表 Biya Chain 的原生代币，
+* **Peggy denoms** - 这些 denoms 代表使用 Peggy 桥从以太坊桥接到 Biya Chain 的资产。它们具有以下格式 `peggy{ERC20_CONTRACT_ADDRESS}`
+* **IBC denoms** - 这些 denoms 代表通过 IBC 从其他 Cosmos 链桥接过来的资产。它们具有以下格式 `ibc/{hash}`。
+* **保险基金 Denoms** - 这些 denoms 代表在 Biya Chain 上创建的保险基金的代币份额。它们具有以下格式 `share{id}`
+* **工厂 Denoms** - 这些 denoms 代表 Biya Chain 原生银行模块上来自 Cosmwasm 的 CW20 代币。它们具有以下格式 `factory/{CW20_ADAPTER_CONTRACT}/{CW20_CONTRACT_ADDRESS}`，其中 `CW20_ADAPTER_CONTRACT` 是转换 CW20 和原生银行模块的适配器合约地址。
 
-We maintain our token metadata list off-chain for faster access to the[ biyachain-lists](https://github.com/biya-coin/biyachain-lists/tree/master/tokens) repository.
+我们在链外维护代币元数据列表，以便更快地访问 [biyachain-lists](https://github.com/biya-coin/biyachain-lists/tree/master/tokens) 存储库。
 
-## Token Verification
+## 代币验证
 
-Verifying your token's metadata can be done in a couple of ways. Here are the verification levels and what they mean:
+验证代币的元数据可以通过几种方式完成。以下是验证级别及其含义：
 
-* **Verified** -> Your asset metadata has been **submitted and verified** to the `@biya-coin/token-metadata` package. You can find a tutorial on how to add your token's metadata to the package [here](https://github.com/biya-coin/biyachain-lists/blob/master/CONTRIBUTING.md).
-* **Internal** -> Your asset's metadata has been verified on-chain using the `MsgSetDenomMetadata` message, as explained [here](../developers-native/examples/token-factory.md#msgsetdenommetadata).
-* **External** -> Your asset's metadata has been verified on some external source like from Ethereum's contract details, etc.
-* **Unverified** -> Your asset's metadata has not been provided anywhere.
+* **已验证** -> 您的资产元数据已**提交并验证**到 `@biya-coin/token-metadata` 包。您可以在[这里](https://github.com/biya-coin/biyachain-lists/blob/master/CONTRIBUTING.md)找到有关如何将代币元数据添加到包的教程。
+* **内部** -> 您的资产元数据已使用 `MsgSetDenomMetadata` 消息在链上验证，如[这里](../developers-native/examples/token-factory.md#msgsetdenommetadata)所述。
+* **外部** -> 您的资产元数据已在某些外部来源（如以太坊的合约详细信息等）上验证。
+* **未验证** -> 您的资产元数据尚未在任何地方提供。

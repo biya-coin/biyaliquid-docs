@@ -1,14 +1,14 @@
 # CosmJs 支持
 
-Biya Chain is not natively supported on the `@cosmjs` packages. It's highly recommended to use our `@biya-coin` packages to interact with Biya Chain.
+Biya Chain 在 `@cosmjs` 包中没有原生支持。强烈建议使用我们的 `@biya-coin` 包与 Biya Chain 交互。
 
-If you are familiar with the `@cosmjs` packages we are exporting similar interfaces/classes that work the same as the classes on `@cosmjs` but have support for Biya Chain as well.
+如果您熟悉 `@cosmjs` 包，我们导出了类似的接口/类，它们的工作方式与 `@cosmjs` 上的类相同，但也支持 Biya Chain。
 
-Again, keep in mind that the recommended approach is to use the Biya Chain's standard approach, which you can learn more about in [Cosmos transactions](../developers-native/transactions/cosmos.md).
+再次提醒，推荐的方法是使用 Biya Chain 的标准方法，您可以在 [Cosmos 交易](../developers-native/transactions/cosmos.md)中了解更多信息。
 
-## Usage using Keplr
+## 使用 Keplr
 
-Here is an example on how to use the `@biya-coin` alternatives from the `@cosmjs` packages with Keplr:
+以下是如何将 `@cosmjs` 包中的 `@biya-coin` 替代方案与 Keplr 一起使用的示例：
 
 ```ts
 import {
@@ -66,11 +66,11 @@ import { assertIsBroadcastTxSuccess } from '@cosmjs/stargate'
 })()
 ```
 
-## Usage in a CLI/Node environment
+## 在 CLI/Node 环境中使用
 
-Here is an example on how to use the `@biya-coin` alternatives from the `@cosmjs` packages in a node or CLI environment.
+以下是如何在 node 或 CLI 环境中使用 `@cosmjs` 包中的 `@biya-coin` 替代方案的示例。
 
-Again, keep in mind that the recommended approach is to use the [MsgBroadcasterWithPk](../developers-native/transactions/private-key.md#example-with-msgbroadcasterwithpk) abstraction to follow the Biya Chain's standard approach.
+再次提醒，推荐的方法是使用 [MsgBroadcasterWithPk](../developers-native/transactions/private-key.md#example-with-msgbroadcasterwithpk) 抽象来遵循 Biya Chain 的标准方法。
 
 ```ts
 import {

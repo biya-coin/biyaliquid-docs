@@ -1,5 +1,5 @@
-# Sentry Node
+# 哨兵节点
 
-Sentry node is a read-only full node running the Biya Chain chain. A full node is a server running a chain's binary (its software) that fully validates transactions and blocks of a blockchain and keeps a full record of all historic activity. A full node is distinct from a pruned node that processes only block headers and a small subset of transactions. Running a full node requires more resources than a pruned node. Validators can decide to run either a full node or a pruned node, but they need to make sure they retain enough blocks to be able to validate new blocks.
+哨兵节点是运行 Biya Chain 链的只读完整节点。完整节点是运行链的二进制文件（其软件）的服务器，它完全验证区块链的交易和区块，并保留所有历史活动的完整记录。完整节点与修剪节点不同，修剪节点仅处理区块头和一小部分交易。运行完整节点比修剪节点需要更多资源。验证者可以决定运行完整节点或修剪节点，但他们需要确保保留足够的区块以能够验证新区块。
 
-We query the sentry node to get on-chain data served on our decentralized application.
+我们查询哨兵节点以获取在我们的去中心化应用程序上提供的链上数据。

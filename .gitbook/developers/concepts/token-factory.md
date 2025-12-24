@@ -1,10 +1,10 @@
-# Token Factory
+# 代币工厂
 
-The Token Factory module on Biya Chain which allows users and contracts to create new native tokens and swap native tokens with CW20 tokens using the Mint + Burn model. This is an important feature to have on chain because representing assets from different sources to a native bank denom is crucial to allow users to access the rest of the on-chain modules like exchange, auction, insurance funds, etc. The token factory denoms are in the following format `factory/{creator address}/{subdenom}`.
+Biya Chain 上的代币工厂模块允许用户和合约创建新的原生代币，并使用铸造 + 销毁模型将原生代币与 CW20 代币交换。这是链上的一个重要功能，因为将来自不同来源的资产表示为原生银行面额对于允许用户访问其他链上模块（如交易所、拍卖、保险基金等）至关重要。代币工厂面额采用以下格式 `factory/{creator address}/{subdenom}`。
 
-Combined with the `CW20AdapterContract` which acts as a creator, we allow CW20 assets to be natively represented on Biya Chain as Token Factory denoms. The way it works is that CW20 assets are held by the `CW20AdapterContract` and minted as a factory denom for the biyachain address and when we want to redeem them back to CW20, they are burned from the bank module and unlocked from the `CW20AdapterContract` back to the owner address.
+结合充当创建者的 `CW20AdapterContract`，我们允许 CW20 资产在 Biya Chain 上作为代币工厂面额原生表示。其工作方式是 CW20 资产由 `CW20AdapterContract` 持有，并作为工厂面额为 biyachain 地址铸造，当我们想要将它们赎回为 CW20 时，它们从银行模块中销毁，并从 `CW20AdapterContract` 解锁回所有者地址。
 
-## Example on how to redeem a factory denom to CW20
+## 如何将工厂面额赎回为 CW20 的示例
 
 ```ts
 import {
@@ -31,7 +31,7 @@ const message = MsgExecuteContractCompat.fromJSON({
 // Then pack the message in a transaction, sign it and broadcast to the chain
 ```
 
-## Example on how to convert CW20 to a factory denom
+## 如何将 CW20 转换为工厂面额的示例
 
 ```ts
 import {

@@ -1,60 +1,60 @@
-# Biya Chain Trader
+# Biya Chain 交易器
 
-Biya Chain Trader is a professional-grade framework that provides a high-performance, reliable foundation for developing and deploying algorithmic trading strategies on the Biya Chain blockchain. It bridges the gap between algorithmic trading strategies and blockchain execution, eliminating technical barriers. The framework takes care of the heavy lifting - real-time data streaming, order execution, reconnection/recovery, transaction batching, and analytics This frees up traders to focus solely on strategy development rather than blockchain complexities.
+Biya Chain Trader 是一个专业级框架，为在 Biya Chain 区块链上开发和部署算法交易策略提供高性能、可靠的基础。它弥合了算法交易策略与区块链执行之间的差距，消除了技术障碍。该框架负责繁重的工作 - 实时数据流、订单执行、重连/恢复、交易批处理和分析，使交易者能够专注于策略开发而不是区块链复杂性。
 
-You can use it to import existing strategies or create new ones that:
+您可以使用它导入现有策略或创建新策略，实现以下功能：
 
-* **Place orders automatically** based on your logic
-* **Monitor markets 24/7** and react to price changes
-* **Manage risk** with built-in limits and safety features
-* **Handle multiple markets** simultaneously
-* **Provide detailed logs** of all trading activity
+* **根据您的逻辑自动下单**
+* **全天候监控市场**并对价格变化做出反应
+* **通过内置限制和安全功能管理风险**
+* **同时处理多个市场**
+* **提供所有交易活动的详细日志**
 
-### Core Capabilities
+### 核心能力
 
-**Simplified Strategy Development**
+**简化策略开发**
 
-* No SDK expertise required - focus purely on trading logic
-* Rapid strategy deployment with minimal technical overhead
-* Event-driven architecture enabling intuitive strategy implementation
+* 无需 SDK 专业知识 - 纯粹专注于交易逻辑
+* 以最少的技术开销快速部署策略
+* 事件驱动架构使策略实现更加直观
 
-**Built-in Reliability**
+**内置可靠性**
 
-* Automated reconnection and recovery mechanisms
-* Transaction validation before execution
-* Comprehensive error handling and retry logic
+* 自动重连和恢复机制
+* 执行前的交易验证
+* 全面的错误处理和重试逻辑
 
-**Performance Optimization**
+**性能优化**
 
-* Intelligent transaction batching for cost reduction
-* Automatic fee management and optimization
-* Multi-account support for scale
+* 智能交易批处理以降低成本
+* 自动费用管理和优化
+* 多账户支持以实现规模化
 
-**Enterprise-Ready Features**
+**企业级功能**
 
-* Complete position and PnL tracking
-* Risk management capabilities
-* Detailed performance analytics
+* 完整的持仓和盈亏跟踪
+* 风险管理能力
+* 详细的性能分析
 
 {% hint style="warning" %}
-Biya Chain trader transacts assets with real value, as such security is paramount. Be sure to use the following as a security baseline, and also take further measures to protect your assets.
+Biya Chain 交易器处理具有实际价值的资产，因此安全性至关重要。请务必使用以下安全基线，并采取进一步措施保护您的资产。
 
-* **Never share private keys** or commit them to Git.
-* Store secrets in a local **`.env` file** and load via environment variables.
-* For extra safety, consider using [**AuthZ**](https://github.com/biya-coin/biyachain-trader/tree/master?tab=readme-ov-file#authorization-trading-authz) to grant trading rights without exposing your main account.
+* **切勿分享私钥**或将其提交到 Git。
+* 将密钥存储在本地 **`.env` 文件**中，并通过环境变量加载。
+* 为了额外的安全性，请考虑使用 [**AuthZ**](https://github.com/biya-coin/biyachain-trader/tree/master?tab=readme-ov-file#authorization-trading-authz) 授予交易权限而不暴露您的主账户。
 {% endhint %}
 
-## Quick Start (5 minutes)
+## 快速开始（5 分钟）
 
-### 1. Get Your Biya Chain Account Ready (and Funded)
+### 1. 准备您的 Biya Chain 账户（并充值）
 
-1. **Create an account** on Biya Chain using Keplr or `biyachaind`.
-2. If using Keplr, **export your private key** for the `.env` file.
-   * _Tip: With AuthZ, you can grant limited permissions to a trading account for better security._
-3. **Fund your account** with USDT by sending from another Biya Chain address, or via [bridge.biyachain.network](http://bridge.biyachain.network/).
-   * _EVM tip: You can derive your `biya` address with the TS SDK and bridge USDT from Ethereum to Biya Chain without even setting up an Biya Chain account._
+1. 使用 Keplr 或 `biyachaind` 在 Biya Chain 上**创建账户**。
+2. 如果使用 Keplr，为 `.env` 文件**导出您的私钥**。
+   * _提示：使用 AuthZ，您可以向交易账户授予有限权限以获得更好的安全性。_
+3. 通过从另一个 Biya Chain 地址发送或通过 [bridge.biyachain.network](http://bridge.biyachain.network/) **为您的账户充值** USDT。
+   * _EVM 提示：您可以使用 TS SDK 派生您的 `biya` 地址，并在不设置 Biya Chain 账户的情况下从以太坊桥接 USDT 到 Biya Chain。_
 
-### 2. Download and Setup
+### 2. 下载和设置
 
 ```bash
 git clone https://github.com/biya-coin/biyachain-trader.git
@@ -68,11 +68,11 @@ pip install -r requirements.txt
 pip install "biyachain-py==1.9"
 ```
 
-_Note: `biyachain-trader` is not yet compatible with `biyachain-py` v1.11._
+_注意：`biyachain-trader` 尚未与 `biyachain-py` v1.11 兼容。_
 
-### 3. Configure Your Strategy
+### 3. 配置您的策略
 
-Edit the preexisting `config.yaml`:
+编辑预先存在的 `config.yaml`：
 
 ```yaml
 Exchange: Helix
@@ -106,9 +106,9 @@ Strategies:
       SpreadThreshold: 0.005
 ```
 
-### 4. Set Your Private Key
+### 4. 设置您的私钥
 
-Instead of a single `biyachain_PRIVATE_KEY`, use **bot-scoped environment variables** in `.env` (matches the framework defaults):
+不使用单个 `biyachain_PRIVATE_KEY`，而是在 `.env` 中使用**机器人作用域的环境变量**（匹配框架默认值）：
 
 ```
 # For bot named "MyBot"
@@ -116,23 +116,23 @@ MyBot_GRANTER_biyachain_PRIVATE_KEY=your_granter_private_key_here
 MyBot_GRANTEE_0_biyachain_PRIVATE_KEY=your_first_grantee_private_key_here
 ```
 
-Load them into your session:
+将它们加载到您的会话中：
 
 ```bash
 export $(grep -v '^#' .env | xargs)
 ```
 
-### 5. Run Your Strategy
+### 5. 运行您的策略
 
 ```bash
 python main.py MyBot config.yaml --log_path logs/my_bot.log --network mainnet
 ```
 
-That's it - your bot is now live!
+就是这样 - 您的机器人现在已经上线了！
 
-## IDE set up
+## IDE 设置
 
-If you are using VS code or compatible IDEs (such as Cursor), consider adding the following configuration for easy debugging.
+如果您使用 VS Code 或兼容的 IDE（如 Cursor），请考虑添加以下配置以便于调试。
 
 `.vscode/launch.json`:
 
@@ -162,54 +162,54 @@ If you are using VS code or compatible IDEs (such as Cursor), consider adding th
 }
 ```
 
-You should now be able to do **Run → Start Debugging** in your IDE.
+您现在应该能够在 IDE 中执行**运行 → 开始调试**。
 
-## Architecture
+## 架构
 
-### System Architecture Diagram
+### 系统架构图
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt="Biya Chain Trader Network Architecture Diagram" width="563"><figcaption><p>Biya Chain Trader Network Architecture Diagram</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt="Biya Chain Trader 网络架构图" width="563"><figcaption><p>Biya Chain Trader 网络架构图</p></figcaption></figure>
 
-### Core Design Patterns
+### 核心设计模式
 
-* **Mediator Pattern**: Centralizes communication between components, enabling a decoupled architecture where components interact without direct dependencies.
-* **Component Pattern**: Standardizes lifecycle management (initialize, run, terminate) for all system components, ensuring consistent behavior.
-* **State Pattern**: Manages component lifecycle through well-defined states (Idle, Running, Terminated), providing predictable transitions and error handling.
-* **Task Management Pattern**: Coordinates asynchronous tasks with automated monitoring and recovery, ensuring reliable execution in an event-driven environment.
-* **Observer Pattern**: Enables strategies to react to specific update events through specialized event handlers, creating a flexible strategy development approach.
+* **中介者模式**：集中组件之间的通信，实现解耦架构，使组件无需直接依赖即可交互。
+* **组件模式**：标准化所有系统组件的生命周期管理（初始化、运行、终止），确保一致的行为。
+* **状态模式**：通过明确定义的状态（空闲、运行、终止）管理组件生命周期，提供可预测的转换和错误处理。
+* **任务管理模式**：协调异步任务，具有自动监控和恢复功能，确保在事件驱动环境中可靠执行。
+* **观察者模式**：使策略能够通过专门的事件处理器对特定更新事件做出反应，创建灵活的策略开发方法。
 
-### Key Components
+### 关键组件
 
-**Exchange-Specific Agents**
+**交易所特定代理**
 
-* **Initializer**: Sets up exchange connections, accounts, and markets
-* **ChainListener**: Streams real-time blockchain data with automatic reconnection
-* **MessageBroadcaster**: Handles transaction creation and broadcasting with retry logic
-* **Liquidator**: Monitors and executes liquidations for undercollateralized positions
+* **Initializer**：设置交易所连接、账户和市场
+* **ChainListener**：流式传输实时区块链数据，具有自动重连功能
+* **MessageBroadcaster**：处理交易创建和广播，具有重试逻辑
+* **Liquidator**：监控并执行抵押不足头寸的清算
 
-**Managers**
+**管理器**
 
-* **MarketManager**: Processes market data and maintains orderbook integrity
-* **AccountManager**: Tracks balances, positions, and order state
-* **StrategyManager**: Routes market events to appropriate strategy implementations
-* **RiskManager**: Enforces position limits and risk controls
-* **TaskManager**: Orchestrates and monitors asynchronous task execution
+* **MarketManager**：处理市场数据并维护订单簿完整性
+* **AccountManager**：跟踪余额、持仓和订单状态
+* **StrategyManager**：将市场事件路由到适当的策略实现
+* **RiskManager**：执行持仓限制和风险控制
+* **TaskManager**：编排和监控异步任务执行
 
-**Data-Level Domains**
+**数据级域**
 
-* **Market**: Represents trading pairs with orderbooks and metadata
-* **Account**: Manages account balances, deposits, and subaccounts
-* **Positions**: Tracks derivative positions with P\&L calculations
-* **Order**: Order state tracking with execution history
-* **Oracle Prices**: Real-time price feeds with timestamp tracking
+* **Market**：表示带有订单簿和元数据的交易对
+* **Account**：管理账户余额、存款和子账户
+* **Positions**：跟踪衍生品持仓及盈亏计算
+* **Order**：订单状态跟踪及执行历史
+* **Oracle Prices**：带时间戳跟踪的实时价格源
 
-**Strategy-Level Plugins**
+**策略级插件**
 
-* **Strategy Base**: Template for implementing custom strategies
-* **Update Handlers**: Event-specific processors for market data events
-* **Performance Metrics**: Statistics and P\&L tracking
-* **Risk Models**: Customizable risk management rules
+* **Strategy Base**：实现自定义策略的模板
+* **Update Handlers**：市场数据事件的特定事件处理器
+* **Performance Metrics**：统计和盈亏跟踪
+* **Risk Models**：可自定义的风险管理规则
 
-## Next
+## 下一步
 
-Learn more about the [simple strategy](biyachain-trader-simple-strategy.md) that ships with Biya Chain Trader, to get yourself comfortable with the codebase before diving in.
+了解更多关于 Biya Chain Trader 附带的[简单策略](biyachain-trader-simple-strategy.md)，在深入研究之前先熟悉代码库。

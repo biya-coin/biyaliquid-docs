@@ -1,13 +1,13 @@
-# Market min quantity tick size calculation
+# 市场最小数量变动单位计算
 
-The min market quantity tick size for an order price - if a market has an minQuantityTickSize of `0.001` and order submission with the quantity of `0.0011` will be rejected.
+订单价格的最小市场数量变动单位 - 如果市场的 minQuantityTickSize 为 `0.001`，则数量为 `0.0011` 的订单提交将被拒绝。
 
-Note that derivate markets shares the same format for minQuantityTickSize between UI and the chain, so no formatting is required.
+请注意，衍生品市场在 UI 和链之间对 minQuantityTickSize 使用相同的格式，因此不需要格式转换。
 
-## Spot market
+## 现货市场
 
-1.  UI human readable to chain format:
-    Using on a BIYA/USDT market which has 18 base decimals and 6 quote decimals as an example, here's how we convert the value to the chain format:
+1.  UI 人类可读格式到链上格式：
+    以具有 18 个基础代币小数位和 6 个报价代币小数位的 BIYA/USDT 市场为例，以下是我们如何将值转换为链上格式：
 
 ```ts
 import { toChainFormat } from "@biya-coin/utils";
@@ -15,8 +15,8 @@ import { toChainFormat } from "@biya-coin/utils";
 const chainFormat = toChainFormat(value, baseDecimals);
 ```
 
-1. Chain format to UI human readable format:
-   Using BIYA/USDT market which has 18 base decimals and 6 quote decimals as an example, here's how we convert the value to the UI human readable format:
+2. 链上格式到 UI 人类可读格式：
+   以具有 18 个基础代币小数位和 6 个报价代币小数位的 BIYA/USDT 市场为例，以下是我们如何将值转换为 UI 人类可读格式：
 
 ```ts
 import { toHumanReadable } from "@biya-coin/utils";

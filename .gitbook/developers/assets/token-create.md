@@ -1,19 +1,19 @@
 # 创建代币
 
-The easiest way to create your own token on Biya Chain is by using the `tokenfactory` module. The `tokenfactory` module allows any account to create a new token with the name `factory/{creator address}/{subdenom}`. Because tokens are namespaced by creator address, this allows token minting to be permissionless, due to not needing to resolve name collisions.
+在 Biya Chain 上创建自己的代币最简单的方法是使用 `tokenfactory` 模块。`tokenfactory` 模块允许任何账户创建名称为 `factory/{creator address}/{subdenom}` 的新代币。由于代币按创建者地址进行命名空间划分，这使得代币铸造无需许可，因为不需要解决名称冲突。
 
-A single account can create multiple denoms, by providing a unique subdenom for each created denom. Once a denom is created, the original creator is given "admin" privileges over the asset. This allows them to:
+单个账户可以通过为每个创建的 denom 提供唯一的子面额来创建多个 denoms。一旦创建了 denom，原始创建者将获得对该资产的"管理员"权限。这允许他们：
 
-* Mint their denom to any account
-* Burn their denom from any account
-* Create a transfer of their denom between any two accounts
-* Change the admin. In the future, more admin capabilities may be added. Admins can choose to share admin privileges with other accounts using the authz module. The ChangeAdmin functionality allows changing the master admin account, or even setting it to the zero address `biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49`, meaning no account has admin privileges over the asset.
-* Set their token metadata on chain
+* 将其 denom 铸造到任何账户
+* 从任何账户销毁其 denom
+* 在任意两个账户之间创建其 denom 的转账
+* 更改管理员。将来可能会添加更多管理员功能。管理员可以选择使用 authz 模块与其他账户共享管理员权限。ChangeAdmin 功能允许更改主管理员账户，甚至将其设置为零地址 `biya1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49`，这意味着没有账户对该资产拥有管理员权限。
+* 在链上设置其代币元数据
 
 {% hint style="info" %}
-One special use case for the factory denoms is the `CW20_ADAPTER`. Using this adapter, assets represented as CW20 can be converted to a bank denom which then can be used to launch a market, send easily on chain, etc.
+工厂 denoms 的一个特殊用例是 `CW20_ADAPTER`。使用此适配器，表示为 CW20 的资产可以转换为银行 denom，然后可用于启动市场、在链上轻松发送等。
 
-The denom for a CW20 asset is always in the `factory/{CW20_ADAPTER_CONTRACT_ADDRESS}/{CW20_ASSET_ADDRESS}` where `CW20_ADAPTER_CONTRACT_ADDRESS=biya14ejqjyq8um4p3xfqj74yld5waqljf88f9eneuk` for mainnet.
+CW20 资产的 denom 始终采用 `factory/{CW20_ADAPTER_CONTRACT_ADDRESS}/{CW20_ASSET_ADDRESS}` 格式，其中主网的 `CW20_ADAPTER_CONTRACT_ADDRESS=biya14ejqjyq8um4p3xfqj74yld5waqljf88f9eneuk`。
 {% endhint %}
 
-To start creating your denoms, head to our [TokenFactory Core Module page](../developers-native/examples/token-factory.md)to see examples.
+要开始创建您的 denoms，请前往我们的 [TokenFactory 核心模块页面](../developers-native/examples/token-factory.md)查看示例。

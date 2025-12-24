@@ -1,7 +1,7 @@
-# Indexer API
+# 索引器 API
 
-The Indexer API is a collection of microservices that serve data indexed from the Biya Chain chain. The Biya Chain Chain emits events when a transaction is included and there is an event listener within the Indexer API that listens for these events, processes them, and stores the data in a MongoDB. Querying the chain directly is an expensive (and less performant) API call than querying an API serving data from a MongoDB which is why the Indexer API exists.
+索引器 API 是一组微服务，用于提供从 Biya Chain 链索引的数据。当交易被包含时，Biya Chain 链会发出事件，索引器 API 中有一个事件监听器监听这些事件，处理它们，并将数据存储在 MongoDB 中。直接查询链是一个昂贵的（且性能较低的）API 调用，而查询从 MongoDB 提供数据的 API 则更高效，这就是索引器 API 存在的原因。
 
-Another benefit of using the Indexer API is streaming. MongoDB can stream updates in the collections/documents which can be quite beneficial for a nice user experience. This way we don't need to poll for the data, instead, we can subscribe for a stream and update the state of our dApp on updates broadcasted within the stream.
+使用索引器 API 的另一个好处是流式传输。MongoDB 可以流式传输集合/文档中的更新，这对于良好的用户体验非常有益。这样我们就不需要轮询数据，而是可以订阅流并在流中广播更新时更新我们的 dApp 状态。
 
-Finally, the Indexer API can serve historical data or processed data over a period of time (ex: for drawing charts, etc).
+最后，索引器 API 可以提供历史数据或一段时间内的处理数据（例如：用于绘制图表等）。

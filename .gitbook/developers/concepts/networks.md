@@ -1,20 +1,20 @@
-# Networks
+# 网络
 
 {% hint style="warning" %}
-Up-to-date public Endpoints can be found [here](https://docs.biyachain.network/develop/public-endpoints/#mainnet). We <mark style="color:red;">**do not recommend**</mark> using them in production for applications having high usage/traffic. There are thousands of developers using the public infrastructure and we cannot promise 100% uptime and reliability. \
+最新的公共端点可以在[这里](https://docs.biyachain.network/develop/public-endpoints/#mainnet)找到。我们<mark style="color:red;">**不建议**</mark>在具有高使用量/流量的应用程序的生产环境中使用它们。有成千上万的开发者使用公共基础设施，我们无法保证 100% 的正常运行时间和可靠性。\
 \
-If you still opt to use the **public** networks, you can use the `Network.{Mainnet|Testnet}Sentry` from the `@biya-coin/networks` package.
+如果您仍然选择使用**公共**网络，可以使用 `@biya-coin/networks` 包中的 `Network.{Mainnet|Testnet}Sentry`。
 {% endhint %}
 
-Building dApps on Biya Chain requires tapping into different environments and networks where you can easily test your dApp. As part of the `biyachain-ts` monorepo, we have the `@biya-coin/networks` package allows developers to easily access pre-defined environments to connect to different pieces of Biya Chain.
+在 Biya Chain 上构建 dApps 需要接入不同的环境和网络，以便您可以轻松测试您的 dApp。作为 `biyachain-ts` monorepo 的一部分，我们有 `@biya-coin/networks` 包，允许开发者轻松访问预定义的环境以连接到 Biya Chain 的不同部分。
 
-There are two key functions exported from this package:
+此包导出了两个关键函数：
 
 * `export function getNetworkEndpoints(network: Network): NetworkEndpoints`
 * `export function getEndpointsForNetwork(network: Network): OldNetworkEndpoints`
 * `export function getNetworkInfo(network: Network): ChainInfo`
 
-The first one, `getNetworkEndpoints` returns a pre-defined set of endpoints that can be used by the developers - depending on their needs. Here is the interface that gets returned from this function:
+第一个函数 `getNetworkEndpoints` 返回一组预定义的端点，开发者可以根据需要使用。以下是此函数返回的接口：
 
 ```ts
 export type NetworkEndpoints = {
@@ -36,15 +36,15 @@ export type OldNetworkEndpoints = {
 }
 ```
 
-Let's explain these endpoints, and what they mean:
+让我们解释这些端点及其含义：
 
-* `indexer` is the [**grpc-web**](https://github.com/grpc/grpc-web) endpoint that we can use to connect to the `exchange/indexer` service which listens for events from the chain, processes the events, and stores the data into a MongoDB so it's easier and much more performant to serve that data than querying it straight from the chain itself,
-* `grpc` is the [**grpc-web**](https://github.com/grpc/grpc-web) endpoint that we can use to connect to a sentry node. A Sentry node is a read (and light) only version of the chain that we can use to query data directly from the chain.
-* `rest` is the REST endpoint that we can use to connect to a sentry node.
-* `rpc` is the REST endpoint that we can use to connect to the Tendermint RPC,
+* `indexer` 是 [**grpc-web**](https://github.com/grpc/grpc-web) 端点，我们可以使用它连接到 `exchange/indexer` 服务，该服务监听来自链的事件，处理事件，并将数据存储到 MongoDB 中，这样提供数据比直接从链本身查询更容易且性能更高，
+* `grpc` 是 [**grpc-web**](https://github.com/grpc/grpc-web) 端点，我们可以使用它连接到哨兵节点。哨兵节点是链的只读（和轻量）版本，我们可以使用它直接从链查询数据。
+* `rest` 是 REST 端点，我们可以使用它连接到哨兵节点。
+* `rpc` 是 REST 端点，我们可以使用它连接到 Tendermint RPC，
 
-The `getNetworkInfo` exports these endpoints plus the `chainId` and the default `fee` for the `Network` we want.
+`getNetworkInfo` 导出这些端点以及我们想要的 `Network` 的 `chainId` 和默认 `fee`。
 
 {% hint style="info" %}
-Using the TypeScript SDK with your infrastructure (endpoints) means you have to set up a `grpc-web` proxy in your server. To learn more about it, please reference [this documentation](https://github.com/grpc/grpc-web?tab=readme-ov-file#2-run-the-server-and-proxy).
+将 TypeScript SDK 与您的基础设施（端点）一起使用意味着您必须在服务器中设置 `grpc-web` 代理。要了解更多信息，请参考[此文档](https://github.com/grpc/grpc-web?tab=readme-ov-file#2-run-the-server-and-proxy)。
 {% endhint %}

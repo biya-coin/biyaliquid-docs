@@ -1,5 +1,5 @@
-# Trading Account
+# 交易账户
 
-Subaccounts or Trading Accounts are a concept that allows you to decouple the funds in the native Biya Chain Bank module (which can be used for staking, bidding on auctions, participating in governance, creating markets, etc) into an isolated trading account from which you can execute trades. One Biya Chain address can have an unlimited number of trading accounts. The way they are represented is `${ethereumAddress}${subaccountNonce}` where the `ethereumAddress` is the `hex` version of the `bech32` Biya Chain address and the `subaccountNonce` is the nonce represented in 12 bytes. An example trading account at nonce 1 would be `0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001`.
+子账户或交易账户是一个概念，允许您将原生 Biya Chain 银行模块中的资金（可用于质押、拍卖竞标、参与治理、创建市场等）分离到一个隔离的交易账户中，您可以从该账户执行交易。一个 Biya Chain 地址可以拥有无限数量的交易账户。它们的表示方式是 `${ethereumAddress}${subaccountNonce}`，其中 `ethereumAddress` 是 `bech32` Biya Chain 地址的 `hex` 版本，`subaccountNonce` 是以 12 字节表示的 nonce。nonce 为 1 的交易账户示例为 `0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001`。
 
-Starting the v1.10.0 chain upgrade, the Bank balance and the default trading account (at nonce = 0) will be merged and the Bank funds will be directly used when executing trades originating from the default trading account.
+从 v1.10.0 链升级开始，银行余额和默认交易账户（nonce = 0）将合并，当执行源自默认交易账户的交易时，将直接使用银行资金。

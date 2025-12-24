@@ -1,18 +1,18 @@
-# Getting Started
+# 入门指南
 
-Biya Chain Trader comes built in with a "Simple Strategy" to aid with rapid prototyping and familiarizing yourself with the codebase.
+Biya Chain Trader 内置了"简单策略"，以帮助快速原型设计并熟悉代码库。
 
-**What it does:**
+**它的功能：**
 
-* Monitors orderbooks for BIYA, BTC, ETH
-* Places buy orders slightly below market price
-* Places sell orders slightly above market price
-* Maintains a spread for profitability
-* Respects position limits for risk control
+* 监控 BIYA、BTC、ETH 的订单簿
+* 在市场价格略低处下买单
+* 在市场价格略高处下卖单
+* 维持价差以获得盈利
+* 遵守持仓限制以进行风险控制
 
-**Best for:** predictable and steady trading while familiarizing yourself with Biya Chain Trader. **Not recommended for production use.**
+**最适合：**在熟悉 Biya Chain Trader 的同时进行可预测和稳定的交易。**不建议用于生产环境。**
 
-**Example Logs:**
+**示例日志：**
 
 ```
 [INFO] Placing BUY order: 0.1 BIYA at $3.45 (spread: 0.5%)
@@ -20,16 +20,16 @@ Biya Chain Trader comes built in with a "Simple Strategy" to aid with rapid prot
 [INFO] Order filled: BUY 0.1 BIYA at $3.45
 ```
 
-## Customizing Your Strategy
+## 自定义您的策略
 
-### Order size
+### 订单大小
 
 ```yaml
 OrderSize: 0.5
 MaxPosition: 2.0
 ```
 
-### More markets
+### 更多市场
 
 ```yaml
 MarketTickers:
@@ -41,16 +41,16 @@ MarketTickers:
   - SOL/USDT PERP
 ```
 
-### Spreads
+### 价差
 
 ```yaml
-SpreadThreshold: 0.01   # conservative
-SpreadThreshold: 0.002  # aggressive
+SpreadThreshold: 0.01   # 保守
+SpreadThreshold: 0.002  # 激进
 ```
 
-## Common Configurations
+## 常见配置
 
-### Conservative Maker
+### 保守做市商
 
 ```yaml
 OrderSize: 0.05
@@ -58,7 +58,7 @@ MaxPosition: 0.5
 SpreadThreshold: 0.01
 ```
 
-### Aggressive Maker
+### 激进做市商
 
 ```yaml
 OrderSize: 0.5
@@ -66,7 +66,7 @@ MaxPosition: 5.0
 SpreadThreshold: 0.002
 ```
 
-### Multi-Market Strategy
+### 多市场策略
 
 ```yaml
 MarketTickers:
@@ -80,7 +80,7 @@ MarketTickers:
   - ATOM/USDT PERP
 ```
 
-## Monitoring Your Bot
+## 监控您的机器人
 
 ```bash
 tail -f logs/my_bot.log
@@ -88,49 +88,49 @@ grep "Order filled" logs/my_bot.log
 grep "ERROR" logs/my_bot.log
 ```
 
-### Key Messages
+### 关键消息
 
-* ✅ Order placed successfully
-* 💰 Order filled
-* ⚠️ Position limit reached
-* ❌ Insufficient balance
+* ✅ 订单成功下达
+* 💰 订单已成交
+* ⚠️ 达到持仓限制
+* ❌ 余额不足
 
-### Performance Metrics
+### 性能指标
 
-* Total PnL
-* Win rate
-* Fill rate
-* Average spread
+* 总盈亏
+* 胜率
+* 成交率
+* 平均价差
 
-## Risk Management
+## 风险管理
 
-* Set position limits (`MaxPosition`)
-* Monitor positions and stop out manually if needed
-* Maintain enough USDT for margin, fees, and buffer
+* 设置持仓限制（`MaxPosition`）
+* 监控持仓并在需要时手动止损
+* 保持足够的 USDT 用于保证金、费用和缓冲
 
-## Troubleshooting
+## 故障排除
 
-**No private keys found**
+**未找到私钥**
 
 ```bash
 echo $MyBot_GRANTER_biyachain_PRIVATE_KEY
 ```
 
-* **Insufficient balance** → Add USDT / reduce `OrderSize`
-* **Market not found** → Double-check tickers/IDs
-* **Bot stops working**
+* **余额不足** → 添加 USDT / 减少 `OrderSize`
+* **未找到市场** → 仔细检查代码/ID
+* **机器人停止工作**
 
 ```bash
 grep "ERROR" logs/my_bot.log | tail -10
 python main.py MyBot config.yaml --log_path logs/my_bot.log --network mainnet
 ```
 
-## Advanced Features
+## 高级功能
 
-* **Multiple accounts** via `AccountAddresses`
-* **Custom order types** (limit, market, reduce-only)
-* **External signals** with Redis/Valkey
+* 通过 `AccountAddresses` 使用**多个账户**
+* **自定义订单类型**（限价、市价、仅减仓）
+* 使用 Redis/Valkey 的**外部信号**
 
-## Next
+## 下一步
 
-Learn how to develop your own [custom strategy](biyachain-trader-strategy-development-guide.md) for Biya Chain Trader.
+了解如何为 Biya Chain Trader 开发您自己的[自定义策略](biyachain-trader-strategy-development-guide.md)。

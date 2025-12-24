@@ -1,8 +1,8 @@
-# Testnet Faucet Integration
+# 测试网水龙头集成
 
-If you want to have a testnet faucet integration within your dApp, the only thing you need to do is do a `POST` request to `` `https://jsbqfdd4yk.execute-api.us-east-1.amazonaws.com/v1/faucet` `` and pass an `{ address: biya1...}` as the body of the `POST` request. The address is then stored within the queue ,which is processed every 5 to 10 minutes.
+如果您想在 dApp 中集成测试网水龙头，您只需要向 `` `https://jsbqfdd4yk.execute-api.us-east-1.amazonaws.com/v1/faucet` `` 发送一个 `POST` 请求，并将 `{ address: biya1...}` 作为 `POST` 请求的主体。该地址随后会被存储在队列中，队列每 5 到 10 分钟处理一次。
 
-Here is an example code snippet:\
+以下是示例代码片段：\
 
 
 ```typescript

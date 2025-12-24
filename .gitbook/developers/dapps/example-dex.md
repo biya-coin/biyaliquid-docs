@@ -1,23 +1,23 @@
 # DEX
 
-Within these short series we are going to showcase how easy it is to build a DEX on top of Biya Chain. There is an open-sourced [DEX](https://github.com/biya-coin/biyachain-dex) which everyone can reference and use to build on top of Biya Chain. For those who want to start from scratch, this is the right place to start.
+在这个简短的系列中，我们将展示在 Biya Chain 上构建 DEX 是多么容易。有一个开源的 [DEX](https://github.com/biya-coin/biyachain-dex)，每个人都可以参考并使用它在 Biya Chain 上构建。对于那些想从头开始的人来说，这是正确的起点。
 
-The series will include:
+该系列将包括：
 
-- Setting up the API clients and environment,
-- Connecting to the Chain and the Indexer API,
-- Connect to a user wallet and get their address,
-- Fetching Spot and Derivative markets and their orderbooks,
-- Placing market orders on both spot and a derivative market,
-- View all positions for an Biya Chain address.
+- 设置 API 客户端和环境，
+- 连接到链和索引器 API，
+- 连接到用户钱包并获取其地址，
+- 获取现货和衍生品市场及其订单簿，
+- 在现货和衍生品市场上下市场订单，
+- 查看 Biya Chain 地址的所有持仓。
 
-## Setup
+## 设置
 
-First, configure your desired UI framework. You can find more details on the configuration here.
+首先，配置您所需的 UI 框架。您可以在此处找到有关配置的更多详细信息。
 
-To get started with the dex, we need to setup the API clients and the environment. To build our DEX we are going to query data from both the Biya Chain Chain and the Indexer API. In this example, we are going to use the existing **Testnet** environment.
+要开始使用 dex，我们需要设置 API 客户端和环境。为了构建我们的 DEX，我们将从 Biya Chain 链和索引器 API 查询数据。在此示例中，我们将使用现有的 **Testnet** 环境。
 
-Let's first setup some of the classes we need to query the data.
+让我们首先设置一些我们需要查询数据的类。
 
 ```ts
 // filename: Services.ts
@@ -47,7 +47,7 @@ export const indexerDerivativeStream = new IndexerGrpcDerivativeStream(
 );
 ```
 
-Then, we also need to setup a wallet connection to allow the user to connect to our DEX and start signing transactions. To make this happen we are going to use our `@biya-coin/wallet-strategy` package which allows users to connect with a various of different wallet providers and use them to sign transactions on Biya Chain.
+然后，我们还需要设置钱包连接，以允许用户连接到我们的 DEX 并开始签署交易。为了实现这一点，我们将使用我们的 `@biya-coin/wallet-strategy` 包，该包允许用户连接各种不同的钱包提供商，并使用它们在 Biya Chain 上签署交易。
 
 ```ts
 // filename: Wallet.ts
@@ -68,9 +68,9 @@ export const walletStrategy = new WalletStrategy({
 });
 ```
 
-If we don't want to use Ethereum native wallets, just omit the `evmOptions` within the `WalletStrategy` constructor.
+如果我们不想使用以太坊原生钱包，只需在 `WalletStrategy` 构造函数中省略 `evmOptions`。
 
-Finally, to do the whole transaction flow (prepare + sign + broadcast) on Biya Chain we are going to use the MsgBroadcaster class.
+最后，为了在 Biya Chain 上完成整个交易流程（准备 + 签名 + 广播），我们将使用 MsgBroadcaster 类。
 
 ```ts
 // filename: MsgBroadcaster.ts
@@ -98,11 +98,11 @@ export const msgBroadcaster = new MsgBroadcaster({
 });
 ```
 
-## Connect to the user's wallet
+## 连接到用户的钱包
 
-Since we are using the `WalletStrategy` to handle the connection with the user's wallet, we can use its methods to handle some use cases like getting the user's addresses, sign/broadcast a transaction, etc. To find out more about the wallet strategy, you can explore the documentation interface and the method the `WalletStrategy` offers.
+由于我们使用 `WalletStrategy` 来处理与用户钱包的连接，我们可以使用其方法来处理一些用例，如获取用户的地址、签名/广播交易等。要了解更多关于钱包策略的信息，您可以探索文档接口和 `WalletStrategy` 提供的方法。
 
-Note: We can switch between the "active" wallet within the `WalletStrategy` using the `setWallet` method.
+注意：我们可以使用 `setWallet` 方法在 `WalletStrategy` 中的"活动"钱包之间切换。
 
 ```ts
 // filename: WalletConnection.ts
@@ -145,9 +145,9 @@ export const getAddresses = async (wallet: Wallet): Promise<string[]> => {
 };
 ```
 
-## Querying
+## 查询
 
-After the initial setup is done, let's see how to query (and stream) markets from the IndexerAPI, as well as user's balances from the chain directly.
+初始设置完成后，让我们看看如何从 IndexerAPI 查询（和流式传输）市场，以及直接从链查询用户的余额。
 
 ```ts
 // filename: Query.ts
@@ -207,15 +207,15 @@ export const streamSpotMarketOrderbook = async (
 }
 ```
 
-Once we have these functions we can call them anywhere in our application (usually the centralized state management services like Pinia in Nuxt, or Context providers in React, etc).
+一旦我们有了这些函数，我们就可以在应用程序的任何地方调用它们（通常是集中式状态管理服务，如 Nuxt 中的 Pinia，或 React 中的 Context providers 等）。
 
-## Transactions
+## 交易
 
-Finally, let's make some transactions. For this example, we are going to:
+最后，让我们进行一些交易。在此示例中，我们将：
 
-1. Send assets from one address to another,
-2. Make a spot limit order,
-3. Make a derivative market order.
+1. 从一个地址向另一个地址发送资产，
+2. 下现货限价订单，
+3. 下衍生品市场订单。
 
 ```ts
 // filename: Transactions.ts
@@ -330,7 +330,7 @@ export const makeMsgCreateDerivativeMarketOrder = ({
 }
 ```
 
-After we have the Messages, you can use the `msgBroadcaster` client to broadcast these transactions:
+有了消息后，您可以使用 `msgBroadcaster` 客户端广播这些交易：
 
 ```ts
 const response = await msgBroadcaster({
@@ -341,6 +341,6 @@ const response = await msgBroadcaster({
 console.log(response)
 ```
 
-## Final Thoughts
+## 最后的想法
 
-What's left for you is to build a nice UI around the business logic explained above :)
+剩下要做的就是围绕上面解释的业务逻辑构建一个漂亮的 UI :)

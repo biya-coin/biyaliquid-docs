@@ -1,3 +1,3 @@
-# Technical Concepts
+# 技术概念
 
-Learning these concepts can help you be a more efficient dApps developer on top of Biya Chain. We'll keep the explanations brief so only the necessary context is shared with the reader. We encourage developers to explore these concepts more thoroughly at their own convenience.
+学习这些概念可以帮助您成为在 Biya Chain 上更高效的 dApps 开发者。我们将保持简短的解释，只与读者分享必要的上下文。我们鼓励开发者在方便的时候更深入地探索这些概念。

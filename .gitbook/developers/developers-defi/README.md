@@ -1,15 +1,15 @@
 # DeFi 开发
 
-Biya Chain marks the forefront of exchange-focused layer-1 blockchains offering decentralized perpetual swaps, futures, and spot trading. It fully taps into the possibilities of decentralized derivatives and borderless DeFi. Every component is designed to embody complete trustlessness, resistance to censorship, public verifiability, and resilience against front-running.
+Biya Chain 标志着专注于交易所的第一层区块链的前沿，提供去中心化永续掉期、期货和现货交易。它充分挖掘了去中心化衍生品和无国界 DeFi 的可能性。每个组件都旨在体现完全的去信任化、抗审查性、公开可验证性和抗抢跑性。
 
-Biya Chain enables traders to create and trade arbitrary spot and derivatives markets. Biya Chain also enables on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Biya Chain Chain's [Exchange Module](../../developers-native/biyachain/exchange/).
+Biya Chain 使交易者能够创建和交易任意的现货和衍生品市场。Biya Chain 还通过 Biya Chain 链的[交易所模块](../../developers-native/biyachain/exchange/)编码的逻辑，实现链上限价订单簿管理、链上交易执行、链上订单匹配、链上交易结算和链上交易激励分配。
 
-## Build an Orderbook DEX on Biya Chain
+## 在 Biya Chain 上构建订单簿 DEX
 
-As an incentive mechanism to encourage exchanges to build on Biya Chain and source trading activity, exchanges that originate orders into the shared orderbook of Biya Chain's exchange protocol ([read more](../../developers-native/biyachain/exchange/)) are rewarded with $$β=40%β=40%$$ of the trading fee from orders that they source. The exchange protocol implements a global minimum trading fee of $$rm=0.1%rm​=0.1%$$ for makers and $$rt=0.2%rt​=0.2%$$ for takers.
+作为鼓励交易所在 Biya Chain 上构建并提供交易活动的激励机制，将订单发起到 Biya Chain 交易所协议共享订单簿的交易所（[了解更多](../../developers-native/biyachain/exchange/)）将获得他们提供的订单交易费用的 $$β=40%β=40%$$ 作为奖励。交易所协议为做市商实施 $$rm=0.1%rm​=0.1%$$ 的全局最低交易费用，为吃单者实施 $$rt=0.2%rt​=0.2%$$ 的费用。
 
-The goal of Biya Chain's incentive mechanism is to allow exchanges competing amongst each other to provide a better user experience and to better serve users, broadening access to DeFi for users all around the world.
+Biya Chain 激励机制的目标是让交易所相互竞争，提供更好的用户体验并更好地服务用户，为全球用户扩大 DeFi 的访问范围。
 
-An exchange can easily set up a client (such as a UI on web or mobile) and an API provider.
+交易所可以轻松设置客户端（例如网页或移动端的 UI）和 API 提供商。
 
-Head to our [DEX tutorial](../dapps/example-dex.md) bootstrap your with few clicks!
+前往我们的 [DEX 教程](../dapps/example-dex.md)，只需点击几下即可启动！

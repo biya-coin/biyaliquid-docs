@@ -1,25 +1,25 @@
 # 代币单位元数据
 
-A `denom` is how tokens are represented within the `Bank` module of Biya Chain. These assets can be used for trading, creating new markets on the exchange module, participating in auctions, transferring to another address, etc.
+`denom` 是代币在 Biya Chain 的 `Bank` 模块中的表示方式。这些资产可用于交易、在交易所模块上创建新市场、参与拍卖、转账到其他地址等。
 
-One of the biggest pain points for developers and traders is getting the metadata of these `denoms`. This metadata includes `decimals`, `symbol`, `name`, etc.
+对于开发者和交易者来说，最大的痛点之一是获取这些 `denoms` 的元数据。这些元数据包括 `decimals`（小数位）、`symbol`（符号）、`name`（名称）等。
 
-This guide shows how to fetch `denom` metadata directly from the `biyachain-lists` repository and map it to your `denom`. You can also use this approach to map `denoms`'s metadata for Spot and Derivative Markets.
+本指南展示了如何直接从 `biyachain-lists` 存储库获取 `denom` 元数据并将其映射到您的 `denom`。您还可以使用这种方法为现货和衍生品市场映射 `denoms` 的元数据。
 
 ## Biya Chain Lists
 
-`biyachain-lists` is a public repository that holds metadata information for all tokens on Biya Chain. It's the most up-to-date and reliable source of this particular information. You can submit your token information by creating a PR for this repo. Be sure to correctly specify the fields. In particular, `"denom"` field (read about [token standards](../../users/tokens/)) should have respective `ibc`, `peggy` and `factory` prefixes depending on the token standard.
+`biyachain-lists` 是一个公共存储库，保存 Biya Chain 上所有代币的元数据信息。它是这类特定信息最新和最可靠的来源。您可以通过为此存储库创建 PR 来提交您的代币信息。请务必正确指定字段。特别是，`"denom"` 字段（阅读关于[代币标准](../../users/tokens/)）应根据代币标准具有相应的 `ibc`、`peggy` 和 `factory` 前缀。
 
-The metadata is fetched automatically for new `denoms` on chain every 30 minutes and the `json` files are regenerated.
+链上新 `denoms` 的元数据每 30 分钟自动获取一次，并重新生成 `json` 文件。
 
-You can head to the [https://github.com/biya-coin/biyachain-lists/tree/master/json/tokens](https://github.com/biya-coin/biyachain-lists/tree/master/json/tokens) folder and download the metadata based on the environment:
+您可以前往 [https://github.com/biya-coin/biyachain-lists/tree/master/json/tokens](https://github.com/biya-coin/biyachain-lists/tree/master/json/tokens) 文件夹，根据环境下载元数据：
 
-1. [Mainnet Raw JSON](https://raw.githubusercontent.com/biya-coin/biyachain-lists/refs/heads/master/json/tokens/mainnet.json)
-2. [Testnet Raw JSON](https://github.com/biya-coin/biyachain-lists/blob/master/json/tokens/testnet.json)
+1. [主网原始 JSON](https://raw.githubusercontent.com/biya-coin/biyachain-lists/refs/heads/master/json/tokens/mainnet.json)
+2. [测试网原始 JSON](https://github.com/biya-coin/biyachain-lists/blob/master/json/tokens/testnet.json)
 
-Once you have the JSON, you have to map the metadata with the particular `denom`.
+获得 JSON 后，您必须将元数据与特定的 `denom` 映射。
 
-The interface that this metadata information has is
+此元数据信息的接口为
 
 ```typescript
 export interface Token {
@@ -35,9 +35,9 @@ export interface Token {
 }
 ```
 
-### Bank Balance
+### 银行余额
 
-Let's say you fetch the bank balance of a particular address (as shown on the example below using TypeScript), you can easily map it to the metadata information from the JSON files above
+假设您获取特定地址的银行余额（如下面使用 TypeScript 的示例所示），您可以轻松地将其映射到上述 JSON 文件中的元数据信息
 
 ```typescript
 import { config } from "dotenv";
@@ -81,11 +81,11 @@ config();
 })();
 ```
 
-Now, your bank balance has all of the metadata information that you need (including `decimals`, `symbol`, `name`, `logo`, etc).
+现在，您的银行余额拥有您需要的所有元数据信息（包括 `decimals`、`symbol`、`name`、`logo` 等）。
 
-### Spot Market
+### 现货市场
 
-Similar to the Bank balances, you can use the same approach to map the `denoms` within a Spot market with it's metadata.
+与银行余额类似，您可以使用相同的方法将现货市场中的 `denoms` 与其元数据映射。
 
 ```typescript
 import { config } from "dotenv";
@@ -132,9 +132,9 @@ config();
 })();
 ```
 
-### Derivative Market
+### 衍生品市场
 
-Similar to the Bank balances, you can use the same approach to map the `denom` within a Derivative market with it's metadata.
+与银行余额类似，您可以使用相同的方法将衍生品市场中的 `denom` 与其元数据映射。
 
 ```typescript
 import { config } from "dotenv";
