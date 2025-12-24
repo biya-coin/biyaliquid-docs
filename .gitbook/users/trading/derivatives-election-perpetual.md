@@ -2,26 +2,26 @@
 hidden: true
 ---
 
-# Election Perpetual
+# 选举永续合约
 
-An election perpetual futures contract - or an election perp - is a type of derivative financial instrument on Biya Chain that allows users to gain leveraged exposure to an elections market. An election perp is a perpetual futures contract that tracks the price of a market on Polymarket, rather than a traditional crypto asset.
+选举永续期货合约（或称选举永续合约）是 Biya Chain 上的一种衍生金融工具，允许用户获得对选举市场的杠杆敞口。选举永续合约是一种永续期货合约，它跟踪 Polymarket 上市场的价格，而不是传统的加密资产。
 
-Unlike traditional futures, these contracts don't have an expiry date. They can be held indefinitely. Trades are settled in USDT. LIke other perps, election perps use a funding rate mechanism to keep the contract price close to the underlying index price.
+与传统期货不同，这些合约没有到期日。它们可以无限期持有。交易以 USDT 结算。与其他永续合约一样，选举永续合约使用资金费率机制来保持合约价格接近基础指数价格。
 
-### How do Election Perpetual Futures Work?
+### 选举永续期货如何运作？
 
-* The contract tracks a market on Polymarket (e.g., [Presidential Election Winner 2024](https://polymarket.com/event/presidential-election-winner-2024)).
-* Traders can go long (buy) or short (sell) the election perp, with up to 3x leverage.
-* Periodic funding payments occur between long and short holders to align the contract price with the index.
+* 合约跟踪 Polymarket 上的市场（例如，[2024 年总统选举获胜者](https://polymarket.com/event/presidential-election-winner-2024)）。
+* 交易者可以做多（买入）或做空（卖出）选举永续合约，最高可使用 3 倍杠杆。
+* 多头和空头持有者之间定期进行资金支付，以使合约价格与指数保持一致。
 
-Expiry futures require mark prices to track liquidation and settlement prices. Because mark prices are typically based on the spot prices of the underlying assets, regular oracle price feeds cannot be used for election perps as the index price typically does not exist in popular oracle feeds. However, an mark price is still needed prior to this time to inform liquidation prices. To solve this, election perpetual futures will use a proprietary oracle feed as the mark price.
+到期期货需要标记价格来跟踪清算和结算价格。由于标记价格通常基于标的资产的现货价格，常规的预言机价格源不能用于选举永续合约，因为指数价格通常不存在于流行的预言机源中。然而，在此之前仍需要标记价格来告知清算价格。为了解决这个问题，选举永续期货将使用专有的预言机源作为标记价格。
 
-### Mark Price Mechanism
+### 标记价格机制
 
-The mark price for election perps on Biya Chain is based on a proprietary oracle feed provided by Stork. In the example of the 2024ELECTION PERP, Stork queries the midpoint of [the 2024 Presidential Election market on Polymarket](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/defi/trading/election-perpetual.md#how-do-election-perpetual-futures-work). They then apply a six-hour time weighted average price (TWAP) to prevent drastic swings in the mark price. That price is then scaled down to a more human readable format (i.e. a price between $0 and $1), and used as the mark price.
+Biya Chain 上选举永续合约的标记价格基于 Stork 提供的专有预言机源。以 2024ELECTION PERP 为例，Stork 查询 [Polymarket 上 2024 年总统选举市场](https://github.com/biya-coin/biyachain-docs/blob/master/.gitbook/defi/trading/election-perpetual.md#how-do-election-perpetual-futures-work) 的中点价格。然后他们应用六小时时间加权平均价格（TWAP）来防止标记价格的剧烈波动。然后将该价格缩放到更易读的格式（即 $0 到 $1 之间的价格），并用作标记价格。
 
-### Market Settlement
+### 市场结算
 
-Election perps are not expiry instruments, however the trading pairs have roughly specific lifespans (i.e. at the conclusion of an election). When the underlying market on Polymarket reaches settlement (i.e. the token price settles to $0 or $1), trading activity on an election perp will likely trend towards zero as there will not be any money to be made. At that point, an interested party may submit a governance proposal to settle the market. If and when such a proposal passes, the market would be settled and any traders with outstanding positions would be force liquidated at the mark price of the oracle, which will have settled at $0 or $1 accordingly.
+选举永续合约不是到期工具，但交易对具有大致特定的生命周期（即在选举结束时）。当 Polymarket 上的基础市场达到结算（即代币价格结算为 $0 或 $1）时，选举永续合约上的交易活动可能会趋向于零，因为将无法获得任何利润。此时，相关方可以提交治理提案来结算市场。如果该提案通过，市场将被结算，任何持有未平仓头寸的交易者将按预言机的标记价格强制清算，该价格将相应结算为 $0 或 $1。
 
-In regard to 2024ELECTION PERP specifically, the trading pair was listed with TRUMPWIN as the underlying asset. Rather than listing two or more assets (i.e. one for both the Democratic and Republican nominees) and fragmenting liquidity, a decision was made to list one asset. For this asset, the mark price will settle to $1 if the aforementioned market on Polymarket settles to "yes" for Donald J. Trump (i.e. Donald J. Trump wins the 2024 Presidential election), and $0 if the market on Polymarket settles to "no" for Donald J. Trump (i.e. if Kamala Harris or another candidate wins the Presidential election).
+就 2024ELECTION PERP 而言，交易对以 TRUMPWIN 作为标的资产上市。与其上市两个或更多资产（即为民主党和共和党候选人各一个）并分散流动性，决定上市一个资产。对于该资产，如果上述 Polymarket 市场对唐纳德·J·特朗普（即唐纳德·J·特朗普赢得 2024 年总统选举）结算为"是"，标记价格将结算为 $1；如果 Polymarket 市场对唐纳德·J·特朗普（即如果卡玛拉·哈里斯或其他候选人赢得总统选举）结算为"否"，则标记价格将结算为 $0。
