@@ -14,7 +14,7 @@
 
 答: 这些地址类型之间的映射是通过数学运算完成的,
 这是 1 对 1 的双向映射。
-- 实时示例: [Biya Chain 测试网水龙头](https://testnet.faucet.biyachain.network/)
+- 实时示例: [Biya Chain 测试网水龙头](https://prv.faucet.biya.io/)
 - 文档: [TS 代码示例](https://docs.biyachain.network/developers/convert-addresses)
 
 ----

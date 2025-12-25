@@ -448,7 +448,7 @@ biyachaind query wasm contract-state smart $CONTRACT "$BALANCE_QUERY" --output j
 
 以下是 `local` 和 `testnet` 开发/部署之间的主要区别
 
-* 您可以使用我们的 [Biya Chain 测试网水龙头](https://testnet.faucet.biyachain.network) 将测试网资金发送到您的地址,
+* 您可以使用我们的 [Biya Chain 测试网水龙头](https://prv.faucet.biya.io) 将测试网资金发送到您的地址,
 * 您可以使用 [Biya Chain 测试网浏览器](https://testnet.prv.scan.biya.io/zh/transactions/smart-contracts/code/) 查询您的交易并获取更多详细信息,
 * 当您使用 `biyachaind` 时,您必须使用 `node` 标志 `--node=https://testnet.sentry.tm.biyachain.network:443` 指定 `testnet` rpc
 * 不要使用 `biyachain-1` 作为 `chainId`,您应该使用 `biyachain-888`,即 `chain-id` 标志现在应该是 `--chain-id="biyachain-888"`

@@ -20,5 +20,5 @@
 | Indexer gRPC-Web | https://testnet.sentry.exchange.grpc-web.biyachain.network:443        |
 | Hub              | https://testnet.hub.biyachain.network/                                |
 | Explorer         | https://testnet.prv.scan.biya.io/zh/transactions/                     |
-| Faucet           | https://testnet.faucet.biyachain.network/                             |
+| Faucet           | https://prv.faucet.biya.io/                             |
 | Status           | https://uptime.com/statuspage/testnet.status.biyachain.network        |

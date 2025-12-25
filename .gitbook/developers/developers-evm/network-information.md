@@ -54,7 +54,7 @@ description: 关于 Biya Chain EVM 网络的基本信息
 * Chain ID: `1439`
 * JSON-RPC 端点: `https://k8s.testnet.json-rpc.biyachain.network/`
 * WS 端点: `https://k8s.testnet.ws.biyachain.network/`
-* 水龙头: [`testnet.faucet.biyachain.network/`](https://testnet.faucet.biyachain.network/)
+* 水龙头: [`prv.faucet.biya.io/`](https://prv.faucet.biya.io/)
 * 区块浏览器: [`testnet.blockscout.biyachain.network/`](https://testnet.blockscout.biyachain.network/)
 * 浏览器 API: `https://testnet.blockscout-api.biyachain.network/api`
 

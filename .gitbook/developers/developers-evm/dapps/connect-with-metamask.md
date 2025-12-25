@@ -34,7 +34,7 @@ Block Explorer URL: https://testnet.blockscout.biyachain.network/blocks
 
 ### 为您的钱包充值（可选）
 
-需要测试网 BIYA？访问 [Biya Chain 测试网水龙头](https://testnet.faucet.biyachain.network)。
+需要测试网 BIYA？访问 [Biya Chain 测试网水龙头](https://prv.faucet.biya.io)。
 
 资金将在包含在测试网区块中后出现。
 

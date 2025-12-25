@@ -24,7 +24,7 @@ curl -L https://foundry.paradigm.xyz | bash
 您需要一个钱包，以及一个已充值了一些测试网 BIYA 的账户。
 
 {% hint style="info" %}
-您可以从 [Biya Chain 测试网水龙头](https://testnet.faucet.biyachain.network/) 请求 EVM 测试网资金。
+您可以从 [Biya Chain 测试网水龙头](https://prv.faucet.biya.io/) 请求 EVM 测试网资金。
 {% endhint %}
 
 创建账户后，请务必将您的私钥复制到可访问的地方，因为您需要它来完成本教程。
