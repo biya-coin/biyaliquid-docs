@@ -1,19 +1,19 @@
 # 关于 Biya Chain
 
-## 什么是 Biya Chain？
+## 什么是 Biya Chain ？
 
 **Biya Chain** 是一个高性能、模块化的区块链，专注于构建一个全球化、综合型的链上金融生态。通过采用各种预构建、可定制的[模块](developers/developers-native/)，实现安全、高效的构建链上动态应用，引领链上金融新时代。
 
 ## 技术概览
 
-Biya Chain 是一个专为去中心化金融（DeFi）应用构建和优化的高性能 Layer 1 区块链（L1）。
+Biya Chain 是一个专为链上金融应用构建和优化的高性能 Layer 1 区块链（L1）。
 
 Biya Chain 使用一种名为 **Tendermint-based Consensus** 的共识机制，该机制基于经典的 Tendermint BFT 算法，并针对金融衍生品交易场景进行了深度优化。共识算法与底层网络栈均从零构建，以满足高频、低延迟交易的独特需求。
 
-Biya Chain 的状态执行分为两大核心组件：**Injective Chain Core** 和 **Injective EVM**。
+Biya Chain 的状态执行分为两大核心组件：**Biya Chain  Core** 和 **Biya Chain  EVM**。
 
-* Biya Chain **Core** 包含完全链上的现货/杠杆、永续合约订单簿等金融原语。每一笔下单、撤单、成交、清算和结算均在链上透明执行，并享有 Tendermint 提供的一块确认最终性（one-block finality）。当前 Biya Chain Core 支持极高的订单处理能力（峰值可达 2.5 万笔/秒），并通过持续的节点软件优化不断提升吞吐量。
-* Biya Chain **EVM** 将以太坊开创的通用智能合约平台无缝集成到 Biya Chain 中。通过 Biya Chain EVM，开发者可以无许可地访问 Biya Chain Core 提供的高性能流动性和金融原语，将其作为可组合的构建模块，用于创建复杂的 DeFi 应用和衍生品协议。更多技术细节请参阅 Biya Chain EVM 文档部分。
+* **Biya Chain  Core** 包含完全链上的现货/杠杆、永续合约订单簿等金融原语。每一笔下单、撤单、成交、清算和结算均在链上透明执行，并享有 Tendermint 提供的一块确认最终性（one-block finality）。当前 Biya Chain Core 支持极高的订单处理能力（峰值可达 2.5 万笔/秒），并通过持续的节点软件优化不断提升吞吐量。
+* **Biya Chain EVM** 将以太坊开创的通用智能合约平台无缝集成到 Biya Chain 中。通过 Biya Chain EVM，开发者可以无许可地访问 Biya Chain Core 提供的高性能流动性和金融原语，将其作为可组合的构建模块，用于创建复杂的 DeFi 应用和衍生品协议。更多技术细节请参阅 Biya Chain EVM 文档部分。
 
 ***
 
