@@ -4,7 +4,7 @@
 
 ### 转换 Hex <> Bech32 地址
 
-正如我们在[钱包](../../users/wallet/ "mention")部分提到的，Biya Chain 地址与 Ethereum 地址兼容。您可以轻松地在两种格式之间进行转换。
+正如我们在[wallet](../../users/wallet/ "mention")部分提到的，Biya Chain 地址与 Ethereum 地址兼容。您可以轻松地在两种格式之间进行转换。
 
 ### 使用 TypeScript
 
@@ -55,5 +55,5 @@ config();
 ```
 
 {% hint style="info" %}
-更多示例可以在[钱包账户](../../users/wallet/accounts.md)中找到。
+更多示例可以在[钱包账户](../../users/accounts.md)中找到。
 {% endhint %}

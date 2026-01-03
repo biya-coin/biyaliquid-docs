@@ -2,6 +2,11 @@
 
 本节介绍 Biya Chain 的内置账户系统。
 
+Biya Chain 支持 2 种类似的账户地址：
+
+* Cosmos SDK 账户：Bech32 (`biya...`)，主要在通过 Cosmos 钱包/工具交互时使用
+* Ethereum 账户：十六进制 (`0x...`)，主要在通过 EVM 钱包/工具交互时使用
+
 {% hint style="info" %}
 本文档介绍 Biya Chain 的内置账户系统。
 
@@ -11,7 +16,13 @@
 * [Ethereum 账户](https://ethereum.org/en/whitepaper/#ethereum-accounts)
 {% endhint %}
 
-Biya Chain 定义了其自定义的 `Account` 类型，使用 Ethereum 的 ECDSA secp256k1 曲线作为密钥。这满足 [EIP84](https://github.com/ethereum/EIPs/issues/84) 的完整 [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) 路径。基于 Biya Chain 的账户的根 HD 路径是 `m/44'/60'/0'/0`。
+Biya Chain 使用 Ethereum 的 ECDSA secp256k1 曲线作为密钥。
+
+这满足 [EIP84](https://github.com/ethereum/EIPs/issues/84) 的完整 [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) 路径。
+
+基于 Biya Chain 的账户的根 HD 路径是 `m/44'/60'/0'/0`。
+
+
 
 ### 地址和公钥
 
@@ -21,11 +32,11 @@ Biya Chain 默认提供 3 种主要的 `Addresses`/`PubKeys` 类型：
 * **验证器操作者**的地址和密钥，用于标识验证器的操作者。它们使用 **`eth_secp256k1`** 曲线派生。
 * **共识节点**的地址和密钥，用于标识参与共识的验证器节点。它们使用 **`ed25519`** 曲线派生。
 
-|                    | 地址 bech32 前缀 | 公钥 bech32 前缀 | 曲线           | 地址字节长度 | 公钥字节长度 |
-| ------------------ | ---------------- | ---------------- | -------------- | ------------ | ------------ |
-| 账户               | `biya`           | `biyapub`        | `eth_secp256k1` | `20`         | `33` (压缩)  |
-| 验证器操作者       | `biyavaloper`    | `biyavaloperpub` | `eth_secp256k1` | `20`         | `33` (压缩)  |
-| 共识节点           | `biyavalcons`     | `biyavalconspub` | `ed25519`       | `20`         | `32`         |
+|        | 地址 bech32 前缀  | 公钥 bech32 前缀     | 曲线              | 地址字节长度 | 公钥字节长度    |
+| ------ | ------------- | ---------------- | --------------- | ------ | --------- |
+| 账户     | `biya`        | `biyapub`        | `eth_secp256k1` | `20`   | `33` (压缩) |
+| 验证器操作者 | `biyavaloper` | `biyavaloperpub` | `eth_secp256k1` | `20`   | `33` (压缩) |
+| 共识节点   | `biyavalcons` | `biyavalconspub` | `ed25519`       | `20`   | `32`      |
 
 ### 客户端地址格式
 
@@ -99,3 +110,12 @@ const buf3 = Buffer.from(publicKeyByte)
 const publicKey = Buffer.concat([buf1, buf2, buf3]).toString('base64')
 const type = '/biyachain.crypto.v1beta1.ethsecp256k1.PubKey'
 ```
+
+### FAQ
+
+问: 有没有办法找到哪个 Biya Chain Cosmos 地址映射到哪个 Biya Chain EVM 地址?
+
+答: 这些地址类型之间的映射是通过数学运算完成的, 这是 1 对 1 的双向映射。
+
+* 实时示例: [Biya Chain 测试网水龙头](https://prv.faucet.biya.io/)
+* 文档: [TS 代码示例](https://docs.biyachain.network/developers/convert-addresses)

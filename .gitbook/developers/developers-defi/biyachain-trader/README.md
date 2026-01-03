@@ -1,4 +1,4 @@
-# Biya Chain 交易器
+# Biya Chain Trader
 
 Biya Chain Trader 是一个专业级框架，为在 Biya Chain 区块链上开发和部署算法交易策略提供高性能、可靠的基础。它弥合了算法交易策略与区块链执行之间的差距，消除了技术障碍。该框架负责繁重的工作 - 实时数据流、订单执行、重连/恢复、交易批处理和分析，使交易者能够专注于策略开发而不是区块链复杂性。
 
@@ -167,8 +167,6 @@ python main.py MyBot config.yaml --log_path logs/my_bot.log --network mainnet
 ## 架构
 
 ### 系统架构图
-
-<figure><img src="../../.gitbook/assets/image (2).png" alt="Biya Chain Trader 网络架构图" width="563"><figcaption><p>Biya Chain Trader 网络架构图</p></figcaption></figure>
 
 ### 核心设计模式
 

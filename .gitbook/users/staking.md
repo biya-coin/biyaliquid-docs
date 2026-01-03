@@ -6,6 +6,8 @@
 
 Biya Chain 遵循权益证明机制，用户可以将他们的 BIYA 代币质押给某些验证交易的 Biya Chain 节点（验证者）。作为回报，用户可以获得 BIYA 质押奖励。
 
+详见[注入枢纽质押攻略](https://injective.com/blog/injective-hub/)&#x20;
+
 ### 质押 BIYA
 
 将您的 BIYA [质押](https://prv.hub.biya.io/stake)给验证者以开始赚取奖励。
