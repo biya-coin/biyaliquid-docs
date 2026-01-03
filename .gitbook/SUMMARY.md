@@ -283,6 +283,6 @@
   * [Biya Chain Hub](https://prv.hub.biya.io/)
   * [公链管理台](https://prv.admin.biya.io)
   * [技术白皮书](ecosystem/whitepaper.md)
-* [常见问题](faq.md)
+* [FAQ](faq.md)
 * [术语表](glossary.md)
 * [参考资料](references.md)
