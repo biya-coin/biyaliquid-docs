@@ -153,7 +153,7 @@
       * [Biya Chain Python SDK](https://github.com/biya-coin/sdk-python)
       * [Biya Chain Rust SDK](https://github.com/biya-coin/biyachain-rust)
     * [API](developers/kai-fa-gong-ju/api/README.md)
-      * [链 API 参考](https://sentry.lcd.biyachain.network/swagger/#/)
+      * [链 API 参考](http://165.154.5.191:10437/swagger/)
       * [索引器 API 参考](https://api.biyachain.network/swagger/#/)
       * [交易所 API 参考](https://api.biyachain.exchange/)
     * [测试网水龙头](https://prv.faucet.biya.io)
